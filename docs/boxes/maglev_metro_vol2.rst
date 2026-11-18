@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=5db959d3,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=d64717ae,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=40cfac28,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=3aa534fd,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d95682b6,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=5ee75450,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=4d512674,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=444e5906,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=7b0f0dd5,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=542de210,../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=2d71b465
+.. stl:: ../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=5db959d3,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=d64717ae,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=065cf946,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=3aa534fd,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d95682b6,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=5ee75450,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=4d512674,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=444e5906,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=7b0f0dd5,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=542de210,../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=2d71b465
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=5db959d3" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=5db959d3,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=d64717ae,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=40cfac28,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=3aa534fd,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d95682b6,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=5ee75450,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=4d512674,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=444e5906,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=7b0f0dd5,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=542de210,../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=2d71b465" download="MaglevMetroVol2_full_packing.stl">⬇ Download Full Box Packing STL (<code>MaglevMetroVol2_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=5db959d3" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=5db959d3,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=d64717ae,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=065cf946,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=3aa534fd,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=d95682b6,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_lid.stl?v=5ee75450,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=4d512674,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=444e5906,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=7b0f0dd5,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=542de210,../_stl/boxes/maglev_metro_vol2/spacer_3.stl?v=2d71b465" download="MaglevMetroVol2_full_packing.stl">⬇ Download Full Box Packing STL (<code>MaglevMetroVol2_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -122,21 +122,21 @@ UpgradeTileBox
 
 **Assembled Box (UpgradeTileBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=40cfac28,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=3aa534fd
+.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=065cf946,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=3aa534fd
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=40cfac28" data-stl-combine="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=40cfac28,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=3aa534fd" download="UpgradeTileBox_assembled.stl">⬇ Download Assembled UpgradeTileBox STL (<code>UpgradeTileBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=065cf946" data-stl-combine="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=065cf946,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=3aa534fd" download="UpgradeTileBox_assembled.stl">⬇ Download Assembled UpgradeTileBox STL (<code>UpgradeTileBox_assembled.stl</code>)</a></p>
 
 **Part: UpgradeTileBox Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=40cfac28
+.. stl:: ../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=065cf946
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=40cfac28" download="UpgradeTileBox_body.stl">⬇ Download UpgradeTileBox Body STL (<code>UpgradeTileBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=065cf946" download="UpgradeTileBox_body.stl">⬇ Download UpgradeTileBox Body STL (<code>UpgradeTileBox_body.stl</code>)</a></p>
 
 **Part: UpgradeTileBox Lid**
 

@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/bucket_king/CardBox_body.stl?v=a56d5e44,../_stl/boxes/bucket_king/CardBox_lid.stl?v=b22ff448,../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=c03c5a13,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe,../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=3d146522,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb,../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=8481f6f3,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f,../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=3b96df4a,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb,../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=6599809c,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07,../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=bba2fcda,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12
+.. stl:: ../_stl/boxes/bucket_king/CardBox_body.stl?v=a56d5e44,../_stl/boxes/bucket_king/CardBox_lid.stl?v=b22ff448,../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=e0a2f7d2,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe,../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=0d78506f,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb,../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=05354ed4,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f,../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=67399381,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb,../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=54b839d0,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07,../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=ad2990cc,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/CardBox_body.stl?v=a56d5e44" data-stl-combine="../_stl/boxes/bucket_king/CardBox_body.stl?v=a56d5e44,../_stl/boxes/bucket_king/CardBox_lid.stl?v=b22ff448,../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=c03c5a13,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe,../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=3d146522,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb,../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=8481f6f3,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f,../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=3b96df4a,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb,../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=6599809c,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07,../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=bba2fcda,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12" download="BucketKing_full_packing.stl">⬇ Download Full Box Packing STL (<code>BucketKing_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/CardBox_body.stl?v=a56d5e44" data-stl-combine="../_stl/boxes/bucket_king/CardBox_body.stl?v=a56d5e44,../_stl/boxes/bucket_king/CardBox_lid.stl?v=b22ff448,../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=e0a2f7d2,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe,../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=0d78506f,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb,../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=05354ed4,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f,../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=67399381,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb,../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=54b839d0,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07,../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=ad2990cc,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12" download="BucketKing_full_packing.stl">⬇ Download Full Box Packing STL (<code>BucketKing_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -122,21 +122,21 @@ PlayerBox_1
 
 **Assembled Box (PlayerBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=c03c5a13,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=e0a2f7d2,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=c03c5a13" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=c03c5a13,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe" download="PlayerBox_1_assembled.stl">⬇ Download Assembled PlayerBox_1 STL (<code>PlayerBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=e0a2f7d2" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=e0a2f7d2,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe" download="PlayerBox_1_assembled.stl">⬇ Download Assembled PlayerBox_1 STL (<code>PlayerBox_1_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_1 Body**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=c03c5a13
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=e0a2f7d2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=c03c5a13" download="PlayerBox_1_body.stl">⬇ Download PlayerBox_1 Body STL (<code>PlayerBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=e0a2f7d2" download="PlayerBox_1_body.stl">⬇ Download PlayerBox_1 Body STL (<code>PlayerBox_1_body.stl</code>)</a></p>
 
 **Part: PlayerBox_1 Lid**
 
@@ -159,21 +159,21 @@ PlayerBox_2
 
 **Assembled Box (PlayerBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=3d146522,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=0d78506f,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=3d146522" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=3d146522,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb" download="PlayerBox_2_assembled.stl">⬇ Download Assembled PlayerBox_2 STL (<code>PlayerBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=0d78506f" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=0d78506f,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb" download="PlayerBox_2_assembled.stl">⬇ Download Assembled PlayerBox_2 STL (<code>PlayerBox_2_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_2 Body**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=3d146522
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=0d78506f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=3d146522" download="PlayerBox_2_body.stl">⬇ Download PlayerBox_2 Body STL (<code>PlayerBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=0d78506f" download="PlayerBox_2_body.stl">⬇ Download PlayerBox_2 Body STL (<code>PlayerBox_2_body.stl</code>)</a></p>
 
 **Part: PlayerBox_2 Lid**
 
@@ -196,21 +196,21 @@ PlayerBox_3
 
 **Assembled Box (PlayerBox_3 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=8481f6f3,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=05354ed4,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=8481f6f3" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=8481f6f3,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f" download="PlayerBox_3_assembled.stl">⬇ Download Assembled PlayerBox_3 STL (<code>PlayerBox_3_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=05354ed4" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=05354ed4,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f" download="PlayerBox_3_assembled.stl">⬇ Download Assembled PlayerBox_3 STL (<code>PlayerBox_3_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_3 Body**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=8481f6f3
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=05354ed4
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=8481f6f3" download="PlayerBox_3_body.stl">⬇ Download PlayerBox_3 Body STL (<code>PlayerBox_3_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=05354ed4" download="PlayerBox_3_body.stl">⬇ Download PlayerBox_3 Body STL (<code>PlayerBox_3_body.stl</code>)</a></p>
 
 **Part: PlayerBox_3 Lid**
 
@@ -233,21 +233,21 @@ PlayerBox_4
 
 **Assembled Box (PlayerBox_4 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=3b96df4a,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=67399381,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=3b96df4a" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=3b96df4a,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb" download="PlayerBox_4_assembled.stl">⬇ Download Assembled PlayerBox_4 STL (<code>PlayerBox_4_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=67399381" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=67399381,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb" download="PlayerBox_4_assembled.stl">⬇ Download Assembled PlayerBox_4 STL (<code>PlayerBox_4_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_4 Body**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=3b96df4a
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=67399381
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=3b96df4a" download="PlayerBox_4_body.stl">⬇ Download PlayerBox_4 Body STL (<code>PlayerBox_4_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=67399381" download="PlayerBox_4_body.stl">⬇ Download PlayerBox_4 Body STL (<code>PlayerBox_4_body.stl</code>)</a></p>
 
 **Part: PlayerBox_4 Lid**
 
@@ -270,21 +270,21 @@ PlayerBox_5
 
 **Assembled Box (PlayerBox_5 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=6599809c,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=54b839d0,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=6599809c" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=6599809c,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07" download="PlayerBox_5_assembled.stl">⬇ Download Assembled PlayerBox_5 STL (<code>PlayerBox_5_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=54b839d0" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=54b839d0,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07" download="PlayerBox_5_assembled.stl">⬇ Download Assembled PlayerBox_5 STL (<code>PlayerBox_5_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_5 Body**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=6599809c
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=54b839d0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=6599809c" download="PlayerBox_5_body.stl">⬇ Download PlayerBox_5 Body STL (<code>PlayerBox_5_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=54b839d0" download="PlayerBox_5_body.stl">⬇ Download PlayerBox_5 Body STL (<code>PlayerBox_5_body.stl</code>)</a></p>
 
 **Part: PlayerBox_5 Lid**
 
@@ -307,21 +307,21 @@ PlayerBox_6
 
 **Assembled Box (PlayerBox_6 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=bba2fcda,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=ad2990cc,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=bba2fcda" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=bba2fcda,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12" download="PlayerBox_6_assembled.stl">⬇ Download Assembled PlayerBox_6 STL (<code>PlayerBox_6_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=ad2990cc" data-stl-combine="../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=ad2990cc,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12" download="PlayerBox_6_assembled.stl">⬇ Download Assembled PlayerBox_6 STL (<code>PlayerBox_6_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_6 Body**
 
-.. stl:: ../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=bba2fcda
+.. stl:: ../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=ad2990cc
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=bba2fcda" download="PlayerBox_6_body.stl">⬇ Download PlayerBox_6 Body STL (<code>PlayerBox_6_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=ad2990cc" download="PlayerBox_6_body.stl">⬇ Download PlayerBox_6 Body STL (<code>PlayerBox_6_body.stl</code>)</a></p>
 
 **Part: PlayerBox_6 Lid**
 

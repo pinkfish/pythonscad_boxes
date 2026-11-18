@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=951e4266,../_stl/boxes/brink/HexBox_lid.stl?v=67d8f934,../_stl/boxes/brink/PlayerBox_Solari_body.stl?v=969d8263,../_stl/boxes/brink/PlayerBox_Solari_lid.stl?v=fc27dbd8,../_stl/boxes/brink/PlayerBox_Vanguard_body.stl?v=dd054dbb,../_stl/boxes/brink/PlayerBox_Vanguard_lid.stl?v=871cfbae,../_stl/boxes/brink/PlayerBox_Eclipse_body.stl?v=fafd64fc,../_stl/boxes/brink/PlayerBox_Eclipse_lid.stl?v=8047e2ea,../_stl/boxes/brink/PlayerBox_Horizon_body.stl?v=bf177d3d,../_stl/boxes/brink/PlayerBox_Horizon_lid.stl?v=dcf39f0f,../_stl/boxes/brink/CardBox_Actions_body.stl?v=641b161e,../_stl/boxes/brink/CardBox_Actions_lid.stl?v=e20e8ff2,../_stl/boxes/brink/CardBox_Riders_body.stl?v=7ad120f7,../_stl/boxes/brink/CardBox_Riders_lid.stl?v=d7d76338,../_stl/boxes/brink/CardBox_Ambassadors_body.stl?v=30a68e1d,../_stl/boxes/brink/CardBox_Ambassadors_lid.stl?v=ac43857d,../_stl/boxes/brink/CardBox_Factions_body.stl?v=e0c9d96f,../_stl/boxes/brink/CardBox_Factions_lid.stl?v=a427c07f,../_stl/boxes/brink/spacer_1.stl?v=dc31444f,../_stl/boxes/brink/spacer_2.stl?v=2c35491f,../_stl/boxes/brink/spacer_3.stl?v=173d277a,../_stl/boxes/brink/spacer_4.stl?v=b345e56c
+.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=ebf3604f,../_stl/boxes/brink/HexBox_lid.stl?v=67d8f934,../_stl/boxes/brink/PlayerBox_Solari_body.stl?v=969d8263,../_stl/boxes/brink/PlayerBox_Solari_lid.stl?v=fc27dbd8,../_stl/boxes/brink/PlayerBox_Vanguard_body.stl?v=dd054dbb,../_stl/boxes/brink/PlayerBox_Vanguard_lid.stl?v=871cfbae,../_stl/boxes/brink/PlayerBox_Eclipse_body.stl?v=fafd64fc,../_stl/boxes/brink/PlayerBox_Eclipse_lid.stl?v=8047e2ea,../_stl/boxes/brink/PlayerBox_Horizon_body.stl?v=bf177d3d,../_stl/boxes/brink/PlayerBox_Horizon_lid.stl?v=dcf39f0f,../_stl/boxes/brink/CardBox_Actions_body.stl?v=641b161e,../_stl/boxes/brink/CardBox_Actions_lid.stl?v=e20e8ff2,../_stl/boxes/brink/CardBox_Riders_body.stl?v=7ad120f7,../_stl/boxes/brink/CardBox_Riders_lid.stl?v=d7d76338,../_stl/boxes/brink/CardBox_Ambassadors_body.stl?v=30a68e1d,../_stl/boxes/brink/CardBox_Ambassadors_lid.stl?v=ac43857d,../_stl/boxes/brink/CardBox_Factions_body.stl?v=e0c9d96f,../_stl/boxes/brink/CardBox_Factions_lid.stl?v=a427c07f,../_stl/boxes/brink/spacer_1.stl?v=dc31444f,../_stl/boxes/brink/spacer_2.stl?v=2c35491f,../_stl/boxes/brink/spacer_3.stl?v=173d277a,../_stl/boxes/brink/spacer_4.stl?v=b345e56c
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=951e4266" data-stl-combine="../_stl/boxes/brink/HexBox_body.stl?v=951e4266,../_stl/boxes/brink/HexBox_lid.stl?v=67d8f934,../_stl/boxes/brink/PlayerBox_Solari_body.stl?v=969d8263,../_stl/boxes/brink/PlayerBox_Solari_lid.stl?v=fc27dbd8,../_stl/boxes/brink/PlayerBox_Vanguard_body.stl?v=dd054dbb,../_stl/boxes/brink/PlayerBox_Vanguard_lid.stl?v=871cfbae,../_stl/boxes/brink/PlayerBox_Eclipse_body.stl?v=fafd64fc,../_stl/boxes/brink/PlayerBox_Eclipse_lid.stl?v=8047e2ea,../_stl/boxes/brink/PlayerBox_Horizon_body.stl?v=bf177d3d,../_stl/boxes/brink/PlayerBox_Horizon_lid.stl?v=dcf39f0f,../_stl/boxes/brink/CardBox_Actions_body.stl?v=641b161e,../_stl/boxes/brink/CardBox_Actions_lid.stl?v=e20e8ff2,../_stl/boxes/brink/CardBox_Riders_body.stl?v=7ad120f7,../_stl/boxes/brink/CardBox_Riders_lid.stl?v=d7d76338,../_stl/boxes/brink/CardBox_Ambassadors_body.stl?v=30a68e1d,../_stl/boxes/brink/CardBox_Ambassadors_lid.stl?v=ac43857d,../_stl/boxes/brink/CardBox_Factions_body.stl?v=e0c9d96f,../_stl/boxes/brink/CardBox_Factions_lid.stl?v=a427c07f,../_stl/boxes/brink/spacer_1.stl?v=dc31444f,../_stl/boxes/brink/spacer_2.stl?v=2c35491f,../_stl/boxes/brink/spacer_3.stl?v=173d277a,../_stl/boxes/brink/spacer_4.stl?v=b345e56c" download="Brink_full_packing.stl">⬇ Download Full Box Packing STL (<code>Brink_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=ebf3604f" data-stl-combine="../_stl/boxes/brink/HexBox_body.stl?v=ebf3604f,../_stl/boxes/brink/HexBox_lid.stl?v=67d8f934,../_stl/boxes/brink/PlayerBox_Solari_body.stl?v=969d8263,../_stl/boxes/brink/PlayerBox_Solari_lid.stl?v=fc27dbd8,../_stl/boxes/brink/PlayerBox_Vanguard_body.stl?v=dd054dbb,../_stl/boxes/brink/PlayerBox_Vanguard_lid.stl?v=871cfbae,../_stl/boxes/brink/PlayerBox_Eclipse_body.stl?v=fafd64fc,../_stl/boxes/brink/PlayerBox_Eclipse_lid.stl?v=8047e2ea,../_stl/boxes/brink/PlayerBox_Horizon_body.stl?v=bf177d3d,../_stl/boxes/brink/PlayerBox_Horizon_lid.stl?v=dcf39f0f,../_stl/boxes/brink/CardBox_Actions_body.stl?v=641b161e,../_stl/boxes/brink/CardBox_Actions_lid.stl?v=e20e8ff2,../_stl/boxes/brink/CardBox_Riders_body.stl?v=7ad120f7,../_stl/boxes/brink/CardBox_Riders_lid.stl?v=d7d76338,../_stl/boxes/brink/CardBox_Ambassadors_body.stl?v=30a68e1d,../_stl/boxes/brink/CardBox_Ambassadors_lid.stl?v=ac43857d,../_stl/boxes/brink/CardBox_Factions_body.stl?v=e0c9d96f,../_stl/boxes/brink/CardBox_Factions_lid.stl?v=a427c07f,../_stl/boxes/brink/spacer_1.stl?v=dc31444f,../_stl/boxes/brink/spacer_2.stl?v=2c35491f,../_stl/boxes/brink/spacer_3.stl?v=173d277a,../_stl/boxes/brink/spacer_4.stl?v=b345e56c" download="Brink_full_packing.stl">⬇ Download Full Box Packing STL (<code>Brink_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -115,21 +115,21 @@ HexBox
 
 **Assembled Box (HexBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=951e4266,../_stl/boxes/brink/HexBox_lid.stl?v=67d8f934
+.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=ebf3604f,../_stl/boxes/brink/HexBox_lid.stl?v=67d8f934
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=951e4266" data-stl-combine="../_stl/boxes/brink/HexBox_body.stl?v=951e4266,../_stl/boxes/brink/HexBox_lid.stl?v=67d8f934" download="HexBox_assembled.stl">⬇ Download Assembled HexBox STL (<code>HexBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=ebf3604f" data-stl-combine="../_stl/boxes/brink/HexBox_body.stl?v=ebf3604f,../_stl/boxes/brink/HexBox_lid.stl?v=67d8f934" download="HexBox_assembled.stl">⬇ Download Assembled HexBox STL (<code>HexBox_assembled.stl</code>)</a></p>
 
 **Part: HexBox Body**
 
-.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=951e4266
+.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=ebf3604f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=951e4266" download="HexBox_body.stl">⬇ Download HexBox Body STL (<code>HexBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=ebf3604f" download="HexBox_body.stl">⬇ Download HexBox Body STL (<code>HexBox_body.stl</code>)</a></p>
 
 **Part: HexBox Lid**
 

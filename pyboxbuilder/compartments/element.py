@@ -433,7 +433,7 @@ def pack_elements(
 ElementGroup = CompartmentElement | Sequence[CompartmentElement]
 
 
-def _distribute_linear_gap(
+def distribute_linear_gap(
     total: float, widths: Sequence[float], min_gap: float, min_margin: float
 ) -> tuple[float, float] | None:
     """Return ``(outer_margin, inner_gap)`` along one axis, or ``None`` if tight."""
@@ -465,6 +465,103 @@ def _distribute_linear_gap(
     return (margin, inner)
 
 
+def _merge_axis_bands(
+    bounds: Sequence[tuple[float, float, float, float]],
+    indices: Sequence[int],
+    axis: int,
+) -> list[tuple[float, float, list[int]]]:
+    """Group ``indices`` into sorted disjoint coordinate bands along ``axis`` (0=X, 1=Y)."""
+    lo_idx, hi_idx = (0, 2) if axis == 0 else (1, 3)
+    sorted_ids = sorted(indices, key=lambda i: (bounds[i][lo_idx], bounds[i][hi_idx]))
+    bands: list[tuple[float, float, list[int]]] = []
+    for i in sorted_ids:
+        lo, hi = bounds[i][lo_idx], bounds[i][hi_idx]
+        if not bands or lo >= bands[-1][1] - 1e-6:
+            bands.append((lo, hi, [i]))
+        else:
+            prev_lo, prev_hi, members = bands[-1]
+            members.append(i)
+            bands[-1] = (min(prev_lo, lo), max(prev_hi, hi), members)
+    return bands
+
+
+def _distribute_axis_bands(
+    target_start: float,
+    target_span: float,
+    bands: list[tuple[float, float, list[int]]],
+    min_gap: float,
+    min_margin: float,
+) -> list[tuple[float, float, list[int]]]:
+    """Place disjoint 1D bands across ``[target_start, target_start + target_span]``."""
+    spans = [hi - lo for lo, hi, _ in bands]
+    dist = distribute_linear_gap(target_span, spans, min_gap, min_margin)
+    if dist is None and min_margin > 0.0:
+        dist = distribute_linear_gap(target_span, spans, min_gap, 0.0)
+    if dist is not None:
+        cur, gap = dist
+        cur += target_start
+        placed: list[tuple[float, float, list[int]]] = []
+        for lo, hi, members in bands:
+            band_h = hi - lo
+            placed.append((cur, band_h, members))
+            cur += band_h + gap
+        return placed
+    min_c = bands[0][0]
+    max_c = bands[-1][1]
+    shift = target_start + (target_span - (max_c - min_c)) / 2.0 - min_c
+    return [(lo + shift, hi - lo, members) for lo, hi, members in bands]
+
+
+def distribute_2d_bounds(
+    bounds: Sequence[tuple[float, float, float, float]],
+    width: float,
+    length: float,
+    *,
+    min_gap: float,
+    min_margin: float,
+    skip_x_indices: frozenset[int] = frozenset(),
+) -> list[tuple[float, float]]:
+    """Compute per-box ``(dx, dy)`` shifts distributing disjoint bands across ``width x length``."""
+    n = len(bounds)
+    if n == 0:
+        return []
+    dx_out = [0.0] * n
+    dy_out = [0.0] * n
+
+    all_ids = list(range(n))
+    y_bands = _merge_axis_bands(bounds, all_ids, axis=1)
+    y_placed = _distribute_axis_bands(0.0, length, y_bands, min_gap, min_margin)
+
+    for band_y0, band_h, y_members in y_placed:
+        y_band_orig_lo = min(bounds[i][1] for i in y_members)
+        band_dy = band_y0 - y_band_orig_lo
+        for i in y_members:
+            dy_out[i] = band_dy
+
+        x_bands = _merge_axis_bands(bounds, y_members, axis=0)
+        if not (set(y_members) & skip_x_indices):
+            x_placed = _distribute_axis_bands(0.0, width, x_bands, min_gap, min_margin)
+            for band_x0, _band_w, x_members in x_placed:
+                x_band_orig_lo = min(bounds[i][0] for i in x_members)
+                band_dx = band_x0 - x_band_orig_lo
+                for i in x_members:
+                    dx_out[i] = band_dx
+
+        # Inside each disjoint X-column of a Y-band, distribute stacked sub-items in Y.
+        for _bx0, _bx1, x_members in x_bands:
+            sub_y_bands = _merge_axis_bands(bounds, x_members, axis=1)
+            sub_y_placed = _distribute_axis_bands(
+                band_y0, band_h, sub_y_bands, min_gap, 0.0
+            )
+            for sub_y0, _sub_h, sub_members in sub_y_placed:
+                orig_sub_lo = min(bounds[i][1] for i in sub_members)
+                sub_dy = sub_y0 - orig_sub_lo
+                for i in sub_members:
+                    dy_out[i] = sub_dy
+
+    return list(zip(dx_out, dy_out, strict=True))
+
+
 def _attach_group_children(
     primary: CompartmentElement,
     children: Sequence[CompartmentElement],
@@ -486,6 +583,133 @@ def _attach_group_children(
             )
         )
     return out
+
+
+def _finalize_shelf_rows(
+    rows: Sequence[tuple[Sequence[tuple[int, float, float, float]], float]],
+    groups: Sequence[tuple[CompartmentElement, tuple[CompartmentElement, ...]]],
+    comp_w: float,
+    comp_l: float,
+    spacing: float,
+    margin: float,
+    *,
+    distribute: bool,
+) -> tuple[tuple[CompartmentElement, ...], int] | None:
+    """Position shelf rows cleanly across ``(comp_w, comp_l)`` with child elements attached."""
+    row_heights = [rh for _, rh in rows]
+    if distribute:
+        y_dist = distribute_linear_gap(comp_l, row_heights, spacing, margin)
+        if y_dist is None:
+            return None
+        y_cur, y_gap = y_dist
+    else:
+        y_gap = spacing
+        y_cur = margin
+
+    placed_groups: dict[int, list[CompartmentElement]] = {}
+    rot_count = 0
+    for row_items, rh in rows:
+        item_widths = [w for _, _, w, _ in row_items]
+        if distribute:
+            x_dist = distribute_linear_gap(comp_w, item_widths, spacing, margin)
+            if x_dist is None:
+                return None
+            x_cur, x_gap = x_dist
+        else:
+            x_gap = spacing
+            x_cur = margin
+
+        for idx, drot, w, l in row_items:
+            el, children = groups[idx]
+            if drot != 0.0:
+                rot_count += 1
+            y_item = y_cur + (rh - l) / 2.0
+            new_rot = (el.rotation + drot) % 360.0 if drot else el.rotation
+            placed_primary = replace(
+                el,
+                offset=(round(x_cur, 4), round(y_item, 4)),
+                rotation=new_rot,
+            )
+            attached = _attach_group_children(placed_primary, children, drot)
+            placed_groups[idx] = [placed_primary, *attached]
+            x_cur += w + x_gap
+        y_cur += rh + y_gap
+
+    ordered: list[CompartmentElement] = []
+    for idx in range(len(groups)):
+        ordered.extend(placed_groups[idx])
+    return tuple(ordered), rot_count
+
+
+def _try_balanced_shelf_pack_groups(
+    groups: Sequence[tuple[CompartmentElement, tuple[CompartmentElement, ...]]],
+    comp_w: float,
+    comp_l: float,
+    spacing: float,
+    margin: float,
+    *,
+    allow_rotate: bool,
+    distribute: bool,
+) -> tuple[tuple[CompartmentElement, ...], int] | None:
+    """Distribute items across balanced-width shelf rows (Worst-Fit-Decreasing)."""
+    avail_w = comp_w - 2.0 * margin
+    avail_l = comp_l - 2.0 * margin
+    if avail_w <= 1e-6 or avail_l <= 1e-6:
+        return None
+
+    def choices_for(el: CompartmentElement) -> list[tuple[float, float, float]]:
+        fw0, fl0 = el.footprint
+        opts = [(0.0, fw0, fl0)]
+        if (
+            allow_rotate
+            and el.shape not in (ElementShape.CIRCLE, ElementShape.SPHERE_SCOOP)
+            and abs(fw0 - fl0) > 1e-6
+        ):
+            rw, rl = replace(el, rotation=el.rotation + 90.0).footprint
+            opts.append((90.0, rw, rl))
+        return opts
+
+    order = sorted(
+        range(len(groups)),
+        key=lambda i: (max(groups[i][0].footprint), groups[i][0].footprint[0]),
+        reverse=True,
+    )
+
+    for num_rows in range(1, len(groups) + 1):
+        row_items: list[list[tuple[int, float, float, float]]] = [[] for _ in range(num_rows)]
+        row_widths = [0.0] * num_rows
+        row_heights = [0.0] * num_rows
+        ok = True
+        for idx in order:
+            opts = choices_for(groups[idx][0])
+            best: tuple[float, int, float, int, float, float] | None = None
+            for r in range(num_rows):
+                gap = spacing if row_items[r] else 0.0
+                for drot, w, l in opts:
+                    if row_widths[r] + gap + w <= avail_w + 1e-6:
+                        cand = (round(row_widths[r], 4), int(drot != 0.0), l, r, drot, w)
+                        if best is None or cand < best:
+                            best = cand
+            if best is None:
+                ok = False
+                break
+            _, _, l_best, r_best, drot_best, w_best = best
+            row_widths[r_best] += (spacing if row_items[r_best] else 0.0) + w_best
+            row_heights[r_best] = max(row_heights[r_best], l_best)
+            row_items[r_best].append((idx, drot_best, w_best, l_best))
+
+        if not ok:
+            continue
+        non_empty = [(items, rh) for items, rh in zip(row_items, row_heights, strict=True) if items]
+        total_h = sum(rh for _, rh in non_empty) + spacing * max(0, len(non_empty) - 1)
+        if total_h > avail_l + 1e-6:
+            continue
+        res = _finalize_shelf_rows(
+            non_empty, groups, comp_w, comp_l, spacing, margin, distribute=distribute
+        )
+        if res is not None:
+            return res
+    return None
 
 
 def _try_shelf_pack_groups(
@@ -575,49 +799,9 @@ def _try_shelf_pack_groups(
     if cur_row:
         rows.append((cur_row, cur_h))
 
-    row_heights = [rh for _, rh in rows]
-    if distribute:
-        y_dist = _distribute_linear_gap(comp_l, row_heights, spacing, margin)
-        if y_dist is None:
-            return None
-        y_cur, y_gap = y_dist
-    else:
-        y_gap = spacing
-        y_cur = margin
-
-    placed_groups: dict[int, list[CompartmentElement]] = {}
-    rot_count = 0
-    for row_items, rh in rows:
-        item_widths = [w for _, _, w, _ in row_items]
-        if distribute:
-            x_dist = _distribute_linear_gap(comp_w, item_widths, spacing, margin)
-            if x_dist is None:
-                return None
-            x_cur, x_gap = x_dist
-        else:
-            x_gap = spacing
-            x_cur = margin
-
-        for idx, drot, w, l in row_items:
-            el, children = groups[idx]
-            if drot != 0.0:
-                rot_count += 1
-            y_item = y_cur + (rh - l) / 2.0
-            new_rot = (el.rotation + drot) % 360.0 if drot else el.rotation
-            placed_primary = replace(
-                el,
-                offset=(round(x_cur, 4), round(y_item, 4)),
-                rotation=new_rot,
-            )
-            attached = _attach_group_children(placed_primary, children, drot)
-            placed_groups[idx] = [placed_primary, *attached]
-            x_cur += w + x_gap
-        y_cur += rh + y_gap
-
-    ordered: list[CompartmentElement] = []
-    for idx in range(len(groups)):
-        ordered.extend(placed_groups[idx])
-    return tuple(ordered), rot_count
+    return _finalize_shelf_rows(
+        rows, groups, comp_w, comp_l, spacing, margin, distribute=distribute
+    )
 
 
 def _try_maxrects_pack_groups(
@@ -628,8 +812,9 @@ def _try_maxrects_pack_groups(
     margin: float,
     *,
     allow_rotate: bool,
+    distribute: bool = True,
 ) -> tuple[tuple[CompartmentElement, ...], int] | None:
-    """Fallback 2D MaxRects placement centered within ``(comp_w, comp_l)``."""
+    """Fallback 2D MaxRects placement distributed/centered within ``(comp_w, comp_l)``."""
     usable_w = comp_w - 2.0 * margin
     usable_l = comp_l - 2.0 * margin
     if usable_w <= 1e-6 or usable_l <= 1e-6:
@@ -668,11 +853,22 @@ def _try_maxrects_pack_groups(
                 if elements_overlap(packed, tolerance=0.05):
                     continue
 
-                dx = (comp_w - span_w) / 2.0 - min_x
-                dy = (comp_l - span_l) / 2.0 - min_y
+                if distribute:
+                    shifts = distribute_2d_bounds(
+                        [p.bounds() for p in packed],
+                        comp_w,
+                        comp_l,
+                        min_gap=spacing,
+                        min_margin=margin,
+                    )
+                else:
+                    dx = (comp_w - span_w) / 2.0 - min_x
+                    dy = (comp_l - span_l) / 2.0 - min_y
+                    shifts = [(dx, dy)] * len(packed)
+
                 ordered: list[CompartmentElement] = []
                 rot_count = 0
-                for idx, placed_primary in enumerate(packed):
+                for idx, (placed_primary, (dx, dy)) in enumerate(zip(packed, shifts, strict=True)):
                     orig_primary, children = groups[idx]
                     drot = (placed_primary.rotation - orig_primary.rotation) % 360.0
                     if drot != 0.0:
@@ -739,7 +935,7 @@ def pack_into_compartment(
 
     rot_modes = (False, True) if allow_rotate else (False,)
     for tier_margin, tier_spacing in tiers:
-        candidates: list[tuple[tuple[int, int, float], tuple[CompartmentElement, ...]]] = []
+        candidates: list[tuple[tuple[int, int, int, float], tuple[CompartmentElement, ...]]] = []
         for rot_flag in rot_modes:
             for sort_mode in ("input", "area_desc", "height_desc"):
                 res = _try_shelf_pack_groups(
@@ -757,7 +953,27 @@ def pack_into_compartment(
                     bb = elements_bounding_box([el for el in packed if el.color is None])
                     # Measure smallest edge clearance so pull-outs keep room when possible.
                     min_edge = min(bb[0], bb[1], comp_w - bb[2], comp_l - bb[3])
-                    candidates.append(((int(rot_count > 0), rot_count, -round(min_edge, 3)), packed))
+                    candidates.append((
+                        (0, int(rot_count > 0), rot_count, -round(min_edge, 3)),
+                        packed,
+                    ))
+            bal_res = _try_balanced_shelf_pack_groups(
+                groups,
+                comp_w,
+                comp_l,
+                tier_spacing,
+                tier_margin,
+                allow_rotate=rot_flag,
+                distribute=distribute,
+            )
+            if bal_res is not None:
+                packed, rot_count = bal_res
+                bb = elements_bounding_box([el for el in packed if el.color is None])
+                min_edge = min(bb[0], bb[1], comp_w - bb[2], comp_l - bb[3])
+                candidates.append((
+                    (0, int(rot_count > 0), rot_count, -round(min_edge, 3)),
+                    packed,
+                ))
             if not candidates:
                 mr_res = _try_maxrects_pack_groups(
                     groups,
@@ -766,12 +982,16 @@ def pack_into_compartment(
                     tier_spacing,
                     tier_margin,
                     allow_rotate=rot_flag,
+                    distribute=distribute,
                 )
                 if mr_res is not None:
                     packed, rot_count = mr_res
                     bb = elements_bounding_box([el for el in packed if el.color is None])
                     min_edge = min(bb[0], bb[1], comp_w - bb[2], comp_l - bb[3])
-                    candidates.append(((int(rot_count > 0), rot_count, -round(min_edge, 3)), packed))
+                    candidates.append((
+                        (1, int(rot_count > 0), rot_count, -round(min_edge, 3)),
+                        packed,
+                    ))
         if candidates:
             candidates.sort(key=lambda pair: pair[0])
             return candidates[0][1]
@@ -848,7 +1068,7 @@ def build_element(
             size=font_size,
             halign="center",
             valign="center"
-        ).linear_extrude(height=depth)
+        ).linear_extrude(height=depth).translate([0.0, 0.0, -depth / 2.0])
     elif element.shape is ElementShape.CIRCLE:
         if element.bottom_rounding > 0:
             solid = cylinder(
@@ -1051,6 +1271,53 @@ def build_pull_out(
     return union_all([dish, block])
 
 
+def _resolve_inlay_z_offset(
+    element: CompartmentElement,
+    all_elements: Sequence[CompartmentElement],
+    default_depth: float,
+) -> CompartmentElement:
+    """Resolve ``z_offset=None`` on a coloured inlay relative to its enclosing pocket floor."""
+    if element.color is None or element.z_offset is not None:
+        return element
+
+    ix0, iy0, ix1, iy1 = element.bounds()
+    cx = (ix0 + ix1) / 2.0
+    cy = (iy0 + iy1) / 2.0
+
+    best_key: tuple[int, float, float] | None = None
+    best_parent: CompartmentElement | None = None
+    for other in all_elements:
+        if other.color is not None:
+            continue
+        px0, py0, px1, py1 = other.bounds()
+        if not (px0 - 1e-3 <= cx <= px1 + 1e-3 and py0 - 1e-3 <= cy <= py1 + 1e-3):
+            continue
+        full_contain = (
+            px0 - 1e-3 <= ix0
+            and ix1 <= px1 + 1e-3
+            and py0 - 1e-3 <= iy0
+            and iy1 <= py1 + 1e-3
+        )
+        area = (px1 - px0) * (py1 - py0)
+        depth_val = other.depth if other.depth is not None else default_depth
+        # Prefer full enclosure, tightest parent footprint, and deeper well over shallow scoop notches.
+        key = (0 if full_contain else 1, round(area, 4), -depth_val)
+        if best_key is None or key < best_key:
+            best_key = key
+            best_parent = other
+
+    if best_parent is None:
+        return element
+
+    parent_depth = best_parent.depth if best_parent.depth is not None else default_depth
+    parent_floor_z = (
+        best_parent.z_offset
+        if best_parent.z_offset is not None
+        else (default_depth - parent_depth)
+    )
+    return replace(element, z_offset=parent_floor_z)
+
+
 def build_element_pack(
     elements: Iterable[CompartmentElement], default_depth: float
 ) -> Bosl2Solid | None:
@@ -1062,9 +1329,11 @@ def build_element_pack(
     that recess — together they make an inlay flush with the floor rather than
     a bump proud of it.
     """
+    elements_seq = tuple(elements)
     pieces = []
-    for element in elements:
-        pieces.append(build_element(element, default_depth))
+    for element in elements_seq:
+        resolved = _resolve_inlay_z_offset(element, elements_seq, default_depth)
+        pieces.append(build_element(resolved, default_depth))
     return union_all([p for p in pieces if p is not None])
 
 
@@ -1080,11 +1349,13 @@ def build_element_pack_inserts(
     """
     from pybosl2 import Color
 
+    elements_seq = tuple(elements)
     inserts: list[tuple[Bosl2Solid, Color]] = []
-    for element in elements:
+    for element in elements_seq:
         if element.color is None:
             continue
-        solid = build_element(element, default_depth)
+        resolved = _resolve_inlay_z_offset(element, elements_seq, default_depth)
+        solid = build_element(resolved, default_depth)
         if solid is not None:
             inserts.append((solid, Color(element.color)))
     return inserts

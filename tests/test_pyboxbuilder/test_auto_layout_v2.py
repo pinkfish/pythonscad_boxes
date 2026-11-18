@@ -191,6 +191,22 @@ class TestCompartmentLayoutAndElements(unittest.TestCase):
         self.assertEqual(len(packed), 4)
         self.assertEqual(elements_overlap(packed), [])
 
+    def test_layout_compartments_centers_and_distributes_non_growable_slots(self) -> None:
+        interior = Interior(width=120.0, length=100.0, height=30.0, origin_x=2.0, origin_y=2.0)
+        comps = [
+            ("A", 30.0, 30.0, 20.0),
+            ("B", 30.0, 30.0, 20.0),
+            ("C", 30.0, 30.0, 20.0),
+        ]
+        res = layout_compartments(interior, comps, no_rotate_labels={"A", "B", "C"})
+        self.assertFalse(res.overflow)
+        by_lbl = {p.label: p for p in res.placements}
+        # All 3 fit in 1 row of width 90 -> slack 30 -> 7.5mm equal left/inner/right X gaps
+        for idx, lbl in enumerate(("A", "B", "C")):
+            self.assertAlmostEqual(by_lbl[lbl].position[0], 2.0 + 7.5 + idx * 37.5, places=3)
+            # Vertically centered inside 100mm -> (100 - 30)/2 = 35mm
+            self.assertAlmostEqual(by_lbl[lbl].position[1], 2.0 + 35.0, places=3)
+
 
 class TestGuillotine3DAndProjectPacking(unittest.TestCase):
     """Phase 1.3, 2.1 & 3.1: 3D Guillotine v2, obstacles, protrusions, Pareto sizing & support."""

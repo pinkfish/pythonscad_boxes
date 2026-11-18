@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=6a723fd9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=2f0c4690,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=ca37275b,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=51480b5e,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=b2e9d177,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=5894d4e9,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=fa42d025,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=89d619e7,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=8f8c2e8f,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=f1df6ff4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=62ccbd20,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=215c23d1,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=8745f9ee,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=79c27197,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=ba181ed2,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=c188d77e,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=756e34fd,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=dadf8578,../_stl/boxes/emberleaf/CommonBox_body.stl?v=772caeef,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308,../_stl/boxes/emberleaf/spacer_1.stl?v=0cfb43b6,../_stl/boxes/emberleaf/spacer_2.stl?v=8f0ffc93,../_stl/boxes/emberleaf/spacer_3.stl?v=af62fc05,../_stl/boxes/emberleaf/spacer_4.stl?v=9fe5a393,../_stl/boxes/emberleaf/spacer_5.stl?v=5cac5cc1,../_stl/boxes/emberleaf/spacer_6.stl?v=53392eea
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=6a723fd9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=2f0c4690,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=ca37275b,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=51480b5e,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=b2e9d177,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=5894d4e9,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=fa42d025,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=89d619e7,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=8f8c2e8f,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=f1df6ff4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=62ccbd20,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=215c23d1,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=8745f9ee,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=79c27197,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=ba181ed2,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=c188d77e,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=756e34fd,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=dadf8578,../_stl/boxes/emberleaf/CommonBox_body.stl?v=7de7df56,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308,../_stl/boxes/emberleaf/spacer_1.stl?v=0cfb43b6,../_stl/boxes/emberleaf/spacer_2.stl?v=8f0ffc93,../_stl/boxes/emberleaf/spacer_3.stl?v=af62fc05,../_stl/boxes/emberleaf/spacer_4.stl?v=9fe5a393,../_stl/boxes/emberleaf/spacer_5.stl?v=5cac5cc1,../_stl/boxes/emberleaf/spacer_6.stl?v=53392eea
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=6a723fd9" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=6a723fd9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=2f0c4690,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=ca37275b,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=51480b5e,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=b2e9d177,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=5894d4e9,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=fa42d025,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=89d619e7,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=8f8c2e8f,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=f1df6ff4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=62ccbd20,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=215c23d1,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=8745f9ee,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=79c27197,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=ba181ed2,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=c188d77e,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=756e34fd,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=dadf8578,../_stl/boxes/emberleaf/CommonBox_body.stl?v=772caeef,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308,../_stl/boxes/emberleaf/spacer_1.stl?v=0cfb43b6,../_stl/boxes/emberleaf/spacer_2.stl?v=8f0ffc93,../_stl/boxes/emberleaf/spacer_3.stl?v=af62fc05,../_stl/boxes/emberleaf/spacer_4.stl?v=9fe5a393,../_stl/boxes/emberleaf/spacer_5.stl?v=5cac5cc1,../_stl/boxes/emberleaf/spacer_6.stl?v=53392eea" download="Emberleaf_full_packing.stl">⬇ Download Full Box Packing STL (<code>Emberleaf_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=6a723fd9" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=6a723fd9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=2f0c4690,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=ca37275b,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=51480b5e,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=b2e9d177,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=5894d4e9,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=fa42d025,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=89d619e7,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=8f8c2e8f,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=f1df6ff4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=62ccbd20,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=215c23d1,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=8745f9ee,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=79c27197,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=ba181ed2,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=c188d77e,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=756e34fd,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=dadf8578,../_stl/boxes/emberleaf/CommonBox_body.stl?v=7de7df56,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308,../_stl/boxes/emberleaf/spacer_1.stl?v=0cfb43b6,../_stl/boxes/emberleaf/spacer_2.stl?v=8f0ffc93,../_stl/boxes/emberleaf/spacer_3.stl?v=af62fc05,../_stl/boxes/emberleaf/spacer_4.stl?v=9fe5a393,../_stl/boxes/emberleaf/spacer_5.stl?v=5cac5cc1,../_stl/boxes/emberleaf/spacer_6.stl?v=53392eea" download="Emberleaf_full_packing.stl">⬇ Download Full Box Packing STL (<code>Emberleaf_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -463,21 +463,21 @@ CommonBox
 
 **Assembled Box (CommonBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/emberleaf/CommonBox_body.stl?v=772caeef,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308
+.. stl:: ../_stl/boxes/emberleaf/CommonBox_body.stl?v=7de7df56,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/CommonBox_body.stl?v=772caeef" data-stl-combine="../_stl/boxes/emberleaf/CommonBox_body.stl?v=772caeef,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308" download="CommonBox_assembled.stl">⬇ Download Assembled CommonBox STL (<code>CommonBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/CommonBox_body.stl?v=7de7df56" data-stl-combine="../_stl/boxes/emberleaf/CommonBox_body.stl?v=7de7df56,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308" download="CommonBox_assembled.stl">⬇ Download Assembled CommonBox STL (<code>CommonBox_assembled.stl</code>)</a></p>
 
 **Part: CommonBox Body**
 
-.. stl:: ../_stl/boxes/emberleaf/CommonBox_body.stl?v=772caeef
+.. stl:: ../_stl/boxes/emberleaf/CommonBox_body.stl?v=7de7df56
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/CommonBox_body.stl?v=772caeef" download="CommonBox_body.stl">⬇ Download CommonBox Body STL (<code>CommonBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/CommonBox_body.stl?v=7de7df56" download="CommonBox_body.stl">⬇ Download CommonBox Body STL (<code>CommonBox_body.stl</code>)</a></p>
 
 **Part: CommonBox Lid**
 

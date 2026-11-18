@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/railways_of_the_world/CardBoxEasternUS_body.stl?v=30611425,../_stl/boxes/railways_of_the_world/CardBoxEasternUS_lid.stl?v=e451b453,../_stl/boxes/railways_of_the_world/CardBoxAustralia_body.stl?v=acc804c8,../_stl/boxes/railways_of_the_world/CardBoxAustralia_lid.stl?v=e923a1fa,../_stl/boxes/railways_of_the_world/CardBoxSweden_body.stl?v=a3ca03b4,../_stl/boxes/railways_of_the_world/CardBoxSweden_lid.stl?v=bb3c375c,../_stl/boxes/railways_of_the_world/CardBoxMexico_body.stl?v=c1b198d6,../_stl/boxes/railways_of_the_world/CardBoxMexico_lid.stl?v=d58a3b5f,../_stl/boxes/railways_of_the_world/CardBoxPortugal_body.stl?v=36198461,../_stl/boxes/railways_of_the_world/CardBoxPortugal_lid.stl?v=3e956644,../_stl/boxes/railways_of_the_world/EmptyCityBox1_body.stl?v=976e9393,../_stl/boxes/railways_of_the_world/EmptyCityBox1_lid.stl?v=3810571b,../_stl/boxes/railways_of_the_world/EmptyCityBox2_body.stl?v=4e327751,../_stl/boxes/railways_of_the_world/EmptyCityBox2_lid.stl?v=6cc6c48b,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=0eb11ea8,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_lid.stl?v=b3a69203,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=ceb9e7a1,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_lid.stl?v=e3755b3d,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=79bafdab,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_lid.stl?v=18183e39,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=3b71c77b,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_lid.stl?v=4ff86ce9,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=d81043b2,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_lid.stl?v=6d14a42d,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=1238536a,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_lid.stl?v=87f9bee5,../_stl/boxes/railways_of_the_world/PlayerBox_red_body.stl?v=ea50737e,../_stl/boxes/railways_of_the_world/PlayerBox_red_lid.stl?v=70d8adfa,../_stl/boxes/railways_of_the_world/PlayerBox_blue_body.stl?v=b9384922,../_stl/boxes/railways_of_the_world/PlayerBox_blue_lid.stl?v=2d8e560a,../_stl/boxes/railways_of_the_world/PlayerBox_green_body.stl?v=775d23b3,../_stl/boxes/railways_of_the_world/PlayerBox_green_lid.stl?v=b22e00d8,../_stl/boxes/railways_of_the_world/PlayerBox_yellow_body.stl?v=f3d06a54,../_stl/boxes/railways_of_the_world/PlayerBox_yellow_lid.stl?v=0047fcb6,../_stl/boxes/railways_of_the_world/PlayerBox_black_body.stl?v=347c8cf5,../_stl/boxes/railways_of_the_world/PlayerBox_black_lid.stl?v=7cf272f5,../_stl/boxes/railways_of_the_world/PlayerBox_purple_body.stl?v=d68849ca,../_stl/boxes/railways_of_the_world/PlayerBox_purple_lid.stl?v=c405fc2d,../_stl/boxes/railways_of_the_world/HexBox1_body.stl?v=8fe0a05f,../_stl/boxes/railways_of_the_world/HexBox1_lid.stl?v=116d0be0,../_stl/boxes/railways_of_the_world/HexBox2_body.stl?v=ebc8c321,../_stl/boxes/railways_of_the_world/HexBox2_lid.stl?v=b3ef494c,../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=dfb24d86,../_stl/boxes/railways_of_the_world/MoneyBox_lid.stl?v=8f512f26,../_stl/boxes/railways_of_the_world/NewCityBox_body.stl?v=b7aefe18,../_stl/boxes/railways_of_the_world/NewCityBox_lid.stl?v=760bb8f9,../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=5e1b1e13,../_stl/boxes/railways_of_the_world/AustraliaBox_lid.stl?v=5dd20946,../_stl/boxes/railways_of_the_world/SwedenBox_body.stl?v=bf4d6223,../_stl/boxes/railways_of_the_world/SwedenBox_lid.stl?v=05b849fe,../_stl/boxes/railways_of_the_world/spacer_1.stl?v=63feb9dc,../_stl/boxes/railways_of_the_world/spacer_2.stl?v=25978728,../_stl/boxes/railways_of_the_world/spacer_3.stl?v=2acd2af7,../_stl/boxes/railways_of_the_world/spacer_4.stl?v=9cbd4838,../_stl/boxes/railways_of_the_world/spacer_5.stl?v=b1894ce9,../_stl/boxes/railways_of_the_world/spacer_6.stl?v=4bab23dd,../_stl/boxes/railways_of_the_world/spacer_7.stl?v=e7b62f96
+.. stl:: ../_stl/boxes/railways_of_the_world/CardBoxEasternUS_body.stl?v=30611425,../_stl/boxes/railways_of_the_world/CardBoxEasternUS_lid.stl?v=e451b453,../_stl/boxes/railways_of_the_world/CardBoxAustralia_body.stl?v=acc804c8,../_stl/boxes/railways_of_the_world/CardBoxAustralia_lid.stl?v=e923a1fa,../_stl/boxes/railways_of_the_world/CardBoxSweden_body.stl?v=a3ca03b4,../_stl/boxes/railways_of_the_world/CardBoxSweden_lid.stl?v=bb3c375c,../_stl/boxes/railways_of_the_world/CardBoxMexico_body.stl?v=c1b198d6,../_stl/boxes/railways_of_the_world/CardBoxMexico_lid.stl?v=d58a3b5f,../_stl/boxes/railways_of_the_world/CardBoxPortugal_body.stl?v=36198461,../_stl/boxes/railways_of_the_world/CardBoxPortugal_lid.stl?v=3e956644,../_stl/boxes/railways_of_the_world/EmptyCityBox1_body.stl?v=976e9393,../_stl/boxes/railways_of_the_world/EmptyCityBox1_lid.stl?v=3810571b,../_stl/boxes/railways_of_the_world/EmptyCityBox2_body.stl?v=4e327751,../_stl/boxes/railways_of_the_world/EmptyCityBox2_lid.stl?v=6cc6c48b,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=46741ad1,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_lid.stl?v=b3a69203,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=84349903,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_lid.stl?v=e3755b3d,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=4e9f30f5,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_lid.stl?v=18183e39,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=c78f5c50,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_lid.stl?v=4ff86ce9,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=de7a94be,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_lid.stl?v=6d14a42d,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=d6d7d8ed,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_lid.stl?v=87f9bee5,../_stl/boxes/railways_of_the_world/PlayerBox_red_body.stl?v=ea50737e,../_stl/boxes/railways_of_the_world/PlayerBox_red_lid.stl?v=70d8adfa,../_stl/boxes/railways_of_the_world/PlayerBox_blue_body.stl?v=b9384922,../_stl/boxes/railways_of_the_world/PlayerBox_blue_lid.stl?v=2d8e560a,../_stl/boxes/railways_of_the_world/PlayerBox_green_body.stl?v=775d23b3,../_stl/boxes/railways_of_the_world/PlayerBox_green_lid.stl?v=b22e00d8,../_stl/boxes/railways_of_the_world/PlayerBox_yellow_body.stl?v=f3d06a54,../_stl/boxes/railways_of_the_world/PlayerBox_yellow_lid.stl?v=0047fcb6,../_stl/boxes/railways_of_the_world/PlayerBox_black_body.stl?v=347c8cf5,../_stl/boxes/railways_of_the_world/PlayerBox_black_lid.stl?v=7cf272f5,../_stl/boxes/railways_of_the_world/PlayerBox_purple_body.stl?v=d68849ca,../_stl/boxes/railways_of_the_world/PlayerBox_purple_lid.stl?v=c405fc2d,../_stl/boxes/railways_of_the_world/HexBox1_body.stl?v=8fe0a05f,../_stl/boxes/railways_of_the_world/HexBox1_lid.stl?v=116d0be0,../_stl/boxes/railways_of_the_world/HexBox2_body.stl?v=ebc8c321,../_stl/boxes/railways_of_the_world/HexBox2_lid.stl?v=b3ef494c,../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=ec6d4eba,../_stl/boxes/railways_of_the_world/MoneyBox_lid.stl?v=8f512f26,../_stl/boxes/railways_of_the_world/NewCityBox_body.stl?v=b7aefe18,../_stl/boxes/railways_of_the_world/NewCityBox_lid.stl?v=760bb8f9,../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=82671613,../_stl/boxes/railways_of_the_world/AustraliaBox_lid.stl?v=5dd20946,../_stl/boxes/railways_of_the_world/SwedenBox_body.stl?v=bf4d6223,../_stl/boxes/railways_of_the_world/SwedenBox_lid.stl?v=05b849fe,../_stl/boxes/railways_of_the_world/spacer_1.stl?v=63feb9dc,../_stl/boxes/railways_of_the_world/spacer_2.stl?v=25978728,../_stl/boxes/railways_of_the_world/spacer_3.stl?v=2acd2af7,../_stl/boxes/railways_of_the_world/spacer_4.stl?v=9cbd4838,../_stl/boxes/railways_of_the_world/spacer_5.stl?v=b1894ce9,../_stl/boxes/railways_of_the_world/spacer_6.stl?v=4bab23dd,../_stl/boxes/railways_of_the_world/spacer_7.stl?v=e7b62f96
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/CardBoxEasternUS_body.stl?v=30611425" data-stl-combine="../_stl/boxes/railways_of_the_world/CardBoxEasternUS_body.stl?v=30611425,../_stl/boxes/railways_of_the_world/CardBoxEasternUS_lid.stl?v=e451b453,../_stl/boxes/railways_of_the_world/CardBoxAustralia_body.stl?v=acc804c8,../_stl/boxes/railways_of_the_world/CardBoxAustralia_lid.stl?v=e923a1fa,../_stl/boxes/railways_of_the_world/CardBoxSweden_body.stl?v=a3ca03b4,../_stl/boxes/railways_of_the_world/CardBoxSweden_lid.stl?v=bb3c375c,../_stl/boxes/railways_of_the_world/CardBoxMexico_body.stl?v=c1b198d6,../_stl/boxes/railways_of_the_world/CardBoxMexico_lid.stl?v=d58a3b5f,../_stl/boxes/railways_of_the_world/CardBoxPortugal_body.stl?v=36198461,../_stl/boxes/railways_of_the_world/CardBoxPortugal_lid.stl?v=3e956644,../_stl/boxes/railways_of_the_world/EmptyCityBox1_body.stl?v=976e9393,../_stl/boxes/railways_of_the_world/EmptyCityBox1_lid.stl?v=3810571b,../_stl/boxes/railways_of_the_world/EmptyCityBox2_body.stl?v=4e327751,../_stl/boxes/railways_of_the_world/EmptyCityBox2_lid.stl?v=6cc6c48b,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=0eb11ea8,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_lid.stl?v=b3a69203,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=ceb9e7a1,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_lid.stl?v=e3755b3d,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=79bafdab,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_lid.stl?v=18183e39,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=3b71c77b,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_lid.stl?v=4ff86ce9,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=d81043b2,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_lid.stl?v=6d14a42d,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=1238536a,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_lid.stl?v=87f9bee5,../_stl/boxes/railways_of_the_world/PlayerBox_red_body.stl?v=ea50737e,../_stl/boxes/railways_of_the_world/PlayerBox_red_lid.stl?v=70d8adfa,../_stl/boxes/railways_of_the_world/PlayerBox_blue_body.stl?v=b9384922,../_stl/boxes/railways_of_the_world/PlayerBox_blue_lid.stl?v=2d8e560a,../_stl/boxes/railways_of_the_world/PlayerBox_green_body.stl?v=775d23b3,../_stl/boxes/railways_of_the_world/PlayerBox_green_lid.stl?v=b22e00d8,../_stl/boxes/railways_of_the_world/PlayerBox_yellow_body.stl?v=f3d06a54,../_stl/boxes/railways_of_the_world/PlayerBox_yellow_lid.stl?v=0047fcb6,../_stl/boxes/railways_of_the_world/PlayerBox_black_body.stl?v=347c8cf5,../_stl/boxes/railways_of_the_world/PlayerBox_black_lid.stl?v=7cf272f5,../_stl/boxes/railways_of_the_world/PlayerBox_purple_body.stl?v=d68849ca,../_stl/boxes/railways_of_the_world/PlayerBox_purple_lid.stl?v=c405fc2d,../_stl/boxes/railways_of_the_world/HexBox1_body.stl?v=8fe0a05f,../_stl/boxes/railways_of_the_world/HexBox1_lid.stl?v=116d0be0,../_stl/boxes/railways_of_the_world/HexBox2_body.stl?v=ebc8c321,../_stl/boxes/railways_of_the_world/HexBox2_lid.stl?v=b3ef494c,../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=dfb24d86,../_stl/boxes/railways_of_the_world/MoneyBox_lid.stl?v=8f512f26,../_stl/boxes/railways_of_the_world/NewCityBox_body.stl?v=b7aefe18,../_stl/boxes/railways_of_the_world/NewCityBox_lid.stl?v=760bb8f9,../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=5e1b1e13,../_stl/boxes/railways_of_the_world/AustraliaBox_lid.stl?v=5dd20946,../_stl/boxes/railways_of_the_world/SwedenBox_body.stl?v=bf4d6223,../_stl/boxes/railways_of_the_world/SwedenBox_lid.stl?v=05b849fe,../_stl/boxes/railways_of_the_world/spacer_1.stl?v=63feb9dc,../_stl/boxes/railways_of_the_world/spacer_2.stl?v=25978728,../_stl/boxes/railways_of_the_world/spacer_3.stl?v=2acd2af7,../_stl/boxes/railways_of_the_world/spacer_4.stl?v=9cbd4838,../_stl/boxes/railways_of_the_world/spacer_5.stl?v=b1894ce9,../_stl/boxes/railways_of_the_world/spacer_6.stl?v=4bab23dd,../_stl/boxes/railways_of_the_world/spacer_7.stl?v=e7b62f96" download="Railways of the World_full_packing.stl">⬇ Download Full Box Packing STL (<code>Railways of the World_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/CardBoxEasternUS_body.stl?v=30611425" data-stl-combine="../_stl/boxes/railways_of_the_world/CardBoxEasternUS_body.stl?v=30611425,../_stl/boxes/railways_of_the_world/CardBoxEasternUS_lid.stl?v=e451b453,../_stl/boxes/railways_of_the_world/CardBoxAustralia_body.stl?v=acc804c8,../_stl/boxes/railways_of_the_world/CardBoxAustralia_lid.stl?v=e923a1fa,../_stl/boxes/railways_of_the_world/CardBoxSweden_body.stl?v=a3ca03b4,../_stl/boxes/railways_of_the_world/CardBoxSweden_lid.stl?v=bb3c375c,../_stl/boxes/railways_of_the_world/CardBoxMexico_body.stl?v=c1b198d6,../_stl/boxes/railways_of_the_world/CardBoxMexico_lid.stl?v=d58a3b5f,../_stl/boxes/railways_of_the_world/CardBoxPortugal_body.stl?v=36198461,../_stl/boxes/railways_of_the_world/CardBoxPortugal_lid.stl?v=3e956644,../_stl/boxes/railways_of_the_world/EmptyCityBox1_body.stl?v=976e9393,../_stl/boxes/railways_of_the_world/EmptyCityBox1_lid.stl?v=3810571b,../_stl/boxes/railways_of_the_world/EmptyCityBox2_body.stl?v=4e327751,../_stl/boxes/railways_of_the_world/EmptyCityBox2_lid.stl?v=6cc6c48b,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=46741ad1,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_lid.stl?v=b3a69203,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=84349903,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_lid.stl?v=e3755b3d,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=4e9f30f5,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_lid.stl?v=18183e39,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=c78f5c50,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_lid.stl?v=4ff86ce9,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=de7a94be,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_lid.stl?v=6d14a42d,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=d6d7d8ed,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_lid.stl?v=87f9bee5,../_stl/boxes/railways_of_the_world/PlayerBox_red_body.stl?v=ea50737e,../_stl/boxes/railways_of_the_world/PlayerBox_red_lid.stl?v=70d8adfa,../_stl/boxes/railways_of_the_world/PlayerBox_blue_body.stl?v=b9384922,../_stl/boxes/railways_of_the_world/PlayerBox_blue_lid.stl?v=2d8e560a,../_stl/boxes/railways_of_the_world/PlayerBox_green_body.stl?v=775d23b3,../_stl/boxes/railways_of_the_world/PlayerBox_green_lid.stl?v=b22e00d8,../_stl/boxes/railways_of_the_world/PlayerBox_yellow_body.stl?v=f3d06a54,../_stl/boxes/railways_of_the_world/PlayerBox_yellow_lid.stl?v=0047fcb6,../_stl/boxes/railways_of_the_world/PlayerBox_black_body.stl?v=347c8cf5,../_stl/boxes/railways_of_the_world/PlayerBox_black_lid.stl?v=7cf272f5,../_stl/boxes/railways_of_the_world/PlayerBox_purple_body.stl?v=d68849ca,../_stl/boxes/railways_of_the_world/PlayerBox_purple_lid.stl?v=c405fc2d,../_stl/boxes/railways_of_the_world/HexBox1_body.stl?v=8fe0a05f,../_stl/boxes/railways_of_the_world/HexBox1_lid.stl?v=116d0be0,../_stl/boxes/railways_of_the_world/HexBox2_body.stl?v=ebc8c321,../_stl/boxes/railways_of_the_world/HexBox2_lid.stl?v=b3ef494c,../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=ec6d4eba,../_stl/boxes/railways_of_the_world/MoneyBox_lid.stl?v=8f512f26,../_stl/boxes/railways_of_the_world/NewCityBox_body.stl?v=b7aefe18,../_stl/boxes/railways_of_the_world/NewCityBox_lid.stl?v=760bb8f9,../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=82671613,../_stl/boxes/railways_of_the_world/AustraliaBox_lid.stl?v=5dd20946,../_stl/boxes/railways_of_the_world/SwedenBox_body.stl?v=bf4d6223,../_stl/boxes/railways_of_the_world/SwedenBox_lid.stl?v=05b849fe,../_stl/boxes/railways_of_the_world/spacer_1.stl?v=63feb9dc,../_stl/boxes/railways_of_the_world/spacer_2.stl?v=25978728,../_stl/boxes/railways_of_the_world/spacer_3.stl?v=2acd2af7,../_stl/boxes/railways_of_the_world/spacer_4.stl?v=9cbd4838,../_stl/boxes/railways_of_the_world/spacer_5.stl?v=b1894ce9,../_stl/boxes/railways_of_the_world/spacer_6.stl?v=4bab23dd,../_stl/boxes/railways_of_the_world/spacer_7.stl?v=e7b62f96" download="Railways of the World_full_packing.stl">⬇ Download Full Box Packing STL (<code>Railways of the World_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -471,21 +471,21 @@ PlayerBoxTrains_red
 
 **Assembled Box (PlayerBoxTrains_red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=0eb11ea8,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_lid.stl?v=b3a69203
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=46741ad1,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_lid.stl?v=b3a69203
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=0eb11ea8" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=0eb11ea8,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_lid.stl?v=b3a69203" download="PlayerBoxTrains_red_assembled.stl">⬇ Download Assembled PlayerBoxTrains_red STL (<code>PlayerBoxTrains_red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=46741ad1" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=46741ad1,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_lid.stl?v=b3a69203" download="PlayerBoxTrains_red_assembled.stl">⬇ Download Assembled PlayerBoxTrains_red STL (<code>PlayerBoxTrains_red_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_red Body**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=0eb11ea8
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=46741ad1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=0eb11ea8" download="PlayerBoxTrains_red_body.stl">⬇ Download PlayerBoxTrains_red Body STL (<code>PlayerBoxTrains_red_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_red_body.stl?v=46741ad1" download="PlayerBoxTrains_red_body.stl">⬇ Download PlayerBoxTrains_red Body STL (<code>PlayerBoxTrains_red_body.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_red Lid**
 
@@ -510,21 +510,21 @@ PlayerBoxTrains_blue
 
 **Assembled Box (PlayerBoxTrains_blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=ceb9e7a1,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_lid.stl?v=e3755b3d
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=84349903,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_lid.stl?v=e3755b3d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=ceb9e7a1" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=ceb9e7a1,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_lid.stl?v=e3755b3d" download="PlayerBoxTrains_blue_assembled.stl">⬇ Download Assembled PlayerBoxTrains_blue STL (<code>PlayerBoxTrains_blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=84349903" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=84349903,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_lid.stl?v=e3755b3d" download="PlayerBoxTrains_blue_assembled.stl">⬇ Download Assembled PlayerBoxTrains_blue STL (<code>PlayerBoxTrains_blue_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_blue Body**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=ceb9e7a1
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=84349903
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=ceb9e7a1" download="PlayerBoxTrains_blue_body.stl">⬇ Download PlayerBoxTrains_blue Body STL (<code>PlayerBoxTrains_blue_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_blue_body.stl?v=84349903" download="PlayerBoxTrains_blue_body.stl">⬇ Download PlayerBoxTrains_blue Body STL (<code>PlayerBoxTrains_blue_body.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_blue Lid**
 
@@ -549,21 +549,21 @@ PlayerBoxTrains_green
 
 **Assembled Box (PlayerBoxTrains_green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=79bafdab,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_lid.stl?v=18183e39
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=4e9f30f5,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_lid.stl?v=18183e39
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=79bafdab" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=79bafdab,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_lid.stl?v=18183e39" download="PlayerBoxTrains_green_assembled.stl">⬇ Download Assembled PlayerBoxTrains_green STL (<code>PlayerBoxTrains_green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=4e9f30f5" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=4e9f30f5,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_lid.stl?v=18183e39" download="PlayerBoxTrains_green_assembled.stl">⬇ Download Assembled PlayerBoxTrains_green STL (<code>PlayerBoxTrains_green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_green Body**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=79bafdab
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=4e9f30f5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=79bafdab" download="PlayerBoxTrains_green_body.stl">⬇ Download PlayerBoxTrains_green Body STL (<code>PlayerBoxTrains_green_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_green_body.stl?v=4e9f30f5" download="PlayerBoxTrains_green_body.stl">⬇ Download PlayerBoxTrains_green Body STL (<code>PlayerBoxTrains_green_body.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_green Lid**
 
@@ -588,21 +588,21 @@ PlayerBoxTrains_yellow
 
 **Assembled Box (PlayerBoxTrains_yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=3b71c77b,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_lid.stl?v=4ff86ce9
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=c78f5c50,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_lid.stl?v=4ff86ce9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=3b71c77b" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=3b71c77b,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_lid.stl?v=4ff86ce9" download="PlayerBoxTrains_yellow_assembled.stl">⬇ Download Assembled PlayerBoxTrains_yellow STL (<code>PlayerBoxTrains_yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=c78f5c50" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=c78f5c50,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_lid.stl?v=4ff86ce9" download="PlayerBoxTrains_yellow_assembled.stl">⬇ Download Assembled PlayerBoxTrains_yellow STL (<code>PlayerBoxTrains_yellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_yellow Body**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=3b71c77b
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=c78f5c50
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=3b71c77b" download="PlayerBoxTrains_yellow_body.stl">⬇ Download PlayerBoxTrains_yellow Body STL (<code>PlayerBoxTrains_yellow_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_yellow_body.stl?v=c78f5c50" download="PlayerBoxTrains_yellow_body.stl">⬇ Download PlayerBoxTrains_yellow Body STL (<code>PlayerBoxTrains_yellow_body.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_yellow Lid**
 
@@ -627,21 +627,21 @@ PlayerBoxTrains_black
 
 **Assembled Box (PlayerBoxTrains_black — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=d81043b2,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_lid.stl?v=6d14a42d
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=de7a94be,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_lid.stl?v=6d14a42d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=d81043b2" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=d81043b2,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_lid.stl?v=6d14a42d" download="PlayerBoxTrains_black_assembled.stl">⬇ Download Assembled PlayerBoxTrains_black STL (<code>PlayerBoxTrains_black_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=de7a94be" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=de7a94be,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_lid.stl?v=6d14a42d" download="PlayerBoxTrains_black_assembled.stl">⬇ Download Assembled PlayerBoxTrains_black STL (<code>PlayerBoxTrains_black_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_black Body**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=d81043b2
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=de7a94be
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=d81043b2" download="PlayerBoxTrains_black_body.stl">⬇ Download PlayerBoxTrains_black Body STL (<code>PlayerBoxTrains_black_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_black_body.stl?v=de7a94be" download="PlayerBoxTrains_black_body.stl">⬇ Download PlayerBoxTrains_black Body STL (<code>PlayerBoxTrains_black_body.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_black Lid**
 
@@ -666,21 +666,21 @@ PlayerBoxTrains_purple
 
 **Assembled Box (PlayerBoxTrains_purple — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=1238536a,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_lid.stl?v=87f9bee5
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=d6d7d8ed,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_lid.stl?v=87f9bee5
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=1238536a" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=1238536a,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_lid.stl?v=87f9bee5" download="PlayerBoxTrains_purple_assembled.stl">⬇ Download Assembled PlayerBoxTrains_purple STL (<code>PlayerBoxTrains_purple_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=d6d7d8ed" data-stl-combine="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=d6d7d8ed,../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_lid.stl?v=87f9bee5" download="PlayerBoxTrains_purple_assembled.stl">⬇ Download Assembled PlayerBoxTrains_purple STL (<code>PlayerBoxTrains_purple_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_purple Body**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=1238536a
+.. stl:: ../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=d6d7d8ed
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=1238536a" download="PlayerBoxTrains_purple_body.stl">⬇ Download PlayerBoxTrains_purple Body STL (<code>PlayerBoxTrains_purple_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/PlayerBoxTrains_purple_body.stl?v=d6d7d8ed" download="PlayerBoxTrains_purple_body.stl">⬇ Download PlayerBoxTrains_purple Body STL (<code>PlayerBoxTrains_purple_body.stl</code>)</a></p>
 
 **Part: PlayerBoxTrains_purple Lid**
 
@@ -999,21 +999,21 @@ MoneyBox
 
 **Assembled Box (MoneyBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=dfb24d86,../_stl/boxes/railways_of_the_world/MoneyBox_lid.stl?v=8f512f26
+.. stl:: ../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=ec6d4eba,../_stl/boxes/railways_of_the_world/MoneyBox_lid.stl?v=8f512f26
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=dfb24d86" data-stl-combine="../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=dfb24d86,../_stl/boxes/railways_of_the_world/MoneyBox_lid.stl?v=8f512f26" download="MoneyBox_assembled.stl">⬇ Download Assembled MoneyBox STL (<code>MoneyBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=ec6d4eba" data-stl-combine="../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=ec6d4eba,../_stl/boxes/railways_of_the_world/MoneyBox_lid.stl?v=8f512f26" download="MoneyBox_assembled.stl">⬇ Download Assembled MoneyBox STL (<code>MoneyBox_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox Body**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=dfb24d86
+.. stl:: ../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=ec6d4eba
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=dfb24d86" download="MoneyBox_body.stl">⬇ Download MoneyBox Body STL (<code>MoneyBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/MoneyBox_body.stl?v=ec6d4eba" download="MoneyBox_body.stl">⬇ Download MoneyBox Body STL (<code>MoneyBox_body.stl</code>)</a></p>
 
 **Part: MoneyBox Lid**
 
@@ -1073,21 +1073,21 @@ AustraliaBox
 
 **Assembled Box (AustraliaBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=5e1b1e13,../_stl/boxes/railways_of_the_world/AustraliaBox_lid.stl?v=5dd20946
+.. stl:: ../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=82671613,../_stl/boxes/railways_of_the_world/AustraliaBox_lid.stl?v=5dd20946
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=5e1b1e13" data-stl-combine="../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=5e1b1e13,../_stl/boxes/railways_of_the_world/AustraliaBox_lid.stl?v=5dd20946" download="AustraliaBox_assembled.stl">⬇ Download Assembled AustraliaBox STL (<code>AustraliaBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=82671613" data-stl-combine="../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=82671613,../_stl/boxes/railways_of_the_world/AustraliaBox_lid.stl?v=5dd20946" download="AustraliaBox_assembled.stl">⬇ Download Assembled AustraliaBox STL (<code>AustraliaBox_assembled.stl</code>)</a></p>
 
 **Part: AustraliaBox Body**
 
-.. stl:: ../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=5e1b1e13
+.. stl:: ../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=82671613
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=5e1b1e13" download="AustraliaBox_body.stl">⬇ Download AustraliaBox Body STL (<code>AustraliaBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railways_of_the_world/AustraliaBox_body.stl?v=82671613" download="AustraliaBox_body.stl">⬇ Download AustraliaBox Body STL (<code>AustraliaBox_body.stl</code>)</a></p>
 
 **Part: AustraliaBox Lid**
 

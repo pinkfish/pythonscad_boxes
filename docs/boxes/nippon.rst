@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_white_body.stl?v=b1a025ef,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c,../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=0df69f63,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44,../_stl/boxes/nippon/PlayerBox_red_body.stl?v=0c89b3f0,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54,../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=63eeebf4,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c,../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=ec6b3060,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81,../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=b25ce3a3,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9,../_stl/boxes/nippon/DemandTiles_body.stl?v=1109bfa7,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f,../_stl/boxes/nippon/StartingTiles_body.stl?v=c945199a,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208,../_stl/boxes/nippon/ResourceCubes_SilkPaper_body.stl?v=69e2f999,../_stl/boxes/nippon/ResourceCubes_SilkPaper_lid.stl?v=f1855ccf,../_stl/boxes/nippon/ResourceCubes_CoalCopper_body.stl?v=4425beaa,../_stl/boxes/nippon/ResourceCubes_CoalCopper_lid.stl?v=a743689f,../_stl/boxes/nippon/MoneyAndContracts_body.stl?v=faaf0573,../_stl/boxes/nippon/MoneyAndContracts_lid.stl?v=e6da0a94,../_stl/boxes/nippon/spacer_1.stl?v=d3012c9a,../_stl/boxes/nippon/spacer_2.stl?v=47159aba,../_stl/boxes/nippon/spacer_3.stl?v=e78050ec
+.. stl:: ../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c,../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=d4dd2b38,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44,../_stl/boxes/nippon/PlayerBox_red_body.stl?v=19127e15,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54,../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=2e3be440,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c,../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=859b8be1,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81,../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=94e01ddd,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9,../_stl/boxes/nippon/DemandTiles_body.stl?v=9bc7f521,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f,../_stl/boxes/nippon/StartingTiles_body.stl?v=499cf38a,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208,../_stl/boxes/nippon/ResourceCubes_SilkPaper_body.stl?v=69e2f999,../_stl/boxes/nippon/ResourceCubes_SilkPaper_lid.stl?v=f1855ccf,../_stl/boxes/nippon/ResourceCubes_CoalCopper_body.stl?v=4425beaa,../_stl/boxes/nippon/ResourceCubes_CoalCopper_lid.stl?v=a743689f,../_stl/boxes/nippon/MoneyAndContracts_body.stl?v=faaf0573,../_stl/boxes/nippon/MoneyAndContracts_lid.stl?v=e6da0a94,../_stl/boxes/nippon/spacer_1.stl?v=d3012c9a,../_stl/boxes/nippon/spacer_2.stl?v=47159aba,../_stl/boxes/nippon/spacer_3.stl?v=e78050ec
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=b1a025ef" data-stl-combine="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=b1a025ef,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c,../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=0df69f63,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44,../_stl/boxes/nippon/PlayerBox_red_body.stl?v=0c89b3f0,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54,../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=63eeebf4,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c,../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=ec6b3060,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81,../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=b25ce3a3,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9,../_stl/boxes/nippon/DemandTiles_body.stl?v=1109bfa7,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f,../_stl/boxes/nippon/StartingTiles_body.stl?v=c945199a,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208,../_stl/boxes/nippon/ResourceCubes_SilkPaper_body.stl?v=69e2f999,../_stl/boxes/nippon/ResourceCubes_SilkPaper_lid.stl?v=f1855ccf,../_stl/boxes/nippon/ResourceCubes_CoalCopper_body.stl?v=4425beaa,../_stl/boxes/nippon/ResourceCubes_CoalCopper_lid.stl?v=a743689f,../_stl/boxes/nippon/MoneyAndContracts_body.stl?v=faaf0573,../_stl/boxes/nippon/MoneyAndContracts_lid.stl?v=e6da0a94,../_stl/boxes/nippon/spacer_1.stl?v=d3012c9a,../_stl/boxes/nippon/spacer_2.stl?v=47159aba,../_stl/boxes/nippon/spacer_3.stl?v=e78050ec" download="Nippon_full_packing.stl">⬇ Download Full Box Packing STL (<code>Nippon_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210" data-stl-combine="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c,../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=d4dd2b38,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44,../_stl/boxes/nippon/PlayerBox_red_body.stl?v=19127e15,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54,../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=2e3be440,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c,../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=859b8be1,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81,../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=94e01ddd,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9,../_stl/boxes/nippon/DemandTiles_body.stl?v=9bc7f521,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f,../_stl/boxes/nippon/StartingTiles_body.stl?v=499cf38a,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208,../_stl/boxes/nippon/ResourceCubes_SilkPaper_body.stl?v=69e2f999,../_stl/boxes/nippon/ResourceCubes_SilkPaper_lid.stl?v=f1855ccf,../_stl/boxes/nippon/ResourceCubes_CoalCopper_body.stl?v=4425beaa,../_stl/boxes/nippon/ResourceCubes_CoalCopper_lid.stl?v=a743689f,../_stl/boxes/nippon/MoneyAndContracts_body.stl?v=faaf0573,../_stl/boxes/nippon/MoneyAndContracts_lid.stl?v=e6da0a94,../_stl/boxes/nippon/spacer_1.stl?v=d3012c9a,../_stl/boxes/nippon/spacer_2.stl?v=47159aba,../_stl/boxes/nippon/spacer_3.stl?v=e78050ec" download="Nippon_full_packing.stl">⬇ Download Full Box Packing STL (<code>Nippon_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -120,21 +120,21 @@ PlayerBox_white
 
 **Assembled Box (PlayerBox_white — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_white_body.stl?v=b1a025ef,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c
+.. stl:: ../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=b1a025ef" data-stl-combine="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=b1a025ef,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c" download="PlayerBox_white_assembled.stl">⬇ Download Assembled PlayerBox_white STL (<code>PlayerBox_white_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210" data-stl-combine="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c" download="PlayerBox_white_assembled.stl">⬇ Download Assembled PlayerBox_white STL (<code>PlayerBox_white_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_white Body**
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_white_body.stl?v=b1a025ef
+.. stl:: ../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=b1a025ef" download="PlayerBox_white_body.stl">⬇ Download PlayerBox_white Body STL (<code>PlayerBox_white_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210" download="PlayerBox_white_body.stl">⬇ Download PlayerBox_white Body STL (<code>PlayerBox_white_body.stl</code>)</a></p>
 
 **Part: PlayerBox_white Lid**
 
@@ -157,21 +157,21 @@ PlayerBox_yellow
 
 **Assembled Box (PlayerBox_yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=0df69f63,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44
+.. stl:: ../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=d4dd2b38,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=0df69f63" data-stl-combine="../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=0df69f63,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44" download="PlayerBox_yellow_assembled.stl">⬇ Download Assembled PlayerBox_yellow STL (<code>PlayerBox_yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=d4dd2b38" data-stl-combine="../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=d4dd2b38,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44" download="PlayerBox_yellow_assembled.stl">⬇ Download Assembled PlayerBox_yellow STL (<code>PlayerBox_yellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_yellow Body**
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=0df69f63
+.. stl:: ../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=d4dd2b38
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=0df69f63" download="PlayerBox_yellow_body.stl">⬇ Download PlayerBox_yellow Body STL (<code>PlayerBox_yellow_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=d4dd2b38" download="PlayerBox_yellow_body.stl">⬇ Download PlayerBox_yellow Body STL (<code>PlayerBox_yellow_body.stl</code>)</a></p>
 
 **Part: PlayerBox_yellow Lid**
 
@@ -194,21 +194,21 @@ PlayerBox_red
 
 **Assembled Box (PlayerBox_red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_red_body.stl?v=0c89b3f0,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54
+.. stl:: ../_stl/boxes/nippon/PlayerBox_red_body.stl?v=19127e15,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_red_body.stl?v=0c89b3f0" data-stl-combine="../_stl/boxes/nippon/PlayerBox_red_body.stl?v=0c89b3f0,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54" download="PlayerBox_red_assembled.stl">⬇ Download Assembled PlayerBox_red STL (<code>PlayerBox_red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_red_body.stl?v=19127e15" data-stl-combine="../_stl/boxes/nippon/PlayerBox_red_body.stl?v=19127e15,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54" download="PlayerBox_red_assembled.stl">⬇ Download Assembled PlayerBox_red STL (<code>PlayerBox_red_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_red Body**
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_red_body.stl?v=0c89b3f0
+.. stl:: ../_stl/boxes/nippon/PlayerBox_red_body.stl?v=19127e15
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_red_body.stl?v=0c89b3f0" download="PlayerBox_red_body.stl">⬇ Download PlayerBox_red Body STL (<code>PlayerBox_red_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_red_body.stl?v=19127e15" download="PlayerBox_red_body.stl">⬇ Download PlayerBox_red Body STL (<code>PlayerBox_red_body.stl</code>)</a></p>
 
 **Part: PlayerBox_red Lid**
 
@@ -231,21 +231,21 @@ PlayerBox_purple
 
 **Assembled Box (PlayerBox_purple — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=63eeebf4,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c
+.. stl:: ../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=2e3be440,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=63eeebf4" data-stl-combine="../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=63eeebf4,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c" download="PlayerBox_purple_assembled.stl">⬇ Download Assembled PlayerBox_purple STL (<code>PlayerBox_purple_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=2e3be440" data-stl-combine="../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=2e3be440,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c" download="PlayerBox_purple_assembled.stl">⬇ Download Assembled PlayerBox_purple STL (<code>PlayerBox_purple_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_purple Body**
 
-.. stl:: ../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=63eeebf4
+.. stl:: ../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=2e3be440
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=63eeebf4" download="PlayerBox_purple_body.stl">⬇ Download PlayerBox_purple Body STL (<code>PlayerBox_purple_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=2e3be440" download="PlayerBox_purple_body.stl">⬇ Download PlayerBox_purple Body STL (<code>PlayerBox_purple_body.stl</code>)</a></p>
 
 **Part: PlayerBox_purple Lid**
 
@@ -268,21 +268,21 @@ FactoryTiles_1
 
 **Assembled Box (FactoryTiles_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=ec6b3060,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81
+.. stl:: ../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=859b8be1,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=ec6b3060" data-stl-combine="../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=ec6b3060,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81" download="FactoryTiles_1_assembled.stl">⬇ Download Assembled FactoryTiles_1 STL (<code>FactoryTiles_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=859b8be1" data-stl-combine="../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=859b8be1,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81" download="FactoryTiles_1_assembled.stl">⬇ Download Assembled FactoryTiles_1 STL (<code>FactoryTiles_1_assembled.stl</code>)</a></p>
 
 **Part: FactoryTiles_1 Body**
 
-.. stl:: ../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=ec6b3060
+.. stl:: ../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=859b8be1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=ec6b3060" download="FactoryTiles_1_body.stl">⬇ Download FactoryTiles_1 Body STL (<code>FactoryTiles_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=859b8be1" download="FactoryTiles_1_body.stl">⬇ Download FactoryTiles_1 Body STL (<code>FactoryTiles_1_body.stl</code>)</a></p>
 
 **Part: FactoryTiles_1 Lid**
 
@@ -305,21 +305,21 @@ FactoryTiles_2
 
 **Assembled Box (FactoryTiles_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=b25ce3a3,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9
+.. stl:: ../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=94e01ddd,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=b25ce3a3" data-stl-combine="../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=b25ce3a3,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9" download="FactoryTiles_2_assembled.stl">⬇ Download Assembled FactoryTiles_2 STL (<code>FactoryTiles_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=94e01ddd" data-stl-combine="../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=94e01ddd,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9" download="FactoryTiles_2_assembled.stl">⬇ Download Assembled FactoryTiles_2 STL (<code>FactoryTiles_2_assembled.stl</code>)</a></p>
 
 **Part: FactoryTiles_2 Body**
 
-.. stl:: ../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=b25ce3a3
+.. stl:: ../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=94e01ddd
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=b25ce3a3" download="FactoryTiles_2_body.stl">⬇ Download FactoryTiles_2 Body STL (<code>FactoryTiles_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=94e01ddd" download="FactoryTiles_2_body.stl">⬇ Download FactoryTiles_2 Body STL (<code>FactoryTiles_2_body.stl</code>)</a></p>
 
 **Part: FactoryTiles_2 Lid**
 
@@ -342,21 +342,21 @@ DemandTiles
 
 **Assembled Box (DemandTiles — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nippon/DemandTiles_body.stl?v=1109bfa7,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f
+.. stl:: ../_stl/boxes/nippon/DemandTiles_body.stl?v=9bc7f521,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/DemandTiles_body.stl?v=1109bfa7" data-stl-combine="../_stl/boxes/nippon/DemandTiles_body.stl?v=1109bfa7,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f" download="DemandTiles_assembled.stl">⬇ Download Assembled DemandTiles STL (<code>DemandTiles_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/DemandTiles_body.stl?v=9bc7f521" data-stl-combine="../_stl/boxes/nippon/DemandTiles_body.stl?v=9bc7f521,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f" download="DemandTiles_assembled.stl">⬇ Download Assembled DemandTiles STL (<code>DemandTiles_assembled.stl</code>)</a></p>
 
 **Part: DemandTiles Body**
 
-.. stl:: ../_stl/boxes/nippon/DemandTiles_body.stl?v=1109bfa7
+.. stl:: ../_stl/boxes/nippon/DemandTiles_body.stl?v=9bc7f521
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/DemandTiles_body.stl?v=1109bfa7" download="DemandTiles_body.stl">⬇ Download DemandTiles Body STL (<code>DemandTiles_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/DemandTiles_body.stl?v=9bc7f521" download="DemandTiles_body.stl">⬇ Download DemandTiles Body STL (<code>DemandTiles_body.stl</code>)</a></p>
 
 **Part: DemandTiles Lid**
 
@@ -379,21 +379,21 @@ StartingTiles
 
 **Assembled Box (StartingTiles — Body + Lid)**
 
-.. stl:: ../_stl/boxes/nippon/StartingTiles_body.stl?v=c945199a,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208
+.. stl:: ../_stl/boxes/nippon/StartingTiles_body.stl?v=499cf38a,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/StartingTiles_body.stl?v=c945199a" data-stl-combine="../_stl/boxes/nippon/StartingTiles_body.stl?v=c945199a,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208" download="StartingTiles_assembled.stl">⬇ Download Assembled StartingTiles STL (<code>StartingTiles_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/StartingTiles_body.stl?v=499cf38a" data-stl-combine="../_stl/boxes/nippon/StartingTiles_body.stl?v=499cf38a,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208" download="StartingTiles_assembled.stl">⬇ Download Assembled StartingTiles STL (<code>StartingTiles_assembled.stl</code>)</a></p>
 
 **Part: StartingTiles Body**
 
-.. stl:: ../_stl/boxes/nippon/StartingTiles_body.stl?v=c945199a
+.. stl:: ../_stl/boxes/nippon/StartingTiles_body.stl?v=499cf38a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/nippon/StartingTiles_body.stl?v=c945199a" download="StartingTiles_body.stl">⬇ Download StartingTiles Body STL (<code>StartingTiles_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/nippon/StartingTiles_body.stl?v=499cf38a" download="StartingTiles_body.stl">⬇ Download StartingTiles Body STL (<code>StartingTiles_body.stl</code>)</a></p>
 
 **Part: StartingTiles Lid**
 

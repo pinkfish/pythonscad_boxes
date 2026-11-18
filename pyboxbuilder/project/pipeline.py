@@ -191,7 +191,11 @@ class GeometryPipeline:
         from pyboxbuilder.box.spec import build_spec
         from pyboxbuilder.box.validation import GeometryValidator
         from pyboxbuilder.compartments.builder import infer_ratio_tracks
-        from pyboxbuilder.compartments.layout import WALL_SPACING_MM, layout_compartments
+        from pyboxbuilder.compartments.layout import (
+            WALL_SPACING_MM,
+            center_compartment_placements,
+            layout_compartments,
+        )
         from pyboxbuilder.compartments.sizing import RowItem, distribute_row_width, rows_from_placements
         from pyboxbuilder.project.compiler import LayoutCompiler
 
@@ -238,6 +242,7 @@ class GeometryPipeline:
                 comp_data,
                 no_rotate_labels=no_rotate_labels,
                 preserve_order=preserve_order,
+                center=False,
             )
             if comp_layout.overflow:
                 raise ValueError(
@@ -271,6 +276,19 @@ class GeometryPipeline:
                         pl.size = (new_w, new_l)
                         pl.position = (x_cur, pl.position[1])
                         x_cur += new_w + WALL_SPACING_MM
+
+            if not any(cb.position is not None for cb in builder.compartments):
+                growable_labels = frozenset(
+                    cb.label
+                    for cb in builder.compartments
+                    if cb.growable and cb.position is None
+                )
+                center_compartment_placements(
+                    comp_layout.placements,
+                    interior,
+                    wall_spacing=WALL_SPACING_MM,
+                    skip_x_labels=growable_labels,
+                )
 
         resolved = ResolvedBox(
             builder=builder,

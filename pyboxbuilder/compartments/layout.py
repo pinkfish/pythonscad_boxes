@@ -13,7 +13,11 @@ from pyboxbuilder.box.interior import Interior
 # Imported for real rather than under TYPE_CHECKING: `CompartmentPlacement`
 # annotates a field with it, and Sphinx resolves annotations through
 # `get_type_hints`, which needs the name in this module's namespace.
-from pyboxbuilder.compartments.element import CompartmentElement
+from pyboxbuilder.compartments.element import (
+    CompartmentElement,
+    distribute_2d_bounds,
+    elements_bounding_box,
+)
 
 CompartmentSpec = tuple[
     str, float, float, float,
@@ -285,12 +289,56 @@ def _pack_shelf_2d(
     return placements, False
 
 
+def center_compartment_placements(
+    placements: Sequence[CompartmentPlacement],
+    interior: Interior,
+    *,
+    wall_spacing: float = WALL_SPACING_MM,
+    skip_x_labels: frozenset[str] = frozenset(),
+) -> None:
+    """Center and evenly distribute placed compartments across unused interior slack."""
+    if not placements:
+        return
+    if len(placements) == 1 and placements[0].elements:
+        min_x, min_y, _, _ = elements_bounding_box(placements[0].elements)
+        # Single-compartment element packs already embed their own interior offsets.
+        if min_x > 0.05 or min_y > 0.05:
+            return
+
+    bounds = [
+        (
+            p.position[0] - interior.origin_x,
+            p.position[1] - interior.origin_y,
+            p.position[0] - interior.origin_x + p.size[0],
+            p.position[1] - interior.origin_y + p.size[1],
+        )
+        for p in placements
+    ]
+    skip_x_indices = frozenset(
+        i for i, p in enumerate(placements) if p.label in skip_x_labels
+    )
+    shifts = distribute_2d_bounds(
+        bounds,
+        interior.width,
+        interior.length,
+        min_gap=wall_spacing,
+        min_margin=wall_spacing,
+        skip_x_indices=skip_x_indices,
+    )
+    for p, (dx, dy) in zip(placements, shifts, strict=True):
+        p.position = (
+            round(p.position[0] + dx, 4),
+            round(p.position[1] + dy, 4),
+        )
+
+
 def layout_compartments(
     interior: Interior,
     compartments: Sequence[Sequence[Any]],
     wall_spacing: float = WALL_SPACING_MM,
     no_rotate_labels: set[str] | None = None,
     preserve_order: bool = False,
+    center: bool = True,
 ) -> CompartmentLayout:
     """2D layout of compartments inside the box interior with obstacle and rotation support.
 
@@ -348,6 +396,10 @@ def layout_compartments(
         )
         if not shelf_overflow:
             layout.placements.extend(shelf_placements)
+            if center:
+                center_compartment_placements(
+                    layout.placements, interior, wall_spacing=wall_spacing
+                )
             return layout
 
     mr_placements, mr_overflow = _pack_maxrects_2d(
@@ -361,6 +413,10 @@ def layout_compartments(
     layout.placements.extend(mr_placements)
     if mr_overflow:
         layout.overflow = True
+    elif center and not manual_boxes:
+        center_compartment_placements(
+            layout.placements, interior, wall_spacing=wall_spacing
+        )
     return layout
 
 
@@ -380,7 +436,9 @@ def _measure_layout_for_width(
         origin_y=0.0,
         height=max_d + 1.0,
     )
-    layout = layout_compartments(interior, compartments, no_rotate_labels=no_rotate_labels)
+    layout = layout_compartments(
+        interior, compartments, no_rotate_labels=no_rotate_labels, center=False
+    )
     if layout.overflow or not layout.placements:
         return None
     gutter = 0.0 if len(layout.placements) == 1 else WALL_SPACING_MM
