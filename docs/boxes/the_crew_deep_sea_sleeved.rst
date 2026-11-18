@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea_sleeved/Deck_body.stl?v=29dda69f,../_stl/boxes/the_crew_deep_sea_sleeved/Deck_lid.stl?v=228cd274,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks1_body.stl?v=f9a2cea1,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks1_lid.stl?v=da08064e,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks2_body.stl?v=0099cdfb,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks2_lid.stl?v=9c18da52,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=ba282792,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_lid.stl?v=10ce7905,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_1.stl?v=a1bfb568,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_2.stl?v=dc1c4623,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_3.stl?v=7dcb26be
+.. stl:: ../_stl/boxes/the_crew_deep_sea_sleeved/Deck_body.stl?v=29dda69f,../_stl/boxes/the_crew_deep_sea_sleeved/Deck_lid.stl?v=228cd274,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks1_body.stl?v=f9a2cea1,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks1_lid.stl?v=da08064e,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks2_body.stl?v=0099cdfb,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks2_lid.stl?v=9c18da52,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=233b0ecf,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_lid.stl?v=10ce7905,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_1.stl?v=a1bfb568,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_2.stl?v=dc1c4623,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_3.stl?v=7dcb26be
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea_sleeved/Deck_body.stl?v=29dda69f" data-stl-combine="../_stl/boxes/the_crew_deep_sea_sleeved/Deck_body.stl?v=29dda69f,../_stl/boxes/the_crew_deep_sea_sleeved/Deck_lid.stl?v=228cd274,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks1_body.stl?v=f9a2cea1,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks1_lid.stl?v=da08064e,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks2_body.stl?v=0099cdfb,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks2_lid.stl?v=9c18da52,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=ba282792,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_lid.stl?v=10ce7905,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_1.stl?v=a1bfb568,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_2.stl?v=dc1c4623,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_3.stl?v=7dcb26be" download="TheCrewDeepSeaSleeved_full_packing.stl">⬇ Download Full Box Packing STL (<code>TheCrewDeepSeaSleeved_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea_sleeved/Deck_body.stl?v=29dda69f" data-stl-combine="../_stl/boxes/the_crew_deep_sea_sleeved/Deck_body.stl?v=29dda69f,../_stl/boxes/the_crew_deep_sea_sleeved/Deck_lid.stl?v=228cd274,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks1_body.stl?v=f9a2cea1,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks1_lid.stl?v=da08064e,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks2_body.stl?v=0099cdfb,../_stl/boxes/the_crew_deep_sea_sleeved/Tasks2_lid.stl?v=9c18da52,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=233b0ecf,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_lid.stl?v=10ce7905,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_1.stl?v=a1bfb568,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_2.stl?v=dc1c4623,../_stl/boxes/the_crew_deep_sea_sleeved/spacer_3.stl?v=7dcb26be" download="TheCrewDeepSeaSleeved_full_packing.stl">⬇ Download Full Box Packing STL (<code>TheCrewDeepSeaSleeved_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -196,21 +196,21 @@ Accessories
 
 **Assembled Box (Accessories — Body + Lid)**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=ba282792,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_lid.stl?v=10ce7905
+.. stl:: ../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=233b0ecf,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_lid.stl?v=10ce7905
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=ba282792" data-stl-combine="../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=ba282792,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_lid.stl?v=10ce7905" download="Accessories_assembled.stl">⬇ Download Assembled Accessories STL (<code>Accessories_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=233b0ecf" data-stl-combine="../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=233b0ecf,../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_lid.stl?v=10ce7905" download="Accessories_assembled.stl">⬇ Download Assembled Accessories STL (<code>Accessories_assembled.stl</code>)</a></p>
 
 **Part: Accessories Body**
 
-.. stl:: ../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=ba282792
+.. stl:: ../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=233b0ecf
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=ba282792" download="Accessories_body.stl">⬇ Download Accessories Body STL (<code>Accessories_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/the_crew_deep_sea_sleeved/Accessories_body.stl?v=233b0ecf" download="Accessories_body.stl">⬇ Download Accessories Body STL (<code>Accessories_body.stl</code>)</a></p>
 
 **Part: Accessories Lid**
 

@@ -436,6 +436,11 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
         self.assertAlmostEqual(float(ob_bounds.min_x), 4.0, places=2)
         self.assertGreaterEqual(float(ob_bounds.min_y), 17.5 - 1e-3)
 
+        # Curved bottom edge on shallow pockets rises smoothly above pocket floor near outer tip.
+        tip_probe = cuboid([1.0, 0.5, comp_d]).translate([19.25, 4.3, comp_d / 2.0])
+        tip_cut = po & tip_probe
+        self.assertGreater(float(tip_cut.bounds().min_z), comp_d - 8.0 + 0.2)
+
 
 if __name__ == "__main__":
     unittest.main()
