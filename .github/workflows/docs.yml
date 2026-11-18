@@ -36,6 +36,8 @@ jobs:
 
       - name: Install PythonSCAD
         run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libopengl0 libgl1
           curl -fsSL -o /tmp/pythonscad.AppImage \
             "https://github.com/pythonscad/pythonscad/releases/download/v1.1.2/PythonSCAD-1.1.2-qt6-x86_64-x86_64.AppImage"
           chmod +x /tmp/pythonscad.AppImage
