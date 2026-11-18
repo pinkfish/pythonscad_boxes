@@ -968,7 +968,9 @@
 <span class="n">ElementGroup</span> <span class="o">=</span> <span class="n">CompartmentElement</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">]</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_distribute_linear_gap</span><span class="p">(</span>
+<div class="viewcode-block" id="distribute_linear_gap">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.distribute_linear_gap.html#pyboxbuilder.compartments.element.distribute_linear_gap">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">distribute_linear_gap</span><span class="p">(</span>
     <span class="n">total</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">widths</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">min_gap</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">min_margin</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return ``(outer_margin, inner_gap)`` along one axis, or ``None`` if tight."""</span>
@@ -997,7 +999,108 @@
     <span class="n">margin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">extra</span> <span class="o">-</span> <span class="n">inner</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">margin</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="o">&lt;</span> <span class="n">min_margin</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">inner</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">inner</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_merge_axis_bands</span><span class="p">(</span>
+    <span class="n">bounds</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">indices</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">"""Group ``indices`` into sorted disjoint coordinate bands along ``axis`` (0=X, 1=Y)."""</span>
+    <span class="n">lo_idx</span><span class="p">,</span> <span class="n">hi_idx</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">sorted_ids</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">lo_idx</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">hi_idx</span><span class="p">]))</span>
+    <span class="n">bands</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sorted_ids</span><span class="p">:</span>
+        <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">lo_idx</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">hi_idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bands</span> <span class="ow">or</span> <span class="n">lo</span> <span class="o">&gt;=</span> <span class="n">bands</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1e-6</span><span class="p">:</span>
+            <span class="n">bands</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prev_lo</span><span class="p">,</span> <span class="n">prev_hi</span><span class="p">,</span> <span class="n">members</span> <span class="o">=</span> <span class="n">bands</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">members</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">bands</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">prev_lo</span><span class="p">,</span> <span class="n">lo</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">prev_hi</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">members</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bands</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_distribute_axis_bands</span><span class="p">(</span>
+    <span class="n">target_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">target_span</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">bands</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">min_gap</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">min_margin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">"""Place disjoint 1D bands across ``[target_start, target_start + target_span]``."""</span>
+    <span class="n">spans</span> <span class="o">=</span> <span class="p">[</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span> <span class="k">for</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">]</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">distribute_linear_gap</span><span class="p">(</span><span class="n">target_span</span><span class="p">,</span> <span class="n">spans</span><span class="p">,</span> <span class="n">min_gap</span><span class="p">,</span> <span class="n">min_margin</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dist</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">min_margin</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">distribute_linear_gap</span><span class="p">(</span><span class="n">target_span</span><span class="p">,</span> <span class="n">spans</span><span class="p">,</span> <span class="n">min_gap</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cur</span><span class="p">,</span> <span class="n">gap</span> <span class="o">=</span> <span class="n">dist</span>
+        <span class="n">cur</span> <span class="o">+=</span> <span class="n">target_start</span>
+        <span class="n">placed</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">members</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
+            <span class="n">band_h</span> <span class="o">=</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span>
+            <span class="n">placed</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cur</span><span class="p">,</span> <span class="n">band_h</span><span class="p">,</span> <span class="n">members</span><span class="p">))</span>
+            <span class="n">cur</span> <span class="o">+=</span> <span class="n">band_h</span> <span class="o">+</span> <span class="n">gap</span>
+        <span class="k">return</span> <span class="n">placed</span>
+    <span class="n">min_c</span> <span class="o">=</span> <span class="n">bands</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">max_c</span> <span class="o">=</span> <span class="n">bands</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="n">target_start</span> <span class="o">+</span> <span class="p">(</span><span class="n">target_span</span> <span class="o">-</span> <span class="p">(</span><span class="n">max_c</span> <span class="o">-</span> <span class="n">min_c</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">min_c</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">shift</span><span class="p">,</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">,</span> <span class="n">members</span><span class="p">)</span> <span class="k">for</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">members</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="distribute_2d_bounds">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.distribute_2d_bounds.html#pyboxbuilder.compartments.element.distribute_2d_bounds">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">distribute_2d_bounds</span><span class="p">(</span>
+    <span class="n">bounds</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">min_gap</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">min_margin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">skip_x_indices</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Compute per-box ``(dx, dy)`` shifts distributing disjoint bands across ``width x length``."""</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">dx_out</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+    <span class="n">dy_out</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+
+    <span class="n">all_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">y_bands</span> <span class="o">=</span> <span class="n">_merge_axis_bands</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">all_ids</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y_placed</span> <span class="o">=</span> <span class="n">_distribute_axis_bands</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">y_bands</span><span class="p">,</span> <span class="n">min_gap</span><span class="p">,</span> <span class="n">min_margin</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">band_y0</span><span class="p">,</span> <span class="n">band_h</span><span class="p">,</span> <span class="n">y_members</span> <span class="ow">in</span> <span class="n">y_placed</span><span class="p">:</span>
+        <span class="n">y_band_orig_lo</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y_members</span><span class="p">)</span>
+        <span class="n">band_dy</span> <span class="o">=</span> <span class="n">band_y0</span> <span class="o">-</span> <span class="n">y_band_orig_lo</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y_members</span><span class="p">:</span>
+            <span class="n">dy_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">band_dy</span>
+
+        <span class="n">x_bands</span> <span class="o">=</span> <span class="n">_merge_axis_bands</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">y_members</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">y_members</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">skip_x_indices</span><span class="p">):</span>
+            <span class="n">x_placed</span> <span class="o">=</span> <span class="n">_distribute_axis_bands</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">x_bands</span><span class="p">,</span> <span class="n">min_gap</span><span class="p">,</span> <span class="n">min_margin</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">band_x0</span><span class="p">,</span> <span class="n">_band_w</span><span class="p">,</span> <span class="n">x_members</span> <span class="ow">in</span> <span class="n">x_placed</span><span class="p">:</span>
+                <span class="n">x_band_orig_lo</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x_members</span><span class="p">)</span>
+                <span class="n">band_dx</span> <span class="o">=</span> <span class="n">band_x0</span> <span class="o">-</span> <span class="n">x_band_orig_lo</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x_members</span><span class="p">:</span>
+                    <span class="n">dx_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">band_dx</span>
+
+        <span class="c1"># Inside each disjoint X-column of a Y-band, distribute stacked sub-items in Y.</span>
+        <span class="k">for</span> <span class="n">_bx0</span><span class="p">,</span> <span class="n">_bx1</span><span class="p">,</span> <span class="n">x_members</span> <span class="ow">in</span> <span class="n">x_bands</span><span class="p">:</span>
+            <span class="n">sub_y_bands</span> <span class="o">=</span> <span class="n">_merge_axis_bands</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">x_members</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">sub_y_placed</span> <span class="o">=</span> <span class="n">_distribute_axis_bands</span><span class="p">(</span>
+                <span class="n">band_y0</span><span class="p">,</span> <span class="n">band_h</span><span class="p">,</span> <span class="n">sub_y_bands</span><span class="p">,</span> <span class="n">min_gap</span><span class="p">,</span> <span class="mf">0.0</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">sub_y0</span><span class="p">,</span> <span class="n">_sub_h</span><span class="p">,</span> <span class="n">sub_members</span> <span class="ow">in</span> <span class="n">sub_y_placed</span><span class="p">:</span>
+                <span class="n">orig_sub_lo</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sub_members</span><span class="p">)</span>
+                <span class="n">sub_dy</span> <span class="o">=</span> <span class="n">sub_y0</span> <span class="o">-</span> <span class="n">orig_sub_lo</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sub_members</span><span class="p">:</span>
+                    <span class="n">dy_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub_dy</span>
+
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dx_out</span><span class="p">,</span> <span class="n">dy_out</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
+
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_attach_group_children</span><span class="p">(</span>
@@ -1021,6 +1124,133 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_finalize_shelf_rows</span><span class="p">(</span>
+    <span class="n">rows</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">groups</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]]],</span>
+    <span class="n">comp_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">comp_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">distribute</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Position shelf rows cleanly across ``(comp_w, comp_l)`` with child elements attached."""</span>
+    <span class="n">row_heights</span> <span class="o">=</span> <span class="p">[</span><span class="n">rh</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rh</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">distribute</span><span class="p">:</span>
+        <span class="n">y_dist</span> <span class="o">=</span> <span class="n">distribute_linear_gap</span><span class="p">(</span><span class="n">comp_l</span><span class="p">,</span> <span class="n">row_heights</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">margin</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y_dist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">y_cur</span><span class="p">,</span> <span class="n">y_gap</span> <span class="o">=</span> <span class="n">y_dist</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y_gap</span> <span class="o">=</span> <span class="n">spacing</span>
+        <span class="n">y_cur</span> <span class="o">=</span> <span class="n">margin</span>
+
+    <span class="n">placed_groups</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">rot_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">row_items</span><span class="p">,</span> <span class="n">rh</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="n">item_widths</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">row_items</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">distribute</span><span class="p">:</span>
+            <span class="n">x_dist</span> <span class="o">=</span> <span class="n">distribute_linear_gap</span><span class="p">(</span><span class="n">comp_w</span><span class="p">,</span> <span class="n">item_widths</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">margin</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">x_dist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">x_cur</span><span class="p">,</span> <span class="n">x_gap</span> <span class="o">=</span> <span class="n">x_dist</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_gap</span> <span class="o">=</span> <span class="n">spacing</span>
+            <span class="n">x_cur</span> <span class="o">=</span> <span class="n">margin</span>
+
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">drot</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">row_items</span><span class="p">:</span>
+            <span class="n">el</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">drot</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">rot_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">y_item</span> <span class="o">=</span> <span class="n">y_cur</span> <span class="o">+</span> <span class="p">(</span><span class="n">rh</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">new_rot</span> <span class="o">=</span> <span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+</span> <span class="n">drot</span><span class="p">)</span> <span class="o">%</span> <span class="mf">360.0</span> <span class="k">if</span> <span class="n">drot</span> <span class="k">else</span> <span class="n">el</span><span class="o">.</span><span class="n">rotation</span>
+            <span class="n">placed_primary</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span>
+                <span class="n">el</span><span class="p">,</span>
+                <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x_cur</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">y_item</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="n">new_rot</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">attached</span> <span class="o">=</span> <span class="n">_attach_group_children</span><span class="p">(</span><span class="n">placed_primary</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">drot</span><span class="p">)</span>
+            <span class="n">placed_groups</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">placed_primary</span><span class="p">,</span> <span class="o">*</span><span class="n">attached</span><span class="p">]</span>
+            <span class="n">x_cur</span> <span class="o">+=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">x_gap</span>
+        <span class="n">y_cur</span> <span class="o">+=</span> <span class="n">rh</span> <span class="o">+</span> <span class="n">y_gap</span>
+
+    <span class="n">ordered</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)):</span>
+        <span class="n">ordered</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">placed_groups</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ordered</span><span class="p">),</span> <span class="n">rot_count</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_try_balanced_shelf_pack_groups</span><span class="p">(</span>
+    <span class="n">groups</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]]],</span>
+    <span class="n">comp_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">comp_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">allow_rotate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">distribute</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Distribute items across balanced-width shelf rows (Worst-Fit-Decreasing)."""</span>
+    <span class="n">avail_w</span> <span class="o">=</span> <span class="n">comp_w</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
+    <span class="n">avail_l</span> <span class="o">=</span> <span class="n">comp_l</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
+    <span class="k">if</span> <span class="n">avail_w</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span> <span class="ow">or</span> <span class="n">avail_l</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">choices_for</span><span class="p">(</span><span class="n">el</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="n">fw0</span><span class="p">,</span> <span class="n">fl0</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">footprint</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">fw0</span><span class="p">,</span> <span class="n">fl0</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">allow_rotate</span>
+            <span class="ow">and</span> <span class="n">el</span><span class="o">.</span><span class="n">shape</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ElementShape</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">,</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SPHERE_SCOOP</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fw0</span> <span class="o">-</span> <span class="n">fl0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span>
+        <span class="p">):</span>
+            <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+</span> <span class="mf">90.0</span><span class="p">)</span><span class="o">.</span><span class="n">footprint</span>
+            <span class="n">opts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mf">90.0</span><span class="p">,</span> <span class="n">rw</span><span class="p">,</span> <span class="n">rl</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">opts</span>
+
+    <span class="n">order</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)),</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">footprint</span><span class="p">),</span> <span class="n">groups</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">footprint</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">num_rows</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">row_items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">)]</span>
+        <span class="n">row_widths</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_rows</span>
+        <span class="n">row_heights</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_rows</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span>
+            <span class="n">opts</span> <span class="o">=</span> <span class="n">choices_for</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">best</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">):</span>
+                <span class="n">gap</span> <span class="o">=</span> <span class="n">spacing</span> <span class="k">if</span> <span class="n">row_items</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="k">else</span> <span class="mf">0.0</span>
+                <span class="k">for</span> <span class="n">drot</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">row_widths</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">+</span> <span class="n">gap</span> <span class="o">+</span> <span class="n">w</span> <span class="o">&lt;=</span> <span class="n">avail_w</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">:</span>
+                        <span class="n">cand</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">row_widths</span><span class="p">[</span><span class="n">r</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">drot</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">drot</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">cand</span> <span class="o">&lt;</span> <span class="n">best</span><span class="p">:</span>
+                            <span class="n">best</span> <span class="o">=</span> <span class="n">cand</span>
+            <span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ok</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">l_best</span><span class="p">,</span> <span class="n">r_best</span><span class="p">,</span> <span class="n">drot_best</span><span class="p">,</span> <span class="n">w_best</span> <span class="o">=</span> <span class="n">best</span>
+            <span class="n">row_widths</span><span class="p">[</span><span class="n">r_best</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">spacing</span> <span class="k">if</span> <span class="n">row_items</span><span class="p">[</span><span class="n">r_best</span><span class="p">]</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">w_best</span>
+            <span class="n">row_heights</span><span class="p">[</span><span class="n">r_best</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">row_heights</span><span class="p">[</span><span class="n">r_best</span><span class="p">],</span> <span class="n">l_best</span><span class="p">)</span>
+            <span class="n">row_items</span><span class="p">[</span><span class="n">r_best</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">idx</span><span class="p">,</span> <span class="n">drot_best</span><span class="p">,</span> <span class="n">w_best</span><span class="p">,</span> <span class="n">l_best</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">non_empty</span> <span class="o">=</span> <span class="p">[(</span><span class="n">items</span><span class="p">,</span> <span class="n">rh</span><span class="p">)</span> <span class="k">for</span> <span class="n">items</span><span class="p">,</span> <span class="n">rh</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">row_items</span><span class="p">,</span> <span class="n">row_heights</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">items</span><span class="p">]</span>
+        <span class="n">total_h</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">rh</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rh</span> <span class="ow">in</span> <span class="n">non_empty</span><span class="p">)</span> <span class="o">+</span> <span class="n">spacing</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">non_empty</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">total_h</span> <span class="o">&gt;</span> <span class="n">avail_l</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">_finalize_shelf_rows</span><span class="p">(</span>
+            <span class="n">non_empty</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">distribute</span><span class="o">=</span><span class="n">distribute</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">res</span>
+    <span class="k">return</span> <span class="kc">None</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_try_shelf_pack_groups</span><span class="p">(</span>
@@ -1110,49 +1340,9 @@
     <span class="k">if</span> <span class="n">cur_row</span><span class="p">:</span>
         <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cur_row</span><span class="p">,</span> <span class="n">cur_h</span><span class="p">))</span>
 
-    <span class="n">row_heights</span> <span class="o">=</span> <span class="p">[</span><span class="n">rh</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rh</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">distribute</span><span class="p">:</span>
-        <span class="n">y_dist</span> <span class="o">=</span> <span class="n">_distribute_linear_gap</span><span class="p">(</span><span class="n">comp_l</span><span class="p">,</span> <span class="n">row_heights</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">margin</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">y_dist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="n">y_cur</span><span class="p">,</span> <span class="n">y_gap</span> <span class="o">=</span> <span class="n">y_dist</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">y_gap</span> <span class="o">=</span> <span class="n">spacing</span>
-        <span class="n">y_cur</span> <span class="o">=</span> <span class="n">margin</span>
-
-    <span class="n">placed_groups</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">rot_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">row_items</span><span class="p">,</span> <span class="n">rh</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-        <span class="n">item_widths</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">row_items</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">distribute</span><span class="p">:</span>
-            <span class="n">x_dist</span> <span class="o">=</span> <span class="n">_distribute_linear_gap</span><span class="p">(</span><span class="n">comp_w</span><span class="p">,</span> <span class="n">item_widths</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">margin</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">x_dist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">None</span>
-            <span class="n">x_cur</span><span class="p">,</span> <span class="n">x_gap</span> <span class="o">=</span> <span class="n">x_dist</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">x_gap</span> <span class="o">=</span> <span class="n">spacing</span>
-            <span class="n">x_cur</span> <span class="o">=</span> <span class="n">margin</span>
-
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">drot</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">row_items</span><span class="p">:</span>
-            <span class="n">el</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">drot</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
-                <span class="n">rot_count</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">y_item</span> <span class="o">=</span> <span class="n">y_cur</span> <span class="o">+</span> <span class="p">(</span><span class="n">rh</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
-            <span class="n">new_rot</span> <span class="o">=</span> <span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+</span> <span class="n">drot</span><span class="p">)</span> <span class="o">%</span> <span class="mf">360.0</span> <span class="k">if</span> <span class="n">drot</span> <span class="k">else</span> <span class="n">el</span><span class="o">.</span><span class="n">rotation</span>
-            <span class="n">placed_primary</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span>
-                <span class="n">el</span><span class="p">,</span>
-                <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x_cur</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">y_item</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span>
-                <span class="n">rotation</span><span class="o">=</span><span class="n">new_rot</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">attached</span> <span class="o">=</span> <span class="n">_attach_group_children</span><span class="p">(</span><span class="n">placed_primary</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">drot</span><span class="p">)</span>
-            <span class="n">placed_groups</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">placed_primary</span><span class="p">,</span> <span class="o">*</span><span class="n">attached</span><span class="p">]</span>
-            <span class="n">x_cur</span> <span class="o">+=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">x_gap</span>
-        <span class="n">y_cur</span> <span class="o">+=</span> <span class="n">rh</span> <span class="o">+</span> <span class="n">y_gap</span>
-
-    <span class="n">ordered</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)):</span>
-        <span class="n">ordered</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">placed_groups</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
-    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ordered</span><span class="p">),</span> <span class="n">rot_count</span>
+    <span class="k">return</span> <span class="n">_finalize_shelf_rows</span><span class="p">(</span>
+        <span class="n">rows</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">distribute</span><span class="o">=</span><span class="n">distribute</span>
+    <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_try_maxrects_pack_groups</span><span class="p">(</span>
@@ -1163,8 +1353,9 @@
     <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">allow_rotate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">distribute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Fallback 2D MaxRects placement centered within ``(comp_w, comp_l)``."""</span>
+<span class="w">    </span><span class="sd">"""Fallback 2D MaxRects placement distributed/centered within ``(comp_w, comp_l)``."""</span>
     <span class="n">usable_w</span> <span class="o">=</span> <span class="n">comp_w</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
     <span class="n">usable_l</span> <span class="o">=</span> <span class="n">comp_l</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">margin</span>
     <span class="k">if</span> <span class="n">usable_w</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span> <span class="ow">or</span> <span class="n">usable_l</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
@@ -1203,11 +1394,22 @@
                 <span class="k">if</span> <span class="n">elements_overlap</span><span class="p">(</span><span class="n">packed</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
                     <span class="k">continue</span>
 
-                <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">comp_w</span> <span class="o">-</span> <span class="n">span_w</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">min_x</span>
-                <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">comp_l</span> <span class="o">-</span> <span class="n">span_l</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">min_y</span>
+                <span class="k">if</span> <span class="n">distribute</span><span class="p">:</span>
+                    <span class="n">shifts</span> <span class="o">=</span> <span class="n">distribute_2d_bounds</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packed</span><span class="p">],</span>
+                        <span class="n">comp_w</span><span class="p">,</span>
+                        <span class="n">comp_l</span><span class="p">,</span>
+                        <span class="n">min_gap</span><span class="o">=</span><span class="n">spacing</span><span class="p">,</span>
+                        <span class="n">min_margin</span><span class="o">=</span><span class="n">margin</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">comp_w</span> <span class="o">-</span> <span class="n">span_w</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">min_x</span>
+                    <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">comp_l</span> <span class="o">-</span> <span class="n">span_l</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">min_y</span>
+                    <span class="n">shifts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">packed</span><span class="p">)</span>
+
                 <span class="n">ordered</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="n">rot_count</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">placed_primary</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">packed</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">placed_primary</span><span class="p">,</span> <span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">packed</span><span class="p">,</span> <span class="n">shifts</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
                     <span class="n">orig_primary</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
                     <span class="n">drot</span> <span class="o">=</span> <span class="p">(</span><span class="n">placed_primary</span><span class="o">.</span><span class="n">rotation</span> <span class="o">-</span> <span class="n">orig_primary</span><span class="o">.</span><span class="n">rotation</span><span class="p">)</span> <span class="o">%</span> <span class="mf">360.0</span>
                     <span class="k">if</span> <span class="n">drot</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
@@ -1276,7 +1478,7 @@
 
     <span class="n">rot_modes</span> <span class="o">=</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">allow_rotate</span> <span class="k">else</span> <span class="p">(</span><span class="kc">False</span><span class="p">,)</span>
     <span class="k">for</span> <span class="n">tier_margin</span><span class="p">,</span> <span class="n">tier_spacing</span> <span class="ow">in</span> <span class="n">tiers</span><span class="p">:</span>
-        <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">rot_flag</span> <span class="ow">in</span> <span class="n">rot_modes</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">sort_mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"input"</span><span class="p">,</span> <span class="s2">"area_desc"</span><span class="p">,</span> <span class="s2">"height_desc"</span><span class="p">):</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">_try_shelf_pack_groups</span><span class="p">(</span>
@@ -1294,7 +1496,27 @@
                     <span class="n">bb</span> <span class="o">=</span> <span class="n">elements_bounding_box</span><span class="p">([</span><span class="n">el</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">packed</span> <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">])</span>
                     <span class="c1"># Measure smallest edge clearance so pull-outs keep room when possible.</span>
                     <span class="n">min_edge</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bb</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bb</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">comp_w</span> <span class="o">-</span> <span class="n">bb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">comp_l</span> <span class="o">-</span> <span class="n">bb</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-                    <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="nb">int</span><span class="p">(</span><span class="n">rot_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rot_count</span><span class="p">,</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">min_edge</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">packed</span><span class="p">))</span>
+                    <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">rot_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rot_count</span><span class="p">,</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">min_edge</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+                        <span class="n">packed</span><span class="p">,</span>
+                    <span class="p">))</span>
+            <span class="n">bal_res</span> <span class="o">=</span> <span class="n">_try_balanced_shelf_pack_groups</span><span class="p">(</span>
+                <span class="n">groups</span><span class="p">,</span>
+                <span class="n">comp_w</span><span class="p">,</span>
+                <span class="n">comp_l</span><span class="p">,</span>
+                <span class="n">tier_spacing</span><span class="p">,</span>
+                <span class="n">tier_margin</span><span class="p">,</span>
+                <span class="n">allow_rotate</span><span class="o">=</span><span class="n">rot_flag</span><span class="p">,</span>
+                <span class="n">distribute</span><span class="o">=</span><span class="n">distribute</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">bal_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">packed</span><span class="p">,</span> <span class="n">rot_count</span> <span class="o">=</span> <span class="n">bal_res</span>
+                <span class="n">bb</span> <span class="o">=</span> <span class="n">elements_bounding_box</span><span class="p">([</span><span class="n">el</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">packed</span> <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">])</span>
+                <span class="n">min_edge</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bb</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bb</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">comp_w</span> <span class="o">-</span> <span class="n">bb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">comp_l</span> <span class="o">-</span> <span class="n">bb</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">rot_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rot_count</span><span class="p">,</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">min_edge</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+                    <span class="n">packed</span><span class="p">,</span>
+                <span class="p">))</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">candidates</span><span class="p">:</span>
                 <span class="n">mr_res</span> <span class="o">=</span> <span class="n">_try_maxrects_pack_groups</span><span class="p">(</span>
                     <span class="n">groups</span><span class="p">,</span>
@@ -1303,12 +1525,16 @@
                     <span class="n">tier_spacing</span><span class="p">,</span>
                     <span class="n">tier_margin</span><span class="p">,</span>
                     <span class="n">allow_rotate</span><span class="o">=</span><span class="n">rot_flag</span><span class="p">,</span>
+                    <span class="n">distribute</span><span class="o">=</span><span class="n">distribute</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">mr_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">packed</span><span class="p">,</span> <span class="n">rot_count</span> <span class="o">=</span> <span class="n">mr_res</span>
                     <span class="n">bb</span> <span class="o">=</span> <span class="n">elements_bounding_box</span><span class="p">([</span><span class="n">el</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">packed</span> <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">])</span>
                     <span class="n">min_edge</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bb</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bb</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">comp_w</span> <span class="o">-</span> <span class="n">bb</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">comp_l</span> <span class="o">-</span> <span class="n">bb</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-                    <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="nb">int</span><span class="p">(</span><span class="n">rot_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rot_count</span><span class="p">,</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">min_edge</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">packed</span><span class="p">))</span>
+                    <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">rot_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rot_count</span><span class="p">,</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">min_edge</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+                        <span class="n">packed</span><span class="p">,</span>
+                    <span class="p">))</span>
         <span class="k">if</span> <span class="n">candidates</span><span class="p">:</span>
             <span class="n">candidates</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pair</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="k">return</span> <span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
@@ -1391,7 +1617,7 @@
             <span class="n">size</span><span class="o">=</span><span class="n">font_size</span><span class="p">,</span>
             <span class="n">halign</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
             <span class="n">valign</span><span class="o">=</span><span class="s2">"center"</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">depth</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">bottom_rounding</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">solid</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
@@ -1601,6 +1827,53 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_inlay_z_offset</span><span class="p">(</span>
+    <span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span>
+    <span class="n">all_elements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span>
+    <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompartmentElement</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Resolve ``z_offset=None`` on a coloured inlay relative to its enclosing pocket floor."""</span>
+    <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">element</span><span class="o">.</span><span class="n">z_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">element</span>
+
+    <span class="n">ix0</span><span class="p">,</span> <span class="n">iy0</span><span class="p">,</span> <span class="n">ix1</span><span class="p">,</span> <span class="n">iy1</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="n">cx</span> <span class="o">=</span> <span class="p">(</span><span class="n">ix0</span> <span class="o">+</span> <span class="n">ix1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">cy</span> <span class="o">=</span> <span class="p">(</span><span class="n">iy0</span> <span class="o">+</span> <span class="n">iy1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="n">best_key</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">best_parent</span><span class="p">:</span> <span class="n">CompartmentElement</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">all_elements</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">px0</span><span class="p">,</span> <span class="n">py0</span><span class="p">,</span> <span class="n">px1</span><span class="p">,</span> <span class="n">py1</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">px0</span> <span class="o">-</span> <span class="mf">1e-3</span> <span class="o">&lt;=</span> <span class="n">cx</span> <span class="o">&lt;=</span> <span class="n">px1</span> <span class="o">+</span> <span class="mf">1e-3</span> <span class="ow">and</span> <span class="n">py0</span> <span class="o">-</span> <span class="mf">1e-3</span> <span class="o">&lt;=</span> <span class="n">cy</span> <span class="o">&lt;=</span> <span class="n">py1</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">full_contain</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">px0</span> <span class="o">-</span> <span class="mf">1e-3</span> <span class="o">&lt;=</span> <span class="n">ix0</span>
+            <span class="ow">and</span> <span class="n">ix1</span> <span class="o">&lt;=</span> <span class="n">px1</span> <span class="o">+</span> <span class="mf">1e-3</span>
+            <span class="ow">and</span> <span class="n">py0</span> <span class="o">-</span> <span class="mf">1e-3</span> <span class="o">&lt;=</span> <span class="n">iy0</span>
+            <span class="ow">and</span> <span class="n">iy1</span> <span class="o">&lt;=</span> <span class="n">py1</span> <span class="o">+</span> <span class="mf">1e-3</span>
+        <span class="p">)</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="p">(</span><span class="n">px1</span> <span class="o">-</span> <span class="n">px0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">py1</span> <span class="o">-</span> <span class="n">py0</span><span class="p">)</span>
+        <span class="n">depth_val</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">default_depth</span>
+        <span class="c1"># Prefer full enclosure, tightest parent footprint, and deeper well over shallow scoop notches.</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">full_contain</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="o">-</span><span class="n">depth_val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">best_key</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">&lt;</span> <span class="n">best_key</span><span class="p">:</span>
+            <span class="n">best_key</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="n">best_parent</span> <span class="o">=</span> <span class="n">other</span>
+
+    <span class="k">if</span> <span class="n">best_parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">element</span>
+
+    <span class="n">parent_depth</span> <span class="o">=</span> <span class="n">best_parent</span><span class="o">.</span><span class="n">depth</span> <span class="k">if</span> <span class="n">best_parent</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">default_depth</span>
+    <span class="n">parent_floor_z</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">best_parent</span><span class="o">.</span><span class="n">z_offset</span>
+        <span class="k">if</span> <span class="n">best_parent</span><span class="o">.</span><span class="n">z_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="p">(</span><span class="n">default_depth</span> <span class="o">-</span> <span class="n">parent_depth</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">z_offset</span><span class="o">=</span><span class="n">parent_floor_z</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="build_element_pack">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.element.build_element_pack.html#pyboxbuilder.compartments.element.build_element_pack">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_element_pack</span><span class="p">(</span>
@@ -1614,9 +1887,11 @@
 <span class="sd">    that recess — together they make an inlay flush with the floor rather than</span>
 <span class="sd">    a bump proud of it.</span>
 <span class="sd">    """</span>
+    <span class="n">elements_seq</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
     <span class="n">pieces</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
-        <span class="n">pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_element</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements_seq</span><span class="p">:</span>
+        <span class="n">resolved</span> <span class="o">=</span> <span class="n">_resolve_inlay_z_offset</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">elements_seq</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+        <span class="n">pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_element</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">union_all</span><span class="p">([</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pieces</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span></div>
 
 
@@ -1635,11 +1910,13 @@
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
 
+    <span class="n">elements_seq</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
     <span class="n">inserts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Color</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements_seq</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">solid</span> <span class="o">=</span> <span class="n">build_element</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+        <span class="n">resolved</span> <span class="o">=</span> <span class="n">_resolve_inlay_z_offset</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">elements_seq</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+        <span class="n">solid</span> <span class="o">=</span> <span class="n">build_element</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">inserts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">solid</span><span class="p">,</span> <span class="n">Color</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">color</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">inserts</span></div>

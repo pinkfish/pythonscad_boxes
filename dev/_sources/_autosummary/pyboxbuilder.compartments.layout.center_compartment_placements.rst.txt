@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.layout.center\_compartment\_placements
+================================================================
+
+.. currentmodule:: pyboxbuilder.compartments.layout
+
+.. autofunction:: center_compartment_placements

@@ -707,7 +707,11 @@
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_spec</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryValidator</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">infer_ratio_tracks</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">WALL_SPACING_MM</span><span class="p">,</span> <span class="n">layout_compartments</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+            <span class="n">WALL_SPACING_MM</span><span class="p">,</span>
+            <span class="n">center_compartment_placements</span><span class="p">,</span>
+            <span class="n">layout_compartments</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.sizing</span><span class="w"> </span><span class="kn">import</span> <span class="n">RowItem</span><span class="p">,</span> <span class="n">distribute_row_width</span><span class="p">,</span> <span class="n">rows_from_placements</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutCompiler</span>
 
@@ -754,6 +758,7 @@
                 <span class="n">comp_data</span><span class="p">,</span>
                 <span class="n">no_rotate_labels</span><span class="o">=</span><span class="n">no_rotate_labels</span><span class="p">,</span>
                 <span class="n">preserve_order</span><span class="o">=</span><span class="n">preserve_order</span><span class="p">,</span>
+                <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">comp_layout</span><span class="o">.</span><span class="n">overflow</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -787,6 +792,19 @@
                         <span class="n">pl</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_w</span><span class="p">,</span> <span class="n">new_l</span><span class="p">)</span>
                         <span class="n">pl</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_cur</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
                         <span class="n">x_cur</span> <span class="o">+=</span> <span class="n">new_w</span> <span class="o">+</span> <span class="n">WALL_SPACING_MM</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">):</span>
+                <span class="n">growable_labels</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+                    <span class="n">cb</span><span class="o">.</span><span class="n">label</span>
+                    <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span>
+                    <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">growable</span> <span class="ow">and</span> <span class="n">cb</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="p">)</span>
+                <span class="n">center_compartment_placements</span><span class="p">(</span>
+                    <span class="n">comp_layout</span><span class="o">.</span><span class="n">placements</span><span class="p">,</span>
+                    <span class="n">interior</span><span class="p">,</span>
+                    <span class="n">wall_spacing</span><span class="o">=</span><span class="n">WALL_SPACING_MM</span><span class="p">,</span>
+                    <span class="n">skip_x_labels</span><span class="o">=</span><span class="n">growable_labels</span><span class="p">,</span>
+                <span class="p">)</span>
 
         <span class="n">resolved</span> <span class="o">=</span> <span class="n">ResolvedBox</span><span class="p">(</span>
             <span class="n">builder</span><span class="o">=</span><span class="n">builder</span><span class="p">,</span>

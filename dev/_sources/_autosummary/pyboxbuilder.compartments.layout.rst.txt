@@ -29,6 +29,7 @@ pyboxbuilder.compartments.layout
       :nosignatures:
    
       candidate_box_sizes
+      center_compartment_placements
       compute_min_box_size
       layout_compartments
       normalise_compartments

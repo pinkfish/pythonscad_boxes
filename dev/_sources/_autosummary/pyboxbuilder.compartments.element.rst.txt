@@ -34,6 +34,8 @@ pyboxbuilder.compartments.element
       build_pull_out
       centered
       centered_in_box
+      distribute_2d_bounds
+      distribute_linear_gap
       elements_bounding_box
       elements_footprint
       elements_overlap
