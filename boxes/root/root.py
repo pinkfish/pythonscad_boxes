@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 """Root board game insert — pyboxbuilder port of `examples/root.scad`."""
 
-import math
 import sys
 from pathlib import Path
 from typing import Any, Literal
@@ -351,6 +350,7 @@ def pack_in_columns(
         pull_out = item.get("pull_out", True)
         pull_out_width = item.get("pull_out_width")
         pull_out_depth = item.get("pull_out_depth", depth)
+        is_winter = bool(item.get("is_winter"))
 
         elements.append(
             centered(
@@ -360,23 +360,37 @@ def pack_in_columns(
                 shape=shape,
                 rotation=rotation,
                 depth=depth,
-                pull_out=pull_out,
+                pull_out=False if is_winter else pull_out,
                 pull_out_width=pull_out_width,
                 pull_out_depth=pull_out_depth,
             )
         )
+        if is_winter:
+            # Cut curved finger scoops at the two outer wing tips so the custom crest outline stays intact.
+            scoop_r_bot = min(depth - 0.05, 2.5)
+            for sign in (-1.0, 1.0):
+                elements.append(
+                    centered(
+                        None,
+                        (cx + sign * (fw / 2 + 1.25), cy - 1.75),
+                        (12.0, 12.0),
+                        shape=ElementShape.CIRCLE,
+                        depth=depth,
+                        bottom_rounding=scoop_r_bot,
+                        pull_out=False,
+                    )
+                )
         insert_svg = item.get("insert_svg", svg)
         insert_text = item.get("text")
         if "insert_color" in item and (
             insert_svg is not None or insert_text is not None
         ):
-            if item.get("is_winter"):
-                # Offset the stamp center to the circular cap (unrotated x=1.5, y=0)
-                rad = math.radians(rotation)
-                ox = 1.5 * math.cos(rad)
-                oy = 1.5 * math.sin(rad)
-                rot = rotation - 90.0
-                stamp_size = (4.0, 4.0)
+            if is_winter:
+                # Place upright suit icon cleanly inside the upper circular crest cap.
+                ox = 0.0
+                oy = 1.5
+                rot = rotation
+                stamp_size = (6.0, 6.0)
             else:
                 ox = 0.0
                 oy = 0.0
@@ -737,72 +751,23 @@ def _populate_root_boxes(project: Project) -> None:
         elements=pack_in_columns(
             items=[
                 # 2 slots for Fox (4 tokens)
-                {
-                    "svg": str(SVG_DIR / "winter_token.svg"),
-                    "insert_svg": str(SVG_DIR / "fox.svg"),
-                    "shape": ElementShape.SVG,
-                    "depth": 5.0,
-                    "size": (15.5, 29.5),
-                    "rotation": 90,
-                    "insert_color": "black",
-                    "is_winter": True,
-                },
-                {
-                    "svg": str(SVG_DIR / "winter_token.svg"),
-                    "insert_svg": str(SVG_DIR / "fox.svg"),
-                    "shape": ElementShape.SVG,
-                    "depth": 5.0,
-                    "size": (15.5, 29.5),
-                    "rotation": 90,
-                    "insert_color": "black",
-                    "is_winter": True,
-                },
-                # 2 slots for Rabbit (4 tokens)
-                {
-                    "svg": str(SVG_DIR / "winter_token.svg"),
-                    "insert_svg": str(SVG_DIR / "rabbit.svg"),
-                    "shape": ElementShape.SVG,
-                    "depth": 5.0,
-                    "size": (15.5, 29.5),
-                    "rotation": 90,
-                    "insert_color": "black",
-                    "is_winter": True,
-                },
-                {
-                    "svg": str(SVG_DIR / "winter_token.svg"),
-                    "insert_svg": str(SVG_DIR / "rabbit.svg"),
-                    "shape": ElementShape.SVG,
-                    "depth": 5.0,
-                    "size": (15.5, 29.5),
-                    "rotation": 90,
-                    "insert_color": "black",
-                    "is_winter": True,
-                },
-                # 2 slots for Mouse (4 tokens)
-                {
-                    "svg": str(SVG_DIR / "winter_token.svg"),
-                    "insert_svg": str(SVG_DIR / "mouse.svg"),
-                    "shape": ElementShape.SVG,
-                    "depth": 5.0,
-                    "size": (15.5, 29.5),
-                    "rotation": 90,
-                    "insert_color": "black",
-                    "is_winter": True,
-                },
-                {
-                    "svg": str(SVG_DIR / "winter_token.svg"),
-                    "insert_svg": str(SVG_DIR / "mouse.svg"),
-                    "shape": ElementShape.SVG,
-                    "depth": 5.0,
-                    "size": (15.5, 29.5),
-                    "rotation": 90,
-                    "insert_color": "black",
-                    "is_winter": True,
-                },
+                *[
+                    {
+                        "svg": str(SVG_DIR / "winter_token.svg"),
+                        "insert_svg": str(SVG_DIR / suit_svg),
+                        "shape": ElementShape.SVG,
+                        "depth": 5.0,
+                        "size": (29.5, 15.5),
+                        "rotation": 0.0,
+                        "insert_color": "black",
+                        "is_winter": True,
+                    }
+                    for suit_svg in ("fox.svg", "fox.svg", "rabbit.svg", "rabbit.svg", "mouse.svg", "mouse.svg")
+                ],
             ],
             comp_size=item_comp_size,
             column_width=29.5,
-            spacing_x=7.875,
+            spacing_x=9.875,
             spacing_y=1.0,
             comp_depth=5.0,
         ),

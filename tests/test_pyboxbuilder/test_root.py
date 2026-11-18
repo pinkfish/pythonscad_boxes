@@ -285,6 +285,14 @@ class TestRoot(unittest.TestCase):
                 f"{label} should have {expected} pockets, got {len(pockets)}",
             )
 
+        winter_svgs = [
+            el
+            for el in boxes_by_label["ItemsBoxWinter"].compartments[0].elements
+            if el.color is None and el.shape is ElementShape.SVG
+        ]
+        self.assertEqual(len(winter_svgs), 6)
+        self.assertTrue(all(el.footprint == (29.5, 15.5) and el.rotation == 0.0 for el in winter_svgs))
+
     def test_all_riverfolk_subset_spacers_fit_without_overlap(self) -> None:
         """Verify every Base + partial Riverfolk combination builds non-overlapping spacers."""
         import itertools
