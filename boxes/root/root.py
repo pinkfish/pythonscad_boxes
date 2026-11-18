@@ -922,7 +922,7 @@ def _populate_root_boxes(project: Project) -> None:
         size: tuple[float, float],
         *,
         depth: float,
-        comp_depth: float,
+        comp_depth: float | None = None,
         inlay: str | None = None,
         inlay_size: tuple[float, float] = (12.0, 12.0),
         shape: ElementShape = ElementShape.RECT,
@@ -943,13 +943,18 @@ def _populate_root_boxes(project: Project) -> None:
         )
         if inlay is None:
             return (pocket,)
+        resolved_z = (
+            inlay_z_offset
+            if inlay_z_offset is not None
+            else ((comp_depth - depth) if comp_depth is not None else None)
+        )
         stamp = centered(
             inlay,
             (0.0, 0.0),
             inlay_size,
             shape=inlay_shape,
             depth=0.6,
-            z_offset=(comp_depth - depth) if inlay_z_offset is None else inlay_z_offset,
+            z_offset=resolved_z,
             color="black",
             pull_out=False,
         )
@@ -972,9 +977,7 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (width, 14.5),
                     depth=18.0,
-                    comp_depth=21.9,
                     inlay=str(SVG_DIR / "marquis_warrior.svg"),
-                    inlay_z_offset=3.9,
                     pull_out_width=p_w,
                     pull_out_depth=9.0,
                 )
@@ -985,7 +988,6 @@ def _populate_root_boxes(project: Project) -> None:
 
     # Marquis Box Top
     marquis_top_size = (106.5, 59.833, 14.5)
-    marquis_top_comp_depth = 12.9
     project.box(
         BoxType.SLIDING,
         "MarquisBoxTop",
@@ -997,62 +999,70 @@ def _populate_root_boxes(project: Project) -> None:
         elements=_pack_pockets(
             marquis_top_size,
             [
-                *[
-                    _pocket_with_inlay(
-                        (15.0, 15.0),
-                        depth=8.0,
-                        comp_depth=marquis_top_comp_depth,
-                        inlay=str(SVG_DIR / "log.svg"),
-                        inlay_size=(15.0 * 0.35, 15.0 * 0.35),
-                        shape=ElementShape.CIRCLE,
-                    )
-                    for _ in range(2)
-                ],
+                # Balanced 2x5 rows pairing logs, buildings, and centered keep / victory point
+                _pocket_with_inlay(
+                    (15.0, 15.0),
+                    depth=8.0,
+                    inlay=str(SVG_DIR / "log.svg"),
+                    inlay_size=(15.0 * 0.35, 15.0 * 0.35),
+                    shape=ElementShape.CIRCLE,
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=6.0,
+                    inlay=str(SVG_DIR / "handshake.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=2.0,
-                    comp_depth=marquis_top_comp_depth,
                     inlay=str(SVG_DIR / "keep.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
                     shape=ElementShape.CIRCLE,
                 ),
-                *[
-                    _pocket_with_inlay(
-                        (18.5, 18.5),
-                        depth=6.0,
-                        comp_depth=marquis_top_comp_depth,
-                        inlay=str(SVG_DIR / "handshake.svg"),
-                        inlay_size=(18.5 * 0.35, 18.5 * 0.35),
-                    )
-                    for _ in range(2)
-                ],
-                *[
-                    _pocket_with_inlay(
-                        (18.5, 18.5),
-                        depth=6.0,
-                        comp_depth=marquis_top_comp_depth,
-                        inlay=str(SVG_DIR / "anvil.svg"),
-                        inlay_size=(18.5 * 0.35, 18.5 * 0.35),
-                    )
-                    for _ in range(2)
-                ],
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=6.0,
+                    inlay=str(SVG_DIR / "anvil.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=6.0,
+                    inlay=str(SVG_DIR / "saw.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
+                _pocket_with_inlay(
+                    (15.0, 15.0),
+                    depth=8.0,
+                    inlay=str(SVG_DIR / "log.svg"),
+                    inlay_size=(15.0 * 0.35, 15.0 * 0.35),
+                    shape=ElementShape.CIRCLE,
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=6.0,
+                    inlay=str(SVG_DIR / "handshake.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=2.0,
-                    comp_depth=marquis_top_comp_depth,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
                 ),
-                *[
-                    _pocket_with_inlay(
-                        (18.5, 18.5),
-                        depth=6.0,
-                        comp_depth=marquis_top_comp_depth,
-                        inlay=str(SVG_DIR / "saw.svg"),
-                        inlay_size=(18.5 * 0.35, 18.5 * 0.35),
-                    )
-                    for _ in range(2)
-                ],
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=6.0,
+                    inlay=str(SVG_DIR / "anvil.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=6.0,
+                    inlay=str(SVG_DIR / "saw.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
             ],
         ),
     )
@@ -1074,9 +1084,7 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (91.0, 21.0),
                     depth=18.0,
-                    comp_depth=21.9,
                     inlay=str(SVG_DIR / "erie_warrior.svg"),
-                    inlay_z_offset=3.9,
                     pull_out_width=80.0,
                     pull_out_depth=9.0,
                 )
@@ -1087,7 +1095,6 @@ def _populate_root_boxes(project: Project) -> None:
 
     # Erie Box Top
     erie_top_size = (53.25, 59.833, 14.5)
-    erie_top_comp_depth = 12.9
     project.box(
         BoxType.SLIDING,
         "ErieBoxTop",
@@ -1103,7 +1110,6 @@ def _populate_root_boxes(project: Project) -> None:
                     _pocket_with_inlay(
                         (18.5, 18.5),
                         depth=8.0,
-                        comp_depth=erie_top_comp_depth,
                         inlay=str(SVG_DIR / "tree.svg"),
                         inlay_size=(18.5 * 0.35, 18.5 * 0.35),
                     )
@@ -1112,7 +1118,6 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=2.0,
-                    comp_depth=erie_top_comp_depth,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
                 ),
@@ -1137,7 +1142,6 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (46.0, 19.5),
                     depth=18.0,
-                    comp_depth=20.9,
                     inlay=str(SVG_DIR / "alliance_warrior.svg"),
                     pull_out_width=40.0,
                     pull_out_depth=9.0,
@@ -1149,7 +1153,6 @@ def _populate_root_boxes(project: Project) -> None:
 
     # Alliance Box Top (4 pockets: Score, 3 Bases, 2x5 Sympathy)
     alliance_top_size = (53.25, 59.833, 14.5)
-    alliance_top_comp_depth = 14.5 - 1.6 - 2.0  # 10.9mm
     project.box(
         BoxType.SLIDING,
         "AllianceBoxTop",
@@ -1164,26 +1167,22 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=3.0,
-                    comp_depth=alliance_top_comp_depth,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=10.5,
-                    comp_depth=alliance_top_comp_depth,
                     inlay=str(SVG_DIR / "fist.svg"),
                     shape=ElementShape.CIRCLE,
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=7.0,
-                    comp_depth=alliance_top_comp_depth,
                     inlay=str(SVG_DIR / "camp.svg"),
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=10.5,
-                    comp_depth=alliance_top_comp_depth,
                     inlay=str(SVG_DIR / "fist.svg"),
                     shape=ElementShape.CIRCLE,
                 ),
@@ -1220,7 +1219,6 @@ def _populate_root_boxes(project: Project) -> None:
 
     # Lizard Box Top
     lizard_top_size = (79.875, 59.833, 12.5)
-    lizard_top_comp_depth = 8.9
     project.box(
         BoxType.SLIDING,
         "LizardBoxTop",
@@ -1236,7 +1234,6 @@ def _populate_root_boxes(project: Project) -> None:
                     _pocket_with_inlay(
                         (18.5, 18.5),
                         depth=8.0,
-                        comp_depth=lizard_top_comp_depth,
                         inlay=str(SVG_DIR / suit_svg),
                         inlay_size=(10.0, 10.0),
                     )
@@ -1245,20 +1242,17 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=3.0,
-                    comp_depth=lizard_top_comp_depth,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=4.0,
-                    comp_depth=lizard_top_comp_depth,
                     inlay=str(SVG_DIR / "lizard_faction.svg"),
                     inlay_size=(10.0, 10.0),
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=2.0,
-                    comp_depth=lizard_top_comp_depth,
                     inlay=str(SVG_DIR / "outcast.svg"),
                     inlay_size=(10.0, 10.0),
                 ),
@@ -1283,9 +1277,7 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (46.0, 15.0),
                     depth=18.0,
-                    comp_depth=22.9,
                     inlay=str(SVG_DIR / "riverfolk_warrior.svg"),
-                    inlay_z_offset=4.9,
                     pull_out_width=40.0,
                     pull_out_depth=9.0,
                 )
@@ -1296,7 +1288,6 @@ def _populate_root_boxes(project: Project) -> None:
 
     # Riverfolk Box Top (7 pockets: Score + 3 Glass Gems + 3 Trade Post suits)
     riverfolk_top_size = (79.875, 59.833, 12.5)
-    riverfolk_top_comp_depth = 12.5 - 1.6 - 2.0  # 8.9mm
     project.box(
         BoxType.SLIDING,
         "RiverfolkBoxTop",
@@ -1311,14 +1302,12 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=3.0,
-                    comp_depth=riverfolk_top_comp_depth,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
                 ),
                 *[
                     _pocket_with_inlay(
                         (17.0, 17.0),
                         depth=8.5,
-                        comp_depth=riverfolk_top_comp_depth,
                         inlay=str(SVG_DIR / "gem.svg"),
                         inlay_size=(11.0, 11.0),
                         shape=ElementShape.CIRCLE,
@@ -1329,7 +1318,6 @@ def _populate_root_boxes(project: Project) -> None:
                     _pocket_with_inlay(
                         (18.5, 18.5),
                         depth=7.0,
-                        comp_depth=riverfolk_top_comp_depth,
                         inlay=str(SVG_DIR / "sign.svg"),
                         shape=ElementShape.CIRCLE,
                     )
@@ -1342,7 +1330,6 @@ def _populate_root_boxes(project: Project) -> None:
     # Vagabond Boxes (2 stacked boxes: Base + Riverfolk 2nd Vagabond)
     def _add_vagabond_box(label: str) -> None:
         vagabond_size = (53.25, 59.833, 19.5)
-        vagabond_comp_depth = 19.5 - 1.6 - 2.0  # 15.9mm
         elements = _pack_pockets(
             vagabond_size,
             [
@@ -1358,7 +1345,6 @@ def _populate_root_boxes(project: Project) -> None:
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=3.0,
-                    comp_depth=vagabond_comp_depth,
                     inlay=str(SVG_DIR / "laurel_wreath.svg"),
                 ),
                 # Relationship marker wells (3 tokens each = 6 per Vagabond)
@@ -1366,7 +1352,6 @@ def _populate_root_boxes(project: Project) -> None:
                     _pocket_with_inlay(
                         (18.5, 18.5),
                         depth=7.0,
-                        comp_depth=vagabond_comp_depth,
                         inlay="Relation",
                         inlay_size=(15.0, 15.0),
                         inlay_shape=ElementShape.TEXT,

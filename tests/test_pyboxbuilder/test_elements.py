@@ -248,6 +248,61 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
                 _verts, faces = solid.shape.mesh()
                 self.assertGreater(len(faces), 1000, f"expected smooth faceted scoop for axis={axis}")
 
+    def test_balanced_shelf_packs_mixed_widths_in_aligned_rows(self) -> None:
+        """Mixed widths that exceed 5-wide on one row balance across 2 aligned shelf rows."""
+        items = [
+            *(
+                CompartmentElement(shape=ElementShape.CIRCLE, size=(15.0, 15.0), depth=8.0, label=f"s{i}")
+                for i in range(2)
+            ),
+            *(
+                CompartmentElement(shape=ElementShape.RECT, size=(18.5, 18.5), depth=6.0, label=f"b{i}")
+                for i in range(8)
+            ),
+        ]
+        packed = pack_into_compartment(items, (102.5, 55.833))
+        self.assertEqual(elements_overlap(packed, tolerance=0.5), [])
+        row_ys = sorted({round(el.bounds()[1] + el.footprint[1] / 2.0, 2) for el in packed})
+        self.assertEqual(len(row_ys), 2)
+        # Front and back Y margins match symmetrically (~6.28mm)
+        min_x, min_y, max_x, max_y = elements_bounding_box(packed)
+        self.assertAlmostEqual(min_y, 55.833 - max_y, places=2)
+        self.assertGreaterEqual(min_x, 2.0 - 1e-3)
+        self.assertAlmostEqual(min_x, 102.5 - max_x, places=2)
+
+    def test_inlay_z_offset_defaults_to_parent_pocket_floor(self) -> None:
+        """A coloured inlay with z_offset=None sits flush on its shallower parent pocket floor."""
+        from pyboxbuilder.compartments.element import build_element_pack_inserts
+
+        pocket = CompartmentElement(
+            shape=ElementShape.RECT, offset=(5.0, 5.0), size=(18.5, 18.5), depth=2.0,
+        )
+        svg_inlay = CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file="boxes/root/svg/laurel_wreath.svg",
+            offset=(10.0, 10.0),
+            size=(6.5, 6.5),
+            depth=0.6,
+            z_offset=None,
+            color="black",
+        )
+        txt_inlay = CompartmentElement(
+            shape=ElementShape.TEXT,
+            shape_file="VP",
+            offset=(10.0, 10.0),
+            size=(6.5, 6.5),
+            depth=0.6,
+            z_offset=None,
+            color="black",
+        )
+        for inlay in (svg_inlay, txt_inlay):
+            inserts = build_element_pack_inserts((pocket, inlay), default_depth=10.9)
+            self.assertEqual(len(inserts), 1)
+            bounds = inserts[0][0].bounds()
+            # Pocket floor is at default_depth - pocket.depth = 10.9 - 2.0 = 8.9
+            self.assertAlmostEqual(float(bounds.min_z), 8.9, places=2)
+            self.assertAlmostEqual(float(bounds.max_z), 9.5, places=2)
+
 
 if __name__ == "__main__":
     unittest.main()
