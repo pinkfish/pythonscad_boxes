@@ -1263,6 +1263,66 @@ def _rounded_dish_cutout(
     return res
 
 
+def _curved_full_depth_bay(
+    cx: float,
+    cy: float,
+    dish_w: float,
+    dish_l: float,
+    z_floor: float,
+    eff_depth: float,
+) -> Bosl2Solid:
+    """Build a stadium finger bay reaching ``z_floor`` with semicircular ends and a curved bottom edge."""
+    from pybosl2 import Anchor, cuboid, cyl
+
+    from pyboxbuilder.rounding import rounding_facets
+
+    bay_h = eff_depth + 100.0
+    if dish_w >= dish_l:
+        across, span = dish_l, dish_w
+        dx, dy = (span - across) / 2.0, 0.0
+        side_edges = [Anchor.BOTTOM + Anchor.FRONT, Anchor.BOTTOM + Anchor.BACK]
+        mid_size = [span - across, across, bay_h]
+    else:
+        across, span = dish_w, dish_l
+        dx, dy = 0.0, (span - across) / 2.0
+        side_edges = [Anchor.BOTTOM + Anchor.LEFT, Anchor.BOTTOM + Anchor.RIGHT]
+        mid_size = [across, span - across, bay_h]
+
+    radius = across / 2.0
+    r_bottom = max(0.0, min(eff_depth - 0.02, 2.5, radius - 0.05))
+    z_mid = z_floor + bay_h / 2.0
+    if radius <= 0.1:
+        return cuboid([dish_w, dish_l, bay_h]).translate([cx, cy, z_mid])
+    if max(dx, dy) <= 0.05:
+        return cyl(
+            height=bay_h,
+            radius=radius,
+            rounding1=r_bottom,
+            **rounding_facets(),
+        ).translate([cx, cy, z_mid])
+
+    cap1 = cyl(
+        height=bay_h,
+        radius=radius,
+        rounding1=r_bottom,
+        **rounding_facets(),
+    ).translate([cx - dx, cy - dy, z_mid])
+    cap2 = cyl(
+        height=bay_h,
+        radius=radius,
+        rounding1=r_bottom,
+        **rounding_facets(),
+    ).translate([cx + dx, cy + dy, z_mid])
+    mid = (
+        cuboid(mid_size, rounding=r_bottom, edges=side_edges, **rounding_facets())
+        if r_bottom > 0.05
+        else cuboid(mid_size)
+    ).translate([cx, cy, z_mid])
+    res = union_all([cap1, cap2, mid])
+    assert res is not None
+    return res
+
+
 def _choose_pull_out_axis(
     width: float,
     length: float,
@@ -1305,10 +1365,6 @@ def build_pull_out(
     """
     if not element.pull_out:
         return None
-
-    from pybosl2 import cuboid
-
-    from pyboxbuilder.rounding import rounding_facets
 
     assert element.size is not None
     width, length = element.footprint
@@ -1360,15 +1416,10 @@ def build_pull_out(
         dish_w, dish_l = width + drop_left + drop_right, across
 
     if is_full_depth:
-        # Full-depth rounded capsule bay reaching the pocket base so a finger gets under thin tokens.
-        r_xy = min(6.0, dish_w / 2 - 0.01, dish_l / 2 - 0.01)
-        bay_h = eff_depth + 100.0
-        bay = (
-            cuboid([dish_w, dish_l, bay_h], rounding=r_xy, edges=vertical_edges(), **rounding_facets())
-            if r_xy > 0
-            else cuboid([dish_w, dish_l, bay_h])
+        # Full-depth semicircular stadium bay reaching the pocket base with a curved bottom edge.
+        return _curved_full_depth_bay(
+            centre_x, centre_y, dish_w, dish_l, actual_z_offset, eff_depth
         )
-        return bay.translate([centre_x, centre_y, actual_z_offset + bay_h / 2.0])
 
     z_rim = actual_z_offset + eff_depth
     return _rounded_dish_cutout(centre_x, centre_y, dish_w, dish_l, z_rim, cut_depth)
