@@ -1816,6 +1816,66 @@
     <span class="k">return</span> <span class="n">res</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_curved_full_depth_bay</span><span class="p">(</span>
+    <span class="n">cx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">cy</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">dish_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">dish_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">z_floor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">eff_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a stadium finger bay reaching ``z_floor`` with semicircular ends and a curved bottom edge."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span><span class="p">,</span> <span class="n">cuboid</span><span class="p">,</span> <span class="n">cyl</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">rounding_facets</span>
+
+    <span class="n">bay_h</span> <span class="o">=</span> <span class="n">eff_depth</span> <span class="o">+</span> <span class="mf">100.0</span>
+    <span class="k">if</span> <span class="n">dish_w</span> <span class="o">&gt;=</span> <span class="n">dish_l</span><span class="p">:</span>
+        <span class="n">across</span><span class="p">,</span> <span class="n">span</span> <span class="o">=</span> <span class="n">dish_l</span><span class="p">,</span> <span class="n">dish_w</span>
+        <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">span</span> <span class="o">-</span> <span class="n">across</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span>
+        <span class="n">side_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">+</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">+</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">BACK</span><span class="p">]</span>
+        <span class="n">mid_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">span</span> <span class="o">-</span> <span class="n">across</span><span class="p">,</span> <span class="n">across</span><span class="p">,</span> <span class="n">bay_h</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">across</span><span class="p">,</span> <span class="n">span</span> <span class="o">=</span> <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span>
+        <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">span</span> <span class="o">-</span> <span class="n">across</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">side_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">+</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">+</span> <span class="n">Anchor</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">]</span>
+        <span class="n">mid_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">across</span><span class="p">,</span> <span class="n">span</span> <span class="o">-</span> <span class="n">across</span><span class="p">,</span> <span class="n">bay_h</span><span class="p">]</span>
+
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">across</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">r_bottom</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">eff_depth</span> <span class="o">-</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="n">radius</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">))</span>
+    <span class="n">z_mid</span> <span class="o">=</span> <span class="n">z_floor</span> <span class="o">+</span> <span class="n">bay_h</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mf">0.1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span><span class="p">,</span> <span class="n">bay_h</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.05</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cyl</span><span class="p">(</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">bay_h</span><span class="p">,</span>
+            <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
+            <span class="n">rounding1</span><span class="o">=</span><span class="n">r_bottom</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">rounding_facets</span><span class="p">(),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">])</span>
+
+    <span class="n">cap1</span> <span class="o">=</span> <span class="n">cyl</span><span class="p">(</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">bay_h</span><span class="p">,</span>
+        <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
+        <span class="n">rounding1</span><span class="o">=</span><span class="n">r_bottom</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">rounding_facets</span><span class="p">(),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span> <span class="o">-</span> <span class="n">dx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">dy</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">])</span>
+    <span class="n">cap2</span> <span class="o">=</span> <span class="n">cyl</span><span class="p">(</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">bay_h</span><span class="p">,</span>
+        <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
+        <span class="n">rounding1</span><span class="o">=</span><span class="n">r_bottom</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">rounding_facets</span><span class="p">(),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">dy</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">])</span>
+    <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cuboid</span><span class="p">(</span><span class="n">mid_size</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">r_bottom</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">side_edges</span><span class="p">,</span> <span class="o">**</span><span class="n">rounding_facets</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">r_bottom</span> <span class="o">&gt;</span> <span class="mf">0.05</span>
+        <span class="k">else</span> <span class="n">cuboid</span><span class="p">(</span><span class="n">mid_size</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">z_mid</span><span class="p">])</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">([</span><span class="n">cap1</span><span class="p">,</span> <span class="n">cap2</span><span class="p">,</span> <span class="n">mid</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_choose_pull_out_axis</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1860,10 +1920,6 @@
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuboid</span>
-
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">rounding_facets</span>
 
     <span class="k">assert</span> <span class="n">element</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">footprint</span>
@@ -1915,15 +1971,10 @@
         <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span> <span class="o">=</span> <span class="n">width</span> <span class="o">+</span> <span class="n">drop_left</span> <span class="o">+</span> <span class="n">drop_right</span><span class="p">,</span> <span class="n">across</span>
 
     <span class="k">if</span> <span class="n">is_full_depth</span><span class="p">:</span>
-        <span class="c1"># Full-depth rounded capsule bay reaching the pocket base so a finger gets under thin tokens.</span>
-        <span class="n">r_xy</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">dish_w</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">dish_l</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
-        <span class="n">bay_h</span> <span class="o">=</span> <span class="n">eff_depth</span> <span class="o">+</span> <span class="mf">100.0</span>
-        <span class="n">bay</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">cuboid</span><span class="p">([</span><span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span><span class="p">,</span> <span class="n">bay_h</span><span class="p">],</span> <span class="n">rounding</span><span class="o">=</span><span class="n">r_xy</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">vertical_edges</span><span class="p">(),</span> <span class="o">**</span><span class="n">rounding_facets</span><span class="p">())</span>
-            <span class="k">if</span> <span class="n">r_xy</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="k">else</span> <span class="n">cuboid</span><span class="p">([</span><span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span><span class="p">,</span> <span class="n">bay_h</span><span class="p">])</span>
+        <span class="c1"># Full-depth semicircular stadium bay reaching the pocket base with a curved bottom edge.</span>
+        <span class="k">return</span> <span class="n">_curved_full_depth_bay</span><span class="p">(</span>
+            <span class="n">centre_x</span><span class="p">,</span> <span class="n">centre_y</span><span class="p">,</span> <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span><span class="p">,</span> <span class="n">actual_z_offset</span><span class="p">,</span> <span class="n">eff_depth</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">bay</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">centre_x</span><span class="p">,</span> <span class="n">centre_y</span><span class="p">,</span> <span class="n">actual_z_offset</span> <span class="o">+</span> <span class="n">bay_h</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
 
     <span class="n">z_rim</span> <span class="o">=</span> <span class="n">actual_z_offset</span> <span class="o">+</span> <span class="n">eff_depth</span>
     <span class="k">return</span> <span class="n">_rounded_dish_cutout</span><span class="p">(</span><span class="n">centre_x</span><span class="p">,</span> <span class="n">centre_y</span><span class="p">,</span> <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span><span class="p">,</span> <span class="n">z_rim</span><span class="p">,</span> <span class="n">cut_depth</span><span class="p">)</span></div>
