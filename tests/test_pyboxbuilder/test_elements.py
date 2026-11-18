@@ -303,6 +303,32 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
             self.assertAlmostEqual(float(bounds.min_z), 8.9, places=2)
             self.assertAlmostEqual(float(bounds.max_z), 9.5, places=2)
 
+    def test_pull_outs_respect_neighbors_and_never_hull_mixed_depths(self) -> None:
+        """Adjacent pockets of different depths never hull across and stay within bounds."""
+        from pybosl2 import cuboid
+
+        from pyboxbuilder.compartments.element import build_element_pack_pull_outs
+
+        deep = CompartmentElement(
+            shape=ElementShape.RECT, offset=(10.0, 10.0), size=(18.5, 18.5), depth=6.0, pull_out=True,
+        )
+        shallow = CompartmentElement(
+            shape=ElementShape.RECT, offset=(30.75, 10.0), size=(18.5, 18.5), depth=2.0, pull_out=True,
+        )
+        comp_size = (60.0, 55.8)
+        po = build_element_pack_pull_outs((deep, shallow), 10.9, comp_size)
+        assert po is not None
+        pb = po.bounds()
+        self.assertGreaterEqual(float(pb.min_x), -1e-3)
+        self.assertGreaterEqual(float(pb.min_y), -1e-3)
+        self.assertLessEqual(float(pb.max_x), comp_size[0] + 1e-3)
+        self.assertLessEqual(float(pb.max_y), comp_size[1] + 1e-3)
+
+        # Pull-out cutout beneath shallow pocket's center must never dip below its 8.9mm floor
+        shallow_probe = cuboid([4.0, 4.0, 10.9]).translate([40.0, 19.25, 10.9 / 2.0])
+        carved_under_shallow = po & shallow_probe
+        self.assertGreaterEqual(float(carved_under_shallow.bounds().min_z), 8.9 - 0.05)
+
 
 if __name__ == "__main__":
     unittest.main()

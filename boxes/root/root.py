@@ -999,7 +999,7 @@ def _populate_root_boxes(project: Project) -> None:
         elements=_pack_pockets(
             marquis_top_size,
             [
-                # Balanced 2x5 rows pairing logs, buildings, and centered keep / victory point
+                # Balanced 2x5 rows: deep logs & buildings on left/mid, shallow tokens at right end
                 _pocket_with_inlay(
                     (15.0, 15.0),
                     depth=8.0,
@@ -1011,6 +1011,18 @@ def _populate_root_boxes(project: Project) -> None:
                     (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "handshake.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=6.0,
+                    inlay=str(SVG_DIR / "anvil.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=6.0,
+                    inlay=str(SVG_DIR / "saw.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
                 ),
                 _pocket_with_inlay(
@@ -1021,18 +1033,6 @@ def _populate_root_boxes(project: Project) -> None:
                     shape=ElementShape.CIRCLE,
                 ),
                 _pocket_with_inlay(
-                    (18.5, 18.5),
-                    depth=6.0,
-                    inlay=str(SVG_DIR / "anvil.svg"),
-                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
-                ),
-                _pocket_with_inlay(
-                    (18.5, 18.5),
-                    depth=6.0,
-                    inlay=str(SVG_DIR / "saw.svg"),
-                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
-                ),
-                _pocket_with_inlay(
                     (15.0, 15.0),
                     depth=8.0,
                     inlay=str(SVG_DIR / "log.svg"),
@@ -1047,12 +1047,6 @@ def _populate_root_boxes(project: Project) -> None:
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
-                    depth=2.0,
-                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
-                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
-                ),
-                _pocket_with_inlay(
-                    (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "anvil.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
@@ -1061,6 +1055,12 @@ def _populate_root_boxes(project: Project) -> None:
                     (18.5, 18.5),
                     depth=6.0,
                     inlay=str(SVG_DIR / "saw.svg"),
+                    inlay_size=(18.5 * 0.35, 18.5 * 0.35),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=2.0,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
                     inlay_size=(18.5 * 0.35, 18.5 * 0.35),
                 ),
             ],
@@ -1164,17 +1164,15 @@ def _populate_root_boxes(project: Project) -> None:
         elements=_pack_pockets(
             alliance_top_size,
             [
-                _pocket_with_inlay(
-                    (18.5, 18.5),
-                    depth=3.0,
-                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
-                ),
-                _pocket_with_inlay(
-                    (18.5, 18.5),
-                    depth=10.5,
-                    inlay=str(SVG_DIR / "fist.svg"),
-                    shape=ElementShape.CIRCLE,
-                ),
+                *[
+                    _pocket_with_inlay(
+                        (18.5, 18.5),
+                        depth=10.5,
+                        inlay=str(SVG_DIR / "fist.svg"),
+                        shape=ElementShape.CIRCLE,
+                    )
+                    for _ in range(2)
+                ],
                 _pocket_with_inlay(
                     (18.5, 18.5),
                     depth=7.0,
@@ -1182,9 +1180,8 @@ def _populate_root_boxes(project: Project) -> None:
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
-                    depth=10.5,
-                    inlay=str(SVG_DIR / "fist.svg"),
-                    shape=ElementShape.CIRCLE,
+                    depth=3.0,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
                 ),
             ],
         ),
@@ -1241,14 +1238,14 @@ def _populate_root_boxes(project: Project) -> None:
                 ],
                 _pocket_with_inlay(
                     (18.5, 18.5),
-                    depth=3.0,
-                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
-                ),
-                _pocket_with_inlay(
-                    (18.5, 18.5),
                     depth=4.0,
                     inlay=str(SVG_DIR / "lizard_faction.svg"),
                     inlay_size=(10.0, 10.0),
+                ),
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=3.0,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
                 ),
                 _pocket_with_inlay(
                     (18.5, 18.5),
@@ -1299,11 +1296,6 @@ def _populate_root_boxes(project: Project) -> None:
         elements=_pack_pockets(
             riverfolk_top_size,
             [
-                _pocket_with_inlay(
-                    (18.5, 18.5),
-                    depth=3.0,
-                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
-                ),
                 *[
                     _pocket_with_inlay(
                         (17.0, 17.0),
@@ -1314,6 +1306,11 @@ def _populate_root_boxes(project: Project) -> None:
                     )
                     for _ in range(3)
                 ],
+                _pocket_with_inlay(
+                    (18.5, 18.5),
+                    depth=3.0,
+                    inlay=str(SVG_DIR / "laurel_wreath.svg"),
+                ),
                 *[
                     _pocket_with_inlay(
                         (18.5, 18.5),
