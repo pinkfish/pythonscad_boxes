@@ -2268,6 +2268,7 @@
     <span class="n">comp_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">area_bboxes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Return neighbor-safe ``(left, right, front, back)`` pull-out clearances in mm."""</span>
     <span class="n">ex0</span><span class="p">,</span> <span class="n">ey0</span><span class="p">,</span> <span class="n">ex1</span><span class="p">,</span> <span class="n">ey1</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
@@ -2330,6 +2331,20 @@
                 <span class="n">gap</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">oy0</span> <span class="o">-</span> <span class="n">ey1</span><span class="p">)</span>
                 <span class="n">back</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">_allowed_gap</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="n">same_z</span><span class="p">,</span> <span class="n">aligned_x</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
 
+    <span class="c1"># Also keep a clean solid wall between any finger bay and expanded thick-token area cutouts.</span>
+    <span class="n">area_wall</span> <span class="o">=</span> <span class="mf">1.2</span>
+    <span class="k">for</span> <span class="n">ax0</span><span class="p">,</span> <span class="n">ay0</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">ay1</span> <span class="ow">in</span> <span class="n">area_bboxes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ay0</span> <span class="o">&lt;</span> <span class="n">ey1</span> <span class="o">-</span> <span class="mf">0.2</span> <span class="ow">and</span> <span class="n">ey0</span> <span class="o">&lt;</span> <span class="n">ay1</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ax1</span> <span class="o">&lt;=</span> <span class="n">ex0</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">ax0</span> <span class="o">&lt;</span> <span class="n">ex0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">:</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ex0</span> <span class="o">-</span> <span class="n">ax1</span> <span class="o">-</span> <span class="n">area_wall</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">ax0</span> <span class="o">&gt;=</span> <span class="n">ex1</span> <span class="o">-</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">ax1</span> <span class="o">&gt;</span> <span class="n">ex1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">:</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ax0</span> <span class="o">-</span> <span class="n">ex1</span> <span class="o">-</span> <span class="n">area_wall</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">ax0</span> <span class="o">&lt;</span> <span class="n">ex1</span> <span class="o">-</span> <span class="mf">0.2</span> <span class="ow">and</span> <span class="n">ex0</span> <span class="o">&lt;</span> <span class="n">ax1</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ay1</span> <span class="o">&lt;=</span> <span class="n">ey0</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">ay0</span> <span class="o">&lt;</span> <span class="n">ey0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">:</span>
+                <span class="n">front</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ey0</span> <span class="o">-</span> <span class="n">ay1</span> <span class="o">-</span> <span class="n">area_wall</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">ay0</span> <span class="o">&gt;=</span> <span class="n">ey1</span> <span class="o">-</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">ay1</span> <span class="o">&gt;</span> <span class="n">ey1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">:</span>
+                <span class="n">back</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ay0</span> <span class="o">-</span> <span class="n">ey1</span> <span class="o">-</span> <span class="n">area_wall</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">front</span><span class="p">,</span> <span class="n">back</span><span class="p">)</span>
 
 
@@ -2348,20 +2363,25 @@
     <span class="n">back</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">comp_l</span> <span class="o">-</span> <span class="n">by1</span><span class="p">)</span>
     <span class="n">min_wall</span> <span class="o">=</span> <span class="mf">1.2</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_area_gap</span><span class="p">(</span><span class="n">gap</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span>
+
     <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">all_cutouts</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">in</span> <span class="n">member_ids</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="n">ox0</span><span class="p">,</span> <span class="n">oy0</span><span class="p">,</span> <span class="n">ox1</span><span class="p">,</span> <span class="n">oy1</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">oy0</span> <span class="o">&lt;</span> <span class="n">by1</span> <span class="o">-</span> <span class="mf">0.2</span> <span class="ow">and</span> <span class="n">by0</span> <span class="o">&lt;</span> <span class="n">oy1</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ox1</span> <span class="o">&lt;=</span> <span class="n">bx0</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">ox0</span> <span class="o">&lt;</span> <span class="n">bx0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">:</span>
-                <span class="n">left</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bx0</span> <span class="o">-</span> <span class="n">ox1</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">))</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">_area_gap</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bx0</span> <span class="o">-</span> <span class="n">ox1</span><span class="p">),</span> <span class="n">other</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">ox0</span> <span class="o">&gt;=</span> <span class="n">bx1</span> <span class="o">-</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">ox1</span> <span class="o">&gt;</span> <span class="n">bx1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">:</span>
-                <span class="n">right</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ox0</span> <span class="o">-</span> <span class="n">bx1</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">))</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">_area_gap</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ox0</span> <span class="o">-</span> <span class="n">bx1</span><span class="p">),</span> <span class="n">other</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">ox0</span> <span class="o">&lt;</span> <span class="n">bx1</span> <span class="o">-</span> <span class="mf">0.2</span> <span class="ow">and</span> <span class="n">bx0</span> <span class="o">&lt;</span> <span class="n">ox1</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">oy1</span> <span class="o">&lt;=</span> <span class="n">by0</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">oy0</span> <span class="o">&lt;</span> <span class="n">by0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">:</span>
-                <span class="n">front</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">by0</span> <span class="o">-</span> <span class="n">oy1</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">))</span>
+                <span class="n">front</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">_area_gap</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">by0</span> <span class="o">-</span> <span class="n">oy1</span><span class="p">),</span> <span class="n">other</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">oy0</span> <span class="o">&gt;=</span> <span class="n">by1</span> <span class="o">-</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="n">oy1</span> <span class="o">&gt;</span> <span class="n">by1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">:</span>
-                <span class="n">back</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">oy0</span> <span class="o">-</span> <span class="n">by1</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">))</span>
+                <span class="n">back</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">_area_gap</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">oy0</span> <span class="o">-</span> <span class="n">by1</span><span class="p">),</span> <span class="n">other</span><span class="p">))</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">front</span><span class="p">,</span> <span class="n">back</span><span class="p">)</span>
 
 
@@ -2381,13 +2401,13 @@
     <span class="k">return</span> <span class="kc">True</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_build_rounded_area_cutout</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_rounded_area_cutout_with_bounds</span><span class="p">(</span>
     <span class="n">group</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span>
     <span class="n">all_cutouts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span>
     <span class="n">comp_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Build one smooth rounded half-depth upper cutout spanning a contiguous thick-token zone."""</span>
     <span class="n">ref</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">eff_depth</span> <span class="o">=</span> <span class="n">_element_effective_depth</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
@@ -2417,19 +2437,20 @@
     <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">x1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="p">(</span><span class="n">y0</span> <span class="o">+</span> <span class="n">y1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="n">z_rim</span> <span class="o">=</span> <span class="n">z_floor</span> <span class="o">+</span> <span class="n">eff_depth</span>
 
-    <span class="k">return</span> <span class="n">_rounded_dish_cutout</span><span class="p">(</span>
+    <span class="n">solid</span> <span class="o">=</span> <span class="n">_rounded_dish_cutout</span><span class="p">(</span>
         <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">span_w</span><span class="p">,</span> <span class="n">span_l</span><span class="p">,</span> <span class="n">z_rim</span><span class="p">,</span> <span class="n">cut_depth</span><span class="p">,</span> <span class="n">max_bottom_radius</span><span class="o">=</span><span class="mf">6.0</span>
     <span class="p">)</span>
+    <span class="k">return</span> <span class="n">solid</span><span class="p">,</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_extract_thick_area_groups</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_extract_thick_area_groups_with_bounds</span><span class="p">(</span>
     <span class="n">elements_list</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span>
     <span class="n">all_cutouts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span>
     <span class="n">comp_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">comp_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">],</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""Find contiguous groups of thick tokens and build rounded upper area cutouts."""</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">],</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">"""Find contiguous groups of thick tokens and build rounded upper area cutouts with bounds."""</span>
     <span class="n">thick</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elements_list</span><span class="p">:</span>
         <span class="n">eff_d</span> <span class="o">=</span> <span class="n">_element_effective_depth</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
@@ -2437,7 +2458,7 @@
             <span class="n">thick</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">thick</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[],</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[],</span> <span class="nb">set</span><span class="p">(),</span> <span class="p">[]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">z_sig</span><span class="p">(</span><span class="n">el</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="n">raw_d</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">depth</span> <span class="ow">or</span> <span class="n">default_depth</span>
@@ -2480,6 +2501,7 @@
             <span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
 
     <span class="n">area_solids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">area_bboxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">handled_ids</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">try_emit</span><span class="p">(</span><span class="n">sub</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -2495,9 +2517,11 @@
         <span class="n">mids</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">sub</span><span class="p">}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_rect_clear_of_obstacles</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">mids</span><span class="p">,</span> <span class="n">all_cutouts</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">area_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="n">_build_rounded_area_cutout</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="n">all_cutouts</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+        <span class="n">solid</span><span class="p">,</span> <span class="n">expanded_bbox</span> <span class="o">=</span> <span class="n">_build_rounded_area_cutout_with_bounds</span><span class="p">(</span>
+            <span class="n">sub</span><span class="p">,</span> <span class="n">all_cutouts</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">default_depth</span>
         <span class="p">)</span>
+        <span class="n">area_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">solid</span><span class="p">)</span>
+        <span class="n">area_bboxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">expanded_bbox</span><span class="p">)</span>
         <span class="n">handled_ids</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">mids</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
@@ -2519,6 +2543,20 @@
             <span class="n">row_els</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">try_emit</span><span class="p">(</span><span class="n">row_els</span><span class="p">)</span>
 
+    <span class="k">return</span> <span class="n">area_solids</span><span class="p">,</span> <span class="n">handled_ids</span><span class="p">,</span> <span class="n">area_bboxes</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_extract_thick_area_groups</span><span class="p">(</span>
+    <span class="n">elements_list</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span>
+    <span class="n">all_cutouts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">],</span>
+    <span class="n">comp_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">comp_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">default_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">],</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Find contiguous groups of thick tokens and build rounded upper area cutouts."""</span>
+    <span class="n">area_solids</span><span class="p">,</span> <span class="n">handled_ids</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_extract_thick_area_groups_with_bounds</span><span class="p">(</span>
+        <span class="n">elements_list</span><span class="p">,</span> <span class="n">all_cutouts</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">default_depth</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">area_solids</span><span class="p">,</span> <span class="n">handled_ids</span>
 
 
@@ -2534,7 +2572,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span> <span class="o">=</span> <span class="n">comp_size</span>
-    <span class="n">area_solids</span><span class="p">,</span> <span class="n">handled_ids</span> <span class="o">=</span> <span class="n">_extract_thick_area_groups</span><span class="p">(</span>
+    <span class="n">area_solids</span><span class="p">,</span> <span class="n">handled_ids</span><span class="p">,</span> <span class="n">area_bboxes</span> <span class="o">=</span> <span class="n">_extract_thick_area_groups_with_bounds</span><span class="p">(</span>
         <span class="n">elements_list</span><span class="p">,</span> <span class="n">all_cutouts</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">default_depth</span>
     <span class="p">)</span>
 
@@ -2557,7 +2595,9 @@
             <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">cut_depth</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">cut_depth</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">))</span>
         <span class="p">)</span>
         <span class="n">target_across</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_width</span> <span class="ow">or</span> <span class="n">DEFAULT_PULL_OUT_WIDTH_MM</span>
-        <span class="n">clearances</span> <span class="o">=</span> <span class="n">_neighbor_clearances</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">all_cutouts</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
+        <span class="n">clearances</span> <span class="o">=</span> <span class="n">_neighbor_clearances</span><span class="p">(</span>
+            <span class="n">element</span><span class="p">,</span> <span class="n">all_cutouts</span><span class="p">,</span> <span class="n">comp_w</span><span class="p">,</span> <span class="n">comp_l</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">,</span> <span class="n">area_bboxes</span><span class="o">=</span><span class="n">area_bboxes</span>
+        <span class="p">)</span>
         <span class="n">c_left</span><span class="p">,</span> <span class="n">c_right</span><span class="p">,</span> <span class="n">c_front</span><span class="p">,</span> <span class="n">c_back</span> <span class="o">=</span> <span class="n">clearances</span>
 
         <span class="n">use_y</span> <span class="o">=</span> <span class="n">_choose_pull_out_axis</span><span class="p">(</span>
