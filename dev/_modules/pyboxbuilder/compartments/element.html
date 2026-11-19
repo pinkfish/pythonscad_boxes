@@ -1876,6 +1876,175 @@
     <span class="k">return</span> <span class="n">res</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_pull_out_across_width</span><span class="p">(</span>
+    <span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span> <span class="n">span_across</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">target_across</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a finger-bay width strictly narrower than the piece so retaining shoulders hold it."""</span>
+    <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">pull_out_width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">span_across</span> <span class="o">&gt;</span> <span class="mf">4.0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_across</span><span class="p">,</span> <span class="n">span_across</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_across</span><span class="p">,</span> <span class="n">span_across</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ElementShape</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">,</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SPHERE_SCOOP</span><span class="p">):</span>
+        <span class="n">max_safe</span> <span class="o">=</span> <span class="n">span_across</span> <span class="o">*</span> <span class="mf">0.72</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">max_safe</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">span_across</span> <span class="o">*</span> <span class="mf">0.65</span><span class="p">,</span> <span class="n">span_across</span> <span class="o">-</span> <span class="mf">4.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_across</span><span class="p">,</span> <span class="n">max_safe</span><span class="p">,</span> <span class="n">span_across</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_shoulder_fillets</span><span class="p">(</span>
+    <span class="n">element</span><span class="p">:</span> <span class="n">CompartmentElement</span><span class="p">,</span>
+    <span class="n">use_y</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">across</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">drop_neg</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">drop_pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">z_floor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">eff_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">merged_neg</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">merged_pos</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Build smooth C1-tangent corner fillets where a narrower finger bay exits a pocket wall."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span><span class="p">,</span> <span class="n">shapes2d</span>
+
+    <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">footprint</span>
+    <span class="n">cx</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">cy</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">span_across</span> <span class="o">=</span> <span class="n">width</span> <span class="k">if</span> <span class="n">use_y</span> <span class="k">else</span> <span class="n">length</span>
+    <span class="n">half_along</span> <span class="o">=</span> <span class="p">(</span><span class="n">length</span> <span class="k">if</span> <span class="n">use_y</span> <span class="k">else</span> <span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">across</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">shoulder</span> <span class="o">=</span> <span class="n">span_across</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">a</span>
+    <span class="k">if</span> <span class="n">shoulder</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">is_circle</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ElementShape</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">,</span> <span class="n">ElementShape</span><span class="o">.</span><span class="n">SPHERE_SCOOP</span><span class="p">)</span>
+    <span class="n">bay_h</span> <span class="o">=</span> <span class="n">eff_depth</span> <span class="o">+</span> <span class="mf">100.0</span>
+    <span class="n">fillets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">arc_steps</span> <span class="o">=</span> <span class="mi">8</span>
+
+    <span class="k">for</span> <span class="n">sign_along</span><span class="p">,</span> <span class="n">drop_end</span><span class="p">,</span> <span class="n">is_merged</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">drop_neg</span><span class="p">,</span> <span class="n">merged_neg</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">drop_pos</span><span class="p">,</span> <span class="n">merged_pos</span><span class="p">),</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">drop_end</span> <span class="o">&lt;</span> <span class="mf">0.6</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="c1"># End-cap centre along the bay axis (where straight wall transitions to semicircle of radius a).</span>
+        <span class="n">y_cap</span> <span class="o">=</span> <span class="n">half_along</span> <span class="o">+</span> <span class="n">drop_end</span> <span class="o">-</span> <span class="n">a</span>
+
+        <span class="k">if</span> <span class="n">is_circle</span><span class="p">:</span>
+            <span class="n">r_c</span> <span class="o">=</span> <span class="n">span_across</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">shoulder</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">,</span> <span class="n">drop_end</span> <span class="o">*</span> <span class="mf">0.55</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mf">0.25</span> <span class="ow">or</span> <span class="n">a</span> <span class="o">+</span> <span class="n">r</span> <span class="o">&gt;=</span> <span class="n">r_c</span> <span class="o">+</span> <span class="n">r</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">is_merged</span> <span class="ow">or</span> <span class="n">y_cap</span> <span class="o">&gt;=</span> <span class="n">half_along</span><span class="p">:</span>
+                <span class="c1"># Straight bay wall at x = a intersecting pocket circle of radius r_c.</span>
+                <span class="n">x_f</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">r</span>
+                <span class="n">y_f</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">r_c</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">x_f</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_merged</span> <span class="ow">and</span> <span class="n">y_f</span> <span class="o">&gt;</span> <span class="n">y_cap</span><span class="p">:</span>
+                    <span class="c1"># Tangent lands on the semicircular cap instead of the straight wall.</span>
+                    <span class="k">if</span> <span class="n">y_cap</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">y_f</span> <span class="o">=</span> <span class="p">((</span><span class="n">r_c</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">y_cap</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">y_cap</span><span class="p">)</span>
+                    <span class="n">rad_sq</span> <span class="o">=</span> <span class="p">(</span><span class="n">r_c</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">y_f</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="k">if</span> <span class="n">rad_sq</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">x_f</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">rad_sq</span><span class="p">)</span>
+                    <span class="n">ang_start</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">y_cap</span> <span class="o">-</span> <span class="n">y_f</span><span class="p">,</span> <span class="o">-</span><span class="n">x_f</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ang_start</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Semicircular end cap centred at (0, y_cap) intersecting pocket circle (0, 0).</span>
+                <span class="k">if</span> <span class="n">y_cap</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">y_f</span> <span class="o">=</span> <span class="p">((</span><span class="n">r_c</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">y_cap</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">y_cap</span><span class="p">)</span>
+                <span class="n">rad_sq</span> <span class="o">=</span> <span class="p">(</span><span class="n">r_c</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">y_f</span><span class="o">**</span><span class="mi">2</span>
+                <span class="k">if</span> <span class="n">rad_sq</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">x_f</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">rad_sq</span><span class="p">)</span>
+                <span class="n">ang_start</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">y_cap</span> <span class="o">-</span> <span class="n">y_f</span><span class="p">,</span> <span class="o">-</span><span class="n">x_f</span><span class="p">)</span>
+
+            <span class="n">ang_end</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="o">-</span><span class="n">y_f</span><span class="p">,</span> <span class="o">-</span><span class="n">x_f</span><span class="p">)</span>
+            <span class="c1"># Take the short concave arc facing the pocket/bay interior.</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">ang_end</span> <span class="o">-</span> <span class="n">ang_start</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+            <span class="n">arc_pts</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span>
+                    <span class="n">x_f</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">ang_start</span> <span class="o">+</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">k</span> <span class="o">/</span> <span class="n">arc_steps</span><span class="p">),</span>
+                    <span class="n">y_f</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">ang_start</span> <span class="o">+</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">k</span> <span class="o">/</span> <span class="n">arc_steps</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arc_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="c1"># Close inward toward bay centreline so union is watertight.</span>
+            <span class="n">in_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">arc_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">arc_pts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">)</span>
+            <span class="n">poly_local</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">in_x</span><span class="p">,</span> <span class="n">arc_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="o">*</span><span class="n">arc_pts</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">in_x</span><span class="p">,</span> <span class="n">arc_pts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.25</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">shoulder</span> <span class="o">-</span> <span class="mf">0.35</span><span class="p">,</span> <span class="n">drop_end</span> <span class="o">*</span> <span class="mf">0.55</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mf">0.25</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">y_f</span> <span class="o">=</span> <span class="n">half_along</span> <span class="o">+</span> <span class="n">r</span>
+            <span class="k">if</span> <span class="n">is_merged</span> <span class="ow">or</span> <span class="n">y_cap</span> <span class="o">&gt;=</span> <span class="n">y_f</span><span class="p">:</span>
+                <span class="c1"># Straight bay wall at x = a meeting horizontal pocket wall y = half_along.</span>
+                <span class="n">x_f</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">r</span>
+                <span class="n">ang_start</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Semicircular end cap (0, y_cap) radius a meeting horizontal pocket wall y = half_along.</span>
+                <span class="n">dy</span> <span class="o">=</span> <span class="n">y_f</span> <span class="o">-</span> <span class="n">y_cap</span>
+                <span class="n">rad_sq</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span>
+                <span class="k">if</span> <span class="n">rad_sq</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">x_f</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">rad_sq</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">x_f</span> <span class="o">&gt;</span> <span class="n">span_across</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">ang_start</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">y_cap</span> <span class="o">-</span> <span class="n">y_f</span><span class="p">,</span> <span class="o">-</span><span class="n">x_f</span><span class="p">)</span>
+
+            <span class="n">ang_end</span> <span class="o">=</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># 270 deg: tangent to y = half_along at (x_f, half_along)</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">ang_end</span> <span class="o">-</span> <span class="n">ang_start</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+            <span class="n">arc_pts</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span>
+                    <span class="n">x_f</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">ang_start</span> <span class="o">+</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">k</span> <span class="o">/</span> <span class="n">arc_steps</span><span class="p">),</span>
+                    <span class="n">y_f</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">ang_start</span> <span class="o">+</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">k</span> <span class="o">/</span> <span class="n">arc_steps</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arc_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="n">in_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">arc_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">)</span>
+            <span class="n">poly_local</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">in_x</span><span class="p">,</span> <span class="n">arc_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="o">*</span><span class="n">arc_pts</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">x_f</span><span class="p">,</span> <span class="n">half_along</span> <span class="o">-</span> <span class="mf">0.25</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">in_x</span><span class="p">,</span> <span class="n">half_along</span> <span class="o">-</span> <span class="mf">0.25</span><span class="p">),</span>
+            <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">sign_across</span> <span class="ow">in</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="n">world_pts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">poly_local</span><span class="p">:</span>
+                <span class="n">su</span> <span class="o">=</span> <span class="n">sign_across</span> <span class="o">*</span> <span class="n">u</span>
+                <span class="n">sv</span> <span class="o">=</span> <span class="n">sign_along</span> <span class="o">*</span> <span class="n">v</span>
+                <span class="k">if</span> <span class="n">use_y</span><span class="p">:</span>
+                    <span class="n">world_pts</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">cx</span> <span class="o">+</span> <span class="n">su</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">sv</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">world_pts</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">cx</span> <span class="o">+</span> <span class="n">sv</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">su</span><span class="p">])</span>
+            <span class="c1"># Ensure CCW winding using signed area so linear_extrude is always manifold.</span>
+            <span class="n">area2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="n">world_pts</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">world_pts</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">world_pts</span><span class="p">)][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="o">-</span> <span class="n">world_pts</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">world_pts</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">world_pts</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">world_pts</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">area2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">world_pts</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">area2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">solid</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">shapes2d</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">Path2D</span><span class="p">(</span><span class="n">world_pts</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">bay_h</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">z_floor</span><span class="p">])</span>
+            <span class="p">)</span>
+            <span class="n">fillets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">solid</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fillets</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_choose_pull_out_axis</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1957,7 +2126,7 @@
         <span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">across</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_across</span><span class="p">,</span> <span class="n">width</span> <span class="k">if</span> <span class="n">use_y</span> <span class="k">else</span> <span class="n">length</span><span class="p">)</span>
+    <span class="n">across</span> <span class="o">=</span> <span class="n">_pull_out_across_width</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">width</span> <span class="k">if</span> <span class="n">use_y</span> <span class="k">else</span> <span class="n">length</span><span class="p">,</span> <span class="n">target_across</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">use_y</span><span class="p">:</span>
         <span class="c1"># Orient along Y (lengthwise)</span>
@@ -1966,6 +2135,7 @@
         <span class="n">centre_x</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="n">centre_y</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">drop_back</span> <span class="o">-</span> <span class="n">drop_front</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span> <span class="o">=</span> <span class="n">across</span><span class="p">,</span> <span class="n">length</span> <span class="o">+</span> <span class="n">drop_front</span> <span class="o">+</span> <span class="n">drop_back</span>
+        <span class="n">drop_neg</span><span class="p">,</span> <span class="n">drop_pos</span> <span class="o">=</span> <span class="n">drop_front</span><span class="p">,</span> <span class="n">drop_back</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Orient along X (widthwise)</span>
         <span class="n">drop_left</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">clearance_x_left</span><span class="p">))</span>
@@ -1973,12 +2143,23 @@
         <span class="n">centre_x</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">drop_right</span> <span class="o">-</span> <span class="n">drop_left</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="n">centre_y</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span> <span class="o">=</span> <span class="n">width</span> <span class="o">+</span> <span class="n">drop_left</span> <span class="o">+</span> <span class="n">drop_right</span><span class="p">,</span> <span class="n">across</span>
+        <span class="n">drop_neg</span><span class="p">,</span> <span class="n">drop_pos</span> <span class="o">=</span> <span class="n">drop_left</span><span class="p">,</span> <span class="n">drop_right</span>
 
     <span class="k">if</span> <span class="n">is_full_depth</span><span class="p">:</span>
         <span class="c1"># Full-depth semicircular stadium bay reaching the pocket base with a curved bottom edge.</span>
-        <span class="k">return</span> <span class="n">_curved_full_depth_bay</span><span class="p">(</span>
+        <span class="n">bay</span> <span class="o">=</span> <span class="n">_curved_full_depth_bay</span><span class="p">(</span>
             <span class="n">centre_x</span><span class="p">,</span> <span class="n">centre_y</span><span class="p">,</span> <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span><span class="p">,</span> <span class="n">actual_z_offset</span><span class="p">,</span> <span class="n">eff_depth</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="n">force_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Standalone build_pull_out call: include smooth shoulder fillets directly.</span>
+            <span class="n">fillets</span> <span class="o">=</span> <span class="n">_shoulder_fillets</span><span class="p">(</span>
+                <span class="n">element</span><span class="p">,</span> <span class="n">use_y</span><span class="p">,</span> <span class="n">across</span><span class="p">,</span> <span class="n">drop_neg</span><span class="p">,</span> <span class="n">drop_pos</span><span class="p">,</span> <span class="n">actual_z_offset</span><span class="p">,</span> <span class="n">eff_depth</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">fillets</span><span class="p">:</span>
+                <span class="n">merged</span> <span class="o">=</span> <span class="n">union_all</span><span class="p">([</span><span class="n">bay</span><span class="p">,</span> <span class="o">*</span><span class="n">fillets</span><span class="p">])</span>
+                <span class="k">assert</span> <span class="n">merged</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">return</span> <span class="n">merged</span>
+        <span class="k">return</span> <span class="n">bay</span>
 
     <span class="n">z_rim</span> <span class="o">=</span> <span class="n">actual_z_offset</span> <span class="o">+</span> <span class="n">eff_depth</span>
     <span class="k">return</span> <span class="n">_rounded_dish_cutout</span><span class="p">(</span><span class="n">centre_x</span><span class="p">,</span> <span class="n">centre_y</span><span class="p">,</span> <span class="n">dish_w</span><span class="p">,</span> <span class="n">dish_l</span><span class="p">,</span> <span class="n">z_rim</span><span class="p">,</span> <span class="n">cut_depth</span><span class="p">)</span></div>
@@ -2105,15 +2286,17 @@
         <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">same_z</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">aligned</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">CompartmentElement</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="n">other_full_depth</span> <span class="o">=</span> <span class="n">_is_full_depth_pull_out</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">default_depth</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">same_z</span>
-            <span class="ow">and</span> <span class="n">aligned</span>
-            <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span>
-            <span class="ow">and</span> <span class="ow">not</span> <span class="n">el_full_depth</span>
-            <span class="ow">and</span> <span class="ow">not</span> <span class="n">other_full_depth</span>
-            <span class="ow">and</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="mf">2.5</span>
-        <span class="p">):</span>
-            <span class="k">return</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.5</span>
+        <span class="k">if</span> <span class="n">same_z</span> <span class="ow">and</span> <span class="n">aligned</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">el_full_depth</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">other_full_depth</span> <span class="ow">and</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="mf">2.5</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">0.5</span>
+            <span class="c1"># Facing full-depth pockets separated by a finger-channel gap merge smoothly</span>
+            <span class="c1"># since each pocket's retaining shoulders stay narrower than its piece.</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">el_full_depth</span>
+                <span class="ow">and</span> <span class="n">other_full_depth</span>
+                <span class="ow">and</span> <span class="mf">2.0</span> <span class="o">&lt;=</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">SHALLOW_FINGER_REACH_MM</span>
+            <span class="p">):</span>
+                <span class="k">return</span> <span class="n">gap</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">1.0</span>
         <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">pull_out</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gap</span> <span class="o">-</span> <span class="n">min_wall</span><span class="p">)</span>
@@ -2392,7 +2575,7 @@
         <span class="k">if</span> <span class="n">solid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
 
-        <span class="n">across</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_across</span><span class="p">,</span> <span class="n">width</span> <span class="k">if</span> <span class="n">use_y</span> <span class="k">else</span> <span class="n">length</span><span class="p">)</span>
+        <span class="n">across</span> <span class="o">=</span> <span class="n">_pull_out_across_width</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">width</span> <span class="k">if</span> <span class="n">use_y</span> <span class="k">else</span> <span class="n">length</span><span class="p">,</span> <span class="n">target_across</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">use_y</span><span class="p">:</span>
             <span class="n">drop_front</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">c_front</span><span class="p">))</span>
             <span class="n">drop_back</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">c_back</span><span class="p">))</span>
@@ -2401,6 +2584,7 @@
             <span class="n">max_x</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">across</span> <span class="o">/</span> <span class="mf">2.0</span>
             <span class="n">min_y</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">drop_front</span>
             <span class="n">max_y</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span> <span class="o">+</span> <span class="n">drop_back</span>
+            <span class="n">drop_neg</span><span class="p">,</span> <span class="n">drop_pos</span> <span class="o">=</span> <span class="n">drop_front</span><span class="p">,</span> <span class="n">drop_back</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">drop_left</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">c_left</span><span class="p">))</span>
             <span class="n">drop_right</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">c_right</span><span class="p">))</span>
@@ -2409,10 +2593,18 @@
             <span class="n">max_x</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">width</span> <span class="o">+</span> <span class="n">drop_right</span>
             <span class="n">min_y</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">across</span> <span class="o">/</span> <span class="mf">2.0</span>
             <span class="n">max_y</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">across</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">drop_neg</span><span class="p">,</span> <span class="n">drop_pos</span> <span class="o">=</span> <span class="n">drop_left</span><span class="p">,</span> <span class="n">drop_right</span>
 
         <span class="n">built_pieces</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">"element"</span><span class="p">:</span> <span class="n">element</span><span class="p">,</span>
             <span class="s2">"solid"</span><span class="p">:</span> <span class="n">solid</span><span class="p">,</span>
             <span class="s2">"axis"</span><span class="p">:</span> <span class="n">axis</span><span class="p">,</span>
+            <span class="s2">"use_y"</span><span class="p">:</span> <span class="n">use_y</span><span class="p">,</span>
+            <span class="s2">"is_full_depth"</span><span class="p">:</span> <span class="n">is_full_depth</span><span class="p">,</span>
+            <span class="s2">"across"</span><span class="p">:</span> <span class="n">across</span><span class="p">,</span>
+            <span class="s2">"drop_neg"</span><span class="p">:</span> <span class="n">drop_neg</span><span class="p">,</span>
+            <span class="s2">"drop_pos"</span><span class="p">:</span> <span class="n">drop_pos</span><span class="p">,</span>
+            <span class="s2">"eff_depth"</span><span class="p">:</span> <span class="n">eff_depth</span><span class="p">,</span>
             <span class="s2">"z_floor"</span><span class="p">:</span> <span class="n">z_floor</span><span class="p">,</span>
             <span class="s2">"z_top"</span><span class="p">:</span> <span class="n">z_top</span><span class="p">,</span>
             <span class="s2">"min_x"</span><span class="p">:</span> <span class="n">min_x</span><span class="p">,</span>
@@ -2476,6 +2668,31 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">raw_shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">"solid"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">g</span><span class="p">]</span>
                 <span class="n">final_solids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CsgSolid</span><span class="p">(</span><span class="n">hull_fn</span><span class="p">(</span><span class="n">raw_shapes</span><span class="p">)))</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">p</span><span class="p">[</span><span class="s2">"is_full_depth"</span><span class="p">]:</span>
+                    <span class="k">continue</span>
+                <span class="n">merged_neg</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">merged_pos</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="s2">"use_y"</span><span class="p">]:</span>
+                        <span class="n">merged_neg</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">other</span><span class="p">[</span><span class="s2">"min_y"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">[</span><span class="s2">"min_y"</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">g</span><span class="p">)</span>
+                        <span class="n">merged_pos</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">other</span><span class="p">[</span><span class="s2">"max_y"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">p</span><span class="p">[</span><span class="s2">"max_y"</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">g</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">merged_neg</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">other</span><span class="p">[</span><span class="s2">"min_x"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">[</span><span class="s2">"min_x"</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">g</span><span class="p">)</span>
+                        <span class="n">merged_pos</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">other</span><span class="p">[</span><span class="s2">"max_x"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">p</span><span class="p">[</span><span class="s2">"max_x"</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">g</span><span class="p">)</span>
+                <span class="n">final_solids</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                    <span class="n">_shoulder_fillets</span><span class="p">(</span>
+                        <span class="n">p</span><span class="p">[</span><span class="s2">"element"</span><span class="p">],</span>
+                        <span class="n">p</span><span class="p">[</span><span class="s2">"use_y"</span><span class="p">],</span>
+                        <span class="n">p</span><span class="p">[</span><span class="s2">"across"</span><span class="p">],</span>
+                        <span class="n">p</span><span class="p">[</span><span class="s2">"drop_neg"</span><span class="p">],</span>
+                        <span class="n">p</span><span class="p">[</span><span class="s2">"drop_pos"</span><span class="p">],</span>
+                        <span class="n">p</span><span class="p">[</span><span class="s2">"z_floor"</span><span class="p">],</span>
+                        <span class="n">p</span><span class="p">[</span><span class="s2">"eff_depth"</span><span class="p">],</span>
+                        <span class="n">merged_neg</span><span class="o">=</span><span class="n">merged_neg</span><span class="p">,</span>
+                        <span class="n">merged_pos</span><span class="o">=</span><span class="n">merged_pos</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">union_all</span><span class="p">([</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">final_solids</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span></div>
 
