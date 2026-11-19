@@ -313,7 +313,9 @@ class PathBox(BoxTypeBase):
             if span < 16.0:
                 continue
             radius = min(8.0, max(5.0, reach * 1.25), span * 0.22)
-            mouth_flare = min(2.5, radius * 0.35)
+            from pyboxbuilder.compartments.finger_outline import DEFAULT_TOP_ROUNDING_RATIO
+
+            mouth_flare = min(6.0, radius * DEFAULT_TOP_ROUNDING_RATIO)
             if 2.0 * (radius + mouth_flare) > span * 0.75:
                 continue
             tx, ty = dx / length, dy / length

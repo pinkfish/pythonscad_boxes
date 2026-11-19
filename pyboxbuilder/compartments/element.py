@@ -1191,8 +1191,8 @@ SHALLOW_TOKEN_MAX_DEPTH_MM = 3.5
 """Pockets at or below this depth hold thin cardboard tokens and need full-depth
 finger bays reaching all the way to the pocket base rather than half-height notches."""
 
-SHALLOW_FINGER_REACH_MM = 6.0
-"""Minimum outward reach from a thin cardboard token pocket for fingertip access."""
+SHALLOW_FINGER_REACH_MM = 7.0
+"""Outward reach from a thin/cardboard token pocket for fingertip access."""
 
 THICK_AREA_MAX_GAP_MM = 7.5
 """Maximum gap between adjacent equal-depth thick pockets merged into one rounded upper area cutout."""
@@ -1289,7 +1289,7 @@ def _curved_full_depth_bay(
         mid_size = [across, span - across, bay_h]
 
     radius = across / 2.0
-    r_bottom = max(0.0, min(eff_depth - 0.02, 2.5, radius - 0.05))
+    r_bottom = max(0.0, min(eff_depth - 0.02, 4.5, radius - 0.05))
     z_mid = z_floor + bay_h / 2.0
     if radius <= 0.1:
         return cuboid([dish_w, dish_l, bay_h]).translate([cx, cy, z_mid])
@@ -1373,7 +1373,11 @@ def build_pull_out(
     eff_depth = _element_effective_depth(element, default_depth)
     is_full_depth = _is_full_depth_pull_out(element, default_depth)
     cut_depth = eff_depth if is_full_depth else _thick_cut_depth(element, default_depth)
-    drop = SHALLOW_FINGER_REACH_MM if is_full_depth else min(cut_depth, max(3.5, cut_depth * 0.6))
+    drop = (
+        SHALLOW_FINGER_REACH_MM
+        if is_full_depth
+        else min(cut_depth, max(5.0, cut_depth * 0.75))
+    )
     target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
 
     # Calculate clearances to compartment boundaries (or neighbor-clamped clearances)
@@ -1656,7 +1660,7 @@ def _build_rounded_area_cutout(
     c_left, c_right, c_front, c_back = _box_non_member_clearances(
         (bx0, by0, bx1, by1), member_ids, all_cutouts, comp_w, comp_l
     )
-    target_pad = min(cut_depth, 3.5)
+    target_pad = min(cut_depth, 5.0)
     pad_l = min(target_pad, c_left)
     pad_r = min(target_pad, c_right)
     pad_f = min(target_pad, c_front)
@@ -1669,7 +1673,7 @@ def _build_rounded_area_cutout(
     z_rim = z_floor + eff_depth
 
     return _rounded_dish_cutout(
-        cx, cy, span_w, span_l, z_rim, cut_depth, max_bottom_radius=4.0
+        cx, cy, span_w, span_l, z_rim, cut_depth, max_bottom_radius=6.0
     )
 
 
@@ -1803,7 +1807,7 @@ def build_element_pack_pull_outs(
         drop = (
             SHALLOW_FINGER_REACH_MM
             if is_full_depth
-            else min(cut_depth, max(3.5, cut_depth * 0.6))
+            else min(cut_depth, max(5.0, cut_depth * 0.75))
         )
         target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
         clearances = _neighbor_clearances(element, all_cutouts, comp_w, comp_l, default_depth)

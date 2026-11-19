@@ -257,9 +257,12 @@ cuboid([1, 1, 1]).show()
         no_mouth_low, no_mouth_high = self.span("no_mouth", 0)
         self.assertAlmostEqual(no_mouth_high - no_mouth_low, 22.0, delta=0.1)
 
-        # Both on: r1 defaults to half the throat (5mm here) on each side.
+        # Both on: r1 defaults to DEFAULT_TOP_ROUNDING_RATIO * throat on each side.
+        from pyboxbuilder.compartments.finger_outline import DEFAULT_TOP_ROUNDING_RATIO
+
         full_low, full_high = self.span("wt2", 0)
-        self.assertAlmostEqual(full_high - full_low, 32.0, delta=0.1)
+        expected_full = 2.0 * (10.0 + 10.0 * DEFAULT_TOP_ROUNDING_RATIO + 1.0)
+        self.assertAlmostEqual(full_high - full_low, expected_full, delta=0.1)
 
     def test_carved_box_keeps_its_envelope(self) -> None:
         """Cutting the scoop must not enlarge the box or open its base."""
@@ -469,10 +472,12 @@ class NoLidFingerHoleTests(unittest.TestCase):
         # width 100 > length 80, so the longer side is the width → FRONT/BACK.
         holes = no_lid_finger_holes(self.spec())
         self.assertEqual([h.side for h in holes], [ScoopSide.FRONT, ScoopSide.BACK])
+        from pyboxbuilder.compartments.finger_outline import DEFAULT_MOUTH_ROUNDING_MM
+
         for hole in holes:
             self.assertEqual(hole.radius, 20.0)  # min(20, 80/4=20, 40-2+1=39)
             self.assertEqual(hole.depth, 20.0)   # min(20, 40-2+1=39)
-            self.assertEqual(hole.mouth_flare, 3.0)
+            self.assertEqual(hole.mouth_flare, DEFAULT_MOUTH_ROUNDING_MM)
 
     def test_the_longer_dimension_chooses_the_side(self) -> None:
         from pyboxbuilder.box.shell import no_lid_finger_holes
