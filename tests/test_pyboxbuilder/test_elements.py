@@ -394,10 +394,10 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
         self.assertEqual(areas, [])
         self.assertEqual(handled, set())
 
-        # Front open margin (y=5.5) reaches the 8mm pocket floor (10.9 - 8.0 = 2.9).
+        # Front open margin (y=8.0, 2mm in front of pocket) reaches the 8mm pocket floor (10.9 - 8.0 = 2.9).
         po = build_element_pack_pull_outs((left, right), comp_d, comp_size)
         assert po is not None
-        bay_probe = cuboid([4.0, 2.0, comp_d]).translate([19.25, 5.5, comp_d / 2.0])
+        bay_probe = cuboid([4.0, 2.0, comp_d]).translate([19.25, 8.0, comp_d / 2.0])
         bay_cut = po & bay_probe
         self.assertAlmostEqual(float(bay_cut.bounds().min_z), comp_d - 8.0, places=2)
 
@@ -433,11 +433,11 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
         assert ob_bay is not None
         ob_bounds = ob_bay.bounds()
         self.assertAlmostEqual(float(ob_bounds.min_z), 0.0, places=2)
-        self.assertAlmostEqual(float(ob_bounds.min_x), 4.0, places=2)
+        self.assertAlmostEqual(float(ob_bounds.min_x), 3.0, places=2)
         self.assertGreaterEqual(float(ob_bounds.min_y), 17.5 - 1e-3)
 
-        # Curved bottom edge on shallow pockets rises smoothly above pocket floor near outer tip.
-        tip_probe = cuboid([1.0, 0.5, comp_d]).translate([19.25, 4.3, comp_d / 2.0])
+        # Curved bottom edge on full-depth bays rises smoothly above pocket floor near outer tip.
+        tip_probe = cuboid([1.0, 0.5, comp_d]).translate([19.25, 3.5, comp_d / 2.0])
         tip_cut = po & tip_probe
         self.assertGreater(float(tip_cut.bounds().min_z), comp_d - 8.0 + 0.2)
 

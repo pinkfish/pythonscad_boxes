@@ -414,18 +414,23 @@ def apply_finger_holes(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         ft = spec.floor_thickness
         span = spec.width if side == ScoopSide.FRONT else spec.length
         span_interior = span - 2 * wt
+        from pyboxbuilder.compartments.finger_outline import DEFAULT_TOP_ROUNDING_RATIO
+
         radius = min(17.0, span_interior / 4.0, spec.height - ft - MIN_WALL_BELOW_HOLE_MM)
         hole_height = min(radius, spec.height * MAX_FINGER_HOLE_HEIGHT_SHARE)
+        max_flare = span_interior * MAX_FINGER_HOLE_SPAN_SHARE / 2.0 - radius
+        flare = min(radius * DEFAULT_TOP_ROUNDING_RATIO, max(0.0, max_flare))
         if (
             hole_height >= MIN_FINGER_HOLE_REACH_MM
-            and 2.0 * (radius + 3.0) <= span_interior * MAX_FINGER_HOLE_SPAN_SHARE
+            and flare >= 2.0
+            and 2.0 * (radius + flare) <= span_interior * MAX_FINGER_HOLE_SPAN_SHARE + 1e-6
         ):
             from pyboxbuilder.builders._base import FingerHoleBuilder
             keystone_hole = FingerHoleBuilder(
                 side=side,
                 width=radius * 2.0,
                 depth=hole_height,
-                mouth_flare=3.0,
+                mouth_flare=flare,
             )
             spec = replace(spec, finger_holes=(keystone_hole,))
 
@@ -587,7 +592,9 @@ def no_lid_finger_holes(spec: BoxSpec) -> tuple[FingerHoleBuilder, ...]:
         # No room for both. The strip wins: a tray this short is liftable by
         # its walls, and a grip cut out of what holds it is not a grip.
         return ()
-    rounding_radius = 3.0
+    from pyboxbuilder.compartments.finger_outline import DEFAULT_MOUTH_ROUNDING_MM
+
+    rounding_radius = DEFAULT_MOUTH_ROUNDING_MM
 
     if length >= width:
         sides = (ScoopSide.LEFT, ScoopSide.RIGHT)

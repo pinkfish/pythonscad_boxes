@@ -35,17 +35,17 @@ if TYPE_CHECKING:
     from pybosl2.shapes2d import Bosl2Shape2D
 
 
-DEFAULT_MOUTH_ROUNDING_MM = 3.0
+DEFAULT_MOUTH_ROUNDING_MM = 5.0
 """Fallback ``r1`` where nothing better can be derived."""
-DEFAULT_TOP_ROUNDING_RATIO = 0.5
+DEFAULT_TOP_ROUNDING_RATIO = 0.75
 """How far the top roll flares **outward**, as a fraction of the throat half-width.
 
-Derived rather than fixed so the roll stays in proportion: a 3mm constant is
+Derived rather than fixed so the roll stays in proportion: a fixed constant is
 invisible on a 14mm finger hole and overwhelming on a 4mm one. This is the one
 number that sets how *wide* the scoop's mouth is, so it is also the one to
 leave alone when the width is already right.
 """
-TOP_ROLL_RISE_RATIO = 1.6
+TOP_ROLL_RISE_RATIO = 1.2
 """How far the top roll reaches **down**, as a multiple of its outward flare.
 
 The roll is an ellipse quadrant, not a circle, because its two extents answer

@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=41c5b57f,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=dd70eb60,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=2f69e2a8,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=882a59f6,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=5118df0c,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=0d2dc8be,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7fe3ba7a,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=d73b59ca,../_stl/boxes/brink_long/HexBox_body.stl?v=c77b327f,../_stl/boxes/brink_long/HexBox_lid.stl?v=70855458,../_stl/boxes/brink_long/spacer_1.stl?v=30ffb7fa,../_stl/boxes/brink_long/spacer_2.stl?v=076c71ba,../_stl/boxes/brink_long/spacer_3.stl?v=563e5afb
+.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=41c5b57f,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=dd70eb60,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=7c259d6b,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=882a59f6,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2c3c4952,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=0d2dc8be,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=8ce67d0c,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=d73b59ca,../_stl/boxes/brink_long/HexBox_body.stl?v=c77b327f,../_stl/boxes/brink_long/HexBox_lid.stl?v=70855458,../_stl/boxes/brink_long/spacer_1.stl?v=ee789490,../_stl/boxes/brink_long/spacer_2.stl?v=5b0980e5,../_stl/boxes/brink_long/spacer_3.stl?v=563e5afb
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=41c5b57f" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=41c5b57f,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=dd70eb60,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=2f69e2a8,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=882a59f6,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=5118df0c,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=0d2dc8be,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7fe3ba7a,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=d73b59ca,../_stl/boxes/brink_long/HexBox_body.stl?v=c77b327f,../_stl/boxes/brink_long/HexBox_lid.stl?v=70855458,../_stl/boxes/brink_long/spacer_1.stl?v=30ffb7fa,../_stl/boxes/brink_long/spacer_2.stl?v=076c71ba,../_stl/boxes/brink_long/spacer_3.stl?v=563e5afb" download="BrinkLong_full_packing.stl">⬇ Download Full Box Packing STL (<code>BrinkLong_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=41c5b57f" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=41c5b57f,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=dd70eb60,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=7c259d6b,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=882a59f6,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2c3c4952,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=0d2dc8be,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=8ce67d0c,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=d73b59ca,../_stl/boxes/brink_long/HexBox_body.stl?v=c77b327f,../_stl/boxes/brink_long/HexBox_lid.stl?v=70855458,../_stl/boxes/brink_long/spacer_1.stl?v=ee789490,../_stl/boxes/brink_long/spacer_2.stl?v=5b0980e5,../_stl/boxes/brink_long/spacer_3.stl?v=563e5afb" download="BrinkLong_full_packing.stl">⬇ Download Full Box Packing STL (<code>BrinkLong_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -169,21 +169,21 @@ CardBox_Actions
 
 **Assembled Box (CardBox_Actions — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=2f69e2a8,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=882a59f6
+.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=7c259d6b,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=882a59f6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=2f69e2a8" data-stl-combine="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=2f69e2a8,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=882a59f6" download="CardBox_Actions_assembled.stl">⬇ Download Assembled CardBox_Actions STL (<code>CardBox_Actions_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=7c259d6b" data-stl-combine="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=7c259d6b,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=882a59f6" download="CardBox_Actions_assembled.stl">⬇ Download Assembled CardBox_Actions STL (<code>CardBox_Actions_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Actions Body**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=2f69e2a8
+.. stl:: ../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=7c259d6b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=2f69e2a8" download="CardBox_Actions_body.stl">⬇ Download CardBox_Actions Body STL (<code>CardBox_Actions_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=7c259d6b" download="CardBox_Actions_body.stl">⬇ Download CardBox_Actions Body STL (<code>CardBox_Actions_body.stl</code>)</a></p>
 
 **Part: CardBox_Actions Lid**
 
@@ -206,21 +206,21 @@ CardBox_Riders
 
 **Assembled Box (CardBox_Riders — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=5118df0c,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=0d2dc8be
+.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2c3c4952,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=0d2dc8be
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=5118df0c" data-stl-combine="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=5118df0c,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=0d2dc8be" download="CardBox_Riders_assembled.stl">⬇ Download Assembled CardBox_Riders STL (<code>CardBox_Riders_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2c3c4952" data-stl-combine="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2c3c4952,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=0d2dc8be" download="CardBox_Riders_assembled.stl">⬇ Download Assembled CardBox_Riders STL (<code>CardBox_Riders_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Riders Body**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=5118df0c
+.. stl:: ../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2c3c4952
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=5118df0c" download="CardBox_Riders_body.stl">⬇ Download CardBox_Riders Body STL (<code>CardBox_Riders_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2c3c4952" download="CardBox_Riders_body.stl">⬇ Download CardBox_Riders Body STL (<code>CardBox_Riders_body.stl</code>)</a></p>
 
 **Part: CardBox_Riders Lid**
 
@@ -243,21 +243,21 @@ CardBox_Ambassadors
 
 **Assembled Box (CardBox_Ambassadors — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7fe3ba7a,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=d73b59ca
+.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=8ce67d0c,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=d73b59ca
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7fe3ba7a" data-stl-combine="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7fe3ba7a,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=d73b59ca" download="CardBox_Ambassadors_assembled.stl">⬇ Download Assembled CardBox_Ambassadors STL (<code>CardBox_Ambassadors_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=8ce67d0c" data-stl-combine="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=8ce67d0c,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=d73b59ca" download="CardBox_Ambassadors_assembled.stl">⬇ Download Assembled CardBox_Ambassadors STL (<code>CardBox_Ambassadors_assembled.stl</code>)</a></p>
 
 **Part: CardBox_Ambassadors Body**
 
-.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7fe3ba7a
+.. stl:: ../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=8ce67d0c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7fe3ba7a" download="CardBox_Ambassadors_body.stl">⬇ Download CardBox_Ambassadors Body STL (<code>CardBox_Ambassadors_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=8ce67d0c" download="CardBox_Ambassadors_body.stl">⬇ Download CardBox_Ambassadors Body STL (<code>CardBox_Ambassadors_body.stl</code>)</a></p>
 
 **Part: CardBox_Ambassadors Lid**
 
@@ -317,12 +317,12 @@ spacer_1
 - **Outer Dimensions**: ``109 × 229.5 × 78 mm``
 - **Packed Position**: ``(106, 77.5, 0)``
 
-.. stl:: ../_stl/boxes/brink_long/spacer_1.stl?v=30ffb7fa
+.. stl:: ../_stl/boxes/brink_long/spacer_1.stl?v=ee789490
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/spacer_1.stl?v=30ffb7fa" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/spacer_1.stl?v=ee789490" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-brink_long-spacer_2:
 
@@ -333,12 +333,12 @@ spacer_2
 - **Outer Dimensions**: ``215 × 307 × 30 mm``
 - **Packed Position**: ``(0, 0, 48)``
 
-.. stl:: ../_stl/boxes/brink_long/spacer_2.stl?v=076c71ba
+.. stl:: ../_stl/boxes/brink_long/spacer_2.stl?v=5b0980e5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/spacer_2.stl?v=076c71ba" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/spacer_2.stl?v=5b0980e5" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
 
 .. _spacer-brink_long-spacer_3:
 
