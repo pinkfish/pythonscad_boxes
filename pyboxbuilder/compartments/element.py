@@ -1323,6 +1323,175 @@ def _curved_full_depth_bay(
     return res
 
 
+def _pull_out_across_width(
+    element: CompartmentElement, span_across: float, target_across: float
+) -> float:
+    """Return a finger-bay width strictly narrower than the piece so retaining shoulders hold it."""
+    if element.pull_out_width is not None:
+        if span_across > 4.0:
+            return min(target_across, span_across - 2.0)
+        return min(target_across, span_across)
+    if element.shape in (ElementShape.CIRCLE, ElementShape.SPHERE_SCOOP):
+        max_safe = span_across * 0.72
+    else:
+        max_safe = max(span_across * 0.65, span_across - 4.0)
+    return max(2.0, min(target_across, max_safe, span_across))
+
+
+def _shoulder_fillets(
+    element: CompartmentElement,
+    use_y: bool,
+    across: float,
+    drop_neg: float,
+    drop_pos: float,
+    z_floor: float,
+    eff_depth: float,
+    *,
+    merged_neg: bool = False,
+    merged_pos: bool = False,
+) -> list[Bosl2Solid]:
+    """Build smooth C1-tangent corner fillets where a narrower finger bay exits a pocket wall."""
+    from pybosl2 import Path2D, shapes2d
+
+    width, length = element.footprint
+    cx = element.offset[0] + width / 2.0
+    cy = element.offset[1] + length / 2.0
+    span_across = width if use_y else length
+    half_along = (length if use_y else width) / 2.0
+    a = across / 2.0
+    shoulder = span_across / 2.0 - a
+    if shoulder < 0.5:
+        return []
+
+    is_circle = element.shape in (ElementShape.CIRCLE, ElementShape.SPHERE_SCOOP)
+    bay_h = eff_depth + 100.0
+    fillets: list[Bosl2Solid] = []
+    arc_steps = 8
+
+    for sign_along, drop_end, is_merged in (
+        (-1.0, drop_neg, merged_neg),
+        (1.0, drop_pos, merged_pos),
+    ):
+        if drop_end < 0.6:
+            continue
+        # End-cap centre along the bay axis (where straight wall transitions to semicircle of radius a).
+        y_cap = half_along + drop_end - a
+
+        if is_circle:
+            r_c = span_across / 2.0
+            r = min(1.8, shoulder * 0.85, drop_end * 0.55)
+            if r < 0.25 or a + r >= r_c + r - 0.1:
+                continue
+            if is_merged or y_cap >= half_along:
+                # Straight bay wall at x = a intersecting pocket circle of radius r_c.
+                x_f = a + r
+                y_f = math.sqrt(max(0.0, (r_c + r) ** 2 - x_f**2))
+                if not is_merged and y_f > y_cap:
+                    # Tangent lands on the semicircular cap instead of the straight wall.
+                    if y_cap <= 1e-6:
+                        continue
+                    y_f = ((r_c + r) ** 2 - (a + r) ** 2 + y_cap**2) / (2.0 * y_cap)
+                    rad_sq = (r_c + r) ** 2 - y_f**2
+                    if rad_sq <= 1e-6:
+                        continue
+                    x_f = math.sqrt(rad_sq)
+                    ang_start = math.atan2(y_cap - y_f, -x_f)
+                else:
+                    ang_start = math.pi
+            else:
+                # Semicircular end cap centred at (0, y_cap) intersecting pocket circle (0, 0).
+                if y_cap <= 1e-6:
+                    continue
+                y_f = ((r_c + r) ** 2 - (a + r) ** 2 + y_cap**2) / (2.0 * y_cap)
+                rad_sq = (r_c + r) ** 2 - y_f**2
+                if rad_sq <= 1e-6:
+                    continue
+                x_f = math.sqrt(rad_sq)
+                ang_start = math.atan2(y_cap - y_f, -x_f)
+
+            ang_end = math.atan2(-y_f, -x_f)
+            # Take the short concave arc facing the pocket/bay interior.
+            delta = (ang_end - ang_start + math.pi) % (2.0 * math.pi) - math.pi
+            arc_pts = [
+                (
+                    x_f + r * math.cos(ang_start + delta * k / arc_steps),
+                    y_f + r * math.sin(ang_start + delta * k / arc_steps),
+                )
+                for k in range(arc_steps + 1)
+            ]
+            # Close inward toward bay centreline so union is watertight.
+            in_x = max(0.0, min(arc_pts[0][0], arc_pts[-1][0]) - 0.3)
+            poly_local = [
+                (in_x, arc_pts[0][1]),
+                *arc_pts,
+                (in_x, arc_pts[-1][1] - 0.25),
+            ]
+        else:
+            r = min(1.8, shoulder - 0.35, drop_end * 0.55)
+            if r < 0.25:
+                continue
+            y_f = half_along + r
+            if is_merged or y_cap >= y_f:
+                # Straight bay wall at x = a meeting horizontal pocket wall y = half_along.
+                x_f = a + r
+                ang_start = math.pi
+            else:
+                # Semicircular end cap (0, y_cap) radius a meeting horizontal pocket wall y = half_along.
+                dy = y_f - y_cap
+                rad_sq = (a + r) ** 2 - dy**2
+                if rad_sq <= 1e-6:
+                    continue
+                x_f = math.sqrt(rad_sq)
+                if x_f > span_across / 2.0 - 0.1:
+                    continue
+                ang_start = math.atan2(y_cap - y_f, -x_f)
+
+            ang_end = 1.5 * math.pi  # 270 deg: tangent to y = half_along at (x_f, half_along)
+            delta = (ang_end - ang_start + math.pi) % (2.0 * math.pi) - math.pi
+            arc_pts = [
+                (
+                    x_f + r * math.cos(ang_start + delta * k / arc_steps),
+                    y_f + r * math.sin(ang_start + delta * k / arc_steps),
+                )
+                for k in range(arc_steps + 1)
+            ]
+            in_x = max(0.0, min(arc_pts[0][0], a) - 0.3)
+            poly_local = [
+                (in_x, arc_pts[0][1]),
+                *arc_pts,
+                (x_f, half_along - 0.25),
+                (in_x, half_along - 0.25),
+            ]
+
+        for sign_across in (-1.0, 1.0):
+            world_pts: list[list[float]] = []
+            for u, v in poly_local:
+                su = sign_across * u
+                sv = sign_along * v
+                if use_y:
+                    world_pts.append([cx + su, cy + sv])
+                else:
+                    world_pts.append([cx + sv, cy + su])
+            # Ensure CCW winding using signed area so linear_extrude is always manifold.
+            area2 = sum(
+                world_pts[i][0] * world_pts[(i + 1) % len(world_pts)][1]
+                - world_pts[(i + 1) % len(world_pts)][0] * world_pts[i][1]
+                for i in range(len(world_pts))
+            )
+            if area2 < 0:
+                world_pts.reverse()
+            if abs(area2) < 1e-6:
+                continue
+            solid = (
+                shapes2d.polygon(Path2D(world_pts))
+                .linear_extrude(height=bay_h)
+                .translate([0.0, 0.0, z_floor])
+            )
+            fillets.append(solid)
+
+    return fillets
+
+
 def _choose_pull_out_axis(
     width: float,
     length: float,
@@ -1402,7 +1571,7 @@ def build_pull_out(
         )
     )
 
-    across = min(target_across, width if use_y else length)
+    across = _pull_out_across_width(element, width if use_y else length, target_across)
 
     if use_y:
         # Orient along Y (lengthwise)
@@ -1411,6 +1580,7 @@ def build_pull_out(
         centre_x = element.offset[0] + width / 2
         centre_y = element.offset[1] + length / 2 + (drop_back - drop_front) / 2
         dish_w, dish_l = across, length + drop_front + drop_back
+        drop_neg, drop_pos = drop_front, drop_back
     else:
         # Orient along X (widthwise)
         drop_left = max(0.0, min(drop, clearance_x_left))
@@ -1418,12 +1588,23 @@ def build_pull_out(
         centre_x = element.offset[0] + width / 2 + (drop_right - drop_left) / 2
         centre_y = element.offset[1] + length / 2
         dish_w, dish_l = width + drop_left + drop_right, across
+        drop_neg, drop_pos = drop_left, drop_right
 
     if is_full_depth:
         # Full-depth semicircular stadium bay reaching the pocket base with a curved bottom edge.
-        return _curved_full_depth_bay(
+        bay = _curved_full_depth_bay(
             centre_x, centre_y, dish_w, dish_l, actual_z_offset, eff_depth
         )
+        if force_axis is None:
+            # Standalone build_pull_out call: include smooth shoulder fillets directly.
+            fillets = _shoulder_fillets(
+                element, use_y, across, drop_neg, drop_pos, actual_z_offset, eff_depth
+            )
+            if fillets:
+                merged = union_all([bay, *fillets])
+                assert merged is not None
+                return merged
+        return bay
 
     z_rim = actual_z_offset + eff_depth
     return _rounded_dish_cutout(centre_x, centre_y, dish_w, dish_l, z_rim, cut_depth)
@@ -1543,15 +1724,17 @@ def _neighbor_clearances(
         gap: float, same_z: bool, aligned: bool, other: CompartmentElement
     ) -> float:
         other_full_depth = _is_full_depth_pull_out(other, default_depth)
-        if (
-            same_z
-            and aligned
-            and other.pull_out
-            and not el_full_depth
-            and not other_full_depth
-            and gap <= 2.5
-        ):
-            return gap / 2.0 + 0.5
+        if same_z and aligned and other.pull_out:
+            if not el_full_depth and not other_full_depth and gap <= 2.5:
+                return gap / 2.0 + 0.5
+            # Facing full-depth pockets separated by a finger-channel gap merge smoothly
+            # since each pocket's retaining shoulders stay narrower than its piece.
+            if (
+                el_full_depth
+                and other_full_depth
+                and 2.0 <= gap <= 2.0 * SHALLOW_FINGER_REACH_MM
+            ):
+                return gap / 2.0 + 1.0
         if other.pull_out:
             return max(0.0, (gap - min_wall) / 2.0)
         return max(0.0, gap - min_wall)
@@ -1828,7 +2011,7 @@ def build_element_pack_pull_outs(
         if solid is None:
             continue
 
-        across = min(target_across, width if use_y else length)
+        across = _pull_out_across_width(element, width if use_y else length, target_across)
         if use_y:
             drop_front = max(0.0, min(drop, c_front))
             drop_back = max(0.0, min(drop, c_back))
@@ -1837,6 +2020,7 @@ def build_element_pack_pull_outs(
             max_x = cx + across / 2.0
             min_y = element.offset[1] - drop_front
             max_y = element.offset[1] + length + drop_back
+            drop_neg, drop_pos = drop_front, drop_back
         else:
             drop_left = max(0.0, min(drop, c_left))
             drop_right = max(0.0, min(drop, c_right))
@@ -1845,10 +2029,18 @@ def build_element_pack_pull_outs(
             max_x = element.offset[0] + width + drop_right
             min_y = cy - across / 2.0
             max_y = cy + across / 2.0
+            drop_neg, drop_pos = drop_left, drop_right
 
         built_pieces.append({
+            "element": element,
             "solid": solid,
             "axis": axis,
+            "use_y": use_y,
+            "is_full_depth": is_full_depth,
+            "across": across,
+            "drop_neg": drop_neg,
+            "drop_pos": drop_pos,
+            "eff_depth": eff_depth,
             "z_floor": z_floor,
             "z_top": z_top,
             "min_x": min_x,
@@ -1912,6 +2104,31 @@ def build_element_pack_pull_outs(
             else:
                 raw_shapes = [p["solid"].shape for p in g]
                 final_solids.append(CsgSolid(hull_fn(raw_shapes)))
+            for p in g:
+                if not p["is_full_depth"]:
+                    continue
+                merged_neg = False
+                merged_pos = False
+                if len(g) > 1:
+                    if p["use_y"]:
+                        merged_neg = any(other["min_y"] < p["min_y"] - 0.5 for other in g)
+                        merged_pos = any(other["max_y"] > p["max_y"] + 0.5 for other in g)
+                    else:
+                        merged_neg = any(other["min_x"] < p["min_x"] - 0.5 for other in g)
+                        merged_pos = any(other["max_x"] > p["max_x"] + 0.5 for other in g)
+                final_solids.extend(
+                    _shoulder_fillets(
+                        p["element"],
+                        p["use_y"],
+                        p["across"],
+                        p["drop_neg"],
+                        p["drop_pos"],
+                        p["z_floor"],
+                        p["eff_depth"],
+                        merged_neg=merged_neg,
+                        merged_pos=merged_pos,
+                    )
+                )
 
     return union_all([p for p in final_solids if p is not None])
 
