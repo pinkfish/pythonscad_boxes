@@ -366,25 +366,15 @@ def build_contents(
                 scoops.append(_place(pull_outs, placement, interior))
         cut = getattr(builder, "cut", None)
         if cut is not None and not suppress_scoops:
-            is_card = getattr(builder, "is_card", False) or any(
-                w in getattr(builder, "label", "").lower() for w in ("card", "deck")
-            )
             if cut.side is not None:
                 side = cut.side
-            elif is_card:
-                width, length = placement.size
-                short_sides = (
-                    {ScoopSide.FRONT, ScoopSide.BACK}
-                    if width <= length
-                    else {ScoopSide.LEFT, ScoopSide.RIGHT}
-                )
-                side = (
-                    default_side
-                    if default_side in short_sides
-                    else default_scoop_side(placement)
-                )
+            elif default_side is not None:
+                # Box types with a fixed exit wall (e.g. SlidingBox) require the
+                # scoop to share that open wall so it never cuts through a
+                # dovetail rail.
+                side = default_side
             else:
-                side = default_side or default_scoop_side(placement)
+                side = default_scoop_side(placement)
             side_top = (wall_tops or {}).get(side, top_z)
             scoops.append(
                 build_compartment_scoop(

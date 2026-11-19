@@ -36,9 +36,9 @@ This document details the layout, component inventory, sub-box specifications, a
 * **Dimensions**: `213.0mm x 120.0mm x 26.0mm`.
 * **Arrangement**: Full width tray with 3 hexagonal storage wells.
 
-### 3.2 Player Faction Trays (`Y = 120.0 .. 200.0mm`)
-* **Dimensions**: `106.0mm x 80.0mm x 26.0mm` each.
-* **Arrangement**: 2 columns, stacked 2 high (`Z = 0.0` and `Z = 26.0mm`).
+### 3.2 Player Faction Trays
+* **Dimensions**: `106.0mm x 110.0mm x 26.0mm` each.
+* **Arrangement**: 2 columns, stacked 2 high (`Z = 0.0` and `Z = 26.0mm`), holding the upgrade board, Class I/II/III ships with floor inlays, 3 cargo + nubs, 3 railguns + nubs, and player tokens.
 
 ### 3.3 Card Trays (`Y = 200.0 .. 277.5mm`)
 * **Dimensions**: `106.5mm x 77.5mm x 26.0mm` each.
