@@ -441,6 +441,39 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
         tip_cut = po & tip_probe
         self.assertGreater(float(tip_cut.bounds().min_z), comp_d - 8.0 + 0.2)
 
+    def test_pull_out_widths_retain_pieces_and_merge_facing_bays(self) -> None:
+        """Pull-out openings stay narrower than their piece and merge smoothly across facing gaps."""
+        from pybosl2 import cuboid
+
+        from pyboxbuilder.compartments.element import (
+            _pull_out_across_width,
+            build_element_pack_pull_outs,
+        )
+
+        # Circular 15mm token keeps >70% retaining arc; square 18.5mm token keeps >=2mm corners.
+        log = CompartmentElement(
+            shape=ElementShape.CIRCLE, offset=(5.0, 8.0), size=(15.0, 15.0), depth=8.0, pull_out_depth=8.0
+        )
+        sq = CompartmentElement(
+            shape=ElementShape.RECT, offset=(25.0, 6.0), size=(18.5, 18.5), depth=6.0, pull_out_depth=6.0
+        )
+        self.assertLessEqual(_pull_out_across_width(log, 15.0, 16.0), 15.0 * 0.72 + 1e-6)
+        self.assertLessEqual(_pull_out_across_width(sq, 18.5, 16.0), 14.5 + 1e-6)
+
+        # Two equal-depth facing pockets across a 6.28mm gap merge into one continuous shared channel.
+        row0 = CompartmentElement(
+            shape=ElementShape.RECT, offset=(3.25, 6.28), size=(18.5, 18.5), depth=6.0, pull_out_depth=6.0
+        )
+        row1 = CompartmentElement(
+            shape=ElementShape.RECT, offset=(3.25, 31.06), size=(18.5, 18.5), depth=6.0, pull_out_depth=6.0
+        )
+        comp_d = 10.9
+        po = build_element_pack_pull_outs((row0, row1), comp_d, (25.0, 55.83))
+        assert po is not None
+        # Midpoint of the 6.28mm gap (y=27.92) is carved cleanly down to the 6mm floor (4.9mm).
+        mid_probe = cuboid([4.0, 2.0, comp_d]).translate([12.5, 27.92, comp_d / 2.0])
+        self.assertAlmostEqual(float((po & mid_probe).bounds().min_z), comp_d - 6.0, places=2)
+
 
 if __name__ == "__main__":
     unittest.main()
