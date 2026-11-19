@@ -957,18 +957,23 @@
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">span</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
         <span class="n">span_interior</span> <span class="o">=</span> <span class="n">span</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_TOP_ROUNDING_RATIO</span>
+
         <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">17.0</span><span class="p">,</span> <span class="n">span_interior</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="n">MIN_WALL_BELOW_HOLE_MM</span><span class="p">)</span>
         <span class="n">hole_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_HEIGHT_SHARE</span><span class="p">)</span>
+        <span class="n">max_flare</span> <span class="o">=</span> <span class="n">span_interior</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">radius</span>
+        <span class="n">flare</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span> <span class="o">*</span> <span class="n">DEFAULT_TOP_ROUNDING_RATIO</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_flare</span><span class="p">))</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">hole_height</span> <span class="o">&gt;=</span> <span class="n">MIN_FINGER_HOLE_REACH_MM</span>
-            <span class="ow">and</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">span_interior</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span>
+            <span class="ow">and</span> <span class="n">flare</span> <span class="o">&gt;=</span> <span class="mf">2.0</span>
+            <span class="ow">and</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="n">flare</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">span_interior</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span> <span class="o">+</span> <span class="mf">1e-6</span>
         <span class="p">):</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
             <span class="n">keystone_hole</span> <span class="o">=</span> <span class="n">FingerHoleBuilder</span><span class="p">(</span>
                 <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">,</span>
                 <span class="n">width</span><span class="o">=</span><span class="n">radius</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
                 <span class="n">depth</span><span class="o">=</span><span class="n">hole_height</span><span class="p">,</span>
-                <span class="n">mouth_flare</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+                <span class="n">mouth_flare</span><span class="o">=</span><span class="n">flare</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">finger_holes</span><span class="o">=</span><span class="p">(</span><span class="n">keystone_hole</span><span class="p">,))</span>
 
@@ -1136,7 +1141,9 @@
         <span class="c1"># No room for both. The strip wins: a tray this short is liftable by</span>
         <span class="c1"># its walls, and a grip cut out of what holds it is not a grip.</span>
         <span class="k">return</span> <span class="p">()</span>
-    <span class="n">rounding_radius</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span>
+
+    <span class="n">rounding_radius</span> <span class="o">=</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span>
 
     <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;=</span> <span class="n">width</span><span class="p">:</span>
         <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">)</span>

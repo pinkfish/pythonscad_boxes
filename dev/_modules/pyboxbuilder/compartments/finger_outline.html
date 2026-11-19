@@ -546,17 +546,17 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Shape2D</span>
 
 
-<span class="n">DEFAULT_MOUTH_ROUNDING_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="n">DEFAULT_MOUTH_ROUNDING_MM</span> <span class="o">=</span> <span class="mf">5.0</span>
 <span class="sd">"""Fallback ``r1`` where nothing better can be derived."""</span>
-<span class="n">DEFAULT_TOP_ROUNDING_RATIO</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">DEFAULT_TOP_ROUNDING_RATIO</span> <span class="o">=</span> <span class="mf">0.75</span>
 <span class="sd">"""How far the top roll flares **outward**, as a fraction of the throat half-width.</span>
 
-<span class="sd">Derived rather than fixed so the roll stays in proportion: a 3mm constant is</span>
+<span class="sd">Derived rather than fixed so the roll stays in proportion: a fixed constant is</span>
 <span class="sd">invisible on a 14mm finger hole and overwhelming on a 4mm one. This is the one</span>
 <span class="sd">number that sets how *wide* the scoop's mouth is, so it is also the one to</span>
 <span class="sd">leave alone when the width is already right.</span>
 <span class="sd">"""</span>
-<span class="n">TOP_ROLL_RISE_RATIO</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="n">TOP_ROLL_RISE_RATIO</span> <span class="o">=</span> <span class="mf">1.2</span>
 <span class="sd">"""How far the top roll reaches **down**, as a multiple of its outward flare.</span>
 
 <span class="sd">The roll is an ellipse quadrant, not a circle, because its two extents answer</span>
