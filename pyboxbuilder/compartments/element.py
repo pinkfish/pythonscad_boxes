@@ -1706,6 +1706,7 @@ def _neighbor_clearances(
     comp_w: float,
     comp_l: float,
     default_depth: float,
+    area_bboxes: Sequence[tuple[float, float, float, float]] = (),
 ) -> tuple[float, float, float, float]:
     """Return neighbor-safe ``(left, right, front, back)`` pull-out clearances in mm."""
     ex0, ey0, ex1, ey1 = element.bounds()
@@ -1768,6 +1769,20 @@ def _neighbor_clearances(
                 gap = max(0.0, oy0 - ey1)
                 back = min(back, _allowed_gap(gap, same_z, aligned_x, other))
 
+    # Also keep a clean solid wall between any finger bay and expanded thick-token area cutouts.
+    area_wall = 1.2
+    for ax0, ay0, ax1, ay1 in area_bboxes:
+        if ay0 < ey1 - 0.2 and ey0 < ay1 - 0.2:
+            if ax1 <= ex0 + 0.1 and ax0 < ex0 - 0.5:
+                left = min(left, max(0.0, ex0 - ax1 - area_wall))
+            if ax0 >= ex1 - 0.1 and ax1 > ex1 + 0.5:
+                right = min(right, max(0.0, ax0 - ex1 - area_wall))
+        if ax0 < ex1 - 0.2 and ex0 < ax1 - 0.2:
+            if ay1 <= ey0 + 0.1 and ay0 < ey0 - 0.5:
+                front = min(front, max(0.0, ey0 - ay1 - area_wall))
+            if ay0 >= ey1 - 0.1 and ay1 > ey1 + 0.5:
+                back = min(back, max(0.0, ay0 - ey1 - area_wall))
+
     return (left, right, front, back)
 
 
@@ -1786,20 +1801,25 @@ def _box_non_member_clearances(
     back = max(0.0, comp_l - by1)
     min_wall = 1.2
 
+    def _area_gap(gap: float, other: CompartmentElement) -> float:
+        if other.pull_out:
+            return max(0.0, (gap - min_wall) / 2.0)
+        return max(0.0, gap - min_wall)
+
     for other in all_cutouts:
         if id(other) in member_ids:
             continue
         ox0, oy0, ox1, oy1 = other.bounds()
         if oy0 < by1 - 0.2 and by0 < oy1 - 0.2:
             if ox1 <= bx0 + 0.1 and ox0 < bx0 - 0.5:
-                left = min(left, max(0.0, bx0 - ox1 - min_wall))
+                left = min(left, _area_gap(max(0.0, bx0 - ox1), other))
             if ox0 >= bx1 - 0.1 and ox1 > bx1 + 0.5:
-                right = min(right, max(0.0, ox0 - bx1 - min_wall))
+                right = min(right, _area_gap(max(0.0, ox0 - bx1), other))
         if ox0 < bx1 - 0.2 and bx0 < ox1 - 0.2:
             if oy1 <= by0 + 0.1 and oy0 < by0 - 0.5:
-                front = min(front, max(0.0, by0 - oy1 - min_wall))
+                front = min(front, _area_gap(max(0.0, by0 - oy1), other))
             if oy0 >= by1 - 0.1 and oy1 > by1 + 0.5:
-                back = min(back, max(0.0, oy0 - by1 - min_wall))
+                back = min(back, _area_gap(max(0.0, oy0 - by1), other))
     return (left, right, front, back)
 
 
@@ -1819,13 +1839,13 @@ def _rect_clear_of_obstacles(
     return True
 
 
-def _build_rounded_area_cutout(
+def _build_rounded_area_cutout_with_bounds(
     group: Sequence[CompartmentElement],
     all_cutouts: Sequence[CompartmentElement],
     comp_w: float,
     comp_l: float,
     default_depth: float,
-) -> Bosl2Solid:
+) -> tuple[Bosl2Solid, tuple[float, float, float, float]]:
     """Build one smooth rounded half-depth upper cutout spanning a contiguous thick-token zone."""
     ref = group[0]
     eff_depth = _element_effective_depth(ref, default_depth)
@@ -1855,19 +1875,20 @@ def _build_rounded_area_cutout(
     cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
     z_rim = z_floor + eff_depth
 
-    return _rounded_dish_cutout(
+    solid = _rounded_dish_cutout(
         cx, cy, span_w, span_l, z_rim, cut_depth, max_bottom_radius=6.0
     )
+    return solid, (x0, y0, x1, y1)
 
 
-def _extract_thick_area_groups(
+def _extract_thick_area_groups_with_bounds(
     elements_list: Sequence[CompartmentElement],
     all_cutouts: Sequence[CompartmentElement],
     comp_w: float,
     comp_l: float,
     default_depth: float,
-) -> tuple[list[Bosl2Solid], set[int]]:
-    """Find contiguous groups of thick tokens and build rounded upper area cutouts."""
+) -> tuple[list[Bosl2Solid], set[int], list[tuple[float, float, float, float]]]:
+    """Find contiguous groups of thick tokens and build rounded upper area cutouts with bounds."""
     thick: list[CompartmentElement] = []
     for el in elements_list:
         eff_d = _element_effective_depth(el, default_depth)
@@ -1875,7 +1896,7 @@ def _extract_thick_area_groups(
             thick.append(el)
 
     if len(thick) < 2:
-        return [], set()
+        return [], set(), []
 
     def z_sig(el: CompartmentElement) -> tuple[float, float, float]:
         raw_d = el.depth or default_depth
@@ -1918,6 +1939,7 @@ def _extract_thick_area_groups(
             components.append(comp)
 
     area_solids: list[Bosl2Solid] = []
+    area_bboxes: list[tuple[float, float, float, float]] = []
     handled_ids: set[int] = set()
 
     def try_emit(sub: Sequence[CompartmentElement]) -> bool:
@@ -1933,9 +1955,11 @@ def _extract_thick_area_groups(
         mids = {id(e) for e in sub}
         if not _rect_clear_of_obstacles(bbox, mids, all_cutouts):
             return False
-        area_solids.append(
-            _build_rounded_area_cutout(sub, all_cutouts, comp_w, comp_l, default_depth)
+        solid, expanded_bbox = _build_rounded_area_cutout_with_bounds(
+            sub, all_cutouts, comp_w, comp_l, default_depth
         )
+        area_solids.append(solid)
+        area_bboxes.append(expanded_bbox)
         handled_ids.update(mids)
         return True
 
@@ -1957,6 +1981,20 @@ def _extract_thick_area_groups(
             row_els.sort(key=lambda e: e.offset[0])
             try_emit(row_els)
 
+    return area_solids, handled_ids, area_bboxes
+
+
+def _extract_thick_area_groups(
+    elements_list: Sequence[CompartmentElement],
+    all_cutouts: Sequence[CompartmentElement],
+    comp_w: float,
+    comp_l: float,
+    default_depth: float,
+) -> tuple[list[Bosl2Solid], set[int]]:
+    """Find contiguous groups of thick tokens and build rounded upper area cutouts."""
+    area_solids, handled_ids, _ = _extract_thick_area_groups_with_bounds(
+        elements_list, all_cutouts, comp_w, comp_l, default_depth
+    )
     return area_solids, handled_ids
 
 
@@ -1970,7 +2008,7 @@ def build_element_pack_pull_outs(
         return None
 
     comp_w, comp_l = comp_size
-    area_solids, handled_ids = _extract_thick_area_groups(
+    area_solids, handled_ids, area_bboxes = _extract_thick_area_groups_with_bounds(
         elements_list, all_cutouts, comp_w, comp_l, default_depth
     )
 
@@ -1993,7 +2031,9 @@ def build_element_pack_pull_outs(
             else min(cut_depth, max(5.0, cut_depth * 0.75))
         )
         target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
-        clearances = _neighbor_clearances(element, all_cutouts, comp_w, comp_l, default_depth)
+        clearances = _neighbor_clearances(
+            element, all_cutouts, comp_w, comp_l, default_depth, area_bboxes=area_bboxes
+        )
         c_left, c_right, c_front, c_back = clearances
 
         use_y = _choose_pull_out_axis(

@@ -474,6 +474,28 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
         mid_probe = cuboid([4.0, 2.0, comp_d]).translate([12.5, 27.92, comp_d / 2.0])
         self.assertAlmostEqual(float((po & mid_probe).bounds().min_z), comp_d - 6.0, places=2)
 
+    def test_finger_bays_stay_clear_of_expanded_thick_area_cutouts(self) -> None:
+        """Neighbor finger bays keep >= 1.2mm solid wall from an expanded thick-token area cutout."""
+        from pyboxbuilder.compartments.element import (
+            _extract_thick_area_groups_with_bounds,
+            _neighbor_clearances,
+        )
+
+        comp_size = (75.875, 55.833)
+        comp_d = 8.9
+        # Thick glass gem group (d=8.5, y=7.03..24.03) facing a cardboard trade-post pocket (d=7.0, y=31.06..49.56).
+        gem1 = CompartmentElement(shape=ElementShape.CIRCLE, offset=(0.19, 7.03), size=(17.0, 17.0), depth=8.5)
+        gem2 = CompartmentElement(shape=ElementShape.CIRCLE, offset=(19.19, 7.03), size=(17.0, 17.0), depth=8.5)
+        sign = CompartmentElement(
+            shape=ElementShape.CIRCLE, offset=(5.09, 31.06), size=(18.5, 18.5), depth=7.0, pull_out_depth=7.0
+        )
+        all_els = (gem1, gem2, sign)
+        _, _, area_bboxes = _extract_thick_area_groups_with_bounds(all_els, all_els, *comp_size, comp_d)
+        self.assertEqual(len(area_bboxes), 1)
+        gem_area_top = area_bboxes[0][3]
+        _, _, c_front, _ = _neighbor_clearances(sign, all_els, *comp_size, comp_d, area_bboxes=area_bboxes)
+        self.assertGreaterEqual(sign.bounds()[1] - c_front - gem_area_top, 1.2 - 1e-6)
+
 
 if __name__ == "__main__":
     unittest.main()
