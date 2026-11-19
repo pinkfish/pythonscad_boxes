@@ -1492,6 +1492,145 @@ def _shoulder_fillets(
     return fillets
 
 
+@dataclass(frozen=True)
+class _AreaZone:
+    """Expanded thick-token area cutout metadata used for smooth neighbor-bay transitions."""
+
+    bbox: tuple[float, float, float, float]
+    inner_bbox: tuple[float, float, float, float]
+    z_floor: float
+    z_rim: float
+    cut_depth: float
+
+
+def _area_merge_fillets(
+    element: CompartmentElement,
+    use_y: bool,
+    across: float,
+    drop_neg: float,
+    drop_pos: float,
+    z_floor: float,
+    eff_depth: float,
+    area_zones: Sequence[_AreaZone],
+    *,
+    merged_neg: bool = False,
+    merged_pos: bool = False,
+) -> list[Bosl2Solid]:
+    """Build smooth C1-tangent fillets where a finger bay punches into an adjacent thick-area rim."""
+    if not area_zones:
+        return []
+    from pybosl2 import Path2D, shapes2d
+
+    width, length = element.footprint
+    cx = element.offset[0] + width / 2.0
+    cy = element.offset[1] + length / 2.0
+    half_along = (length if use_y else width) / 2.0
+    a = across / 2.0
+    bay_h = eff_depth + 100.0
+    arc_steps = 8
+    fillets: list[Bosl2Solid] = []
+
+    for zone in area_zones:
+        ax0, ay0, ax1, ay1 = zone.bbox
+        for sign_along, drop_end, is_merged in (
+            (-1.0, drop_neg, merged_neg),
+            (1.0, drop_pos, merged_pos),
+        ):
+            if drop_end < 0.6 or is_merged:
+                continue
+            # Check if this bay end crosses the facing edge of `zone.bbox`.
+            if use_y:
+                if cx - a > ax1 - 0.5 or cx + a < ax0 + 0.5:
+                    continue
+                edge_world = ay1 if sign_along < 0 else ay0
+                bay_tip_world = cy + sign_along * (half_along + drop_end)
+                # Distance the bay punches past `edge_world` into `zone.bbox`.
+                penetration = (edge_world - bay_tip_world) if sign_along < 0 else (bay_tip_world - edge_world)
+                edge_local = sign_along * (edge_world - cy)
+            else:
+                if cy - a > ay1 - 0.5 or cy + a < ay0 + 0.5:
+                    continue
+                edge_world = ax1 if sign_along < 0 else ax0
+                bay_tip_world = cx + sign_along * (half_along + drop_end)
+                penetration = (edge_world - bay_tip_world) if sign_along < 0 else (bay_tip_world - edge_world)
+                edge_local = sign_along * (edge_world - cx)
+
+            # Only fillet when the bay meaningfully punches across the area rim.
+            if penetration < 0.8 or edge_local <= half_along + 0.5:
+                continue
+
+            r = min(2.0, (edge_local - half_along) * 0.65)
+            if r < 0.35:
+                continue
+
+            # Place a fillet circle of radius `r` on the pocket side of `edge_local`
+            # (centre at y_f = edge_local - r), tangent to the area rim `y = edge_local`
+            # and externally tangent to the bay (either straight wall x = a or end cap at y_cap).
+            y_cap = half_along + drop_end - a
+            y_f = edge_local - r
+            if y_f <= y_cap:
+                x_f = a + r
+                ang_start = math.pi
+            else:
+                dy = y_f - y_cap
+                rad_sq = (a + r) ** 2 - dy**2
+                if rad_sq <= 1e-6:
+                    continue
+                x_f = math.sqrt(rad_sq)
+                ang_start = math.atan2(y_cap - y_f, -x_f)
+
+            ang_end = 0.5 * math.pi  # 90 deg: tangent to y = edge_local at (x_f, edge_local)
+            delta = (ang_end - ang_start + math.pi) % (2.0 * math.pi) - math.pi
+            arc_pts = [
+                (
+                    x_f + r * math.cos(ang_start + delta * k / arc_steps),
+                    y_f + r * math.sin(ang_start + delta * k / arc_steps),
+                )
+                for k in range(arc_steps + 1)
+            ]
+            # Close cleanly to the bay centreline right at the area rim (no slab protruding into bevel).
+            poly_local = [
+                (0.0, arc_pts[0][1]),
+                *arc_pts,
+                (0.0, edge_local),
+            ]
+
+            for sign_across in (-1.0, 1.0):
+                # Keep fillet inside the area's perpendicular span.
+                tip_perp = (cx if use_y else cy) + sign_across * x_f
+                if use_y and (tip_perp < ax0 + 0.2 or tip_perp > ax1 - 0.2):
+                    continue
+                if not use_y and (tip_perp < ay0 + 0.2 or tip_perp > ay1 - 0.2):
+                    continue
+                world_pts: list[list[float]] = []
+                for u, v in poly_local:
+                    su = sign_across * u
+                    sv = sign_along * v
+                    if use_y:
+                        world_pts.append([cx + su, cy + sv])
+                    else:
+                        world_pts.append([cx + sv, cy + su])
+                area2 = sum(
+                    world_pts[i][0] * world_pts[(i + 1) % len(world_pts)][1]
+                    - world_pts[(i + 1) % len(world_pts)][0] * world_pts[i][1]
+                    for i in range(len(world_pts))
+                )
+                if area2 < 0:
+                    world_pts.reverse()
+                if abs(area2) < 1e-6:
+                    continue
+                # Cut from the bay floor so the vertical wall transitions seamlessly into the area.
+                fillet_z = max(z_floor, zone.z_floor)
+                solid = (
+                    shapes2d.polygon(Path2D(world_pts))
+                    .linear_extrude(height=bay_h)
+                    .translate([0.0, 0.0, fillet_z])
+                )
+                fillets.append(solid)
+
+    return fillets
+
+
 def _choose_pull_out_axis(
     width: float,
     length: float,
@@ -1706,7 +1845,8 @@ def _neighbor_clearances(
     comp_w: float,
     comp_l: float,
     default_depth: float,
-    area_bboxes: Sequence[tuple[float, float, float, float]] = (),
+    area_zones: Sequence[_AreaZone] = (),
+    area_member_ids: set[int] | None = None,
 ) -> tuple[float, float, float, float]:
     """Return neighbor-safe ``(left, right, front, back)`` pull-out clearances in mm."""
     ex0, ey0, ex1, ey1 = element.bounds()
@@ -1741,7 +1881,7 @@ def _neighbor_clearances(
         return max(0.0, gap - min_wall)
 
     for other in all_cutouts:
-        if other is element:
+        if other is element or (area_member_ids and id(other) in area_member_ids):
             continue
         ox0, oy0, ox1, oy1 = other.bounds()
         od = other.depth or default_depth
@@ -1769,19 +1909,21 @@ def _neighbor_clearances(
                 gap = max(0.0, oy0 - ey1)
                 back = min(back, _allowed_gap(gap, same_z, aligned_x, other))
 
-    # Also keep a clean solid wall between any finger bay and expanded thick-token area cutouts.
-    area_wall = 1.2
-    for ax0, ay0, ax1, ay1 in area_bboxes:
-        if ay0 < ey1 - 0.2 and ey0 < ay1 - 0.2:
-            if ax1 <= ex0 + 0.1 and ax0 < ex0 - 0.5:
-                left = min(left, max(0.0, ex0 - ax1 - area_wall))
-            if ax0 >= ex1 - 0.1 and ax1 > ex1 + 0.5:
-                right = min(right, max(0.0, ax0 - ex1 - area_wall))
-        if ax0 < ex1 - 0.2 and ex0 < ax1 - 0.2:
-            if ay1 <= ey0 + 0.1 and ay0 < ey0 - 0.5:
-                front = min(front, max(0.0, ey0 - ay1 - area_wall))
-            if ay0 >= ey1 - 0.1 and ay1 > ey1 + 0.5:
-                back = min(back, max(0.0, ay0 - ey1 - area_wall))
+    # Finger bays may smoothly punch into an adjacent thick-area rim as long as they stay
+    # >= 1.2 mm clear of the thick-area's inner token pockets (so thick pieces stay held).
+    inner_wall = 1.2
+    for zone in area_zones:
+        ix0, iy0, ix1, iy1 = zone.inner_bbox
+        if iy0 < ey1 - 0.2 and ey0 < iy1 - 0.2:
+            if ix1 <= ex0 + 0.1 and ix0 < ex0 - 0.5:
+                left = min(left, max(0.0, ex0 - ix1 - inner_wall))
+            if ix0 >= ex1 - 0.1 and ix1 > ex1 + 0.5:
+                right = min(right, max(0.0, ix0 - ex1 - inner_wall))
+        if ix0 < ex1 - 0.2 and ex0 < ix1 - 0.2:
+            if iy1 <= ey0 + 0.1 and iy0 < ey0 - 0.5:
+                front = min(front, max(0.0, ey0 - iy1 - inner_wall))
+            if iy0 >= ey1 - 0.1 and iy1 > ey1 + 0.5:
+                back = min(back, max(0.0, iy0 - ey1 - inner_wall))
 
     return (left, right, front, back)
 
@@ -1801,25 +1943,20 @@ def _box_non_member_clearances(
     back = max(0.0, comp_l - by1)
     min_wall = 1.2
 
-    def _area_gap(gap: float, other: CompartmentElement) -> float:
-        if other.pull_out:
-            return max(0.0, (gap - min_wall) / 2.0)
-        return max(0.0, gap - min_wall)
-
     for other in all_cutouts:
         if id(other) in member_ids:
             continue
         ox0, oy0, ox1, oy1 = other.bounds()
         if oy0 < by1 - 0.2 and by0 < oy1 - 0.2:
             if ox1 <= bx0 + 0.1 and ox0 < bx0 - 0.5:
-                left = min(left, _area_gap(max(0.0, bx0 - ox1), other))
+                left = min(left, max(0.0, bx0 - ox1 - min_wall))
             if ox0 >= bx1 - 0.1 and ox1 > bx1 + 0.5:
-                right = min(right, _area_gap(max(0.0, ox0 - bx1), other))
+                right = min(right, max(0.0, ox0 - bx1 - min_wall))
         if ox0 < bx1 - 0.2 and bx0 < ox1 - 0.2:
             if oy1 <= by0 + 0.1 and oy0 < by0 - 0.5:
-                front = min(front, _area_gap(max(0.0, by0 - oy1), other))
+                front = min(front, max(0.0, by0 - oy1 - min_wall))
             if oy0 >= by1 - 0.1 and oy1 > by1 + 0.5:
-                back = min(back, _area_gap(max(0.0, oy0 - by1), other))
+                back = min(back, max(0.0, oy0 - by1 - min_wall))
     return (left, right, front, back)
 
 
@@ -1839,13 +1976,13 @@ def _rect_clear_of_obstacles(
     return True
 
 
-def _build_rounded_area_cutout_with_bounds(
+def _build_rounded_area_cutout_with_zone(
     group: Sequence[CompartmentElement],
     all_cutouts: Sequence[CompartmentElement],
     comp_w: float,
     comp_l: float,
     default_depth: float,
-) -> tuple[Bosl2Solid, tuple[float, float, float, float]]:
+) -> tuple[Bosl2Solid, _AreaZone]:
     """Build one smooth rounded half-depth upper cutout spanning a contiguous thick-token zone."""
     ref = group[0]
     eff_depth = _element_effective_depth(ref, default_depth)
@@ -1878,17 +2015,24 @@ def _build_rounded_area_cutout_with_bounds(
     solid = _rounded_dish_cutout(
         cx, cy, span_w, span_l, z_rim, cut_depth, max_bottom_radius=6.0
     )
-    return solid, (x0, y0, x1, y1)
+    zone = _AreaZone(
+        bbox=(x0, y0, x1, y1),
+        inner_bbox=(bx0, by0, bx1, by1),
+        z_floor=z_rim - cut_depth,
+        z_rim=z_rim,
+        cut_depth=cut_depth,
+    )
+    return solid, zone
 
 
-def _extract_thick_area_groups_with_bounds(
+def _extract_thick_area_groups_with_zones(
     elements_list: Sequence[CompartmentElement],
     all_cutouts: Sequence[CompartmentElement],
     comp_w: float,
     comp_l: float,
     default_depth: float,
-) -> tuple[list[Bosl2Solid], set[int], list[tuple[float, float, float, float]]]:
-    """Find contiguous groups of thick tokens and build rounded upper area cutouts with bounds."""
+) -> tuple[list[Bosl2Solid], set[int], list[_AreaZone]]:
+    """Find contiguous groups of thick tokens and build rounded upper area cutouts with zone info."""
     thick: list[CompartmentElement] = []
     for el in elements_list:
         eff_d = _element_effective_depth(el, default_depth)
@@ -1939,7 +2083,7 @@ def _extract_thick_area_groups_with_bounds(
             components.append(comp)
 
     area_solids: list[Bosl2Solid] = []
-    area_bboxes: list[tuple[float, float, float, float]] = []
+    area_zones: list[_AreaZone] = []
     handled_ids: set[int] = set()
 
     def try_emit(sub: Sequence[CompartmentElement]) -> bool:
@@ -1955,11 +2099,11 @@ def _extract_thick_area_groups_with_bounds(
         mids = {id(e) for e in sub}
         if not _rect_clear_of_obstacles(bbox, mids, all_cutouts):
             return False
-        solid, expanded_bbox = _build_rounded_area_cutout_with_bounds(
+        solid, zone = _build_rounded_area_cutout_with_zone(
             sub, all_cutouts, comp_w, comp_l, default_depth
         )
         area_solids.append(solid)
-        area_bboxes.append(expanded_bbox)
+        area_zones.append(zone)
         handled_ids.update(mids)
         return True
 
@@ -1981,7 +2125,7 @@ def _extract_thick_area_groups_with_bounds(
             row_els.sort(key=lambda e: e.offset[0])
             try_emit(row_els)
 
-    return area_solids, handled_ids, area_bboxes
+    return area_solids, handled_ids, area_zones
 
 
 def _extract_thick_area_groups(
@@ -1992,7 +2136,7 @@ def _extract_thick_area_groups(
     default_depth: float,
 ) -> tuple[list[Bosl2Solid], set[int]]:
     """Find contiguous groups of thick tokens and build rounded upper area cutouts."""
-    area_solids, handled_ids, _ = _extract_thick_area_groups_with_bounds(
+    area_solids, handled_ids, _ = _extract_thick_area_groups_with_zones(
         elements_list, all_cutouts, comp_w, comp_l, default_depth
     )
     return area_solids, handled_ids
@@ -2008,7 +2152,7 @@ def build_element_pack_pull_outs(
         return None
 
     comp_w, comp_l = comp_size
-    area_solids, handled_ids, area_bboxes = _extract_thick_area_groups_with_bounds(
+    area_solids, handled_ids, area_zones = _extract_thick_area_groups_with_zones(
         elements_list, all_cutouts, comp_w, comp_l, default_depth
     )
 
@@ -2032,7 +2176,13 @@ def build_element_pack_pull_outs(
         )
         target_across = element.pull_out_width or DEFAULT_PULL_OUT_WIDTH_MM
         clearances = _neighbor_clearances(
-            element, all_cutouts, comp_w, comp_l, default_depth, area_bboxes=area_bboxes
+            element,
+            all_cutouts,
+            comp_w,
+            comp_l,
+            default_depth,
+            area_zones=area_zones,
+            area_member_ids=handled_ids,
         )
         c_left, c_right, c_front, c_back = clearances
 
@@ -2165,6 +2315,20 @@ def build_element_pack_pull_outs(
                         p["drop_pos"],
                         p["z_floor"],
                         p["eff_depth"],
+                        merged_neg=merged_neg,
+                        merged_pos=merged_pos,
+                    )
+                )
+                final_solids.extend(
+                    _area_merge_fillets(
+                        p["element"],
+                        p["use_y"],
+                        p["across"],
+                        p["drop_neg"],
+                        p["drop_pos"],
+                        p["z_floor"],
+                        p["eff_depth"],
+                        area_zones,
                         merged_neg=merged_neg,
                         merged_pos=merged_pos,
                     )

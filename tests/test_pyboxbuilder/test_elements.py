@@ -475,10 +475,12 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
         self.assertAlmostEqual(float((po & mid_probe).bounds().min_z), comp_d - 6.0, places=2)
 
     def test_finger_bays_stay_clear_of_expanded_thick_area_cutouts(self) -> None:
-        """Neighbor finger bays keep >= 1.2mm solid wall from an expanded thick-token area cutout."""
+        """Neighbor finger bays stay >= 1.2mm clear of thick inner pockets and smoothly fillet into area rims."""
         from pyboxbuilder.compartments.element import (
-            _extract_thick_area_groups_with_bounds,
+            _area_merge_fillets,
+            _extract_thick_area_groups_with_zones,
             _neighbor_clearances,
+            _pull_out_across_width,
         )
 
         comp_size = (75.875, 55.833)
@@ -490,11 +492,18 @@ class CompartmentAutoLayoutTests(unittest.TestCase):
             shape=ElementShape.CIRCLE, offset=(5.09, 31.06), size=(18.5, 18.5), depth=7.0, pull_out_depth=7.0
         )
         all_els = (gem1, gem2, sign)
-        _, _, area_bboxes = _extract_thick_area_groups_with_bounds(all_els, all_els, *comp_size, comp_d)
-        self.assertEqual(len(area_bboxes), 1)
-        gem_area_top = area_bboxes[0][3]
-        _, _, c_front, _ = _neighbor_clearances(sign, all_els, *comp_size, comp_d, area_bboxes=area_bboxes)
-        self.assertGreaterEqual(sign.bounds()[1] - c_front - gem_area_top, 1.2 - 1e-6)
+        _, handled_ids, area_zones = _extract_thick_area_groups_with_zones(all_els, all_els, *comp_size, comp_d)
+        self.assertEqual(len(area_zones), 1)
+        zone = area_zones[0]
+        _, _, c_front, c_back = _neighbor_clearances(
+            sign, all_els, *comp_size, comp_d, area_zones=area_zones, area_member_ids=handled_ids
+        )
+        # Stays >= 1.2mm clear of the actual glass gem pockets (inner_bbox), while smoothly entering the outer bevel.
+        self.assertGreaterEqual(sign.bounds()[1] - c_front - zone.inner_bbox[3], 1.2 - 1e-6)
+        self.assertLess(sign.bounds()[1] - c_front, zone.bbox[3])
+        across = _pull_out_across_width(sign, 18.5, 16.0)
+        fillets = _area_merge_fillets(sign, True, across, c_front, c_back, comp_d - 7.0, 7.0, area_zones)
+        self.assertEqual(len(fillets), 2)
 
 
 if __name__ == "__main__":
