@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/biome/NestBox_body.stl?v=91a1d7b4" data-stl-combine="../_stl/boxes/biome/NestBox_body.stl?v=91a1d7b4,../_stl/boxes/biome/NestBox_lid.stl?v=ab33cea1,../_stl/boxes/biome/PlayerBox_Red_body.stl?v=4dedbcd9,../_stl/boxes/biome/PlayerBox_Red_lid.stl?v=7863df16,../_stl/boxes/biome/Resource_Mouse_body.stl?v=e38f4be3,../_stl/boxes/biome/Resource_Mouse_lid.stl?v=16a3e4f6,../_stl/boxes/biome/Resource_Sun_body.stl?v=a8ef8a69,../_stl/boxes/biome/Resource_Sun_lid.stl?v=9bcb72cb,../_stl/boxes/biome/PlayerBox_Blue_body.stl?v=d2939a97,../_stl/boxes/biome/PlayerBox_Blue_lid.stl?v=29a33d73,../_stl/boxes/biome/Resource_Fish_body.stl?v=f5705a44,../_stl/boxes/biome/Resource_Fish_lid.stl?v=70ff0cac,../_stl/boxes/biome/Resource_Leaf_body.stl?v=7a01ac21,../_stl/boxes/biome/Resource_Leaf_lid.stl?v=717baf50,../_stl/boxes/biome/PlayerBox_Green_body.stl?v=6fb1064a,../_stl/boxes/biome/PlayerBox_Green_lid.stl?v=6762721b,../_stl/boxes/biome/Resource_Spider_body.stl?v=f4d64ad3,../_stl/boxes/biome/Resource_Spider_lid.stl?v=03cbb804,../_stl/boxes/biome/Resource_Berry_body.stl?v=1eaca938,../_stl/boxes/biome/Resource_Berry_lid.stl?v=900290bf,../_stl/boxes/biome/PlayerBox_Yellow_body.stl?v=8b3727f2,../_stl/boxes/biome/PlayerBox_Yellow_lid.stl?v=6d893337,../_stl/boxes/biome/Resource_Chicks_body.stl?v=4becc4aa,../_stl/boxes/biome/Resource_Chicks_lid.stl?v=72ce910d,../_stl/boxes/biome/Resource_Rabbits_body.stl?v=01d86ecd,../_stl/boxes/biome/Resource_Rabbits_lid.stl?v=a86dffe5,../_stl/boxes/biome/CardBox_MainDeck1_body.stl?v=08b8f229,../_stl/boxes/biome/CardBox_MainDeck1_lid.stl?v=1a0bf82d,../_stl/boxes/biome/CardBox_MainDeck2_body.stl?v=79e70c53,../_stl/boxes/biome/CardBox_MainDeck2_lid.stl?v=6083a56f,../_stl/boxes/biome/spacer_1.stl?v=821f6c95" download="Biome_full_packing.stl">⬇ Download Full Box Packing STL (<code>Biome_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=85e9891d" download="Biome_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Biome_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=85e9891d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=85e9891d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

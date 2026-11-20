@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=76ef1d9c,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=ba75a0d2,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=beb7e8c9,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=2cbbcf28,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=9e58f2c3,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=11f25321,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=d6fcb6a3,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=db025150,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=650a0d4c,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=95ecdf9e,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=239b54e0,../_stl/boxes/canvas/CardTray_body.stl?v=7302526e,../_stl/boxes/canvas/CardTray_lid.stl?v=e4918032,../_stl/boxes/canvas/spacer_1.stl?v=6ff2dec8,../_stl/boxes/canvas/spacer_2.stl?v=fb86fdd9" download="Canvas_full_packing.stl">⬇ Download Full Box Packing STL (<code>Canvas_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=1d5b1e88" download="Canvas_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Canvas_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=1d5b1e88" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=1d5b1e88" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

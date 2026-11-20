@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210" data-stl-combine="../_stl/boxes/nippon/PlayerBox_white_body.stl?v=69636210,../_stl/boxes/nippon/PlayerBox_white_lid.stl?v=b96adf3c,../_stl/boxes/nippon/PlayerBox_yellow_body.stl?v=d4dd2b38,../_stl/boxes/nippon/PlayerBox_yellow_lid.stl?v=f6d53c44,../_stl/boxes/nippon/PlayerBox_red_body.stl?v=19127e15,../_stl/boxes/nippon/PlayerBox_red_lid.stl?v=f708dc54,../_stl/boxes/nippon/PlayerBox_purple_body.stl?v=2e3be440,../_stl/boxes/nippon/PlayerBox_purple_lid.stl?v=1c79072c,../_stl/boxes/nippon/FactoryTiles_1_body.stl?v=5bf95161,../_stl/boxes/nippon/FactoryTiles_1_lid.stl?v=3a781b81,../_stl/boxes/nippon/FactoryTiles_2_body.stl?v=070c3384,../_stl/boxes/nippon/FactoryTiles_2_lid.stl?v=b691a5c9,../_stl/boxes/nippon/DemandTiles_body.stl?v=d97f01ee,../_stl/boxes/nippon/DemandTiles_lid.stl?v=d7545e6f,../_stl/boxes/nippon/StartingTiles_body.stl?v=0da07c00,../_stl/boxes/nippon/StartingTiles_lid.stl?v=885ad208,../_stl/boxes/nippon/ResourceCubes_SilkPaper_body.stl?v=69e2f999,../_stl/boxes/nippon/ResourceCubes_SilkPaper_lid.stl?v=f1855ccf,../_stl/boxes/nippon/ResourceCubes_CoalCopper_body.stl?v=4425beaa,../_stl/boxes/nippon/ResourceCubes_CoalCopper_lid.stl?v=a743689f,../_stl/boxes/nippon/MoneyAndContracts_body.stl?v=faaf0573,../_stl/boxes/nippon/MoneyAndContracts_lid.stl?v=e6da0a94,../_stl/boxes/nippon/spacer_1.stl?v=853a25f1,../_stl/boxes/nippon/spacer_2.stl?v=9eddec04,../_stl/boxes/nippon/spacer_3.stl?v=7e14d680" download="Nippon_full_packing.stl">⬇ Download Full Box Packing STL (<code>Nippon_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=e2bf65ba" download="Nippon_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nippon_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=e2bf65ba" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=e2bf65ba" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

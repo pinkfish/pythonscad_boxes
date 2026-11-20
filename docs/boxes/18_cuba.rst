@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=126758bc" data-stl-combine="../_stl/boxes/18_cuba/MoneyBox_1_body.stl?v=126758bc,../_stl/boxes/18_cuba/MoneyBox_1_lid.stl?v=d96626fa,../_stl/boxes/18_cuba/MoneyBox_2_body.stl?v=1891d727,../_stl/boxes/18_cuba/MoneyBox_2_lid.stl?v=272cfaa1,../_stl/boxes/18_cuba/TrainBox_body.stl?v=532cd146,../_stl/boxes/18_cuba/TrainBox_lid.stl?v=c036f31a,../_stl/boxes/18_cuba/SharesBox_1_body.stl?v=01a8299e,../_stl/boxes/18_cuba/SharesBox_1_lid.stl?v=661a6e8a,../_stl/boxes/18_cuba/SharesBox_2_body.stl?v=30da682e,../_stl/boxes/18_cuba/SharesBox_2_lid.stl?v=d086b482,../_stl/boxes/18_cuba/spacer_1.stl?v=ed2b2269" download="18Cuba_full_packing.stl">⬇ Download Full Box Packing STL (<code>18Cuba_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=390c0a70" download="18Cuba_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>18Cuba_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=390c0a70" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=390c0a70" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

@@ -64,6 +64,7 @@ html_static_path = ["_static"]
 # The exported STL meshes live in _extra/_stl/; listing the parent copies the
 # whole _stl/ subdir verbatim to the output root, keeping `_stl/<hash>.stl` URIs valid.
 (_DOCS_DIR / "_extra" / "_stl").mkdir(parents=True, exist_ok=True)
+(_DOCS_DIR / "_extra" / "_pdf").mkdir(parents=True, exist_ok=True)
 html_extra_path = ["_extra"]
 html_theme_options = {
     "features": [
@@ -149,7 +150,7 @@ suppress_warnings = ["ref.python", "misc.highlighting_failure"]
 # The ``pythonscad-example`` blocks emit relative ``_stl/<hash>.stl`` download
 # links to meshes generated at build time; those are assets, not links to
 # verify, so linkcheck must not try to resolve them.
-linkcheck_ignore = [r"_stl/"]
+linkcheck_ignore = [r"_stl/", r"_pdf/"]
 
 # --- nitpicky --------------------------------------------------------------
 # Make every unresolved cross-reference an error, so a broken :class:/:meth:/
