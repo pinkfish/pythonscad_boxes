@@ -3,10 +3,16 @@
 """Brink board game organizer.
 
 Ports examples/brink.scad to the pyboxbuilder Project API.
-Organizes action cards, rider cards, ambassador cards, faction cards, hex
-sector tiles, and player fleet trays (upgrade board, Class I/II/III ships
-with floor inlays, 3 cargo + nubs, 3 railguns + nubs, and player tokens)
-with automated spacers.
+Organizes all Brink components (2-5 players):
+- 5 Player boxes (upgrade board, Class I/II/III ships with floor inlays,
+  3 cargo + nubs, 3 railguns + nubs, and player/score tokens with finger access)
+- 4 Primary faction resource cube boxes (Komek, Ventus, Henko, Magnomi) with
+  faction SVG logo lids
+- 2 Secondary resource/extra boxes (Sorelia cubes + UA cubes/Flagship/Fusion Drive)
+  with faction SVG logo lids
+- 2 Hex tile boxes (25 map hexes + starting/bonus hexes)
+- 7 Sliding card boxes (Actions, Riders, Ambassadors, Factions, Rivals,
+  Community, Holo) with automated spacers.
 """
 
 import math
@@ -31,11 +37,10 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
-    StackableMode,
     run,
 )
 
-# ── Box & Board Dimensions (from lib/brink.scad) ──────────────────
+# ── Box & Board Dimensions (from lib/brink.scad & brink.scad) ─────
 box_width = 215.0
 box_length = 307.0
 box_height = 96.0
@@ -49,12 +54,12 @@ lid_thickness = 2.0
 
 card_width = 66.5
 card_length = 91.5
+single_card_thickness = 0.8
 
 small_card_width = 49.0
 small_card_length = 71.5
 
 hex_width = 72.0
-
 cardboard_token_thickness = 2.0
 
 upgrade_width = 86.0
@@ -87,18 +92,48 @@ cargo_thickness = 8.5
 round_nub = 4.5
 round_nub_thickness = 3.0
 
-CLASS_III_SVG = str(Path(__file__).resolve().parent / "svg" / "class_iii_ship.svg")
+SVG_DIR = Path(__file__).resolve().parent / "svg"
+CLASS_III_SVG = str(SVG_DIR / "class_iii_ship.svg")
 
-ambassador_box_width = box_width / 2.0 - 1.0                      # 106.5mm
-ambassador_box_length = small_card_length + wall_thickness * 2.0  # 77.5mm
+# Card box footprints (from brink.scad)
+card_box_width = box_width / 2.0 - 1.0                            # 106.5mm
+card_box_length = small_card_length + wall_thickness * 2.0        # 77.5mm
+ambassador_card_box_height = single_card_thickness * 25.0 + floor_thickness + lid_thickness + 0.5  # 24.5mm
+faction_card_box_height = single_card_thickness * 5.0 + floor_thickness + lid_thickness + 0.5      # 8.5mm
+rival_card_box_height = single_card_thickness * 4.0 + floor_thickness + lid_thickness + 0.5        # 7.7mm
+bonus_card_box_height = single_card_thickness * 15.0 + floor_thickness + lid_thickness + 0.5       # 16.5mm
+action_card_box_height = single_card_thickness * 52.0 / 2.0 + floor_thickness + lid_thickness      # 24.8mm
+rider_card_box_height = single_card_thickness * 20.0 / 2.0 + floor_thickness + lid_thickness       # 12.0mm
 
+# Player boxes (5 players, matching brink.scad)
 player_box_width = (box_width - 3.0) / 2.0                        # 106.0mm
 player_box_length = wall_thickness * 2.0 + upgrade_length + 2.0   # 110.0mm
-player_box_height = usable_height / 3.0                           # 26.0mm
+player_box_height = (
+    upgrade_thickness + cargo_thickness + round_nub_thickness
+    + floor_thickness + lid_thickness + 2.0
+)                                                                 # 21.0mm
 
+# Hex boxes (77.5 + 110.0 + 119.5 = 307.0mm exact fit along Y)
 hex_box_width = box_width - 2.0                                   # 213.0mm
-hex_box_length = hex_width * 1.5 + wall_thickness * 2.0 + 6.0     # 120.0mm
-hex_box_height = usable_height / 3.0                              # 26.0mm
+hex_box_length = box_length - card_box_length - player_box_length  # 119.5mm
+hex_box_height = math.ceil(25 / 3) * cardboard_token_thickness + floor_thickness + lid_thickness   # 22.0mm
+hex_bonus_box_height = max(
+    11.0,
+    math.ceil(8 / 3) * cardboard_token_thickness + floor_thickness + lid_thickness,
+)  # 11.0mm (min cap height)
+
+# 4 primary faction cube boxes (stacked on top of HexBox + HexBonusBox)
+resource_box_width = (box_width - 2.0) / 4.0                      # 53.25mm
+resource_box_length = hex_box_length                              # 119.5mm
+resource_box_height = (
+    usable_height - hex_box_height - hex_bonus_box_height
+    - 0.5 - cardboard_token_thickness - upgrade_thickness * 5.0
+)                                                                 # 26.0mm
+
+# 2 secondary boxes (Sorelia cubes + UA cubes/Flagship/Fusion Drive)
+resource_box_2_width = player_box_width / 2.0                     # 53.0mm
+resource_box_2_length = player_box_length                         # 110.0mm
+resource_box_2_height = player_box_height                         # 21.0mm
 
 
 def _centered(
@@ -378,44 +413,54 @@ project = Project(
 
 BRINK_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Sector Hex Tile Box ────────────────────────────────────────
-hex_box = project.box(
-    BoxType.CAP,
-    "HexBox",
-    size=(hex_box_width, hex_box_length, hex_box_height),
-    lid=LidBuilder(
-        text="Hex Tiles",
-        label_mode=LabelMode.FRAMED,
-        pattern=BRINK_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("dimgray"),
-    ),
-)
-for h in range(3):
-    hex_box.compartment(
-        f"Sector_{h + 1}",
-        width_ratio=1.0 / 3.0,
-        cut=FingerCut.SCOOP,
+# ── 1. Sector Hex Tile Boxes (Main + Bonus) ───────────────────────
+for label, title, h in [
+    ("HexBox", "Hexes", hex_box_height),
+    ("HexBonusBox", "Bonus Hexes", hex_bonus_box_height),
+]:
+    hb = project.box(
+        BoxType.CAP,
+        label,
+        size=(hex_box_width, hex_box_length, h),
+        lid=LidBuilder(
+            text=title,
+            label_mode=LabelMode.FRAMED,
+            pattern=BRINK_PATTERN,
+            text_color=Color("white"),
+            frame_color=Color("dimgray"),
+        ),
     )
+    for idx in range(3):
+        hb.compartment(
+            f"Sector_{idx + 1}",
+            width_ratio=1.0 / 3.0,
+            cut=FingerCut.SCOOP,
+        )
 
-# ── 2. Player Boxes ───────────────────────────────────────────────
+# ── 2. Five Player Boxes (matching brink.scad) ────────────────────
 player_inner_w = player_box_width - 2.0 * wall_thickness
 player_inner_l = player_box_length - 2.0 * wall_thickness
 player_inner_h = player_box_height - floor_thickness - lid_thickness
 PLAYER_ELEMENTS = _player_box_elements(player_inner_w, player_inner_l, player_inner_h)
 
-player_factions = ["Solari", "Vanguard", "Eclipse", "Horizon"]
-for faction in player_factions:
+player_colors = [
+    ("Yellow", "gold", "black"),
+    ("Orange", "darkorange", "white"),
+    ("Purple", "purple", "white"),
+    ("Blue", "royalblue", "white"),
+    ("Green", "forestgreen", "white"),
+]
+for color_label, frame_col, text_col in player_colors:
     p_box = project.box(
         BoxType.CAP,
-        f"PlayerBox_{faction}",
+        f"PlayerBox_{color_label}",
         size=(player_box_width, player_box_length, player_box_height),
         lid=LidBuilder(
-            text=faction,
+            text="Player",
             label_mode=LabelMode.FRAMED,
             pattern=BRINK_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("royalblue"),
+            text_color=Color(text_col),
+            frame_color=Color(frame_col),
         ),
     )
     p_box.compartment(
@@ -425,19 +470,78 @@ for faction in player_factions:
         element_margin=0.0,
     )
 
-# ── 3. Modular Card Boxes ─────────────────────────────────────────
-card_types = [
-    ("Actions", "Actions", "gold"),
-    ("Riders", "Riders", "firebrick"),
-    ("Ambassadors", "Ambassadors", "navy"),
-    ("Factions", "Factions", "forestgreen"),
+# ── 3. Four Primary Faction Cube Boxes (Logo Lids) ────────────────
+primary_factions = [
+    ("Komek", "royalblue", "komek.svg"),
+    ("Ventus", "gold", "ventus.svg"),
+    ("Henko", "forestgreen", "henko.svg"),
+    ("Magnomi", "darkorange", "magnomi.svg"),
 ]
+for faction, color_name, logo_file in primary_factions:
+    r_box = project.box(
+        BoxType.CAP,
+        f"ResourceBox_{faction}",
+        size=(resource_box_width, resource_box_length, resource_box_height),
+        lid=LidBuilder(
+            logo=str(SVG_DIR / logo_file),
+            logo_color=Color(color_name),
+            pattern=BRINK_PATTERN,
+        ),
+    )
+    r_box.compartment("Cubes", holds_pieces=True)
 
-for deck_id, title, color_name in card_types:
+# ── 4. Secondary Faction (Sorelia) & UA / Extra Bits Boxes ────────
+secondary_boxes = [
+    ("Sorelia", "purple", "sorelia.svg", "Cubes"),
+    ("UA", "crimson", "ua.svg", "UAAndExtras"),
+]
+for name, color_name, logo_file, comp_name in secondary_boxes:
+    r2_box = project.box(
+        BoxType.CAP,
+        f"ResourceBox_{name}",
+        size=(resource_box_2_width, resource_box_2_length, resource_box_2_height),
+        lid=LidBuilder(
+            logo=str(SVG_DIR / logo_file),
+            logo_color=Color(color_name),
+            pattern=BRINK_PATTERN,
+        ),
+    )
+    r2_box.compartment(comp_name, holds_pieces=True)
+
+# ── 5. Seven Sliding Card Boxes (matching brink.scad) ─────────────
+# Two-column small-card decks (Actions & Riders)
+for deck_id, title, color_name, h in [
+    ("Actions", "Actions", "gold", action_card_box_height),
+    ("Riders", "Riders", "firebrick", rider_card_box_height),
+]:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
-        size=(ambassador_box_width, ambassador_box_length, usable_height / 3.0),
+        size=(card_box_width, card_box_length, h),
+        lid_slide_axis="y",
+        lid=LidBuilder(
+            text=title,
+            label_mode=LabelMode.FRAMED,
+            pattern=BRINK_PATTERN,
+            text_color=Color("black" if color_name == "gold" else "white"),
+            frame_color=Color(color_name),
+        ),
+    )
+    c_box.compartment("CardsLeft", width_ratio=0.5, cut=FingerCut.SCOOP)
+    c_box.compartment("CardsRight", width_ratio=0.5, cut=FingerCut.SCOOP)
+
+# Single-column standard-card decks (Ambassadors, Factions, Rivals, Community, Holo)
+for deck_id, title, color_name, h in [
+    ("Ambassadors", "Ambassadors", "navy", ambassador_card_box_height),
+    ("Factions", "Factions", "forestgreen", faction_card_box_height),
+    ("Rivals", "Rivals", "darkorange", rival_card_box_height),
+    ("Community", "Community", "teal", bonus_card_box_height),
+    ("Holo", "Holo", "purple", bonus_card_box_height),
+]:
+    c_box = project.box(
+        BoxType.SLIDING,
+        f"CardBox_{deck_id}",
+        size=(card_box_width, card_box_length, h),
         lid_slide_axis="x",
         lid=LidBuilder(
             text=title,
@@ -446,15 +550,8 @@ for deck_id, title, color_name in card_types:
             text_color=Color("white"),
             frame_color=Color(color_name),
         ),
-        stackable=StackableMode.PYRAMIDS,
     )
-    c_box.compartment(
-        "Cards",
-        cut=FingerCut.SCOOP,
-    )
-
-project.stack_order("CardBox_Actions", "CardBox_Ambassadors")
-project.stack_order("CardBox_Riders", "CardBox_Factions")
+    c_box.compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

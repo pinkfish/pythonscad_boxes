@@ -2,6 +2,7 @@
 """Tests for the Brink board game insert."""
 
 import unittest
+from pathlib import Path
 
 from boxes.brink.brink import (
     box_height,
@@ -17,24 +18,46 @@ class TestBrink(unittest.TestCase):
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 8)
+        self.assertGreater(len(build.pieces), 35)
 
     def test_box_labels_present(self) -> None:
-        """Verify all essential box labels are generated."""
+        """Verify all essential box labels from brink.scad are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
             "HexBox",
-            "PlayerBox_Solari",
-            "PlayerBox_Vanguard",
-            "PlayerBox_Eclipse",
-            "PlayerBox_Horizon",
+            "HexBonusBox",
+            "PlayerBox_Yellow",
+            "PlayerBox_Orange",
+            "PlayerBox_Purple",
+            "PlayerBox_Blue",
+            "PlayerBox_Green",
+            "ResourceBox_Komek",
+            "ResourceBox_Ventus",
+            "ResourceBox_Henko",
+            "ResourceBox_Magnomi",
+            "ResourceBox_Sorelia",
+            "ResourceBox_UA",
             "CardBox_Actions",
             "CardBox_Riders",
             "CardBox_Ambassadors",
             "CardBox_Factions",
+            "CardBox_Rivals",
+            "CardBox_Community",
+            "CardBox_Holo",
         }
         for name in expected:
             self.assertIn(name, labels)
+
+    def test_faction_resource_lids_use_logo_instead_of_text(self) -> None:
+        """Verify each faction/UA resource cube box lid uses its SVG logo instead of text."""
+        resource_boxes = [b for b in project._boxes if b.label.startswith("ResourceBox_")]
+        self.assertEqual(len(resource_boxes), 6)
+        for box in resource_boxes:
+            self.assertIsNotNone(box.lid)
+            assert box.lid is not None
+            self.assertIsNone(box.lid.text, f"{box.label} lid should use logo instead of text")
+            self.assertIsInstance(box.lid.logo, str)
+            self.assertTrue(Path(box.lid.logo).is_file(), f"Missing SVG logo for {box.label}: {box.lid.logo}")
 
     def test_automatic_spacers_generated(self) -> None:
         """Verify automatic spacers are generated from leftover volume."""
@@ -60,7 +83,7 @@ class TestBrink(unittest.TestCase):
 
     def test_player_box_contains_all_piece_spaces(self) -> None:
         """Verify PlayerBox includes all piece cutouts from brink.scad."""
-        p_box = next(b for b in project._boxes if b.label == "PlayerBox_Solari")
+        p_box = next(b for b in project._boxes if b.label == "PlayerBox_Yellow")
         element_labels = {el.label for comp in p_box.compartments for el in comp.elements}
         expected = {
             "UpgradeBoard",
@@ -83,14 +106,13 @@ class TestBrink(unittest.TestCase):
 
         by_label = {el.label: el for comp in p_box.compartments for el in comp.elements}
         r3_x0, r3_y0, r3_x1, r3_y1 = by_label["Railgun_3"].bounds()
-        # Class III triangle's left edge at y = r3_y1 must stay well clear of Railgun_3
         c3_x0, c3_y0, c3_x1, c3_y1 = by_label["ClassIIIShip"].bounds()
         c3_cx = (c3_x0 + c3_x1) / 2.0
         half_w_at_r3 = ((r3_y1 - c3_y0) / (c3_y1 - c3_y0)) * ((c3_x1 - c3_x0) / 2.0)
         self.assertGreater(c3_cx - half_w_at_r3 - r3_x1, 3.0)
 
-    def test_card_boxes_slide_along_x_matching_scoop_side(self) -> None:
-        """Verify sliding card boxes open on the short wall (RIGHT) matching the scoop."""
+    def test_card_boxes_slide_axis_matches_scoop_side(self) -> None:
+        """Verify sliding card boxes open on the wall matching their finger scoop."""
         from pyboxbuilder.enums import ScoopSide
 
         project.build()
@@ -98,5 +120,9 @@ class TestBrink(unittest.TestCase):
             if not box.label.startswith("CardBox_"):
                 continue
             resolved = project._pipeline._resolve_box(project._manifest, box)
-            self.assertEqual(resolved.spec.lid_slide_axis, "x")
-            self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.RIGHT)
+            if box.label in ("CardBox_Actions", "CardBox_Riders"):
+                self.assertEqual(resolved.spec.lid_slide_axis, "y")
+                self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.BACK)
+            else:
+                self.assertEqual(resolved.spec.lid_slide_axis, "x")
+                self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.RIGHT)

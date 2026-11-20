@@ -2,6 +2,7 @@
 """Tests for the Brink: Long Box Variant board game insert."""
 
 import unittest
+from pathlib import Path
 
 from boxes.brink_long.brink_long import (
     box_height,
@@ -17,21 +18,44 @@ class TestBrinkLong(unittest.TestCase):
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 5)
+        self.assertGreater(len(build.pieces), 30)
 
     def test_box_labels_present(self) -> None:
         """Verify all essential box labels are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
-            "FleetSolari",
-            "FleetHorizon",
+            "PlayerBox_Yellow",
+            "PlayerBox_Orange",
+            "PlayerBox_Purple",
+            "PlayerBox_Blue",
+            "PlayerBox_Green",
+            "ResourceBox_Komek",
+            "ResourceBox_Ventus",
+            "ResourceBox_Henko",
+            "ResourceBox_Magnomi",
+            "ResourceBox_Sorelia",
+            "ResourceBox_UA",
             "CardBox_Actions",
             "CardBox_Riders",
             "CardBox_Ambassadors",
+            "CardBox_Factions",
+            "CardBox_Rivals",
+            "CardBox_Community",
             "HexBox",
         }
         for name in expected:
             self.assertIn(name, labels)
+
+    def test_faction_resource_lids_use_logo_instead_of_text(self) -> None:
+        """Verify each faction/UA resource cube box lid uses its SVG logo instead of text."""
+        resource_boxes = [b for b in project._boxes if b.label.startswith("ResourceBox_")]
+        self.assertEqual(len(resource_boxes), 6)
+        for box in resource_boxes:
+            self.assertIsNotNone(box.lid)
+            assert box.lid is not None
+            self.assertIsNone(box.lid.text, f"{box.label} lid should use logo instead of text")
+            self.assertIsInstance(box.lid.logo, str)
+            self.assertTrue(Path(box.lid.logo).is_file(), f"Missing SVG logo for {box.label}: {box.lid.logo}")
 
     def test_automatic_spacers_generated(self) -> None:
         """Verify automatic spacers or volumetric packing."""
@@ -57,9 +81,9 @@ class TestBrinkLong(unittest.TestCase):
             self.assertLessEqual(y + l, box_length + tol, f"{piece.label} overflows box length ({y+l} > {box_length})")
             self.assertLessEqual(z + h, box_height + tol, f"{piece.label} overflows box height ({z+h} > {box_height})")
 
-    def test_fleet_box_contains_all_piece_spaces(self) -> None:
-        """Verify long player fleet trays include all piece cutouts from brink_long.scad."""
-        p_box = next(b for b in project._boxes if b.label == "FleetSolari")
+    def test_player_box_contains_all_piece_spaces(self) -> None:
+        """Verify long player trays include all piece cutouts from brink_long.scad."""
+        p_box = next(b for b in project._boxes if b.label == "PlayerBox_Yellow")
         element_labels = {el.label for comp in p_box.compartments for el in comp.elements}
         expected = {
             "UpgradeBoard",
@@ -81,8 +105,8 @@ class TestBrinkLong(unittest.TestCase):
         for name in expected:
             self.assertIn(name, element_labels)
 
-    def test_card_boxes_slide_along_x_matching_scoop_side(self) -> None:
-        """Verify sliding card boxes open on the short wall (RIGHT) matching the scoop."""
+    def test_card_boxes_slide_axis_matches_scoop_side(self) -> None:
+        """Verify sliding card boxes open on the wall matching their finger scoop."""
         from pyboxbuilder.enums import ScoopSide
 
         project.build()
@@ -90,5 +114,9 @@ class TestBrinkLong(unittest.TestCase):
             if not box.label.startswith("CardBox_"):
                 continue
             resolved = project._pipeline._resolve_box(project._manifest, box)
-            self.assertEqual(resolved.spec.lid_slide_axis, "x")
-            self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.RIGHT)
+            if box.label in ("CardBox_Actions", "CardBox_Riders"):
+                self.assertEqual(resolved.spec.lid_slide_axis, "y")
+                self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.BACK)
+            else:
+                self.assertEqual(resolved.spec.lid_slide_axis, "x")
+                self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.RIGHT)
