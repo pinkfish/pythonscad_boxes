@@ -236,7 +236,7 @@ def _player_box_elements(
     )
 
     # 5. Class III ship (rounded equilateral triangle SVG, edge=43mm) + "3" inlay
-    c3_cx = x_shift + class_i_ship_diameter + class_ii_ship_width + class_iii_ship_radius - 10.0
+    c3_cx = x_shift + class_i_ship_diameter + class_ii_ship_width + class_iii_ship_radius - 8.5
     c3_cy = inner_length - class_ii_ship_width - class_iii_ship_edge_length / 2.0 - 10.0
     c3_z = inner_height - class_iii_ship_thickness - upgrade_thickness - 2.0
     elements.append(
@@ -302,7 +302,7 @@ def _player_box_elements(
     # 7. Three Railgun pieces (10 x 19mm) + offset round nub holes
     railgun_z = inner_height - railgun_thickness - upgrade_thickness - 2.0
     for i in range(3):
-        cx = x_shift + (railgun_width + 3.0) * i + railgun_width / 2.0 + 15.0
+        cx = x_shift + (railgun_width + 3.0) * i + railgun_width / 2.0 + 10.0
         cy = railgun_length / 2.0 + cargo_width + 15.0
         elements.append(
             _centered(
@@ -330,7 +330,7 @@ def _player_box_elements(
             )
         )
 
-    # 8. Player tokens (circular, d=14.5mm, stack of 2)
+    # 8. Player / score tokens (circular, d=14.5mm, stack of 2) + opposing finger access
     pt_cx = x_shift + player_token_diameter / 2.0 + 10.5
     pt_cy = inner_length - player_token_diameter / 2.0 - 6.0
     pt_z = inner_height - cardboard_token_thickness * 2.0 - upgrade_thickness - 2.0
@@ -342,8 +342,22 @@ def _player_box_elements(
             shape=ElementShape.CIRCLE,
             depth=inner_height - pt_z,
             z_offset=pt_z,
-            pull_out=True,
+            pull_out=False,
             label="PlayerTokens",
+        )
+    )
+    elements.append(
+        _centered(
+            pt_cx,
+            pt_cy,
+            (28.0, 9.0),
+            shape=ElementShape.ROUNDED_RECT,
+            corner_radius=4.5,
+            bottom_rounding=3.0,
+            depth=inner_height - pt_z,
+            z_offset=pt_z,
+            pull_out=False,
+            label="PlayerTokensFingerAccess",
         )
     )
 
