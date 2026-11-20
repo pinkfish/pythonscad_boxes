@@ -21,9 +21,9 @@ This document details the layout, component inventory, sub-box specifications, a
 
 | Component | Quantity / Dimension | Storage Location | Box Type | Lid Style / Decoration |
 |---|---|---|---|---|
-| Sector Hex Tiles | 25 map hexes + starting/bonus hexes | `HexBox` (`22mm`), `HexBonusBox` (`10mm`) | Cap Lid | Framed "Hexes" / "Bonus Hexes" (Dim Gray) |
+| Sector Hex Tiles | 25 map hexes + starting/bonus hexes | `HexBox` (`22mm`), `HexBonusBox` (`16mm`) | Cap Lid | Framed "Hexes" / "Bonus Hexes" (Dim Gray) |
 | Player Trays (5 Players) | Upgrade board, Class I/II/III ships, 3 cargo + nubs, 3 railguns + nubs, 2 player tokens | `PlayerBox_Yellow`, `Orange`, `Purple`, `Blue`, `Green` (`106 x 110 x 21mm`) | Cap Lid | Color-coded Framed "Player" |
-| Primary Faction Resource Cubes | 4 primary factions (Komek, Ventus, Henko, Magnomi) | `ResourceBox_Komek` .. `ResourceBox_Magnomi` (`53.25 x 119.5 x 26mm`) | Cap Lid | Faction SVG logos (color-coded) |
+| Primary Faction Resource Cubes | 4 primary factions (Komek, Ventus, Henko, Magnomi) | `ResourceBox_Komek` .. `ResourceBox_Magnomi` (`53.25 x 119.5 x 25mm`) | Cap Lid | Faction SVG logos (color-coded) |
 | Sorelia Cubes & UA / Extra Bits | Sorelia cubes + 15 UA cubes, UA Flagship, Fusion Drive, First Player token | `ResourceBox_Sorelia`, `ResourceBox_UA` (`53 x 110 x 21mm`) | Cap Lid | Faction / UA SVG logos (Purple, Crimson) |
 | Small Card Decks | 52 Action cards, 20 Rider cards (2-column wells) | `CardBox_Actions`, `CardBox_Riders` (`106.5 x 77.5mm`) | Sliding Lid (`lid_slide_axis="y"`) | Framed "Actions" / "Riders" |
 | Standard Card Decks | 25 Ambassador, 5 Faction, 4 Rival, Community, Holo | `CardBox_Ambassadors`, `Factions`, `Rivals`, `Community`, `Holo` (`106.5 x 77.5mm`) | Sliding Lid (`lid_slide_axis="x"`) | Color-coded Framed labels |

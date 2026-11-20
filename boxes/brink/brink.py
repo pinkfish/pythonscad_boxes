@@ -118,18 +118,15 @@ player_box_height = (
 hex_box_width = box_width - 2.0                                   # 213.0mm
 hex_box_length = box_length - card_box_length - player_box_length  # 119.5mm
 hex_box_height = math.ceil(25 / 3) * cardboard_token_thickness + floor_thickness + lid_thickness   # 22.0mm
-hex_bonus_box_height = max(
-    11.0,
-    math.ceil(8 / 3) * cardboard_token_thickness + floor_thickness + lid_thickness,
-)  # 11.0mm (min cap height)
 
 # 4 primary faction cube boxes (stacked on top of HexBox + HexBonusBox)
 resource_box_width = (box_width - 2.0) / 4.0                      # 53.25mm
 resource_box_length = hex_box_length                              # 119.5mm
-resource_box_height = (
-    usable_height - hex_box_height - hex_bonus_box_height
-    - 0.5 - cardboard_token_thickness - upgrade_thickness * 5.0
-)                                                                 # 26.0mm
+resource_box_height = 25.0                                        # 21mm inner (2 layers of 11mm cubes)
+
+# Size HexBonusBox so HexBox + HexBonusBox + ResourceBox = 63.0mm (exact match to 3-high PlayerBox stack),
+# eliminating the thin 5mm wafer spacer above the resource boxes.
+hex_bonus_box_height = player_box_height * 3.0 - hex_box_height - resource_box_height  # 16.0mm
 
 # 2 secondary boxes (Sorelia cubes + UA cubes/Flagship/Fusion Drive)
 resource_box_2_width = player_box_width / 2.0                     # 53.0mm
