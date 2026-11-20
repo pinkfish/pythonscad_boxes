@@ -87,7 +87,8 @@ cargo_thickness = 8.5
 round_nub = 4.5
 round_nub_thickness = 3.0
 
-CLASS_III_SVG = str(Path(__file__).resolve().parent / "svg" / "class_iii_ship.svg")
+SVG_DIR = Path(__file__).resolve().parent / "svg"
+CLASS_III_SVG = str(SVG_DIR / "class_iii_ship.svg")
 
 ambassador_box_width = box_width / 2.0 - 1.0                      # 106.5mm
 ambassador_box_length = small_card_length + wall_thickness * 2.0  # 77.5mm
@@ -404,18 +405,22 @@ player_inner_l = player_box_length - 2.0 * wall_thickness
 player_inner_h = player_box_height - floor_thickness - lid_thickness
 PLAYER_ELEMENTS = _player_box_elements(player_inner_w, player_inner_l, player_inner_h)
 
-player_factions = ["Solari", "Vanguard", "Eclipse", "Horizon"]
-for faction in player_factions:
+player_factions = [
+    ("Komek", "royalblue", "komek.svg"),
+    ("Ventus", "gold", "ventus.svg"),
+    ("Henko", "forestgreen", "henko.svg"),
+    ("Magnomi", "darkorange", "magnomi.svg"),
+    ("Sorelia", "purple", "sorelia.svg"),
+]
+for faction, color_name, logo_file in player_factions:
     p_box = project.box(
         BoxType.CAP,
         f"PlayerBox_{faction}",
         size=(player_box_width, player_box_length, player_box_height),
         lid=LidBuilder(
-            text=faction,
-            label_mode=LabelMode.FRAMED,
+            logo=str(SVG_DIR / logo_file),
+            logo_color=Color(color_name),
             pattern=BRINK_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("royalblue"),
         ),
     )
     p_box.compartment(

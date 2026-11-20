@@ -20,7 +20,7 @@ This document details the layout, component inventory, sub-box specifications, a
 
 | Component | Quantity / Dimension | Storage Location | Box Type | Lid Style / Decoration |
 |---|---|---|---|---|
-| Player Fleets (Long Format) | Full-length fleet trays for ships and upgrade boards | `FleetSolari`, `FleetHorizon` (2 boxes) | Cap Lid | Color-coded Framed lids |
+| Player Fleets (Long Format, 5 Factions) | Full-length fleet trays for ships, upgrades, and voting boards | `FleetKomek` .. `FleetSorelia` (5 boxes) | Cap Lid | Color-coded faction SVG logos |
 | Action & Rider Cards | Small-card action and rider decks | `CardBox_Actions`, `CardBox_Riders` | Sliding Lid | Framed "Actions" (Gold) & "Riders" (Firebrick) |
 | Ambassador Cards | Ambassador character cards | `CardBox_Ambassadors` | Sliding Lid | Framed "Ambassadors" (Navy) |
 | Hex Sectors | Sector hex tiles | `HexBox` | Cap Lid | Framed "Hex Sectors" (Dim Gray) |

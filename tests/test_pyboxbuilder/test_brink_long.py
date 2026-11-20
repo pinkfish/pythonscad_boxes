@@ -23,8 +23,11 @@ class TestBrinkLong(unittest.TestCase):
         """Verify all essential box labels are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
-            "FleetSolari",
-            "FleetHorizon",
+            "FleetKomek",
+            "FleetVentus",
+            "FleetHenko",
+            "FleetMagnomi",
+            "FleetSorelia",
             "CardBox_Actions",
             "CardBox_Riders",
             "CardBox_Ambassadors",
@@ -32,6 +35,19 @@ class TestBrinkLong(unittest.TestCase):
         }
         for name in expected:
             self.assertIn(name, labels)
+
+    def test_faction_lids_use_logo_instead_of_text(self) -> None:
+        """Verify each long fleet lid uses its faction SVG logo instead of text."""
+        from pathlib import Path
+
+        fleet_boxes = [b for b in project._boxes if b.label.startswith("Fleet")]
+        self.assertEqual(len(fleet_boxes), 5)
+        for box in fleet_boxes:
+            self.assertIsNotNone(box.lid)
+            assert box.lid is not None
+            self.assertIsNone(box.lid.text, f"{box.label} lid should use logo instead of text")
+            self.assertIsInstance(box.lid.logo, str)
+            self.assertTrue(Path(box.lid.logo).is_file(), f"Missing SVG logo for {box.label}: {box.lid.logo}")
 
     def test_automatic_spacers_generated(self) -> None:
         """Verify automatic spacers or volumetric packing."""
@@ -59,7 +75,7 @@ class TestBrinkLong(unittest.TestCase):
 
     def test_fleet_box_contains_all_piece_spaces(self) -> None:
         """Verify long player fleet trays include all piece cutouts from brink_long.scad."""
-        p_box = next(b for b in project._boxes if b.label == "FleetSolari")
+        p_box = next(b for b in project._boxes if b.label == "FleetKomek")
         element_labels = {el.label for comp in p_box.compartments for el in comp.elements}
         expected = {
             "UpgradeBoard",

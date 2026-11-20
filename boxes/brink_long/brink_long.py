@@ -80,7 +80,8 @@ cargo_thickness = 8.5
 round_nub = 4.5
 round_nub_thickness = 3.0
 
-CLASS_III_SVG = str(ROOT / "boxes" / "brink" / "svg" / "class_iii_ship.svg")
+SVG_DIR = ROOT / "boxes" / "brink" / "svg"
+CLASS_III_SVG = str(SVG_DIR / "class_iii_ship.svg")
 
 long_player_box_width = 106.0
 long_player_box_length = box_length - 2.0  # 305.0mm
@@ -392,18 +393,22 @@ long_inner_l = long_player_box_length - 2.0 * wall_thickness
 long_inner_h = long_player_box_height - floor_thickness - lid_thickness
 LONG_PLAYER_ELEMENTS = _long_player_elements(long_inner_w, long_inner_l, long_inner_h)
 
-player_fleets = [("FleetSolari", "Solari Fleet", "royalblue"), ("FleetHorizon", "Horizon Fleet", "gold")]
-for label, title, color_name in player_fleets:
+player_fleets = [
+    ("FleetKomek", "royalblue", "komek.svg"),
+    ("FleetVentus", "gold", "ventus.svg"),
+    ("FleetHenko", "forestgreen", "henko.svg"),
+    ("FleetMagnomi", "darkorange", "magnomi.svg"),
+    ("FleetSorelia", "purple", "sorelia.svg"),
+]
+for label, color_name, logo_file in player_fleets:
     p_box = project.box(
         BoxType.CAP,
         label,
         size=(long_player_box_width, long_player_box_length, long_player_box_height),
         lid=LidBuilder(
-            text=title,
-            label_mode=LabelMode.FRAMED,
+            logo=str(SVG_DIR / logo_file),
+            logo_color=Color(color_name),
             pattern=BRINK_PATTERN,
-            text_color=Color("black" if color_name == "gold" else "white"),
-            frame_color=Color(color_name),
         ),
     )
     p_box.compartment(

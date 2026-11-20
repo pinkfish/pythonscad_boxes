@@ -22,7 +22,7 @@ This document details the layout, component inventory, sub-box specifications, a
 | Component | Quantity / Dimension | Storage Location | Box Type | Lid Style / Decoration |
 |---|---|---|---|---|
 | Sector Hex Tiles | 72mm cardboard sector hexes | `HexBox` | Cap Lid | Framed "Hex Tiles" (Dim Gray) |
-| Player Ships & Upgrades (4 Factions) | Solari, Vanguard, Eclipse, Horizon | `PlayerBox_Solari` .. `PlayerBox_Horizon` (4 boxes) | Cap Lid | Framed faction names (Royal Blue) |
+| Player Ships & Upgrades (5 Factions) | Komek, Ventus, Henko, Magnomi, Sorelia | `PlayerBox_Komek` .. `PlayerBox_Sorelia` (5 boxes) | Cap Lid | Faction SVG logos (color-coded) |
 | Action & Rider Cards | Action deck and rider decks | `CardBox_Actions`, `CardBox_Riders` | Sliding Lid | Framed "Actions" (Gold) & "Riders" (Firebrick) |
 | Ambassador & Faction Cards | Ambassador cards and faction charters | `CardBox_Ambassadors`, `CardBox_Factions` | Sliding Lid | Framed "Ambassadors" (Navy) & "Factions" (Green) |
 | Main Map Board | Mounted game board + voting tracks | Sits atop insert (`Z = 78.0 .. 96.0mm`) | Board Layer | Flat storage beneath box lid |

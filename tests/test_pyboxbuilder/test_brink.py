@@ -24,10 +24,11 @@ class TestBrink(unittest.TestCase):
         labels = {b.label for b in project._boxes}
         expected = {
             "HexBox",
-            "PlayerBox_Solari",
-            "PlayerBox_Vanguard",
-            "PlayerBox_Eclipse",
-            "PlayerBox_Horizon",
+            "PlayerBox_Komek",
+            "PlayerBox_Ventus",
+            "PlayerBox_Henko",
+            "PlayerBox_Magnomi",
+            "PlayerBox_Sorelia",
             "CardBox_Actions",
             "CardBox_Riders",
             "CardBox_Ambassadors",
@@ -35,6 +36,19 @@ class TestBrink(unittest.TestCase):
         }
         for name in expected:
             self.assertIn(name, labels)
+
+    def test_faction_lids_use_logo_instead_of_text(self) -> None:
+        """Verify each player faction lid uses its faction SVG logo instead of text."""
+        from pathlib import Path
+
+        faction_boxes = [b for b in project._boxes if b.label.startswith("PlayerBox_")]
+        self.assertEqual(len(faction_boxes), 5)
+        for box in faction_boxes:
+            self.assertIsNotNone(box.lid)
+            assert box.lid is not None
+            self.assertIsNone(box.lid.text, f"{box.label} lid should use logo instead of text")
+            self.assertIsInstance(box.lid.logo, str)
+            self.assertTrue(Path(box.lid.logo).is_file(), f"Missing SVG logo for {box.label}: {box.lid.logo}")
 
     def test_automatic_spacers_generated(self) -> None:
         """Verify automatic spacers are generated from leftover volume."""
@@ -60,7 +74,7 @@ class TestBrink(unittest.TestCase):
 
     def test_player_box_contains_all_piece_spaces(self) -> None:
         """Verify PlayerBox includes all piece cutouts from brink.scad."""
-        p_box = next(b for b in project._boxes if b.label == "PlayerBox_Solari")
+        p_box = next(b for b in project._boxes if b.label == "PlayerBox_Komek")
         element_labels = {el.label for comp in p_box.compartments for el in comp.elements}
         expected = {
             "UpgradeBoard",
