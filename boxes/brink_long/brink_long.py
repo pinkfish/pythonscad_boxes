@@ -180,7 +180,7 @@ def _long_player_elements(
 
     cargo_z = inner_height - upgrade_thickness - cargo_thickness
     for i in range(3):
-        cx = 24.0 + 20.0 * i
+        cx = 30.0 + 20.0 * i
         cy = 216.0
         elements.append(
             _centered(
@@ -210,8 +210,8 @@ def _long_player_elements(
 
     railgun_z = inner_height - upgrade_thickness - railgun_thickness
     for i in range(3):
-        cx = 24.0 + 20.0 * i
-        cy = 250.0
+        cx = 30.0 + 20.0 * i
+        cy = 247.0
         elements.append(
             _centered(
                 cx,
@@ -238,11 +238,12 @@ def _long_player_elements(
             )
         )
 
+    # Player / victory score tokens centered cleanly above the railguns inside UnderUpgrade
     pt_z = inner_height - upgrade_thickness - cardboard_token_thickness * 2.0 - 1.0
     elements.append(
         _centered(
-            82.0,
-            234.0,
+            50.0,
+            278.0,
             (player_token_diameter, player_token_diameter),
             shape=ElementShape.CIRCLE,
             depth=inner_height - pt_z,
@@ -253,9 +254,9 @@ def _long_player_elements(
     )
     elements.append(
         _centered(
-            82.0,
-            234.0,
-            (9.0, 28.0),
+            50.0,
+            278.0,
+            (28.0, 9.0),
             shape=ElementShape.ROUNDED_RECT,
             corner_radius=4.5,
             bottom_rounding=3.0,
@@ -266,11 +267,11 @@ def _long_player_elements(
         )
     )
 
-    # ── Bottom-left region (X = 3..43.5, Y = 0..196): Voting board + 5 bays
+    # ── Bottom-left region (X = 2..59, Y = 0..196): Voting board + 5 wide cube bays
     voting_depth = cardboard_token_thickness + 1.0
     elements.append(
         CompartmentElement(
-            offset=(3.0, 0.0),
+            offset=(2.0, 0.0),
             size=(voting_board_width + 0.5, voting_board_length),
             shape=ElementShape.RECT,
             depth=voting_depth,
@@ -284,8 +285,8 @@ def _long_player_elements(
     for i in range(5):
         elements.append(
             CompartmentElement(
-                offset=(3.0, 4.0 + bay_step * i),
-                size=(42.0, bay_h),
+                offset=(2.0, 4.0 + bay_step * i),
+                size=(57.0, bay_h),
                 shape=ElementShape.ROUNDED_RECT,
                 corner_radius=5.0,
                 bottom_rounding=4.0,
@@ -296,13 +297,13 @@ def _long_player_elements(
             )
         )
 
-    # ── Bottom-right region (X = 50..96, Y = 4..190): Class III, II, I ships + tray
+    # ── Bottom-right region (X = 61.5..98.5, Y = 4..188): Class III, II, I ships + tray
     c3_z = inner_height - upgrade_thickness - 1.0 - class_iii_ship_thickness
     elements.append(
-        _centered(
-            73.0,
-            168.0,
-            (class_iii_ship_edge_length, class_iii_ship_height),
+        CompartmentElement(
+            offset=(80.0 - class_iii_ship_height / 2.0, 165.0 - class_iii_ship_edge_length / 2.0),
+            size=(class_iii_ship_edge_length, class_iii_ship_height),
+            rotation=90.0,
             shape=ElementShape.SVG,
             shape_file=CLASS_III_SVG,
             depth=inner_height - c3_z,
@@ -313,8 +314,8 @@ def _long_player_elements(
     )
     elements.append(
         _centered(
-            73.0,
-            172.0,
+            77.0,
+            165.0,
             (10.0, 12.0),
             shape=ElementShape.TEXT,
             shape_file="3",
@@ -330,8 +331,8 @@ def _long_player_elements(
     c2_z = inner_height - upgrade_thickness - 1.0 - class_ii_ship_thickness
     elements.append(
         _centered(
-            73.0,
-            116.0,
+            80.0,
+            114.0,
             (class_ii_ship_width, class_ii_ship_length),
             shape=ElementShape.ROUNDED_RECT,
             corner_radius=2.0,
@@ -343,8 +344,8 @@ def _long_player_elements(
     )
     elements.append(
         _centered(
-            73.0,
-            116.0,
+            80.0,
+            114.0,
             (10.0, 12.0),
             shape=ElementShape.TEXT,
             shape_file="2",
@@ -360,7 +361,7 @@ def _long_player_elements(
     c1_z = inner_height - upgrade_thickness - 1.0 - class_i_ship_thickness
     elements.append(
         _centered(
-            73.0,
+            80.0,
             66.0,
             (class_i_ship_diameter, class_i_ship_diameter),
             shape=ElementShape.CIRCLE,
@@ -372,7 +373,7 @@ def _long_player_elements(
     )
     elements.append(
         _centered(
-            73.0,
+            80.0,
             66.0,
             (10.0, 12.0),
             shape=ElementShape.TEXT,
@@ -388,8 +389,8 @@ def _long_player_elements(
 
     elements.append(
         CompartmentElement(
-            offset=(52.0, 4.0),
-            size=(42.0, 38.0),
+            offset=(62.5, 4.0),
+            size=(35.0, 38.0),
             shape=ElementShape.ROUNDED_RECT,
             corner_radius=5.0,
             bottom_rounding=4.0,

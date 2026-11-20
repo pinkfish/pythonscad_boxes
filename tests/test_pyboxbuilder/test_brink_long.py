@@ -105,6 +105,18 @@ class TestBrinkLong(unittest.TestCase):
         for name in expected:
             self.assertIn(name, element_labels)
 
+        by_label = {el.label: el for comp in p_box.compartments for el in comp.elements}
+        # Score/victory marker and its finger access stay well inside UnderUpgrade (not eating side rim)
+        ux0, uy0, ux1, uy1 = by_label["UnderUpgrade"].bounds()
+        for tok in ("PlayerTokens", "PlayerTokensFingerAccess"):
+            tx0, ty0, tx1, ty1 = by_label[tok].bounds()
+            self.assertGreaterEqual(tx0, ux0 + 2.0, f"{tok} clips left UnderUpgrade rim")
+            self.assertLessEqual(tx1, ux1 - 2.0, f"{tok} clips right UnderUpgrade rim")
+        # All 5 voting cube bays are wide (>= 55mm) for easy cube placement under/beside voting board
+        for i in range(1, 6):
+            bx0, _, bx1, _ = by_label[f"VotingBay_{i}"].bounds()
+            self.assertGreaterEqual(bx1 - bx0, 55.0)
+
     def test_hex_box_has_three_hexagonal_cutouts(self) -> None:
         """Verify HexBox has 3 staggered 72mm hexagonal tile wells."""
         from pyboxbuilder.enums import ElementShape
