@@ -37,6 +37,7 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
+    ScoopSide,
     run,
 )
 
@@ -54,6 +55,7 @@ lid_thickness = 2.0
 
 single_card_thickness = 0.8
 small_card_length = 71.5
+hex_width = 72.0
 cardboard_token_thickness = 2.0
 
 voting_board_width = 40.0
@@ -562,6 +564,28 @@ for deck_id, title, color_name, h, pos in [
     c_box.compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 4. Full-Width 3-Stack Sector Hex Box ──────────────────────────
+hex_inner_w = hex_box_width - 2.0 * wall_thickness
+hex_inner_l = hex_box_length - 2.0 * wall_thickness
+hex_inner_h = hex_box_height - floor_thickness - lid_thickness
+_hex_fw = hex_width / math.cos(math.radians(30.0))
+_hex_r = _hex_fw / 2.0
+HEX_ELEMENTS = tuple(
+    CompartmentElement(
+        offset=(cx - _hex_fw / 2.0, cy - hex_width / 2.0),
+        size=(hex_width, hex_width),
+        shape=ElementShape.HEXAGON,
+        depth=hex_inner_h,
+        z_offset=0.0,
+        pull_out=True,
+        label=lbl,
+    )
+    for lbl, cx, cy in [
+        ("HexStack_1", _hex_r + 0.8, hex_width / 2.0 + 0.2),
+        ("HexStack_2", hex_inner_w - _hex_r - 0.8, hex_width / 2.0 + 0.2),
+        ("HexStack_3", hex_inner_w / 2.0, hex_inner_l - hex_width / 2.0 - 0.2),
+    ]
+)
+
 h_box = project.box(
     BoxType.CAP,
     "HexBox",
@@ -575,8 +599,16 @@ h_box = project.box(
         frame_color=Color("dimgray"),
     ),
 )
-for idx in range(3):
-    h_box.compartment(f"Sector_{idx + 1}", width_ratio=1.0 / 3.0, cut=FingerCut.SCOOP)
+h_box.compartment(
+    "HexTiles",
+    size=(hex_inner_w, hex_inner_l),
+    elements=HEX_ELEMENTS,
+    element_margin=0.0,
+)
+_hex_offset_x = hex_inner_w / 2.0 - (_hex_r + 0.8)
+h_box.finger_hole(ScoopSide.FRONT, width=22.0, offset=-_hex_offset_x)
+h_box.finger_hole(ScoopSide.FRONT, width=22.0, offset=_hex_offset_x)
+h_box.finger_hole(ScoopSide.BACK, width=22.0, offset=0.0)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

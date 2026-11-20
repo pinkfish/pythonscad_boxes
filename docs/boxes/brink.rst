@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=612eaa56,../_stl/boxes/brink/HexBox_lid.stl?v=65dbc9d9,../_stl/boxes/brink/HexBonusBox_body.stl?v=6c106344,../_stl/boxes/brink/HexBonusBox_lid.stl?v=2bb98e38,../_stl/boxes/brink/PlayerBox_Yellow_body.stl?v=ba9a3c2e,../_stl/boxes/brink/PlayerBox_Yellow_lid.stl?v=990cc74e,../_stl/boxes/brink/PlayerBox_Orange_body.stl?v=c2e6e174,../_stl/boxes/brink/PlayerBox_Orange_lid.stl?v=213fdbdf,../_stl/boxes/brink/PlayerBox_Purple_body.stl?v=9860a307,../_stl/boxes/brink/PlayerBox_Purple_lid.stl?v=f9fa5fdc,../_stl/boxes/brink/PlayerBox_Blue_body.stl?v=914a88e1,../_stl/boxes/brink/PlayerBox_Blue_lid.stl?v=35d1a0da,../_stl/boxes/brink/PlayerBox_Green_body.stl?v=2134b7d8,../_stl/boxes/brink/PlayerBox_Green_lid.stl?v=d8b5a3a4,../_stl/boxes/brink/ResourceBox_Komek_body.stl?v=03d2b482,../_stl/boxes/brink/ResourceBox_Komek_lid.stl?v=107d850e,../_stl/boxes/brink/ResourceBox_Ventus_body.stl?v=179dcd16,../_stl/boxes/brink/ResourceBox_Ventus_lid.stl?v=b54e389e,../_stl/boxes/brink/ResourceBox_Henko_body.stl?v=e0baa0fe,../_stl/boxes/brink/ResourceBox_Henko_lid.stl?v=26aae38c,../_stl/boxes/brink/ResourceBox_Magnomi_body.stl?v=ee2fe29e,../_stl/boxes/brink/ResourceBox_Magnomi_lid.stl?v=7e3ee295,../_stl/boxes/brink/ResourceBox_Sorelia_body.stl?v=8c2960d4,../_stl/boxes/brink/ResourceBox_Sorelia_lid.stl?v=ebdaac33,../_stl/boxes/brink/ResourceBox_UA_body.stl?v=37851492,../_stl/boxes/brink/ResourceBox_UA_lid.stl?v=63c0b894,../_stl/boxes/brink/CardBox_Actions_body.stl?v=1c4a146b,../_stl/boxes/brink/CardBox_Actions_lid.stl?v=dc73ff3a,../_stl/boxes/brink/CardBox_Riders_body.stl?v=b31f7cc2,../_stl/boxes/brink/CardBox_Riders_lid.stl?v=ccfe1561,../_stl/boxes/brink/CardBox_Ambassadors_body.stl?v=448e902b,../_stl/boxes/brink/CardBox_Ambassadors_lid.stl?v=edb1434c,../_stl/boxes/brink/CardBox_Factions_body.stl?v=bee318c3,../_stl/boxes/brink/CardBox_Factions_lid.stl?v=3202fa86,../_stl/boxes/brink/CardBox_Rivals_body.stl?v=46851732,../_stl/boxes/brink/CardBox_Rivals_lid.stl?v=334f6ecc,../_stl/boxes/brink/CardBox_Community_body.stl?v=805f557f,../_stl/boxes/brink/CardBox_Community_lid.stl?v=524ab945,../_stl/boxes/brink/CardBox_Holo_body.stl?v=058fd712,../_stl/boxes/brink/CardBox_Holo_lid.stl?v=c2f70798,../_stl/boxes/brink/spacer_1.stl?v=564c5837,../_stl/boxes/brink/spacer_2.stl?v=a6d8c191,../_stl/boxes/brink/spacer_3.stl?v=8f727399
+.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=99b6872e,../_stl/boxes/brink/HexBox_lid.stl?v=65dbc9d9,../_stl/boxes/brink/HexBonusBox_body.stl?v=afc034a6,../_stl/boxes/brink/HexBonusBox_lid.stl?v=2bb98e38,../_stl/boxes/brink/PlayerBox_Yellow_body.stl?v=ba9a3c2e,../_stl/boxes/brink/PlayerBox_Yellow_lid.stl?v=990cc74e,../_stl/boxes/brink/PlayerBox_Orange_body.stl?v=c2e6e174,../_stl/boxes/brink/PlayerBox_Orange_lid.stl?v=213fdbdf,../_stl/boxes/brink/PlayerBox_Purple_body.stl?v=9860a307,../_stl/boxes/brink/PlayerBox_Purple_lid.stl?v=f9fa5fdc,../_stl/boxes/brink/PlayerBox_Blue_body.stl?v=914a88e1,../_stl/boxes/brink/PlayerBox_Blue_lid.stl?v=35d1a0da,../_stl/boxes/brink/PlayerBox_Green_body.stl?v=2134b7d8,../_stl/boxes/brink/PlayerBox_Green_lid.stl?v=d8b5a3a4,../_stl/boxes/brink/ResourceBox_Komek_body.stl?v=03d2b482,../_stl/boxes/brink/ResourceBox_Komek_lid.stl?v=107d850e,../_stl/boxes/brink/ResourceBox_Ventus_body.stl?v=179dcd16,../_stl/boxes/brink/ResourceBox_Ventus_lid.stl?v=b54e389e,../_stl/boxes/brink/ResourceBox_Henko_body.stl?v=e0baa0fe,../_stl/boxes/brink/ResourceBox_Henko_lid.stl?v=26aae38c,../_stl/boxes/brink/ResourceBox_Magnomi_body.stl?v=ee2fe29e,../_stl/boxes/brink/ResourceBox_Magnomi_lid.stl?v=7e3ee295,../_stl/boxes/brink/ResourceBox_Sorelia_body.stl?v=8c2960d4,../_stl/boxes/brink/ResourceBox_Sorelia_lid.stl?v=ebdaac33,../_stl/boxes/brink/ResourceBox_UA_body.stl?v=37851492,../_stl/boxes/brink/ResourceBox_UA_lid.stl?v=63c0b894,../_stl/boxes/brink/CardBox_Actions_body.stl?v=1c4a146b,../_stl/boxes/brink/CardBox_Actions_lid.stl?v=dc73ff3a,../_stl/boxes/brink/CardBox_Riders_body.stl?v=b31f7cc2,../_stl/boxes/brink/CardBox_Riders_lid.stl?v=ccfe1561,../_stl/boxes/brink/CardBox_Ambassadors_body.stl?v=448e902b,../_stl/boxes/brink/CardBox_Ambassadors_lid.stl?v=edb1434c,../_stl/boxes/brink/CardBox_Factions_body.stl?v=bee318c3,../_stl/boxes/brink/CardBox_Factions_lid.stl?v=3202fa86,../_stl/boxes/brink/CardBox_Rivals_body.stl?v=46851732,../_stl/boxes/brink/CardBox_Rivals_lid.stl?v=334f6ecc,../_stl/boxes/brink/CardBox_Community_body.stl?v=805f557f,../_stl/boxes/brink/CardBox_Community_lid.stl?v=524ab945,../_stl/boxes/brink/CardBox_Holo_body.stl?v=058fd712,../_stl/boxes/brink/CardBox_Holo_lid.stl?v=c2f70798,../_stl/boxes/brink/spacer_1.stl?v=564c5837,../_stl/boxes/brink/spacer_2.stl?v=a6d8c191,../_stl/boxes/brink/spacer_3.stl?v=8f727399
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=612eaa56" data-stl-combine="../_stl/boxes/brink/HexBox_body.stl?v=612eaa56,../_stl/boxes/brink/HexBox_lid.stl?v=65dbc9d9,../_stl/boxes/brink/HexBonusBox_body.stl?v=6c106344,../_stl/boxes/brink/HexBonusBox_lid.stl?v=2bb98e38,../_stl/boxes/brink/PlayerBox_Yellow_body.stl?v=ba9a3c2e,../_stl/boxes/brink/PlayerBox_Yellow_lid.stl?v=990cc74e,../_stl/boxes/brink/PlayerBox_Orange_body.stl?v=c2e6e174,../_stl/boxes/brink/PlayerBox_Orange_lid.stl?v=213fdbdf,../_stl/boxes/brink/PlayerBox_Purple_body.stl?v=9860a307,../_stl/boxes/brink/PlayerBox_Purple_lid.stl?v=f9fa5fdc,../_stl/boxes/brink/PlayerBox_Blue_body.stl?v=914a88e1,../_stl/boxes/brink/PlayerBox_Blue_lid.stl?v=35d1a0da,../_stl/boxes/brink/PlayerBox_Green_body.stl?v=2134b7d8,../_stl/boxes/brink/PlayerBox_Green_lid.stl?v=d8b5a3a4,../_stl/boxes/brink/ResourceBox_Komek_body.stl?v=03d2b482,../_stl/boxes/brink/ResourceBox_Komek_lid.stl?v=107d850e,../_stl/boxes/brink/ResourceBox_Ventus_body.stl?v=179dcd16,../_stl/boxes/brink/ResourceBox_Ventus_lid.stl?v=b54e389e,../_stl/boxes/brink/ResourceBox_Henko_body.stl?v=e0baa0fe,../_stl/boxes/brink/ResourceBox_Henko_lid.stl?v=26aae38c,../_stl/boxes/brink/ResourceBox_Magnomi_body.stl?v=ee2fe29e,../_stl/boxes/brink/ResourceBox_Magnomi_lid.stl?v=7e3ee295,../_stl/boxes/brink/ResourceBox_Sorelia_body.stl?v=8c2960d4,../_stl/boxes/brink/ResourceBox_Sorelia_lid.stl?v=ebdaac33,../_stl/boxes/brink/ResourceBox_UA_body.stl?v=37851492,../_stl/boxes/brink/ResourceBox_UA_lid.stl?v=63c0b894,../_stl/boxes/brink/CardBox_Actions_body.stl?v=1c4a146b,../_stl/boxes/brink/CardBox_Actions_lid.stl?v=dc73ff3a,../_stl/boxes/brink/CardBox_Riders_body.stl?v=b31f7cc2,../_stl/boxes/brink/CardBox_Riders_lid.stl?v=ccfe1561,../_stl/boxes/brink/CardBox_Ambassadors_body.stl?v=448e902b,../_stl/boxes/brink/CardBox_Ambassadors_lid.stl?v=edb1434c,../_stl/boxes/brink/CardBox_Factions_body.stl?v=bee318c3,../_stl/boxes/brink/CardBox_Factions_lid.stl?v=3202fa86,../_stl/boxes/brink/CardBox_Rivals_body.stl?v=46851732,../_stl/boxes/brink/CardBox_Rivals_lid.stl?v=334f6ecc,../_stl/boxes/brink/CardBox_Community_body.stl?v=805f557f,../_stl/boxes/brink/CardBox_Community_lid.stl?v=524ab945,../_stl/boxes/brink/CardBox_Holo_body.stl?v=058fd712,../_stl/boxes/brink/CardBox_Holo_lid.stl?v=c2f70798,../_stl/boxes/brink/spacer_1.stl?v=564c5837,../_stl/boxes/brink/spacer_2.stl?v=a6d8c191,../_stl/boxes/brink/spacer_3.stl?v=8f727399" download="Brink_full_packing.stl">⬇ Download Full Box Packing STL (<code>Brink_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=99b6872e" data-stl-combine="../_stl/boxes/brink/HexBox_body.stl?v=99b6872e,../_stl/boxes/brink/HexBox_lid.stl?v=65dbc9d9,../_stl/boxes/brink/HexBonusBox_body.stl?v=afc034a6,../_stl/boxes/brink/HexBonusBox_lid.stl?v=2bb98e38,../_stl/boxes/brink/PlayerBox_Yellow_body.stl?v=ba9a3c2e,../_stl/boxes/brink/PlayerBox_Yellow_lid.stl?v=990cc74e,../_stl/boxes/brink/PlayerBox_Orange_body.stl?v=c2e6e174,../_stl/boxes/brink/PlayerBox_Orange_lid.stl?v=213fdbdf,../_stl/boxes/brink/PlayerBox_Purple_body.stl?v=9860a307,../_stl/boxes/brink/PlayerBox_Purple_lid.stl?v=f9fa5fdc,../_stl/boxes/brink/PlayerBox_Blue_body.stl?v=914a88e1,../_stl/boxes/brink/PlayerBox_Blue_lid.stl?v=35d1a0da,../_stl/boxes/brink/PlayerBox_Green_body.stl?v=2134b7d8,../_stl/boxes/brink/PlayerBox_Green_lid.stl?v=d8b5a3a4,../_stl/boxes/brink/ResourceBox_Komek_body.stl?v=03d2b482,../_stl/boxes/brink/ResourceBox_Komek_lid.stl?v=107d850e,../_stl/boxes/brink/ResourceBox_Ventus_body.stl?v=179dcd16,../_stl/boxes/brink/ResourceBox_Ventus_lid.stl?v=b54e389e,../_stl/boxes/brink/ResourceBox_Henko_body.stl?v=e0baa0fe,../_stl/boxes/brink/ResourceBox_Henko_lid.stl?v=26aae38c,../_stl/boxes/brink/ResourceBox_Magnomi_body.stl?v=ee2fe29e,../_stl/boxes/brink/ResourceBox_Magnomi_lid.stl?v=7e3ee295,../_stl/boxes/brink/ResourceBox_Sorelia_body.stl?v=8c2960d4,../_stl/boxes/brink/ResourceBox_Sorelia_lid.stl?v=ebdaac33,../_stl/boxes/brink/ResourceBox_UA_body.stl?v=37851492,../_stl/boxes/brink/ResourceBox_UA_lid.stl?v=63c0b894,../_stl/boxes/brink/CardBox_Actions_body.stl?v=1c4a146b,../_stl/boxes/brink/CardBox_Actions_lid.stl?v=dc73ff3a,../_stl/boxes/brink/CardBox_Riders_body.stl?v=b31f7cc2,../_stl/boxes/brink/CardBox_Riders_lid.stl?v=ccfe1561,../_stl/boxes/brink/CardBox_Ambassadors_body.stl?v=448e902b,../_stl/boxes/brink/CardBox_Ambassadors_lid.stl?v=edb1434c,../_stl/boxes/brink/CardBox_Factions_body.stl?v=bee318c3,../_stl/boxes/brink/CardBox_Factions_lid.stl?v=3202fa86,../_stl/boxes/brink/CardBox_Rivals_body.stl?v=46851732,../_stl/boxes/brink/CardBox_Rivals_lid.stl?v=334f6ecc,../_stl/boxes/brink/CardBox_Community_body.stl?v=805f557f,../_stl/boxes/brink/CardBox_Community_lid.stl?v=524ab945,../_stl/boxes/brink/CardBox_Holo_body.stl?v=058fd712,../_stl/boxes/brink/CardBox_Holo_lid.stl?v=c2f70798,../_stl/boxes/brink/spacer_1.stl?v=564c5837,../_stl/boxes/brink/spacer_2.stl?v=a6d8c191,../_stl/boxes/brink/spacer_3.stl?v=8f727399" download="Brink_full_packing.stl">⬇ Download Full Box Packing STL (<code>Brink_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -38,12 +38,12 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``213 × 119.5 × 22 mm``
      - ``(0, 77.5, 0)``
-     - 3
+     - 1
    * - :ref:`HexBonusBox <box-brink-hexbonusbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``213 × 119.5 × 11 mm``
      - ``(0, 77.5, 22)``
-     - 3
+     - 1
    * - :ref:`PlayerBox_Yellow <box-brink-playerbox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106 × 110 × 21 mm``
@@ -161,25 +161,25 @@ HexBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``213 × 119.5 × 22 mm``
 - **Packed Position**: ``(0, 77.5, 0)``
-- **Compartments (3)**: ``Sector_1`` (W=33%), ``Sector_2`` (W=33%), ``Sector_3`` (W=33%)
+- **Compartments (1)**: ``HexTiles`` (207 × 113.5 mm, 3 elements)
 
 **Assembled Box (HexBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=612eaa56,../_stl/boxes/brink/HexBox_lid.stl?v=65dbc9d9
+.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=99b6872e,../_stl/boxes/brink/HexBox_lid.stl?v=65dbc9d9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=612eaa56" data-stl-combine="../_stl/boxes/brink/HexBox_body.stl?v=612eaa56,../_stl/boxes/brink/HexBox_lid.stl?v=65dbc9d9" download="HexBox_assembled.stl">⬇ Download Assembled HexBox STL (<code>HexBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=99b6872e" data-stl-combine="../_stl/boxes/brink/HexBox_body.stl?v=99b6872e,../_stl/boxes/brink/HexBox_lid.stl?v=65dbc9d9" download="HexBox_assembled.stl">⬇ Download Assembled HexBox STL (<code>HexBox_assembled.stl</code>)</a></p>
 
 **Part: HexBox Body**
 
-.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=612eaa56
+.. stl:: ../_stl/boxes/brink/HexBox_body.stl?v=99b6872e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=612eaa56" download="HexBox_body.stl">⬇ Download HexBox Body STL (<code>HexBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink/HexBox_body.stl?v=99b6872e" download="HexBox_body.stl">⬇ Download HexBox Body STL (<code>HexBox_body.stl</code>)</a></p>
 
 **Part: HexBox Lid**
 
@@ -198,25 +198,25 @@ HexBonusBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``213 × 119.5 × 11 mm``
 - **Packed Position**: ``(0, 77.5, 22)``
-- **Compartments (3)**: ``Sector_1`` (W=33%), ``Sector_2`` (W=33%), ``Sector_3`` (W=33%)
+- **Compartments (1)**: ``HexTiles`` (207 × 113.5 mm, 3 elements)
 
 **Assembled Box (HexBonusBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink/HexBonusBox_body.stl?v=6c106344,../_stl/boxes/brink/HexBonusBox_lid.stl?v=2bb98e38
+.. stl:: ../_stl/boxes/brink/HexBonusBox_body.stl?v=afc034a6,../_stl/boxes/brink/HexBonusBox_lid.stl?v=2bb98e38
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink/HexBonusBox_body.stl?v=6c106344" data-stl-combine="../_stl/boxes/brink/HexBonusBox_body.stl?v=6c106344,../_stl/boxes/brink/HexBonusBox_lid.stl?v=2bb98e38" download="HexBonusBox_assembled.stl">⬇ Download Assembled HexBonusBox STL (<code>HexBonusBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink/HexBonusBox_body.stl?v=afc034a6" data-stl-combine="../_stl/boxes/brink/HexBonusBox_body.stl?v=afc034a6,../_stl/boxes/brink/HexBonusBox_lid.stl?v=2bb98e38" download="HexBonusBox_assembled.stl">⬇ Download Assembled HexBonusBox STL (<code>HexBonusBox_assembled.stl</code>)</a></p>
 
 **Part: HexBonusBox Body**
 
-.. stl:: ../_stl/boxes/brink/HexBonusBox_body.stl?v=6c106344
+.. stl:: ../_stl/boxes/brink/HexBonusBox_body.stl?v=afc034a6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink/HexBonusBox_body.stl?v=6c106344" download="HexBonusBox_body.stl">⬇ Download HexBonusBox Body STL (<code>HexBonusBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink/HexBonusBox_body.stl?v=afc034a6" download="HexBonusBox_body.stl">⬇ Download HexBonusBox Body STL (<code>HexBonusBox_body.stl</code>)</a></p>
 
 **Part: HexBonusBox Lid**
 

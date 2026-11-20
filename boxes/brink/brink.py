@@ -37,6 +37,7 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
+    ScoopSide,
     run,
 )
 
@@ -399,6 +400,33 @@ def _player_box_elements(
     return tuple(elements)
 
 
+def _hex_box_elements(
+    inner_width: float,
+    inner_length: float,
+    inner_height: float,
+) -> tuple[CompartmentElement, ...]:
+    """Build 3 staggered 72mm hexagonal tile wells matching brink.scad HexBox."""
+    hex_fw = hex_width / math.cos(math.radians(30.0))  # ~83.138mm point-to-point
+    hex_r = hex_fw / 2.0                               # ~41.569mm
+    centers = [
+        ("HexStack_1", hex_r + 0.8, hex_width / 2.0 + 0.2),
+        ("HexStack_2", inner_width - hex_r - 0.8, hex_width / 2.0 + 0.2),
+        ("HexStack_3", inner_width / 2.0, inner_length - hex_width / 2.0 - 0.2),
+    ]
+    return tuple(
+        CompartmentElement(
+            offset=(cx - hex_fw / 2.0, cy - hex_width / 2.0),
+            size=(hex_width, hex_width),
+            shape=ElementShape.HEXAGON,
+            depth=inner_height,
+            z_offset=0.0,
+            pull_out=True,
+            label=label,
+        )
+        for label, cx, cy in centers
+    )
+
+
 project = Project(
     "Brink",
     game_box_size=(box_width, box_length, box_height),
@@ -414,6 +442,9 @@ project = Project(
 BRINK_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
 # ── 1. Sector Hex Tile Boxes (Main + Bonus) ───────────────────────
+hex_inner_w = hex_box_width - 2.0 * wall_thickness
+hex_inner_l = hex_box_length - 2.0 * wall_thickness
+
 for label, title, h in [
     ("HexBox", "Hexes", hex_box_height),
     ("HexBonusBox", "Bonus Hexes", hex_bonus_box_height),
@@ -430,12 +461,16 @@ for label, title, h in [
             frame_color=Color("dimgray"),
         ),
     )
-    for idx in range(3):
-        hb.compartment(
-            f"Sector_{idx + 1}",
-            width_ratio=1.0 / 3.0,
-            cut=FingerCut.SCOOP,
-        )
+    hb.compartment(
+        "HexTiles",
+        size=(hex_inner_w, hex_inner_l),
+        elements=_hex_box_elements(hex_inner_w, hex_inner_l, h - floor_thickness - lid_thickness),
+        element_margin=0.0,
+    )
+    hex_offset_x = hex_inner_w / 2.0 - (hex_width / (2.0 * math.cos(math.radians(30.0))) + 0.8)
+    hb.finger_hole(ScoopSide.FRONT, width=22.0, offset=-hex_offset_x)
+    hb.finger_hole(ScoopSide.FRONT, width=22.0, offset=hex_offset_x)
+    hb.finger_hole(ScoopSide.BACK, width=22.0, offset=0.0)
 
 # ── 2. Five Player Boxes (matching brink.scad) ────────────────────
 player_inner_w = player_box_width - 2.0 * wall_thickness

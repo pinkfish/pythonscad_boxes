@@ -111,6 +111,22 @@ class TestBrink(unittest.TestCase):
         half_w_at_r3 = ((r3_y1 - c3_y0) / (c3_y1 - c3_y0)) * ((c3_x1 - c3_x0) / 2.0)
         self.assertGreater(c3_cx - half_w_at_r3 - r3_x1, 3.0)
 
+    def test_hex_boxes_have_three_hexagonal_cutouts(self) -> None:
+        """Verify HexBox and HexBonusBox have 3 staggered 72mm hexagonal tile wells."""
+        from pyboxbuilder.enums import ElementShape
+
+        for label in ("HexBox", "HexBonusBox"):
+            h_box = next(b for b in project._boxes if b.label == label)
+            hex_els = [
+                el
+                for comp in h_box.compartments
+                for el in comp.elements
+                if el.shape is ElementShape.HEXAGON
+            ]
+            self.assertEqual(len(hex_els), 3, f"{label} should have 3 hexagonal cutouts")
+            for el in hex_els:
+                self.assertEqual(el.size, (72.0, 72.0))
+
     def test_card_boxes_slide_axis_matches_scoop_side(self) -> None:
         """Verify sliding card boxes open on the wall matching their finger scoop."""
         from pyboxbuilder.enums import ScoopSide
