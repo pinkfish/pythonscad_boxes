@@ -40,7 +40,6 @@ class TestBrinkLong(unittest.TestCase):
             "CardBox_Ambassadors",
             "CardBox_Factions",
             "CardBox_Rivals",
-            "CardBox_Community",
             "HexBox",
         }
         for name in expected:
@@ -131,6 +130,26 @@ class TestBrinkLong(unittest.TestCase):
         self.assertEqual(len(hex_els), 3)
         for el in hex_els:
             self.assertEqual(el.size, (72.0, 72.0))
+            self.assertIsNotNone(el.depth)
+            assert el.depth is not None
+            # 18mm inner height fits 9 hexes x 3 stacks = 27 hexes (25 map hexes + starting tile)
+            self.assertGreaterEqual(el.depth, 18.0)
+
+    def test_faction_cube_boxes_hold_28_cubes(self) -> None:
+        """Verify each faction cube box has enough interior volume for 28+ 11mm cubes."""
+        project.build()
+        for box in project._manifest.boxes:
+            if not box.label.startswith("ResourceBox_"):
+                continue
+            resolved = project._pipeline._resolve_box(project._manifest, box)
+            iv = resolved.interior
+            # At least 28 cubes of 11mm in a single layer (floor(w/11) * floor(l/11) >= 28)
+            cols = int(iv.width // 11.0)
+            rows = int(iv.length // 11.0)
+            self.assertGreaterEqual(
+                cols * rows, 28,
+                f"{box.label} interior {iv.width:.1f}x{iv.length:.1f}mm only fits {cols*rows} 11mm cubes/layer",
+            )
 
     def test_card_boxes_slide_axis_matches_scoop_side(self) -> None:
         """Verify sliding card boxes open on the wall matching their finger scoop."""
