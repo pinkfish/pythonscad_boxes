@@ -149,8 +149,13 @@ suppress_warnings = ["ref.python", "misc.highlighting_failure"]
 # --- linkcheck -------------------------------------------------------------
 # The ``pythonscad-example`` blocks emit relative ``_stl/<hash>.stl`` download
 # links to meshes generated at build time; those are assets, not links to
-# verify, so linkcheck must not try to resolve them.
-linkcheck_ignore = [r"_stl/", r"_pdf/"]
+# verify, so linkcheck must not try to resolve them. pythonscad.org frequently
+# times out from CI runners, so treat it as always valid.
+linkcheck_ignore = [
+    r"_stl/",
+    r"_pdf/",
+    r"^https?://(www\.)?pythonscad\.org",
+]
 
 # --- nitpicky --------------------------------------------------------------
 # Make every unresolved cross-reference an error, so a broken :class:/:meth:/
