@@ -103,8 +103,8 @@ long_player_box_height = (
 card_box_width = 106.0                     # 106 + 106 = 212mm <= 215mm
 card_box_length = small_card_length + wall_thickness * 2.0  # 77.5mm
 card_floor_lid = 1.5                       # 1.5mm floor + 1.5mm lid keeps all 5 decks in the 40mm upper-right band
-action_card_box_height = 24.0              # 21.0mm inner (52 small cards in 2 stacks = 20.8mm)
-rider_card_box_height = 11.5               # 8.5mm inner (20 small cards in 2 stacks = 8.0mm)
+action_card_box_height = 26.0              # 23.0mm inner (52 small cards in 2 stacks = 20.8mm)
+rider_card_box_height = 14.0               # 11.0mm inner (20 small cards in 2 stacks = 8.0mm); 26+14=40mm at Z=78mm
 ambassador_card_box_height = 23.5          # 20.5mm inner (25 Ambassador cards = 20.0mm)
 faction_card_box_height = 8.0              # 5.0mm inner (5 Faction Objective cards = 4.0mm)
 rival_card_box_height = 8.5                # 5.5mm inner (4 Rival + Guide cards)
