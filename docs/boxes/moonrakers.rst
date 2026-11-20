@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=9cb786c2" data-stl-combine="../_stl/boxes/moonrakers/CardBox_Thrusters_body.stl?v=9cb786c2,../_stl/boxes/moonrakers/CardBox_Thrusters_lid.stl?v=741f669c,../_stl/boxes/moonrakers/CardBox_Damage_body.stl?v=ed52a85b,../_stl/boxes/moonrakers/CardBox_Damage_lid.stl?v=15b386a0,../_stl/boxes/moonrakers/CardBox_Reactor_body.stl?v=41eca6d4,../_stl/boxes/moonrakers/CardBox_Reactor_lid.stl?v=853e7675,../_stl/boxes/moonrakers/CardBox_Shield_body.stl?v=50c6599f,../_stl/boxes/moonrakers/CardBox_Shield_lid.stl?v=9d8f1425,../_stl/boxes/moonrakers/CardBox_Miss_body.stl?v=6e3fd13b,../_stl/boxes/moonrakers/CardBox_Miss_lid.stl?v=6fb6de05,../_stl/boxes/moonrakers/CardBox_Crew_body.stl?v=4a42c4d0,../_stl/boxes/moonrakers/CardBox_Crew_lid.stl?v=d8972304,../_stl/boxes/moonrakers/CardBox_Contracts_body.stl?v=3851e625,../_stl/boxes/moonrakers/CardBox_Contracts_lid.stl?v=c8dbc42d,../_stl/boxes/moonrakers/CardBox_Ships_body.stl?v=d134b3e7,../_stl/boxes/moonrakers/CardBox_Ships_lid.stl?v=d7c96d70,../_stl/boxes/moonrakers/CardBox_Objectives_body.stl?v=d3199584,../_stl/boxes/moonrakers/CardBox_Objectives_lid.stl?v=39ee89d8,../_stl/boxes/moonrakers/DiceAndTokensBox_body.stl?v=3cb8e6dc,../_stl/boxes/moonrakers/DiceAndTokensBox_lid.stl?v=0489c77c,../_stl/boxes/moonrakers/spacer_1.stl?v=6cd4015e" download="Moonrakers_full_packing.stl">⬇ Download Full Box Packing STL (<code>Moonrakers_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=7f3a607e" download="Moonrakers_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Moonrakers_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=7f3a607e" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=7f3a607e" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

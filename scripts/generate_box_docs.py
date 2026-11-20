@@ -39,6 +39,7 @@ from pyboxbuilder import BoxType, StackableMode, precision  # noqa: E402
 BOXES_DIR = REPO_ROOT / "boxes"
 DOCS_BOXES_DIR = REPO_ROOT / "docs" / "boxes"
 STL_BOXES_DIR = REPO_ROOT / "docs" / "_extra" / "_stl" / "boxes"
+PDF_BOXES_DIR = REPO_ROOT / "docs" / "_extra" / "_pdf" / "boxes"
 
 BOX_TYPE_REF_SLUG: dict[BoxType, str] = {
     BoxType.SLIDING: "box-type-sliding",
@@ -193,6 +194,22 @@ def html_download_combined(uris: list[str], filename: str, label: str) -> str:
     )
 
 
+def html_packing_pdf(uri: str, filename: str) -> str:
+    """Return raw HTML for downloading and viewing the layered packing guide PDF."""
+    return (
+        f'.. raw:: html\n\n'
+        f'   <p><a href="{uri}" download="{filename}">'
+        f'⬇ Download Packing Guide PDF (<code>{filename}</code>)</a>'
+        f' &nbsp;|&nbsp; '
+        f'<a href="{uri}" target="_blank" rel="noopener">📄 Open in new tab</a></p>\n'
+        f'   <details style="margin-bottom:1.2em">\n'
+        f'     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>\n'
+        f'     <iframe src="{uri}" width="100%" height="580px" '
+        f'style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>\n'
+        f'   </details>\n'
+    )
+
+
 def process_game(game_slug: str) -> dict[str, Any]:
     """Build STL files and RST page for a single game insert."""
     t0 = time.time()
@@ -285,6 +302,32 @@ def process_game(game_slug: str) -> dict[str, Any]:
         for key, fname, stl_path in expected_files:
             digest = hashlib.sha256(stl_path.read_bytes()).hexdigest()[:8] if stl_path.is_file() else "0"
             part_uris[key] = f"../_stl/boxes/{game_slug}/{fname}?v={digest}"
+
+    # Export layered packing guide PDF if the project has a packed layout
+    pdf_uri: str | None = None
+    pdf_fname = f"{proj.name}_packing_guide.pdf"
+    if proj._manifest.boxes and build.packing is not None and proj._manifest.game_box_size is not None:
+        from pyboxbuilder.export.layout_pdf import (
+            generate_layout_pdf,
+            should_regenerate_layout,
+        )
+
+        pdf_dir = PDF_BOXES_DIR / game_slug
+        pdf_dir.mkdir(parents=True, exist_ok=True)
+        pdf_path = pdf_dir / pdf_fname
+        if should_regenerate_layout(build.packing, pdf_path):
+            generate_layout_pdf(
+                build.packing,
+                pdf_path,
+                proj.name,
+                proj._manifest.game_box_size,
+                box_builders=proj._manifest.boxes,
+                manifest=proj._manifest,
+                pipeline=proj._pipeline,
+            )
+        if pdf_path.is_file():
+            pdf_digest = hashlib.sha256(pdf_path.read_bytes()).hexdigest()[:8]
+            pdf_uri = f"../_pdf/boxes/{game_slug}/{pdf_fname}?v={pdf_digest}"
 
     # Collect box and spacer metadata from build.pieces
     body_pieces = {p.label: p for p in build.of_kind("body")}
@@ -383,6 +426,8 @@ def process_game(game_slug: str) -> dict[str, Any]:
             "Download Full Box Packing STL",
         ),
     ])
+    if pdf_uri is not None:
+        rst_lines.append(html_packing_pdf(pdf_uri, pdf_fname))
 
     # 2. Summary table of all pieces
     rst_lines.extend([

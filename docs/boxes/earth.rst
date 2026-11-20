@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/earth/CardBox_Flora_body.stl?v=d0e43a17" data-stl-combine="../_stl/boxes/earth/CardBox_Flora_body.stl?v=d0e43a17,../_stl/boxes/earth/CardBox_Flora_lid.stl?v=1a7e44a2,../_stl/boxes/earth/CardBox_Terrain_body.stl?v=7bde798f,../_stl/boxes/earth/CardBox_Terrain_lid.stl?v=db1734c5,../_stl/boxes/earth/CardBox_Events_body.stl?v=48984475,../_stl/boxes/earth/CardBox_Events_lid.stl?v=a83eea28,../_stl/boxes/earth/CardBox_Abundance_body.stl?v=749b94e0,../_stl/boxes/earth/CardBox_Abundance_lid.stl?v=26eb2731,../_stl/boxes/earth/CanopyBox_body.stl?v=11311b5c,../_stl/boxes/earth/CanopyBox_lid.stl?v=a9aa6f85,../_stl/boxes/earth/SproutBox_body.stl?v=4e36834d,../_stl/boxes/earth/SproutBox_lid.stl?v=958a2e01,../_stl/boxes/earth/PlayerBox_Red_body.stl?v=8359ccbe,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=45686cfa,../_stl/boxes/earth/PlayerBox_Green_body.stl?v=21b682ba,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=09016d45,../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=876b0d29,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=203d0de3,../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=4f9a8562,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=93240f86,../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=a6d71cab,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=41221e23,../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=ec725e2e,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=0cb1a525,../_stl/boxes/earth/spacer_1.stl?v=7beaa57d" download="Earth_full_packing.stl">⬇ Download Full Box Packing STL (<code>Earth_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=f32d860d" download="Earth_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Earth_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=f32d860d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=f32d860d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

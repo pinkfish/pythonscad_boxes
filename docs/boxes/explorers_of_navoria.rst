@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=4cd66bee,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=064d1817,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=534eb925,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=d0200c67,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=212687db,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=bb0a6baa,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=b6c6fcca,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=fce576f7,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=b506be65,../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=3d570137,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=b28ba537,../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=77407185,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=35d3d802,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=3b67c96b,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=fdc43937" download="ExplorersOfNavoria_full_packing.stl">⬇ Download Full Box Packing STL (<code>ExplorersOfNavoria_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=83d09498" download="ExplorersOfNavoria_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoria_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=83d09498" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=83d09498" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

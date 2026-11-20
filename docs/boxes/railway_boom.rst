@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=0f1e3288" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=0f1e3288,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=5d316f45,../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=a9b989b3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=32ce6f19,../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=39fa9547,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=2d76c519,../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=b7f66dc1,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=80209b63,../_stl/boxes/railway_boom/StationCardBox_body.stl?v=a85b3e94,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=8a4e0f7d,../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=725db3b8,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=c5c59da7,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=71c780a0,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=5737c5f0,../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=be3481dd,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=23a58194,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=0832de6b,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=0baa24e5,../_stl/boxes/railway_boom/spacer_1.stl?v=abea62d4,../_stl/boxes/railway_boom/spacer_2.stl?v=4e700ce5" download="RailwayBoom_full_packing.stl">⬇ Download Full Box Packing STL (<code>RailwayBoom_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=e985b3f6" download="RailwayBoom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailwayBoom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=e985b3f6" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=e985b3f6" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

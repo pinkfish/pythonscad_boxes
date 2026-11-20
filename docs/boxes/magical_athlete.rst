@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/magical_athlete/AthleteCardsBox_body.stl?v=5ae0764b" data-stl-combine="../_stl/boxes/magical_athlete/AthleteCardsBox_body.stl?v=5ae0764b,../_stl/boxes/magical_athlete/AthleteCardsBox_lid.stl?v=23c955cc,../_stl/boxes/magical_athlete/DiceBox_body.stl?v=2af6e2a3,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=b8641d93,../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=84151531,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=42e6bbde,../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=086004e5,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=2b360d46,../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=c27387db,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=a269a1c1,../_stl/boxes/magical_athlete/BigBabyBox_body.stl?v=79b88bcb,../_stl/boxes/magical_athlete/BigBabyBox_lid.stl?v=86935940,../_stl/boxes/magical_athlete/spacer_1.stl?v=07bc0e9e" download="MagicalAthlete_full_packing.stl">⬇ Download Full Box Packing STL (<code>MagicalAthlete_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=79980d03" download="MagicalAthlete_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MagicalAthlete_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=79980d03" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=79980d03" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

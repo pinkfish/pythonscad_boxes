@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=624bd51d" data-stl-combine="../_stl/boxes/dominion/BaseKingdomCards_body.stl?v=624bd51d,../_stl/boxes/dominion/BaseKingdomCards_lid.stl?v=89411a28,../_stl/boxes/dominion/TreasureAndVictoryCards_body.stl?v=609480b0,../_stl/boxes/dominion/TreasureAndVictoryCards_lid.stl?v=46e751d2,../_stl/boxes/dominion/AlchemyExpansionCards_body.stl?v=04bb34c6,../_stl/boxes/dominion/AlchemyExpansionCards_lid.stl?v=a3bf1efb,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_body.stl?v=33ed0c31,../_stl/boxes/dominion/TokenTray1_CoinAndDebtTokens_lid.stl?v=71fe4a3a,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_body.stl?v=adfa96bb,../_stl/boxes/dominion/TokenTray2_MatsAndSpecialTokens_lid.stl?v=04d4d0e7,../_stl/boxes/dominion/spacer_1.stl?v=37a5f3f1,../_stl/boxes/dominion/spacer_2.stl?v=33d236d8,../_stl/boxes/dominion/spacer_3.stl?v=160b5e91" download="DominionBigBox_full_packing.stl">⬇ Download Full Box Packing STL (<code>DominionBigBox_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=1976219c" download="DominionBigBox_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>DominionBigBox_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=1976219c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=1976219c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

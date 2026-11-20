@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=e8047495" data-stl-combine="../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_body.stl?v=e8047495,../_stl/boxes/gulf_mobile_and_ohio/BankMoneyBox_lid.stl?v=147322e1,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_body.stl?v=78defb1d,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_1_lid.stl?v=0e52f14a,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_body.stl?v=346e94c6,../_stl/boxes/gulf_mobile_and_ohio/CompanyCardsBox_2_lid.stl?v=21b0cd68,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_body.stl?v=bd99ab4b,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Red_lid.stl?v=e1416d80,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_body.stl?v=18eb17ef,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Yellow_lid.stl?v=f026b253,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_body.stl?v=a5d0d066,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Green_lid.stl?v=dd56289b,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_body.stl?v=321c06d1,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Blue_lid.stl?v=96fde968,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_body.stl?v=0cead0eb,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Black_lid.stl?v=19d34d11,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_body.stl?v=f48e02f3,../_stl/boxes/gulf_mobile_and_ohio/CubeBox_Purple_lid.stl?v=953639dc,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_body.stl?v=785eafb6,../_stl/boxes/gulf_mobile_and_ohio/PlayerTokenBox_lid.stl?v=979437c8,../_stl/boxes/gulf_mobile_and_ohio/spacer_1.stl?v=66687ad0" download="GulfMobileAndOhio_full_packing.stl">⬇ Download Full Box Packing STL (<code>GulfMobileAndOhio_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=34a99175" download="GulfMobileAndOhio_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>GulfMobileAndOhio_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=34a99175" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=34a99175" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 
