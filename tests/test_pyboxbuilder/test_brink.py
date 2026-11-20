@@ -60,10 +60,14 @@ class TestBrink(unittest.TestCase):
             self.assertTrue(Path(box.lid.logo).is_file(), f"Missing SVG logo for {box.label}: {box.lid.logo}")
 
     def test_automatic_spacers_generated(self) -> None:
-        """Verify automatic spacers are generated from leftover volume."""
+        """Verify automatic spacers are generated and no thin (< 10mm) wafer spacer exists."""
         build = project.build()
         spacers = [p for p in build.pieces if "spacer" in p.label.lower() or p.kind == "spacer"]
         self.assertGreater(len(spacers), 0)
+        for sp in spacers:
+            self.assertIsNotNone(sp.size)
+            assert sp.size is not None
+            self.assertGreaterEqual(sp.size[2], 10.0, f"{sp.label} is too thin ({sp.size[2]}mm)")
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
         """Verify no piece overflows the physical box dimensions."""
