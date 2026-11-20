@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=6eb84c43" data-stl-combine="../_stl/boxes/the_crew_deep_sea/Deck_body.stl?v=6eb84c43,../_stl/boxes/the_crew_deep_sea/Deck_lid.stl?v=551bbf1d,../_stl/boxes/the_crew_deep_sea/Tasks1_body.stl?v=ee700d25,../_stl/boxes/the_crew_deep_sea/Tasks1_lid.stl?v=e0efe084,../_stl/boxes/the_crew_deep_sea/Tasks2_body.stl?v=e004e2f0,../_stl/boxes/the_crew_deep_sea/Tasks2_lid.stl?v=51bf784c,../_stl/boxes/the_crew_deep_sea/Accessories_body.stl?v=8b84f98c,../_stl/boxes/the_crew_deep_sea/Accessories_lid.stl?v=8dd14a49,../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=e574cb0d,../_stl/boxes/the_crew_deep_sea/spacer_2.stl?v=ca5c0fc7" download="TheCrewDeepSea_full_packing.stl">⬇ Download Full Box Packing STL (<code>TheCrewDeepSea_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=25144553" download="TheCrewDeepSea_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>TheCrewDeepSea_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=25144553" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=25144553" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

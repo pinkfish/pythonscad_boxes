@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=9e126be1" data-stl-combine="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=9e126be1,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=4a00a2bc,../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=32942cee,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=21322dab,../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=91e0e054,../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=10de95ab,../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=09bb6c47,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=23220073" download="IsleOfTrains_full_packing.stl">⬇ Download Full Box Packing STL (<code>IsleOfTrains_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=aac68fdd" download="IsleOfTrains_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IsleOfTrains_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=aac68fdd" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=aac68fdd" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

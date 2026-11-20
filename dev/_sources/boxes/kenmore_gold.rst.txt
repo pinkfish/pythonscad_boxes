@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=f3a8e62b" data-stl-combine="../_stl/boxes/kenmore_gold/SquareTileBox_body.stl?v=f3a8e62b,../_stl/boxes/kenmore_gold/SquareTileBox_lid.stl?v=85aa6388,../_stl/boxes/kenmore_gold/StartCaveBox_body.stl?v=fbd6adb7,../_stl/boxes/kenmore_gold/StartCaveBox_lid.stl?v=1709059f,../_stl/boxes/kenmore_gold/LootBox_body.stl?v=e91e584a,../_stl/boxes/kenmore_gold/LootBox_lid.stl?v=2b0844b4,../_stl/boxes/kenmore_gold/spacer_1.stl?v=9acc36a2" download="KenmoreGold_full_packing.stl">⬇ Download Full Box Packing STL (<code>KenmoreGold_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=534e3467" download="KenmoreGold_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>KenmoreGold_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=534e3467" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=534e3467" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

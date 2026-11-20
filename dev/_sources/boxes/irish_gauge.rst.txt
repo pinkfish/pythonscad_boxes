@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=5482278f" data-stl-combine="../_stl/boxes/irish_gauge/CompanyBox_Belfast_body.stl?v=5482278f,../_stl/boxes/irish_gauge/CompanyBox_Belfast_lid.stl?v=83dee662,../_stl/boxes/irish_gauge/CompanyBox_Cork_body.stl?v=eaa63580,../_stl/boxes/irish_gauge/CompanyBox_Cork_lid.stl?v=f09f7ef3,../_stl/boxes/irish_gauge/CompanyBox_Midland_body.stl?v=9b87b191,../_stl/boxes/irish_gauge/CompanyBox_Midland_lid.stl?v=149bb834,../_stl/boxes/irish_gauge/CompanyBox_Waterford_body.stl?v=5b9520bc,../_stl/boxes/irish_gauge/CompanyBox_Waterford_lid.stl?v=ccc81836,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_body.stl?v=46e65b54,../_stl/boxes/irish_gauge/CompanyBox_GreatSouthern_lid.stl?v=3fc22344,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_body.stl?v=fa77d1cb,../_stl/boxes/irish_gauge/MoneyAndDividendsBox_lid.stl?v=85369da2,../_stl/boxes/irish_gauge/spacer_1.stl?v=ccc7f3e9,../_stl/boxes/irish_gauge/spacer_2.stl?v=fe5460df,../_stl/boxes/irish_gauge/spacer_3.stl?v=989f7652" download="IrishGauge_full_packing.stl">⬇ Download Full Box Packing STL (<code>IrishGauge_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=bb1e1477" download="IrishGauge_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IrishGauge_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=bb1e1477" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=bb1e1477" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/bucket_king/CardBox_body.stl?v=a56d5e44" data-stl-combine="../_stl/boxes/bucket_king/CardBox_body.stl?v=a56d5e44,../_stl/boxes/bucket_king/CardBox_lid.stl?v=b22ff448,../_stl/boxes/bucket_king/PlayerBox_1_body.stl?v=e0a2f7d2,../_stl/boxes/bucket_king/PlayerBox_1_lid.stl?v=b4c91dbe,../_stl/boxes/bucket_king/PlayerBox_2_body.stl?v=0d78506f,../_stl/boxes/bucket_king/PlayerBox_2_lid.stl?v=e79829fb,../_stl/boxes/bucket_king/PlayerBox_3_body.stl?v=05354ed4,../_stl/boxes/bucket_king/PlayerBox_3_lid.stl?v=a044157f,../_stl/boxes/bucket_king/PlayerBox_4_body.stl?v=67399381,../_stl/boxes/bucket_king/PlayerBox_4_lid.stl?v=2aabd8bb,../_stl/boxes/bucket_king/PlayerBox_5_body.stl?v=54b839d0,../_stl/boxes/bucket_king/PlayerBox_5_lid.stl?v=09e60b07,../_stl/boxes/bucket_king/PlayerBox_6_body.stl?v=ad2990cc,../_stl/boxes/bucket_king/PlayerBox_6_lid.stl?v=b47aed12" download="BucketKing_full_packing.stl">⬇ Download Full Box Packing STL (<code>BucketKing_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=21c734a8" download="BucketKing_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>BucketKing_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=21c734a8" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=21c734a8" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 

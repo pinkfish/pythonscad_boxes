@@ -22,6 +22,14 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
    <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=6a723fd9" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=6a723fd9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=2f0c4690,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=ca37275b,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=51480b5e,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=b2e9d177,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=5894d4e9,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=fa42d025,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=89d619e7,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=8f8c2e8f,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=f1df6ff4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=1e990bdf,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=215c23d1,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=752af31b,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=79c27197,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=4ad942d2,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=c188d77e,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=756e34fd,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=dadf8578,../_stl/boxes/emberleaf/CommonBox_body.stl?v=7de7df56,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=2546c308,../_stl/boxes/emberleaf/spacer_1.stl?v=5fef7af4,../_stl/boxes/emberleaf/spacer_2.stl?v=8da36ae6,../_stl/boxes/emberleaf/spacer_3.stl?v=3a4b5c08,../_stl/boxes/emberleaf/spacer_4.stl?v=81b17412,../_stl/boxes/emberleaf/spacer_5.stl?v=66a38374,../_stl/boxes/emberleaf/spacer_6.stl?v=f59281f7" download="Emberleaf_full_packing.stl">⬇ Download Full Box Packing STL (<code>Emberleaf_full_packing.stl</code>)</a></p>
 
+.. raw:: html
+
+   <p><a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=00b718b9" download="Emberleaf_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Emberleaf_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=00b718b9" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <details style="margin-bottom:1.2em">
+     <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+     <iframe src="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=00b718b9" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+   </details>
+
 Parts Overview
 --------------
 
