@@ -105,6 +105,21 @@ class TestBrinkLong(unittest.TestCase):
         for name in expected:
             self.assertIn(name, element_labels)
 
+    def test_hex_box_has_three_hexagonal_cutouts(self) -> None:
+        """Verify HexBox has 3 staggered 72mm hexagonal tile wells."""
+        from pyboxbuilder.enums import ElementShape
+
+        h_box = next(b for b in project._boxes if b.label == "HexBox")
+        hex_els = [
+            el
+            for comp in h_box.compartments
+            for el in comp.elements
+            if el.shape is ElementShape.HEXAGON
+        ]
+        self.assertEqual(len(hex_els), 3)
+        for el in hex_els:
+            self.assertEqual(el.size, (72.0, 72.0))
+
     def test_card_boxes_slide_axis_matches_scoop_side(self) -> None:
         """Verify sliding card boxes open on the wall matching their finger scoop."""
         from pyboxbuilder.enums import ScoopSide
