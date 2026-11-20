@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=0df29330,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7e7a85d5,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=16184729,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=57bbc311,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2e4ea86e,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=27f4390d,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=cc037f38,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=af4dab06,../_stl/boxes/brink_long/HexBox_body.stl?v=5e783213,../_stl/boxes/brink_long/HexBox_lid.stl?v=70855458,../_stl/boxes/brink_long/spacer_1.stl?v=ee789490,../_stl/boxes/brink_long/spacer_2.stl?v=5b0980e5,../_stl/boxes/brink_long/spacer_3.stl?v=563e5afb
+.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=88385acf,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=e9cb856d,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=16184729,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=57bbc311,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2e4ea86e,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=27f4390d,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=cc037f38,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=af4dab06,../_stl/boxes/brink_long/HexBox_body.stl?v=5e783213,../_stl/boxes/brink_long/HexBox_lid.stl?v=70855458,../_stl/boxes/brink_long/spacer_1.stl?v=ee789490,../_stl/boxes/brink_long/spacer_2.stl?v=5b0980e5,../_stl/boxes/brink_long/spacer_3.stl?v=563e5afb
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=0df29330" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=0df29330,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7e7a85d5,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=16184729,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=57bbc311,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2e4ea86e,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=27f4390d,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=cc037f38,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=af4dab06,../_stl/boxes/brink_long/HexBox_body.stl?v=5e783213,../_stl/boxes/brink_long/HexBox_lid.stl?v=70855458,../_stl/boxes/brink_long/spacer_1.stl?v=ee789490,../_stl/boxes/brink_long/spacer_2.stl?v=5b0980e5,../_stl/boxes/brink_long/spacer_3.stl?v=563e5afb" download="BrinkLong_full_packing.stl">⬇ Download Full Box Packing STL (<code>BrinkLong_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=88385acf" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=88385acf,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d,../_stl/boxes/brink_long/FleetHorizon_body.stl?v=e9cb856d,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=16184729,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=57bbc311,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=2e4ea86e,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=27f4390d,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=cc037f38,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=af4dab06,../_stl/boxes/brink_long/HexBox_body.stl?v=5e783213,../_stl/boxes/brink_long/HexBox_lid.stl?v=70855458,../_stl/boxes/brink_long/spacer_1.stl?v=ee789490,../_stl/boxes/brink_long/spacer_2.stl?v=5b0980e5,../_stl/boxes/brink_long/spacer_3.stl?v=563e5afb" download="BrinkLong_full_packing.stl">⬇ Download Full Box Packing STL (<code>BrinkLong_full_packing.stl</code>)</a></p>
 
 Parts Overview
 --------------
@@ -91,25 +91,25 @@ FleetSolari
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106 × 307 × 24 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 28 elements)
+- **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 29 elements)
 
 **Assembled Box (FleetSolari — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=0df29330,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d
+.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=88385acf,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=0df29330" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=0df29330,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d" download="FleetSolari_assembled.stl">⬇ Download Assembled FleetSolari STL (<code>FleetSolari_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=88385acf" data-stl-combine="../_stl/boxes/brink_long/FleetSolari_body.stl?v=88385acf,../_stl/boxes/brink_long/FleetSolari_lid.stl?v=77526e3d" download="FleetSolari_assembled.stl">⬇ Download Assembled FleetSolari STL (<code>FleetSolari_assembled.stl</code>)</a></p>
 
 **Part: FleetSolari Body**
 
-.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=0df29330
+.. stl:: ../_stl/boxes/brink_long/FleetSolari_body.stl?v=88385acf
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=0df29330" download="FleetSolari_body.stl">⬇ Download FleetSolari Body STL (<code>FleetSolari_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetSolari_body.stl?v=88385acf" download="FleetSolari_body.stl">⬇ Download FleetSolari Body STL (<code>FleetSolari_body.stl</code>)</a></p>
 
 **Part: FleetSolari Lid**
 
@@ -128,25 +128,25 @@ FleetHorizon
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106 × 307 × 24 mm``
 - **Packed Position**: ``(0, 0, 24)``
-- **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 28 elements)
+- **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 29 elements)
 
 **Assembled Box (FleetHorizon — Body + Lid)**
 
-.. stl:: ../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7e7a85d5,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f
+.. stl:: ../_stl/boxes/brink_long/FleetHorizon_body.stl?v=e9cb856d,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7e7a85d5" data-stl-combine="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7e7a85d5,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f" download="FleetHorizon_assembled.stl">⬇ Download Assembled FleetHorizon STL (<code>FleetHorizon_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=e9cb856d" data-stl-combine="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=e9cb856d,../_stl/boxes/brink_long/FleetHorizon_lid.stl?v=9b51b39f" download="FleetHorizon_assembled.stl">⬇ Download Assembled FleetHorizon STL (<code>FleetHorizon_assembled.stl</code>)</a></p>
 
 **Part: FleetHorizon Body**
 
-.. stl:: ../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7e7a85d5
+.. stl:: ../_stl/boxes/brink_long/FleetHorizon_body.stl?v=e9cb856d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=7e7a85d5" download="FleetHorizon_body.stl">⬇ Download FleetHorizon Body STL (<code>FleetHorizon_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/brink_long/FleetHorizon_body.stl?v=e9cb856d" download="FleetHorizon_body.stl">⬇ Download FleetHorizon Body STL (<code>FleetHorizon_body.stl</code>)</a></p>
 
 **Part: FleetHorizon Lid**
 

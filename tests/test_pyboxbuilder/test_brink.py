@@ -76,9 +76,18 @@ class TestBrink(unittest.TestCase):
             "Railgun_3",
             "RailgunNub_1",
             "PlayerTokens",
+            "PlayerTokensFingerAccess",
         }
         for name in expected:
             self.assertIn(name, element_labels)
+
+        by_label = {el.label: el for comp in p_box.compartments for el in comp.elements}
+        r3_x0, r3_y0, r3_x1, r3_y1 = by_label["Railgun_3"].bounds()
+        # Class III triangle's left edge at y = r3_y1 must stay well clear of Railgun_3
+        c3_x0, c3_y0, c3_x1, c3_y1 = by_label["ClassIIIShip"].bounds()
+        c3_cx = (c3_x0 + c3_x1) / 2.0
+        half_w_at_r3 = ((r3_y1 - c3_y0) / (c3_y1 - c3_y0)) * ((c3_x1 - c3_x0) / 2.0)
+        self.assertGreater(c3_cx - half_w_at_r3 - r3_x1, 3.0)
 
     def test_card_boxes_slide_along_x_matching_scoop_side(self) -> None:
         """Verify sliding card boxes open on the short wall (RIGHT) matching the scoop."""

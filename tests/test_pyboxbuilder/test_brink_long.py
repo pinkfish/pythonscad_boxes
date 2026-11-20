@@ -73,6 +73,7 @@ class TestBrinkLong(unittest.TestCase):
             "Railgun_2",
             "Railgun_3",
             "PlayerTokens",
+            "PlayerTokensFingerAccess",
             "VotingBoard",
             "VotingBay_1",
             "VotingBay_5",

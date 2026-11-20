@@ -217,8 +217,22 @@ def _long_player_elements(
             shape=ElementShape.CIRCLE,
             depth=inner_height - pt_z,
             z_offset=pt_z,
-            pull_out=True,
+            pull_out=False,
             label="PlayerTokens",
+        )
+    )
+    elements.append(
+        _centered(
+            82.0,
+            234.0,
+            (9.0, 28.0),
+            shape=ElementShape.ROUNDED_RECT,
+            corner_radius=4.5,
+            bottom_rounding=3.0,
+            depth=inner_height - pt_z,
+            z_offset=pt_z,
+            pull_out=False,
+            label="PlayerTokensFingerAccess",
         )
     )
 
