@@ -58,7 +58,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`BrinkLong (brink_long) <brink_long>`
      - ``215 × 307 × 96 mm``
      - 18
-     - 4
+     - 1
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`BucketKing (bucket_king) <bucket_king>`
      - ``140 × 288 × 70 mm``
