@@ -102,22 +102,26 @@ long_player_box_height = (
 
 card_box_width = 106.0                     # 106 + 106 = 212mm <= 215mm
 card_box_length = small_card_length + wall_thickness * 2.0  # 77.5mm
-action_card_box_height = single_card_thickness * 52.0 / 2.0 + floor_thickness + lid_thickness      # 24.8mm
-rider_card_box_height = single_card_thickness * 20.0 / 2.0 + floor_thickness + lid_thickness       # 12.0mm
-ambassador_card_box_height = single_card_thickness * 25.0 + floor_thickness + lid_thickness + 0.5  # 24.5mm
-faction_card_box_height = single_card_thickness * 5.0 + floor_thickness + lid_thickness + 0.5      # 8.5mm
-rival_card_box_height = single_card_thickness * 4.0 + floor_thickness + lid_thickness + 0.5        # 7.7mm
-bonus_card_box_height = 15.0  # fits cleanly atop AmbassadorCardBox in the 40mm upper-right card band
+card_floor_lid = 1.5                       # 1.5mm floor + 1.5mm lid keeps all 5 decks in the 40mm upper-right band
+action_card_box_height = 24.0              # 21.0mm inner (52 small cards in 2 stacks = 20.8mm)
+rider_card_box_height = 11.5               # 8.5mm inner (20 small cards in 2 stacks = 8.0mm)
+ambassador_card_box_height = 23.5          # 20.5mm inner (25 Ambassador cards = 20.0mm)
+faction_card_box_height = 8.0              # 5.0mm inner (5 Faction Objective cards = 4.0mm)
+rival_card_box_height = 8.5                # 5.5mm inner (4 Rival + Guide cards)
 
-# Full-width 3-stack HexBox sitting atop the 3-high player stack (Z = 57..77mm)
+# Full-width 3-stack HexBox sitting atop the 3-high player stack (Z = 57..78mm)
+# 1.5mm floor + 1.5mm lid -> 18.0mm inner = 3 x 9 = 27 hexes (25 map hexes + starting tile)
 hex_box_width = 212.0
 hex_box_length = 119.5
-hex_box_height = 20.0
+hex_box_height = 21.0
+hex_floor_lid = 1.5
 
-# 4 Primary Faction cube boxes (2x2 grid at X=0..106, Y=119.5..229.5, Z=57..77mm)
+# 4 Primary Faction cube boxes (2x2 grid filling X=0..106, Y=119.5..306.5, Z=57..78mm)
+# With 2.5mm walls -> 48 x 88.5 x 17mm inner (72.2 cm^3, easily holds 28+ 11mm cubes each)
 resource_box_width = 53.0
-resource_box_length = 55.0
-resource_box_height = 20.0
+resource_box_length = 93.5
+resource_box_height = 21.0
+resource_wall_thickness = 2.5
 
 # 2 Secondary boxes (Sorelia + UA) bridging right side Z=38..57mm cleanly under HexBox
 resource_box_2_width = 53.0
@@ -468,6 +472,7 @@ for name, color_name, logo_file, pos in primary_factions:
         f"ResourceBox_{name}",
         size=(resource_box_width, resource_box_length, resource_box_height),
         position=pos,
+        wall_thickness=resource_wall_thickness,
         lid=LidBuilder(
             logo=str(SVG_DIR / logo_file),
             logo_color=Color(color_name),
@@ -486,6 +491,7 @@ for name, color_name, logo_file, comp_name, pos in secondary_boxes:
         f"ResourceBox_{name}",
         size=(resource_box_2_width, resource_box_2_length, resource_box_2_height),
         position=pos,
+        wall_thickness=resource_wall_thickness,
         lid=LidBuilder(
             logo=str(SVG_DIR / logo_file),
             logo_color=Color(color_name),
@@ -510,6 +516,8 @@ for deck_id, title, color_name, h, pos in [
         f"CardBox_{deck_id}",
         size=(card_box_width, card_box_length, h),
         position=pos,
+        floor_thickness=card_floor_lid,
+        lid_thickness=card_floor_lid,
         lid_slide_axis="y",
         lid=LidBuilder(
             text=title,
@@ -522,7 +530,6 @@ for deck_id, title, color_name, h, pos in [
     c_box.compartment("CardsLeft", width_ratio=0.5, cut=FingerCut.SCOOP)
     c_box.compartment("CardsRight", width_ratio=0.5, cut=FingerCut.SCOOP)
 
-y_left_cards = hex_box_length + resource_box_length * 2.0  # 229.5mm
 y_right_cards2 = hex_box_length + card_box_length          # 197.0mm
 for deck_id, title, color_name, h, pos in [
     (
@@ -533,19 +540,22 @@ for deck_id, title, color_name, h, pos in [
         (long_player_box_width, y_right_cards2, z_mid_right),
     ),
     (
-        "Community",
-        "Community",
-        "teal",
-        bonus_card_box_height,
+        "Factions",
+        "Factions",
+        "forestgreen",
+        faction_card_box_height,
         (long_player_box_width, y_right_cards2, z_mid_right + ambassador_card_box_height),
     ),
-    ("Factions", "Factions", "forestgreen", faction_card_box_height, (0.0, y_left_cards, z_top_band)),
     (
         "Rivals",
         "Rivals",
         "darkorange",
         rival_card_box_height,
-        (0.0, y_left_cards, z_top_band + faction_card_box_height),
+        (
+            long_player_box_width,
+            y_right_cards2,
+            z_mid_right + ambassador_card_box_height + faction_card_box_height,
+        ),
     ),
 ]:
     c_box = project.box(
@@ -553,6 +563,8 @@ for deck_id, title, color_name, h, pos in [
         f"CardBox_{deck_id}",
         size=(card_box_width, card_box_length, h),
         position=pos,
+        floor_thickness=card_floor_lid,
+        lid_thickness=card_floor_lid,
         lid_slide_axis="x",
         lid=LidBuilder(
             text=title,
@@ -567,7 +579,7 @@ for deck_id, title, color_name, h, pos in [
 # ── 4. Full-Width 3-Stack Sector Hex Box ──────────────────────────
 hex_inner_w = hex_box_width - 2.0 * wall_thickness
 hex_inner_l = hex_box_length - 2.0 * wall_thickness
-hex_inner_h = hex_box_height - floor_thickness - lid_thickness
+hex_inner_h = hex_box_height - 2.0 * hex_floor_lid  # 18.0mm = 9 hexes x 3 stacks = 27 hexes
 _hex_fw = hex_width / math.cos(math.radians(30.0))
 _hex_r = _hex_fw / 2.0
 HEX_ELEMENTS = tuple(
@@ -592,6 +604,8 @@ h_box = project.box(
     "HexBox",
     size=(hex_box_width, hex_box_length, hex_box_height),
     position=(0.0, 0.0, z_top_band),
+    floor_thickness=hex_floor_lid,
+    lid_thickness=hex_floor_lid,
     lid=LidBuilder(
         text="Hexes",
         label_mode=LabelMode.FRAMED,
