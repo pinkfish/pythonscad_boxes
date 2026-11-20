@@ -355,6 +355,23 @@ class BoxBuilder:
             growable=growable,
         )
         object.__setattr__(self, "compartments", (*self.compartments, cb))
+        if (
+            (is_card or any(w in label.lower() for w in ("card", "deck")))
+            and hasattr(self, "lid_slide_axis")
+            and getattr(self, "lid_slide_axis", None) is None
+        ):
+            ref_size: tuple[float, float] | None = None
+            if size is not None:
+                ref_size = size
+            elif (
+                self.size is not None
+                and self.size[0] is not None
+                and self.size[1] is not None
+            ):
+                ref_size = (self.size[0], self.size[1])
+            if ref_size is not None:
+                axis = "x" if ref_size[0] > ref_size[1] else "y"
+                object.__setattr__(self, "lid_slide_axis", axis)
         return cb
 
     def cards(

@@ -56,3 +56,38 @@ class TestBrinkLong(unittest.TestCase):
             self.assertLessEqual(x + w, box_width + tol, f"{piece.label} overflows box width ({x+w} > {box_width})")
             self.assertLessEqual(y + l, box_length + tol, f"{piece.label} overflows box length ({y+l} > {box_length})")
             self.assertLessEqual(z + h, box_height + tol, f"{piece.label} overflows box height ({z+h} > {box_height})")
+
+    def test_fleet_box_contains_all_piece_spaces(self) -> None:
+        """Verify long player fleet trays include all piece cutouts from brink_long.scad."""
+        p_box = next(b for b in project._boxes if b.label == "FleetSolari")
+        element_labels = {el.label for comp in p_box.compartments for el in comp.elements}
+        expected = {
+            "UpgradeBoard",
+            "ClassIShip",
+            "ClassIIShip",
+            "ClassIIIShip",
+            "Cargo_1",
+            "Cargo_2",
+            "Cargo_3",
+            "Railgun_1",
+            "Railgun_2",
+            "Railgun_3",
+            "PlayerTokens",
+            "VotingBoard",
+            "VotingBay_1",
+            "VotingBay_5",
+        }
+        for name in expected:
+            self.assertIn(name, element_labels)
+
+    def test_card_boxes_slide_along_x_matching_scoop_side(self) -> None:
+        """Verify sliding card boxes open on the short wall (RIGHT) matching the scoop."""
+        from pyboxbuilder.enums import ScoopSide
+
+        project.build()
+        for box in project._manifest.boxes:
+            if not box.label.startswith("CardBox_"):
+                continue
+            resolved = project._pipeline._resolve_box(project._manifest, box)
+            self.assertEqual(resolved.spec.lid_slide_axis, "x")
+            self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.RIGHT)

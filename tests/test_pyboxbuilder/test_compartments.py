@@ -216,20 +216,29 @@ class ContentSizingTests(unittest.TestCase):
         self.assertEqual(resolved.spec.lid_slide_axis, "x")
         self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.RIGHT)
 
-    def test_card_compartment_in_sliding_box_overrides_long_wall_default(self) -> None:
-        """A compartment holding cards in a sliding box defaults to the short wall even if box
-        defaults to Y (FR-068)."""
+    def test_card_compartment_in_sliding_box_matches_lid_exit_wall(self) -> None:
+        """A card compartment in a sliding box shares the lid's exit wall and never
+        cuts through a dovetail rail."""
         from pyboxbuilder import BoxType, Project
         from pyboxbuilder.compartments.carve import build_contents
         from pyboxbuilder.enums import FingerCut, ScoopSide
 
+        # Without explicit lid_slide_axis, wide sliding card box auto-selects X (short wall RIGHT)
+        p_auto = Project("WideCardAuto")
+        box_auto = p_auto.box(BoxType.SLIDING, "Cards", size=(106.5, 77.5, 24.0))
+        box_auto.compartment("Cards", cut=FingerCut.SCOOP)
+        p_auto.build()
+        resolved_auto = p_auto._pipeline._resolve_box(p_auto._manifest, p_auto._manifest.boxes[0])
+        self.assertEqual(resolved_auto.spec.lid_slide_axis, "x")
+        self.assertIs(resolved_auto.box.preferred_scoop_side(resolved_auto.spec), ScoopSide.RIGHT)
+
+        # With explicit lid_slide_axis="y", scoop stays on BACK (the open exit wall)
         p = Project("WideCardComp")
         box = p.box(BoxType.SLIDING, "Cards", size=(105.0, 75.0, 50.0), lid_slide_axis="y")
         box.compartment("Cards", size=(88.0, 63.5), depth=40.0, cut=FingerCut.SCOOP)
         p.build()
 
         resolved = p._pipeline._resolve_box(p._manifest, p._manifest.boxes[0])
-        # Box prefers BACK (105mm long wall), but card compartment enforces short walls (LEFT/RIGHT)
         self.assertIs(resolved.box.preferred_scoop_side(resolved.spec), ScoopSide.BACK)
         contents = build_contents(
             resolved.compartments.placements,
