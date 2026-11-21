@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass, fields, replace
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import ColorMode, LabelMode, PatternType
+from pyboxbuilder.enums import ColorMode, LabelMode, LabelShape, PatternType
 
 if TYPE_CHECKING:
     from pyboxbuilder import Color
@@ -273,6 +273,13 @@ class LidBuilder:
     as ``None`` rather than defaulted directly so a per-mode override can tell
     "I want framed" from "I said nothing about the frame" — see
     :meth:`for_mode`."""
+    label_shape: LabelShape | str | None = None
+    """Plaque silhouette for framed labels (``RECT``, ``PILL``, ``CHAMFERED``,
+    ``HEXAGON``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``, or ``UNDERLINE``).
+
+    ``None`` defaults to :attr:`~pyboxbuilder.enums.LabelShape.RECT`. Non-rect
+    decorative shapes default to a clean solid interior plaque unless
+    ``label_solid_background=False`` is passed explicitly."""
     diagonal: bool | None = None
     """Run the text corner to corner rather than along the lid; ``None`` is no."""
     text_color: Color | None = None
@@ -361,6 +368,8 @@ class LidBuilder:
         """Convert list pattern_through_inlay to tuple and coerce pattern/label_mode."""
         if isinstance(self.label_mode, str):
             object.__setattr__(self, "label_mode", LabelMode(self.label_mode.lower()))
+        if isinstance(self.label_shape, str):
+            object.__setattr__(self, "label_shape", LabelShape(self.label_shape.lower()))
         if isinstance(self.pattern, str):
             object.__setattr__(self, "pattern", PatternBuilder(PatternType(self.pattern.lower())))
         elif isinstance(self.pattern, PatternType):
@@ -404,6 +413,15 @@ class LidBuilder:
     def mode(self) -> LabelMode:
         """The label style, resolved."""
         return self.label_mode if self.label_mode is not None else LabelMode.FRAMED
+
+    @property
+    def shape(self) -> LabelShape:
+        """The framed label plaque shape, resolved."""
+        if isinstance(self.label_shape, LabelShape):
+            return self.label_shape
+        if isinstance(self.label_shape, str):
+            return LabelShape(self.label_shape.lower())
+        return LabelShape.RECT
 
     @property
     def is_diagonal(self) -> bool:

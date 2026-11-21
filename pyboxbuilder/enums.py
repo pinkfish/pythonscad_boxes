@@ -84,6 +84,27 @@ class LabelMode(Enum):
     """Direct label text without a raised frame."""
 
 
+class LabelShape(Enum):
+    """Plaque silhouette and decorative frame style for framed lid labels."""
+
+    RECT = "rect"
+    """Classic rounded rectangle frame (default)."""
+    PILL = "pill"
+    """Capsule / stadium plaque with full semicircular ends."""
+    CHAMFERED = "chamfered"
+    """Octagonal sci-fi plaque with crisp 45° beveled corners."""
+    HEXAGON = "hexagon"
+    """Elongated hexagonal lozenge with pointed chevron ends."""
+    NOTCHED = "notched"
+    """Art-deco / ticket plaque with concave quarter-circle corner notches."""
+    RIBBON = "ribbon"
+    """Banner plaque with swallowtail V-notched ends."""
+    DOUBLE_FRAME = "double_frame"
+    """Premium nameplate with an outer border ring and thin inner pinstripe."""
+    UNDERLINE = "underline"
+    """Minimalist header with clean lettering and a bold accent bar underneath."""
+
+
 class PatternType(Enum):
     """Lid through-hole pattern (FR-023).
 

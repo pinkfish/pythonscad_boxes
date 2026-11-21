@@ -12,7 +12,7 @@ import math
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from pyboxbuilder.enums import LabelMode
+from pyboxbuilder.enums import LabelMode, LabelShape
 from pyboxbuilder.lid.builder import BORDER_MARGIN_MM, MAX_TEXT_HEIGHT_MM
 
 if TYPE_CHECKING:
@@ -178,6 +178,7 @@ def build_label(
     center_y: float | None = None,
     max_text_height_mm: float | None = MAX_TEXT_HEIGHT_MM,
     solid_background: bool = False,
+    label_shape: LabelShape = LabelShape.RECT,
 ) -> Label | None:
     """Build a label for a lid face, or None if it would be illegible.
 
@@ -200,6 +201,7 @@ def build_label(
         max_text_height_mm: Maximum cap height for the label text in mm.
         solid_background: Keep the framed label's interior solid rather than
             cutting diagonal hatching slots.
+        label_shape: Plaque silhouette for framed labels (defaults to ``LabelShape.RECT``).
 
     Returns:
         A `Label`, or None when the text would come out under the minimum.
@@ -251,19 +253,35 @@ def build_label(
     if label_mode is LabelMode.FRAMELESS:
         return Label(text=solid)
 
-    # Framed: a hatched backing plate behind the text. It hugs the text rather
-    # than filling the label area, so a lid can carry both a frame and a
-    # through-hole pattern — a plate the size of the whole area would simply
-    # cover the pattern up.
+    # Framed: a backing plaque behind the text. It hugs the text rather than
+    # filling the label area, so a lid can carry both a frame and a through-hole
+    # pattern — a plate the size of the whole area would simply cover the pattern up.
     b = solid.bounds()
     tcx, tcy = (float(b.center[0]), float(b.center[1])) if hasattr(b, "center") else (float(b[0][0]), float(b[0][1]))
     tw, tl = (float(b.size[0]), float(b.size[1])) if hasattr(b, "size") else (float(b[1][0]), float(b[1][1]))
+    rounding_val = label_rounding_mm if label_rounding_mm is not None else 5.0
+
+    if label_shape is not LabelShape.RECT:
+        return _build_decorative_label(
+            text_solid=solid,
+            tcx=tcx,
+            tcy=tcy,
+            tw=tw,
+            tl=tl,
+            label_w=label_w,
+            label_l=label_l,
+            is_vertical=is_vertical,
+            border=border,
+            gap=gap,
+            rounding=rounding_val,
+            solid_background=solid_background,
+            shape=label_shape,
+        )
+
     plate_w = min(tw + 2 * pad, label_w)
     plate_l = min(tl + 2 * pad, label_l)
     plate_x = tcx - plate_w / 2
     plate_y = tcy - plate_l / 2
-
-    rounding_val = label_rounding_mm if label_rounding_mm is not None else 5.0
 
     from pybosl2 import cuboid
 
@@ -382,3 +400,347 @@ def _build_hatching(
     hatching = union_all(lines)
     assert hatching is not None
     return hatching & clip_solid
+
+
+def _centered_cuboid(
+    width: float,
+    length: float,
+    height: float,
+    rounding: float = 0.0,
+) -> Bosl2Solid:
+    """Create a cuboid centered at (0, 0) in XY with base at z=0."""
+    from pybosl2 import cuboid
+
+    from pyboxbuilder.rounding import vertical_edges
+
+    r = max(0.0, min(rounding, min(width, length) / 2.0 - 0.01))
+    solid = (
+        cuboid([width, length, height], rounding=r, edges=vertical_edges())
+        if r > 0.01
+        else cuboid([width, length, height])
+    )
+    return solid.translate([0.0, 0.0, height / 2.0])
+
+
+def _chamfered_prism(width: float, length: float, chamfer: float, height: float) -> Bosl2Solid:
+    """Extrude an 8-vertex octagonal prism with 45° corner chamfers, base at z=0."""
+    from pybosl2 import Path2D, polygon
+
+    hw = width / 2.0
+    hl = length / 2.0
+    c = max(0.0, min(chamfer, hw - 0.05, hl - 0.05))
+    pts = [
+        (-hw + c, -hl),
+        (hw - c, -hl),
+        (hw, -hl + c),
+        (hw, hl - c),
+        (hw - c, hl),
+        (-hw + c, hl),
+        (-hw, hl - c),
+        (-hw, -hl + c),
+    ]
+    return polygon(Path2D(pts)).linear_extrude(height=height)
+
+
+def _hex_lozenge_prism(width: float, length: float, tip: float, height: float) -> Bosl2Solid:
+    """Extrude a pointed elongated hexagon centered at (0, 0) with base at z=0."""
+    from pybosl2 import Path2D, polygon
+
+    hw = width / 2.0
+    hl = length / 2.0
+    t = max(0.0, min(tip, hw - 0.2))
+    pts = [
+        (-hw, 0.0),
+        (-hw + t, -hl),
+        (hw - t, -hl),
+        (hw, 0.0),
+        (hw - t, hl),
+        (-hw + t, hl),
+    ]
+    return polygon(Path2D(pts)).linear_extrude(height=height)
+
+
+def _ribbon_prism(width: float, length: float, notch: float, height: float) -> Bosl2Solid:
+    """Extrude a swallowtail-notched banner centered at (0, 0) with base at z=0."""
+    from pybosl2 import Path2D, polygon
+
+    hw = width / 2.0
+    hl = length / 2.0
+    n = max(0.0, min(notch, hw - 0.5))
+    pts = [
+        (-hw, -hl),
+        (hw, -hl),
+        (hw - n, 0.0),
+        (hw, hl),
+        (-hw, hl),
+        (-hw + n, 0.0),
+    ]
+    return polygon(Path2D(pts)).linear_extrude(height=height)
+
+
+def _notched_prism(width: float, length: float, notch_radius: float, height: float) -> Bosl2Solid:
+    """Extrude a rectangle with concave quarter-circle corner notches, base at z=0."""
+    from pybosl2 import cylinder
+
+    from pyboxbuilder.compartments.element import union_all
+
+    base = _centered_cuboid(width, length, height)
+    nr = max(0.0, min(notch_radius, min(width, length) / 2.0 - 0.2))
+    if nr <= 0.1:
+        return base
+    hw = width / 2.0
+    hl = length / 2.0
+    corners = union_all(
+        [
+            cylinder(height=height + 2.0, radius=nr).translate([sx * hw, sy * hl, height / 2.0])
+            for sx in (-1.0, 1.0)
+            for sy in (-1.0, 1.0)
+        ]
+    )
+    assert corners is not None
+    return base - corners
+
+
+def _build_shape_parts(
+    shape: LabelShape,
+    rtw: float,
+    rtl: float,
+    avail_rw: float,
+    avail_rl: float,
+    border: float,
+    gap: float,
+    rounding: float,
+) -> tuple[Bosl2Solid, Bosl2Solid | None, Bosl2Solid | None, float, float]:
+    """Build (plate, frame, background, rw, rl) in local reading coordinates with base at z=0."""
+    h = BACKING_HEIGHT_MM
+    cut_h = h + 2.0
+    pad = border + gap
+    base_rw = rtw + 2.0 * pad
+    base_rl = rtl + 2.0 * pad
+
+    def _fit_rw(extra_per_side: float) -> float:
+        return min(base_rw + 2.0 * max(0.0, extra_per_side), avail_rw)
+
+    if shape is LabelShape.PILL:
+        rl = min(base_rl + 1.0, avail_rl)
+        rw = _fit_rw(rl * 0.28)
+        r_out = min(rl / 2.0 - 0.01, rw / 2.0 - 0.01)
+        plate = _centered_cuboid(rw, rl, h, rounding=r_out)
+        iw, il = rw - 2.0 * border, rl - 2.0 * border
+        if iw > 0.5 and il > 0.5:
+            r_in = max(0.0, min(il / 2.0 - 0.01, iw / 2.0 - 0.01))
+            bg = _centered_cuboid(iw, il, h, rounding=r_in)
+            cut = _centered_cuboid(iw, il, cut_h, rounding=r_in).translate([0.0, 0.0, -1.0])
+            return plate, plate - cut, bg, rw, rl
+        return plate, plate, None, rw, rl
+
+    if shape is LabelShape.CHAMFERED:
+        rl = min(base_rl + 1.0, avail_rl)
+        c_est = min(rl * 0.28, 6.0)
+        rw = _fit_rw(c_est * 0.65)
+        c = min(rl * 0.28, rw * 0.18, 6.0)
+        plate = _chamfered_prism(rw, rl, c, h)
+        iw, il = rw - 2.0 * border, rl - 2.0 * border
+        if iw > 0.5 and il > 0.5:
+            ic = max(0.0, c - border * (2.0 - math.sqrt(2.0)))
+            bg = _chamfered_prism(iw, il, ic, h)
+            cut = _chamfered_prism(iw, il, ic, cut_h).translate([0.0, 0.0, -1.0])
+            return plate, plate - cut, bg, rw, rl
+        return plate, plate, None, rw, rl
+
+    if shape is LabelShape.HEXAGON:
+        rl = min(base_rl + 1.0, avail_rl)
+        tip = min(rl * 0.42, 10.0)
+        rw = _fit_rw(tip * 0.85)
+        tip = min(tip, max(1.0, rw * 0.22))
+        plate = _hex_lozenge_prism(rw, rl, tip, h)
+        hl = rl / 2.0
+        il = rl - 2.0 * border
+        edge_len = math.hypot(tip, hl)
+        dx_tip = border * edge_len / hl if hl > 0.1 else border
+        iw = rw - 2.0 * dx_tip
+        if iw > 1.0 and il > 0.5:
+            x_shoulder = rw / 2.0 - (tip * (hl - border) + border * edge_len) / hl
+            i_tip = max(0.2, (iw / 2.0) - x_shoulder)
+            bg = _hex_lozenge_prism(iw, il, i_tip, h)
+            cut = _hex_lozenge_prism(iw, il, i_tip, cut_h).translate([0.0, 0.0, -1.0])
+            return plate, plate - cut, bg, rw, rl
+        return plate, plate, None, rw, rl
+
+    if shape is LabelShape.NOTCHED:
+        rl = min(base_rl + 1.0, avail_rl)
+        nr = min(rl * 0.24, 4.5)
+        rw = _fit_rw(nr * 0.7)
+        nr = min(nr, rw * 0.14)
+        plate = _notched_prism(rw, rl, nr, h)
+        iw, il = rw - 2.0 * border, rl - 2.0 * border
+        if iw > 1.0 and il > 1.0:
+            # Concentric corner cylinders at (±rw/2, ±rl/2) with radius nr + border
+            # keep an exact uniform border thickness around the concave arcs.
+            from pybosl2 import cylinder
+
+            from pyboxbuilder.compartments.element import union_all
+
+            hw, hl = rw / 2.0, rl / 2.0
+            corner_cuts = union_all(
+                [
+                    cylinder(height=cut_h + 2.0, radius=nr + border).translate(
+                        [sx * hw, sy * hl, h / 2.0]
+                    )
+                    for sx in (-1.0, 1.0)
+                    for sy in (-1.0, 1.0)
+                ]
+            )
+            assert corner_cuts is not None
+            bg = _centered_cuboid(iw, il, h) - corner_cuts
+            cut = _centered_cuboid(iw, il, cut_h).translate([0.0, 0.0, -1.0]) - corner_cuts
+            return plate, plate - cut, bg, rw, rl
+        return plate, plate, None, rw, rl
+
+    if shape is LabelShape.RIBBON:
+        rl = min(base_rl + 1.0, avail_rl)
+        notch = min(rl * 0.28, 6.0)
+        rw = _fit_rw(notch + 1.0)
+        notch = min(notch, max(1.0, rw * 0.16))
+        plate = _ribbon_prism(rw, rl, notch, h)
+        hl = rl / 2.0
+        il = rl - 2.0 * border
+        edge_len = math.hypot(notch, hl)
+        x_tip_in = rw / 2.0 - notch - (border * edge_len / hl if hl > 0.1 else border)
+        x_corner_in = rw / 2.0 - (border * (notch + edge_len) / hl if hl > 0.1 else border)
+        if x_tip_in > 0.5 and x_corner_in > x_tip_in + 0.2 and il > 0.5:
+            iw = 2.0 * x_corner_in
+            i_notch = x_corner_in - x_tip_in
+            bg = _ribbon_prism(iw, il, i_notch, h)
+            cut = _ribbon_prism(iw, il, i_notch, cut_h).translate([0.0, 0.0, -1.0])
+            return plate, plate - cut, bg, rw, rl
+        return plate, plate, None, rw, rl
+
+    if shape is LabelShape.DOUBLE_FRAME:
+        ring_gap = min(1.2, max(0.8, border * 0.8))
+        b_in = min(0.9, max(0.7, border * 0.6))
+        extra = ring_gap + b_in
+        rl = min(base_rl + 2.0 * extra, avail_rl)
+        rw = _fit_rw(extra + 1.0)
+        r0 = min(rounding, min(rw, rl) / 2.0 - 0.01)
+        plate = _centered_cuboid(rw, rl, h, rounding=r0)
+
+        w1, l1 = rw - 2.0 * border, rl - 2.0 * border
+        if w1 <= 0.5 or l1 <= 0.5:
+            return plate, plate, None, rw, rl
+        r1 = max(0.0, r0 - border)
+        cut1 = _centered_cuboid(w1, l1, cut_h, rounding=r1).translate([0.0, 0.0, -1.0])
+        outer_ring = plate - cut1
+
+        w2, l2 = w1 - 2.0 * ring_gap, l1 - 2.0 * ring_gap
+        w3, l3 = w2 - 2.0 * b_in, l2 - 2.0 * b_in
+        if w3 > 0.5 and l3 > 0.5:
+            r2 = max(0.0, r1 - ring_gap)
+            r3 = max(0.0, r2 - b_in)
+            ring2_outer = _centered_cuboid(w2, l2, h, rounding=r2)
+            cut3 = _centered_cuboid(w3, l3, cut_h, rounding=r3).translate([0.0, 0.0, -1.0])
+            inner_ring = ring2_outer - cut3
+            frame = outer_ring | inner_ring
+            bg = _centered_cuboid(w1, l1, h, rounding=r1) - (
+                _centered_cuboid(w2, l2, cut_h, rounding=r2).translate([0.0, 0.0, -1.0]) - cut3
+            )
+            return plate, frame, bg, rw, rl
+        bg = _centered_cuboid(w1, l1, h, rounding=r1)
+        return plate, outer_ring, bg, rw, rl
+
+    # LabelShape.UNDERLINE: clean minimalist header with a bold pill accent bar underneath
+    bar_h = max(border, 1.6)
+    bar_gap = max(gap * 0.85, 1.2)
+    bar_w = min(rtw + 2.0 * gap, max(rtw, avail_rw - 2.0 * gap))
+    bar_y = -rtl / 2.0 - bar_gap - bar_h / 2.0
+    top_y = rtl / 2.0 + gap + border
+    bot_y = bar_y - bar_h / 2.0 - gap
+    rl = min(top_y - bot_y, avail_rl)
+    rw = min(max(rtw, bar_w) + 2.0 * (gap + border), avail_rw)
+    plate_cy = (top_y + bot_y) / 2.0
+    plate_r = min(rounding, min(rw, rl) / 2.0 - 0.01)
+    plate = _centered_cuboid(rw, rl, h, rounding=plate_r).translate([0.0, plate_cy, 0.0])
+    bar = _centered_cuboid(bar_w, bar_h, h, rounding=bar_h / 2.0 - 0.01).translate([0.0, bar_y, 0.0])
+    bar_cut = _centered_cuboid(bar_w, bar_h, cut_h, rounding=bar_h / 2.0 - 0.01).translate([0.0, bar_y, -1.0])
+    bg = plate - bar_cut
+    return plate, bar, bg, rw, rl
+
+
+def _build_decorative_label(
+    *,
+    text_solid: Bosl2Solid,
+    tcx: float,
+    tcy: float,
+    tw: float,
+    tl: float,
+    label_w: float,
+    label_l: float,
+    is_vertical: bool,
+    border: float,
+    gap: float,
+    rounding: float,
+    solid_background: bool,
+    shape: LabelShape,
+) -> Label:
+    """Build a framed label using one of the decorative :class:`LabelShape` plaques."""
+    rtw, rtl = (tl, tw) if is_vertical else (tw, tl)
+    avail_rw, avail_rl = (label_l, label_w) if is_vertical else (label_w, label_l)
+
+    plate_local, frame_local, bg_local, rw, rl = _build_shape_parts(
+        shape=shape,
+        rtw=rtw,
+        rtl=rtl,
+        avail_rw=avail_rw,
+        avail_rl=avail_rl,
+        border=border,
+        gap=gap,
+        rounding=rounding,
+    )
+
+    def _place(s: Bosl2Solid | None) -> Bosl2Solid | None:
+        if s is None:
+            return None
+        if is_vertical:
+            s = s.rotate([0.0, 0.0, 90.0])
+        return s.translate([tcx, tcy, 0.0])
+
+    plate = _place(plate_local)
+    frame = _place(frame_local)
+
+    if solid_background or shape is LabelShape.UNDERLINE:
+        bg = _place(bg_local)
+        return Label(
+            text=text_solid,
+            hatching=None,
+            plate=plate,
+            frame=frame,
+            background=bg - text_solid if bg is not None else None,
+        )
+
+    # Explicit opt-in to diagonal through-hole hatching inside a decorative shape
+    hatching_local: Bosl2Solid | None = None
+    if bg_local is not None:
+        from pybosl2 import cuboid
+
+        from pyboxbuilder.compartments.element import union_all
+
+        diagonal = math.hypot(rw, rl)
+        spacing = 4.0
+        count = max(int(diagonal / spacing), 1)
+        bars = [
+            cuboid([diagonal, HATCH_WIDTH_MM, BACKING_HEIGHT_MM])
+            .translate([0.0, i * spacing - diagonal / 2.0, BACKING_HEIGHT_MM / 2.0])
+            .rotate([0.0, 0.0, 45.0])
+            for i in range(count + 1)
+        ]
+        bars_union = union_all(bars)
+        if bars_union is not None:
+            hatching_local = bars_union & bg_local
+
+    hatching = _place(hatching_local)
+    return Label(
+        text=text_solid,
+        hatching=hatching - text_solid if hatching is not None else None,
+        plate=plate,
+        frame=frame,
+    )

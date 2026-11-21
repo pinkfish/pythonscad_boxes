@@ -33,6 +33,7 @@ from pyboxbuilder import (
     ElementShape,
     FingerCut,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -453,6 +454,7 @@ for label, title, h in [
         lid=LidBuilder(
             text=title,
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.CHAMFERED,
             pattern=BRINK_PATTERN,
             text_color=Color("white"),
             frame_color=Color("dimgray"),
@@ -490,6 +492,7 @@ for color_label, frame_col, text_col in player_colors:
         lid=LidBuilder(
             text="Player",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.CHAMFERED,
             pattern=BRINK_PATTERN,
             text_color=Color(text_col),
             frame_color=Color(frame_col),
@@ -554,6 +557,7 @@ for deck_id, title, color_name, h in [
         lid=LidBuilder(
             text=title,
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.CHAMFERED,
             pattern=BRINK_PATTERN,
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
@@ -578,6 +582,7 @@ for deck_id, title, color_name, h in [
         lid=LidBuilder(
             text=title,
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.CHAMFERED,
             pattern=BRINK_PATTERN,
             text_color=Color("white"),
             frame_color=Color(color_name),

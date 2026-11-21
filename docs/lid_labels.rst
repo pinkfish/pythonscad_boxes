@@ -87,6 +87,53 @@ Set ``label_solid_background=True`` to replace the diagonal through-hole strips 
    project.show(lids_only=True)
 
 
+Decorative Plaque Shapes (``LabelShape``)
+-----------------------------------------
+
+Pass ``label_shape`` (a :class:`~pyboxbuilder.enums.LabelShape` member or string) to replace the default rounded rectangle with a themed plaque silhouette. All decorative shapes default to a clean solid interior (no busy diagonal hatching) unless ``label_solid_background=False`` is set explicitly:
+
+- ``LabelShape.CHAMFERED`` — sci-fi octagonal plaque with 45° beveled corners
+- ``LabelShape.PILL`` — capsule / stadium plaque with semicircular ends
+- ``LabelShape.HEXAGON`` — elongated hexagonal lozenge with pointed chevron ends
+- ``LabelShape.NOTCHED`` — art-deco / ticket plaque with concave corner notches
+- ``LabelShape.RIBBON`` — banner plaque with swallowtail V-notched ends
+- ``LabelShape.DOUBLE_FRAME`` — premium nameplate with an outer border ring and thin inner pinstripe
+- ``LabelShape.UNDERLINE`` — minimalist header with clean lettering and a bold accent bar underneath
+
+.. pythonscad-example::
+
+   from pyboxbuilder import LabelShape
+
+   project = Project("DecorativeLabelShapesDemo")
+   shapes = [
+       ("Chamfered", LabelShape.CHAMFERED, Color("gold"), Color("darkslategray")),
+       ("Pill", LabelShape.PILL, Color("deepskyblue"), Color("midnightblue")),
+       ("Hexagon", LabelShape.HEXAGON, Color("limegreen"), Color("darkslategray")),
+       ("Notched", LabelShape.NOTCHED, Color("goldenrod"), Color("maroon")),
+       ("Ribbon", LabelShape.RIBBON, Color("crimson"), Color("navy")),
+       ("Double", LabelShape.DOUBLE_FRAME, Color("silver"), Color("darkslateblue")),
+       ("Underline", LabelShape.UNDERLINE, Color("orange"), Color("darkslategray")),
+   ]
+   for i, (title, shape, accent, body_col) in enumerate(shapes):
+       col, row = i % 4, i // 4
+       project.box(
+           BoxType.CAP,
+           f"Label_{title}",
+           size=(105.0, 72.0, 20.0),
+           position=(col * 115.0, row * 82.0, 0.0),
+           color=body_col,
+           lid=LidBuilder(
+               text=title,
+               label_mode=LabelMode.FRAMED,
+               label_shape=shape,
+               text_color=Color("white"),
+               frame_color=accent,
+               pattern=PatternBuilder(PatternType.VORONOI),
+           ),
+       )
+   project.show(lids_only=True)
+
+
 Frameless Labels (``LabelMode.FRAMELESS``)
 ------------------------------------------
 
