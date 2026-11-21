@@ -24,7 +24,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import ColorMode, LabelMode, PatternType
+from pyboxbuilder.enums import ColorMode, LabelMode, LabelShape, PatternType
 
 if TYPE_CHECKING:
     from pybosl2 import Color
@@ -365,7 +365,13 @@ def _build_label(
     margin = border_margin_mm if border_margin_mm is not None else builder.border_margin
 
 
-    solid_background = bool(builder.label_solid_background) or (builder.label_background_color is not None)
+    label_shape = builder.shape
+    if builder.label_solid_background is not None:
+        solid_background = bool(builder.label_solid_background)
+    elif builder.label_background_color is not None:
+        solid_background = True
+    else:
+        solid_background = label_shape is not LabelShape.RECT
 
     return build_label(
         width=width,
@@ -383,6 +389,7 @@ def _build_label(
         center_y=center_y,
         max_text_height_mm=builder.max_text_height,
         solid_background=solid_background,
+        label_shape=label_shape,
     )
 
 
