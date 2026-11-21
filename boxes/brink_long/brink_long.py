@@ -93,6 +93,8 @@ round_nub_thickness = 3.0
 
 SVG_DIR = ROOT / "boxes" / "brink" / "svg"
 CLASS_III_SVG = str(SVG_DIR / "class_iii_ship.svg")
+BRINK_LOGO_SVG = str(SVG_DIR / "brink_logo.svg")
+SECTOR_HEX_SVG = str(SVG_DIR / "sector_hex.svg")
 
 long_player_box_width = 106.0
 long_player_box_length = box_length - 2.0  # 305.0mm
@@ -446,6 +448,10 @@ for color_label, frame_col, text_col, pos in player_specs:
         position=pos,
         lid=LidBuilder(
             text="PLAYER",
+            logo=BRINK_LOGO_SVG,
+            logo_color=Color(frame_col),
+            logo_position="left",
+            label_logo_size_mm=24.0,
             label_mode=LabelMode.FRAMED,
             label_shape=LabelShape.HEX_BRACKET,
             font=BRINK_FONT,
@@ -620,6 +626,10 @@ h_box = project.box(
     lid_thickness=hex_floor_lid,
     lid=LidBuilder(
         text="HEXES",
+        logo=SECTOR_HEX_SVG,
+        logo_color=Color("white"),
+        logo_position="top",
+        label_logo_size_mm=26.0,
         label_mode=LabelMode.FRAMED,
         label_shape=LabelShape.HEX_BRACKET,
         font=BRINK_FONT,
