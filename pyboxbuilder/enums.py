@@ -95,6 +95,8 @@ class LabelShape(Enum):
     """Octagonal sci-fi plaque with crisp 45° beveled corners."""
     HEXAGON = "hexagon"
     """Elongated hexagonal lozenge with pointed chevron ends."""
+    HEX_BRACKET = "hex_bracket"
+    """Open hex-angled end brackets with an open top and bottom center (Brink HUD style)."""
     NOTCHED = "notched"
     """Art-deco / ticket plaque with concave quarter-circle corner notches."""
     RIBBON = "ribbon"

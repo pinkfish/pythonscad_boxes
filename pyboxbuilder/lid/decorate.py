@@ -415,6 +415,8 @@ def _build_label(
         label_finial=builder.finial,
         logo_position=logo_pos,
         logo_size_mm=builder.label_logo_size_mm,
+        font=builder.font,
+        text_spacing=builder.text_spacing,
     )
 
 

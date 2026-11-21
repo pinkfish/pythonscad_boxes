@@ -87,33 +87,47 @@ LINE_SPACING_FACTOR = 1.35
 """Line-to-line vertical baseline spacing multiplier relative to cap height."""
 
 
-def _set_text(text: str, diagonal: bool, width: float, length: float) -> Bosl2Solid:
+def _set_text(
+    text: str,
+    diagonal: bool,
+    width: float,
+    length: float,
+    font: str | None = None,
+    text_spacing: float | None = None,
+) -> Bosl2Solid:
     """Extrude the label text at the nominal size, centered line-by-line and rotated if diagonal."""
     from pybosl2 import text as bosl2_text
 
     from pyboxbuilder.compartments.element import union_all
 
+    font_name = font if font is not None else FONT
+    spacing_val = text_spacing if text_spacing is not None else 1.0
+
     lines = text.splitlines()
     if len(lines) <= 1:
         line = lines[0] if lines else text
-        solid = bosl2_text(text=line, size=NOMINAL_SIZE_MM, font=FONT).linear_extrude(
-            height=TEXT_HEIGHT_MM
-        )
+        solid = bosl2_text(
+            text=line, size=NOMINAL_SIZE_MM, font=font_name, spacing=spacing_val
+        ).linear_extrude(height=TEXT_HEIGHT_MM)
     else:
         line_step = NOMINAL_SIZE_MM * LINE_SPACING_FACTOR
         parts: list[Bosl2Solid] = []
         for idx, line in enumerate(lines):
             if not line.strip():
                 continue
-            part = bosl2_text(text=line, size=NOMINAL_SIZE_MM, font=FONT).linear_extrude(
-                height=TEXT_HEIGHT_MM
-            )
+            part = bosl2_text(
+                text=line, size=NOMINAL_SIZE_MM, font=font_name, spacing=spacing_val
+            ).linear_extrude(height=TEXT_HEIGHT_MM)
             pb = part.bounds()
             pcx = float(pb.center[0]) if hasattr(pb, "center") else float(pb[0][0])
             parts.append(part.translate([-pcx, -idx * line_step, 0.0]))
-        solid = union_all(parts) if parts else bosl2_text(
-            text=text, size=NOMINAL_SIZE_MM, font=FONT
-        ).linear_extrude(height=TEXT_HEIGHT_MM)
+        solid = (
+            union_all(parts)
+            if parts
+            else bosl2_text(
+                text=text, size=NOMINAL_SIZE_MM, font=font_name, spacing=spacing_val
+            ).linear_extrude(height=TEXT_HEIGHT_MM)
+        )
 
     if diagonal:
         sb = solid.bounds()
@@ -150,7 +164,7 @@ def _shape_text_budget(
     if shape is LabelShape.CHAMFERED:
         return max(target_w - 13.0, 0.0), max(target_l - 1.5, 0.0)
 
-    if shape is LabelShape.HEXAGON:
+    if shape in (LabelShape.HEXAGON, LabelShape.HEX_BRACKET):
         return max(target_w - 24.0, 0.0), max(target_l - 1.5, 0.0)
 
     if shape is LabelShape.NOTCHED:
@@ -196,6 +210,8 @@ def text_height_for(
     label_text_gap_mm: float = LABEL_TEXT_GAP_MM,
     max_text_height_mm: float | None = MAX_TEXT_HEIGHT_MM,
     label_shape: LabelShape = LabelShape.RECT,
+    font: str | None = None,
+    text_spacing: float | None = None,
 ) -> float:
     """Cap height the label text will be set at, in mm.
 
@@ -224,7 +240,7 @@ def text_height_for(
         if target_w <= 0 or target_l <= 0:
             return 0.0
 
-    b = _set_text(text, diagonal, width, length).bounds()
+    b = _set_text(text, diagonal, width, length, font=font, text_spacing=text_spacing).bounds()
     set_w = float(b.size[0]) if hasattr(b, "size") else float(b[1][0])
     set_l = float(b.size[1]) if hasattr(b, "size") else float(b[1][1])
     if set_w <= 0 or set_l <= 0:
@@ -253,6 +269,8 @@ def build_label(
     label_finial: LabelFinial = LabelFinial.NONE,
     logo_position: str | None = None,
     logo_size_mm: float | None = None,
+    font: str | None = None,
+    text_spacing: float | None = None,
 ) -> Label | None:
     """Build a label for a lid face, or None if it would be illegible.
 
@@ -280,6 +298,8 @@ def build_label(
         logo_position: Optional embedded logo placement inside a framed plaque
             (``"top"``, ``"bottom"``, ``"left"``, or ``"right"``).
         logo_size_mm: Optional target size in mm for the embedded logo bay.
+        font: Optional font family/style string (defaults to ``FONT``).
+        text_spacing: Optional letter-spacing multiplier (defaults to ``1.0``).
 
     Returns:
         A `Label`, or None when the text would come out under the minimum.
@@ -307,13 +327,15 @@ def build_label(
         gap,
         max_text_height_mm=max_text_height_mm,
         label_shape=label_shape,
+        font=font,
+        text_spacing=text_spacing,
     )
     if size < min_text_height_mm:
         return None
 
     # Set at the nominal size and scale to fit, so the result is exactly as
     # large as the label area allows whatever the font does.
-    solid = _set_text(text, diagonal, width, length)
+    solid = _set_text(text, diagonal, width, length, font=font, text_spacing=text_spacing)
     is_vertical = (length > width) and not diagonal
     if is_vertical:
         solid = solid.rotate([0.0, 0.0, 90.0])
@@ -653,7 +675,7 @@ def _build_shape_parts(
             return plate, plate - cut, bg, rw, rl
         return plate, plate, None, rw, rl
 
-    if shape is LabelShape.HEXAGON:
+    if shape in (LabelShape.HEXAGON, LabelShape.HEX_BRACKET):
         rl = min(base_rl + 1.0, avail_rl)
         tip = min(rl * 0.42, 10.0)
         rw = _fit_rw(tip * 1.15)
@@ -669,7 +691,17 @@ def _build_shape_parts(
             i_tip = max(0.2, (iw / 2.0) - x_shoulder)
             bg = _hex_lozenge_prism(iw, il, i_tip, h)
             cut = _hex_lozenge_prism(iw, il, i_tip, cut_h).translate([0.0, 0.0, -1.0])
-            return plate, plate - cut, bg, rw, rl
+            frame = plate - cut
+            if shape is LabelShape.HEX_BRACKET:
+                # Open the center ~56% of the top & bottom horizontal edges so
+                # crisp hex-angled brackets frame the ends without enclosing the whole label.
+                flat_span = max(0.0, rw - 2.0 * tip)
+                open_w = flat_span * 0.56
+                if open_w > 2.0:
+                    gap_cut = _centered_cuboid(open_w, rl + 2.0, cut_h).translate([0.0, 0.0, -1.0])
+                    frame = frame - gap_cut
+                    bg = plate - frame.translate([0.0, 0.0, -0.5]).scale([1.0, 1.0, (cut_h / h)])
+            return plate, frame, bg, rw, rl
         return plate, plate, None, rw, rl
 
     if shape is LabelShape.NOTCHED:
