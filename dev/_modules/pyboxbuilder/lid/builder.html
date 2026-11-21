@@ -517,7 +517,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">replace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorMode</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">PatternType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorMode</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">LabelShape</span><span class="p">,</span> <span class="n">PatternType</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
@@ -795,6 +795,13 @@
 <span class="sd">    as ``None`` rather than defaulted directly so a per-mode override can tell</span>
 <span class="sd">    "I want framed" from "I said nothing about the frame" — see</span>
 <span class="sd">    :meth:`for_mode`."""</span>
+    <span class="n">label_shape</span><span class="p">:</span> <span class="n">LabelShape</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Plaque silhouette for framed labels (``RECT``, ``PILL``, ``CHAMFERED``,</span>
+<span class="sd">    ``HEXAGON``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``, or ``UNDERLINE``).</span>
+
+<span class="sd">    ``None`` defaults to :attr:`~pyboxbuilder.enums.LabelShape.RECT`. Non-rect</span>
+<span class="sd">    decorative shapes default to a clean solid interior plaque unless</span>
+<span class="sd">    ``label_solid_background=False`` is passed explicitly."""</span>
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Run the text corner to corner rather than along the lid; ``None`` is no."""</span>
     <span class="n">text_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -883,6 +890,8 @@
 <span class="w">        </span><span class="sd">"""Convert list pattern_through_inlay to tuple and coerce pattern/label_mode."""</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"label_mode"</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"label_shape"</span><span class="p">,</span> <span class="n">LabelShape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pattern"</span><span class="p">,</span> <span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">lower</span><span class="p">())))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="n">PatternType</span><span class="p">):</span>
@@ -929,6 +938,15 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LabelMode</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The label style, resolved."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LabelShape</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The framed label plaque shape, resolved."""</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="p">,</span> <span class="n">LabelShape</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">LabelShape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">LabelShape</span><span class="o">.</span><span class="n">RECT</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

@@ -25,6 +25,7 @@ pyboxbuilder.enums
       HingeCatchType
       InterlockType
       LabelMode
+      LabelShape
       LatchAxis
       MagnetType
       PatternType

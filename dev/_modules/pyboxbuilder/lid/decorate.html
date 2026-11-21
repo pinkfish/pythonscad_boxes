@@ -535,7 +535,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorMode</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">PatternType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorMode</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">LabelShape</span><span class="p">,</span> <span class="n">PatternType</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
@@ -885,7 +885,13 @@
     <span class="n">margin</span> <span class="o">=</span> <span class="n">border_margin_mm</span> <span class="k">if</span> <span class="n">border_margin_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">builder</span><span class="o">.</span><span class="n">border_margin</span>
 
 
-    <span class="n">solid_background</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">label_solid_background</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">label_background_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">label_shape</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">label_solid_background</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">solid_background</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">label_solid_background</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">builder</span><span class="o">.</span><span class="n">label_background_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">solid_background</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">solid_background</span> <span class="o">=</span> <span class="n">label_shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">LabelShape</span><span class="o">.</span><span class="n">RECT</span>
 
     <span class="k">return</span> <span class="n">build_label</span><span class="p">(</span>
         <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
@@ -903,6 +909,7 @@
         <span class="n">center_y</span><span class="o">=</span><span class="n">center_y</span><span class="p">,</span>
         <span class="n">max_text_height_mm</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">max_text_height</span><span class="p">,</span>
         <span class="n">solid_background</span><span class="o">=</span><span class="n">solid_background</span><span class="p">,</span>
+        <span class="n">label_shape</span><span class="o">=</span><span class="n">label_shape</span><span class="p">,</span>
     <span class="p">)</span>
 
 
