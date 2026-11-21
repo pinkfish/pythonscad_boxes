@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass, fields, replace
 from typing import TYPE_CHECKING, Any
 
-from pyboxbuilder.enums import ColorMode, LabelMode, LabelShape, PatternType
+from pyboxbuilder.enums import ColorMode, LabelFinial, LabelMode, LabelShape, PatternType
 
 if TYPE_CHECKING:
     from pyboxbuilder import Color
@@ -275,11 +275,18 @@ class LidBuilder:
     :meth:`for_mode`."""
     label_shape: LabelShape | str | None = None
     """Plaque silhouette for framed labels (``RECT``, ``PILL``, ``CHAMFERED``,
-    ``HEXAGON``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``, or ``UNDERLINE``).
+    ``HEXAGON``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``, ``UNDERLINE``,
+    ``OVAL``, ``SCALLOPED``, ``BRACKET``, ``SHIELD``, ``SCROLL``,
+    ``CORNER_STUD``, or ``ORNATE_FRAME``).
 
     ``None`` defaults to :attr:`~pyboxbuilder.enums.LabelShape.RECT`. Non-rect
     decorative shapes default to a clean solid interior plaque unless
     ``label_solid_background=False`` is passed explicitly."""
+    label_finial: LabelFinial | str | None = None
+    """Decorative typographic ornament placed underneath the label text
+    (``NONE``, ``DIAMOND``, ``TRIPLE_DOT``, ``FLEURON``, ``CHEVRON``,
+    ``SCROLLWORK``, or ``SPEAR``). Inlaid in ``frame_color`` when set,
+    falling back to ``text_color``."""
     diagonal: bool | None = None
     """Run the text corner to corner rather than along the lid; ``None`` is no."""
     text_color: Color | None = None
@@ -312,6 +319,13 @@ class LidBuilder:
     ``(width, length, depth) -> ...`` returning any of those."""
     logo_color: Color | None = None
     """Default colour for uncoloured logo parts in inlaid mode; ``None`` uses ``text_color``."""
+    logo_position: str | None = None
+    """Placement of ``logo`` when combined with ``text`` inside a label:
+    ``"top"`` (default when both ``text`` and ``logo`` are set), ``"left"``,
+    ``"right"``, ``"bottom"``, or ``"center"`` (overlapping / standalone)."""
+    label_logo_size_mm: float | None = None
+    """Target height/width in mm for an image/logo bay embedded inside a framed label.
+    ``None`` sizes it automatically from the text height and available lid area."""
     min_text_height_mm: float | None = None
     """Below this the label is skipped rather than printed illegibly (FR-020).
 
@@ -370,6 +384,10 @@ class LidBuilder:
             object.__setattr__(self, "label_mode", LabelMode(self.label_mode.lower()))
         if isinstance(self.label_shape, str):
             object.__setattr__(self, "label_shape", LabelShape(self.label_shape.lower()))
+        if isinstance(self.label_finial, str):
+            object.__setattr__(self, "label_finial", LabelFinial(self.label_finial.lower()))
+        if isinstance(self.logo_position, str):
+            object.__setattr__(self, "logo_position", self.logo_position.lower())
         if isinstance(self.pattern, str):
             object.__setattr__(self, "pattern", PatternBuilder(PatternType(self.pattern.lower())))
         elif isinstance(self.pattern, PatternType):
@@ -422,6 +440,15 @@ class LidBuilder:
         if isinstance(self.label_shape, str):
             return LabelShape(self.label_shape.lower())
         return LabelShape.RECT
+
+    @property
+    def finial(self) -> LabelFinial:
+        """The decorative ornament placed underneath label text, resolved."""
+        if isinstance(self.label_finial, LabelFinial):
+            return self.label_finial
+        if isinstance(self.label_finial, str):
+            return LabelFinial(self.label_finial.lower())
+        return LabelFinial.NONE
 
     @property
     def is_diagonal(self) -> bool:

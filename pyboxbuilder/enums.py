@@ -103,6 +103,39 @@ class LabelShape(Enum):
     """Premium nameplate with an outer border ring and thin inner pinstripe."""
     UNDERLINE = "underline"
     """Minimalist header with clean lettering and a bold accent bar underneath."""
+    OVAL = "oval"
+    """Classic elliptical apothecary / medallion plaque."""
+    SCALLOPED = "scalloped"
+    """Vintage antique label with protruding quatrefoil corner lobes."""
+    BRACKET = "bracket"
+    """Ornate Victorian bookplate cartouche with pointed ogee bracket ends."""
+    SHIELD = "shield"
+    """Heraldic crest / shield plaque tapering to a pointed base."""
+    SCROLL = "scroll"
+    """Parchment scroll banner with rolled cylindrical curls on both ends."""
+    CORNER_STUD = "corner_stud"
+    """Vintage industrial brass nameplate with four riveted corner studs."""
+    ORNATE_FRAME = "ornate_frame"
+    """Victorian double-line frame accented with four corner diamond rosettes."""
+
+
+class LabelFinial(Enum):
+    """Decorative typographic ornament placed underneath lid label text."""
+
+    NONE = "none"
+    """No finial ornament (default)."""
+    DIAMOND = "diamond"
+    """Classic horizontal rule with a centered diamond (─── ◆ ───)."""
+    TRIPLE_DOT = "triple_dot"
+    """Horizontal rule with a centered three-dot trio (─── • ● • ───)."""
+    FLEURON = "fleuron"
+    """Four-point compass star fleuron flanked by horizontal rules (─── ✦ ───)."""
+    CHEVRON = "chevron"
+    """Sci-fi opposing chevron divider with a centered pip (═══ ❯ • ❮ ═══)."""
+    SCROLLWORK = "scrollwork"
+    """Vintage curled double-scroll flourish with a center diamond."""
+    SPEAR = "spear"
+    """Double-pointed tapered Victorian rule (◄━━━━━━►)."""
 
 
 class PatternType(Enum):

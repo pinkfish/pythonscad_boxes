@@ -255,7 +255,12 @@ def decorate_lid(
     if resolved.text and label is None:
         result.skipped_label = True
 
-    logo_parts = _build_logo_parts(resolved, width, length, mode_str) if resolved.logo is not None else None
+    logo_target = label.image_slot if label is not None else None
+    logo_parts = (
+        _build_logo_parts(resolved, width, length, mode_str, target_box=logo_target)
+        if resolved.logo is not None
+        else None
+    )
     logo_keepout: Bosl2Solid | None = None
     if logo_parts:
         for part_solid, _ in logo_parts:
@@ -315,7 +320,17 @@ def decorate_lid(
         )
 
     if label is not None:
-        _apply_label(result, resolved, label, origin_x, origin_y, top_z, mode_str, lid_thickness)
+        _apply_label(
+            result,
+            resolved,
+            label,
+            origin_x,
+            origin_y,
+            top_z,
+            mode_str,
+            lid_thickness,
+            logo_keepout=logo_keepout,
+        )
 
     if logo_parts:
         _apply_logo_parts(result, resolved, logo_parts, width, length, origin_x, origin_y, top_z, mode_str)
@@ -373,6 +388,13 @@ def _build_label(
     else:
         solid_background = label_shape is not LabelShape.RECT
 
+    has_logo = builder.logo is not None and builder.logo != () and builder.logo != []
+    logo_pos: str | None = None
+    if has_logo and label_mode is LabelMode.FRAMED:
+        raw_pos = builder.logo_position.lower() if isinstance(builder.logo_position, str) else "top"
+        if raw_pos in ("top", "bottom", "left", "right"):
+            logo_pos = raw_pos
+
     return build_label(
         width=width,
         length=length,
@@ -390,6 +412,9 @@ def _build_label(
         max_text_height_mm=builder.max_text_height,
         solid_background=solid_background,
         label_shape=label_shape,
+        label_finial=builder.finial,
+        logo_position=logo_pos,
+        logo_size_mm=builder.label_logo_size_mm,
     )
 
 
@@ -578,15 +603,23 @@ def _collect_sequence_parts(
 
 
 def _build_logo_parts(
-    builder: LidBuilder, width: float, length: float, mode: str
+    builder: LidBuilder,
+    width: float,
+    length: float,
+    mode: str,
+    target_box: tuple[float, float, float, float] | None = None,
 ) -> list[tuple[Bosl2Solid, Color | None]] | None:
-    """Build single- or multi-colored logo/shape solids, centered on the lid face."""
+    """Build single- or multi-colored logo/shape solids, centered on the lid face or inside ``target_box``."""
     if builder.logo is None or builder.logo == () or builder.logo == []:
         return None
 
-    margin = builder.border_margin
-    logo_w = width - 2 * margin
-    logo_l = length - 2 * margin
+    if target_box is not None:
+        target_cx, target_cy, logo_w, logo_l = target_box
+    else:
+        margin = builder.border_margin
+        logo_w = width - 2 * margin
+        logo_l = length - 2 * margin
+        target_cx, target_cy = width / 2.0, length / 2.0
     if logo_w <= 0 or logo_l <= 0:
         return None
 
@@ -607,7 +640,7 @@ def _build_logo_parts(
         else:
             parts = _extract_colored_solids(produced, fallback)
         # Callables already compute layout/scale for (logo_w, logo_l, depth); keep XY as returned
-        parts = [(s.translate([width / 2, length / 2, 0.0]), c) for s, c in parts]
+        parts = [(s.translate([target_cx, target_cy, 0.0]), c) for s, c in parts]
         return parts or None
 
     if isinstance(raw_logo, (str, Path)) or hasattr(raw_logo, "inlays"):
@@ -622,7 +655,7 @@ def _build_logo_parts(
 
     if not scaled:
         return None
-    return [(s.translate([width / 2, length / 2, 0.0]), c) for s, c in scaled]
+    return [(s.translate([target_cx, target_cy, 0.0]), c) for s, c in scaled]
 
 
 def _apply_logo_parts(
@@ -715,9 +748,10 @@ def _label_keepout(label: Label | None, depth: float, clearance: float = LABEL_C
 
     # A framed label's plate stands off the pattern by its boundary, and if the
     # plate has an inner opening (on polygon lids), the text inside must also be kept clear.
+    text_and_finial = label.text if label.finial is None else (label.text | label.finial)
     if label.plate is not None:
         plate_keepout = _as_depth(label.plate, depth)
-        text_solid = label.text
+        text_solid = text_and_finial
         if clearance > 0:
             text_solid = _grown(text_solid, clearance)
         text_keepout = _as_depth(text_solid, depth)
@@ -725,8 +759,8 @@ def _label_keepout(label: Label | None, depth: float, clearance: float = LABEL_C
 
     if clearance <= 0:
         # The glyphs themselves: the holes stop where the letters do.
-        return _as_depth(label.text, depth)
-    return _as_depth(_grown(label.text, clearance), depth)
+        return _as_depth(text_and_finial, depth)
+    return _as_depth(_grown(text_and_finial, clearance), depth)
 
 
 def _grown(solid: Bosl2Solid, by: float) -> Bosl2Solid:
@@ -1263,6 +1297,7 @@ def _apply_label(
     top_z: float,
     mode: str,
     lid_thickness: float,
+    logo_keepout: Bosl2Solid | None = None,
 ) -> None:
     """Inlay the label into `result`, or engrave it for a single-colour print.
 
@@ -1275,6 +1310,8 @@ def _apply_label(
         top_z: The face's z.
         mode: ``"mmu"`` or ``"single"``.
         lid_thickness: Overall lid thickness in mm.
+        logo_keepout: Optional logo solid to keep clear out of any coloured
+            label background so embedded logos never overlap the background.
 
     """
 
@@ -1286,7 +1323,8 @@ def _apply_label(
         # One material, so there is nothing to inlay — depth is the only thing
         # that can make the label visible. Engraving the plate too would just
         # cut a rectangular recess and take the lettering with it.
-        cut = onto_face(label.text).translate([0.0, 0.0, INLAY_DEPTH_MM - ENGRAVE_DEPTH_MM])
+        engrave_solid = label.text if label.finial is None else (label.text | label.finial)
+        cut = onto_face(engrave_solid).translate([0.0, 0.0, INLAY_DEPTH_MM - ENGRAVE_DEPTH_MM])
         result.solid = result.solid - cut
         return
 
@@ -1305,6 +1343,11 @@ def _apply_label(
         if label.hatching is not None:
             frame_part = frame_part - label.hatching
 
+    finial_color = builder.frame_color if builder.frame_color is not None else builder.text_color
+    finial_part: Bosl2Solid | None = None
+    if label.finial is not None and finial_color is not None:
+        finial_part = label.finial - label.text
+
     bg_color = builder.label_background_color
     if isinstance(bg_color, str):
         from pybosl2 import Color
@@ -1317,6 +1360,10 @@ def _apply_label(
         elif label.plate is not None:
             base = label.plate - label.frame if label.frame is not None else label.plate
             bg_part = base - label.text
+        if bg_part is not None and label.finial is not None:
+            bg_part = bg_part - label.finial
+        if bg_part is not None and logo_keepout is not None:
+            bg_part = bg_part - _as_depth(logo_keepout, INLAY_DEPTH_MM + 2.0)
 
     # Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid
     # and put back in its own colour, exactly as deep as the recess, so the
@@ -1325,6 +1372,7 @@ def _apply_label(
     # box's own material without an insert of their own (FR-022).
     for part, colour in (
         (label.text, builder.text_color),
+        (finial_part, finial_color),
         (frame_part, builder.frame_color),
         (bg_part, bg_color),
     ):
