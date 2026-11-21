@@ -797,13 +797,19 @@
 <span class="sd">    :meth:`for_mode`."""</span>
     <span class="n">label_shape</span><span class="p">:</span> <span class="n">LabelShape</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Plaque silhouette for framed labels (``RECT``, ``PILL``, ``CHAMFERED``,</span>
-<span class="sd">    ``HEXAGON``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``, ``UNDERLINE``,</span>
-<span class="sd">    ``OVAL``, ``SCALLOPED``, ``BRACKET``, ``SHIELD``, ``SCROLL``,</span>
+<span class="sd">    ``HEXAGON``, ``HEX_BRACKET``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``,</span>
+<span class="sd">    ``UNDERLINE``, ``OVAL``, ``SCALLOPED``, ``BRACKET``, ``SHIELD``, ``SCROLL``,</span>
 <span class="sd">    ``CORNER_STUD``, or ``ORNATE_FRAME``).</span>
 
 <span class="sd">    ``None`` defaults to :attr:`~pyboxbuilder.enums.LabelShape.RECT`. Non-rect</span>
 <span class="sd">    decorative shapes default to a clean solid interior plaque unless</span>
 <span class="sd">    ``label_solid_background=False`` is passed explicitly."""</span>
+    <span class="n">font</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Font family/style for lid label text (e.g. ``"Futura:style=Bold"``);</span>
+<span class="sd">    ``None`` uses the library default (``"Liberation Sans:style=Bold"``)."""</span>
+    <span class="n">text_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Letter-spacing multiplier for lid label text (e.g. ``1.18`` for wide</span>
+<span class="sd">    sci-fi tracking); ``None`` uses ``1.0``."""</span>
     <span class="n">label_finial</span><span class="p">:</span> <span class="n">LabelFinial</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Decorative typographic ornament placed underneath the label text</span>
 <span class="sd">    (``NONE``, ``DIAMOND``, ``TRIPLE_DOT``, ``FLEURON``, ``CHEVRON``,</span>
