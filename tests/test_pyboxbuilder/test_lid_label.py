@@ -3,7 +3,7 @@
 
 import unittest
 
-from pyboxbuilder.enums import LabelMode, LabelShape
+from pyboxbuilder.enums import LabelFinial, LabelMode, LabelShape
 from pyboxbuilder.lid.builder import LidBuilder
 from pyboxbuilder.lid.label import build_label
 
@@ -109,5 +109,73 @@ class LabelTests(unittest.TestCase):
             assert lbl is not None
             self.assertIsNotNone(lbl.hatching)
             self.assertIsNone(lbl.background)
+        except ImportError:
+            self.skipTest("bosl2 not available")
+
+    def test_lid_builder_label_finial_coercion(self) -> None:
+        """LidBuilder accepts LabelFinial enums or case-insensitive strings."""
+        self.assertIs(LidBuilder(text="Cards").finial, LabelFinial.NONE)
+        self.assertIs(LidBuilder(text="Cards", label_finial="fleuron").finial, LabelFinial.FLEURON)
+        self.assertIs(LidBuilder(text="Cards", label_finial="SCROLLWORK").finial, LabelFinial.SCROLLWORK)
+        self.assertIs(LidBuilder(text="Cards", label_finial=LabelFinial.SPEAR).finial, LabelFinial.SPEAR)
+
+    def test_all_label_finials_framed_and_frameless(self) -> None:
+        """Every non-NONE LabelFinial builds valid finial geometry in framed and frameless modes."""
+        try:
+            for finial in LabelFinial:
+                if finial is LabelFinial.NONE:
+                    continue
+                with self.subTest(finial=finial.value):
+                    framed = build_label(
+                        width=115.0,
+                        length=80.0,
+                        thickness=2.0,
+                        text="Treasury",
+                        label_mode=LabelMode.FRAMED,
+                        solid_background=True,
+                        label_shape=LabelShape.SCROLL,
+                        label_finial=finial,
+                    )
+                    self.assertIsNotNone(framed)
+                    assert framed is not None
+                    self.assertIsNotNone(framed.finial)
+
+                    frameless = build_label(
+                        width=115.0,
+                        length=80.0,
+                        thickness=2.0,
+                        text="Treasury",
+                        label_mode=LabelMode.FRAMELESS,
+                        label_finial=finial,
+                    )
+                    self.assertIsNotNone(frameless)
+                    assert frameless is not None
+                    self.assertIsNotNone(frameless.finial)
+        except ImportError:
+            self.skipTest("bosl2 not available")
+
+    def test_embedded_logo_slot_inside_framed_label(self) -> None:
+        """Framed labels reserve a clean non-overlapping image_slot for embedded logos."""
+        try:
+            for pos in ("top", "bottom", "left", "right"):
+                with self.subTest(logo_position=pos):
+                    lbl = build_label(
+                        width=125.0,
+                        length=90.0,
+                        thickness=2.0,
+                        text="Guild",
+                        label_mode=LabelMode.FRAMED,
+                        solid_background=True,
+                        label_shape=LabelShape.SCROLL,
+                        label_finial=LabelFinial.SCROLLWORK,
+                        logo_position=pos,
+                    )
+                    self.assertIsNotNone(lbl)
+                    assert lbl is not None
+                    self.assertIsNotNone(lbl.image_slot)
+                    assert lbl.image_slot is not None
+                    _, _, sw, sl = lbl.image_slot
+                    self.assertGreater(sw, 5.0)
+                    self.assertGreater(sl, 5.0)
         except ImportError:
             self.skipTest("bosl2 not available")
