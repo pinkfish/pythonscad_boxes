@@ -422,6 +422,8 @@ project = Project(
 )
 
 BRINK_PATTERN = PatternBuilder(PatternType.VORONOI)
+BRINK_FONT = "Futura:style=Bold"
+BRINK_TEXT_SPACING = 1.18
 
 # ── 1. Five Longitudinal Player Trays (3 left + 2 right) ──────────
 long_inner_w = long_player_box_width - 2.0 * wall_thickness
@@ -443,9 +445,11 @@ for color_label, frame_col, text_col, pos in player_specs:
         size=(long_player_box_width, long_player_box_length, long_player_box_height),
         position=pos,
         lid=LidBuilder(
-            text="Player",
+            text="PLAYER",
             label_mode=LabelMode.FRAMED,
-            label_shape=LabelShape.CHAMFERED,
+            label_shape=LabelShape.HEX_BRACKET,
+            font=BRINK_FONT,
+            text_spacing=BRINK_TEXT_SPACING,
             pattern=BRINK_PATTERN,
             text_color=Color(text_col),
             frame_color=Color(frame_col),
@@ -522,9 +526,11 @@ for deck_id, title, color_name, h, pos in [
         lid_thickness=card_floor_lid,
         lid_slide_axis="y",
         lid=LidBuilder(
-            text=title,
+            text=title.upper(),
             label_mode=LabelMode.FRAMED,
-            label_shape=LabelShape.CHAMFERED,
+            label_shape=LabelShape.HEX_BRACKET,
+            font=BRINK_FONT,
+            text_spacing=BRINK_TEXT_SPACING,
             pattern=BRINK_PATTERN,
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
@@ -570,9 +576,11 @@ for deck_id, title, color_name, h, pos in [
         lid_thickness=card_floor_lid,
         lid_slide_axis="x",
         lid=LidBuilder(
-            text=title,
+            text=title.upper(),
             label_mode=LabelMode.FRAMED,
-            label_shape=LabelShape.CHAMFERED,
+            label_shape=LabelShape.HEX_BRACKET,
+            font=BRINK_FONT,
+            text_spacing=BRINK_TEXT_SPACING,
             pattern=BRINK_PATTERN,
             text_color=Color("white"),
             frame_color=Color(color_name),
@@ -611,9 +619,11 @@ h_box = project.box(
     floor_thickness=hex_floor_lid,
     lid_thickness=hex_floor_lid,
     lid=LidBuilder(
-        text="Hexes",
+        text="HEXES",
         label_mode=LabelMode.FRAMED,
-        label_shape=LabelShape.CHAMFERED,
+        label_shape=LabelShape.HEX_BRACKET,
+        font=BRINK_FONT,
+        text_spacing=BRINK_TEXT_SPACING,
         pattern=BRINK_PATTERN,
         text_color=Color("white"),
         frame_color=Color("dimgray"),

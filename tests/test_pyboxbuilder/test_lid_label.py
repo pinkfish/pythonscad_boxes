@@ -221,3 +221,28 @@ class LabelTests(unittest.TestCase):
                         _has_volume(lbl.text - tall_plate),
                         f"{shape.value}: text escapes plaque boundary",
                     )
+
+    def test_custom_font_and_text_spacing_with_hex_bracket(self) -> None:
+        """Custom font and letter spacing work cleanly with LabelShape.HEX_BRACKET."""
+        try:
+            lbl = build_label(
+                width=115.0,
+                length=80.0,
+                thickness=2.0,
+                text="ACTIONS",
+                label_mode=LabelMode.FRAMED,
+                solid_background=True,
+                label_shape=LabelShape.HEX_BRACKET,
+                font="Futura:style=Bold",
+                text_spacing=1.18,
+            )
+            self.assertIsNotNone(lbl)
+            assert lbl is not None
+            self.assertIsNotNone(lbl.frame)
+            self.assertIsNotNone(lbl.plate)
+            self.assertEqual(
+                LidBuilder(text="ACTIONS", font="Futura:style=Bold", text_spacing=1.18).text_spacing,
+                1.18,
+            )
+        except ImportError:
+            self.skipTest("bosl2 not available")

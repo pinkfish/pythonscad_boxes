@@ -95,10 +95,40 @@ Pass ``label_shape`` (a :class:`~pyboxbuilder.enums.LabelShape` member or string
 - ``LabelShape.CHAMFERED`` — sci-fi octagonal plaque with 45° beveled corners
 - ``LabelShape.PILL`` — capsule / stadium plaque with semicircular ends
 - ``LabelShape.HEXAGON`` — elongated hexagonal lozenge with pointed chevron ends
+- ``LabelShape.HEX_BRACKET`` — open hex-angled end brackets with an open top and bottom center (HUD / Brink tile style)
 - ``LabelShape.NOTCHED`` — art-deco / ticket plaque with concave corner notches
 - ``LabelShape.RIBBON`` — banner plaque with swallowtail V-notched ends
 - ``LabelShape.DOUBLE_FRAME`` — premium nameplate with an outer border ring and thin inner pinstripe
 - ``LabelShape.UNDERLINE`` — minimalist header with clean lettering and a bold accent bar underneath
+
+Sci-Fi Open Hex-Bracket & Custom Typography
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Combine ``LabelShape.HEX_BRACKET`` with ``font`` and ``text_spacing`` for open hex-angled end brackets (leaving the center of the top and bottom edges open) and wide-tracked geometric sci-fi lettering:
+
+.. pythonscad-example::
+
+   from pyboxbuilder import LabelShape
+
+   project = Project("HexBracketBrinkStyleDemo")
+   project.box(
+       BoxType.CAP,
+       "Actions",
+       size=(115.0, 82.0, 22.0),
+       color=Color("darkslategray"),
+       lid=LidBuilder(
+           text="ACTIONS",
+           label_mode=LabelMode.FRAMED,
+           label_shape=LabelShape.HEX_BRACKET,
+           font="Futura:style=Bold",
+           text_spacing=1.18,
+           text_color=Color("white"),
+           frame_color=Color("gold"),
+           pattern=PatternBuilder(PatternType.VORONOI),
+       ),
+   )
+   project.show(lids_only=True)
+
 
 Sci-Fi Chamfered Plaque with Chevron Finial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

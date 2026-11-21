@@ -275,13 +275,19 @@ class LidBuilder:
     :meth:`for_mode`."""
     label_shape: LabelShape | str | None = None
     """Plaque silhouette for framed labels (``RECT``, ``PILL``, ``CHAMFERED``,
-    ``HEXAGON``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``, ``UNDERLINE``,
-    ``OVAL``, ``SCALLOPED``, ``BRACKET``, ``SHIELD``, ``SCROLL``,
+    ``HEXAGON``, ``HEX_BRACKET``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``,
+    ``UNDERLINE``, ``OVAL``, ``SCALLOPED``, ``BRACKET``, ``SHIELD``, ``SCROLL``,
     ``CORNER_STUD``, or ``ORNATE_FRAME``).
 
     ``None`` defaults to :attr:`~pyboxbuilder.enums.LabelShape.RECT`. Non-rect
     decorative shapes default to a clean solid interior plaque unless
     ``label_solid_background=False`` is passed explicitly."""
+    font: str | None = None
+    """Font family/style for lid label text (e.g. ``"Futura:style=Bold"``);
+    ``None`` uses the library default (``"Liberation Sans:style=Bold"``)."""
+    text_spacing: float | None = None
+    """Letter-spacing multiplier for lid label text (e.g. ``1.18`` for wide
+    sci-fi tracking); ``None`` uses ``1.0``."""
     label_finial: LabelFinial | str | None = None
     """Decorative typographic ornament placed underneath the label text
     (``NONE``, ``DIAMOND``, ``TRIPLE_DOT``, ``FLEURON``, ``CHEVRON``,

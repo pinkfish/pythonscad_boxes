@@ -438,6 +438,8 @@ project = Project(
 )
 
 BRINK_PATTERN = PatternBuilder(PatternType.VORONOI)
+BRINK_FONT = "Futura:style=Bold"
+BRINK_TEXT_SPACING = 1.18
 
 # ── 1. Sector Hex Tile Boxes (Main + Bonus) ───────────────────────
 hex_inner_w = hex_box_width - 2.0 * wall_thickness
@@ -452,9 +454,11 @@ for label, title, h in [
         label,
         size=(hex_box_width, hex_box_length, h),
         lid=LidBuilder(
-            text=title,
+            text=title.upper(),
             label_mode=LabelMode.FRAMED,
-            label_shape=LabelShape.CHAMFERED,
+            label_shape=LabelShape.HEX_BRACKET,
+            font=BRINK_FONT,
+            text_spacing=BRINK_TEXT_SPACING,
             pattern=BRINK_PATTERN,
             text_color=Color("white"),
             frame_color=Color("dimgray"),
@@ -490,9 +494,11 @@ for color_label, frame_col, text_col in player_colors:
         f"PlayerBox_{color_label}",
         size=(player_box_width, player_box_length, player_box_height),
         lid=LidBuilder(
-            text="Player",
+            text="PLAYER",
             label_mode=LabelMode.FRAMED,
-            label_shape=LabelShape.CHAMFERED,
+            label_shape=LabelShape.HEX_BRACKET,
+            font=BRINK_FONT,
+            text_spacing=BRINK_TEXT_SPACING,
             pattern=BRINK_PATTERN,
             text_color=Color(text_col),
             frame_color=Color(frame_col),
@@ -555,9 +561,11 @@ for deck_id, title, color_name, h in [
         size=(card_box_width, card_box_length, h),
         lid_slide_axis="y",
         lid=LidBuilder(
-            text=title,
+            text=title.upper(),
             label_mode=LabelMode.FRAMED,
-            label_shape=LabelShape.CHAMFERED,
+            label_shape=LabelShape.HEX_BRACKET,
+            font=BRINK_FONT,
+            text_spacing=BRINK_TEXT_SPACING,
             pattern=BRINK_PATTERN,
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
@@ -580,9 +588,11 @@ for deck_id, title, color_name, h in [
         size=(card_box_width, card_box_length, h),
         lid_slide_axis="x",
         lid=LidBuilder(
-            text=title,
+            text=title.upper(),
             label_mode=LabelMode.FRAMED,
-            label_shape=LabelShape.CHAMFERED,
+            label_shape=LabelShape.HEX_BRACKET,
+            font=BRINK_FONT,
+            text_spacing=BRINK_TEXT_SPACING,
             pattern=BRINK_PATTERN,
             text_color=Color("white"),
             frame_color=Color(color_name),
