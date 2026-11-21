@@ -134,6 +134,156 @@ Pass ``label_shape`` (a :class:`~pyboxbuilder.enums.LabelShape` member or string
    project.show(lids_only=True)
 
 
+Classic, Vintage, Scroll & Ornate Plaque Shapes
+-----------------------------------------------
+
+In addition to modern geometric frames, ``LabelShape`` includes vintage, heraldic, and scroll-style plaques built directly into ``LidBuilder``:
+
+- ``LabelShape.OVAL`` — classic elliptical apothecary / medallion plaque
+- ``LabelShape.SCALLOPED`` — vintage antique label with protruding quatrefoil corner lobes
+- ``LabelShape.BRACKET`` — Victorian bookplate cartouche with pointed ogee bracket ends
+- ``LabelShape.SHIELD`` — heraldic crest / shield plaque tapering to a pointed base
+- ``LabelShape.SCROLL`` — parchment scroll banner with rolled cylindrical curls on both ends
+- ``LabelShape.CORNER_STUD`` — vintage industrial brass nameplate with four riveted corner studs
+- ``LabelShape.ORNATE_FRAME`` — Victorian double-line frame accented with four corner diamond rosettes
+
+.. pythonscad-example::
+
+   from pyboxbuilder import LabelShape
+
+   project = Project("VintageLabelShapesDemo")
+   shapes = [
+       ("Oval", LabelShape.OVAL, Color("gold"), Color("darkslategray")),
+       ("Scalloped", LabelShape.SCALLOPED, Color("goldenrod"), Color("maroon")),
+       ("Bracket", LabelShape.BRACKET, Color("silver"), Color("navy")),
+       ("Shield", LabelShape.SHIELD, Color("gold"), Color("forestgreen")),
+       ("Scroll", LabelShape.SCROLL, Color("goldenrod"), Color("saddlebrown")),
+       ("Studded", LabelShape.CORNER_STUD, Color("orange"), Color("darkslategray")),
+       ("Ornate", LabelShape.ORNATE_FRAME, Color("gold"), Color("darkslateblue")),
+   ]
+   for i, (title, shape, accent, body_col) in enumerate(shapes):
+       col, row = i % 4, i // 4
+       project.box(
+           BoxType.CAP,
+           f"Vintage_{title}",
+           size=(110.0, 78.0, 20.0),
+           position=(col * 120.0, row * 88.0, 0.0),
+           color=body_col,
+           lid=LidBuilder(
+               text=title,
+               label_mode=LabelMode.FRAMED,
+               label_shape=shape,
+               text_color=Color("white"),
+               frame_color=accent,
+               pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+           ),
+       )
+   project.show(lids_only=True)
+
+
+Typographic Finials Under Text (``LabelFinial``)
+------------------------------------------------
+
+Add a decorative ornament underneath any lid title (framed or frameless) using ``label_finial`` (:class:`~pyboxbuilder.enums.LabelFinial`). Finials automatically expand the plaque cleanly below the text and print in ``frame_color`` (falling back to ``text_color``):
+
+- ``LabelFinial.DIAMOND`` — classic horizontal rule with a centered diamond (``─── ◆ ───``)
+- ``LabelFinial.TRIPLE_DOT`` — rule with a centered three-dot trio (``─── • ● • ───``)
+- ``LabelFinial.FLEURON`` — four-point compass star fleuron flanked by tapered rules (``─── ✦ ───``)
+- ``LabelFinial.CHEVRON`` — sci-fi opposing chevron divider with a centered pip
+- ``LabelFinial.SCROLLWORK`` — vintage curled double-scroll flourish with a center diamond
+- ``LabelFinial.SPEAR`` — double-pointed tapered Victorian rule (``◄━━━━━━►``)
+
+.. pythonscad-example::
+
+   from pyboxbuilder import LabelFinial, LabelShape
+
+   project = Project("LabelFinialsDemo")
+   finials = [
+       ("Diamond", LabelFinial.DIAMOND, LabelShape.NOTCHED),
+       ("Triple Dot", LabelFinial.TRIPLE_DOT, LabelShape.PILL),
+       ("Fleuron", LabelFinial.FLEURON, LabelShape.ORNATE_FRAME),
+       ("Chevron", LabelFinial.CHEVRON, LabelShape.CHAMFERED),
+       ("Scrollwork", LabelFinial.SCROLLWORK, LabelShape.SCROLL),
+       ("Spear", LabelFinial.SPEAR, LabelShape.BRACKET),
+   ]
+   for i, (title, finial, shape) in enumerate(finials):
+       col, row = i % 3, i // 3
+       project.box(
+           BoxType.CAP,
+           f"Finial_{i}",
+           size=(115.0, 78.0, 20.0),
+           position=(col * 125.0, row * 88.0, 0.0),
+           color=Color("darkslategray"),
+           lid=LidBuilder(
+               text=title,
+               label_mode=LabelMode.FRAMED,
+               label_shape=shape,
+               label_finial=finial,
+               text_color=Color("white"),
+               frame_color=Color("gold"),
+               pattern=PatternBuilder(PatternType.VORONOI),
+           ),
+       )
+   project.show(lids_only=True)
+
+
+Combined Text + Image / Emblem Inside a Framed Label
+----------------------------------------------------
+
+Pass both ``text`` and ``logo`` to :class:`~pyboxbuilder.lid.builder.LidBuilder` to reserve a dedicated image bay inside any framed plaque (such as ``LabelShape.SCROLL``, ``LabelShape.SHIELD``, or ``LabelShape.ORNATE_FRAME``). Control placement with ``logo_position`` (``"top"``, ``"left"``, ``"right"``, or ``"bottom"``) and optional ``label_logo_size_mm``:
+
+.. pythonscad-example::
+
+   from pybosl2 import cuboid, cylinder
+   from pyboxbuilder import LabelFinial, LabelShape
+
+   emblem = [
+       (cylinder(height=0.6, radius=10.0), Color("gold")),
+       (cuboid([10.0, 10.0, 0.6]), Color("crimson")),
+       (cylinder(height=0.6, radius=3.0), Color("white")),
+   ]
+
+   project = Project("FramedTextAndLogoDemo")
+   project.box(
+       BoxType.CAP,
+       "ScrollWithCrest",
+       size=(125.0, 92.0, 24.0),
+       position=(0.0, 0.0, 0.0),
+       color=Color("darkslategray"),
+       lid=LidBuilder(
+           text="Treasury",
+           logo=emblem,
+           logo_position="top",
+           label_mode=LabelMode.FRAMED,
+           label_shape=LabelShape.SCROLL,
+           label_finial=LabelFinial.SCROLLWORK,
+           text_color=Color("white"),
+           frame_color=Color("gold"),
+           label_background_color=Color("navy"),
+           pattern=PatternBuilder(PatternType.HEX, spacing=9.0),
+       ),
+   )
+   project.box(
+       BoxType.CAP,
+       "BadgeWithSideLogo",
+       size=(125.0, 92.0, 24.0),
+       position=(135.0, 0.0, 0.0),
+       color=Color("maroon"),
+       lid=LidBuilder(
+           text="Guild",
+           logo=emblem,
+           logo_position="left",
+           label_mode=LabelMode.FRAMED,
+           label_shape=LabelShape.ORNATE_FRAME,
+           label_finial=LabelFinial.FLEURON,
+           text_color=Color("white"),
+           frame_color=Color("gold"),
+           pattern=PatternBuilder(PatternType.VORONOI),
+       ),
+   )
+   project.show(lids_only=True)
+
+
 Frameless Labels (``LabelMode.FRAMELESS``)
 ------------------------------------------
 

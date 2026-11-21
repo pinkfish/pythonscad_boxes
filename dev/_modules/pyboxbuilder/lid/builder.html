@@ -517,7 +517,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">replace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorMode</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">LabelShape</span><span class="p">,</span> <span class="n">PatternType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorMode</span><span class="p">,</span> <span class="n">LabelFinial</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">LabelShape</span><span class="p">,</span> <span class="n">PatternType</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
@@ -797,11 +797,18 @@
 <span class="sd">    :meth:`for_mode`."""</span>
     <span class="n">label_shape</span><span class="p">:</span> <span class="n">LabelShape</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Plaque silhouette for framed labels (``RECT``, ``PILL``, ``CHAMFERED``,</span>
-<span class="sd">    ``HEXAGON``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``, or ``UNDERLINE``).</span>
+<span class="sd">    ``HEXAGON``, ``NOTCHED``, ``RIBBON``, ``DOUBLE_FRAME``, ``UNDERLINE``,</span>
+<span class="sd">    ``OVAL``, ``SCALLOPED``, ``BRACKET``, ``SHIELD``, ``SCROLL``,</span>
+<span class="sd">    ``CORNER_STUD``, or ``ORNATE_FRAME``).</span>
 
 <span class="sd">    ``None`` defaults to :attr:`~pyboxbuilder.enums.LabelShape.RECT`. Non-rect</span>
 <span class="sd">    decorative shapes default to a clean solid interior plaque unless</span>
 <span class="sd">    ``label_solid_background=False`` is passed explicitly."""</span>
+    <span class="n">label_finial</span><span class="p">:</span> <span class="n">LabelFinial</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Decorative typographic ornament placed underneath the label text</span>
+<span class="sd">    (``NONE``, ``DIAMOND``, ``TRIPLE_DOT``, ``FLEURON``, ``CHEVRON``,</span>
+<span class="sd">    ``SCROLLWORK``, or ``SPEAR``). Inlaid in ``frame_color`` when set,</span>
+<span class="sd">    falling back to ``text_color``."""</span>
     <span class="n">diagonal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Run the text corner to corner rather than along the lid; ``None`` is no."""</span>
     <span class="n">text_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -834,6 +841,13 @@
 <span class="sd">    ``(width, length, depth) -&gt; ...`` returning any of those."""</span>
     <span class="n">logo_color</span><span class="p">:</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Default colour for uncoloured logo parts in inlaid mode; ``None`` uses ``text_color``."""</span>
+    <span class="n">logo_position</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Placement of ``logo`` when combined with ``text`` inside a label:</span>
+<span class="sd">    ``"top"`` (default when both ``text`` and ``logo`` are set), ``"left"``,</span>
+<span class="sd">    ``"right"``, ``"bottom"``, or ``"center"`` (overlapping / standalone)."""</span>
+    <span class="n">label_logo_size_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Target height/width in mm for an image/logo bay embedded inside a framed label.</span>
+<span class="sd">    ``None`` sizes it automatically from the text height and available lid area."""</span>
     <span class="n">min_text_height_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Below this the label is skipped rather than printed illegibly (FR-020).</span>
 
@@ -892,6 +906,10 @@
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"label_mode"</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"label_shape"</span><span class="p">,</span> <span class="n">LabelShape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_finial</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"label_finial"</span><span class="p">,</span> <span class="n">LabelFinial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_finial</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logo_position</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"logo_position"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">logo_position</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"pattern"</span><span class="p">,</span> <span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">lower</span><span class="p">())))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="n">PatternType</span><span class="p">):</span>
@@ -947,6 +965,15 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">LabelShape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_shape</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">LabelShape</span><span class="o">.</span><span class="n">RECT</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">finial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LabelFinial</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The decorative ornament placed underneath label text, resolved."""</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_finial</span><span class="p">,</span> <span class="n">LabelFinial</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_finial</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_finial</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">LabelFinial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_finial</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">LabelFinial</span><span class="o">.</span><span class="n">NONE</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

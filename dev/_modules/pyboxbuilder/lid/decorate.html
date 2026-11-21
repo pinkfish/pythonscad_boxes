@@ -774,7 +774,12 @@
     <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">text</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">result</span><span class="o">.</span><span class="n">skipped_label</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="n">logo_parts</span> <span class="o">=</span> <span class="n">_build_logo_parts</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">)</span> <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">logo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">logo_target</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">image_slot</span> <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">logo_parts</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">_build_logo_parts</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">,</span> <span class="n">target_box</span><span class="o">=</span><span class="n">logo_target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resolved</span><span class="o">.</span><span class="n">logo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
     <span class="n">logo_keepout</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">logo_parts</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">part_solid</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">logo_parts</span><span class="p">:</span>
@@ -834,7 +839,17 @@
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">_apply_label</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">resolved</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">,</span> <span class="n">lid_thickness</span><span class="p">)</span>
+        <span class="n">_apply_label</span><span class="p">(</span>
+            <span class="n">result</span><span class="p">,</span>
+            <span class="n">resolved</span><span class="p">,</span>
+            <span class="n">label</span><span class="p">,</span>
+            <span class="n">origin_x</span><span class="p">,</span>
+            <span class="n">origin_y</span><span class="p">,</span>
+            <span class="n">top_z</span><span class="p">,</span>
+            <span class="n">mode_str</span><span class="p">,</span>
+            <span class="n">lid_thickness</span><span class="p">,</span>
+            <span class="n">logo_keepout</span><span class="o">=</span><span class="n">logo_keepout</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">logo_parts</span><span class="p">:</span>
         <span class="n">_apply_logo_parts</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">resolved</span><span class="p">,</span> <span class="n">logo_parts</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">,</span> <span class="n">top_z</span><span class="p">,</span> <span class="n">mode_str</span><span class="p">)</span>
@@ -893,6 +908,13 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">solid_background</span> <span class="o">=</span> <span class="n">label_shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">LabelShape</span><span class="o">.</span><span class="n">RECT</span>
 
+    <span class="n">has_logo</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">logo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">logo</span> <span class="o">!=</span> <span class="p">()</span> <span class="ow">and</span> <span class="n">builder</span><span class="o">.</span><span class="n">logo</span> <span class="o">!=</span> <span class="p">[]</span>
+    <span class="n">logo_pos</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">has_logo</span> <span class="ow">and</span> <span class="n">label_mode</span> <span class="ow">is</span> <span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">:</span>
+        <span class="n">raw_pos</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">logo_position</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">logo_position</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"top"</span>
+        <span class="k">if</span> <span class="n">raw_pos</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"top"</span><span class="p">,</span> <span class="s2">"bottom"</span><span class="p">,</span> <span class="s2">"left"</span><span class="p">,</span> <span class="s2">"right"</span><span class="p">):</span>
+            <span class="n">logo_pos</span> <span class="o">=</span> <span class="n">raw_pos</span>
+
     <span class="k">return</span> <span class="n">build_label</span><span class="p">(</span>
         <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
         <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
@@ -910,6 +932,9 @@
         <span class="n">max_text_height_mm</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">max_text_height</span><span class="p">,</span>
         <span class="n">solid_background</span><span class="o">=</span><span class="n">solid_background</span><span class="p">,</span>
         <span class="n">label_shape</span><span class="o">=</span><span class="n">label_shape</span><span class="p">,</span>
+        <span class="n">label_finial</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">finial</span><span class="p">,</span>
+        <span class="n">logo_position</span><span class="o">=</span><span class="n">logo_pos</span><span class="p">,</span>
+        <span class="n">logo_size_mm</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">label_logo_size_mm</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -1098,15 +1123,23 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_logo_parts</span><span class="p">(</span>
-    <span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="n">LidBuilder</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">target_box</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">Color</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Build single- or multi-colored logo/shape solids, centered on the lid face."""</span>
+<span class="w">    </span><span class="sd">"""Build single- or multi-colored logo/shape solids, centered on the lid face or inside ``target_box``."""</span>
     <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">logo</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">builder</span><span class="o">.</span><span class="n">logo</span> <span class="o">==</span> <span class="p">()</span> <span class="ow">or</span> <span class="n">builder</span><span class="o">.</span><span class="n">logo</span> <span class="o">==</span> <span class="p">[]:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">margin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">border_margin</span>
-    <span class="n">logo_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
-    <span class="n">logo_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
+    <span class="k">if</span> <span class="n">target_box</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">target_cx</span><span class="p">,</span> <span class="n">target_cy</span><span class="p">,</span> <span class="n">logo_w</span><span class="p">,</span> <span class="n">logo_l</span> <span class="o">=</span> <span class="n">target_box</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">margin</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">border_margin</span>
+        <span class="n">logo_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
+        <span class="n">logo_l</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">margin</span>
+        <span class="n">target_cx</span><span class="p">,</span> <span class="n">target_cy</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="k">if</span> <span class="n">logo_w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">logo_l</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -1127,7 +1160,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">parts</span> <span class="o">=</span> <span class="n">_extract_colored_solids</span><span class="p">(</span><span class="n">produced</span><span class="p">,</span> <span class="n">fallback</span><span class="p">)</span>
         <span class="c1"># Callables already compute layout/scale for (logo_w, logo_l, depth); keep XY as returned</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">]</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">target_cx</span><span class="p">,</span> <span class="n">target_cy</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">parts</span> <span class="ow">or</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_logo</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">raw_logo</span><span class="p">,</span> <span class="s2">"inlays"</span><span class="p">):</span>
@@ -1142,7 +1175,7 @@
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">scaled</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="p">[(</span><span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">scaled</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">target_cx</span><span class="p">,</span> <span class="n">target_cy</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">scaled</span><span class="p">]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_apply_logo_parts</span><span class="p">(</span>
@@ -1235,9 +1268,10 @@
 
     <span class="c1"># A framed label's plate stands off the pattern by its boundary, and if the</span>
     <span class="c1"># plate has an inner opening (on polygon lids), the text inside must also be kept clear.</span>
+    <span class="n">text_and_finial</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">finial</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">|</span> <span class="n">label</span><span class="o">.</span><span class="n">finial</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">plate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">plate_keepout</span> <span class="o">=</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">plate</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
-        <span class="n">text_solid</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">text</span>
+        <span class="n">text_solid</span> <span class="o">=</span> <span class="n">text_and_finial</span>
         <span class="k">if</span> <span class="n">clearance</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">text_solid</span> <span class="o">=</span> <span class="n">_grown</span><span class="p">(</span><span class="n">text_solid</span><span class="p">,</span> <span class="n">clearance</span><span class="p">)</span>
         <span class="n">text_keepout</span> <span class="o">=</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">text_solid</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
@@ -1245,8 +1279,8 @@
 
     <span class="k">if</span> <span class="n">clearance</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># The glyphs themselves: the holes stop where the letters do.</span>
-        <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">_grown</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">clearance</span><span class="p">),</span> <span class="n">depth</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">text_and_finial</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">_grown</span><span class="p">(</span><span class="n">text_and_finial</span><span class="p">,</span> <span class="n">clearance</span><span class="p">),</span> <span class="n">depth</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_grown</span><span class="p">(</span><span class="n">solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span><span class="p">,</span> <span class="n">by</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
@@ -1783,6 +1817,7 @@
     <span class="n">top_z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">logo_keepout</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Inlay the label into `result`, or engrave it for a single-colour print.</span>
 
@@ -1795,6 +1830,8 @@
 <span class="sd">        top_z: The face's z.</span>
 <span class="sd">        mode: ``"mmu"`` or ``"single"``.</span>
 <span class="sd">        lid_thickness: Overall lid thickness in mm.</span>
+<span class="sd">        logo_keepout: Optional logo solid to keep clear out of any coloured</span>
+<span class="sd">            label background so embedded logos never overlap the background.</span>
 
 <span class="sd">    """</span>
 
@@ -1806,7 +1843,8 @@
         <span class="c1"># One material, so there is nothing to inlay — depth is the only thing</span>
         <span class="c1"># that can make the label visible. Engraving the plate too would just</span>
         <span class="c1"># cut a rectangular recess and take the lettering with it.</span>
-        <span class="n">cut</span> <span class="o">=</span> <span class="n">onto_face</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">INLAY_DEPTH_MM</span> <span class="o">-</span> <span class="n">ENGRAVE_DEPTH_MM</span><span class="p">])</span>
+        <span class="n">engrave_solid</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">finial</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">|</span> <span class="n">label</span><span class="o">.</span><span class="n">finial</span><span class="p">)</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="n">onto_face</span><span class="p">(</span><span class="n">engrave_solid</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">INLAY_DEPTH_MM</span> <span class="o">-</span> <span class="n">ENGRAVE_DEPTH_MM</span><span class="p">])</span>
         <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">solid</span> <span class="o">-</span> <span class="n">cut</span>
         <span class="k">return</span>
 
@@ -1825,6 +1863,11 @@
         <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">hatching</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">frame_part</span> <span class="o">=</span> <span class="n">frame_part</span> <span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">hatching</span>
 
+    <span class="n">finial_color</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">frame_color</span> <span class="k">if</span> <span class="n">builder</span><span class="o">.</span><span class="n">frame_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">builder</span><span class="o">.</span><span class="n">text_color</span>
+    <span class="n">finial_part</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">finial</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">finial_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">finial_part</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">finial</span> <span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">text</span>
+
     <span class="n">bg_color</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">label_background_color</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bg_color</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
@@ -1837,6 +1880,10 @@
         <span class="k">elif</span> <span class="n">label</span><span class="o">.</span><span class="n">plate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">base</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">plate</span> <span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">frame</span> <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">label</span><span class="o">.</span><span class="n">plate</span>
             <span class="n">bg_part</span> <span class="o">=</span> <span class="n">base</span> <span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="n">bg_part</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">label</span><span class="o">.</span><span class="n">finial</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bg_part</span> <span class="o">=</span> <span class="n">bg_part</span> <span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">finial</span>
+        <span class="k">if</span> <span class="n">bg_part</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">logo_keepout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bg_part</span> <span class="o">=</span> <span class="n">bg_part</span> <span class="o">-</span> <span class="n">_as_depth</span><span class="p">(</span><span class="n">logo_keepout</span><span class="p">,</span> <span class="n">INLAY_DEPTH_MM</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">)</span>
 
     <span class="c1"># Inlaid, not embossed (FR-022a): each coloured part is cut out of the lid</span>
     <span class="c1"># and put back in its own colour, exactly as deep as the recess, so the</span>
@@ -1845,6 +1892,7 @@
     <span class="c1"># box's own material without an insert of their own (FR-022).</span>
     <span class="k">for</span> <span class="n">part</span><span class="p">,</span> <span class="n">colour</span> <span class="ow">in</span> <span class="p">(</span>
         <span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">text_color</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">finial_part</span><span class="p">,</span> <span class="n">finial_color</span><span class="p">),</span>
         <span class="p">(</span><span class="n">frame_part</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">frame_color</span><span class="p">),</span>
         <span class="p">(</span><span class="n">bg_part</span><span class="p">,</span> <span class="n">bg_color</span><span class="p">),</span>
     <span class="p">):</span>

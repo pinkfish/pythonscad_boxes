@@ -24,6 +24,7 @@ pyboxbuilder.enums
       FingerCut
       HingeCatchType
       InterlockType
+      LabelFinial
       LabelMode
       LabelShape
       LatchAxis
