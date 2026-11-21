@@ -96,6 +96,8 @@ round_nub_thickness = 3.0
 
 SVG_DIR = Path(__file__).resolve().parent / "svg"
 CLASS_III_SVG = str(SVG_DIR / "class_iii_ship.svg")
+BRINK_LOGO_SVG = str(SVG_DIR / "brink_logo.svg")
+SECTOR_HEX_SVG = str(SVG_DIR / "sector_hex.svg")
 
 # Card box footprints (from brink.scad)
 card_box_width = box_width / 2.0 - 1.0                            # 106.5mm
@@ -455,6 +457,10 @@ for label, title, h in [
         size=(hex_box_width, hex_box_length, h),
         lid=LidBuilder(
             text=title.upper(),
+            logo=SECTOR_HEX_SVG,
+            logo_color=Color("white"),
+            logo_position="top",
+            label_logo_size_mm=26.0,
             label_mode=LabelMode.FRAMED,
             label_shape=LabelShape.HEX_BRACKET,
             font=BRINK_FONT,
@@ -495,6 +501,10 @@ for color_label, frame_col, text_col in player_colors:
         size=(player_box_width, player_box_length, player_box_height),
         lid=LidBuilder(
             text="PLAYER",
+            logo=BRINK_LOGO_SVG,
+            logo_color=Color(frame_col),
+            logo_position="top",
+            label_logo_size_mm=22.0,
             label_mode=LabelMode.FRAMED,
             label_shape=LabelShape.HEX_BRACKET,
             font=BRINK_FONT,
