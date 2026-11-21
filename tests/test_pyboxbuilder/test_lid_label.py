@@ -179,3 +179,45 @@ class LabelTests(unittest.TestCase):
                     self.assertGreater(sl, 5.0)
         except ImportError:
             self.skipTest("bosl2 not available")
+
+    def test_text_stays_strictly_inside_frame_and_plate_for_all_shapes(self) -> None:
+        """Wide titles never overlap the border or escape the plaque on any LabelShape."""
+        try:
+            from pybosl2.exceptions import Bosl2ValueError
+        except ImportError:
+            self.skipTest("bosl2 not available")
+
+        def _has_volume(solid: object) -> bool:
+            if solid is None:
+                return False
+            try:
+                b = solid.bounds()  # type: ignore[attr-defined]
+            except Bosl2ValueError:
+                return False
+            sz = b.size if hasattr(b, "size") else b[1]
+            return float(sz[0]) > 1e-3 and float(sz[1]) > 1e-3 and float(sz[2]) > 1e-3
+
+        for shape in LabelShape:
+            with self.subTest(shape=shape.value):
+                lbl = build_label(
+                    width=115.0,
+                    length=78.0,
+                    thickness=2.0,
+                    text="Hex Tiles",
+                    label_mode=LabelMode.FRAMED,
+                    solid_background=shape is not LabelShape.RECT,
+                    label_shape=shape,
+                )
+                self.assertIsNotNone(lbl)
+                assert lbl is not None
+                if lbl.frame is not None:
+                    self.assertFalse(
+                        _has_volume(lbl.text & lbl.frame),
+                        f"{shape.value}: text overlaps border frame",
+                    )
+                if lbl.plate is not None:
+                    tall_plate = lbl.plate.scale([1.0, 1.0, 3.0])
+                    self.assertFalse(
+                        _has_volume(lbl.text - tall_plate),
+                        f"{shape.value}: text escapes plaque boundary",
+                    )

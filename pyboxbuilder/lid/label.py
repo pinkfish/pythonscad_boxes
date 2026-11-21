@@ -125,6 +125,66 @@ def _set_text(text: str, diagonal: bool, width: float, length: float) -> Bosl2So
     return solid
 
 
+def _shape_text_budget(
+    shape: LabelShape,
+    target_w: float,
+    target_l: float,
+    border: float,
+    gap: float,
+) -> tuple[float, float]:
+    """Return the safe inner ``(w, l)`` text budget inside a framed ``LabelShape``.
+
+    Tapered and ornate plaques (pointed hex chevrons, semicircular pill caps,
+    swallowtail ribbons, double-line frames, ovals, shields, scrolls, etc.)
+    consume additional width/height beyond ``border + gap`` at their ends and
+    corners. Reserving that allowance before scaling the text guarantees the
+    lettering never overlaps the border or escapes outside the plaque.
+    """
+    if shape in (LabelShape.RECT, LabelShape.UNDERLINE, LabelShape.SCALLOPED):
+        return target_w, target_l
+
+    if shape is LabelShape.PILL:
+        end_inset = min(target_l * 0.42, 14.0)
+        return max(target_w - 2.0 * end_inset, 0.0), max(target_l - 1.5, 0.0)
+
+    if shape is LabelShape.CHAMFERED:
+        return max(target_w - 13.0, 0.0), max(target_l - 1.5, 0.0)
+
+    if shape is LabelShape.HEXAGON:
+        return max(target_w - 24.0, 0.0), max(target_l - 1.5, 0.0)
+
+    if shape is LabelShape.NOTCHED:
+        return max(target_w - 12.0, 0.0), max(target_l - 1.5, 0.0)
+
+    if shape is LabelShape.RIBBON:
+        return max(target_w - 18.0, 0.0), max(target_l - 1.5, 0.0)
+
+    if shape is LabelShape.DOUBLE_FRAME:
+        extra = min(1.2, max(0.8, border * 0.8)) + min(0.9, max(0.7, border * 0.6)) + 1.0
+        return max(target_w - 2.0 * extra, 0.0), max(target_l - 2.0 * extra, 0.0)
+
+    if shape is LabelShape.ORNATE_FRAME:
+        extra = min(1.2, max(0.8, border * 0.8)) + min(0.9, max(0.7, border * 0.6))
+        return max(target_w - 2.0 * (extra + 3.2), 0.0), max(target_l - 2.0 * (extra + 1.5), 0.0)
+
+    if shape is LabelShape.CORNER_STUD:
+        return max(target_w - 10.0, 0.0), max(target_l - 2.5, 0.0)
+
+    if shape is LabelShape.OVAL:
+        return target_w / 1.48, target_l / 1.48
+
+    if shape is LabelShape.BRACKET:
+        return max(target_w - 23.0, 0.0), max(target_l - 2.5, 0.0)
+
+    if shape is LabelShape.SHIELD:
+        return target_w * 0.72, target_l * 0.62
+
+    if shape is LabelShape.SCROLL:
+        return max(target_w - 16.0, 0.0), max(target_l - 4.0, 0.0)
+
+    return target_w, target_l
+
+
 def text_height_for(
     width: float,
     length: float,
@@ -135,6 +195,7 @@ def text_height_for(
     label_border_mm: float = LABEL_BORDER_MM,
     label_text_gap_mm: float = LABEL_TEXT_GAP_MM,
     max_text_height_mm: float | None = MAX_TEXT_HEIGHT_MM,
+    label_shape: LabelShape = LabelShape.RECT,
 ) -> float:
     """Cap height the label text will be set at, in mm.
 
@@ -156,6 +217,12 @@ def text_height_for(
     is_vertical = (length > width) and not diagonal
     target_w = label_l if is_vertical else label_w
     target_l = label_w if is_vertical else label_l
+    if label_mode is LabelMode.FRAMED and label_shape is not LabelShape.RECT:
+        target_w, target_l = _shape_text_budget(
+            label_shape, target_w, target_l, label_border_mm, label_text_gap_mm
+        )
+        if target_w <= 0 or target_l <= 0:
+            return 0.0
 
     b = _set_text(text, diagonal, width, length).bounds()
     set_w = float(b.size[0]) if hasattr(b, "size") else float(b[1][0])
@@ -239,6 +306,7 @@ def build_label(
         border,
         gap,
         max_text_height_mm=max_text_height_mm,
+        label_shape=label_shape,
     )
     if size < min_text_height_mm:
         return None
@@ -559,7 +627,8 @@ def _build_shape_parts(
 
     if shape is LabelShape.PILL:
         rl = min(base_rl + 1.0, avail_rl)
-        rw = _fit_rw(rl * 0.28)
+        # Ensure the text corners stay inside the semicircular ends
+        rw = _fit_rw(rl * 0.42)
         r_out = min(rl / 2.0 - 0.01, rw / 2.0 - 0.01)
         plate = _centered_cuboid(rw, rl, h, rounding=r_out)
         iw, il = rw - 2.0 * border, rl - 2.0 * border
@@ -573,7 +642,7 @@ def _build_shape_parts(
     if shape is LabelShape.CHAMFERED:
         rl = min(base_rl + 1.0, avail_rl)
         c_est = min(rl * 0.28, 6.0)
-        rw = _fit_rw(c_est * 0.65)
+        rw = _fit_rw(c_est)
         c = min(rl * 0.28, rw * 0.18, 6.0)
         plate = _chamfered_prism(rw, rl, c, h)
         iw, il = rw - 2.0 * border, rl - 2.0 * border
@@ -587,7 +656,7 @@ def _build_shape_parts(
     if shape is LabelShape.HEXAGON:
         rl = min(base_rl + 1.0, avail_rl)
         tip = min(rl * 0.42, 10.0)
-        rw = _fit_rw(tip * 0.85)
+        rw = _fit_rw(tip * 1.15)
         tip = min(tip, max(1.0, rw * 0.22))
         plate = _hex_lozenge_prism(rw, rl, tip, h)
         hl = rl / 2.0
@@ -606,7 +675,7 @@ def _build_shape_parts(
     if shape is LabelShape.NOTCHED:
         rl = min(base_rl + 1.0, avail_rl)
         nr = min(rl * 0.24, 4.5)
-        rw = _fit_rw(nr * 0.7)
+        rw = _fit_rw(nr + border * 0.5)
         nr = min(nr, rw * 0.14)
         plate = _notched_prism(rw, rl, nr, h)
         iw, il = rw - 2.0 * border, rl - 2.0 * border
@@ -636,7 +705,7 @@ def _build_shape_parts(
     if shape is LabelShape.RIBBON:
         rl = min(base_rl + 1.0, avail_rl)
         notch = min(rl * 0.28, 6.0)
-        rw = _fit_rw(notch + 1.0)
+        rw = _fit_rw(notch * 1.25 + border * 0.5)
         notch = min(notch, max(1.0, rw * 0.16))
         plate = _ribbon_prism(rw, rl, notch, h)
         hl = rl / 2.0
@@ -656,7 +725,7 @@ def _build_shape_parts(
         ring_gap = min(1.2, max(0.8, border * 0.8))
         b_in = min(0.9, max(0.7, border * 0.6))
         extra = ring_gap + b_in
-        rl = min(base_rl + 2.0 * extra, avail_rl)
+        rl = min(base_rl + 2.0 * extra + 1.0, avail_rl)
         rw = _fit_rw(extra + 1.0)
         r0 = min(rounding, min(rw, rl) / 2.0 - 0.01)
         plate = _centered_cuboid(rw, rl, h, rounding=r0)
@@ -698,8 +767,8 @@ def _build_shape_parts(
         return plate, plate, None, rw, rl
 
     if shape is LabelShape.OVAL:
-        rl = min(max(base_rl * 1.25, rtl * 1.38 + 2.0 * border), avail_rl)
-        rw = min(max(base_rw * 1.25, rtw * 1.38 + 2.0 * border), avail_rw)
+        rl = min((rtl + 2.0 * gap) * 1.46 + 2.0 * border, avail_rl)
+        rw = min((rtw + 2.0 * gap) * 1.46 + 2.0 * border, avail_rw)
         plate = _ellipse_prism(rw / 2.0, rl / 2.0, h)
         irx, iry = rw / 2.0 - border, rl / 2.0 - border
         if irx > 0.5 and iry > 0.5:
@@ -723,7 +792,7 @@ def _build_shape_parts(
     if shape is LabelShape.BRACKET:
         rl = min(base_rl + 2.0, avail_rl)
         ear = min(rl * 0.38, 9.0)
-        rw = _fit_rw(ear * 0.9)
+        rw = _fit_rw(ear * 1.25 + border * 0.5)
         ear = min(ear, max(1.5, rw * 0.22))
         plate = _bracket_prism(rw, rl, ear, h)
         iw, il = rw - 2.0 * border * 1.35, rl - 2.0 * border
@@ -735,13 +804,15 @@ def _build_shape_parts(
         return plate, plate, None, rw, rl
 
     if shape is LabelShape.SHIELD:
-        rl = min(max(base_rl * 1.28, base_rl + 6.0), avail_rl)
-        rw = min(max(base_rw + 4.0, rl * 0.78), avail_rw)
-        plate = _shield_prism(rw, rl, h)
+        rl = min(max(base_rl * 1.52, base_rl + 10.0), avail_rl)
+        rw = min(max(base_rw * 1.28, rl * 0.82), avail_rw)
+        # Shift shield slightly downward so text sits in the broad upper chest
+        shield_dy = -rl * 0.08
+        plate = _shield_prism(rw, rl, h).translate([0.0, shield_dy, 0.0])
         iw, il = rw - 2.0 * border, rl - 2.0 * border * 1.15
         if iw > 1.5 and il > 1.5:
-            bg = _shield_prism(iw, il, h)
-            cut = _shield_prism(iw, il, cut_h).translate([0.0, 0.0, -1.0])
+            bg = _shield_prism(iw, il, h).translate([0.0, shield_dy, 0.0])
+            cut = _shield_prism(iw, il, cut_h).translate([0.0, shield_dy, -1.0])
             return plate, plate - cut, bg, rw, rl
         return plate, plate, None, rw, rl
 
@@ -756,7 +827,7 @@ def _build_shape_parts(
 
     if shape is LabelShape.CORNER_STUD:
         rl = min(base_rl + 2.0, avail_rl)
-        rw = _fit_rw(2.5)
+        rw = _fit_rw(4.5)
         r0 = min(rounding, min(rw, rl) / 2.0 - 0.01)
         plate = _centered_cuboid(rw, rl, h, rounding=r0)
         iw, il = rw - 2.0 * border, rl - 2.0 * border
@@ -797,8 +868,8 @@ def _build_shape_parts(
         ring_gap = min(1.2, max(0.8, border * 0.8))
         b_in = min(0.9, max(0.7, border * 0.6))
         extra = ring_gap + b_in
-        rl = min(base_rl + 2.0 * extra + 1.0, avail_rl)
-        rw = _fit_rw(extra + 1.5)
+        rl = min(base_rl + 2.0 * extra + 1.5, avail_rl)
+        rw = _fit_rw(extra + 3.0)
         r0 = min(max(2.0, rounding * 0.6), min(rw, rl) / 2.0 - 0.01)
         plate = _centered_cuboid(rw, rl, h, rounding=r0)
         w1, l1 = rw - 2.0 * border, rl - 2.0 * border
@@ -1234,6 +1305,8 @@ def _build_decorative_label(
         finial_h = max(3.2, min(4.8, rtl * 0.34))
         finial_gap = max(1.4, gap * 0.9)
         finial_w = min(max(rtw * 0.88, 16.0), max(10.0, avail_rw - 2.0 * pad))
+        if shape is LabelShape.SHIELD:
+            finial_w = min(finial_w, max(12.0, rtw * 0.45))
         raw_finial = _build_finial_solid(finial, finial_w, finial_h, BACKING_HEIGHT_MM)
         if raw_finial is not None:
             tf_h = rtl + finial_gap + finial_h
