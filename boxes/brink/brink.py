@@ -436,7 +436,7 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-BRINK_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+BRINK_PATTERN = PatternBuilder(PatternType.VORONOI)
 
 # ── 1. Sector Hex Tile Boxes (Main + Bonus) ───────────────────────
 hex_inner_w = hex_box_width - 2.0 * wall_thickness

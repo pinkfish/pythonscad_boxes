@@ -420,7 +420,7 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-BRINK_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+BRINK_PATTERN = PatternBuilder(PatternType.VORONOI)
 
 # ── 1. Five Longitudinal Player Trays (3 left + 2 right) ──────────
 long_inner_w = long_player_box_width - 2.0 * wall_thickness
