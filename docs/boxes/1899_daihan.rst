@@ -15,19 +15,19 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=e987eb5e,../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=26c0fd6b,../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=1d7866e4,../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=8697939f,../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=eeec92df,../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=52dff6de,../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=66f41cc6,../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ff0154b5,../_stl/boxes/1899_daihan/ShareBox_1_body.stl?v=6cada348,../_stl/boxes/1899_daihan/ShareBox_1_lid.stl?v=3eded102,../_stl/boxes/1899_daihan/ShareBox_2_body.stl?v=662673fc,../_stl/boxes/1899_daihan/ShareBox_2_lid.stl?v=0901ae22,../_stl/boxes/1899_daihan/MoneyBox_body.stl?v=70d07240,../_stl/boxes/1899_daihan/MoneyBox_lid.stl?v=f1690ae1,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=f4ab85bf,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=c67799fe,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=eaaa9b9e,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=1f60ac69,../_stl/boxes/1899_daihan/PrivateCompanyCards_body.stl?v=5011cfe5,../_stl/boxes/1899_daihan/PrivateCompanyCards_lid.stl?v=5febeafb,../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=eb3062e8,../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=e9fb2297,../_stl/boxes/1899_daihan/TrainCardBox_body.stl?v=861254aa,../_stl/boxes/1899_daihan/TrainCardBox_lid.stl?v=50b948ea,../_stl/boxes/1899_daihan/spacer_1.stl?v=bd72c383,../_stl/boxes/1899_daihan/spacer_2.stl?v=97bf6c73
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=d242042b,../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=ea8256f7,../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=f97327e8,../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=82a7ef22,../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=d9bb6aba,../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=2527969b,../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=8e81fe92,../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ac80ef0d,../_stl/boxes/1899_daihan/ShareBox_1_body.stl?v=6cada348,../_stl/boxes/1899_daihan/ShareBox_1_lid.stl?v=3eded102,../_stl/boxes/1899_daihan/ShareBox_2_body.stl?v=662673fc,../_stl/boxes/1899_daihan/ShareBox_2_lid.stl?v=0901ae22,../_stl/boxes/1899_daihan/MoneyBox_body.stl?v=70d07240,../_stl/boxes/1899_daihan/MoneyBox_lid.stl?v=f1690ae1,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=422d035a,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=ab880949,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=f1a2c956,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=5554fffb,../_stl/boxes/1899_daihan/PrivateCompanyCards_body.stl?v=5011cfe5,../_stl/boxes/1899_daihan/PrivateCompanyCards_lid.stl?v=5febeafb,../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=89c75c54,../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=5ee8a6f9,../_stl/boxes/1899_daihan/TrainCardBox_body.stl?v=861254aa,../_stl/boxes/1899_daihan/TrainCardBox_lid.stl?v=50b948ea,../_stl/boxes/1899_daihan/spacer_1.stl?v=bd72c383,../_stl/boxes/1899_daihan/spacer_2.stl?v=97bf6c73
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=e987eb5e" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=e987eb5e,../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=26c0fd6b,../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=1d7866e4,../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=8697939f,../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=eeec92df,../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=52dff6de,../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=66f41cc6,../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ff0154b5,../_stl/boxes/1899_daihan/ShareBox_1_body.stl?v=6cada348,../_stl/boxes/1899_daihan/ShareBox_1_lid.stl?v=3eded102,../_stl/boxes/1899_daihan/ShareBox_2_body.stl?v=662673fc,../_stl/boxes/1899_daihan/ShareBox_2_lid.stl?v=0901ae22,../_stl/boxes/1899_daihan/MoneyBox_body.stl?v=70d07240,../_stl/boxes/1899_daihan/MoneyBox_lid.stl?v=f1690ae1,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=f4ab85bf,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=c67799fe,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=eaaa9b9e,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=1f60ac69,../_stl/boxes/1899_daihan/PrivateCompanyCards_body.stl?v=5011cfe5,../_stl/boxes/1899_daihan/PrivateCompanyCards_lid.stl?v=5febeafb,../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=eb3062e8,../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=e9fb2297,../_stl/boxes/1899_daihan/TrainCardBox_body.stl?v=861254aa,../_stl/boxes/1899_daihan/TrainCardBox_lid.stl?v=50b948ea,../_stl/boxes/1899_daihan/spacer_1.stl?v=bd72c383,../_stl/boxes/1899_daihan/spacer_2.stl?v=97bf6c73" download="1899Daihan_full_packing.stl">⬇ Download Full Box Packing STL (<code>1899Daihan_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=d242042b" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=d242042b,../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=ea8256f7,../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=f97327e8,../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=82a7ef22,../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=d9bb6aba,../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=2527969b,../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=8e81fe92,../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ac80ef0d,../_stl/boxes/1899_daihan/ShareBox_1_body.stl?v=6cada348,../_stl/boxes/1899_daihan/ShareBox_1_lid.stl?v=3eded102,../_stl/boxes/1899_daihan/ShareBox_2_body.stl?v=662673fc,../_stl/boxes/1899_daihan/ShareBox_2_lid.stl?v=0901ae22,../_stl/boxes/1899_daihan/MoneyBox_body.stl?v=70d07240,../_stl/boxes/1899_daihan/MoneyBox_lid.stl?v=f1690ae1,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=422d035a,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=ab880949,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=f1a2c956,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=5554fffb,../_stl/boxes/1899_daihan/PrivateCompanyCards_body.stl?v=5011cfe5,../_stl/boxes/1899_daihan/PrivateCompanyCards_lid.stl?v=5febeafb,../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=89c75c54,../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=5ee8a6f9,../_stl/boxes/1899_daihan/TrainCardBox_body.stl?v=861254aa,../_stl/boxes/1899_daihan/TrainCardBox_lid.stl?v=50b948ea,../_stl/boxes/1899_daihan/spacer_1.stl?v=bd72c383,../_stl/boxes/1899_daihan/spacer_2.stl?v=97bf6c73" download="1899Daihan_full_packing.stl">⬇ Download Full Box Packing STL (<code>1899Daihan_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=4379f41f" download="1899Daihan_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>1899Daihan_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=4379f41f" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=e2d4faef" download="1899Daihan_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>1899Daihan_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=e2d4faef" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=4379f41f" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=e2d4faef" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -44,22 +44,22 @@ Parts Overview
      - Compartments
    * - :ref:`HexBox_1 <box-1899_daihan-hexbox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``147.564 × 129 × 16 mm``
+     - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 0, 0)``
      - 1
    * - :ref:`HexBox_2 <box-1899_daihan-hexbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``147.564 × 129 × 16 mm``
+     - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 0, 16)``
      - 1
    * - :ref:`HexBox_3 <box-1899_daihan-hexbox_3>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``147.564 × 129 × 16 mm``
+     - ``148.564 × 129 × 18 mm``
      - ``(76.4359, 0, 32)``
      - 1
    * - :ref:`HexBox_4 <box-1899_daihan-hexbox_4>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``147.564 × 129 × 16 mm``
+     - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 129, 0)``
      - 1
    * - :ref:`ShareBox_1 <box-1899_daihan-sharebox_1>`
@@ -79,12 +79,12 @@ Parts Overview
      - 5
    * - :ref:`CompanyMarkerBox_1 <box-1899_daihan-companymarkerbox_1>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
-     - ``147.564 × 43 × 18 mm``
+     - ``148.564 × 47 × 18 mm``
      - ``(76.4359, 258, 0)``
      - 1
    * - :ref:`CompanyMarkerBox_2 <box-1899_daihan-companymarkerbox_2>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
-     - ``147.564 × 43 × 18 mm``
+     - ``148.564 × 47 × 18 mm``
      - ``(76.4359, 258, 18)``
      - 1
    * - :ref:`PrivateCompanyCards <box-1899_daihan-privatecompanycards>`
@@ -94,7 +94,7 @@ Parts Overview
      - 1
    * - :ref:`ExtraBitsBox <box-1899_daihan-extrabitsbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
-     - ``50.5641 × 72 × 18 mm``
+     - ``51.5641 × 75 × 18 mm``
      - ``(173.436, 183, 16)``
      - 1
    * - :ref:`TrainCardBox <box-1899_daihan-traincardbox>`
@@ -122,36 +122,36 @@ HexBox_1
 ^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``147.564 × 129 × 16 mm``
+- **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 0, 0)``
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (HexBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=e987eb5e,../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=26c0fd6b
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=d242042b,../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=ea8256f7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=e987eb5e" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=e987eb5e,../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=26c0fd6b" download="HexBox_1_assembled.stl">⬇ Download Assembled HexBox_1 STL (<code>HexBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=d242042b" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=d242042b,../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=ea8256f7" download="HexBox_1_assembled.stl">⬇ Download Assembled HexBox_1 STL (<code>HexBox_1_assembled.stl</code>)</a></p>
 
 **Part: HexBox_1 Body**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=e987eb5e
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=d242042b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=e987eb5e" download="HexBox_1_body.stl">⬇ Download HexBox_1 Body STL (<code>HexBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_1_body.stl?v=d242042b" download="HexBox_1_body.stl">⬇ Download HexBox_1 Body STL (<code>HexBox_1_body.stl</code>)</a></p>
 
 **Part: HexBox_1 Lid**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=26c0fd6b
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=ea8256f7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=26c0fd6b" download="HexBox_1_lid.stl">⬇ Download HexBox_1 Lid STL (<code>HexBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_1_lid.stl?v=ea8256f7" download="HexBox_1_lid.stl">⬇ Download HexBox_1 Lid STL (<code>HexBox_1_lid.stl</code>)</a></p>
 
 .. _box-1899_daihan-hexbox_2:
 
@@ -159,36 +159,36 @@ HexBox_2
 ^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``147.564 × 129 × 16 mm``
+- **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 0, 16)``
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (HexBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=1d7866e4,../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=8697939f
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=f97327e8,../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=82a7ef22
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=1d7866e4" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=1d7866e4,../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=8697939f" download="HexBox_2_assembled.stl">⬇ Download Assembled HexBox_2 STL (<code>HexBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=f97327e8" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=f97327e8,../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=82a7ef22" download="HexBox_2_assembled.stl">⬇ Download Assembled HexBox_2 STL (<code>HexBox_2_assembled.stl</code>)</a></p>
 
 **Part: HexBox_2 Body**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=1d7866e4
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=f97327e8
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=1d7866e4" download="HexBox_2_body.stl">⬇ Download HexBox_2 Body STL (<code>HexBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_2_body.stl?v=f97327e8" download="HexBox_2_body.stl">⬇ Download HexBox_2 Body STL (<code>HexBox_2_body.stl</code>)</a></p>
 
 **Part: HexBox_2 Lid**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=8697939f
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=82a7ef22
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=8697939f" download="HexBox_2_lid.stl">⬇ Download HexBox_2 Lid STL (<code>HexBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_2_lid.stl?v=82a7ef22" download="HexBox_2_lid.stl">⬇ Download HexBox_2 Lid STL (<code>HexBox_2_lid.stl</code>)</a></p>
 
 .. _box-1899_daihan-hexbox_3:
 
@@ -196,36 +196,36 @@ HexBox_3
 ^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``147.564 × 129 × 16 mm``
+- **Outer Dimensions**: ``148.564 × 129 × 18 mm``
 - **Packed Position**: ``(76.4359, 0, 32)``
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (HexBox_3 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=eeec92df,../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=52dff6de
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=d9bb6aba,../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=2527969b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=eeec92df" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=eeec92df,../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=52dff6de" download="HexBox_3_assembled.stl">⬇ Download Assembled HexBox_3 STL (<code>HexBox_3_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=d9bb6aba" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=d9bb6aba,../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=2527969b" download="HexBox_3_assembled.stl">⬇ Download Assembled HexBox_3 STL (<code>HexBox_3_assembled.stl</code>)</a></p>
 
 **Part: HexBox_3 Body**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=eeec92df
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=d9bb6aba
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=eeec92df" download="HexBox_3_body.stl">⬇ Download HexBox_3 Body STL (<code>HexBox_3_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_3_body.stl?v=d9bb6aba" download="HexBox_3_body.stl">⬇ Download HexBox_3 Body STL (<code>HexBox_3_body.stl</code>)</a></p>
 
 **Part: HexBox_3 Lid**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=52dff6de
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=2527969b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=52dff6de" download="HexBox_3_lid.stl">⬇ Download HexBox_3 Lid STL (<code>HexBox_3_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_3_lid.stl?v=2527969b" download="HexBox_3_lid.stl">⬇ Download HexBox_3 Lid STL (<code>HexBox_3_lid.stl</code>)</a></p>
 
 .. _box-1899_daihan-hexbox_4:
 
@@ -233,36 +233,36 @@ HexBox_4
 ^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``147.564 × 129 × 16 mm``
+- **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 129, 0)``
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (HexBox_4 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=66f41cc6,../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ff0154b5
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=8e81fe92,../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ac80ef0d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=66f41cc6" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=66f41cc6,../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ff0154b5" download="HexBox_4_assembled.stl">⬇ Download Assembled HexBox_4 STL (<code>HexBox_4_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=8e81fe92" data-stl-combine="../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=8e81fe92,../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ac80ef0d" download="HexBox_4_assembled.stl">⬇ Download Assembled HexBox_4 STL (<code>HexBox_4_assembled.stl</code>)</a></p>
 
 **Part: HexBox_4 Body**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=66f41cc6
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=8e81fe92
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=66f41cc6" download="HexBox_4_body.stl">⬇ Download HexBox_4 Body STL (<code>HexBox_4_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_4_body.stl?v=8e81fe92" download="HexBox_4_body.stl">⬇ Download HexBox_4 Body STL (<code>HexBox_4_body.stl</code>)</a></p>
 
 **Part: HexBox_4 Lid**
 
-.. stl:: ../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ff0154b5
+.. stl:: ../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ac80ef0d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ff0154b5" download="HexBox_4_lid.stl">⬇ Download HexBox_4 Lid STL (<code>HexBox_4_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/HexBox_4_lid.stl?v=ac80ef0d" download="HexBox_4_lid.stl">⬇ Download HexBox_4 Lid STL (<code>HexBox_4_lid.stl</code>)</a></p>
 
 .. _box-1899_daihan-sharebox_1:
 
@@ -381,36 +381,36 @@ CompanyMarkerBox_1
 ^^^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
-- **Outer Dimensions**: ``147.564 × 43 × 18 mm``
+- **Outer Dimensions**: ``148.564 × 47 × 18 mm``
 - **Packed Position**: ``(76.4359, 258, 0)``
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (CompanyMarkerBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=f4ab85bf,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=c67799fe
+.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=422d035a,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=ab880949
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=f4ab85bf" data-stl-combine="../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=f4ab85bf,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=c67799fe" download="CompanyMarkerBox_1_assembled.stl">⬇ Download Assembled CompanyMarkerBox_1 STL (<code>CompanyMarkerBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=422d035a" data-stl-combine="../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=422d035a,../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=ab880949" download="CompanyMarkerBox_1_assembled.stl">⬇ Download Assembled CompanyMarkerBox_1 STL (<code>CompanyMarkerBox_1_assembled.stl</code>)</a></p>
 
 **Part: CompanyMarkerBox_1 Body**
 
-.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=f4ab85bf
+.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=422d035a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=f4ab85bf" download="CompanyMarkerBox_1_body.stl">⬇ Download CompanyMarkerBox_1 Body STL (<code>CompanyMarkerBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_1_body.stl?v=422d035a" download="CompanyMarkerBox_1_body.stl">⬇ Download CompanyMarkerBox_1 Body STL (<code>CompanyMarkerBox_1_body.stl</code>)</a></p>
 
 **Part: CompanyMarkerBox_1 Lid**
 
-.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=c67799fe
+.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=ab880949
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=c67799fe" download="CompanyMarkerBox_1_lid.stl">⬇ Download CompanyMarkerBox_1 Lid STL (<code>CompanyMarkerBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_1_lid.stl?v=ab880949" download="CompanyMarkerBox_1_lid.stl">⬇ Download CompanyMarkerBox_1 Lid STL (<code>CompanyMarkerBox_1_lid.stl</code>)</a></p>
 
 .. _box-1899_daihan-companymarkerbox_2:
 
@@ -418,36 +418,36 @@ CompanyMarkerBox_2
 ^^^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
-- **Outer Dimensions**: ``147.564 × 43 × 18 mm``
+- **Outer Dimensions**: ``148.564 × 47 × 18 mm``
 - **Packed Position**: ``(76.4359, 258, 18)``
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (CompanyMarkerBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=eaaa9b9e,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=1f60ac69
+.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=f1a2c956,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=5554fffb
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=eaaa9b9e" data-stl-combine="../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=eaaa9b9e,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=1f60ac69" download="CompanyMarkerBox_2_assembled.stl">⬇ Download Assembled CompanyMarkerBox_2 STL (<code>CompanyMarkerBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=f1a2c956" data-stl-combine="../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=f1a2c956,../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=5554fffb" download="CompanyMarkerBox_2_assembled.stl">⬇ Download Assembled CompanyMarkerBox_2 STL (<code>CompanyMarkerBox_2_assembled.stl</code>)</a></p>
 
 **Part: CompanyMarkerBox_2 Body**
 
-.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=eaaa9b9e
+.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=f1a2c956
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=eaaa9b9e" download="CompanyMarkerBox_2_body.stl">⬇ Download CompanyMarkerBox_2 Body STL (<code>CompanyMarkerBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_2_body.stl?v=f1a2c956" download="CompanyMarkerBox_2_body.stl">⬇ Download CompanyMarkerBox_2 Body STL (<code>CompanyMarkerBox_2_body.stl</code>)</a></p>
 
 **Part: CompanyMarkerBox_2 Lid**
 
-.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=1f60ac69
+.. stl:: ../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=5554fffb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=1f60ac69" download="CompanyMarkerBox_2_lid.stl">⬇ Download CompanyMarkerBox_2 Lid STL (<code>CompanyMarkerBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/CompanyMarkerBox_2_lid.stl?v=5554fffb" download="CompanyMarkerBox_2_lid.stl">⬇ Download CompanyMarkerBox_2 Lid STL (<code>CompanyMarkerBox_2_lid.stl</code>)</a></p>
 
 .. _box-1899_daihan-privatecompanycards:
 
@@ -492,36 +492,36 @@ ExtraBitsBox
 ^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
-- **Outer Dimensions**: ``50.5641 × 72 × 18 mm``
+- **Outer Dimensions**: ``51.5641 × 75 × 18 mm``
 - **Packed Position**: ``(173.436, 183, 16)``
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (ExtraBitsBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=eb3062e8,../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=e9fb2297
+.. stl:: ../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=89c75c54,../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=5ee8a6f9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=eb3062e8" data-stl-combine="../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=eb3062e8,../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=e9fb2297" download="ExtraBitsBox_assembled.stl">⬇ Download Assembled ExtraBitsBox STL (<code>ExtraBitsBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=89c75c54" data-stl-combine="../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=89c75c54,../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=5ee8a6f9" download="ExtraBitsBox_assembled.stl">⬇ Download Assembled ExtraBitsBox STL (<code>ExtraBitsBox_assembled.stl</code>)</a></p>
 
 **Part: ExtraBitsBox Body**
 
-.. stl:: ../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=eb3062e8
+.. stl:: ../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=89c75c54
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=eb3062e8" download="ExtraBitsBox_body.stl">⬇ Download ExtraBitsBox Body STL (<code>ExtraBitsBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/ExtraBitsBox_body.stl?v=89c75c54" download="ExtraBitsBox_body.stl">⬇ Download ExtraBitsBox Body STL (<code>ExtraBitsBox_body.stl</code>)</a></p>
 
 **Part: ExtraBitsBox Lid**
 
-.. stl:: ../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=e9fb2297
+.. stl:: ../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=5ee8a6f9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=e9fb2297" download="ExtraBitsBox_lid.stl">⬇ Download ExtraBitsBox Lid STL (<code>ExtraBitsBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1899_daihan/ExtraBitsBox_lid.stl?v=5ee8a6f9" download="ExtraBitsBox_lid.stl">⬇ Download ExtraBitsBox Lid STL (<code>ExtraBitsBox_lid.stl</code>)</a></p>
 
 .. _box-1899_daihan-traincardbox:
 

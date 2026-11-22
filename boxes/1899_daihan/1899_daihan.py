@@ -98,7 +98,6 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"expandable": False},
 )
 
 HEX_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -190,6 +189,7 @@ project.box(
         pattern=HEX_PATTERN,
         text_color=Color("white"),
     ),
+    expandable=False,
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
@@ -222,6 +222,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkred"),
     ),
+    expandable=False,
 ).compartment(
     "TrainCards",
     depth=min(train_card_box_height, usable_height) - lid_thickness,

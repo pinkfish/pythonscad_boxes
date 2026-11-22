@@ -134,7 +134,6 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=total_board_reserve,
     generate_spacers=True,
-    box_defaults={"expandable": False},
 )
 
 EARTH_PATTERN = PatternBuilder(PatternType.DENSE_HEX)

@@ -77,7 +77,6 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
-    box_defaults={"expandable": False},
 )
 
 ATHLETE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -94,6 +93,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkblue"),
     ),
+    expandable=False,
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,

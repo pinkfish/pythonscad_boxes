@@ -103,8 +103,8 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`ExplorersOfNavoriaForgottenLands (explorers_of_navoria_forgotten_lands) <explorers_of_navoria_forgotten_lands>`
      - ``211 × 268 × 50 mm``
      - 7
-     - 1
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 0
+     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`
    * - :doc:`FirstClass (first_class) <first_class>`
      - ``217 × 307 × 70 mm``
      - 21
@@ -128,13 +128,13 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`KenmoreGold (kenmore_gold) <kenmore_gold>`
      - ``130 × 120 × 77 mm``
      - 3
-     - 2
+     - 1
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`MagicalAthlete (magical_athlete) <magical_athlete>`
      - ``184 × 294 × 45 mm``
      - 8
-     - 2
-     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 0
+     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`
    * - :doc:`MaglevMetro (maglev_metro) <maglev_metro>`
      - ``286 × 286 × 65 mm``
      - 25
