@@ -63,8 +63,8 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`BucketKing (bucket_king) <bucket_king>`
      - ``140 × 288 × 70 mm``
      - 7
-     - 0
-     - :ref:`BoxType.CAP <box-type-cap>`
+     - 1
+     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Canvas (canvas) <canvas>`
      - ``200 × 250 × 50 mm``
      - 7
