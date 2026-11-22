@@ -21,23 +21,25 @@ This document details the layout, component inventory, sub-box specifications, a
 
 | Component | Quantity / Dimension | Storage Location | Box Type | Lid Style / Decoration |
 |---|---|---|---|---|
-| 5th Player Pieces (White) | White trading posts, explorers, markers | `PlayerBox_White` | Cap Lid | Framed "Player (White)" |
-| Species Tokens | Wooden species scoring tokens | `SpeciesTokensBox` | Cap Lid | Framed "Species Tokens" (Peru) |
-| Faction Skill Boards | Large cardboard faction power tiles | `FactionSkillBox` | Cap Lid | Framed "Faction Skills" (Purple) |
+| 5th Player Pieces (White) | White trading posts, explorers, markers | `PlayerBox_White`, `PlayerBox_White_2` | Cap Lid | Framed "Player (White 1/2)" |
+| Solo & Contract Tokens | Solo mode and contract tokens | `SpeciesTokensBox`, `ContractTokensBox` | Sliding Lid | Framed "Solo" (Peru) & "Contract" (Sienna) |
+| Faction Skill Boards | Large cardboard faction power tiles | `FactionSkillBox` | Sliding Lid | Framed "Faction Skills" (Purple) |
 | Exploration Bits | Bonus exploration markers and bits | `ExplorationBitsBox` | Cap Lid | Framed "Exploration Bits" (Orange) |
 | Forgotten Lands Cards | Expansion adventure and quest cards | `ExpansionCardsBox` | Sliding Lid | Framed "Forgotten Cards" (Navy) |
-| Automatic Spacers | Remaining 3D void volume | Derived automatically | No-Lid Trays | Auto finger scoops |
+| Automatic Spacers | Remaining 3D void volume (`44 x 150 x 23mm`) | Derived automatically | No-Lid Trays | Auto finger scoops |
 
 ---
 
 ## 3. Sub-Box Specifications
 
-### 3.1 5th Player & Species Column (Column 0, `X = 0.0 .. 98.0mm`)
-* **`PlayerBox_White` & `SpeciesTokensBox`**: `98.0mm x 133.0mm x 23.0mm` each, stacked 2 high (`Z = 0.0` and `Z = 23.0mm`).
+### 3.1 5th Player & Token Column (Column 0, Width `98.0mm`)
+* **`PlayerBox_White` & `PlayerBox_White_2`**: `98.0mm x 133.0mm x 23.0mm` each.
+* **`SpeciesTokensBox` & `ContractTokensBox`**: `98.0mm x 133.0mm x 23.0mm` each, stacked 2 high (`Z = 0.0` and `Z = 23.0mm`).
 
-### 3.2 Skills, Bits & Cards Column (Column 1, `X = 98.0 .. 209.0mm`)
-* **`FactionSkillBox` & `ExplorationBitsBox`**: `111.0mm x 150.0mm x 23.0mm` each, stacked 2 high at `Y = 0.0 .. 150.0mm`.
-* **`ExpansionCardsBox`**: `111.0mm x 116.0mm x 46.0mm` at `Y = 150.0 .. 266.0mm`.
+### 3.2 Skills, Bits & Cards Column (Column 1, Width `111.0mm`)
+* **`ExplorationBitsBox`**: `111.0mm x 150.0mm x 23.0mm` (lower tier).
+* **`FactionSkillBox`**: `67.0mm x 150.0mm x 23.0mm` (upper tier, with `44.0mm x 150.0mm x 23.0mm` auto-spacer beside it).
+* **`ExpansionCardsBox`**: `111.0mm x 116.0mm x 46.0mm`.
 
 ---
 
@@ -45,14 +47,13 @@ This document details the layout, component inventory, sub-box specifications, a
 
 ```
 +------------------------------------+------------------------------------+
-| PlayerBox_White (98.0 x 133.0mm,   | FactionSkillBox (111.0 x 150.0mm,  |
-|  Z: 0..23.0mm)                     |  Z: 0..23.0mm)                     |
+| ExpansionCardsBox                  | PlayerBox_White / PlayerBox_White_2|
+| (111.0 x 116.0 x 46.0mm)           | (98.0 x 133.0 x 23.0mm, Z: 0..46)  |
 +------------------------------------+------------------------------------+
-| SpeciesTokensBox (98.0 x 133.0mm,  | ExplorationBitsBox (111.0 x 150.0, |
-|  Z: 23..46.0mm)                    |  Z: 23..46.0mm)                    |
+| ExplorationBitsBox (111 x 150,     | SpeciesTokensBox / ContractTokens  |
+|  Z: 0..23mm)                       | (98.0 x 133.0 x 23.0mm, Z: 0..46)  |
+| FactionSkillBox (67 x 150, Z:23..46|                                    |
+|  + Auto-Spacer 44 x 150, Z:23..46) |                                    |
 +------------------------------------+------------------------------------+
-| Automatic 3D Void Spacers          | ExpansionCardsBox                  |
-| (Y = 133..268mm, Z = 0..46.0mm)    | (111.0 x 116.0 x 46.0mm)           |
-+------------------------------------+------------------------------------+
-|<-------------- 98.0mm ------------>|<-------------- 111.0mm ----------->|
+|<-------------- 111.0mm ----------->|<-------------- 98.0mm ------------>|
 ```

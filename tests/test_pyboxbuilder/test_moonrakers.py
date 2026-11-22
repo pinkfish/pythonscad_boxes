@@ -28,6 +28,7 @@ class TestMoonrakers(unittest.TestCase):
             "CardBox_Reactor",
             "CardBox_Shield",
             "CardBox_Miss",
+            "CardBox_Reference",
             "CardBox_Crew",
             "CardBox_Contracts",
             "CardBox_Ships",

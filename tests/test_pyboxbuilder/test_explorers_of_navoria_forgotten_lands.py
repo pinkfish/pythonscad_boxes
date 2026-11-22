@@ -24,7 +24,9 @@ class TestExplorersOfNavoriaForgottenLands(unittest.TestCase):
         labels = {b.label for b in project._boxes}
         expected = {
             "PlayerBox_White",
+            "PlayerBox_White_2",
             "SpeciesTokensBox",
+            "ContractTokensBox",
             "FactionSkillBox",
             "ExplorationBitsBox",
             "ExpansionCardsBox",

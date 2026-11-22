@@ -61,6 +61,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"expandable": False},
 )
 
 ART_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
@@ -77,7 +78,6 @@ c_box = project.box(
         text_color=Color("white"),
         frame_color=Color("royalblue"),
     ),
-    expandable=False,
 )
 c_box.compartment(
     "Paintings_1",

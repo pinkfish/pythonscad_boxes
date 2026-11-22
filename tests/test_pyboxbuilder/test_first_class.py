@@ -8,6 +8,7 @@ from boxes.first_class.first_class import (
     box_length,
     box_width,
     project,
+    usable_height,
 )
 
 
@@ -17,26 +18,35 @@ class TestFirstClass(unittest.TestCase):
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 10)
+        self.assertGreaterEqual(len(build.pieces), 42)
 
     def test_box_labels_present(self) -> None:
-        """Verify all essential box labels are generated."""
+        """Verify all 21 boxes from first_class.scad are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
             "PlayerBox_yellow",
             "PlayerBox_blue",
             "PlayerBox_red",
             "PlayerBox_green",
+            "MoneyBox",
+            "EvidenceBox",
             "CardBox_ModuleA",
             "CardBox_ModuleB",
             "CardBox_ModuleC",
             "CardBox_ModuleD",
             "CardBox_ModuleE",
-            "CardBox_RailroadCards",
+            "CardBox_BaseCards_1",
+            "CardBox_BaseCards_2",
+            "CardBox_EvidenceAndMail",
+            "CardBox_Railroad01",
+            "CardBox_Railroad24",
+            "CardBox_Railroad712",
+            "CardBox_Whodunit",
+            "CardBox_GameEnd",
+            "StartTileCardBox",
             "LocomotiveTileBox",
         }
-        for name in expected:
-            self.assertIn(name, labels)
+        self.assertEqual(labels, expected)
 
     def test_automatic_spacers_generated(self) -> None:
         """Verify automatic spacers are generated from leftover volume."""
@@ -45,7 +55,7 @@ class TestFirstClass(unittest.TestCase):
         self.assertGreater(len(spacers), 0)
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
-        """Verify no piece overflows the physical box dimensions."""
+        """Verify no piece overflows the physical box dimensions or usable height."""
         build = project.build()
         tol = 1e-3
         for piece in build.pieces:
@@ -58,4 +68,9 @@ class TestFirstClass(unittest.TestCase):
             self.assertGreaterEqual(z, -tol, f"{piece.label} Z < 0")
             self.assertLessEqual(x + w, box_width + tol, f"{piece.label} overflows box width ({x+w} > {box_width})")
             self.assertLessEqual(y + l, box_length + tol, f"{piece.label} overflows box length ({y+l} > {box_length})")
+            self.assertLessEqual(
+                z + h,
+                usable_height + tol,
+                f"{piece.label} overflows usable height ({z + h} > {usable_height})",
+            )
             self.assertLessEqual(z + h, box_height + tol, f"{piece.label} overflows box height ({z+h} > {box_height})")

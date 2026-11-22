@@ -90,6 +90,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
+    box_defaults={"expandable": False},
 )
 
 ARKHAM_PATTERN = PatternBuilder(PatternType.VORONOI)
@@ -106,7 +107,6 @@ player_box = project.box(
         text_color=Color("white"),
         frame_color=Color("teal"),
     ),
-    expandable=False,
 )
 player_box.compartment(
     "Investigators",
@@ -125,7 +125,6 @@ scenario_box = project.box(
         text_color=Color("white"),
         frame_color=Color("midnightblue"),
     ),
-    expandable=False,
 )
 scenario_box.compartment(
     "Encounters",

@@ -26,10 +26,12 @@ class TestNature(unittest.TestCase):
             "NatureCardsBox",
             "HunterCardsBox",
             "SoloCardsBox",
-            "DialBox",
+            "DialBox_1",
+            "DialBox_2",
             "LeopardBox",
             "ResourceBox_Grass",
             "ResourceBox_Meat",
+            "ResourceBox_Population",
         }
         for name in expected:
             self.assertIn(name, labels)

@@ -29,6 +29,8 @@ class TestMagicalAthlete(unittest.TestCase):
             "AthletePiecesBox_1",
             "AthletePiecesBox_2",
             "BigBabyBox",
+            "AwardTokensBox_1",
+            "AwardTokensBox_3",
         }
         for name in expected:
             self.assertIn(name, labels)

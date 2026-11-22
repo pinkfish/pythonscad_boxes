@@ -59,6 +59,7 @@ project = Project(
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
     generate_spacers=True,
+    box_defaults={"expandable": False},
 )
 
 GOLD_PATTERN = PatternBuilder(PatternType.DENSE_HEX)

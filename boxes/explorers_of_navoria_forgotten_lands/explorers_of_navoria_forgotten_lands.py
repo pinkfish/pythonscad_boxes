@@ -69,17 +69,18 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"expandable": False},
 )
 
 NAVORIA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. 5th Player & Species Tokens ────────────────────────────────
+# ── 1. 5th Player (White x2) & Solo/Contract Token Boxes ──────────
 project.box(
     BoxType.CAP,
     "PlayerBox_White",
     size=(player_box_width, player_box_length, player_box_height),
     lid=LidBuilder(
-        text="Player (White)",
+        text="Player (White 1)",
         label_mode=LabelMode.FRAMED,
         pattern=NAVORIA_PATTERN,
         text_color=Color("black"),
@@ -92,25 +93,57 @@ project.box(
 
 project.box(
     BoxType.CAP,
+    "PlayerBox_White_2",
+    size=(player_box_width, player_box_length, player_box_height),
+    lid=LidBuilder(
+        text="Player (White 2)",
+        label_mode=LabelMode.FRAMED,
+        pattern=NAVORIA_PATTERN,
+        text_color=Color("black"),
+        frame_color=Color("white"),
+    ),
+).compartment(
+    "Explorers",
+    cut=FingerCut.SCOOP,
+)
+
+project.box(
+    BoxType.SLIDING,
     "SpeciesTokensBox",
     size=(player_box_width, player_box_length, player_box_height),
     lid=LidBuilder(
-        text="Species Tokens",
+        text="Solo",
         label_mode=LabelMode.FRAMED,
         pattern=NAVORIA_PATTERN,
         text_color=Color("white"),
         frame_color=Color("peru"),
     ),
 ).compartment(
-    "Tokens",
+    "SoloTokens",
+    cut=FingerCut.SCOOP,
+)
+
+project.box(
+    BoxType.SLIDING,
+    "ContractTokensBox",
+    size=(player_box_width, player_box_length, player_box_height),
+    lid=LidBuilder(
+        text="Contract",
+        label_mode=LabelMode.FRAMED,
+        pattern=NAVORIA_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color("sienna"),
+    ),
+).compartment(
+    "ContractTokens",
     cut=FingerCut.SCOOP,
 )
 
 # ── 2. Faction Skills & Bits ──────────────────────────────────────
 project.box(
-    BoxType.CAP,
+    BoxType.SLIDING,
     "FactionSkillBox",
-    size=(bits_box_width, bits_box_length, bits_box_height),
+    size=(faction_skill_box_width, faction_skill_box_length, faction_skill_box_height),
     lid=LidBuilder(
         text="Faction Skills",
         label_mode=LabelMode.FRAMED,
@@ -151,7 +184,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-    expandable=False,
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,

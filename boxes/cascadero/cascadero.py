@@ -58,6 +58,7 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"expandable": False},
 )
 
 CASCADERO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)

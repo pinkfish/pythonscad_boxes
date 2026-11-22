@@ -2,8 +2,8 @@
 """Tests for the 18Cuba board game insert."""
 
 import importlib.util
-from pathlib import Path
 import unittest
+from pathlib import Path
 
 _PATH = Path(__file__).resolve().parents[2] / "boxes" / "18_cuba" / "18_cuba.py"
 _SPEC = importlib.util.spec_from_file_location("cuba_mod", _PATH)
@@ -33,15 +33,23 @@ class Test18Cuba(unittest.TestCase):
             "TrainBox",
             "SharesBox_1",
             "SharesBox_2",
+            "LastBox",
+            "LargeTokensBox",
+            "InsideTokenTray",
         }
         for name in expected:
             self.assertIn(name, labels)
 
-    def test_automatic_spacers_generated(self) -> None:
-        """Verify automatic spacers are generated from leftover volume."""
+    def test_usable_height_matches_scad(self) -> None:
+        """Verify insert height respects board_thickness + box_hexes (46mm)."""
         build = project.build()
-        spacers = [p for p in build.pieces if "spacer" in p.label.lower() or p.kind == "spacer"]
-        self.assertGreater(len(spacers), 0)
+        tol = 1e-3
+        for piece in build.pieces:
+            if piece.position is None or piece.size is None:
+                continue
+            _, _, z = piece.position
+            _, _, h = piece.size
+            self.assertLessEqual(z + h, cuba_mod.usable_height + tol, f"{piece.label} exceeds usable height")
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
         """Verify no piece overflows the physical box dimensions."""

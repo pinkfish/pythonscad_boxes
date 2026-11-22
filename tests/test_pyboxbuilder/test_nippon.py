@@ -8,6 +8,7 @@ from boxes.nippon.nippon import (
     box_length,
     box_width,
     project,
+    usable_height,
 )
 
 
@@ -17,26 +18,41 @@ class TestNippon(unittest.TestCase):
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 10)
+        self.assertGreaterEqual(len(build.pieces), 54)
 
     def test_box_labels_present(self) -> None:
-        """Verify all essential box labels are generated."""
+        """Verify all 27 boxes from nippon.scad are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
-            "PlayerBox_white",
-            "PlayerBox_yellow",
-            "PlayerBox_red",
             "PlayerBox_purple",
+            "PlayerBox_yellow",
+            "PlayerBox_green",
+            "PlayerBox_red",
+            "PlayerBoxBits_purple",
+            "PlayerBoxBits_yellow",
+            "PlayerBoxBits_green",
+            "PlayerBoxBits_red",
             "FactoryTiles_1",
             "FactoryTiles_2",
             "DemandTiles",
             "StartingTiles",
-            "ResourceCubes_SilkPaper",
-            "ResourceCubes_CoalCopper",
-            "MoneyAndContracts",
+            "UpgradeTiles",
+            "MoneyBox",
+            "SoloBox",
+            "LateGameFactoryBox",
+            "RoundMarkerBox",
+            "WorkerBox_white",
+            "WorkerBox_blue",
+            "WorkerBox_grey",
+            "WorkerBox_yellow",
+            "WorkerBox_red",
+            "WorkerBox_black",
+            "ResourceBox_silk",
+            "ResourceBox_paper",
+            "ResourceDoubleBox_coal",
+            "ResourceDoubleBox_copper",
         }
-        for name in expected:
-            self.assertIn(name, labels)
+        self.assertEqual(labels, expected)
 
     def test_automatic_spacers_generated(self) -> None:
         """Verify automatic spacers are generated from leftover volume."""
@@ -45,7 +61,7 @@ class TestNippon(unittest.TestCase):
         self.assertGreater(len(spacers), 0)
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
-        """Verify no piece overflows the physical box dimensions."""
+        """Verify no piece overflows the physical box dimensions or usable height."""
         build = project.build()
         tol = 1e-3
         for piece in build.pieces:
@@ -58,4 +74,9 @@ class TestNippon(unittest.TestCase):
             self.assertGreaterEqual(z, -tol, f"{piece.label} Z < 0")
             self.assertLessEqual(x + w, box_width + tol, f"{piece.label} overflows box width ({x+w} > {box_width})")
             self.assertLessEqual(y + l, box_length + tol, f"{piece.label} overflows box length ({y+l} > {box_length})")
+            self.assertLessEqual(
+                z + h,
+                usable_height + tol,
+                f"{piece.label} overflows usable height ({z + h} > {usable_height})",
+            )
             self.assertLessEqual(z + h, box_height + tol, f"{piece.label} overflows box height ({z+h} > {box_height})")

@@ -2,11 +2,13 @@
 # SPDX-License-Identifier: Apache-2.0
 """Maglev Metro: Volume 2 expansion organizer.
 
-Ports examples/maglev_metro_vol2.scad to the pyboxbuilder Project API.
-Organizes expansion cards, upgrade tiles, summon tiles, outback & ghost station hexes,
-nanobots, and metro tokens with automated spacers.
+Ports boxes/maglev_metro_vol2/maglev_metro_vol2.scad to the pyboxbuilder Project API.
+Organizes all 18 boxes/trays: expansion cards, upgrade tiles, extra loop/outback
+tiles, summon tiles, outback & ghost station hexes, metro tokens, 3 robot boxes,
+3 nanobot boxes, 4 commuter boxes, and player/middle spacers.
 """
 
+import math
 import sys
 from pathlib import Path
 
@@ -29,34 +31,86 @@ from pyboxbuilder import (
     run,
 )
 
-# ── Box & Board Dimensions ────────────────────────────────────────
+# ── Box & Board Dimensions (from maglev_metro_vol2.scad) ──────────
 box_width = 286.0
 box_length = 286.0
 box_height = 65.0
 
+player_board_length = 162.0
+player_board_thickness = 2.5
 game_board_thickness = 17.0
+game_board_base_width = 242.0
 game_board_base_thickness = 17.0
-player_board_thickness = 2.5 * 4.0  # 10.0mm
-usable_height = box_height - (game_board_thickness + player_board_thickness)  # 38.0mm
+
+# Both main game boards (17mm + 17mm = 34mm) sit at Z = 31..65mm;
+# 4 CommuterBoxes occupy the X = 0..44mm side strip beside the game board base (Z = 31..48mm).
+board_reserve = game_board_thickness + game_board_base_thickness  # 34.0mm
+usable_height = box_height - board_reserve  # 31.0mm
 
 wall_thickness = 3.0
 floor_thickness = 2.0
-lid_thickness = 2.0
+lid_thickness = 3.0
+
+# ── Component Dimensions ──────────────────────────────────────────
+factory_hex_width = 56.0
+factory_hex_radius = factory_hex_width / math.sqrt(3.0)  # ~32.3316mm
+
+upgrade_length = 42.0
+upgrade_thickness = 3.5
+upgrade_base_thickness = 1.5
+robot_length = 18.5
 
 card_width = 67.0
 card_length = 90.0
 
-card_box_width = wall_thickness * 2.0 + card_width    # 73.0mm
+# ── Derived Sub-Box Dimensions (exact .scad formulas) ─────────────
+commuter_box_width = box_width - game_board_base_width  # 44.0mm
+commuter_box_length = box_length / 4.0  # 71.5mm
+commuter_box_height = game_board_base_thickness  # 17.0mm
+
+extra_hex_boxes_width = box_width - factory_hex_radius * 3.5 - wall_thickness * 2.0  # ~166.84mm
+extra_hex_boxes_length = wall_thickness * 2.0 + factory_hex_width * 2.0 + 4.0  # 122.0mm
+extra_hex_boxes_height = (
+    box_height - player_board_thickness * 4.0 - game_board_thickness - game_board_base_thickness
+)  # 21.0mm
+
+card_box_width = wall_thickness * 2.0 + card_width  # 73.0mm
 card_box_length = wall_thickness * 2.0 + card_length  # 96.0mm
-card_box_height = usable_height / 2.0                 # 19.0mm
+card_box_height = (
+    floor_thickness + lid_thickness + upgrade_thickness * 3.0 - upgrade_base_thickness
+)  # 14.0mm
 
-upgrade_box_width = card_box_width                    # 73.0mm
-upgrade_box_length = 126.0                            # 42mm * 3
-upgrade_box_height = card_box_height
+upgrade_box_width = card_box_width  # 73.0mm
+upgrade_box_length = upgrade_length * 3.0  # 126.0mm
+upgrade_box_height = card_box_height  # 14.0mm
 
-tile_box_width = 110.0
-tile_box_length = 140.0
-tile_box_height = usable_height / 2.0
+summon_box_width = extra_hex_boxes_width  # ~166.84mm
+summon_box_length = box_length - extra_hex_boxes_length - upgrade_box_length  # 38.0mm
+summon_box_height = upgrade_box_height  # 14.0mm
+
+outback_ghost_tiles_box_width = wall_thickness + factory_hex_radius * 3.5  # ~116.16mm
+outback_ghost_tiles_box_length = wall_thickness + factory_hex_width * 4.0  # 227.0mm
+outback_ghost_tiles_box_height = usable_height  # 31.0mm
+
+metro_token_box_width = outback_ghost_tiles_box_width  # ~116.16mm
+metro_token_box_length = box_length - outback_ghost_tiles_box_length - 1.0  # 58.0mm
+metro_token_box_height = usable_height  # 31.0mm
+
+robot_box_width = extra_hex_boxes_width / 3.0  # ~55.61mm
+robot_box_length = robot_length * 3.2 + 1.0 + wall_thickness * 2.0  # 66.2mm
+robot_box_height = box_height - card_box_height - commuter_box_height - game_board_base_thickness  # 17.0mm
+
+nanobot_box_width = robot_box_width  # ~55.61mm
+nanobot_box_length = box_length - player_board_length - robot_box_length  # 57.8mm
+nanobot_box_height = robot_box_height  # 17.0mm
+
+player_board_spacer_width = extra_hex_boxes_width  # ~166.84mm
+player_board_spacer_length = player_board_length - extra_hex_boxes_length - 1.0  # 39.0mm
+player_board_spacer_height = extra_hex_boxes_height - card_box_height  # 7.0mm
+
+middle_spacer_width = extra_hex_boxes_width - upgrade_box_width - card_box_width  # ~20.84mm
+middle_spacer_length = upgrade_box_length  # 126.0mm
+middle_spacer_height = card_box_height  # 14.0mm
 
 project = Project(
     "MaglevMetroVol2",
@@ -65,98 +119,139 @@ project = Project(
     floor_thickness=floor_thickness,
     lid_thickness=lid_thickness,
     clearance_slack=0.0,
-    board_thickness=game_board_thickness + player_board_thickness,
+    board_thickness=board_reserve,
     generate_spacers=True,
     box_defaults={"expandable": False},
 )
 
 METRO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Expansion Cards Box ────────────────────────────────────────
-c_box = project.box(
-    BoxType.SLIDING,
-    "ExpansionCardsBox",
-    size=(card_box_width, card_box_length, card_box_height),
-    lid=LidBuilder(
-        text="Maps 2",
+
+def _lid(text: str, frame_color: str) -> LidBuilder:
+    return LidBuilder(
+        text=text,
         label_mode=LabelMode.FRAMED,
         pattern=METRO_PATTERN,
         text_color=Color("white"),
-        frame_color=Color("darkorange"),
-    ),
-)
-c_box.compartment(
-    "Cards",
-    cut=FingerCut.SCOOP,
-)
+        frame_color=Color(frame_color),
+    )
 
-# ── 2. Upgrade Tile Box ───────────────────────────────────────────
+
+# ── 1. Bottom Layer (Left Region: X=0..166.84, Z=0..14/21) ───────
+project.box(
+    BoxType.CAP,
+    "ExtraTilesBox",
+    size=(extra_hex_boxes_width, extra_hex_boxes_length, extra_hex_boxes_height),
+    position=(0.0, 0.0, 0.0),
+    lid=_lid("Tiles", "darkorange"),
+).compartment("LoopAndOutbackTiles", cut=FingerCut.SCOOP)
+
 u_box = project.box(
     BoxType.CAP,
     "UpgradeTileBox",
     size=(upgrade_box_width, upgrade_box_length, upgrade_box_height),
-    lid=LidBuilder(
-        text="Upgrades",
-        label_mode=LabelMode.FRAMED,
-        pattern=METRO_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("seagreen"),
-    ),
+    position=(0.0, extra_hex_boxes_length, 0.0),
+    lid=_lid("Upgrades", "seagreen"),
 )
 for slot in range(3):
-    u_box.compartment(
-        f"Upgrade_{slot + 1}",
-        length_ratio=1.0 / 3.0,
-        cut=FingerCut.SCOOP,
-    )
+    u_box.compartment(f"Upgrade_{slot + 1}", length_ratio=1.0 / 3.0, cut=FingerCut.SCOOP)
 
-# ── 3. Outback & Ghost Station Hex Tiles ──────────────────────────
-t_box = project.box(
+project.box(
+    BoxType.SLIDING,
+    "ExpansionCardsBox",
+    size=(card_box_width, card_box_length, card_box_height),
+    position=(upgrade_box_width, extra_hex_boxes_length, 0.0),
+    lid=_lid("Maps 2", "darkorange"),
+).compartment("Cards", cut=FingerCut.SCOOP)
+
+project.box(
+    BoxType.NO_LID,
+    "MiddleBoxSpacer",
+    size=(middle_spacer_width, middle_spacer_length, middle_spacer_height),
+    position=(upgrade_box_width + card_box_width, extra_hex_boxes_length, 0.0),
+    hollow=True,
+)
+
+s_box = project.box(
     BoxType.CAP,
-    "OutbackGhostTilesBox",
-    size=(tile_box_width, tile_box_length, tile_box_height),
-    lid=LidBuilder(
-        text="Outback & Ghost",
-        label_mode=LabelMode.FRAMED,
-        pattern=METRO_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkviolet"),
-    ),
+    "SummonBox",
+    size=(summon_box_width, summon_box_length, summon_box_height),
+    position=(0.0, extra_hex_boxes_length + upgrade_box_length, 0.0),
+    lid=_lid("Summons", "purple"),
 )
-t_box.compartment(
-    "OutbackHexes",
-    width_ratio=0.5,
-    cut=FingerCut.SCOOP,
-)
-t_box.compartment(
-    "GhostHexes",
-    width_ratio=0.5,
-    cut=FingerCut.SCOOP,
+s_box.compartment("Summon_1", width_ratio=0.5, cut=FingerCut.SCOOP)
+s_box.compartment("Summon_2", width_ratio=0.5, cut=FingerCut.SCOOP)
+
+# ── 2. Upper Layer (Left Region: Z=14..21/31) ────────────────────
+project.box(
+    BoxType.NO_LID,
+    "PlayerBoxSpacer",
+    size=(player_board_spacer_width, player_board_spacer_length, player_board_spacer_height),
+    position=(0.0, extra_hex_boxes_length, card_box_height),
+    hollow=True,
 )
 
-# ── 4. Metro Tokens & Nanobots ────────────────────────────────────
-tok_box = project.box(
+robot_specs = [
+    ("RobotBox_Silver", "silver", 0),
+    ("RobotBox_Gold", "gold", 1),
+    ("RobotBox_Orange", "orange", 2),
+]
+for label, color_name, idx in robot_specs:
+    project.box(
+        BoxType.CAP,
+        label,
+        size=(robot_box_width, robot_box_length, robot_box_height),
+        position=(robot_box_width * idx, player_board_length, card_box_height),
+        lid=_lid("Robots", color_name),
+    ).compartment("Robots", cut=FingerCut.SCOOP)
+
+nanobot_specs = [
+    ("NanobotBox_1", "darkorange", 0),
+    ("NanobotBox_2", "teal", 1),
+    ("NanobotBox_3", "royalblue", 2),
+]
+for label, color_name, idx in nanobot_specs:
+    project.box(
+        BoxType.CAP,
+        label,
+        size=(nanobot_box_width, nanobot_box_length, nanobot_box_height),
+        position=(nanobot_box_width * idx, player_board_length + robot_box_length, card_box_height),
+        lid=_lid("Nanobots", color_name),
+    ).compartment("Nanobots", cut=FingerCut.SCOOP)
+
+# ── 3. Right Column: Outback & Ghost Hexes + Metro Tokens ────────
+t_box = project.box(
+    BoxType.NO_LID,
+    "OutbackGhostTilesBox",
+    size=(outback_ghost_tiles_box_width, outback_ghost_tiles_box_length, outback_ghost_tiles_box_height),
+    position=(extra_hex_boxes_width, 0.0, 0.0),
+)
+t_box.compartment("OutbackHexes", width_ratio=0.5, cut=FingerCut.SCOOP)
+t_box.compartment("GhostHexes", width_ratio=0.5, cut=FingerCut.SCOOP)
+
+project.box(
     BoxType.CAP,
     "MetroTokenBox",
-    size=(tile_box_width, tile_box_length, tile_box_height),
-    lid=LidBuilder(
-        text="Tokens & Nanobots",
-        label_mode=LabelMode.FRAMED,
-        pattern=METRO_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("gold"),
-    ),
-)
-tok_box.compartment(
-    "Tickets",
-    width_ratio=0.5,
-    cut=FingerCut.SCOOP,
-)
-tok_box.compartment(
-    "Nanobots",
-    width_ratio=0.5,
-    cut=FingerCut.SCOOP,
-)
+    size=(metro_token_box_width, metro_token_box_length, metro_token_box_height),
+    position=(extra_hex_boxes_width, outback_ghost_tiles_box_length, 0.0),
+    lid=_lid("Metro", "royalblue"),
+).compartment("MetroTickets", cut=FingerCut.SCOOP)
+
+# ── 4. Side-of-Board Strip: 4 Commuter Boxes (X=0..44, Z=31..48) ─
+commuter_specs = [
+    ("CommuterBox_Pink", "pink", 0),
+    ("CommuterBox_Aqua", "aqua", 1),
+    ("CommuterBox_Coral", "coral", 2),
+    ("CommuterBox_Purple", "purple", 3),
+]
+for label, color_name, idx in commuter_specs:
+    project.box(
+        BoxType.CAP,
+        label,
+        size=(commuter_box_width, commuter_box_length, commuter_box_height),
+        position=(0.0, commuter_box_length * idx, usable_height),
+        lid=_lid("Commuter", color_name),
+    ).compartment("Commuters", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

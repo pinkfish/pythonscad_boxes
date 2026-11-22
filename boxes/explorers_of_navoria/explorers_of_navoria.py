@@ -2,9 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 """Explorers of Navoria board game organizer.
 
-Ports examples/explorers_of_navoria.scad to the pyboxbuilder Project API.
-Organizes player trading posts and explorers (Yellow, Purple, Black, Green),
-adventure cards, favor tiles, crafting tokens, and drawing bag with automated spacers.
+Ports boxes/explorers_of_navoria/explorers_of_navoria.scad to the pyboxbuilder
+Project API. Organizes 8 player boxes (4 trading-post boxes + 4 explorer-marker
+boxes for Green, Yellow, Purple, Black), favour tiles box, 3 sliding resource
+boxes (Swords, Apples, Crystals), adventure card box, and open drawing-bag tray.
 """
 
 import sys
@@ -41,23 +42,39 @@ wall_thickness = 3.0
 floor_thickness = 2.0
 lid_thickness = 2.0
 
-player_box_width = 98.0
-player_box_length = (box_length - 2.0) / 2.0  # 133.0mm
-player_box_height = usable_height / 2.0       # 28.0mm
-
+# ── Component Dimensions ──────────────────────────────────────────
 card_width = 68.0
 card_length = 92.0
-card_box_width = box_width - player_box_width - 2.0   # 111.0mm
-card_box_length = card_width + wall_thickness * 2.0   # 74.0mm
-card_box_height = usable_height                       # 56.0mm
+player_layout_thickness = 2.0
+player_layout_num = 4
+num_favour_tiles = 10
 
-favour_box_width = card_box_width                     # 111.0mm
+# ── Sub-Box Dimensions (matching explorers_of_navoria.scad) ───────
+player_box_width = 98.0
+player_box_length = (box_length - 2.0) / 2.0  # 133.0mm
+player_box_height = usable_height / 4.0  # 14.0mm
+
+favour_box_width = box_width - player_box_width - 1.5  # 111.5mm
 favour_box_length = 60.0
-favour_box_height = usable_height / 2.0               # 28.0mm
+favour_box_height = (
+    lid_thickness * 2.0 + player_layout_thickness * num_favour_tiles / 2.0 + 0.5
+)  # 14.5mm
 
-bag_box_width = card_box_width                        # 111.0mm
-bag_box_length = box_length - card_box_length - favour_box_length - 2.0  # 132.0mm
-bag_box_height = usable_height                        # 56.0mm
+stuff_box_width = favour_box_width / 3.0  # 37.167mm
+stuff_box_length = favour_box_length  # 60.0mm
+stuff_box_height = (
+    usable_height - favour_box_height - 1.0 - player_layout_thickness * player_layout_num
+)  # 32.5mm
+
+card_box_width = box_width - player_box_width - 2.0  # 111.0mm
+card_box_length = card_width + wall_thickness * 2.0 + 0.5  # 74.5mm
+card_box_height = (
+    usable_height - player_layout_thickness - 1.0 - player_layout_thickness * player_layout_num
+)  # 45.0mm
+
+bag_box_width = box_width - player_box_width - 2.0  # 111.0mm
+bag_box_length = box_length - stuff_box_length - 2.0 - card_box_length  # 131.5mm
+bag_box_height = card_box_height  # 45.0mm
 
 project = Project(
     "ExplorersOfNavoria",
@@ -68,43 +85,92 @@ project = Project(
     clearance_slack=0.0,
     board_thickness=board_thickness,
     generate_spacers=True,
+    box_defaults={"expandable": False},
 )
 
 NAVORIA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Player Boxes ───────────────────────────────────────────────
-player_factions = ["Yellow", "Purple", "Black", "Green"]
-player_colors = ["gold", "purple", "black", "forestgreen"]
+# ── Column 0: 8 Player Boxes (4 Trading Posts + 4 Explorers) ──────
+player_factions = [
+    ("Green", "forestgreen"),
+    ("Yellow", "gold"),
+    ("Purple", "purple"),
+    ("Black", "black"),
+]
 
-for faction, color_name in zip(player_factions, player_colors, strict=True):
-    p_box = project.box(
+for layer_idx, (faction, color_name) in enumerate(player_factions):
+    # Front stack: Trading Posts (PlayerBox*One)
+    project.box(
         BoxType.CAP,
-        f"PlayerBox_{faction}",
+        f"PlayerBox_{faction}_One",
         size=(player_box_width, player_box_length, player_box_height),
+        position=(0.0, 0.0, player_box_height * layer_idx),
         lid=LidBuilder(
-            text=faction,
+            text=f"{faction} Posts",
             label_mode=LabelMode.FRAMED,
             pattern=NAVORIA_PATTERN,
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
         ),
-    )
-    p_box.compartment(
-        "TradingPosts",
-        length_ratio=0.6,
-        cut=FingerCut.SCOOP,
-    )
-    p_box.compartment(
-        "Explorers",
-        length_ratio=0.4,
-        cut=FingerCut.SCOOP,
-    )
+    ).compartment("TradingPosts", cut=FingerCut.SCOOP)
 
-# ── 2. Adventure Cards Box ────────────────────────────────────────
+    # Back stack: Explorers & Turn Order Bird (PlayerBox*Two)
+    project.box(
+        BoxType.CAP,
+        f"PlayerBox_{faction}_Two",
+        size=(player_box_width, player_box_length, player_box_height),
+        position=(0.0, player_box_length, player_box_height * layer_idx),
+        lid=LidBuilder(
+            text=f"{faction} Explorers",
+            label_mode=LabelMode.FRAMED,
+            pattern=NAVORIA_PATTERN,
+            text_color=Color("black" if color_name == "gold" else "white"),
+            frame_color=Color(color_name),
+        ),
+    ).compartment("Explorers", cut=FingerCut.SCOOP)
+
+# ── Column 1 Front: Favour Box & 3 Stuff Boxes (Y = 0 .. 60) ──────
+favour_box = project.box(
+    BoxType.CAP,
+    "FavourBox",
+    size=(favour_box_width, favour_box_length, favour_box_height),
+    position=(player_box_width, 0.0, 0.0),
+    lid=LidBuilder(
+        text="Favours",
+        label_mode=LabelMode.FRAMED,
+        pattern=NAVORIA_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color("darkorange"),
+    ),
+)
+favour_box.compartment("FavoursLeft", width_ratio=0.5, cut=FingerCut.SCOOP)
+favour_box.compartment("FavoursRight", width_ratio=0.5, cut=FingerCut.SCOOP)
+
+for idx, (label, text, color_name) in enumerate([
+    ("StuffBox_Swords", "Swords", "slategray"),
+    ("StuffBox_Apples", "Apples", "crimson"),
+    ("StuffBox_Crystals", "Crystals", "deepskyblue"),
+]):
+    project.box(
+        BoxType.SLIDING,
+        label,
+        size=(stuff_box_width, stuff_box_length, stuff_box_height),
+        position=(player_box_width + stuff_box_width * idx, 0.0, favour_box_height),
+        lid=LidBuilder(
+            text=text,
+            label_mode=LabelMode.FRAMED,
+            pattern=NAVORIA_PATTERN,
+            text_color=Color("white"),
+            frame_color=Color(color_name),
+        ),
+    ).compartment("Tokens", cut=FingerCut.SCOOP)
+
+# ── Column 1 Middle: Adventure Cards Box (Y = 60 .. 134.5) ────────
 project.box(
     BoxType.SLIDING,
     "CardBox",
     size=(card_box_width, card_box_length, card_box_height),
+    position=(player_box_width, favour_box_length, 0.0),
     lid=LidBuilder(
         text="Cards",
         label_mode=LabelMode.FRAMED,
@@ -112,47 +178,15 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-    expandable=False,
-).compartment(
-    "AdventureCards",
-    cut=FingerCut.SCOOP,
-)
+).compartment("AdventureCards", cut=FingerCut.SCOOP)
 
-# ── 3. Favour & Token Trays ───────────────────────────────────────
-for tier in range(2):
-    f_box = project.box(
-        BoxType.CAP,
-        f"FavourBox_{tier + 1}",
-        size=(favour_box_width, favour_box_length, favour_box_height),
-        lid=LidBuilder(
-            text="Favour Tiles" if tier == 0 else "Tokens",
-            label_mode=LabelMode.FRAMED,
-            pattern=NAVORIA_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("darkorange"),
-        ),
-    )
-    f_box.compartment(
-        "Tiles",
-        cut=FingerCut.SCOOP,
-    )
-
-# ── 4. Drawing Bag & Large Bits ───────────────────────────────────
+# ── Column 1 Back: Open Drawing Bag Tray (Y = 134.5 .. 266) ───────
 project.box(
-    BoxType.CAP,
+    BoxType.NO_LID,
     "BagBox",
     size=(bag_box_width, bag_box_length, bag_box_height),
-    lid=LidBuilder(
-        text="Bag & Components",
-        label_mode=LabelMode.FRAMED,
-        pattern=NAVORIA_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("peru"),
-    ),
-).compartment(
-    "BagAndBits",
-    cut=FingerCut.SCOOP,
-)
+    position=(player_box_width, favour_box_length + card_box_length, 0.0),
+).compartment("BagAndBits", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ from boxes.biome.biome import (
     box_length,
     box_width,
     project,
+    usable_height,
 )
 
 
@@ -17,10 +18,10 @@ class TestBiome(unittest.TestCase):
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 10)
+        self.assertGreaterEqual(len(build.pieces), 45)
 
     def test_box_labels_present(self) -> None:
-        """Verify all essential box labels are generated."""
+        """Verify all 23 boxes from biome.scad are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
             "NestBox",
@@ -38,9 +39,16 @@ class TestBiome(unittest.TestCase):
             "Resource_Rabbits",
             "CardBox_MainDeck1",
             "CardBox_MainDeck2",
+            "CardBox_Starting",
+            "CardBox_Achievement",
+            "CardBox_ChangingCondition",
+            "CardBox_Legend",
+            "CardBox_PlantAnimalExtra",
+            "CardBox_BigBiome",
+            "SpinnerHolder",
+            "ExtraBitsBox",
         }
-        for name in expected:
-            self.assertIn(name, labels)
+        self.assertEqual(labels, expected)
 
     def test_automatic_spacers_generated(self) -> None:
         """Verify automatic spacers are generated from leftover volume."""
@@ -49,7 +57,7 @@ class TestBiome(unittest.TestCase):
         self.assertGreater(len(spacers), 0)
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
-        """Verify no piece overflows the physical box dimensions."""
+        """Verify no piece overflows the physical box dimensions or usable height."""
         build = project.build()
         tol = 1e-3
         for piece in build.pieces:
@@ -62,4 +70,9 @@ class TestBiome(unittest.TestCase):
             self.assertGreaterEqual(z, -tol, f"{piece.label} Z < 0")
             self.assertLessEqual(x + w, box_width + tol, f"{piece.label} overflows box width ({x+w} > {box_width})")
             self.assertLessEqual(y + l, box_length + tol, f"{piece.label} overflows box length ({y+l} > {box_length})")
+            self.assertLessEqual(
+                z + h,
+                usable_height + tol,
+                f"{piece.label} overflows usable height ({z + h} > {usable_height})",
+            )
             self.assertLessEqual(z + h, box_height + tol, f"{piece.label} overflows box height ({z+h} > {box_height})")
