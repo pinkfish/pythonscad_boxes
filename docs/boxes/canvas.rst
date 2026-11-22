@@ -6,28 +6,28 @@ Canvas (canvas)
 Canvas board game organizer.
 
 - **Source Script**: ``boxes/canvas/canvas.py``
-- **Game Box Dimensions**: ``200 × 250 × 50 mm`` (usable height ``35 mm`` with ``15 mm`` board storage)
-- **Boxes**: 7 sub-box(es), 2 spacer tray(s)
-- **Box Types Used**: :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+- **Game Box Dimensions**: ``200 × 250 × 50 mm``
+- **Boxes**: 7 sub-box(es)
+- **Box Types Used**: :ref:`BoxType.NO_LID <box-type-no-lid>`, :ref:`BoxType.CAP <box-type-cap>`
 
 Full Box Packing
 ----------------
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=76ef1d9c,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=ba75a0d2,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=beb7e8c9,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=2cbbcf28,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=9e58f2c3,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=11f25321,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=d6fcb6a3,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=db025150,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=650a0d4c,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=95ecdf9e,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=239b54e0,../_stl/boxes/canvas/CardTray_body.stl?v=7302526e,../_stl/boxes/canvas/CardTray_lid.stl?v=e4918032,../_stl/boxes/canvas/spacer_1.stl?v=6ff2dec8,../_stl/boxes/canvas/spacer_2.stl?v=fb86fdd9
+.. stl:: ../_stl/boxes/canvas/PlaymatDivider_body.stl?v=525f7fe7,../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=c4fab2e9,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=cb536451,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=810fde30,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=bbf51b44,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=8040d9fa,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=ee34d29a,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=fb0d8024,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=1c18c831,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=83885b9d,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=8e9d9449,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=70050afb,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=67714df8
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=76ef1d9c,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=ba75a0d2,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=beb7e8c9,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=2cbbcf28,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=9e58f2c3,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=11f25321,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=d6fcb6a3,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=db025150,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=650a0d4c,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=95ecdf9e,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=239b54e0,../_stl/boxes/canvas/CardTray_body.stl?v=7302526e,../_stl/boxes/canvas/CardTray_lid.stl?v=e4918032,../_stl/boxes/canvas/spacer_1.stl?v=6ff2dec8,../_stl/boxes/canvas/spacer_2.stl?v=fb86fdd9" download="Canvas_full_packing.stl">⬇ Download Full Box Packing STL (<code>Canvas_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/PlaymatDivider_body.stl?v=525f7fe7" data-stl-combine="../_stl/boxes/canvas/PlaymatDivider_body.stl?v=525f7fe7,../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=c4fab2e9,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=cb536451,../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=810fde30,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=bbf51b44,../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=8040d9fa,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=ee34d29a,../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=fb0d8024,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=1c18c831,../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=83885b9d,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=8e9d9449,../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=70050afb,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=67714df8" download="Canvas_full_packing.stl">⬇ Download Full Box Packing STL (<code>Canvas_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=1d5b1e88" download="Canvas_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Canvas_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=1d5b1e88" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=3cdb081c" download="Canvas_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Canvas_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=3cdb081c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=1d5b1e88" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=3cdb081c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -42,54 +42,63 @@ Parts Overview
      - Dimensions (W × L × H)
      - Packed Position
      - Compartments
+   * - :ref:`PlaymatDivider <box-canvas-playmatdivider>`
+     - :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - ``196 × 124 × 30 mm``
+     - ``(0, 0, 0)``
+     - 3
    * - :ref:`RibbonBox_Red <box-canvas-ribbonbox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``41 × 73 × 29 mm``
-     - ``(0, 62, 0)``
+     - ``73 × 41 × 29 mm``
+     - ``(0, 124, 0)``
      - 1
    * - :ref:`RibbonBox_Green <box-canvas-ribbonbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``41 × 73 × 29 mm``
-     - ``(0, 135, 0)``
+     - ``73 × 41 × 29 mm``
+     - ``(0, 165, 0)``
      - 1
    * - :ref:`RibbonBox_Grey <box-canvas-ribbonbox_grey>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``41 × 73 × 29 mm``
-     - ``(41, 62, 0)``
+     - ``73 × 41 × 29 mm``
+     - ``(0, 206, 0)``
      - 1
    * - :ref:`RibbonBox_Blue <box-canvas-ribbonbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``41 × 73 × 29 mm``
-     - ``(41, 135, 0)``
+     - ``73 × 41 × 29 mm``
+     - ``(123, 124, 0)``
      - 1
    * - :ref:`RibbonBox_Purple <box-canvas-ribbonbox_purple>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``41 × 73 × 29 mm``
-     - ``(82, 62, 0)``
+     - ``73 × 41 × 29 mm``
+     - ``(123, 165, 0)``
      - 1
    * - :ref:`RibbonBox_Palette <box-canvas-ribbonbox_palette>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``41 × 73 × 29 mm``
-     - ``(82, 135, 0)``
+     - ``73 × 41 × 29 mm``
+     - ``(123, 206, 0)``
      - 1
-   * - :ref:`CardTray <box-canvas-cardtray>`
-     - :ref:`BoxType.CAP <box-type-cap>`
-     - ``196 × 62 × 30 mm``
-     - ``(0, 0, 0)``
-     - 2
-   * - :ref:`spacer_1 <spacer-canvas-spacer_1>`
-     - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``200 × 188 × 35 mm``
-     - ``(0, 62, 0)``
-     - —
-   * - :ref:`spacer_2 <spacer-canvas-spacer_2>`
-     - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``77 × 62 × 5 mm``
-     - ``(123, 0, 30)``
-     - —
 
 Individual Boxes & Parts
 ------------------------
+
+.. _box-canvas-playmatdivider:
+
+PlaymatDivider
+^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
+- **Outer Dimensions**: ``196 × 124 × 30 mm``
+- **Packed Position**: ``(0, 0, 0)``
+- **Compartments (3)**: ``ArtCards_Left`` (W=38%), ``PlaymatChannel`` (W=25%), ``ArtCards_Right`` (W=38%)
+
+**Part: PlaymatDivider Body**
+
+.. stl:: ../_stl/boxes/canvas/PlaymatDivider_body.stl?v=525f7fe7
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/canvas/PlaymatDivider_body.stl?v=525f7fe7" download="PlaymatDivider_body.stl">⬇ Download PlaymatDivider Body STL (<code>PlaymatDivider_body.stl</code>)</a></p>
 
 .. _box-canvas-ribbonbox_red:
 
@@ -97,36 +106,36 @@ RibbonBox_Red
 ^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``41 × 73 × 29 mm``
-- **Packed Position**: ``(0, 62, 0)``
+- **Outer Dimensions**: ``73 × 41 × 29 mm``
+- **Packed Position**: ``(0, 124, 0)``
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=76ef1d9c
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=c4fab2e9,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=cb536451
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=76ef1d9c" download="RibbonBox_Red_assembled.stl">⬇ Download Assembled RibbonBox_Red STL (<code>RibbonBox_Red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=c4fab2e9" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=c4fab2e9,../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=cb536451" download="RibbonBox_Red_assembled.stl">⬇ Download Assembled RibbonBox_Red STL (<code>RibbonBox_Red_assembled.stl</code>)</a></p>
 
 **Part: RibbonBox_Red Body**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=c4fab2e9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=a8cbd480" download="RibbonBox_Red_body.stl">⬇ Download RibbonBox_Red Body STL (<code>RibbonBox_Red_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_body.stl?v=c4fab2e9" download="RibbonBox_Red_body.stl">⬇ Download RibbonBox_Red Body STL (<code>RibbonBox_Red_body.stl</code>)</a></p>
 
 **Part: RibbonBox_Red Lid**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=76ef1d9c
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=cb536451
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=76ef1d9c" download="RibbonBox_Red_lid.stl">⬇ Download RibbonBox_Red Lid STL (<code>RibbonBox_Red_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Red_lid.stl?v=cb536451" download="RibbonBox_Red_lid.stl">⬇ Download RibbonBox_Red Lid STL (<code>RibbonBox_Red_lid.stl</code>)</a></p>
 
 .. _box-canvas-ribbonbox_green:
 
@@ -134,36 +143,36 @@ RibbonBox_Green
 ^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``41 × 73 × 29 mm``
-- **Packed Position**: ``(0, 135, 0)``
+- **Outer Dimensions**: ``73 × 41 × 29 mm``
+- **Packed Position**: ``(0, 165, 0)``
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=ba75a0d2,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=beb7e8c9
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=810fde30,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=bbf51b44
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=ba75a0d2" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=ba75a0d2,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=beb7e8c9" download="RibbonBox_Green_assembled.stl">⬇ Download Assembled RibbonBox_Green STL (<code>RibbonBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=810fde30" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=810fde30,../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=bbf51b44" download="RibbonBox_Green_assembled.stl">⬇ Download Assembled RibbonBox_Green STL (<code>RibbonBox_Green_assembled.stl</code>)</a></p>
 
 **Part: RibbonBox_Green Body**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=ba75a0d2
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=810fde30
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=ba75a0d2" download="RibbonBox_Green_body.stl">⬇ Download RibbonBox_Green Body STL (<code>RibbonBox_Green_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Green_body.stl?v=810fde30" download="RibbonBox_Green_body.stl">⬇ Download RibbonBox_Green Body STL (<code>RibbonBox_Green_body.stl</code>)</a></p>
 
 **Part: RibbonBox_Green Lid**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=beb7e8c9
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=bbf51b44
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=beb7e8c9" download="RibbonBox_Green_lid.stl">⬇ Download RibbonBox_Green Lid STL (<code>RibbonBox_Green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Green_lid.stl?v=bbf51b44" download="RibbonBox_Green_lid.stl">⬇ Download RibbonBox_Green Lid STL (<code>RibbonBox_Green_lid.stl</code>)</a></p>
 
 .. _box-canvas-ribbonbox_grey:
 
@@ -171,36 +180,36 @@ RibbonBox_Grey
 ^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``41 × 73 × 29 mm``
-- **Packed Position**: ``(41, 62, 0)``
+- **Outer Dimensions**: ``73 × 41 × 29 mm``
+- **Packed Position**: ``(0, 206, 0)``
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Grey — Body + Lid)**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=2cbbcf28,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=9e58f2c3
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=8040d9fa,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=ee34d29a
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=2cbbcf28" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=2cbbcf28,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=9e58f2c3" download="RibbonBox_Grey_assembled.stl">⬇ Download Assembled RibbonBox_Grey STL (<code>RibbonBox_Grey_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=8040d9fa" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=8040d9fa,../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=ee34d29a" download="RibbonBox_Grey_assembled.stl">⬇ Download Assembled RibbonBox_Grey STL (<code>RibbonBox_Grey_assembled.stl</code>)</a></p>
 
 **Part: RibbonBox_Grey Body**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=2cbbcf28
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=8040d9fa
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=2cbbcf28" download="RibbonBox_Grey_body.stl">⬇ Download RibbonBox_Grey Body STL (<code>RibbonBox_Grey_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Grey_body.stl?v=8040d9fa" download="RibbonBox_Grey_body.stl">⬇ Download RibbonBox_Grey Body STL (<code>RibbonBox_Grey_body.stl</code>)</a></p>
 
 **Part: RibbonBox_Grey Lid**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=9e58f2c3
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=ee34d29a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=9e58f2c3" download="RibbonBox_Grey_lid.stl">⬇ Download RibbonBox_Grey Lid STL (<code>RibbonBox_Grey_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Grey_lid.stl?v=ee34d29a" download="RibbonBox_Grey_lid.stl">⬇ Download RibbonBox_Grey Lid STL (<code>RibbonBox_Grey_lid.stl</code>)</a></p>
 
 .. _box-canvas-ribbonbox_blue:
 
@@ -208,36 +217,36 @@ RibbonBox_Blue
 ^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``41 × 73 × 29 mm``
-- **Packed Position**: ``(41, 135, 0)``
+- **Outer Dimensions**: ``73 × 41 × 29 mm``
+- **Packed Position**: ``(123, 124, 0)``
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=11f25321,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=d6fcb6a3
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=fb0d8024,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=1c18c831
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=11f25321" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=11f25321,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=d6fcb6a3" download="RibbonBox_Blue_assembled.stl">⬇ Download Assembled RibbonBox_Blue STL (<code>RibbonBox_Blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=fb0d8024" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=fb0d8024,../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=1c18c831" download="RibbonBox_Blue_assembled.stl">⬇ Download Assembled RibbonBox_Blue STL (<code>RibbonBox_Blue_assembled.stl</code>)</a></p>
 
 **Part: RibbonBox_Blue Body**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=11f25321
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=fb0d8024
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=11f25321" download="RibbonBox_Blue_body.stl">⬇ Download RibbonBox_Blue Body STL (<code>RibbonBox_Blue_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Blue_body.stl?v=fb0d8024" download="RibbonBox_Blue_body.stl">⬇ Download RibbonBox_Blue Body STL (<code>RibbonBox_Blue_body.stl</code>)</a></p>
 
 **Part: RibbonBox_Blue Lid**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=d6fcb6a3
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=1c18c831
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=d6fcb6a3" download="RibbonBox_Blue_lid.stl">⬇ Download RibbonBox_Blue Lid STL (<code>RibbonBox_Blue_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Blue_lid.stl?v=1c18c831" download="RibbonBox_Blue_lid.stl">⬇ Download RibbonBox_Blue Lid STL (<code>RibbonBox_Blue_lid.stl</code>)</a></p>
 
 .. _box-canvas-ribbonbox_purple:
 
@@ -245,36 +254,36 @@ RibbonBox_Purple
 ^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``41 × 73 × 29 mm``
-- **Packed Position**: ``(82, 62, 0)``
+- **Outer Dimensions**: ``73 × 41 × 29 mm``
+- **Packed Position**: ``(123, 165, 0)``
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Purple — Body + Lid)**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=db025150,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=650a0d4c
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=83885b9d,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=8e9d9449
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=db025150" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=db025150,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=650a0d4c" download="RibbonBox_Purple_assembled.stl">⬇ Download Assembled RibbonBox_Purple STL (<code>RibbonBox_Purple_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=83885b9d" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=83885b9d,../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=8e9d9449" download="RibbonBox_Purple_assembled.stl">⬇ Download Assembled RibbonBox_Purple STL (<code>RibbonBox_Purple_assembled.stl</code>)</a></p>
 
 **Part: RibbonBox_Purple Body**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=db025150
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=83885b9d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=db025150" download="RibbonBox_Purple_body.stl">⬇ Download RibbonBox_Purple Body STL (<code>RibbonBox_Purple_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Purple_body.stl?v=83885b9d" download="RibbonBox_Purple_body.stl">⬇ Download RibbonBox_Purple Body STL (<code>RibbonBox_Purple_body.stl</code>)</a></p>
 
 **Part: RibbonBox_Purple Lid**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=650a0d4c
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=8e9d9449
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=650a0d4c" download="RibbonBox_Purple_lid.stl">⬇ Download RibbonBox_Purple Lid STL (<code>RibbonBox_Purple_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Purple_lid.stl?v=8e9d9449" download="RibbonBox_Purple_lid.stl">⬇ Download RibbonBox_Purple Lid STL (<code>RibbonBox_Purple_lid.stl</code>)</a></p>
 
 .. _box-canvas-ribbonbox_palette:
 
@@ -282,105 +291,33 @@ RibbonBox_Palette
 ^^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``41 × 73 × 29 mm``
-- **Packed Position**: ``(82, 135, 0)``
+- **Outer Dimensions**: ``73 × 41 × 29 mm``
+- **Packed Position**: ``(123, 206, 0)``
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Palette — Body + Lid)**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=95ecdf9e,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=239b54e0
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=70050afb,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=67714df8
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=95ecdf9e" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=95ecdf9e,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=239b54e0" download="RibbonBox_Palette_assembled.stl">⬇ Download Assembled RibbonBox_Palette STL (<code>RibbonBox_Palette_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=70050afb" data-stl-combine="../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=70050afb,../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=67714df8" download="RibbonBox_Palette_assembled.stl">⬇ Download Assembled RibbonBox_Palette STL (<code>RibbonBox_Palette_assembled.stl</code>)</a></p>
 
 **Part: RibbonBox_Palette Body**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=95ecdf9e
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=70050afb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=95ecdf9e" download="RibbonBox_Palette_body.stl">⬇ Download RibbonBox_Palette Body STL (<code>RibbonBox_Palette_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Palette_body.stl?v=70050afb" download="RibbonBox_Palette_body.stl">⬇ Download RibbonBox_Palette Body STL (<code>RibbonBox_Palette_body.stl</code>)</a></p>
 
 **Part: RibbonBox_Palette Lid**
 
-.. stl:: ../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=239b54e0
+.. stl:: ../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=67714df8
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=239b54e0" download="RibbonBox_Palette_lid.stl">⬇ Download RibbonBox_Palette Lid STL (<code>RibbonBox_Palette_lid.stl</code>)</a></p>
-
-.. _box-canvas-cardtray:
-
-CardTray
-^^^^^^^^
-
-- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``196 × 62 × 30 mm``
-- **Packed Position**: ``(0, 0, 0)``
-- **Compartments (2)**: ``ArtCards_Left`` (W=50%), ``ArtCards_Right`` (W=50%)
-
-**Assembled Box (CardTray — Body + Lid)**
-
-.. stl:: ../_stl/boxes/canvas/CardTray_body.stl?v=7302526e,../_stl/boxes/canvas/CardTray_lid.stl?v=e4918032
-   :height: 320px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/canvas/CardTray_body.stl?v=7302526e" data-stl-combine="../_stl/boxes/canvas/CardTray_body.stl?v=7302526e,../_stl/boxes/canvas/CardTray_lid.stl?v=e4918032" download="CardTray_assembled.stl">⬇ Download Assembled CardTray STL (<code>CardTray_assembled.stl</code>)</a></p>
-
-**Part: CardTray Body**
-
-.. stl:: ../_stl/boxes/canvas/CardTray_body.stl?v=7302526e
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/canvas/CardTray_body.stl?v=7302526e" download="CardTray_body.stl">⬇ Download CardTray Body STL (<code>CardTray_body.stl</code>)</a></p>
-
-**Part: CardTray Lid**
-
-.. stl:: ../_stl/boxes/canvas/CardTray_lid.stl?v=e4918032
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/canvas/CardTray_lid.stl?v=e4918032" download="CardTray_lid.stl">⬇ Download CardTray Lid STL (<code>CardTray_lid.stl</code>)</a></p>
-
-Spacer Trays
-------------
-
-.. _spacer-canvas-spacer_1:
-
-spacer_1
-^^^^^^^^
-
-- **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``200 × 188 × 35 mm``
-- **Packed Position**: ``(0, 62, 0)``
-
-.. stl:: ../_stl/boxes/canvas/spacer_1.stl?v=6ff2dec8
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/canvas/spacer_1.stl?v=6ff2dec8" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
-
-.. _spacer-canvas-spacer_2:
-
-spacer_2
-^^^^^^^^
-
-- **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``77 × 62 × 5 mm``
-- **Packed Position**: ``(123, 0, 30)``
-
-.. stl:: ../_stl/boxes/canvas/spacer_2.stl?v=fb86fdd9
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/canvas/spacer_2.stl?v=fb86fdd9" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/canvas/RibbonBox_Palette_lid.stl?v=67714df8" download="RibbonBox_Palette_lid.stl">⬇ Download RibbonBox_Palette Lid STL (<code>RibbonBox_Palette_lid.stl</code>)</a></p>

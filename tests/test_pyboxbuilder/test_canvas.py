@@ -29,16 +29,26 @@ class TestCanvas(unittest.TestCase):
             "RibbonBox_Blue",
             "RibbonBox_Purple",
             "RibbonBox_Palette",
-            "CardTray",
+            "PlaymatDivider",
         }
         for name in expected:
             self.assertIn(name, labels)
 
-    def test_automatic_spacers_generated(self) -> None:
-        """Verify automatic spacers are generated from leftover volume."""
+    def test_center_playmat_channel_kept_open(self) -> None:
+        """Verify the 50mm center channel down the middle is open for the rolled playmat."""
         build = project.build()
         spacers = [p for p in build.pieces if "spacer" in p.label.lower() or p.kind == "spacer"]
-        self.assertGreater(len(spacers), 0)
+        self.assertEqual(len(spacers), 0)
+        for piece in build.pieces:
+            if piece.position is None or piece.size is None or piece.label == "PlaymatDivider":
+                continue
+            x, _y, _z = piece.position
+            w, _l, _h = piece.size
+            # Ribbon boxes must stay strictly outside the X = 73..123mm playmat channel
+            self.assertTrue(
+                x + w <= 73.0 + 1e-3 or x >= 123.0 - 1e-3,
+                f"{piece.label} intrudes into center playmat channel ({x}..{x + w})",
+            )
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
         """Verify no piece overflows the physical box dimensions."""
