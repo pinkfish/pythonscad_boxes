@@ -22,6 +22,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -29,6 +31,12 @@ from pyboxbuilder import (
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "march_of_the_ants" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -101,7 +109,67 @@ project = Project(
 ANT_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
 # ── Row 0: Territory Hex Tiles Box (Y = 0 .. 103.5) ───────────────
-t_box = project.box(
+tile_inner_width = tile_box_width - wall_thickness * 2.0  # 188.0mm
+tile_inner_length = tile_box_length - wall_thickness * 2.0  # 97.495mm
+tile_inner_height = tile_box_height - floor_thickness - lid_thickness  # 55.0mm
+
+
+def _tile_box_elements() -> tuple[CompartmentElement, ...]:
+    """Build 2 large hex tile wells + 4 corner finger bites + center trough."""
+    elems: list[CompartmentElement] = []
+    hex_w = tile_width + 0.4  # 84.4mm flat-to-flat -> 97.457mm point-to-point <= 97.495mm
+    hex_h = hex_w / math.cos(math.radians(30.0))
+    hex_y = (tile_inner_length - hex_h) / 2.0
+    bite_d = 26.0  # r = 13mm
+    centers_x = (8.0 + tile_width / 2.0, 8.0 + tile_width * 1.5 + 3.0)
+    for idx, cx in enumerate(centers_x):
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.HEXAGON,
+                size=(hex_w, hex_w),
+                rotation=30.0,
+                offset=(cx - hex_w / 2.0, hex_y),
+                depth=tile_inner_height,
+                pull_out=False,
+                label=f"HexTileStack_{idx + 1}",
+            )
+        )
+        # Two diagonal finger bites per hex stack
+        for b_idx, (bx, by) in enumerate(
+            (
+                (cx + tile_width / 4.0, tile_inner_length / 2.0 + tile_radius * 0.75),
+                (cx - tile_width / 4.0, tile_inner_length / 2.0 - tile_radius * 0.75),
+            )
+        ):
+            clamped_x = max(bite_d / 2.0, min(tile_inner_width - bite_d / 2.0, bx))
+            clamped_y = max(bite_d / 2.0, min(tile_inner_length - bite_d / 2.0, by))
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(bite_d, bite_d),
+                    offset=(clamped_x - bite_d / 2.0, clamped_y - bite_d / 2.0),
+                    depth=tile_inner_height,
+                    bottom_rounding=6.0,
+                    pull_out=False,
+                    label=f"HexTileBite_{idx + 1}_{b_idx + 1}",
+                )
+            )
+    # Center finger access trough between the two hex stacks
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(30.0, tile_width / 2.0),
+            offset=(8.0 + tile_width - 14.0, tile_radius * 4.0 / 7.0),
+            corner_radius=5.0,
+            depth=tile_inner_height,
+            pull_out=False,
+            label="HexTileCenterTrough",
+        )
+    )
+    return tuple(elems)
+
+
+project.box(
     BoxType.CAP,
     "HexTileBox",
     size=(tile_box_width, tile_box_length, tile_box_height),
@@ -113,9 +181,12 @@ t_box = project.box(
         text_color=Color("white"),
         frame_color=Color("saddlebrown"),
     ),
+).compartment(
+    "HexTiles",
+    size=(tile_inner_width, tile_inner_length),
+    position=(0.0, 0.0),
+    elements=_tile_box_elements(),
 )
-t_box.compartment("Hexes_Left", width_ratio=0.5, cut=FingerCut.SCOOP)
-t_box.compartment("Hexes_Right", width_ratio=0.5, cut=FingerCut.SCOOP)
 
 # ── Row 1: Cards, Minions Hexes, Food & Predators (Y = 103.5 .. 201.5) ──
 row1_y = tile_box_length
@@ -148,6 +219,50 @@ project.box(
     ),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
+mm_inner_width = mm_box_width - wall_thickness * 2.0  # 115.0mm
+mm_inner_length = mm_box_length - wall_thickness * 2.0  # 92.0mm
+mm_inner_height = mm_box_height - floor_thickness - lid_thickness  # 12.0mm
+
+
+def _mm_hex_elements() -> tuple[CompartmentElement, ...]:
+    """Build 1 rotated hex tile well + 2 diagonal finger scoops."""
+    hex_w = tile_width + 0.5  # 84.5mm flat-to-flat (Y) -> 97.57mm point-to-point (X)
+    hex_x_span = hex_w / math.cos(math.radians(30.0))
+    cx = mm_inner_width / 2.0
+    cy = mm_inner_length / 2.0
+    bite_d = 24.0
+    return (
+        CompartmentElement(
+            shape=ElementShape.HEXAGON,
+            size=(hex_w, hex_w),
+            rotation=0.0,
+            offset=(cx - hex_x_span / 2.0, cy - hex_w / 2.0),
+            depth=mm_inner_height,
+            pull_out=False,
+            label="ExpansionHexStack",
+        ),
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(bite_d, bite_d),
+            offset=(
+                min(mm_inner_width - bite_d, cx + tile_radius * 0.75 - bite_d / 2.0),
+                min(mm_inner_length - bite_d, cy + tile_width / 4.0 - bite_d / 2.0),
+            ),
+            depth=mm_inner_height,
+            pull_out=False,
+            label="ExpansionHexBite_1",
+        ),
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(bite_d, bite_d),
+            offset=(max(0.0, cx - tile_radius * 0.75 - bite_d / 2.0), max(0.0, cy - tile_width / 4.0 - bite_d / 2.0)),
+            depth=mm_inner_height,
+            pull_out=False,
+            label="ExpansionHexBite_2",
+        ),
+    )
+
+
 project.box(
     BoxType.CAP,
     "MinionsOfTheMeadowBox",
@@ -160,9 +275,107 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("olive"),
     ),
-).compartment("ExpansionHexes", cut=FingerCut.SCOOP)
+).compartment(
+    "ExpansionHexes",
+    size=(mm_inner_width, mm_inner_length),
+    position=(0.0, 0.0),
+    elements=_mm_hex_elements(),
+)
 
-food_box = project.box(
+
+def _food_box_elements() -> tuple[CompartmentElement, ...]:
+    """Build 12 stepped circular food wells, 3 centipede stacks + bites, day/night disc, active leaf."""
+    elems: list[CompartmentElement] = []
+    food_d = 14.0
+    col0_depth = 3.0 * food_token_thickness + 0.5  # 11.0mm
+    col1_depth = 2.0 * food_token_thickness + 0.5  # 7.5mm
+    for i in range(6):
+        cy = food_d / 2.0 + i * (food_d + 1.5)
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(food_d, food_d),
+                offset=(0.0, cy - food_d / 2.0),
+                depth=col0_depth,
+                pull_out=False,
+                label=f"FoodWellA_{i + 1}",
+            )
+        )
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(food_d, food_d),
+                offset=(food_d + 5.0, cy - food_d / 2.0),
+                depth=col1_depth,
+                pull_out=False,
+                label=f"FoodWellB_{i + 1}",
+            )
+        )
+        # Finger trough connecting paired food wells
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.RECT,
+                size=(food_d + 5.0, 10.0),
+                offset=(food_d / 2.0, cy - 5.0),
+                depth=col1_depth,
+                pull_out=False,
+                label=f"FoodTrough_{i + 1}",
+            )
+        )
+    # 3 Centipede token stacks + right finger bites
+    cent_d = 26.0
+    cent_depth = tile_thickness * 5.0 + 1.0  # 11.0mm
+    for i in range(3):
+        cy = cent_d / 2.0 + i * (cent_d + 7.0)
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(cent_d, cent_d),
+                offset=(40.0, cy - cent_d / 2.0),
+                depth=cent_depth,
+                pull_out=False,
+                label=f"CentipedeStack_{i + 1}",
+            )
+        )
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(15.0, 15.0),
+                offset=(40.0 + cent_d - 7.5, cy - 7.5),
+                depth=cent_depth,
+                bottom_rounding=4.0,
+                pull_out=False,
+                label=f"CentipedeBite_{i + 1}",
+            )
+        )
+    # Day/Night circular token (front-right)
+    dn_d = 37.0
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(dn_d, dn_d),
+            offset=(mm_inner_width - dn_d - 1.5, 3.5),
+            depth=tile_thickness + 0.5,
+            pull_out=True,
+            label="DayNightToken",
+        )
+    )
+    # Active Player Leaf silhouette (back-right)
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "leaf.svg"),
+            size=(22.42, 38.0),
+            offset=(84.0, 48.0),
+            depth=tile_thickness + 0.5,
+            pull_out=True,
+            label="ActivePlayerLeaf",
+        )
+    )
+    return tuple(elems)
+
+
+project.box(
     BoxType.CAP,
     "FoodTokensBox",
     size=(food_box_width, food_box_length, food_box_height),
@@ -174,9 +387,14 @@ food_box = project.box(
         text_color=Color("white"),
         frame_color=Color("forestgreen"),
     ),
+).compartment(
+    "FoodAndTokens",
+    size=(mm_inner_width, mm_inner_length),
+    position=(0.0, 0.0),
+    elements=_food_box_elements(),
 )
-food_box.compartment("FoodTokens", width_ratio=0.45, cut=FingerCut.SCOOP)
-food_box.compartment("CentipedeAndDayNight", width_ratio=0.55, cut=FingerCut.SCOOP)
+
+major_token_thickness = 10.0
 
 project.box(
     BoxType.CAP,
@@ -190,10 +408,166 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkred"),
     ),
-).compartment("Predators", cut=FingerCut.SCOOP)
+).compartment(
+    "Predators",
+    size=(mm_inner_width, mm_inner_length),
+    position=(0.0, 0.0),
+    elements=(
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "spider.svg"),
+            size=(34.5, 35.5),
+            offset=(3.0, 19.0),
+            depth=major_token_thickness,
+            pull_out=True,
+            label="Spider",
+        ),
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "mantis.svg"),
+            size=(37.0, 32.0),
+            offset=(39.0, 2.0),
+            depth=major_token_thickness,
+            pull_out=True,
+            label="Mantis",
+        ),
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "ladybird.svg"),
+            size=(22.0, 38.0),
+            offset=(89.0, 18.0),
+            depth=major_token_thickness,
+            pull_out=True,
+            label="Ladybird",
+        ),
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "fungus.svg"),
+            size=(34.0, 31.0),
+            offset=(12.0, 56.0),
+            depth=major_token_thickness,
+            pull_out=True,
+            label="Fungus",
+        ),
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "centipede.svg"),
+            size=(35.0, 39.0),
+            offset=(52.0, 52.0),
+            depth=major_token_thickness,
+            pull_out=True,
+            label="Centipede",
+        ),
+    ),
+)
 
 # ── Row 2: 5 Player Boxes & Aphid Box (Y = 201.5 .. 274.0) ────────
 row2_y = row1_y + card_box_length
+player_inner_width = player_box_width - wall_thickness * 2.0  # 91.0mm
+player_inner_length = player_box_length - wall_thickness * 2.0  # 66.505mm
+
+
+def _player_box_elements() -> tuple[CompartmentElement, ...]:
+    """Build T-shaped 36-cube tray, player marker disc, major worker silhouette, 3 major worker tokens."""
+    cube = 9.0
+    elems: list[CompartmentElement] = [
+        # 10x3 + 6x1 = 36 ant cubes
+        CompartmentElement(
+            shape=ElementShape.RECT,
+            size=(cube * 10.0 + 1.0, cube * 3.0 + 1.0),
+            offset=(0.0, 0.0),
+            depth=cube + 0.5,
+            pull_out=False,
+            label="CubesMain",
+        ),
+        CompartmentElement(
+            shape=ElementShape.RECT,
+            size=(cube * 6.0 + 1.0, cube + 1.0),
+            offset=(cube * 2.0, cube * 3.0 + 0.5),
+            depth=cube + 0.5,
+            pull_out=False,
+            label="CubesExt",
+        ),
+        # Player marker disc
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(15.0, 15.0),
+            offset=(player_inner_width - 15.0, cube * 3.0 + 1.5),
+            depth=3.5,
+            pull_out=True,
+            label="PlayerMarker",
+        ),
+        # Major worker silhouette
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "major_worker.svg"),
+            size=(15.0, 25.0),
+            offset=(0.0, cube * 3.0 + 3.0),
+            depth=major_token_thickness,
+            pull_out=True,
+            label="MajorWorker",
+        ),
+    ]
+    # 3 Major worker circular token wells
+    mwt_d = 24.0
+    for i in range(3):
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(mwt_d, mwt_d),
+                offset=(16.0 + i * (mwt_d + 1.0), player_inner_length - mwt_d),
+                depth=tile_thickness + 0.5,
+                pull_out=True,
+                label=f"MajorWorkerToken_{i + 1}",
+            )
+        )
+    return tuple(elems)
+
+
+def _aphid_box_elements() -> tuple[CompartmentElement, ...]:
+    """Build 4x9 = 36 aphid silhouette wells (disc + bump) under a top grab recess."""
+    elems: list[CompartmentElement] = [
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(player_inner_width - 0.1, 62.0),
+            offset=(0.05, 2.25),
+            corner_radius=4.0,
+            depth=3.0,
+            pull_out=False,
+            label="AphidGrabRecess",
+        )
+    ]
+    aphid_d = 9.0
+    aphid_len = 10.5
+    aphid_bump_w = 4.0
+    aphid_depth = 9.5
+    for j in range(4):
+        cy = 10.0 + j * (aphid_len + 4.0)
+        for i in range(9):
+            cx = 5.0 + (aphid_d + 1.1) * i
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(aphid_d, aphid_d),
+                    offset=(cx - aphid_d / 2.0, cy - aphid_d / 2.0),
+                    depth=aphid_depth,
+                    pull_out=False,
+                    label=f"AphidBody_{j}_{i}",
+                )
+            )
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.ROUNDED_RECT,
+                    size=(aphid_bump_w, aphid_len / 2.0),
+                    offset=(cx - aphid_bump_w / 2.0, cy + (aphid_len - aphid_d)),
+                    corner_radius=1.5,
+                    depth=aphid_depth,
+                    pull_out=False,
+                    label=f"AphidBump_{j}_{i}",
+                )
+            )
+    return tuple(elems)
+
 
 player_placements = [
     ("Red", "darkred", 0.0, 0),
@@ -204,7 +578,7 @@ player_placements = [
 ]
 
 for p_name, color_name, x_pos, layer in player_placements:
-    p_box = project.box(
+    project.box(
         BoxType.CAP,
         f"PlayerBox_{p_name}",
         size=(player_box_width, player_box_length, player_box_height),
@@ -216,8 +590,12 @@ for p_name, color_name, x_pos, layer in player_placements:
             text_color=Color("black" if color_name == "gold" else "white"),
             frame_color=Color(color_name),
         ),
+    ).compartment(
+        "CubesAndWorkers",
+        size=(player_inner_width, player_inner_length),
+        position=(0.0, 0.0),
+        elements=_player_box_elements(),
     )
-    p_box.compartment("CubesAndWorkers", cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.CAP,
@@ -231,7 +609,12 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("yellowgreen"),
     ),
-).compartment("Aphids", cut=FingerCut.SCOOP)
+).compartment(
+    "Aphids",
+    size=(player_inner_width, player_inner_length),
+    position=(0.0, 0.0),
+    elements=_aphid_box_elements(),
+)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

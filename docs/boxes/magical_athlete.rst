@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/magical_athlete/AthleteCardsBox_body.stl?v=8db9180b,../_stl/boxes/magical_athlete/AthleteCardsBox_lid.stl?v=c7cd7535,../_stl/boxes/magical_athlete/DiceBox_body.stl?v=2d2d8742,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=89fa3ee7,../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=706965e7,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=d2d4699f,../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=c91592f5,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=4462f0e2,../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=aa8fb6cc,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=d316a89f,../_stl/boxes/magical_athlete/BigBabyBox_body.stl?v=e1feb987,../_stl/boxes/magical_athlete/BigBabyBox_lid.stl?v=cc7d5ca5,../_stl/boxes/magical_athlete/AwardTokensBox_1_body.stl?v=1028de2c,../_stl/boxes/magical_athlete/AwardTokensBox_1_lid.stl?v=949361a3,../_stl/boxes/magical_athlete/AwardTokensBox_3_body.stl?v=d23f3d16,../_stl/boxes/magical_athlete/AwardTokensBox_3_lid.stl?v=a1b69651
+.. stl:: ../_stl/boxes/magical_athlete/AthleteCardsBox_body.stl?v=8db9180b,../_stl/boxes/magical_athlete/AthleteCardsBox_lid.stl?v=c7cd7535,../_stl/boxes/magical_athlete/DiceBox_body.stl?v=422844a6,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=89fa3ee7,../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=edf0584b,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=d2d4699f,../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=17240706,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=4462f0e2,../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=bad52eb5,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=d316a89f,../_stl/boxes/magical_athlete/BigBabyBox_body.stl?v=e1feb987,../_stl/boxes/magical_athlete/BigBabyBox_lid.stl?v=cc7d5ca5,../_stl/boxes/magical_athlete/AwardTokensBox_1_body.stl?v=1028de2c,../_stl/boxes/magical_athlete/AwardTokensBox_1_lid.stl?v=949361a3,../_stl/boxes/magical_athlete/AwardTokensBox_3_body.stl?v=d23f3d16,../_stl/boxes/magical_athlete/AwardTokensBox_3_lid.stl?v=a1b69651
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/AthleteCardsBox_body.stl?v=8db9180b" data-stl-combine="../_stl/boxes/magical_athlete/AthleteCardsBox_body.stl?v=8db9180b,../_stl/boxes/magical_athlete/AthleteCardsBox_lid.stl?v=c7cd7535,../_stl/boxes/magical_athlete/DiceBox_body.stl?v=2d2d8742,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=89fa3ee7,../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=706965e7,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=d2d4699f,../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=c91592f5,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=4462f0e2,../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=aa8fb6cc,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=d316a89f,../_stl/boxes/magical_athlete/BigBabyBox_body.stl?v=e1feb987,../_stl/boxes/magical_athlete/BigBabyBox_lid.stl?v=cc7d5ca5,../_stl/boxes/magical_athlete/AwardTokensBox_1_body.stl?v=1028de2c,../_stl/boxes/magical_athlete/AwardTokensBox_1_lid.stl?v=949361a3,../_stl/boxes/magical_athlete/AwardTokensBox_3_body.stl?v=d23f3d16,../_stl/boxes/magical_athlete/AwardTokensBox_3_lid.stl?v=a1b69651" download="MagicalAthlete_full_packing.stl">⬇ Download Full Box Packing STL (<code>MagicalAthlete_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/AthleteCardsBox_body.stl?v=8db9180b" data-stl-combine="../_stl/boxes/magical_athlete/AthleteCardsBox_body.stl?v=8db9180b,../_stl/boxes/magical_athlete/AthleteCardsBox_lid.stl?v=c7cd7535,../_stl/boxes/magical_athlete/DiceBox_body.stl?v=422844a6,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=89fa3ee7,../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=edf0584b,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=d2d4699f,../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=17240706,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=4462f0e2,../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=bad52eb5,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=d316a89f,../_stl/boxes/magical_athlete/BigBabyBox_body.stl?v=e1feb987,../_stl/boxes/magical_athlete/BigBabyBox_lid.stl?v=cc7d5ca5,../_stl/boxes/magical_athlete/AwardTokensBox_1_body.stl?v=1028de2c,../_stl/boxes/magical_athlete/AwardTokensBox_1_lid.stl?v=949361a3,../_stl/boxes/magical_athlete/AwardTokensBox_3_body.stl?v=d23f3d16,../_stl/boxes/magical_athlete/AwardTokensBox_3_lid.stl?v=a1b69651" download="MagicalAthlete_full_packing.stl">⬇ Download Full Box Packing STL (<code>MagicalAthlete_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -61,12 +61,12 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``184 × 175 × 19 mm``
      - ``(0, 0, 0)``
-     - 4
+     - 1
    * - :ref:`AthletePiecesBox_2 <box-magical_athlete-athletepiecesbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``184 × 175 × 19 mm``
      - ``(0, 0, 19)``
-     - 4
+     - 1
    * - :ref:`BigBabyBox <box-magical_athlete-bigbabybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``96 × 46 × 38 mm``
@@ -131,25 +131,25 @@ DiceBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``88 × 73 × 26 mm``
 - **Packed Position**: ``(96, 175, 0)``
-- **Compartments (1)**: ``Dice`` (full interior)
+- **Compartments (1)**: ``Dice`` (82 × 67 mm, 7 elements)
 
 **Assembled Box (DiceBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/magical_athlete/DiceBox_body.stl?v=2d2d8742,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=89fa3ee7
+.. stl:: ../_stl/boxes/magical_athlete/DiceBox_body.stl?v=422844a6,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=89fa3ee7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/DiceBox_body.stl?v=2d2d8742" data-stl-combine="../_stl/boxes/magical_athlete/DiceBox_body.stl?v=2d2d8742,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=89fa3ee7" download="DiceBox_assembled.stl">⬇ Download Assembled DiceBox STL (<code>DiceBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/DiceBox_body.stl?v=422844a6" data-stl-combine="../_stl/boxes/magical_athlete/DiceBox_body.stl?v=422844a6,../_stl/boxes/magical_athlete/DiceBox_lid.stl?v=89fa3ee7" download="DiceBox_assembled.stl">⬇ Download Assembled DiceBox STL (<code>DiceBox_assembled.stl</code>)</a></p>
 
 **Part: DiceBox Body**
 
-.. stl:: ../_stl/boxes/magical_athlete/DiceBox_body.stl?v=2d2d8742
+.. stl:: ../_stl/boxes/magical_athlete/DiceBox_body.stl?v=422844a6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/DiceBox_body.stl?v=2d2d8742" download="DiceBox_body.stl">⬇ Download DiceBox Body STL (<code>DiceBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/DiceBox_body.stl?v=422844a6" download="DiceBox_body.stl">⬇ Download DiceBox Body STL (<code>DiceBox_body.stl</code>)</a></p>
 
 **Part: DiceBox Lid**
 
@@ -168,25 +168,25 @@ AwardMedalBox
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``88 × 73 × 12 mm``
 - **Packed Position**: ``(96, 175, 26)``
-- **Compartments (1)**: ``Medals`` (full interior)
+- **Compartments (1)**: ``Medals`` (78.6 × 63.6 mm, 11 elements)
 
 **Assembled Box (AwardMedalBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=706965e7,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=d2d4699f
+.. stl:: ../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=edf0584b,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=d2d4699f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=706965e7" data-stl-combine="../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=706965e7,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=d2d4699f" download="AwardMedalBox_assembled.stl">⬇ Download Assembled AwardMedalBox STL (<code>AwardMedalBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=edf0584b" data-stl-combine="../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=edf0584b,../_stl/boxes/magical_athlete/AwardMedalBox_lid.stl?v=d2d4699f" download="AwardMedalBox_assembled.stl">⬇ Download Assembled AwardMedalBox STL (<code>AwardMedalBox_assembled.stl</code>)</a></p>
 
 **Part: AwardMedalBox Body**
 
-.. stl:: ../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=706965e7
+.. stl:: ../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=edf0584b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=706965e7" download="AwardMedalBox_body.stl">⬇ Download AwardMedalBox Body STL (<code>AwardMedalBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/AwardMedalBox_body.stl?v=edf0584b" download="AwardMedalBox_body.stl">⬇ Download AwardMedalBox Body STL (<code>AwardMedalBox_body.stl</code>)</a></p>
 
 **Part: AwardMedalBox Lid**
 
@@ -205,25 +205,25 @@ AthletePiecesBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``184 × 175 × 19 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Compartments (4)**: ``AthleteSlot_1`` (W=25%), ``AthleteSlot_2`` (W=25%), ``AthleteSlot_3`` (W=25%), ``AthleteSlot_4`` (W=25%)
+- **Compartments (1)**: ``AthletePieces_1`` (178 × 169 mm, 22 elements)
 
 **Assembled Box (AthletePiecesBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=c91592f5,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=4462f0e2
+.. stl:: ../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=17240706,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=4462f0e2
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=c91592f5" data-stl-combine="../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=c91592f5,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=4462f0e2" download="AthletePiecesBox_1_assembled.stl">⬇ Download Assembled AthletePiecesBox_1 STL (<code>AthletePiecesBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=17240706" data-stl-combine="../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=17240706,../_stl/boxes/magical_athlete/AthletePiecesBox_1_lid.stl?v=4462f0e2" download="AthletePiecesBox_1_assembled.stl">⬇ Download Assembled AthletePiecesBox_1 STL (<code>AthletePiecesBox_1_assembled.stl</code>)</a></p>
 
 **Part: AthletePiecesBox_1 Body**
 
-.. stl:: ../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=c91592f5
+.. stl:: ../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=17240706
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=c91592f5" download="AthletePiecesBox_1_body.stl">⬇ Download AthletePiecesBox_1 Body STL (<code>AthletePiecesBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/AthletePiecesBox_1_body.stl?v=17240706" download="AthletePiecesBox_1_body.stl">⬇ Download AthletePiecesBox_1 Body STL (<code>AthletePiecesBox_1_body.stl</code>)</a></p>
 
 **Part: AthletePiecesBox_1 Lid**
 
@@ -242,25 +242,25 @@ AthletePiecesBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``184 × 175 × 19 mm``
 - **Packed Position**: ``(0, 0, 19)``
-- **Compartments (4)**: ``AthleteSlot_1`` (W=25%), ``AthleteSlot_2`` (W=25%), ``AthleteSlot_3`` (W=25%), ``AthleteSlot_4`` (W=25%)
+- **Compartments (1)**: ``AthletePieces_2`` (178 × 169 mm, 15 elements)
 
 **Assembled Box (AthletePiecesBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=aa8fb6cc,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=d316a89f
+.. stl:: ../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=bad52eb5,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=d316a89f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=aa8fb6cc" data-stl-combine="../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=aa8fb6cc,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=d316a89f" download="AthletePiecesBox_2_assembled.stl">⬇ Download Assembled AthletePiecesBox_2 STL (<code>AthletePiecesBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=bad52eb5" data-stl-combine="../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=bad52eb5,../_stl/boxes/magical_athlete/AthletePiecesBox_2_lid.stl?v=d316a89f" download="AthletePiecesBox_2_assembled.stl">⬇ Download Assembled AthletePiecesBox_2 STL (<code>AthletePiecesBox_2_assembled.stl</code>)</a></p>
 
 **Part: AthletePiecesBox_2 Body**
 
-.. stl:: ../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=aa8fb6cc
+.. stl:: ../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=bad52eb5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=aa8fb6cc" download="AthletePiecesBox_2_body.stl">⬇ Download AthletePiecesBox_2 Body STL (<code>AthletePiecesBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/magical_athlete/AthletePiecesBox_2_body.stl?v=bad52eb5" download="AthletePiecesBox_2_body.stl">⬇ Download AthletePiecesBox_2 Body STL (<code>AthletePiecesBox_2_body.stl</code>)</a></p>
 
 **Part: AthletePiecesBox_2 Lid**
 

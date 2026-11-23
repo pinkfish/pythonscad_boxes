@@ -23,6 +23,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -30,6 +32,12 @@ from pyboxbuilder import (
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "biome" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -264,6 +272,150 @@ project.box(
 ).compartment("Spinner", cut=FingerCut.SCOOP)
 
 # ── Column 4: Extra Bits Box (X = 255 .. 284) ─────────────────────
+# SlipoverBox interior is reduced by outer slipover lid wall + clearance (9.4mm total)
+extra_bits_inner_width = 19.6
+extra_bits_inner_length = 274.6
+
+player_cube = 9.0
+other_token_thickness = 6.5
+crescent_diameter = 16.0
+crescent_height = 12.05
+leaf_well_width = 11.0
+leaf_well_length = 29.5
+die_size = 17.0
+coin_well_diameter = min(26.0, extra_bits_inner_width - 0.6)  # 19.0mm (clamped to slipover interior)
+coin_thickness = 3.0
+
+
+def _extra_bits_elements() -> tuple[CompartmentElement, ...]:
+    """Build custom stepped token/cube/coin/die wells matching ExtraBitsBox in biome.scad."""
+    cx = extra_bits_inner_width / 2.0  # 9.8mm
+    trough_w = extra_bits_inner_width - 1.6  # 18.0mm
+    elems: list[CompartmentElement] = []
+
+    # Phase & year cubes (9x9mm, depth 9.5mm) + shared upper finger trough (depth 5.5mm)
+    cube_depth = player_cube + 0.5
+    for idx, cube_cy in enumerate((15.0, 30.0), start=1):
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.RECT,
+                size=(player_cube, player_cube),
+                offset=(cx - player_cube / 2.0, cube_cy - player_cube / 2.0),
+                depth=cube_depth,
+                pull_out=False,
+                label=f"PhaseYearCube_{idx}",
+            )
+        )
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(trough_w, 36.0),
+            offset=(cx - trough_w / 2.0, 22.5 - 18.0),
+            depth=cube_depth - 4.0,
+            corner_radius=6.0,
+            bottom_rounding=2.0,
+            pull_out=False,
+            label="PhaseYearFingerTrough",
+        )
+    )
+
+    # Coin well (depth 3.5mm) + top/bottom circular finger bites
+    coin_cy = extra_bits_inner_length / 2.0  # 137.3mm
+    coin_depth = coin_thickness + 0.5
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(coin_well_diameter, coin_well_diameter),
+            offset=(cx - coin_well_diameter / 2.0, coin_cy - coin_well_diameter / 2.0),
+            depth=coin_depth,
+            pull_out=False,
+            label="Coin",
+        )
+    )
+    coin_bite_d = 16.0
+    for side_idx, sign in enumerate((-1.0, 1.0), start=1):
+        bite_cy = coin_cy + sign * (coin_well_diameter / 2.0)
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(coin_bite_d, coin_bite_d),
+                offset=(cx - coin_bite_d / 2.0, bite_cy - coin_bite_d / 2.0),
+                depth=coin_depth,
+                bottom_rounding=1.5,
+                pull_out=False,
+                label=f"CoinBite_{side_idx}",
+            )
+        )
+
+    # Season crescent token (SVG) + Start-player leaf token (SVG) + shared finger channel
+    season_cy = extra_bits_inner_length / 2.0 + 35.0  # 172.3mm
+    leaf_cy = season_cy + 25.0  # 197.3mm
+    token_depth = other_token_thickness + 0.5
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "crescent.svg"),
+            size=(crescent_diameter, crescent_height),
+            offset=(cx - crescent_diameter / 2.0, season_cy - crescent_height / 2.0),
+            depth=token_depth,
+            pull_out=False,
+            label="SeasonCrescentToken",
+        )
+    )
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "leaf.svg"),
+            size=(leaf_well_width, leaf_well_length),
+            offset=(cx - leaf_well_width / 2.0, leaf_cy - leaf_well_length / 2.0),
+            depth=token_depth,
+            pull_out=False,
+            label="StartPlayerLeafToken",
+        )
+    )
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(trough_w, 56.0),
+            offset=(cx - trough_w / 2.0, (season_cy + 20.0) - 28.0),
+            depth=other_token_thickness / 2.0,
+            corner_radius=6.0,
+            bottom_rounding=1.5,
+            pull_out=False,
+            label="SeasonLeafFingerTrough",
+        )
+    )
+
+    # Die well (17x17mm, depth 17.5mm) + upper finger trough (depth 9.0mm)
+    die_cy = extra_bits_inner_length - 30.0  # 244.6mm
+    die_depth = die_size + 0.5
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(die_size, die_size),
+            offset=(cx - die_size / 2.0, die_cy - die_size / 2.0),
+            depth=die_depth,
+            corner_radius=1.0,
+            pull_out=False,
+            label="Die",
+        )
+    )
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(trough_w, 34.0),
+            offset=(cx - trough_w / 2.0, die_cy - 17.0),
+            depth=die_depth - die_size / 2.0,
+            corner_radius=6.0,
+            bottom_rounding=3.0,
+            pull_out=False,
+            label="DieFingerTrough",
+        )
+    )
+
+    return tuple(elems)
+
+
 extra_bits = project.box(
     BoxType.SLIPOVER,
     "ExtraBitsBox",
@@ -277,7 +429,12 @@ extra_bits = project.box(
         frame_color=Color("olivedrab"),
     ),
 )
-extra_bits.compartment("CubesCoinTokensDie", cut=FingerCut.SCOOP)
+extra_bits.compartment(
+    "CubesCoinTokensDie",
+    size=(extra_bits_inner_width, extra_bits_inner_length),
+    position=(0.0, 0.0),
+    elements=_extra_bits_elements(),
+)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

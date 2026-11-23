@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 17.5" width="13mm" height="17.5mm">
+  <!-- Earth player leaf teardrop token silhouette (13mm x 17.5mm) -->
+  <path fill="#000000" d="
+    M 6.30,0.10
+    A 0.25,0.25 0 0,1 6.70,0.10
+    L 11.79,7.22
+    A 6.5,6.5 0 1,1 1.21,7.22
+    Z"/>
+</svg>

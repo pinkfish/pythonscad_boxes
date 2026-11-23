@@ -20,6 +20,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -63,6 +65,52 @@ project = Project(
 CASCADERO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
 # ── 1. Player Envoy Boxes (4 players) ─────────────────────────────
+first_width = 40.0
+player_well_radius = 10.0
+player_inner_width = player_width - wall_thickness * 2.0      # 101.0mm
+player_inner_length = player_length - wall_thickness * 2.0    # 101.0mm
+player_inner_height = section_height - floor_thickness - lid_thickness  # 22.0mm
+
+
+def _player_box_elements() -> tuple[CompartmentElement, ...]:
+    """2 side-by-side front rounded wells + 1 full-width back rounded well (cascadero.scad)."""
+    front_well_w = (player_inner_width - wall_thickness) / 2.0  # 49.5mm
+    back_y = first_width + wall_thickness  # 42.0mm
+    back_l = player_inner_length - back_y  # 59.0mm
+    return (
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(front_well_w, first_width),
+            offset=(0.0, 0.0),
+            depth=player_inner_height,
+            corner_radius=player_well_radius,
+            bottom_rounding=player_well_radius,
+            pull_out=False,
+            label="Markers_1",
+        ),
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(front_well_w, first_width),
+            offset=(front_well_w + wall_thickness, 0.0),
+            depth=player_inner_height,
+            corner_radius=player_well_radius,
+            bottom_rounding=player_well_radius,
+            pull_out=False,
+            label="Markers_2",
+        ),
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(player_inner_width, back_l),
+            offset=(0.0, back_y),
+            depth=player_inner_height,
+            corner_radius=player_well_radius,
+            bottom_rounding=player_well_radius,
+            pull_out=False,
+            label="Envoys",
+        ),
+    )
+
+
 player_colors = ["red", "gold", "forestgreen", "royalblue"]
 for idx, color_name in enumerate(player_colors):
     p_box = project.box(
@@ -78,14 +126,10 @@ for idx, color_name in enumerate(player_colors):
         ),
     )
     p_box.compartment(
-        "Envoys",
-        length_ratio=0.6,
-        cut=FingerCut.SCOOP,
-    )
-    p_box.compartment(
-        "Markers",
-        length_ratio=0.4,
-        cut=FingerCut.SCOOP,
+        "PlayerWells",
+        size=(player_inner_width, player_inner_length),
+        position=(0.0, 0.0),
+        elements=_player_box_elements(),
     )
 
 # ── 2. Herald, Farmer & Seal Boxes ────────────────────────────────

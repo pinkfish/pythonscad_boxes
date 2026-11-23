@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 12.05" width="16mm" height="12.05mm">
+  <!-- Biome crescent season token silhouette (16mm x 12.05mm) -->
+  <path fill="#000000" d="
+    M 1.10,12.05
+    A 8.0,8.0 0 1,1 14.90,12.05
+    A 7.5,7.5 0 0,0 1.10,12.05
+    Z"/>
+</svg>

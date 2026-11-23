@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/earth/CardBox_Flora_body.stl?v=7da5e6e5,../_stl/boxes/earth/CardBox_Flora_lid.stl?v=53d68ce6,../_stl/boxes/earth/CardBox_Terrain_body.stl?v=eb2c5cad,../_stl/boxes/earth/CardBox_Terrain_lid.stl?v=638dfbd1,../_stl/boxes/earth/CardBox_Events_body.stl?v=170b35d0,../_stl/boxes/earth/CardBox_Events_lid.stl?v=d38ac0dc,../_stl/boxes/earth/CardBox_Abundance_body.stl?v=d4236675,../_stl/boxes/earth/CardBox_Abundance_lid.stl?v=212a0b3e,../_stl/boxes/earth/EarthCardBoxSmall_body.stl?v=7d255415,../_stl/boxes/earth/EarthCardBoxSmall_lid.stl?v=0892159d,../_stl/boxes/earth/CompostBox_1_body.stl?v=eea96fcc,../_stl/boxes/earth/CompostBox_1_lid.stl?v=1413b2f0,../_stl/boxes/earth/CompostBox_2_body.stl?v=f641103e,../_stl/boxes/earth/CompostBox_2_lid.stl?v=ff28e477,../_stl/boxes/earth/SeedBox_body.stl?v=416dc566,../_stl/boxes/earth/SeedBox_lid.stl?v=15f2d5f0,../_stl/boxes/earth/TopSpacedBox_body.stl?v=27524cc7,../_stl/boxes/earth/EcosystemCardBox_body.stl?v=bfd1b084,../_stl/boxes/earth/EcosystemCardBox_lid.stl?v=f477cf98,../_stl/boxes/earth/FaunaCardBox_body.stl?v=1a65c4d5,../_stl/boxes/earth/FaunaCardBox_lid.stl?v=8303063b,../_stl/boxes/earth/IslandCardBox_body.stl?v=c0f7cfed,../_stl/boxes/earth/IslandCardBox_lid.stl?v=bcca6a6a,../_stl/boxes/earth/ClimateCardBox_body.stl?v=87cf6e91,../_stl/boxes/earth/ClimateCardBox_lid.stl?v=70f4f48f,../_stl/boxes/earth/SoloCardBox_body.stl?v=2db3d7c9,../_stl/boxes/earth/SoloCardBox_lid.stl?v=b52745b3,../_stl/boxes/earth/SeasonCardBox_body.stl?v=11c4794f,../_stl/boxes/earth/SeasonCardBox_lid.stl?v=16ed25fb,../_stl/boxes/earth/AbundanceOtherCardBox_body.stl?v=41a30c97,../_stl/boxes/earth/AbundanceOtherCardBox_lid.stl?v=93435b5e,../_stl/boxes/earth/StartBox_body.stl?v=3b9fdcf9,../_stl/boxes/earth/StartBox_lid.stl?v=e469a3ee,../_stl/boxes/earth/PlayerBox_Red_body.stl?v=0d6ddfcf,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=b90f82c0,../_stl/boxes/earth/PlayerBox_Green_body.stl?v=7faae5b3,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=b459401a,../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=09d881db,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=b2adea84,../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=9e9e73d3,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=394e7145,../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=b93a42dd,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=fc75b691,../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=63c0a559,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=bceef876,../_stl/boxes/earth/CanopyBox_body.stl?v=36b95620,../_stl/boxes/earth/CanopyBox_lid.stl?v=2a3834dc,../_stl/boxes/earth/ScorePadBox_body.stl?v=6c97d57d,../_stl/boxes/earth/SproutBox_body.stl?v=e2c76559,../_stl/boxes/earth/SproutBox_lid.stl?v=f34558b6,../_stl/boxes/earth/spacer_1.stl?v=8c619614
+.. stl:: ../_stl/boxes/earth/CardBox_Flora_body.stl?v=7da5e6e5,../_stl/boxes/earth/CardBox_Flora_lid.stl?v=53d68ce6,../_stl/boxes/earth/CardBox_Terrain_body.stl?v=eb2c5cad,../_stl/boxes/earth/CardBox_Terrain_lid.stl?v=638dfbd1,../_stl/boxes/earth/CardBox_Events_body.stl?v=170b35d0,../_stl/boxes/earth/CardBox_Events_lid.stl?v=d38ac0dc,../_stl/boxes/earth/CardBox_Abundance_body.stl?v=d4236675,../_stl/boxes/earth/CardBox_Abundance_lid.stl?v=212a0b3e,../_stl/boxes/earth/EarthCardBoxSmall_body.stl?v=7d255415,../_stl/boxes/earth/EarthCardBoxSmall_lid.stl?v=0892159d,../_stl/boxes/earth/CompostBox_1_body.stl?v=eea96fcc,../_stl/boxes/earth/CompostBox_1_lid.stl?v=1413b2f0,../_stl/boxes/earth/CompostBox_2_body.stl?v=f641103e,../_stl/boxes/earth/CompostBox_2_lid.stl?v=ff28e477,../_stl/boxes/earth/SeedBox_body.stl?v=416dc566,../_stl/boxes/earth/SeedBox_lid.stl?v=15f2d5f0,../_stl/boxes/earth/TopSpacedBox_body.stl?v=27524cc7,../_stl/boxes/earth/EcosystemCardBox_body.stl?v=bfd1b084,../_stl/boxes/earth/EcosystemCardBox_lid.stl?v=f477cf98,../_stl/boxes/earth/FaunaCardBox_body.stl?v=1a65c4d5,../_stl/boxes/earth/FaunaCardBox_lid.stl?v=8303063b,../_stl/boxes/earth/IslandCardBox_body.stl?v=c0f7cfed,../_stl/boxes/earth/IslandCardBox_lid.stl?v=bcca6a6a,../_stl/boxes/earth/ClimateCardBox_body.stl?v=87cf6e91,../_stl/boxes/earth/ClimateCardBox_lid.stl?v=70f4f48f,../_stl/boxes/earth/SoloCardBox_body.stl?v=2db3d7c9,../_stl/boxes/earth/SoloCardBox_lid.stl?v=b52745b3,../_stl/boxes/earth/SeasonCardBox_body.stl?v=11c4794f,../_stl/boxes/earth/SeasonCardBox_lid.stl?v=16ed25fb,../_stl/boxes/earth/AbundanceOtherCardBox_body.stl?v=41a30c97,../_stl/boxes/earth/AbundanceOtherCardBox_lid.stl?v=93435b5e,../_stl/boxes/earth/StartBox_body.stl?v=8702bf1b,../_stl/boxes/earth/StartBox_lid.stl?v=e469a3ee,../_stl/boxes/earth/PlayerBox_Red_body.stl?v=347a678e,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=b90f82c0,../_stl/boxes/earth/PlayerBox_Green_body.stl?v=e90438bd,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=b459401a,../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=03b0a0c7,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=b2adea84,../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=87570421,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=394e7145,../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=60813c75,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=fc75b691,../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=37697817,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=bceef876,../_stl/boxes/earth/CanopyBox_body.stl?v=36b95620,../_stl/boxes/earth/CanopyBox_lid.stl?v=2a3834dc,../_stl/boxes/earth/ScorePadBox_body.stl?v=6c97d57d,../_stl/boxes/earth/SproutBox_body.stl?v=e2c76559,../_stl/boxes/earth/SproutBox_lid.stl?v=f34558b6,../_stl/boxes/earth/spacer_1.stl?v=8c619614
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/CardBox_Flora_body.stl?v=7da5e6e5" data-stl-combine="../_stl/boxes/earth/CardBox_Flora_body.stl?v=7da5e6e5,../_stl/boxes/earth/CardBox_Flora_lid.stl?v=53d68ce6,../_stl/boxes/earth/CardBox_Terrain_body.stl?v=eb2c5cad,../_stl/boxes/earth/CardBox_Terrain_lid.stl?v=638dfbd1,../_stl/boxes/earth/CardBox_Events_body.stl?v=170b35d0,../_stl/boxes/earth/CardBox_Events_lid.stl?v=d38ac0dc,../_stl/boxes/earth/CardBox_Abundance_body.stl?v=d4236675,../_stl/boxes/earth/CardBox_Abundance_lid.stl?v=212a0b3e,../_stl/boxes/earth/EarthCardBoxSmall_body.stl?v=7d255415,../_stl/boxes/earth/EarthCardBoxSmall_lid.stl?v=0892159d,../_stl/boxes/earth/CompostBox_1_body.stl?v=eea96fcc,../_stl/boxes/earth/CompostBox_1_lid.stl?v=1413b2f0,../_stl/boxes/earth/CompostBox_2_body.stl?v=f641103e,../_stl/boxes/earth/CompostBox_2_lid.stl?v=ff28e477,../_stl/boxes/earth/SeedBox_body.stl?v=416dc566,../_stl/boxes/earth/SeedBox_lid.stl?v=15f2d5f0,../_stl/boxes/earth/TopSpacedBox_body.stl?v=27524cc7,../_stl/boxes/earth/EcosystemCardBox_body.stl?v=bfd1b084,../_stl/boxes/earth/EcosystemCardBox_lid.stl?v=f477cf98,../_stl/boxes/earth/FaunaCardBox_body.stl?v=1a65c4d5,../_stl/boxes/earth/FaunaCardBox_lid.stl?v=8303063b,../_stl/boxes/earth/IslandCardBox_body.stl?v=c0f7cfed,../_stl/boxes/earth/IslandCardBox_lid.stl?v=bcca6a6a,../_stl/boxes/earth/ClimateCardBox_body.stl?v=87cf6e91,../_stl/boxes/earth/ClimateCardBox_lid.stl?v=70f4f48f,../_stl/boxes/earth/SoloCardBox_body.stl?v=2db3d7c9,../_stl/boxes/earth/SoloCardBox_lid.stl?v=b52745b3,../_stl/boxes/earth/SeasonCardBox_body.stl?v=11c4794f,../_stl/boxes/earth/SeasonCardBox_lid.stl?v=16ed25fb,../_stl/boxes/earth/AbundanceOtherCardBox_body.stl?v=41a30c97,../_stl/boxes/earth/AbundanceOtherCardBox_lid.stl?v=93435b5e,../_stl/boxes/earth/StartBox_body.stl?v=3b9fdcf9,../_stl/boxes/earth/StartBox_lid.stl?v=e469a3ee,../_stl/boxes/earth/PlayerBox_Red_body.stl?v=0d6ddfcf,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=b90f82c0,../_stl/boxes/earth/PlayerBox_Green_body.stl?v=7faae5b3,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=b459401a,../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=09d881db,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=b2adea84,../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=9e9e73d3,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=394e7145,../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=b93a42dd,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=fc75b691,../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=63c0a559,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=bceef876,../_stl/boxes/earth/CanopyBox_body.stl?v=36b95620,../_stl/boxes/earth/CanopyBox_lid.stl?v=2a3834dc,../_stl/boxes/earth/ScorePadBox_body.stl?v=6c97d57d,../_stl/boxes/earth/SproutBox_body.stl?v=e2c76559,../_stl/boxes/earth/SproutBox_lid.stl?v=f34558b6,../_stl/boxes/earth/spacer_1.stl?v=8c619614" download="Earth_full_packing.stl">⬇ Download Full Box Packing STL (<code>Earth_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/CardBox_Flora_body.stl?v=7da5e6e5" data-stl-combine="../_stl/boxes/earth/CardBox_Flora_body.stl?v=7da5e6e5,../_stl/boxes/earth/CardBox_Flora_lid.stl?v=53d68ce6,../_stl/boxes/earth/CardBox_Terrain_body.stl?v=eb2c5cad,../_stl/boxes/earth/CardBox_Terrain_lid.stl?v=638dfbd1,../_stl/boxes/earth/CardBox_Events_body.stl?v=170b35d0,../_stl/boxes/earth/CardBox_Events_lid.stl?v=d38ac0dc,../_stl/boxes/earth/CardBox_Abundance_body.stl?v=d4236675,../_stl/boxes/earth/CardBox_Abundance_lid.stl?v=212a0b3e,../_stl/boxes/earth/EarthCardBoxSmall_body.stl?v=7d255415,../_stl/boxes/earth/EarthCardBoxSmall_lid.stl?v=0892159d,../_stl/boxes/earth/CompostBox_1_body.stl?v=eea96fcc,../_stl/boxes/earth/CompostBox_1_lid.stl?v=1413b2f0,../_stl/boxes/earth/CompostBox_2_body.stl?v=f641103e,../_stl/boxes/earth/CompostBox_2_lid.stl?v=ff28e477,../_stl/boxes/earth/SeedBox_body.stl?v=416dc566,../_stl/boxes/earth/SeedBox_lid.stl?v=15f2d5f0,../_stl/boxes/earth/TopSpacedBox_body.stl?v=27524cc7,../_stl/boxes/earth/EcosystemCardBox_body.stl?v=bfd1b084,../_stl/boxes/earth/EcosystemCardBox_lid.stl?v=f477cf98,../_stl/boxes/earth/FaunaCardBox_body.stl?v=1a65c4d5,../_stl/boxes/earth/FaunaCardBox_lid.stl?v=8303063b,../_stl/boxes/earth/IslandCardBox_body.stl?v=c0f7cfed,../_stl/boxes/earth/IslandCardBox_lid.stl?v=bcca6a6a,../_stl/boxes/earth/ClimateCardBox_body.stl?v=87cf6e91,../_stl/boxes/earth/ClimateCardBox_lid.stl?v=70f4f48f,../_stl/boxes/earth/SoloCardBox_body.stl?v=2db3d7c9,../_stl/boxes/earth/SoloCardBox_lid.stl?v=b52745b3,../_stl/boxes/earth/SeasonCardBox_body.stl?v=11c4794f,../_stl/boxes/earth/SeasonCardBox_lid.stl?v=16ed25fb,../_stl/boxes/earth/AbundanceOtherCardBox_body.stl?v=41a30c97,../_stl/boxes/earth/AbundanceOtherCardBox_lid.stl?v=93435b5e,../_stl/boxes/earth/StartBox_body.stl?v=8702bf1b,../_stl/boxes/earth/StartBox_lid.stl?v=e469a3ee,../_stl/boxes/earth/PlayerBox_Red_body.stl?v=347a678e,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=b90f82c0,../_stl/boxes/earth/PlayerBox_Green_body.stl?v=e90438bd,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=b459401a,../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=03b0a0c7,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=b2adea84,../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=87570421,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=394e7145,../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=60813c75,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=fc75b691,../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=37697817,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=bceef876,../_stl/boxes/earth/CanopyBox_body.stl?v=36b95620,../_stl/boxes/earth/CanopyBox_lid.stl?v=2a3834dc,../_stl/boxes/earth/ScorePadBox_body.stl?v=6c97d57d,../_stl/boxes/earth/SproutBox_body.stl?v=e2c76559,../_stl/boxes/earth/SproutBox_lid.stl?v=f34558b6,../_stl/boxes/earth/spacer_1.stl?v=8c619614" download="Earth_full_packing.stl">⬇ Download Full Box Packing STL (<code>Earth_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -126,37 +126,37 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``68 × 99 × 12.4 mm``
      - ``(68, 99, 42.8)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_Red <box-earth-playerbox_red>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 0)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_Green <box-earth-playerbox_green>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 9.2)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_Yellow <box-earth-playerbox_yellow>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 18.4)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_Blue <box-earth-playerbox_blue>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 27.6)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_Purple <box-earth-playerbox_purple>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 36.8)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_Pink <box-earth-playerbox_pink>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 46)``
-     - 2
+     - 1
    * - :ref:`CanopyBox <box-earth-canopybox>`
      - :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
      - ``163.9 × 89 × 55.2 mm``
@@ -762,25 +762,25 @@ StartBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``68 × 99 × 12.4 mm``
 - **Packed Position**: ``(68, 99, 42.8)``
-- **Compartments (2)**: ``StartDisk`` (L=50%), ``ActiveToken`` (L=50%)
+- **Compartments (1)**: ``StartTokens`` (62 × 93 mm, 7 elements)
 
 **Assembled Box (StartBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth/StartBox_body.stl?v=3b9fdcf9,../_stl/boxes/earth/StartBox_lid.stl?v=e469a3ee
+.. stl:: ../_stl/boxes/earth/StartBox_body.stl?v=8702bf1b,../_stl/boxes/earth/StartBox_lid.stl?v=e469a3ee
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/StartBox_body.stl?v=3b9fdcf9" data-stl-combine="../_stl/boxes/earth/StartBox_body.stl?v=3b9fdcf9,../_stl/boxes/earth/StartBox_lid.stl?v=e469a3ee" download="StartBox_assembled.stl">⬇ Download Assembled StartBox STL (<code>StartBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/StartBox_body.stl?v=8702bf1b" data-stl-combine="../_stl/boxes/earth/StartBox_body.stl?v=8702bf1b,../_stl/boxes/earth/StartBox_lid.stl?v=e469a3ee" download="StartBox_assembled.stl">⬇ Download Assembled StartBox STL (<code>StartBox_assembled.stl</code>)</a></p>
 
 **Part: StartBox Body**
 
-.. stl:: ../_stl/boxes/earth/StartBox_body.stl?v=3b9fdcf9
+.. stl:: ../_stl/boxes/earth/StartBox_body.stl?v=8702bf1b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/StartBox_body.stl?v=3b9fdcf9" download="StartBox_body.stl">⬇ Download StartBox Body STL (<code>StartBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/StartBox_body.stl?v=8702bf1b" download="StartBox_body.stl">⬇ Download StartBox Body STL (<code>StartBox_body.stl</code>)</a></p>
 
 **Part: StartBox Lid**
 
@@ -799,25 +799,25 @@ PlayerBox_Red
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 0)``
-- **Compartments (2)**: ``ReadinessToken`` (L=45%), ``LeafTokens`` (L=55%)
+- **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Red_body.stl?v=0d6ddfcf,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=b90f82c0
+.. stl:: ../_stl/boxes/earth/PlayerBox_Red_body.stl?v=347a678e,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=b90f82c0
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Red_body.stl?v=0d6ddfcf" data-stl-combine="../_stl/boxes/earth/PlayerBox_Red_body.stl?v=0d6ddfcf,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=b90f82c0" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Red_body.stl?v=347a678e" data-stl-combine="../_stl/boxes/earth/PlayerBox_Red_body.stl?v=347a678e,../_stl/boxes/earth/PlayerBox_Red_lid.stl?v=b90f82c0" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Red Body**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Red_body.stl?v=0d6ddfcf
+.. stl:: ../_stl/boxes/earth/PlayerBox_Red_body.stl?v=347a678e
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Red_body.stl?v=0d6ddfcf" download="PlayerBox_Red_body.stl">⬇ Download PlayerBox_Red Body STL (<code>PlayerBox_Red_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Red_body.stl?v=347a678e" download="PlayerBox_Red_body.stl">⬇ Download PlayerBox_Red Body STL (<code>PlayerBox_Red_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Red Lid**
 
@@ -836,25 +836,25 @@ PlayerBox_Green
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 9.2)``
-- **Compartments (2)**: ``ReadinessToken`` (L=45%), ``LeafTokens`` (L=55%)
+- **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Green_body.stl?v=7faae5b3,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=b459401a
+.. stl:: ../_stl/boxes/earth/PlayerBox_Green_body.stl?v=e90438bd,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=b459401a
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Green_body.stl?v=7faae5b3" data-stl-combine="../_stl/boxes/earth/PlayerBox_Green_body.stl?v=7faae5b3,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=b459401a" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Green_body.stl?v=e90438bd" data-stl-combine="../_stl/boxes/earth/PlayerBox_Green_body.stl?v=e90438bd,../_stl/boxes/earth/PlayerBox_Green_lid.stl?v=b459401a" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Body**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Green_body.stl?v=7faae5b3
+.. stl:: ../_stl/boxes/earth/PlayerBox_Green_body.stl?v=e90438bd
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Green_body.stl?v=7faae5b3" download="PlayerBox_Green_body.stl">⬇ Download PlayerBox_Green Body STL (<code>PlayerBox_Green_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Green_body.stl?v=e90438bd" download="PlayerBox_Green_body.stl">⬇ Download PlayerBox_Green Body STL (<code>PlayerBox_Green_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Lid**
 
@@ -873,25 +873,25 @@ PlayerBox_Yellow
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 18.4)``
-- **Compartments (2)**: ``ReadinessToken`` (L=45%), ``LeafTokens`` (L=55%)
+- **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=09d881db,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=b2adea84
+.. stl:: ../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=03b0a0c7,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=b2adea84
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=09d881db" data-stl-combine="../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=09d881db,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=b2adea84" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=03b0a0c7" data-stl-combine="../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=03b0a0c7,../_stl/boxes/earth/PlayerBox_Yellow_lid.stl?v=b2adea84" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Yellow Body**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=09d881db
+.. stl:: ../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=03b0a0c7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=09d881db" download="PlayerBox_Yellow_body.stl">⬇ Download PlayerBox_Yellow Body STL (<code>PlayerBox_Yellow_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Yellow_body.stl?v=03b0a0c7" download="PlayerBox_Yellow_body.stl">⬇ Download PlayerBox_Yellow Body STL (<code>PlayerBox_Yellow_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Yellow Lid**
 
@@ -910,25 +910,25 @@ PlayerBox_Blue
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 27.6)``
-- **Compartments (2)**: ``ReadinessToken`` (L=45%), ``LeafTokens`` (L=55%)
+- **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=9e9e73d3,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=394e7145
+.. stl:: ../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=87570421,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=394e7145
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=9e9e73d3" data-stl-combine="../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=9e9e73d3,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=394e7145" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=87570421" data-stl-combine="../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=87570421,../_stl/boxes/earth/PlayerBox_Blue_lid.stl?v=394e7145" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Blue Body**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=9e9e73d3
+.. stl:: ../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=87570421
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=9e9e73d3" download="PlayerBox_Blue_body.stl">⬇ Download PlayerBox_Blue Body STL (<code>PlayerBox_Blue_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Blue_body.stl?v=87570421" download="PlayerBox_Blue_body.stl">⬇ Download PlayerBox_Blue Body STL (<code>PlayerBox_Blue_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Blue Lid**
 
@@ -947,25 +947,25 @@ PlayerBox_Purple
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 36.8)``
-- **Compartments (2)**: ``ReadinessToken`` (L=45%), ``LeafTokens`` (L=55%)
+- **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Purple — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=b93a42dd,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=fc75b691
+.. stl:: ../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=60813c75,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=fc75b691
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=b93a42dd" data-stl-combine="../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=b93a42dd,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=fc75b691" download="PlayerBox_Purple_assembled.stl">⬇ Download Assembled PlayerBox_Purple STL (<code>PlayerBox_Purple_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=60813c75" data-stl-combine="../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=60813c75,../_stl/boxes/earth/PlayerBox_Purple_lid.stl?v=fc75b691" download="PlayerBox_Purple_assembled.stl">⬇ Download Assembled PlayerBox_Purple STL (<code>PlayerBox_Purple_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Purple Body**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=b93a42dd
+.. stl:: ../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=60813c75
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=b93a42dd" download="PlayerBox_Purple_body.stl">⬇ Download PlayerBox_Purple Body STL (<code>PlayerBox_Purple_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Purple_body.stl?v=60813c75" download="PlayerBox_Purple_body.stl">⬇ Download PlayerBox_Purple Body STL (<code>PlayerBox_Purple_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Purple Lid**
 
@@ -984,25 +984,25 @@ PlayerBox_Pink
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 46)``
-- **Compartments (2)**: ``ReadinessToken`` (L=45%), ``LeafTokens`` (L=55%)
+- **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Pink — Body + Lid)**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=63c0a559,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=bceef876
+.. stl:: ../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=37697817,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=bceef876
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=63c0a559" data-stl-combine="../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=63c0a559,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=bceef876" download="PlayerBox_Pink_assembled.stl">⬇ Download Assembled PlayerBox_Pink STL (<code>PlayerBox_Pink_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=37697817" data-stl-combine="../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=37697817,../_stl/boxes/earth/PlayerBox_Pink_lid.stl?v=bceef876" download="PlayerBox_Pink_assembled.stl">⬇ Download Assembled PlayerBox_Pink STL (<code>PlayerBox_Pink_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Pink Body**
 
-.. stl:: ../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=63c0a559
+.. stl:: ../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=37697817
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=63c0a559" download="PlayerBox_Pink_body.stl">⬇ Download PlayerBox_Pink Body STL (<code>PlayerBox_Pink_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/earth/PlayerBox_Pink_body.stl?v=37697817" download="PlayerBox_Pink_body.stl">⬇ Download PlayerBox_Pink Body STL (<code>PlayerBox_Pink_body.stl</code>)</a></p>
 
 **Part: PlayerBox_Pink Lid**
 

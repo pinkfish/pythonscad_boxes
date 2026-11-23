@@ -20,6 +20,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -91,6 +93,10 @@ c_box.compartment(
 )
 
 # ── 2. Auction Money & Chips Box ──────────────────────────────────
+token_inner_width = token_box_width - wall_thickness * 2.0      # 145.0mm
+token_inner_length = token_box_length - wall_thickness * 2.0    # 100.0mm
+token_inner_height = token_box_height - floor_thickness - lid_thickness  # 34.0mm
+
 t_box = project.box(
     BoxType.CAP,
     "TokensBox",
@@ -104,14 +110,22 @@ t_box = project.box(
     ),
 )
 t_box.compartment(
-    "MoneyTokens",
-    length_ratio=0.6,
-    cut=FingerCut.SCOOP,
-)
-t_box.compartment(
-    "ValueMarkers",
-    length_ratio=0.4,
-    cut=FingerCut.SCOOP,
+    "Tokens",
+    size=(token_inner_width, token_inner_length),
+    position=(0.0, 0.0),
+    elements=(
+        # Single deeply-rounded dish (RoundedBoxAllSides radius=15 in modern_art.scad)
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(token_inner_width, token_inner_length),
+            offset=(0.0, 0.0),
+            depth=token_inner_height,
+            corner_radius=15.0,
+            bottom_rounding=15.0,
+            pull_out=False,
+            label="TokensDish",
+        ),
+    ),
 )
 
 # ── Export ────────────────────────────────────────────────────────

@@ -21,6 +21,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -102,6 +104,114 @@ project = Project(
 
 HEX_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
+# ── Interior Geometry Helpers (from 1899_daihan.scad) ─────────────
+hex_inner_w = hex_box_width - wall_thickness * 2.0                 # ~141.564mm
+hex_inner_l = hex_box_length - wall_thickness * 2.0                # 123.0mm
+hex_inner_h = hex_box_height - floor_thickness - lid_thickness     # 12.0mm
+company_inner_h = company_marker_box_height - floor_thickness - lid_thickness  # 14.0mm
+
+
+def _hex_box_elements() -> tuple[CompartmentElement, ...]:
+    """HexBox: 3x3 flat-top hexagonal tile grid (tile_width=40mm) with edge finger bites."""
+    elems: list[CompartmentElement] = []
+    p2p = tile_width / math.cos(math.radians(30.0))  # ~46.188mm
+    x_margin = (hex_inner_w - 3.0 * p2p) / 2.0       # 1.5mm
+    y_margin = (hex_inner_l - 3.0 * tile_width) / 2.0  # 1.5mm
+    bite_d = 10.0
+    for col in range(3):
+        cx = x_margin + p2p / 2.0 + col * p2p
+        for row in range(3):
+            cy = y_margin + tile_width / 2.0 + row * tile_width
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.HEXAGON,
+                    size=(tile_width, tile_width),
+                    rotation=0.0,
+                    offset=(cx - p2p / 2.0, cy - tile_width / 2.0),
+                    depth=hex_inner_h,
+                    pull_out=False,
+                    label=f"Hex_{row}_{col}",
+                )
+            )
+        # Circular finger bites at bottom, interior shared, and top flat edges
+        for b_idx, by in enumerate((5.0, y_margin + tile_width, y_margin + tile_width * 2.0, hex_inner_l - 5.0)):
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(bite_d, bite_d),
+                    offset=(cx - bite_d / 2.0, by - bite_d / 2.0),
+                    depth=hex_inner_h,
+                    pull_out=False,
+                    label=f"HexBite_{col}_{b_idx}",
+                )
+            )
+    return tuple(elems)
+
+
+def _company_marker_elements() -> tuple[CompartmentElement, ...]:
+    """CompanyMarkerBox: 2x8 circular disc wells (d=14mm) with alternating stepped depths & bites."""
+    # Fits comfortably inside slipover interior (~138.1 x 33.6mm for wall_thickness=3.0)
+    elems: list[CompartmentElement] = []
+    r = disc_diameter / 2.0  # 7.0mm
+    pitch = 16.8
+    bite_d = 10.0
+    deep_d = disc_thickness * 2.0 + 1.0    # 11.0mm (2-disc stack)
+    shallow_d = disc_thickness + 1.0       # 6.0mm (1-disc stack on odd columns of row 1)
+    for i in range(8):
+        cx = 2.0 + r + pitch * i
+        # Row 0 (front, 2-disc depth, front finger bite at 270 deg)
+        cy0 = 8.0
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(disc_diameter, disc_diameter),
+                offset=(cx - r, cy0 - r),
+                depth=deep_d,
+                z_offset=company_inner_h - deep_d,
+                pull_out=False,
+                label=f"CompanyDisc_0_{i}",
+            )
+        )
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(bite_d, bite_d),
+                offset=(cx - bite_d / 2.0, 0.0),
+                depth=deep_d,
+                z_offset=company_inner_h - deep_d,
+                pull_out=False,
+                label=f"CompanyBite_0_{i}",
+            )
+        )
+        # Row 1 (back, alternating stepped depth matching (i % 2) * disc_thickness, back bite at 90 deg)
+        cy1 = 25.0
+        d1 = shallow_d if (i % 2 == 1) else deep_d
+        z1 = company_inner_h - d1
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(disc_diameter, disc_diameter),
+                offset=(cx - r, cy1 - r),
+                depth=d1,
+                z_offset=z1,
+                pull_out=False,
+                label=f"CompanyDisc_1_{i}",
+            )
+        )
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(bite_d, bite_d),
+                offset=(cx - bite_d / 2.0, 23.0),
+                depth=d1,
+                z_offset=z1,
+                pull_out=False,
+                label=f"CompanyBite_1_{i}",
+            )
+        )
+    return tuple(elems)
+
+
 # ── 1. Hex Tile Boxes ─────────────────────────────────────────────
 for box_num in range(1, 5):
     box = project.box(
@@ -118,7 +228,7 @@ for box_num in range(1, 5):
     )
     box.compartment(
         "Tiles",
-        cut=FingerCut.SCOOP,
+        elements=_hex_box_elements(),
     )
 
 # ── 2. Share & Money Boxes ────────────────────────────────────────
@@ -176,7 +286,7 @@ for i in range(2):
     )
     c_box.compartment(
         "Tokens",
-        cut=FingerCut.SCOOP,
+        elements=_company_marker_elements(),
     )
 
 project.box(

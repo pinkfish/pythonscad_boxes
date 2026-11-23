@@ -9,6 +9,7 @@ box, 6 stacked slipover player trays, Canopy/Sprout/Compost/Seed boxes,
 ScorePad tray, and top spacer above the standing Abundance boards.
 """
 
+import math
 import sys
 from pathlib import Path
 
@@ -22,6 +23,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -29,6 +32,12 @@ from pyboxbuilder import (
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "earth" / "assets"
 )
 
 # ── Box & Board Dimensions (from earth.scad) ──────────────────────
@@ -249,6 +258,204 @@ for label, title, color_name, h in col1_cards:
     ).compartment("Cards", cut=FingerCut.SCOOP)
     col1_z += h
 
+card_inner_width = card_box_width - wall_thickness * 2.0  # 62.0mm
+card_inner_length = card_box_length - wall_thickness * 2.0  # 93.0mm
+
+start_disk_diameter = 41.0
+start_disk_thickness = 5.0
+readiness_token_width = 36.5
+readiness_token_length = 59.0
+readiness_token_thickness = 5.0
+score_override_marker_width = 16.5
+score_override_marker_length = 18.5
+score_override_thickness = 3.0
+leaf_width = 13.0
+leaf_length = 17.5
+leaf_thickness = 3.0
+
+
+def _start_box_elements() -> tuple[CompartmentElement, ...]:
+    """Build StartDisk (with angled finger bites), ActiveToken, and ScoreOverride wells."""
+    elems: list[CompartmentElement] = []
+
+    # 1. Start disk circular well (d=41mm, depth 5.5mm) + finger bites at 45 & 215 deg
+    disk_cx = card_inner_width / 2.0 + 7.0  # 38.0mm
+    disk_cy = start_disk_diameter / 2.0 + 2.0  # 22.5mm
+    disk_depth = start_disk_thickness + 0.5  # 5.5mm
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(start_disk_diameter, start_disk_diameter),
+            offset=(disk_cx - start_disk_diameter / 2.0, disk_cy - start_disk_diameter / 2.0),
+            depth=disk_depth,
+            pull_out=False,
+            label="StartDisk",
+        )
+    )
+    disk_bite_d = 18.0  # r=9.0 fits strictly inside [0, 62] x [0, 93]
+    for idx, angle_deg in enumerate((45.0, 215.0), start=1):
+        rad = math.radians(angle_deg)
+        bite_cx = disk_cx + (start_disk_diameter / 2.0) * math.cos(rad)
+        bite_cy = disk_cy + (start_disk_diameter / 2.0) * math.sin(rad)
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(disk_bite_d, disk_bite_d),
+                offset=(bite_cx - disk_bite_d / 2.0, bite_cy - disk_bite_d / 2.0),
+                depth=disk_depth,
+                pull_out=False,
+                label=f"StartDiskBite_{idx}",
+            )
+        )
+
+    # 2. Active player token well (59x36.5mm, depth 5.5mm) + front finger bite
+    active_cx = card_inner_width / 2.0  # 31.0mm
+    active_cy = card_inner_length - readiness_token_width / 2.0 - 2.0  # 72.75mm
+    active_depth = readiness_token_thickness + 0.5  # 5.5mm
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(readiness_token_length, readiness_token_width),
+            offset=(active_cx - readiness_token_length / 2.0, active_cy - readiness_token_width / 2.0),
+            depth=active_depth,
+            corner_radius=1.0,
+            pull_out=False,
+            label="ActiveToken",
+        )
+    )
+    active_bite_d = 24.0
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(active_bite_d, active_bite_d),
+            offset=(
+                active_cx - active_bite_d / 2.0,
+                active_cy - readiness_token_width / 2.0 - active_bite_d / 2.0,
+            ),
+            depth=active_depth,
+            pull_out=False,
+            label="ActiveTokenBite",
+        )
+    )
+
+    # 3. Score override marker "11" (16.5x18.5mm, depth 3.5mm) + front finger bite
+    override_cx = score_override_marker_length / 2.0 + 2.0  # 11.25mm
+    override_cy = start_disk_diameter  # 41.0mm
+    override_depth = score_override_thickness + 0.5  # 3.5mm
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(score_override_marker_width, score_override_marker_length),
+            offset=(
+                override_cx - score_override_marker_width / 2.0,
+                override_cy - score_override_marker_length / 2.0,
+            ),
+            depth=override_depth,
+            corner_radius=1.0,
+            pull_out=False,
+            label="ScoreOverrideMarker",
+        )
+    )
+    override_bite_d = 16.0
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(override_bite_d, override_bite_d),
+            offset=(
+                override_cx - override_bite_d / 2.0,
+                override_cy - score_override_marker_length / 2.0 - override_bite_d / 2.0,
+            ),
+            depth=override_depth,
+            pull_out=False,
+            label="ScoreOverrideBite",
+        )
+    )
+
+    return tuple(elems)
+
+
+player_inner_width = 58.6  # SlipoverBox interior width for 68mm outer width
+player_inner_length = 89.6  # SlipoverBox interior length for 99mm outer length
+
+
+def _player_box_elements() -> tuple[CompartmentElement, ...]:
+    """Build ReadinessToken + 5 staggered LeafTeardrop SVG wells with finger grabs."""
+    elems: list[CompartmentElement] = []
+    # SlipoverBox interior height for 9.2mm outer height (2mm floor + 2mm lid + 0.2mm clearance)
+    player_inner_height = 5.0
+
+    # 1. Readiness token (clamped to 58.6x36.5mm) + rear circular finger grab (d=22mm)
+    ready_w = min(readiness_token_length, player_inner_width)
+    ready_cx = player_inner_width / 2.0  # 29.3mm
+    ready_y0 = 1.5
+    ready_depth = min(readiness_token_thickness + 0.3, player_inner_height)  # 5.0mm
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(ready_w, readiness_token_width),
+            offset=(ready_cx - ready_w / 2.0, ready_y0),
+            depth=ready_depth,
+            corner_radius=1.0,
+            pull_out=False,
+            label="ReadinessToken",
+        )
+    )
+    ready_grab_d = 22.0
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(ready_grab_d, ready_grab_d),
+            offset=(ready_cx - ready_grab_d / 2.0, ready_y0 + readiness_token_width - ready_grab_d / 2.0),
+            depth=ready_depth,
+            bottom_rounding=2.0,
+            pull_out=False,
+            label="ReadinessFingerGrab",
+        )
+    )
+
+    # 2. 5 staggered leaf teardrop wells (rotated 90 deg -> 17.5x13mm) + left finger grabs (d=14mm)
+    leaf_depth = leaf_thickness + 0.3  # 3.3mm
+    leaf_grab_d = 14.0
+    base_cx = player_inner_width / 2.0 + 1.5  # 30.8mm
+    base_cy = 54.5
+    leaf_svg = str(ASSETS / "leaf_teardrop.svg")
+    leaf_idx = 0
+    for i in range(3):
+        for j in range(2):
+            if j == 0 and i == 1:
+                continue
+            leaf_idx += 1
+            lcx = base_cx + 13.5 * (i - 1)
+            lcy = base_cy + 26.5 * (j - (i % 2) * 0.5)
+            # After 90 deg rotation, footprint is (leaf_length, leaf_width) = (17.5, 13.0)
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.SVG,
+                    shape_file=leaf_svg,
+                    size=(leaf_width, leaf_length),
+                    rotation=90.0,
+                    offset=(lcx - leaf_length / 2.0, lcy - leaf_width / 2.0),
+                    depth=leaf_depth,
+                    pull_out=False,
+                    label=f"LeafToken_{leaf_idx}",
+                )
+            )
+            grab_cx = lcx - leaf_length / 2.0
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(leaf_grab_d, leaf_grab_d),
+                    offset=(grab_cx - leaf_grab_d / 2.0, lcy - leaf_grab_d / 2.0),
+                    depth=leaf_depth,
+                    bottom_rounding=1.5,
+                    pull_out=False,
+                    label=f"LeafFingerGrab_{leaf_idx}",
+                )
+            )
+
+    return tuple(elems)
+
+
 start_box = project.box(
     BoxType.CAP,
     "StartBox",
@@ -256,8 +463,12 @@ start_box = project.box(
     position=(card_box_width, card_box_length, col1_z),
     lid=_lid("Start", "olive"),
 )
-start_box.compartment("StartDisk", length_ratio=0.5, cut=FingerCut.SCOOP)
-start_box.compartment("ActiveToken", length_ratio=0.5, cut=FingerCut.SCOOP)
+start_box.compartment(
+    "StartTokens",
+    size=(card_inner_width, card_inner_length),
+    position=(0.0, 0.0),
+    elements=_start_box_elements(),
+)
 
 # ── 4. Row 1 Col 3 (X = 204..272, Y = 99..198): 6 Stacked Player Boxes
 player_colors = ["red", "green", "yellow", "blue", "purple", "pink"]
@@ -273,8 +484,12 @@ for idx, color_name in enumerate(player_colors):
             text_color="black" if color_name in ("yellow", "pink") else "white",
         ),
     )
-    p_box.compartment("ReadinessToken", length_ratio=0.45, cut=FingerCut.SCOOP)
-    p_box.compartment("LeafTokens", length_ratio=0.55, cut=FingerCut.SCOOP)
+    p_box.compartment(
+        "PlayerTokens",
+        size=(player_inner_width, player_inner_length),
+        position=(0.0, 0.0),
+        elements=_player_box_elements(),
+    )
 
 # ── 5. Row 2 (Y = 198..287): Canopy, ScorePad, Sprouts ───────────
 project.box(

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 29.5" width="11mm" height="29.5mm">
+  <!-- Biome start-player leaf token silhouette (11mm x 29.5mm) -->
+  <path fill="#000000" d="
+    M 4.1,0.3
+    L 7.9,0.0
+    L 7.3,6.2
+    C 9.6,7.8 11.0,12.2 11.0,17.5
+    C 11.0,24.1 8.5,29.5 5.5,29.5
+    C 2.5,29.5 0.0,24.1 0.0,17.5
+    C 0.0,12.1 1.5,7.7 3.8,6.1
+    Z"/>
+</svg>

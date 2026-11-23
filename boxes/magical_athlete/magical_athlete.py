@@ -20,6 +20,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -27,6 +29,12 @@ from pyboxbuilder import (
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "magical_athlete" / "assets"
 )
 
 # ── Game Box Dimensions ───────────────────────────────────────────
@@ -44,9 +52,19 @@ card_width = 67.0
 card_length = 90.0
 
 dice_size = 21.0
+cardboard_thickness = 2.2
 piece_thickness = 11.0
+piece_width = 24.0
+piece_length = 38.0
+tall_piece_length = 52.0
+tall_piece_width = 18.0
 big_baby_width = 39.0
 big_baby_length = 35.5
+
+gold_height = (25.0, 23.0, 21.0)
+gold_width = (32.0, 29.0, 26.0)
+silver_diameter = (21.75, 18.5, 15.5)
+silver_tag_diameter = (26.0, 23.5, 19.5)
 
 card_box_width = card_length + wall_thickness * 2.0   # 96.0mm
 card_box_length = card_width + wall_thickness * 2.0   # 73.0mm
@@ -100,6 +118,39 @@ project.box(
 )
 
 # ── 2. Dice Box & Award Medal Box ─────────────────────────────────
+dice_inner_w = dice_box_width - wall_thickness * 2.0  # 82.0mm
+dice_inner_l = dice_box_length - wall_thickness * 2.0  # 67.0mm
+dice_inner_h = dice_box_height - floor_thickness - lid_thickness  # 22.0mm
+dice_elements: tuple[CompartmentElement, ...] = (
+    # Stepped upper finger-lift basin above dice mid-height
+    CompartmentElement(
+        shape=ElementShape.ROUNDED_RECT,
+        size=(dice_inner_w, dice_inner_l),
+        offset=(0.0, 0.0),
+        depth=dice_inner_h - dice_size / 2.0,
+        corner_radius=8.0,
+        pull_out=False,
+        label="DiceUpperBasin",
+    ),
+    # 3x2 grid of 21mm dice pockets
+    *(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(dice_size, dice_size),
+            offset=(
+                (col - 1.5) * (dice_size + 1.0) + dice_inner_w / 2.0,
+                (row - 1.0) * (dice_size + 1.0) + dice_inner_l / 2.0,
+            ),
+            depth=dice_inner_h,
+            corner_radius=1.0,
+            pull_out=False,
+            label=f"Die_{col}_{row}",
+        )
+        for col in range(3)
+        for row in range(2)
+    ),
+)
+
 project.box(
     BoxType.CAP,
     "DiceBox",
@@ -113,8 +164,89 @@ project.box(
     ),
 ).compartment(
     "Dice",
-    cut=FingerCut.SCOOP,
+    size=(dice_inner_w, dice_inner_l),
+    position=(0.0, 0.0),
+    elements=dice_elements,
 )
+
+# SlipoverBox interior deducts wall_thickness + slipover lip (9.4mm total per axis)
+award_inner_w = 78.6
+award_inner_l = 63.6
+
+
+def _award_medal_elements() -> tuple[CompartmentElement, ...]:
+    """Build 3 GoldMedal trophy silhouettes + 3 SilverMedal ribboned circles + finger scoops."""
+    elems: list[CompartmentElement] = []
+    for i in range(3):
+        depth = cardboard_thickness * (2.0 if i == 1 else 1.0)
+        # GoldMedal (rotated 90° so footprint is (gold_height[i], gold_width[i]))
+        g_cx = (gold_height[0] + 1.0) * (i + 0.5)
+        g_cy = gold_width[0] / 2.0
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.SVG,
+                shape_file=str(ASSETS / "gold_medal.svg"),
+                size=(gold_width[i], gold_height[i]),
+                rotation=90.0,
+                offset=(g_cx - gold_height[i] / 2.0, g_cy - gold_width[i] / 2.0),
+                depth=depth,
+                pull_out=False,
+                label=f"GoldMedal_{i + 1}",
+            )
+        )
+        if i == 1:
+            scoop_d = 16.0
+            dx = gold_width[i] / 2.0 - cardboard_thickness * 2.0
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.SPHERE_SCOOP,
+                    size=(scoop_d, scoop_d),
+                    offset=(g_cx + dx - scoop_d / 2.0, g_cy - scoop_d / 2.0),
+                    depth=depth,
+                    pull_out=False,
+                    label="GoldMedal2ScoopRight",
+                )
+            )
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.SPHERE_SCOOP,
+                    size=(scoop_d, scoop_d),
+                    offset=(g_cx - dx - scoop_d / 2.0, g_cy - scoop_d / 2.0),
+                    depth=depth,
+                    pull_out=False,
+                    label="GoldMedal2ScoopLeft",
+                )
+            )
+        # SilverMedal (scaled to (silver_w, silver_h) keeping ribbons inside award_inner_l)
+        s_scale = silver_diameter[i] / silver_diameter[0]
+        s_w = 23.11 * s_scale
+        s_h = 24.81 * s_scale
+        s_cx = (gold_height[0] + 1.0) * (i + 0.5)
+        s_y0 = award_inner_l - s_h
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.SVG,
+                shape_file=str(ASSETS / "silver_medal.svg"),
+                size=(s_w, s_h),
+                offset=(s_cx - s_w / 2.0, s_y0),
+                depth=depth,
+                pull_out=False,
+                label=f"SilverMedal_{i + 1}",
+            )
+        )
+        s_scoop_d = 14.0
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.SPHERE_SCOOP,
+                size=(s_scoop_d, s_scoop_d),
+                offset=(s_cx - s_scoop_d / 2.0, max(0.0, s_y0 - s_scoop_d / 2.0 + cardboard_thickness)),
+                depth=depth,
+                pull_out=False,
+                label=f"SilverMedalScoop_{i + 1}",
+            )
+        )
+    return tuple(elems)
+
 
 project.box(
     BoxType.SLIPOVER,
@@ -129,12 +261,64 @@ project.box(
     ),
 ).compartment(
     "Medals",
-    cut=FingerCut.SCOOP,
+    size=(award_inner_w, award_inner_l),
+    position=(0.0, 0.0),
+    elements=_award_medal_elements(),
 )
 
 # ── 3. Athlete Character Pieces (2 stacked full-length trays) ─────
+piece_inner_w = piece_box_width - wall_thickness * 2.0  # 178.0mm
+piece_inner_l = piece_box_length - wall_thickness * 2.0  # 169.0mm
+piece_inner_h = piece_box_height - floor_thickness - lid_thickness  # 15.0mm
+piece_basin_depth = piece_inner_h - (piece_thickness / 2.0 + 1.0)  # 8.5mm
+
+
+def _athlete_piece_elements(tray_index: int) -> tuple[CompartmentElement, ...]:
+    """Build stepped upper basin + 20+1 (tray 1) or 14 (tray 2) athlete piece pockets."""
+    elems: list[CompartmentElement] = [
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(piece_inner_w, piece_inner_l),
+            offset=(0.0, 0.0),
+            depth=piece_basin_depth,
+            corner_radius=8.0,
+            pull_out=False,
+            label="PieceUpperBasin",
+        )
+    ]
+    rows = 5 if tray_index == 0 else 4
+    for col in range(4):
+        for row in range(rows):
+            if tray_index == 1 and row == 3 and col >= 2:
+                continue
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.ROUNDED_RECT,
+                    size=(piece_length, piece_width),
+                    offset=(col * (piece_length + 2.0) + 10.0, row * (piece_width + 2.0) + 7.0),
+                    depth=piece_inner_h,
+                    corner_radius=1.0,
+                    pull_out=False,
+                    label=f"Athlete_{col}_{row}",
+                )
+            )
+    if tray_index == 0:
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.ROUNDED_RECT,
+                size=(tall_piece_length, tall_piece_width),
+                offset=(62.0, piece_inner_l - tall_piece_width - 12.0),
+                depth=piece_inner_h,
+                corner_radius=1.0,
+                pull_out=False,
+                label="TallAthlete",
+            )
+        )
+    return tuple(elems)
+
+
 for i in range(2):
-    p_box = project.box(
+    project.box(
         BoxType.CAP,
         f"AthletePiecesBox_{i + 1}",
         size=(piece_box_width, piece_box_length, piece_box_height),
@@ -145,13 +329,12 @@ for i in range(2):
             text_color=Color("white"),
             frame_color=Color("darkorange"),
         ),
+    ).compartment(
+        f"AthletePieces_{i + 1}",
+        size=(piece_inner_w, piece_inner_l),
+        position=(0.0, 0.0),
+        elements=_athlete_piece_elements(i),
     )
-    for slot in range(4):
-        p_box.compartment(
-            f"AthleteSlot_{slot + 1}",
-            width_ratio=0.25,
-            cut=FingerCut.SCOOP,
-        )
 
 # ── 4. Big Baby Standee Box ───────────────────────────────────────
 project.box(

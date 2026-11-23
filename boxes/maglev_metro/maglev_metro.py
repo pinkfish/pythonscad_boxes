@@ -8,6 +8,7 @@ Organizes all 25 boxes/trays: 4 card boxes, 3 robot boxes, 2 commuter boxes,
 hex boxes, metro & studios tile box, and top/side spacers.
 """
 
+import math
 import sys
 from pathlib import Path
 
@@ -21,6 +22,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -52,7 +55,19 @@ floor_thickness = 2.0
 lid_thickness = 2.0
 
 # ── Component Dimensions ──────────────────────────────────────────
+factory_hex_width = 56.0
+factory_hex_thickness = 7.5
+factory_hex_radius = factory_hex_width / (2.0 * math.cos(math.radians(30.0)))
+
 player_overlay_hex_width = 55.5
+player_overlay_hex_radius = player_overlay_hex_width / (2.0 * math.cos(math.radians(30.0)))
+player_overlay_hex_thickness = 1.5
+player_overlay_hex_per_player = 18
+
+train_width = 14.0
+train_length = 41.5
+train_thickness = 10.0
+
 robot_width = 8.5
 card_width = 67.0
 card_length = 90.0
@@ -212,6 +227,51 @@ project.box(
 ).compartment("StartToken", cut=FingerCut.SCOOP)
 
 # ── 4. Player Boxes (4, X=73..134.5, Z=0..39.4) ──────────────────
+player_inner_w = player_box_width - wall_thickness * 2.0  # 55.5mm
+player_inner_l = player_box_length - wall_thickness * 2.0  # 137.0mm
+player_hex_depth = player_overlay_hex_per_player * player_overlay_hex_thickness / 2.0 + 1.0  # 14.5mm
+player_hex_span = player_overlay_hex_radius * 2.0  # 64.086mm
+player_elements: tuple[CompartmentElement, ...] = (
+    CompartmentElement(
+        shape=ElementShape.HEXAGON,
+        size=(player_overlay_hex_width, player_overlay_hex_width),
+        rotation=90.0,
+        offset=(0.0, 0.0),
+        depth=player_hex_depth,
+        pull_out=False,
+        label="TrackHexFront",
+    ),
+    CompartmentElement(
+        shape=ElementShape.HEXAGON,
+        size=(player_overlay_hex_width, player_overlay_hex_width),
+        rotation=90.0,
+        offset=(0.0, player_inner_l - player_hex_span),
+        depth=player_hex_depth,
+        pull_out=False,
+        label="TrackHexBack",
+    ),
+    CompartmentElement(
+        shape=ElementShape.ROUNDED_RECT,
+        size=(train_width, train_length),
+        offset=((player_inner_w - train_width) / 2.0, (player_inner_l - train_length) / 2.0),
+        depth=train_thickness,
+        corner_radius=2.0,
+        bottom_rounding=2.0,
+        pull_out=False,
+        label="TrainSlot",
+    ),
+    CompartmentElement(
+        shape=ElementShape.ROUNDED_RECT,
+        size=(train_length, 20.0),
+        offset=((player_inner_w - train_length) / 2.0, (player_inner_l - 20.0) / 2.0),
+        depth=train_thickness,
+        corner_radius=2.0,
+        bottom_rounding=5.0,
+        pull_out=False,
+        label="TrainFingerRelief",
+    ),
+)
+
 player_specs = [
     ("PlayerBox_green", "green", (card_box_width, 0.0, 0.0)),
     ("PlayerBox_deeppink", "deeppink", (card_box_width, player_box_length, 0.0)),
@@ -219,19 +279,45 @@ player_specs = [
     ("PlayerBox_darkorange", "darkorange", (card_box_width, player_box_length, player_box_height)),
 ]
 for label, color_name, pos in player_specs:
-    p_box = project.box(
+    project.box(
         BoxType.SLIDING,
         label,
         size=(player_box_width, player_box_length, player_box_height),
         position=pos,
         lid=_lid(f"Player ({color_name.title()})", color_name),
         stackable=StackableMode.PYRAMIDS,
+    ).compartment(
+        "PlayerBits",
+        size=(player_inner_w, player_inner_l),
+        position=(0.0, 0.0),
+        elements=player_elements,
     )
-    p_box.compartment("TrackHexes", length_ratio=0.6, cut=FingerCut.SCOOP)
-    p_box.compartment("TrainsAndBits", length_ratio=0.4, cut=FingerCut.SCOOP)
 
 # ── 5. Factory Station Hex Tile Boxes (6) + MetroTileBox + SpacerBox
 factory_x0 = card_box_width + player_box_width  # 134.5mm
+factory_inner_w = factory_box_width - wall_thickness * 2.0  # 69.75mm
+factory_inner_l = factory_box_length - wall_thickness * 2.0  # 65.5mm
+factory_hex_span = factory_hex_radius * 2.0  # 64.663mm
+factory_hex_depth = factory_hex_thickness * 2.0  # 15.0mm
+factory_elements: tuple[CompartmentElement, ...] = (
+    CompartmentElement(
+        shape=ElementShape.HEXAGON,
+        size=(factory_hex_width, factory_hex_width),
+        offset=((factory_inner_w - factory_hex_span) / 2.0, (factory_inner_l - factory_hex_width) / 2.0),
+        depth=factory_hex_depth,
+        pull_out=False,
+        label="StationHex",
+    ),
+    CompartmentElement(
+        shape=ElementShape.CIRCLE,
+        size=(18.0, 18.0),
+        offset=(factory_inner_w / 2.0 - 9.0, 0.0),
+        depth=factory_hex_depth,
+        pull_out=False,
+        label="StationHexFingerBite",
+    ),
+)
+
 factory_specs = [
     ("FactoryBox_Factories", "Factories", (factory_x0, 0.0, 0.0)),
     ("FactoryBox_Warehouses", "Warehouses", (factory_x0 + factory_box_width, 0.0, 0.0)),
@@ -247,7 +333,45 @@ for label, title, pos in factory_specs:
         size=(factory_box_width, factory_box_length, factory_box_height),
         position=pos,
         lid=_lid(title, "goldenrod"),
-    ).compartment("StationHexes", cut=FingerCut.SCOOP)
+    ).compartment(
+        "StationHexes",
+        size=(factory_inner_w, factory_inner_l),
+        position=(0.0, 0.0),
+        elements=factory_elements,
+    )
+
+metro_inner_w = metro_box_width - wall_thickness * 2.0  # 145.5mm
+metro_inner_l = metro_box_length - wall_thickness * 2.0  # 137.0mm
+clover_cx = factory_hex_width  # 56.0mm
+clover_cy = factory_hex_radius * 1.5  # 48.5mm
+metro_elements: tuple[CompartmentElement, ...] = (
+    # Tri-hex MetroTile clover (3 touching hexagons at 90°, 210°, 330°), depth = 7.5mm
+    *(
+        CompartmentElement(
+            shape=ElementShape.HEXAGON,
+            size=(factory_hex_width, factory_hex_width),
+            rotation=90.0,
+            offset=(
+                clover_cx + factory_hex_radius * math.cos(math.radians(angle)) - factory_hex_width / 2.0,
+                clover_cy + factory_hex_radius * math.sin(math.radians(angle)) - factory_hex_radius,
+            ),
+            depth=factory_hex_thickness,
+            pull_out=False,
+            label=f"MetroCloverHex_{idx + 1}",
+        )
+        for idx, angle in enumerate((90.0, 210.0, 330.0))
+    ),
+    # 4th single hex well in top-right corner, double depth = 15.0mm
+    CompartmentElement(
+        shape=ElementShape.HEXAGON,
+        size=(factory_hex_width, factory_hex_width),
+        rotation=90.0,
+        offset=(metro_inner_w - factory_hex_width, metro_inner_l - factory_hex_span),
+        depth=factory_hex_thickness * 2.0,
+        pull_out=False,
+        label="StudioHex",
+    ),
+)
 
 project.box(
     BoxType.SLIDING,
@@ -255,7 +379,12 @@ project.box(
     size=(metro_box_width, metro_box_length, metro_box_height),
     position=(factory_x0, factory_box_length * 2.0, 0.0),
     lid=_lid("Metro & Studios", "darkorange"),
-).compartment("MetroTiles", cut=FingerCut.SCOOP)
+).compartment(
+    "MetroTiles",
+    size=(metro_inner_w, metro_inner_l),
+    position=(0.0, 0.0),
+    elements=metro_elements,
+)
 
 project.box(
     BoxType.NO_LID,
