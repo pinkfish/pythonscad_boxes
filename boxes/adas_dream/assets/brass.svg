@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Ada's Dream Brass resource icon: 3D beveled metallic brass ingot bar -->
+  <!-- Top flat face of the ingot -->
+  <polygon fill="#000000" points="24,42 56,24 76,34 44,52" />
+  <!-- Front-left long sloped face -->
+  <polygon fill="#000000" points="10,60 21,46 43,58 46,82 14,72" />
+  <!-- Right end beveled face -->
+  <polygon fill="#000000" points="49,57 79,39 90,56 52,82" />
+  <!-- Metallic glint star -->
+  <polygon fill="#000000" points="82,10 85,18 93,21 85,24 82,32 79,24 71,21 79,18" />
+</svg>
