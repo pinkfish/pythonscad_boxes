@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/railroad_tiles/Tokens_1_Tier1_body.stl?v=b6a4698f,../_stl/boxes/railroad_tiles/Tokens_1_Tier1_lid.stl?v=b393544b,../_stl/boxes/railroad_tiles/Tokens_1_Tier2_body.stl?v=814111e3,../_stl/boxes/railroad_tiles/Tokens_1_Tier2_lid.stl?v=e5d6d450,../_stl/boxes/railroad_tiles/Tokens_2_Tier1_body.stl?v=777c5a27,../_stl/boxes/railroad_tiles/Tokens_2_Tier1_lid.stl?v=e7e58da8,../_stl/boxes/railroad_tiles/Tokens_2_Tier2_body.stl?v=4472d5d7,../_stl/boxes/railroad_tiles/Tokens_2_Tier2_lid.stl?v=801b8090,../_stl/boxes/railroad_tiles/Tokens_3_Tier1_body.stl?v=cfced14d,../_stl/boxes/railroad_tiles/Tokens_3_Tier1_lid.stl?v=477fad79,../_stl/boxes/railroad_tiles/Tokens_3_Tier2_body.stl?v=951f78bf,../_stl/boxes/railroad_tiles/Tokens_3_Tier2_lid.stl?v=6393eb37,../_stl/boxes/railroad_tiles/Tokens_4_Tier1_body.stl?v=382ab3da,../_stl/boxes/railroad_tiles/Tokens_4_Tier1_lid.stl?v=d5155c8c,../_stl/boxes/railroad_tiles/Tokens_4_Tier2_body.stl?v=138d80c3,../_stl/boxes/railroad_tiles/Tokens_4_Tier2_lid.stl?v=ffd775e8,../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=c9cbabdd,../_stl/boxes/railroad_tiles/PlayerMarkersBox_lid.stl?v=fcf96758,../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=fa9568a0,../_stl/boxes/railroad_tiles/StartingClocksBox_lid.stl?v=501c927f,../_stl/boxes/railroad_tiles/ObjectiveBox_1_body.stl?v=0004cbaa,../_stl/boxes/railroad_tiles/ObjectiveBox_1_lid.stl?v=9108c484,../_stl/boxes/railroad_tiles/ObjectiveBox_2_body.stl?v=79fa9a6c,../_stl/boxes/railroad_tiles/ObjectiveBox_2_lid.stl?v=bb9bf5fc,../_stl/boxes/railroad_tiles/ObjectiveBox_3_body.stl?v=136e2315,../_stl/boxes/railroad_tiles/ObjectiveBox_3_lid.stl?v=04ea5c86,../_stl/boxes/railroad_tiles/ObjectiveBox_4_body.stl?v=9fd70437,../_stl/boxes/railroad_tiles/ObjectiveBox_4_lid.stl?v=921bdfa5,../_stl/boxes/railroad_tiles/ObjectiveBox_5_body.stl?v=f477ab9d,../_stl/boxes/railroad_tiles/ObjectiveBox_5_lid.stl?v=8ea361b5,../_stl/boxes/railroad_tiles/spacer_1.stl?v=0ae1268a,../_stl/boxes/railroad_tiles/spacer_2.stl?v=2a4d73a5,../_stl/boxes/railroad_tiles/spacer_3.stl?v=b7358979,../_stl/boxes/railroad_tiles/spacer_4.stl?v=a57c9e27
+.. stl:: ../_stl/boxes/railroad_tiles/Tokens_1_Tier1_body.stl?v=b6a4698f,../_stl/boxes/railroad_tiles/Tokens_1_Tier1_lid.stl?v=b393544b,../_stl/boxes/railroad_tiles/Tokens_1_Tier2_body.stl?v=814111e3,../_stl/boxes/railroad_tiles/Tokens_1_Tier2_lid.stl?v=e5d6d450,../_stl/boxes/railroad_tiles/Tokens_2_Tier1_body.stl?v=777c5a27,../_stl/boxes/railroad_tiles/Tokens_2_Tier1_lid.stl?v=e7e58da8,../_stl/boxes/railroad_tiles/Tokens_2_Tier2_body.stl?v=4472d5d7,../_stl/boxes/railroad_tiles/Tokens_2_Tier2_lid.stl?v=801b8090,../_stl/boxes/railroad_tiles/Tokens_3_Tier1_body.stl?v=cfced14d,../_stl/boxes/railroad_tiles/Tokens_3_Tier1_lid.stl?v=477fad79,../_stl/boxes/railroad_tiles/Tokens_3_Tier2_body.stl?v=951f78bf,../_stl/boxes/railroad_tiles/Tokens_3_Tier2_lid.stl?v=6393eb37,../_stl/boxes/railroad_tiles/Tokens_4_Tier1_body.stl?v=382ab3da,../_stl/boxes/railroad_tiles/Tokens_4_Tier1_lid.stl?v=d5155c8c,../_stl/boxes/railroad_tiles/Tokens_4_Tier2_body.stl?v=138d80c3,../_stl/boxes/railroad_tiles/Tokens_4_Tier2_lid.stl?v=ffd775e8,../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=4f1e1fc0,../_stl/boxes/railroad_tiles/PlayerMarkersBox_lid.stl?v=fcf96758,../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=c3775eb1,../_stl/boxes/railroad_tiles/StartingClocksBox_lid.stl?v=501c927f,../_stl/boxes/railroad_tiles/ObjectiveBox_1_body.stl?v=0004cbaa,../_stl/boxes/railroad_tiles/ObjectiveBox_1_lid.stl?v=9108c484,../_stl/boxes/railroad_tiles/ObjectiveBox_2_body.stl?v=79fa9a6c,../_stl/boxes/railroad_tiles/ObjectiveBox_2_lid.stl?v=bb9bf5fc,../_stl/boxes/railroad_tiles/ObjectiveBox_3_body.stl?v=136e2315,../_stl/boxes/railroad_tiles/ObjectiveBox_3_lid.stl?v=04ea5c86,../_stl/boxes/railroad_tiles/ObjectiveBox_4_body.stl?v=9fd70437,../_stl/boxes/railroad_tiles/ObjectiveBox_4_lid.stl?v=921bdfa5,../_stl/boxes/railroad_tiles/ObjectiveBox_5_body.stl?v=f477ab9d,../_stl/boxes/railroad_tiles/ObjectiveBox_5_lid.stl?v=8ea361b5,../_stl/boxes/railroad_tiles/spacer_1.stl?v=0ae1268a,../_stl/boxes/railroad_tiles/spacer_2.stl?v=2a4d73a5,../_stl/boxes/railroad_tiles/spacer_3.stl?v=b7358979,../_stl/boxes/railroad_tiles/spacer_4.stl?v=a57c9e27
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railroad_tiles/Tokens_1_Tier1_body.stl?v=b6a4698f" data-stl-combine="../_stl/boxes/railroad_tiles/Tokens_1_Tier1_body.stl?v=b6a4698f,../_stl/boxes/railroad_tiles/Tokens_1_Tier1_lid.stl?v=b393544b,../_stl/boxes/railroad_tiles/Tokens_1_Tier2_body.stl?v=814111e3,../_stl/boxes/railroad_tiles/Tokens_1_Tier2_lid.stl?v=e5d6d450,../_stl/boxes/railroad_tiles/Tokens_2_Tier1_body.stl?v=777c5a27,../_stl/boxes/railroad_tiles/Tokens_2_Tier1_lid.stl?v=e7e58da8,../_stl/boxes/railroad_tiles/Tokens_2_Tier2_body.stl?v=4472d5d7,../_stl/boxes/railroad_tiles/Tokens_2_Tier2_lid.stl?v=801b8090,../_stl/boxes/railroad_tiles/Tokens_3_Tier1_body.stl?v=cfced14d,../_stl/boxes/railroad_tiles/Tokens_3_Tier1_lid.stl?v=477fad79,../_stl/boxes/railroad_tiles/Tokens_3_Tier2_body.stl?v=951f78bf,../_stl/boxes/railroad_tiles/Tokens_3_Tier2_lid.stl?v=6393eb37,../_stl/boxes/railroad_tiles/Tokens_4_Tier1_body.stl?v=382ab3da,../_stl/boxes/railroad_tiles/Tokens_4_Tier1_lid.stl?v=d5155c8c,../_stl/boxes/railroad_tiles/Tokens_4_Tier2_body.stl?v=138d80c3,../_stl/boxes/railroad_tiles/Tokens_4_Tier2_lid.stl?v=ffd775e8,../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=c9cbabdd,../_stl/boxes/railroad_tiles/PlayerMarkersBox_lid.stl?v=fcf96758,../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=fa9568a0,../_stl/boxes/railroad_tiles/StartingClocksBox_lid.stl?v=501c927f,../_stl/boxes/railroad_tiles/ObjectiveBox_1_body.stl?v=0004cbaa,../_stl/boxes/railroad_tiles/ObjectiveBox_1_lid.stl?v=9108c484,../_stl/boxes/railroad_tiles/ObjectiveBox_2_body.stl?v=79fa9a6c,../_stl/boxes/railroad_tiles/ObjectiveBox_2_lid.stl?v=bb9bf5fc,../_stl/boxes/railroad_tiles/ObjectiveBox_3_body.stl?v=136e2315,../_stl/boxes/railroad_tiles/ObjectiveBox_3_lid.stl?v=04ea5c86,../_stl/boxes/railroad_tiles/ObjectiveBox_4_body.stl?v=9fd70437,../_stl/boxes/railroad_tiles/ObjectiveBox_4_lid.stl?v=921bdfa5,../_stl/boxes/railroad_tiles/ObjectiveBox_5_body.stl?v=f477ab9d,../_stl/boxes/railroad_tiles/ObjectiveBox_5_lid.stl?v=8ea361b5,../_stl/boxes/railroad_tiles/spacer_1.stl?v=0ae1268a,../_stl/boxes/railroad_tiles/spacer_2.stl?v=2a4d73a5,../_stl/boxes/railroad_tiles/spacer_3.stl?v=b7358979,../_stl/boxes/railroad_tiles/spacer_4.stl?v=a57c9e27" download="RailroadTiles_full_packing.stl">⬇ Download Full Box Packing STL (<code>RailroadTiles_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railroad_tiles/Tokens_1_Tier1_body.stl?v=b6a4698f" data-stl-combine="../_stl/boxes/railroad_tiles/Tokens_1_Tier1_body.stl?v=b6a4698f,../_stl/boxes/railroad_tiles/Tokens_1_Tier1_lid.stl?v=b393544b,../_stl/boxes/railroad_tiles/Tokens_1_Tier2_body.stl?v=814111e3,../_stl/boxes/railroad_tiles/Tokens_1_Tier2_lid.stl?v=e5d6d450,../_stl/boxes/railroad_tiles/Tokens_2_Tier1_body.stl?v=777c5a27,../_stl/boxes/railroad_tiles/Tokens_2_Tier1_lid.stl?v=e7e58da8,../_stl/boxes/railroad_tiles/Tokens_2_Tier2_body.stl?v=4472d5d7,../_stl/boxes/railroad_tiles/Tokens_2_Tier2_lid.stl?v=801b8090,../_stl/boxes/railroad_tiles/Tokens_3_Tier1_body.stl?v=cfced14d,../_stl/boxes/railroad_tiles/Tokens_3_Tier1_lid.stl?v=477fad79,../_stl/boxes/railroad_tiles/Tokens_3_Tier2_body.stl?v=951f78bf,../_stl/boxes/railroad_tiles/Tokens_3_Tier2_lid.stl?v=6393eb37,../_stl/boxes/railroad_tiles/Tokens_4_Tier1_body.stl?v=382ab3da,../_stl/boxes/railroad_tiles/Tokens_4_Tier1_lid.stl?v=d5155c8c,../_stl/boxes/railroad_tiles/Tokens_4_Tier2_body.stl?v=138d80c3,../_stl/boxes/railroad_tiles/Tokens_4_Tier2_lid.stl?v=ffd775e8,../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=4f1e1fc0,../_stl/boxes/railroad_tiles/PlayerMarkersBox_lid.stl?v=fcf96758,../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=c3775eb1,../_stl/boxes/railroad_tiles/StartingClocksBox_lid.stl?v=501c927f,../_stl/boxes/railroad_tiles/ObjectiveBox_1_body.stl?v=0004cbaa,../_stl/boxes/railroad_tiles/ObjectiveBox_1_lid.stl?v=9108c484,../_stl/boxes/railroad_tiles/ObjectiveBox_2_body.stl?v=79fa9a6c,../_stl/boxes/railroad_tiles/ObjectiveBox_2_lid.stl?v=bb9bf5fc,../_stl/boxes/railroad_tiles/ObjectiveBox_3_body.stl?v=136e2315,../_stl/boxes/railroad_tiles/ObjectiveBox_3_lid.stl?v=04ea5c86,../_stl/boxes/railroad_tiles/ObjectiveBox_4_body.stl?v=9fd70437,../_stl/boxes/railroad_tiles/ObjectiveBox_4_lid.stl?v=921bdfa5,../_stl/boxes/railroad_tiles/ObjectiveBox_5_body.stl?v=f477ab9d,../_stl/boxes/railroad_tiles/ObjectiveBox_5_lid.stl?v=8ea361b5,../_stl/boxes/railroad_tiles/spacer_1.stl?v=0ae1268a,../_stl/boxes/railroad_tiles/spacer_2.stl?v=2a4d73a5,../_stl/boxes/railroad_tiles/spacer_3.stl?v=b7358979,../_stl/boxes/railroad_tiles/spacer_4.stl?v=a57c9e27" download="RailroadTiles_full_packing.stl">⬇ Download Full Box Packing STL (<code>RailroadTiles_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -445,25 +445,25 @@ PlayerMarkersBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 38 × 12 mm``
 - **Packed Position**: ``(0, 52, 0)``
-- **Compartments (1)**: ``Markers`` (full interior)
+- **Compartments (1)**: ``Markers`` (108 × 32 mm, 11 elements)
 
 **Assembled Box (PlayerMarkersBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=c9cbabdd,../_stl/boxes/railroad_tiles/PlayerMarkersBox_lid.stl?v=fcf96758
+.. stl:: ../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=4f1e1fc0,../_stl/boxes/railroad_tiles/PlayerMarkersBox_lid.stl?v=fcf96758
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=c9cbabdd" data-stl-combine="../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=c9cbabdd,../_stl/boxes/railroad_tiles/PlayerMarkersBox_lid.stl?v=fcf96758" download="PlayerMarkersBox_assembled.stl">⬇ Download Assembled PlayerMarkersBox STL (<code>PlayerMarkersBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=4f1e1fc0" data-stl-combine="../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=4f1e1fc0,../_stl/boxes/railroad_tiles/PlayerMarkersBox_lid.stl?v=fcf96758" download="PlayerMarkersBox_assembled.stl">⬇ Download Assembled PlayerMarkersBox STL (<code>PlayerMarkersBox_assembled.stl</code>)</a></p>
 
 **Part: PlayerMarkersBox Body**
 
-.. stl:: ../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=c9cbabdd
+.. stl:: ../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=4f1e1fc0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=c9cbabdd" download="PlayerMarkersBox_body.stl">⬇ Download PlayerMarkersBox Body STL (<code>PlayerMarkersBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railroad_tiles/PlayerMarkersBox_body.stl?v=4f1e1fc0" download="PlayerMarkersBox_body.stl">⬇ Download PlayerMarkersBox Body STL (<code>PlayerMarkersBox_body.stl</code>)</a></p>
 
 **Part: PlayerMarkersBox Lid**
 
@@ -482,25 +482,25 @@ StartingClocksBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 38 × 12 mm``
 - **Packed Position**: ``(0, 52, 12)``
-- **Compartments (1)**: ``Clocks`` (full interior)
+- **Compartments (1)**: ``Clocks`` (108 × 32 mm, 9 elements)
 
 **Assembled Box (StartingClocksBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=fa9568a0,../_stl/boxes/railroad_tiles/StartingClocksBox_lid.stl?v=501c927f
+.. stl:: ../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=c3775eb1,../_stl/boxes/railroad_tiles/StartingClocksBox_lid.stl?v=501c927f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=fa9568a0" data-stl-combine="../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=fa9568a0,../_stl/boxes/railroad_tiles/StartingClocksBox_lid.stl?v=501c927f" download="StartingClocksBox_assembled.stl">⬇ Download Assembled StartingClocksBox STL (<code>StartingClocksBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=c3775eb1" data-stl-combine="../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=c3775eb1,../_stl/boxes/railroad_tiles/StartingClocksBox_lid.stl?v=501c927f" download="StartingClocksBox_assembled.stl">⬇ Download Assembled StartingClocksBox STL (<code>StartingClocksBox_assembled.stl</code>)</a></p>
 
 **Part: StartingClocksBox Body**
 
-.. stl:: ../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=fa9568a0
+.. stl:: ../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=c3775eb1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=fa9568a0" download="StartingClocksBox_body.stl">⬇ Download StartingClocksBox Body STL (<code>StartingClocksBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railroad_tiles/StartingClocksBox_body.stl?v=c3775eb1" download="StartingClocksBox_body.stl">⬇ Download StartingClocksBox Body STL (<code>StartingClocksBox_body.stl</code>)</a></p>
 
 **Part: StartingClocksBox Lid**
 

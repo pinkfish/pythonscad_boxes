@@ -20,6 +20,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -112,9 +114,69 @@ for i in range(2):
     )
 
 # ── 3. Resource Cube Boxes ────────────────────────────────────────
-cube_colors = ["red", "yellow", "green", "blue", "black", "purple"]
+cube_size = 8.25
+cube_inner_width = cube_box_width - wall_thickness * 2.0  # 48.25mm
+cube_inner_length = cube_box_length - wall_thickness * 2.0  # 97.0mm
 
-for color_name in cube_colors:
+# Per-color cube grid dimensions matching cube_info in gulf_mobile_and_ohio.scad
+cube_specs: list[tuple[str, int, int, int]] = [
+    ("red", 4, 5, 0),
+    ("yellow", 3, 8, 2),
+    ("green", 4, 8, 0),
+    ("blue", 2, 8, 0),
+    ("black", 2, 6, 0),
+    ("purple", 1, 6, 0),
+]
+
+
+def _cube_box_elements(num_x: int, num_y: int, remainder: int) -> tuple[CompartmentElement, ...]:
+    """Build exact per-color cube grid well + stepped upper rounded finger dish."""
+    cx = cube_inner_width / 2.0
+    cy = cube_inner_length / 2.0
+    grid_w = cube_size * num_x
+    grid_l = cube_size * num_y
+    cube_depth = cube_size + 0.5  # 8.75mm
+
+    elems: list[CompartmentElement] = [
+        CompartmentElement(
+            shape=ElementShape.RECT,
+            size=(grid_w, grid_l),
+            offset=(cx - grid_w / 2.0, cy - grid_l / 2.0),
+            depth=cube_depth,
+            pull_out=False,
+            label="CubeGrid",
+        )
+    ]
+    if remainder > 0:
+        rem_l = cube_size * remainder
+        rem_cx = cx + grid_w / 2.0 + cube_size / 2.0
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.RECT,
+                size=(cube_size, rem_l),
+                offset=(rem_cx - cube_size / 2.0, cy - rem_l / 2.0),
+                depth=cube_depth,
+                pull_out=False,
+                label="CubeRemainder",
+            )
+        )
+    # Stepped upper rounded finger dish around the cube well
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(cube_inner_width - 4.0, cube_inner_length - 4.0),
+            offset=(2.0, 2.0),
+            depth=cube_size / 2.0,
+            corner_radius=5.0,
+            bottom_rounding=2.0,
+            pull_out=False,
+            label="UpperFingerDish",
+        )
+    )
+    return tuple(elems)
+
+
+for color_name, num_x, num_y, remainder in cube_specs:
     bx = project.box(
         BoxType.CAP,
         f"CubeBox_{color_name.title()}",
@@ -129,10 +191,72 @@ for color_name in cube_colors:
     )
     bx.compartment(
         "Cubes",
-        cut=FingerCut.SCOOP,
+        size=(cube_inner_width, cube_inner_length),
+        position=(0.0, 0.0),
+        elements=_cube_box_elements(num_x, num_y, remainder),
     )
 
 # ── 4. Player Tokens Box ──────────────────────────────────────────
+marker_diameter = 16.5
+marker_thickness = 14.5
+common_share_diameter = 20.5
+common_share_thickness = 31.0
+
+
+def _player_token_elements() -> tuple[CompartmentElement, ...]:
+    """Build 5 circular marker wells + common share cradle + stepped upper finger dish."""
+    elems: list[CompartmentElement] = []
+
+    # 5 circular marker wells along the left side (d=16.5mm, depth=14.5mm)
+    for i in range(5):
+        mcx = 5.0 + marker_diameter / 2.0
+        mcy = 6.0 + marker_diameter / 2.0 + (marker_diameter + 1.0) * i
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(marker_diameter, marker_diameter),
+                offset=(mcx - marker_diameter / 2.0, mcy - marker_diameter / 2.0),
+                depth=marker_thickness,
+                pull_out=False,
+                label=f"MarkerWell_{i + 1}",
+            )
+        )
+
+    # Common share standing-disc cradle on the right side (20.5x31mm, depth=21.0mm)
+    share_cx = cube_inner_width - common_share_diameter * 0.75
+    share_cy = cube_inner_length / 2.0
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(common_share_diameter, common_share_thickness),
+            offset=(
+                share_cx - common_share_diameter / 2.0,
+                share_cy - common_share_thickness / 2.0,
+            ),
+            depth=common_share_diameter + 0.5,
+            corner_radius=1.0,
+            bottom_rounding=8.0,
+            pull_out=False,
+            label="CommonSharesCradle",
+        )
+    )
+
+    # Stepped upper rounded finger dish (depth=7.25mm)
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(cube_inner_width - 2.0, cube_inner_length - 2.0),
+            offset=(1.0, 1.0),
+            depth=marker_thickness / 2.0,
+            corner_radius=5.0,
+            bottom_rounding=2.5,
+            pull_out=False,
+            label="UpperFingerDish",
+        )
+    )
+    return tuple(elems)
+
+
 tok_box = project.box(
     BoxType.CAP,
     "PlayerTokenBox",
@@ -147,7 +271,9 @@ tok_box = project.box(
 )
 tok_box.compartment(
     "Tokens",
-    cut=FingerCut.SCOOP,
+    size=(cube_inner_width, cube_inner_length),
+    position=(0.0, 0.0),
+    elements=_player_token_elements(),
 )
 
 # ── Export ────────────────────────────────────────────────────────

@@ -20,6 +20,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -27,6 +29,12 @@ from pyboxbuilder import (
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "railroad_tiles" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -92,6 +100,120 @@ for label in token_labels:
         )
 
 # ── 2. Player & Starting Marker Boxes ─────────────────────────────
+player_inner_width = player_box_width - wall_thickness * 2.0  # 108.0mm
+player_inner_length = player_box_length - wall_thickness * 2.0  # 32.0mm
+
+cardboard_thickness = 1.5
+railroad_tile_two_player = 29.0
+player_marker_width = 13.0
+player_marker_total_height = 21.25
+player_marker_thickness = 7.0
+
+
+def _player_markers_elements() -> tuple[CompartmentElement, ...]:
+    """Build 4 conductor SVG marker wells + 2-player tile well with finger bites."""
+    elems: list[CompartmentElement] = []
+    marker_svg = str(ASSETS / "player_marker.svg")
+    marker_depth = player_marker_thickness + 1.0  # 8.0mm
+    cy = player_inner_length / 2.0  # 16.0mm
+
+    # 4 player conductor markers
+    for i in range(4):
+        cx = player_marker_width / 2.0 + (player_marker_width + 2.0) * i
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.SVG,
+                shape_file=marker_svg,
+                size=(player_marker_width, player_marker_total_height),
+                offset=(cx - player_marker_width / 2.0, cy - player_marker_total_height / 2.0),
+                depth=marker_depth,
+                pull_out=False,
+                label=f"PlayerMarker_{i + 1}",
+            )
+        )
+        # Subtle top finger notch for lifting marker
+        notch_d = 8.0
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(notch_d, notch_d),
+                offset=(cx - notch_d / 2.0, cy - player_marker_total_height / 2.0 - notch_d / 2.0),
+                depth=marker_depth / 2.0,
+                bottom_rounding=1.5,
+                pull_out=False,
+                label=f"PlayerMarkerNotch_{i + 1}",
+            )
+        )
+
+    # 2-player square tile well (29x29mm, depth 2.5mm) + left/right finger bites
+    tile_cx = player_inner_width - player_box_height - 10.0  # 86.0mm
+    tile_depth = cardboard_thickness + 1.0  # 2.5mm
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(railroad_tile_two_player, railroad_tile_two_player),
+            offset=(tile_cx - railroad_tile_two_player / 2.0, cy - railroad_tile_two_player / 2.0),
+            depth=tile_depth,
+            corner_radius=1.0,
+            pull_out=False,
+            label="TwoPlayerTile",
+        )
+    )
+    bite_d = 14.0
+    for idx, sign in enumerate((-1.0, 1.0), start=1):
+        bite_cx = tile_cx + sign * (railroad_tile_two_player / 2.0)
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(bite_d, bite_d),
+                offset=(bite_cx - bite_d / 2.0, cy - bite_d / 2.0),
+                depth=tile_depth,
+                bottom_rounding=1.0,
+                pull_out=False,
+                label=f"TwoPlayerTileBite_{idx}",
+            )
+        )
+
+    return tuple(elems)
+
+
+def _starting_clocks_elements() -> tuple[CompartmentElement, ...]:
+    """Build 3 circular clock tile wells with stepped depths and 0/180-deg finger bites."""
+    elems: list[CompartmentElement] = []
+    cy = player_inner_length / 2.0  # 16.0mm
+    bite_d = 14.0
+    bite_r = bite_d / 2.0
+
+    for i in range(3):
+        cx = player_inner_width - clock_diameter / 2.0 - (clock_diameter + 2.0) * i - 4.0
+        depth = cardboard_thickness * (3 if i == 0 else 2) + 1.0  # 5.5mm, 4.0mm, 4.0mm
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.CIRCLE,
+                size=(clock_diameter, clock_diameter),
+                offset=(cx - clock_diameter / 2.0, cy - clock_diameter / 2.0),
+                depth=depth,
+                pull_out=False,
+                label=f"ClockWell_{i + 1}",
+            )
+        )
+        for side_idx, sign in enumerate((-1.0, 1.0), start=1):
+            raw_bite_cx = cx + sign * (clock_diameter / 2.0)
+            clamped_bite_cx = max(bite_r, min(player_inner_width - bite_r, raw_bite_cx))
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(bite_d, bite_d),
+                    offset=(clamped_bite_cx - bite_r, cy - bite_r),
+                    depth=depth,
+                    pull_out=False,
+                    label=f"ClockBite_{i + 1}_{side_idx}",
+                )
+            )
+
+    return tuple(elems)
+
+
 project.box(
     BoxType.CAP,
     "PlayerMarkersBox",
@@ -105,7 +227,9 @@ project.box(
     ),
 ).compartment(
     "Markers",
-    cut=FingerCut.SCOOP,
+    size=(player_inner_width, player_inner_length),
+    position=(0.0, 0.0),
+    elements=_player_markers_elements(),
 )
 
 project.box(
@@ -121,7 +245,9 @@ project.box(
     ),
 ).compartment(
     "Clocks",
-    cut=FingerCut.SCOOP,
+    size=(player_inner_width, player_inner_length),
+    position=(0.0, 0.0),
+    elements=_starting_clocks_elements(),
 )
 
 # ── 3. Objective Tile Boxes (5 trays) ─────────────────────────────

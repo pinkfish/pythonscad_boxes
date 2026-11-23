@@ -22,6 +22,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -29,6 +31,12 @@ from pyboxbuilder import (
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "first_class" / "assets"
 )
 
 # ── Game Box Dimensions ───────────────────────────────────────────
@@ -55,6 +63,13 @@ num_module_cards = 24
 
 locomotive_tile_width = 68.5
 locomotive_tile_length = 64.5
+
+player_cube = 8.5
+meeple_width = 15.5
+meeple_length = 21.0
+meeple_thickness = 10.5
+train_length = 15.5
+train_width = 11.5
 
 # ── Sub-Box Dimensions (matching first_class.scad) ────────────────
 player_box_width = box_width / 2.0  # 108.5mm
@@ -101,6 +116,76 @@ project = Project(
 ORIENT_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
 # ── Row 1: Player Boxes (x4), Money Box & Evidence Box (Y = 0 .. 53) ──
+player_inner_w = player_box_width - wall_thickness * 2.0  # 102.5mm
+player_inner_l = player_box_length - wall_thickness * 2.0  # 47.0mm
+player_card_diff = 1.0 + single_card_thickness * 6.0  # 4.6mm
+player_token_depth = player_card_diff + meeple_thickness + 0.5  # 15.6mm
+player_elements: tuple[CompartmentElement, ...] = (
+    # Top card shelf (6 player cards resting over train + 3 meeples)
+    CompartmentElement(
+        shape=ElementShape.RECT,
+        size=(card_length, card_width),
+        offset=(0.0, 0.0),
+        depth=player_card_diff,
+        pull_out=False,
+        label="PlayerCardsShelf",
+    ),
+    # Mid-depth finger relief dish under the card shelf
+    CompartmentElement(
+        shape=ElementShape.ROUNDED_RECT,
+        size=(card_length - 5.0, card_width - 10.0),
+        offset=(2.5, 5.0),
+        depth=player_card_diff + meeple_thickness / 2.0,
+        corner_radius=5.0,
+        pull_out=False,
+        label="MeepleFingerDish",
+    ),
+    # Train token silhouette well
+    CompartmentElement(
+        shape=ElementShape.SVG,
+        shape_file=str(ASSETS / "train_token.svg"),
+        size=(train_length, train_width),
+        offset=(25.0, 7.0),
+        depth=player_token_depth,
+        pull_out=False,
+        label="TrainToken",
+    ),
+    # 3 Meeple token silhouette wells
+    *(
+        CompartmentElement(
+            shape=ElementShape.SVG,
+            shape_file=str(ASSETS / "meeple_token.svg"),
+            size=(meeple_width, meeple_length),
+            offset=(9.0 + (meeple_width + 2.0) * i, 20.0),
+            depth=player_token_depth,
+            pull_out=False,
+            label=f"MeepleToken_{i + 1}",
+        )
+        for i in range(3)
+    ),
+    # Player cubes well + shallow finger-lift dish on right end
+    CompartmentElement(
+        shape=ElementShape.RECT,
+        size=(player_cube * 2.0, player_cube * 3.0),
+        offset=(player_inner_w - 7.0 - player_cube * 2.0, (player_inner_l - player_cube * 3.0) / 2.0),
+        depth=player_cube + 0.5,
+        pull_out=False,
+        label="CubesWell",
+    ),
+    CompartmentElement(
+        shape=ElementShape.ROUNDED_RECT,
+        size=(player_cube * 2.0 + 10.0, player_cube * 3.0 + 10.0),
+        offset=(
+            player_inner_w - 7.0 - player_cube * 2.0 - 5.0,
+            (player_inner_l - (player_cube * 3.0 + 10.0)) / 2.0,
+        ),
+        depth=player_cube / 2.0,
+        corner_radius=5.0,
+        pull_out=False,
+        label="CubesFingerDish",
+    ),
+)
+
 player_positions = [
     ("yellow", (0.0, 0.0, 0.0)),
     ("blue", (0.0, 0.0, player_box_height)),
@@ -109,7 +194,7 @@ player_positions = [
 ]
 
 for color_name, pos in player_positions:
-    box = project.box(
+    project.box(
         BoxType.SLIDING,
         f"PlayerBox_{color_name}",
         size=(player_box_width, player_box_length, player_box_height),
@@ -121,9 +206,12 @@ for color_name, pos in player_positions:
             text_color=Color("black" if color_name == "yellow" else "white"),
             frame_color=Color(color_name),
         ),
+    ).compartment(
+        "PlayerBits",
+        size=(player_inner_w, player_inner_l),
+        position=(0.0, 0.0),
+        elements=player_elements,
     )
-    box.compartment("CardsMeeplesTrains", width_ratio=0.65, cut=FingerCut.SCOOP)
-    box.compartment("Cubes", width_ratio=0.35, cut=FingerCut.SCOOP)
 
 project.box(
     BoxType.SLIDING,

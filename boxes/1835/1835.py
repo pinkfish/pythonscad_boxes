@@ -21,6 +21,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -108,6 +110,180 @@ for idx, (m_h, denom_label) in enumerate(
             cut=FingerCut.SCOOP,
         )
 
+# ── Interior Geometry Helpers (from 1835.scad) ────────────────────
+middle_inner_h = middle_box_height - floor_thickness - lid_thickness  # 13.0mm
+hex_inner_w = hex_box_width - wall_thickness * 2.0                    # 211.0mm
+hex_inner_l = hex_box_length - wall_thickness * 2.0                   # ~138.564mm
+hex_inner_h = hex_box_height - floor_thickness - lid_thickness        # 4.75mm
+first_player_inner_h = first_player_box_height - floor_thickness - lid_thickness  # 20.0mm
+
+
+def _middle_box_elements() -> tuple[CompartmentElement, ...]:
+    """MiddleBox: 40 circular token wells (14 rows), Trains well, stepped Private well."""
+    elems: list[CompartmentElement] = []
+    # 1. 14 rows of small circular token wells (d=6mm, depth=3mm flush with top)
+    token_depths = (1, 1, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 4, 4)
+    tok_d = 6.0
+    tok_r = tok_d / 2.0
+    tok_depth = 3.0
+    tok_z = middle_inner_h - tok_depth  # 10.0mm
+    for i, count in enumerate(token_depths):
+        col_idx = i if i < 4 else i + 1
+        cx = 5.0 + col_idx * 14.0 + tok_r
+        for j in range(count):
+            cy = 6.0 + j * 11.0
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(tok_d, tok_d),
+                    offset=(cx - tok_r, cy - tok_r),
+                    depth=tok_depth,
+                    z_offset=tok_z,
+                    pull_out=False,
+                    label=f"Token_{i}_{j}",
+                )
+            )
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(tok_d, tok_d),
+                    offset=(cx - tok_r, cy),
+                    depth=tok_depth,
+                    z_offset=tok_z,
+                    pull_out=False,
+                    label=f"TokenBite_{i}_{j}",
+                )
+            )
+
+    # 2. Trains card well (66.5 x 46.5mm, full depth) + left circular finger bite
+    trains_w = share_length + 0.5  # 66.5mm
+    trains_l = share_width + 0.5   # 46.5mm
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.RECT,
+            size=(trains_w, trains_l),
+            offset=(41.0, 49.0),
+            depth=middle_inner_h,
+            pull_out=False,
+            label="TrainsCards",
+        )
+    )
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(20.0, 20.0),
+            offset=(41.0 - 10.0, 49.0 + trains_l / 2.0 - 10.0),
+            depth=middle_inner_h,
+            pull_out=False,
+            label="TrainsBite",
+        )
+    )
+
+    # 3. Private company cards well (66 x 46mm, shallow stepped depth=4.5mm) + right bite
+    priv_depth = 4.5
+    priv_z = middle_inner_h - priv_depth  # 8.5mm
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.RECT,
+            size=(share_length, share_width),
+            offset=(124.0, 49.0),
+            depth=priv_depth,
+            z_offset=priv_z,
+            pull_out=False,
+            label="PrivateCards",
+        )
+    )
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(20.0, 20.0),
+            offset=(124.0 + share_length - 10.0, 49.0 + share_width / 2.0 - 10.0),
+            depth=priv_depth,
+            z_offset=priv_z,
+            pull_out=False,
+            label="PrivateBite",
+        )
+    )
+    return tuple(elems)
+
+
+def _hex_box_elements() -> tuple[CompartmentElement, ...]:
+    """HexBox: 3x5 pointy-top hexagonal tile grid with circular edge finger bites."""
+    elems: list[CompartmentElement] = []
+    tw = 39.9  # tiny clearance inside 6 * tile_radius
+    p2p = tw / math.cos(math.radians(30.0))  # ~46.073mm
+    x_margin = (hex_inner_w - 5.0 * tw) / 2.0
+    y_margin = (hex_inner_l - 3.0 * p2p) / 2.0
+    bite_d = 10.0
+    for row in range(3):
+        cy = y_margin + p2p / 2.0 + row * p2p
+        for col in range(5):
+            cx = x_margin + tw / 2.0 + col * tw
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.HEXAGON,
+                    size=(tw, tw),
+                    rotation=30.0,
+                    offset=(cx - tw / 2.0, cy - p2p / 2.0),
+                    depth=hex_inner_h,
+                    pull_out=False,
+                    label=f"Hex_{row}_{col}",
+                )
+            )
+        # Circular finger bites straddling each vertical hex edge
+        for k in range(6):
+            bx = x_margin + k * tw
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(bite_d, bite_d),
+                    offset=(bx - bite_d / 2.0, cy - bite_d / 2.0),
+                    depth=hex_inner_h,
+                    pull_out=False,
+                    label=f"HexBite_{row}_{k}",
+                )
+            )
+    return tuple(elems)
+
+
+def _first_player_elements() -> tuple[CompartmentElement, ...]:
+    """FirstPlayerBox: horizontal cylindrical marker cradle (d=20, l=41) + twin pinch bites."""
+    # Fits comfortably inside slipover interior (~67.6 x 43.0mm for wall_thickness=3.0)
+    cx, cy = 33.5, 21.25
+    cradle_w, cradle_l = 20.5, 41.0
+    bite_d = 20.0
+    return (
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(cradle_w, cradle_l),
+            offset=(cx - cradle_w / 2.0, cy - cradle_l / 2.0),
+            corner_radius=2.0,
+            bottom_rounding=9.5,
+            depth=first_player_inner_h,
+            pull_out=False,
+            label="MarkerCradle",
+        ),
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(bite_d, bite_d),
+            offset=(cx - 12.0 - bite_d / 2.0, cy - bite_d / 2.0),
+            bottom_rounding=8.0,
+            depth=first_player_inner_h,
+            pull_out=False,
+            label="PinchBiteLeft",
+        ),
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(bite_d, bite_d),
+            offset=(cx + 12.0 - bite_d / 2.0, cy - bite_d / 2.0),
+            bottom_rounding=8.0,
+            depth=first_player_inner_h,
+            pull_out=False,
+            label="PinchBiteRight",
+        ),
+    )
+
+
 # ── 2. Middle Box (Tokens, Trains & Private Companies) ────────────
 middle_box = project.box(
     BoxType.CAP,
@@ -121,9 +297,10 @@ middle_box = project.box(
         frame_color=Color("darkslateblue"),
     ),
 )
-middle_box.compartment("Tokens", width_ratio=0.45, cut=FingerCut.SCOOP)
-middle_box.compartment("Trains", width_ratio=0.275, cut=FingerCut.SCOOP)
-middle_box.compartment("Private", width_ratio=0.275, cut=FingerCut.SCOOP)
+middle_box.compartment(
+    "TokensAndCards",
+    elements=_middle_box_elements(),
+)
 
 # ── 3. Track Hex Tile Boxes (4 tiers stacked, inset lid) ──────────
 hex_colors = ["goldenrod", "forestgreen", "saddlebrown", "dimgray"]
@@ -140,12 +317,10 @@ for tier in range(4):
             frame_color=Color(hex_colors[tier]),
         ),
     )
-    for slot in range(5):
-        h_box.compartment(
-            f"HexCol_{slot + 1}",
-            width_ratio=0.2,
-            cut=FingerCut.SCOOP,
-        )
+    h_box.compartment(
+        "HexGrid",
+        elements=_hex_box_elements(),
+    )
 
 # ── 4. Railroad Company Shares (4 tiers stacked, slipover lid) ────
 for tier in range(4):
@@ -179,7 +354,10 @@ p_box = project.box(
         frame_color=Color("navy"),
     ),
 )
-p_box.compartment("FirstPlayerMarker", cut=FingerCut.SCOOP)
+p_box.compartment(
+    "FirstPlayerMarker",
+    elements=_first_player_elements(),
+)
 
 project.stack_order("HexBox_1", "HexBox_2", "HexBox_3", "HexBox_4")
 

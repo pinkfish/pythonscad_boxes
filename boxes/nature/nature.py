@@ -20,6 +20,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -126,6 +128,44 @@ project.box(
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 3. Population Dials (x2) & Leopard Box ────────────────────────
+disk_diameter = 46.0
+disk_thickness = 4.0
+dial_inner_width = dial_box_width - wall_thickness * 2.0      # 101.0mm
+dial_inner_length = dial_box_length - wall_thickness * 2.0    # 46.0mm
+dial_inner_height = dial_box_height - floor_thickness - lid_thickness  # 47.0mm
+
+
+def _dial_box_elements() -> tuple[CompartmentElement, ...]:
+    """Build 10 vertical standing dial slots intersected by a central finger channel."""
+    elems: list[CompartmentElement] = [
+        # Longitudinal finger-grab channel across the top center of all 10 dial slots
+        CompartmentElement(
+            shape=ElementShape.RECT,
+            size=(dial_inner_width, disk_diameter / 2.0),
+            offset=(0.0, (dial_inner_length - disk_diameter / 2.0) / 2.0),
+            depth=disk_diameter / 2.0 + 5.0,
+            bottom_rounding=6.0,
+            pull_out=False,
+            label="DialFingerChannel",
+        )
+    ]
+    slot_w = disk_thickness + 0.5
+    for i in range(10):
+        cx = disk_thickness / 2.0 + 5.0 + (disk_thickness + 5.6) * i
+        elems.append(
+            CompartmentElement(
+                shape=ElementShape.RECT,
+                size=(slot_w, dial_inner_length),
+                offset=(cx - slot_w / 2.0, 0.0),
+                depth=dial_inner_height,
+                corner_rounding=0.5,
+                pull_out=False,
+                label=f"DialSlot_{i + 1}",
+            )
+        )
+    return tuple(elems)
+
+
 for idx in range(1, 3):
     project.box(
         BoxType.CAP,
@@ -139,7 +179,12 @@ for idx in range(1, 3):
             text_color=Color("white"),
             frame_color=Color("darkgoldenrod"),
         ),
-    ).compartment("Dials", cut=FingerCut.SCOOP)
+    ).compartment(
+        "Dials",
+        size=(dial_inner_width, dial_inner_length),
+        position=(0.0, 0.0),
+        elements=_dial_box_elements(),
+    )
 
 project.box(
     BoxType.SLIDING,

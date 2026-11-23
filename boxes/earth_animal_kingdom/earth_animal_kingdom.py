@@ -20,6 +20,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -122,6 +124,50 @@ project.box(
 )
 
 # ── 3. Animal Token Trays ─────────────────────────────────────────
+animal_token_thickness = 8.0
+animal_inner_width = animal_box_width - wall_thickness * 2.0      # 164.0mm
+animal_inner_length = animal_box_length - wall_thickness * 2.0    # 123.0mm
+
+
+def _animal_tray_elements(tray_idx: int) -> tuple[CompartmentElement, ...]:
+    """Stepped-depth tray: shallow upper finger clearance + 12 deep animal token wells."""
+    upper_depth = animal_token_thickness / 2.0  # 4.0mm
+    well_depth = animal_token_thickness + 0.5   # 8.5mm (<= 9.0mm interior height)
+    elems: list[CompartmentElement] = [
+        # Upper rounded clearance terrace (RoundedBoxAllSides inset 1mm, radius=3)
+        CompartmentElement(
+            shape=ElementShape.ROUNDED_RECT,
+            size=(animal_inner_width - 2.0, animal_inner_length - 2.0),
+            offset=(1.0, 1.0),
+            depth=upper_depth,
+            corner_radius=3.0,
+            bottom_rounding=2.0,
+            pull_out=False,
+            label=f"UpperClearance_{tray_idx}",
+        )
+    ]
+    # 4x3 grid of deeper individual animal token pockets below the upper terrace
+    cols, rows = 4, 3
+    slot_w, slot_l = 35.0, 34.0
+    gap = 4.0
+    start_x = (animal_inner_width - (cols * slot_w + (cols - 1) * gap)) / 2.0
+    start_y = (animal_inner_length - (rows * slot_l + (rows - 1) * gap)) / 2.0
+    for r in range(rows):
+        for c in range(cols):
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.ROUNDED_RECT,
+                    size=(slot_w, slot_l),
+                    offset=(start_x + c * (slot_w + gap), start_y + r * (slot_l + gap)),
+                    depth=well_depth,
+                    corner_radius=4.0,
+                    pull_out=False,
+                    label=f"Animal_{tray_idx}_{r + 1}_{c + 1}",
+                )
+            )
+    return tuple(elems)
+
+
 for tier in range(2):
     a_box = project.box(
         BoxType.CAP,
@@ -135,12 +181,12 @@ for tier in range(2):
             frame_color=Color("darkgoldenrod"),
         ),
     )
-    for slot in range(3):
-        a_box.compartment(
-            f"Species_{slot + 1}",
-            width_ratio=1.0 / 3.0,
-            cut=FingerCut.SCOOP,
-        )
+    a_box.compartment(
+        f"AnimalTray_{tier + 1}",
+        size=(animal_inner_width, animal_inner_length),
+        position=(0.0, 0.0),
+        elements=_animal_tray_elements(tier + 1),
+    )
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
