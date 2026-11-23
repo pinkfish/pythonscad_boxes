@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=5bffc5f9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=017fb593,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=1fdcf292,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=ab15c6e7,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=334692e0,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=af602151,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=589527c7,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=06dc9b85,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=36e279a2,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=2b9da1d9,../_stl/boxes/emberleaf/MaterialBoxFood_body.stl?v=e4d8c255,../_stl/boxes/emberleaf/MaterialBoxFood_lid.stl?v=8bc11f5d,../_stl/boxes/emberleaf/MaterialBoxStone_body.stl?v=6ed8749f,../_stl/boxes/emberleaf/MaterialBoxStone_lid.stl?v=d71d1968,../_stl/boxes/emberleaf/MaterialBoxHoney_body.stl?v=77b40a2e,../_stl/boxes/emberleaf/MaterialBoxHoney_lid.stl?v=7a660249,../_stl/boxes/emberleaf/MaterialBoxWood_body.stl?v=407a6232,../_stl/boxes/emberleaf/MaterialBoxWood_lid.stl?v=9d3718b4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=a9683af2,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=3d653196,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=69b087bf,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=72389aeb,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=6ad39bd0,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=8b781c30,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=e0c93789,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=13c01518,../_stl/boxes/emberleaf/CardBoxPlayerBlue_body.stl?v=01c6f232,../_stl/boxes/emberleaf/CardBoxPlayerBlue_lid.stl?v=306fdbcc,../_stl/boxes/emberleaf/CardBoxPlayerYellow_body.stl?v=a6f2eb78,../_stl/boxes/emberleaf/CardBoxPlayerYellow_lid.stl?v=742f172a,../_stl/boxes/emberleaf/CardBoxPlayerGrey_body.stl?v=630e385e,../_stl/boxes/emberleaf/CardBoxPlayerGrey_lid.stl?v=136bfea6,../_stl/boxes/emberleaf/CardBoxPlayerRed_body.stl?v=8313ce70,../_stl/boxes/emberleaf/CardBoxPlayerRed_lid.stl?v=80d05447,../_stl/boxes/emberleaf/CommonBox_body.stl?v=1c75ccc9,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=012397c2,../_stl/boxes/emberleaf/spacer_1.stl?v=5f3f60b8,../_stl/boxes/emberleaf/spacer_2.stl?v=52518392,../_stl/boxes/emberleaf/spacer_3.stl?v=207efb9b
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=07cb9117,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=a45f595d,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=3df3c510,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=ab15c6e7,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=58607b25,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=af602151,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=2a1b5e9a,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=06dc9b85,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=1b6d22f9,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=2b9da1d9,../_stl/boxes/emberleaf/MaterialBoxFood_body.stl?v=e4d8c255,../_stl/boxes/emberleaf/MaterialBoxFood_lid.stl?v=8bc11f5d,../_stl/boxes/emberleaf/MaterialBoxStone_body.stl?v=6ed8749f,../_stl/boxes/emberleaf/MaterialBoxStone_lid.stl?v=d71d1968,../_stl/boxes/emberleaf/MaterialBoxHoney_body.stl?v=77b40a2e,../_stl/boxes/emberleaf/MaterialBoxHoney_lid.stl?v=7a660249,../_stl/boxes/emberleaf/MaterialBoxWood_body.stl?v=407a6232,../_stl/boxes/emberleaf/MaterialBoxWood_lid.stl?v=9d3718b4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=a9683af2,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=3d653196,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=69b087bf,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=72389aeb,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=6ad39bd0,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=8b781c30,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=e0c93789,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=13c01518,../_stl/boxes/emberleaf/CardBoxPlayerBlue_body.stl?v=01c6f232,../_stl/boxes/emberleaf/CardBoxPlayerBlue_lid.stl?v=306fdbcc,../_stl/boxes/emberleaf/CardBoxPlayerYellow_body.stl?v=a6f2eb78,../_stl/boxes/emberleaf/CardBoxPlayerYellow_lid.stl?v=742f172a,../_stl/boxes/emberleaf/CardBoxPlayerGrey_body.stl?v=630e385e,../_stl/boxes/emberleaf/CardBoxPlayerGrey_lid.stl?v=136bfea6,../_stl/boxes/emberleaf/CardBoxPlayerRed_body.stl?v=8313ce70,../_stl/boxes/emberleaf/CardBoxPlayerRed_lid.stl?v=80d05447,../_stl/boxes/emberleaf/CommonBox_body.stl?v=95ba2a9f,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=012397c2,../_stl/boxes/emberleaf/spacer_1.stl?v=5f3f60b8,../_stl/boxes/emberleaf/spacer_2.stl?v=52518392,../_stl/boxes/emberleaf/spacer_3.stl?v=207efb9b
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=5bffc5f9" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=5bffc5f9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=017fb593,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=1fdcf292,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=ab15c6e7,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=334692e0,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=af602151,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=589527c7,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=06dc9b85,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=36e279a2,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=2b9da1d9,../_stl/boxes/emberleaf/MaterialBoxFood_body.stl?v=e4d8c255,../_stl/boxes/emberleaf/MaterialBoxFood_lid.stl?v=8bc11f5d,../_stl/boxes/emberleaf/MaterialBoxStone_body.stl?v=6ed8749f,../_stl/boxes/emberleaf/MaterialBoxStone_lid.stl?v=d71d1968,../_stl/boxes/emberleaf/MaterialBoxHoney_body.stl?v=77b40a2e,../_stl/boxes/emberleaf/MaterialBoxHoney_lid.stl?v=7a660249,../_stl/boxes/emberleaf/MaterialBoxWood_body.stl?v=407a6232,../_stl/boxes/emberleaf/MaterialBoxWood_lid.stl?v=9d3718b4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=a9683af2,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=3d653196,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=69b087bf,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=72389aeb,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=6ad39bd0,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=8b781c30,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=e0c93789,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=13c01518,../_stl/boxes/emberleaf/CardBoxPlayerBlue_body.stl?v=01c6f232,../_stl/boxes/emberleaf/CardBoxPlayerBlue_lid.stl?v=306fdbcc,../_stl/boxes/emberleaf/CardBoxPlayerYellow_body.stl?v=a6f2eb78,../_stl/boxes/emberleaf/CardBoxPlayerYellow_lid.stl?v=742f172a,../_stl/boxes/emberleaf/CardBoxPlayerGrey_body.stl?v=630e385e,../_stl/boxes/emberleaf/CardBoxPlayerGrey_lid.stl?v=136bfea6,../_stl/boxes/emberleaf/CardBoxPlayerRed_body.stl?v=8313ce70,../_stl/boxes/emberleaf/CardBoxPlayerRed_lid.stl?v=80d05447,../_stl/boxes/emberleaf/CommonBox_body.stl?v=1c75ccc9,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=012397c2,../_stl/boxes/emberleaf/spacer_1.stl?v=5f3f60b8,../_stl/boxes/emberleaf/spacer_2.stl?v=52518392,../_stl/boxes/emberleaf/spacer_3.stl?v=207efb9b" download="Emberleaf_full_packing.stl">⬇ Download Full Box Packing STL (<code>Emberleaf_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=07cb9117" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=07cb9117,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=a45f595d,../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=3df3c510,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=ab15c6e7,../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=58607b25,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=af602151,../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=2a1b5e9a,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=06dc9b85,../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=1b6d22f9,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=2b9da1d9,../_stl/boxes/emberleaf/MaterialBoxFood_body.stl?v=e4d8c255,../_stl/boxes/emberleaf/MaterialBoxFood_lid.stl?v=8bc11f5d,../_stl/boxes/emberleaf/MaterialBoxStone_body.stl?v=6ed8749f,../_stl/boxes/emberleaf/MaterialBoxStone_lid.stl?v=d71d1968,../_stl/boxes/emberleaf/MaterialBoxHoney_body.stl?v=77b40a2e,../_stl/boxes/emberleaf/MaterialBoxHoney_lid.stl?v=7a660249,../_stl/boxes/emberleaf/MaterialBoxWood_body.stl?v=407a6232,../_stl/boxes/emberleaf/MaterialBoxWood_lid.stl?v=9d3718b4,../_stl/boxes/emberleaf/CardBoxFavor_body.stl?v=a9683af2,../_stl/boxes/emberleaf/CardBoxFavor_lid.stl?v=3d653196,../_stl/boxes/emberleaf/CardBoxHero_body.stl?v=69b087bf,../_stl/boxes/emberleaf/CardBoxHero_lid.stl?v=72389aeb,../_stl/boxes/emberleaf/CardBoxSolo_body.stl?v=6ad39bd0,../_stl/boxes/emberleaf/CardBoxSolo_lid.stl?v=8b781c30,../_stl/boxes/emberleaf/CardBoxPlayerBlack_body.stl?v=e0c93789,../_stl/boxes/emberleaf/CardBoxPlayerBlack_lid.stl?v=13c01518,../_stl/boxes/emberleaf/CardBoxPlayerBlue_body.stl?v=01c6f232,../_stl/boxes/emberleaf/CardBoxPlayerBlue_lid.stl?v=306fdbcc,../_stl/boxes/emberleaf/CardBoxPlayerYellow_body.stl?v=a6f2eb78,../_stl/boxes/emberleaf/CardBoxPlayerYellow_lid.stl?v=742f172a,../_stl/boxes/emberleaf/CardBoxPlayerGrey_body.stl?v=630e385e,../_stl/boxes/emberleaf/CardBoxPlayerGrey_lid.stl?v=136bfea6,../_stl/boxes/emberleaf/CardBoxPlayerRed_body.stl?v=8313ce70,../_stl/boxes/emberleaf/CardBoxPlayerRed_lid.stl?v=80d05447,../_stl/boxes/emberleaf/CommonBox_body.stl?v=95ba2a9f,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=012397c2,../_stl/boxes/emberleaf/spacer_1.stl?v=5f3f60b8,../_stl/boxes/emberleaf/spacer_2.stl?v=52518392,../_stl/boxes/emberleaf/spacer_3.stl?v=207efb9b" download="Emberleaf_full_packing.stl">⬇ Download Full Box Packing STL (<code>Emberleaf_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -46,27 +46,27 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 0, 0)``
-     - 2
+     - 1
    * - :ref:`PlayerBoxRed <box-emberleaf-playerboxred>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 142.5, 0)``
-     - 2
+     - 1
    * - :ref:`PlayerBoxYellow <box-emberleaf-playerboxyellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 0, 13.125)``
-     - 2
+     - 1
    * - :ref:`PlayerBoxBlue <box-emberleaf-playerboxblue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 142.5, 13.125)``
-     - 2
+     - 1
    * - :ref:`PlayerBoxGrey <box-emberleaf-playerboxgrey>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 0, 26.25)``
-     - 2
+     - 1
    * - :ref:`MaterialBoxFood <box-emberleaf-materialboxfood>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 71.25 × 13.125 mm``
@@ -131,7 +131,7 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``90 × 188 × 25 mm``
      - ``(196, 98, 0)``
-     - 2
+     - 1
    * - :ref:`spacer_1 <spacer-emberleaf-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``91 × 189 × 27.5 mm``
@@ -159,34 +159,34 @@ PlayerBoxBlack
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Compartments (2)**: ``WorkersAndHero`` (L=65%), ``HexesAndVictory`` (L=35%)
+- **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxBlack — Body + Lid)**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=5bffc5f9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=017fb593
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=07cb9117,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=a45f595d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=5bffc5f9" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=5bffc5f9,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=017fb593" download="PlayerBoxBlack_assembled.stl">⬇ Download Assembled PlayerBoxBlack STL (<code>PlayerBoxBlack_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=07cb9117" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=07cb9117,../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=a45f595d" download="PlayerBoxBlack_assembled.stl">⬇ Download Assembled PlayerBoxBlack STL (<code>PlayerBoxBlack_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxBlack Body**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=5bffc5f9
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=07cb9117
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=5bffc5f9" download="PlayerBoxBlack_body.stl">⬇ Download PlayerBoxBlack Body STL (<code>PlayerBoxBlack_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_body.stl?v=07cb9117" download="PlayerBoxBlack_body.stl">⬇ Download PlayerBoxBlack Body STL (<code>PlayerBoxBlack_body.stl</code>)</a></p>
 
 **Part: PlayerBoxBlack Lid**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=017fb593
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=a45f595d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=017fb593" download="PlayerBoxBlack_lid.stl">⬇ Download PlayerBoxBlack Lid STL (<code>PlayerBoxBlack_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlack_lid.stl?v=a45f595d" download="PlayerBoxBlack_lid.stl">⬇ Download PlayerBoxBlack Lid STL (<code>PlayerBoxBlack_lid.stl</code>)</a></p>
 
 .. _box-emberleaf-playerboxred:
 
@@ -196,25 +196,25 @@ PlayerBoxRed
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 142.5, 0)``
-- **Compartments (2)**: ``WorkersAndHero`` (L=65%), ``HexesAndVictory`` (L=35%)
+- **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxRed — Body + Lid)**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=1fdcf292,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=ab15c6e7
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=3df3c510,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=ab15c6e7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=1fdcf292" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=1fdcf292,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=ab15c6e7" download="PlayerBoxRed_assembled.stl">⬇ Download Assembled PlayerBoxRed STL (<code>PlayerBoxRed_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=3df3c510" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=3df3c510,../_stl/boxes/emberleaf/PlayerBoxRed_lid.stl?v=ab15c6e7" download="PlayerBoxRed_assembled.stl">⬇ Download Assembled PlayerBoxRed STL (<code>PlayerBoxRed_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxRed Body**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=1fdcf292
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=3df3c510
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=1fdcf292" download="PlayerBoxRed_body.stl">⬇ Download PlayerBoxRed Body STL (<code>PlayerBoxRed_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxRed_body.stl?v=3df3c510" download="PlayerBoxRed_body.stl">⬇ Download PlayerBoxRed Body STL (<code>PlayerBoxRed_body.stl</code>)</a></p>
 
 **Part: PlayerBoxRed Lid**
 
@@ -233,25 +233,25 @@ PlayerBoxYellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 0, 13.125)``
-- **Compartments (2)**: ``WorkersAndHero`` (L=65%), ``HexesAndVictory`` (L=35%)
+- **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxYellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=334692e0,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=af602151
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=58607b25,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=af602151
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=334692e0" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=334692e0,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=af602151" download="PlayerBoxYellow_assembled.stl">⬇ Download Assembled PlayerBoxYellow STL (<code>PlayerBoxYellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=58607b25" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=58607b25,../_stl/boxes/emberleaf/PlayerBoxYellow_lid.stl?v=af602151" download="PlayerBoxYellow_assembled.stl">⬇ Download Assembled PlayerBoxYellow STL (<code>PlayerBoxYellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxYellow Body**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=334692e0
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=58607b25
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=334692e0" download="PlayerBoxYellow_body.stl">⬇ Download PlayerBoxYellow Body STL (<code>PlayerBoxYellow_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxYellow_body.stl?v=58607b25" download="PlayerBoxYellow_body.stl">⬇ Download PlayerBoxYellow Body STL (<code>PlayerBoxYellow_body.stl</code>)</a></p>
 
 **Part: PlayerBoxYellow Lid**
 
@@ -270,25 +270,25 @@ PlayerBoxBlue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 142.5, 13.125)``
-- **Compartments (2)**: ``WorkersAndHero`` (L=65%), ``HexesAndVictory`` (L=35%)
+- **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxBlue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=589527c7,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=06dc9b85
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=2a1b5e9a,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=06dc9b85
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=589527c7" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=589527c7,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=06dc9b85" download="PlayerBoxBlue_assembled.stl">⬇ Download Assembled PlayerBoxBlue STL (<code>PlayerBoxBlue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=2a1b5e9a" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=2a1b5e9a,../_stl/boxes/emberleaf/PlayerBoxBlue_lid.stl?v=06dc9b85" download="PlayerBoxBlue_assembled.stl">⬇ Download Assembled PlayerBoxBlue STL (<code>PlayerBoxBlue_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxBlue Body**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=589527c7
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=2a1b5e9a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=589527c7" download="PlayerBoxBlue_body.stl">⬇ Download PlayerBoxBlue Body STL (<code>PlayerBoxBlue_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxBlue_body.stl?v=2a1b5e9a" download="PlayerBoxBlue_body.stl">⬇ Download PlayerBoxBlue Body STL (<code>PlayerBoxBlue_body.stl</code>)</a></p>
 
 **Part: PlayerBoxBlue Lid**
 
@@ -307,25 +307,25 @@ PlayerBoxGrey
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 0, 26.25)``
-- **Compartments (2)**: ``WorkersAndHero`` (L=65%), ``HexesAndVictory`` (L=35%)
+- **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxGrey — Body + Lid)**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=36e279a2,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=2b9da1d9
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=1b6d22f9,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=2b9da1d9
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=36e279a2" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=36e279a2,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=2b9da1d9" download="PlayerBoxGrey_assembled.stl">⬇ Download Assembled PlayerBoxGrey STL (<code>PlayerBoxGrey_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=1b6d22f9" data-stl-combine="../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=1b6d22f9,../_stl/boxes/emberleaf/PlayerBoxGrey_lid.stl?v=2b9da1d9" download="PlayerBoxGrey_assembled.stl">⬇ Download Assembled PlayerBoxGrey STL (<code>PlayerBoxGrey_assembled.stl</code>)</a></p>
 
 **Part: PlayerBoxGrey Body**
 
-.. stl:: ../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=36e279a2
+.. stl:: ../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=1b6d22f9
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=36e279a2" download="PlayerBoxGrey_body.stl">⬇ Download PlayerBoxGrey Body STL (<code>PlayerBoxGrey_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/PlayerBoxGrey_body.stl?v=1b6d22f9" download="PlayerBoxGrey_body.stl">⬇ Download PlayerBoxGrey Body STL (<code>PlayerBoxGrey_body.stl</code>)</a></p>
 
 **Part: PlayerBoxGrey Lid**
 
@@ -788,25 +788,25 @@ CommonBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``90 × 188 × 25 mm``
 - **Packed Position**: ``(196, 98, 0)``
-- **Compartments (2)**: ``CommonHexes`` (L=72%), ``Trophies`` (L=28%)
+- **Compartments (1)**: ``CommonHexesAndTrophies`` (84 × 182 mm, 16 elements)
 
 **Assembled Box (CommonBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/emberleaf/CommonBox_body.stl?v=1c75ccc9,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=012397c2
+.. stl:: ../_stl/boxes/emberleaf/CommonBox_body.stl?v=95ba2a9f,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=012397c2
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/CommonBox_body.stl?v=1c75ccc9" data-stl-combine="../_stl/boxes/emberleaf/CommonBox_body.stl?v=1c75ccc9,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=012397c2" download="CommonBox_assembled.stl">⬇ Download Assembled CommonBox STL (<code>CommonBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/CommonBox_body.stl?v=95ba2a9f" data-stl-combine="../_stl/boxes/emberleaf/CommonBox_body.stl?v=95ba2a9f,../_stl/boxes/emberleaf/CommonBox_lid.stl?v=012397c2" download="CommonBox_assembled.stl">⬇ Download Assembled CommonBox STL (<code>CommonBox_assembled.stl</code>)</a></p>
 
 **Part: CommonBox Body**
 
-.. stl:: ../_stl/boxes/emberleaf/CommonBox_body.stl?v=1c75ccc9
+.. stl:: ../_stl/boxes/emberleaf/CommonBox_body.stl?v=95ba2a9f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/emberleaf/CommonBox_body.stl?v=1c75ccc9" download="CommonBox_body.stl">⬇ Download CommonBox Body STL (<code>CommonBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/emberleaf/CommonBox_body.stl?v=95ba2a9f" download="CommonBox_body.stl">⬇ Download CommonBox Body STL (<code>CommonBox_body.stl</code>)</a></p>
 
 **Part: CommonBox Lid**
 

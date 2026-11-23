@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=f272ca09,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=0e9f64c7,../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=8221fb8a,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=73c743ec,../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=fa90cb6a,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=2d8049ea,../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=f8387a10,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=b391d815,../_stl/boxes/cascadero/SealsBox_body.stl?v=a9ec424d,../_stl/boxes/cascadero/SealsBox_lid.stl?v=e976cbf3,../_stl/boxes/cascadero/HeraldBox_body.stl?v=39008698,../_stl/boxes/cascadero/HeraldBox_lid.stl?v=cb926060,../_stl/boxes/cascadero/FarmerBox_body.stl?v=ae4d7e10,../_stl/boxes/cascadero/FarmerBox_lid.stl?v=fa5ef998
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2bf344a0,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=0e9f64c7,../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=39f32af3,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=73c743ec,../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=399c80dd,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=2d8049ea,../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=d679467d,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=b391d815,../_stl/boxes/cascadero/SealsBox_body.stl?v=a9ec424d,../_stl/boxes/cascadero/SealsBox_lid.stl?v=e976cbf3,../_stl/boxes/cascadero/HeraldBox_body.stl?v=39008698,../_stl/boxes/cascadero/HeraldBox_lid.stl?v=cb926060,../_stl/boxes/cascadero/FarmerBox_body.stl?v=ae4d7e10,../_stl/boxes/cascadero/FarmerBox_lid.stl?v=fa5ef998
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=f272ca09" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=f272ca09,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=0e9f64c7,../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=8221fb8a,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=73c743ec,../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=fa90cb6a,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=2d8049ea,../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=f8387a10,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=b391d815,../_stl/boxes/cascadero/SealsBox_body.stl?v=a9ec424d,../_stl/boxes/cascadero/SealsBox_lid.stl?v=e976cbf3,../_stl/boxes/cascadero/HeraldBox_body.stl?v=39008698,../_stl/boxes/cascadero/HeraldBox_lid.stl?v=cb926060,../_stl/boxes/cascadero/FarmerBox_body.stl?v=ae4d7e10,../_stl/boxes/cascadero/FarmerBox_lid.stl?v=fa5ef998" download="Cascadero_full_packing.stl">⬇ Download Full Box Packing STL (<code>Cascadero_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2bf344a0" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2bf344a0,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=0e9f64c7,../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=39f32af3,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=73c743ec,../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=399c80dd,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=2d8049ea,../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=d679467d,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=b391d815,../_stl/boxes/cascadero/SealsBox_body.stl?v=a9ec424d,../_stl/boxes/cascadero/SealsBox_lid.stl?v=e976cbf3,../_stl/boxes/cascadero/HeraldBox_body.stl?v=39008698,../_stl/boxes/cascadero/HeraldBox_lid.stl?v=cb926060,../_stl/boxes/cascadero/FarmerBox_body.stl?v=ae4d7e10,../_stl/boxes/cascadero/FarmerBox_lid.stl?v=fa5ef998" download="Cascadero_full_packing.stl">⬇ Download Full Box Packing STL (<code>Cascadero_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -46,22 +46,22 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``105 × 105 × 26 mm``
      - ``(0, 0, 0)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_2 <box-cascadero-playerbox_2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``107 × 105 × 26 mm``
      - ``(105, 0, 0)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_3 <box-cascadero-playerbox_3>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``105 × 105 × 26 mm``
      - ``(0, 105, 0)``
-     - 2
+     - 1
    * - :ref:`PlayerBox_4 <box-cascadero-playerbox_4>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``107 × 105 × 26 mm``
      - ``(105, 105, 0)``
-     - 2
+     - 1
    * - :ref:`SealsBox <box-cascadero-sealsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``85 × 94 × 26 mm``
@@ -89,25 +89,25 @@ PlayerBox_1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``105 × 105 × 26 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Compartments (2)**: ``Envoys`` (L=60%), ``Markers`` (L=40%)
+- **Compartments (1)**: ``PlayerWells`` (101 × 101 mm, 3 elements)
 
 **Assembled Box (PlayerBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=f272ca09,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=0e9f64c7
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2bf344a0,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=0e9f64c7
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=f272ca09" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=f272ca09,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=0e9f64c7" download="PlayerBox_1_assembled.stl">⬇ Download Assembled PlayerBox_1 STL (<code>PlayerBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2bf344a0" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2bf344a0,../_stl/boxes/cascadero/PlayerBox_1_lid.stl?v=0e9f64c7" download="PlayerBox_1_assembled.stl">⬇ Download Assembled PlayerBox_1 STL (<code>PlayerBox_1_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_1 Body**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=f272ca09
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2bf344a0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=f272ca09" download="PlayerBox_1_body.stl">⬇ Download PlayerBox_1 Body STL (<code>PlayerBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_1_body.stl?v=2bf344a0" download="PlayerBox_1_body.stl">⬇ Download PlayerBox_1 Body STL (<code>PlayerBox_1_body.stl</code>)</a></p>
 
 **Part: PlayerBox_1 Lid**
 
@@ -126,25 +126,25 @@ PlayerBox_2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``107 × 105 × 26 mm``
 - **Packed Position**: ``(105, 0, 0)``
-- **Compartments (2)**: ``Envoys`` (L=60%), ``Markers`` (L=40%)
+- **Compartments (1)**: ``PlayerWells`` (101 × 101 mm, 3 elements)
 
 **Assembled Box (PlayerBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=8221fb8a,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=73c743ec
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=39f32af3,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=73c743ec
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=8221fb8a" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=8221fb8a,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=73c743ec" download="PlayerBox_2_assembled.stl">⬇ Download Assembled PlayerBox_2 STL (<code>PlayerBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=39f32af3" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=39f32af3,../_stl/boxes/cascadero/PlayerBox_2_lid.stl?v=73c743ec" download="PlayerBox_2_assembled.stl">⬇ Download Assembled PlayerBox_2 STL (<code>PlayerBox_2_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_2 Body**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=8221fb8a
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=39f32af3
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=8221fb8a" download="PlayerBox_2_body.stl">⬇ Download PlayerBox_2 Body STL (<code>PlayerBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_2_body.stl?v=39f32af3" download="PlayerBox_2_body.stl">⬇ Download PlayerBox_2 Body STL (<code>PlayerBox_2_body.stl</code>)</a></p>
 
 **Part: PlayerBox_2 Lid**
 
@@ -163,25 +163,25 @@ PlayerBox_3
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``105 × 105 × 26 mm``
 - **Packed Position**: ``(0, 105, 0)``
-- **Compartments (2)**: ``Envoys`` (L=60%), ``Markers`` (L=40%)
+- **Compartments (1)**: ``PlayerWells`` (101 × 101 mm, 3 elements)
 
 **Assembled Box (PlayerBox_3 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=fa90cb6a,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=2d8049ea
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=399c80dd,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=2d8049ea
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=fa90cb6a" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=fa90cb6a,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=2d8049ea" download="PlayerBox_3_assembled.stl">⬇ Download Assembled PlayerBox_3 STL (<code>PlayerBox_3_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=399c80dd" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=399c80dd,../_stl/boxes/cascadero/PlayerBox_3_lid.stl?v=2d8049ea" download="PlayerBox_3_assembled.stl">⬇ Download Assembled PlayerBox_3 STL (<code>PlayerBox_3_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_3 Body**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=fa90cb6a
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=399c80dd
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=fa90cb6a" download="PlayerBox_3_body.stl">⬇ Download PlayerBox_3 Body STL (<code>PlayerBox_3_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_3_body.stl?v=399c80dd" download="PlayerBox_3_body.stl">⬇ Download PlayerBox_3 Body STL (<code>PlayerBox_3_body.stl</code>)</a></p>
 
 **Part: PlayerBox_3 Lid**
 
@@ -200,25 +200,25 @@ PlayerBox_4
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``107 × 105 × 26 mm``
 - **Packed Position**: ``(105, 105, 0)``
-- **Compartments (2)**: ``Envoys`` (L=60%), ``Markers`` (L=40%)
+- **Compartments (1)**: ``PlayerWells`` (101 × 101 mm, 3 elements)
 
 **Assembled Box (PlayerBox_4 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=f8387a10,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=b391d815
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=d679467d,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=b391d815
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=f8387a10" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=f8387a10,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=b391d815" download="PlayerBox_4_assembled.stl">⬇ Download Assembled PlayerBox_4 STL (<code>PlayerBox_4_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=d679467d" data-stl-combine="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=d679467d,../_stl/boxes/cascadero/PlayerBox_4_lid.stl?v=b391d815" download="PlayerBox_4_assembled.stl">⬇ Download Assembled PlayerBox_4 STL (<code>PlayerBox_4_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_4 Body**
 
-.. stl:: ../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=f8387a10
+.. stl:: ../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=d679467d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=f8387a10" download="PlayerBox_4_body.stl">⬇ Download PlayerBox_4 Body STL (<code>PlayerBox_4_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/cascadero/PlayerBox_4_body.stl?v=d679467d" download="PlayerBox_4_body.stl">⬇ Download PlayerBox_4 Body STL (<code>PlayerBox_4_body.stl</code>)</a></p>
 
 **Part: PlayerBox_4 Lid**
 
