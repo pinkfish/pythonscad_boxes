@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING
 
 from pyboxbuilder.enums import LabelFinial, LabelMode, LabelShape
 from pyboxbuilder.lid.builder import BORDER_MARGIN_MM, MAX_TEXT_HEIGHT_MM
+from pyboxbuilder.precision import kwargs as precision_kwargs
 
 if TYPE_CHECKING:
     from pybosl2.shapes3d import Bosl2Solid
@@ -618,7 +619,9 @@ def _notched_prism(width: float, length: float, notch_radius: float, height: flo
     hl = length / 2.0
     corners = union_all(
         [
-            cylinder(height=height + 2.0, radius=nr).translate([sx * hw, sy * hl, height / 2.0])
+            cylinder(height=height + 2.0, radius=nr, **precision_kwargs()).translate(
+                [sx * hw, sy * hl, height / 2.0]
+            )
             for sx in (-1.0, 1.0)
             for sy in (-1.0, 1.0)
         ]
@@ -721,7 +724,7 @@ def _build_shape_parts(
             hw, hl = rw / 2.0, rl / 2.0
             corner_cuts = union_all(
                 [
-                    cylinder(height=cut_h + 2.0, radius=nr + border).translate(
+                    cylinder(height=cut_h + 2.0, radius=nr + border, **precision_kwargs()).translate(
                         [sx * hw, sy * hl, h / 2.0]
                     )
                     for sx in (-1.0, 1.0)
@@ -877,14 +880,18 @@ def _build_shape_parts(
             if inset_x > 1.0 and inset_y > 1.0:
                 studs = union_all(
                     [
-                        cylinder(height=h, radius=stud_r).translate([sx * inset_x, sy * inset_y, h / 2.0])
+                        cylinder(height=h, radius=stud_r, **precision_kwargs()).translate(
+                            [sx * inset_x, sy * inset_y, h / 2.0]
+                        )
                         for sx in (-1.0, 1.0)
                         for sy in (-1.0, 1.0)
                     ]
                 )
                 studs_cut = union_all(
                     [
-                        cylinder(height=cut_h, radius=stud_r).translate([sx * inset_x, sy * inset_y, h / 2.0])
+                        cylinder(height=cut_h, radius=stud_r, **precision_kwargs()).translate(
+                            [sx * inset_x, sy * inset_y, h / 2.0]
+                        )
                         for sx in (-1.0, 1.0)
                         for sy in (-1.0, 1.0)
                     ]
@@ -1003,7 +1010,11 @@ def _scalloped_prism(width: float, length: float, lobe: float, height: float) ->
     ]
     for sx in (-1.0, 1.0):
         for sy in (-1.0, 1.0):
-            parts.append(cylinder(height=height, radius=lobe).translate([sx * cx, sy * cy, height / 2.0]))
+            parts.append(
+                cylinder(height=height, radius=lobe, **precision_kwargs()).translate(
+                    [sx * cx, sy * cy, height / 2.0]
+                )
+            )
     solid = union_all(parts)
     assert solid is not None
     return solid
@@ -1025,7 +1036,11 @@ def _scalloped_inset_prism(
     ]
     for sx in (-1.0, 1.0):
         for sy in (-1.0, 1.0):
-            parts.append(cylinder(height=height, radius=r_in).translate([sx * cx, sy * cy, height / 2.0]))
+            parts.append(
+                cylinder(height=height, radius=r_in, **precision_kwargs()).translate(
+                    [sx * cx, sy * cy, height / 2.0]
+                )
+            )
     solid = union_all(parts)
     assert solid is not None
     return solid
@@ -1182,9 +1197,13 @@ def _build_finial_solid(
         r_small = max(0.75, r_big * 0.65)
         dot_dx = r_big + r_small + 1.3
         parts = [
-            cylinder(height=thickness, radius=r_big).translate([0.0, 0.0, thickness / 2.0]),
-            cylinder(height=thickness, radius=r_small).translate([-dot_dx, 0.0, thickness / 2.0]),
-            cylinder(height=thickness, radius=r_small).translate([dot_dx, 0.0, thickness / 2.0]),
+            cylinder(height=thickness, radius=r_big, **precision_kwargs()).translate([0.0, 0.0, thickness / 2.0]),
+            cylinder(height=thickness, radius=r_small, **precision_kwargs()).translate(
+                [-dot_dx, 0.0, thickness / 2.0]
+            ),
+            cylinder(height=thickness, radius=r_small, **precision_kwargs()).translate(
+                [dot_dx, 0.0, thickness / 2.0]
+            ),
         ]
         gap_x = dot_dx + r_small + 1.4
         wing_w = max(0.0, width / 2.0 - gap_x)
@@ -1266,9 +1285,11 @@ def _build_finial_solid(
         curl_in = max(0.4, curl_r - bar_t * 0.95)
         curl_x = d_r * 1.2 + curl_r + 0.6
         for sx in (-1.0, 1.0):
-            ring = cylinder(height=thickness, radius=curl_r).translate([sx * curl_x, 0.0, thickness / 2.0])
+            ring = cylinder(height=thickness, radius=curl_r, **precision_kwargs()).translate(
+                [sx * curl_x, 0.0, thickness / 2.0]
+            )
             if curl_in > 0.35:
-                hole = cylinder(height=thickness + 2.0, radius=curl_in).translate(
+                hole = cylinder(height=thickness + 2.0, radius=curl_in, **precision_kwargs()).translate(
                     [sx * curl_x, 0.0, thickness / 2.0]
                 )
                 ring = ring - hole
