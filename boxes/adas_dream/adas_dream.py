@@ -25,13 +25,21 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     StackableMode,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "adas_dream" / "assets"
 )
 
 # ── Box & Board Dimensions (from adas_dream.scad) ─────────────────
@@ -201,13 +209,33 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-ADA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+# Victorian steampunk Analytical Engine aesthetic:
+# 8-fold quasiperiodic Ammann-Beenker brass filigree lattice, riveted/ornate
+# Victorian plaques, scrollwork finials, and bold Georgia serif typography.
+ADA_PATTERN = PatternBuilder(PatternType.AMMANN_BEENKER, spacing=9.0, web=1.6)
+STEAMPUNK_FONT = "Georgia:style=Bold"
 
 
-def _lid(text: str, frame_color: str) -> LidBuilder:
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    shape: LabelShape = LabelShape.CORNER_STUD,
+    finial: LabelFinial = LabelFinial.SCROLLWORK,
+    image: str | None = None,
+    logo_position: str = "left",
+    logo_size_mm: float | None = None,
+) -> LidBuilder:
     return LidBuilder(
         text=text,
         label_mode=LabelMode.FRAMED,
+        label_shape=shape,
+        label_finial=finial,
+        font=STEAMPUNK_FONT,
+        logo=image,
+        logo_color=Color("white") if image else None,
+        logo_position=logo_position,
+        label_logo_size_mm=logo_size_mm,
         pattern=ADA_PATTERN,
         text_color=Color("white"),
         frame_color=Color(frame_color),
@@ -227,7 +255,7 @@ for label, text, color, pos in player_specs:
         label,
         size=(card_box_width, card_box_length, player_box_height),
         position=pos,
-        lid=_lid(text, color),
+        lid=_lid(text, color, shape=LabelShape.ORNATE_FRAME),
         stackable=StackableMode.PYRAMIDS,
     ).compartment("PlayerBits", cut=FingerCut.SCOOP)
 
@@ -265,7 +293,7 @@ project.box(
     "OtherCardBox",
     size=(card_box_width, card_box_length, other_card_box_height),
     position=(card_box_width, card_box_length, 0.0),
-    lid=_lid("Other", "royalblue"),
+    lid=_lid("Other", "royalblue", shape=LabelShape.ORNATE_FRAME),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("OtherCards", cut=FingerCut.SCOOP)
 
@@ -274,7 +302,7 @@ project.box(
     "TierCardBox",
     size=(card_box_width, card_box_length, tier_card_box_height),
     position=(card_box_width, card_box_length, other_card_box_height),
-    lid=_lid("Tier", "darkorange"),
+    lid=_lid("Tier", "darkorange", shape=LabelShape.ORNATE_FRAME),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("TierCards", cut=FingerCut.SCOOP)
 
@@ -287,7 +315,7 @@ project.box(
         card_box_length + dice_box_length + first_player_box_length,
         book_box_height,
     ),
-    lid=_lid("Assign", "purple"),
+    lid=_lid("Assign", "purple", shape=LabelShape.ORNATE_FRAME),
 ).compartment("AssignmentCards", cut=FingerCut.SCOOP)
 
 # ── 3. Left Column: Books, Assignment Tiles, Dice, First Player, Alt Obj, Breakthrough
@@ -324,7 +352,7 @@ project.box(
     "FirstPlayerBox",
     size=(first_player_box_width, first_player_box_length, first_player_box_height),
     position=(0.0, card_box_length + dice_box_length, book_box_height),
-    lid=_lid("First", "darkgoldenrod"),
+    lid=_lid("First", "darkgoldenrod", finial=LabelFinial.NONE),
 ).compartment("FirstPlayer", cut=FingerCut.SCOOP)
 
 alt_obj_box = project.box(
@@ -351,7 +379,7 @@ breakthrough_box = project.box(
         book_box_height,
     ),
     wall_thickness=1.2,
-    lid=_lid("Break", "magenta"),
+    lid=_lid("Break", "magenta", finial=LabelFinial.NONE),
 )
 breakthrough_box.compartment("Breakthrough_1", length_ratio=0.5, cut=FingerCut.SCOOP)
 breakthrough_box.compartment("Breakthrough_2", length_ratio=0.5, cut=FingerCut.SCOOP)
@@ -398,7 +426,14 @@ project.box(
         card_box_length * 2.0,
         score_pad_box_height,
     ),
-    lid=_lid("Brass", "goldenrod"),
+    lid=_lid(
+        "Brass",
+        "goldenrod",
+        shape=LabelShape.CORNER_STUD,
+        image=str(ASSETS / "brass.svg"),
+        logo_position="left",
+        logo_size_mm=18.0,
+    ),
 ).compartment("Brass", cut=FingerCut.SCOOP)
 
 project.box(
@@ -410,7 +445,14 @@ project.box(
         card_box_length * 2.0,
         score_pad_box_height + resource_box_height,
     ),
-    lid=_lid("Coal", "darkslategray"),
+    lid=_lid(
+        "Coal",
+        "darkslategray",
+        shape=LabelShape.CORNER_STUD,
+        image=str(ASSETS / "coal.svg"),
+        logo_position="left",
+        logo_size_mm=18.0,
+    ),
 ).compartment("Coal", cut=FingerCut.SCOOP)
 
 # ── 5. Gear / Cog Boxes (3 stacked, 5 circular gear wells + finger bites each)
@@ -494,7 +536,7 @@ for label, text, idx, is_top in gear_specs:
             card_box_length * 2.0 + score_pad_box_length,
             cog_box_height * idx,
         ),
-        lid=_lid(text, "peru"),
+        lid=_lid(text, "peru", shape=LabelShape.ORNATE_FRAME),
     ).compartment(
         "Gears",
         size=(cog_inner_width, cog_inner_length),
@@ -516,7 +558,7 @@ obj_box = project.box(
     "ObjectiveBox",
     size=(objective_box_width, objective_box_length, objective_box_height),
     position=(card_box_width * 2.0, spacer_side_box_length, assignment_tiles_thickness),
-    lid=_lid("Objective", "darkorange"),
+    lid=_lid("Objective", "darkorange", finial=LabelFinial.NONE),
 )
 for i in range(3):
     obj_box.compartment(f"Objective_{i + 1}", length_ratio=1.0 / 3.0, cut=FingerCut.SCOOP)
