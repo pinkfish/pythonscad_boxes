@@ -67,9 +67,9 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Canvas (canvas) <canvas>`
      - ``200 × 250 × 50 mm``
-     - 7
+     - 9
      - 0
-     - :ref:`BoxType.NO_LID <box-type-no-lid>`, :ref:`BoxType.CAP <box-type-cap>`
+     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`, :ref:`BoxType.CAP <box-type-cap>`
    * - :doc:`Cascadero (cascadero) <cascadero>`
      - ``212 × 304 × 40 mm``
      - 7

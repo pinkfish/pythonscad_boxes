@@ -1,15 +1,15 @@
 # Canvas Board Game Organizer Specification
 
-This document details the layout, component inventory, sub-box specifications, and 3D packing configuration for the **Canvas** board game organizer, ported from `examples/canvas.scad` to PythonSCAD (`pyboxbuilder`).
+This document details the layout, component inventory, sub-box specifications, and 3D packing configuration for the **Canvas** board game organizer, ported from `boxes/canvas/canvas.scad` to PythonSCAD (`pyboxbuilder`).
 
 ---
 
 ## 1. Game Box Dimensions & Constraints
 
 * **Game Box Footprint**: `200.0mm (Width) x 250.0mm (Length) x 50.0mm (Height)`
-* **Center Playmat Channel**: `50.0mm` wide running the full length of the box (`X = 73.0 .. 123.0mm`, `Y = 0.0 .. 250.0mm`) for the rolled-up cloth playmat (matching `divider_middle_width = 50` in `canvas.scad`)
-* **Wall Thickness**: `3.0mm` (`2.0mm` on `PlaymatDivider`)
-* **Floor Thickness**: `2.0mm` (`1.5mm` on `PlaymatDivider`)
+* **Center Playmat Channel**: `50.0mm` wide running the full length of the box (`X = 73.0 .. 123.0mm`, `Y = 0.0 .. 247.0mm`) holding the open-ended, stepped-wall `PlaymatSpacer` cradle for the rolled-up cloth playmat
+* **Wall Thickness**: `3.0mm` (`1.5mm` on `ArtCardsBox_*`, `2.0mm` on `PlaymatSpacer`)
+* **Floor Thickness**: `2.0mm` (`1.5mm` on `ArtCardsBox_*` and `PlaymatSpacer`)
 * **Lid Thickness**: `2.0mm`
 * **Clearance Slack**: `0.0mm`
 
@@ -19,8 +19,8 @@ This document details the layout, component inventory, sub-box specifications, a
 
 | Component | Quantity / Dimension | Storage Location | Box Type | Lid Style / Decoration |
 |---|---|---|---|---|
-| Transparent Art Cards & Scoring Cards | Two `70 x 120mm` Tarot card stacks | `PlaymatDivider` (`196 x 124 x 30mm`, left & right bays) | No-Lid Divider | Front & back open U-channel for playmat |
-| Rolled Cloth Playmat | Rolled cloth mat (~45mm diameter) | Open `50mm` center channel (`X = 73..123mm`, full box length) | Open Channel | Cradled between divider walls & ribbon columns |
+| Transparent Art Cards & Scoring Cards | Two `70 x 120mm` Tarot card stacks | `ArtCardsBox_Left` & `ArtCardsBox_Right` (`73 x 124 x 30mm` each, independent boxes) | Sliding Lid | Pill-framed darkslateblue lids (Circle pattern) |
+| Rolled Cloth Playmat | Rolled cloth mat (~45mm diameter) | `PlaymatSpacer` (`50 x 247 x 29mm` at `X = 73..123mm`) | No-Lid Cradle | Open front/back ends, 50% mid-wall height (`14.5mm`), full-height (`29mm`) 30mm end walls |
 | Ribbon Tokens (6 Types) | Red, Green, Grey, Blue, Purple, Palette ribbon award tokens | `RibbonBox_Red` .. `RibbonBox_Palette` (`73 x 41 x 29mm`, 3 left + 3 right) | Cap Lid | Pill-framed color-coded lids (Circle pattern) |
 
 ---
@@ -30,16 +30,16 @@ This document details the layout, component inventory, sub-box specifications, a
 ```
 |<--------- 73mm --------->|<--- 50mm --->|<--------- 73mm --------->|
 +--------------------------+--------------+--------------------------+  Y = 0mm
-|                          |              |                          |
-|      ArtCards_Left       |   OPEN       |      ArtCards_Right      |
-|    (PlaymatDivider       |  PLAYMAT     |    (PlaymatDivider       |  Y = 124mm
-|     196 x 124 x 30mm)    |  CHANNEL     |     196 x 124 x 30mm)    |
+|                          | [Full H end] |                          |
+|    ArtCardsBox_Left      |              |    ArtCardsBox_Right     |
+|     (73 x 124 x 30mm,    | PlaymatSpacer|     (73 x 124 x 30mm,    |  Y = 124mm
+|      independent box)    | (open ends,  |      independent box)    |
++--------------------------+  50% wall H  +--------------------------+
+| RibbonBox_Red   (73x41)  |  in middle,  | RibbonBox_Blue   (73x41) |  Y = 165mm
++--------------------------+  full H at   +--------------------------+
+| RibbonBox_Green (73x41)  |  both ends)  | RibbonBox_Purple (73x41) |  Y = 206mm
 +--------------------------+              +--------------------------+
-| RibbonBox_Red   (73x41)  |  (rolled-up  | RibbonBox_Blue   (73x41) |  Y = 165mm
-+--------------------------+   cloth mat  +--------------------------+
-| RibbonBox_Green (73x41)  |   runs full  | RibbonBox_Purple (73x41) |  Y = 206mm
-+--------------------------+   length!)   +--------------------------+
-| RibbonBox_Grey  (73x41)  |              | RibbonBox_Palette(73x41) |  Y = 247mm
+| RibbonBox_Grey  (73x41)  | [Full H end] | RibbonBox_Palette(73x41) |  Y = 247mm
 +--------------------------+--------------+--------------------------+
 |<---------------------------- 196.0mm ----------------------------->|
 ```

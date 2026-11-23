@@ -17,38 +17,55 @@ class TestCanvas(unittest.TestCase):
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 6)
+        self.assertGreater(len(build.pieces), 8)
 
     def test_box_labels_present(self) -> None:
         """Verify all essential box labels are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
+            "ArtCardsBox_Left",
+            "ArtCardsBox_Right",
+            "PlaymatSpacer",
             "RibbonBox_Red",
             "RibbonBox_Green",
             "RibbonBox_Grey",
             "RibbonBox_Blue",
             "RibbonBox_Purple",
             "RibbonBox_Palette",
-            "PlaymatDivider",
         }
         for name in expected:
             self.assertIn(name, labels)
 
-    def test_center_playmat_channel_kept_open(self) -> None:
-        """Verify the 50mm center channel down the middle is open for the rolled playmat."""
+    def test_center_playmat_channel_and_cradle(self) -> None:
+        """Verify the 50mm center channel holds only the open-ended PlaymatSpacer."""
         build = project.build()
-        spacers = [p for p in build.pieces if "spacer" in p.label.lower() or p.kind == "spacer"]
-        self.assertEqual(len(spacers), 0)
+        auto_spacers = [p for p in build.pieces if p.kind == "spacer"]
+        self.assertEqual(len(auto_spacers), 0)
+
+        cradle = next(p for p in build.pieces if p.label == "PlaymatSpacer")
+        self.assertIsNotNone(cradle.position)
+        self.assertIsNotNone(cradle.size)
+        assert cradle.position is not None and cradle.size is not None
+        self.assertAlmostEqual(cradle.position[0], 73.0, places=3)
+        self.assertAlmostEqual(cradle.size[0], 50.0, places=3)
+        self.assertAlmostEqual(cradle.size[1], 247.0, places=3)
+
         for piece in build.pieces:
-            if piece.position is None or piece.size is None or piece.label == "PlaymatDivider":
+            if piece.position is None or piece.size is None or piece.label == "PlaymatSpacer":
                 continue
             x, _y, _z = piece.position
             w, _l, _h = piece.size
-            # Ribbon boxes must stay strictly outside the X = 73..123mm playmat channel
+            # Both independent card boxes and all 6 ribbon boxes stay outside X = 73..123mm
             self.assertTrue(
                 x + w <= 73.0 + 1e-3 or x >= 123.0 - 1e-3,
                 f"{piece.label} intrudes into center playmat channel ({x}..{x + w})",
             )
+
+    def test_playmat_spacer_geometry_builds(self) -> None:
+        """Verify PlaymatSpacer open ends and stepped side walls build valid manifold geometry."""
+        pieces = project.preview_pieces(show_lids=True)
+        cradle = next(p for p in pieces if p.label == "PlaymatSpacer")
+        self.assertIsNotNone(cradle.solid)
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
         """Verify no piece overflows the physical box dimensions."""
