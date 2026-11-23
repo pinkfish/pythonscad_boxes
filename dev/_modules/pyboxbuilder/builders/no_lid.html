@@ -516,7 +516,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">ScoopSide</span>
 
 
 <div class="viewcode-block" id="NoLidBoxBuilder">
@@ -553,6 +553,13 @@
 <span class="sd">    Empty falls back to the rectangle implied by `size`."""</span>
     <span class="n">hollow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">"""False produces a solid block instead of a walled tray."""</span>
+    <span class="n">open_sides</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="w">    </span><span class="sd">"""Exterior walls to omit down to the floor (e.g. FRONT and BACK for an open-ended cradle)."""</span>
+    <span class="n">mid_wall_height_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional height ratio (0 &lt; r &lt; 1) for the middle section of the side walls,</span>
+<span class="sd">    rising to full height at each end for `end_wall_length` mm."""</span>
+    <span class="n">end_wall_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span>
+<span class="w">    </span><span class="sd">"""Length in mm of the full-height end sections when `mid_wall_height_ratio` is set."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Normalize path points to immutable tuples of floats."""</span>
