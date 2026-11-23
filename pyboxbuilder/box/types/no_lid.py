@@ -54,12 +54,76 @@ class NoLidBox(BoxTypeBase):
         # get its rim left square and every top-aligned feature — the finger
         # holes below among them — hung a lid thickness too low (FR-043f).
         spec = replace(spec, rim_free=True)
+        if spec.open_sides or spec.mid_wall_height_ratio is not None:
+            spec = replace(spec, auto_finger_holes=False)
         spec = with_no_lid_finger_holes(spec)
         if spec.path:
             from pyboxbuilder.box.types.path import PathBox
 
             return PathBox().build_body(spec)
         body = build_shell(spec)
+        if spec.open_sides or spec.mid_wall_height_ratio is not None:
+            body = self._apply_open_sides_and_stepped_walls(body, spec)
+        return body
+
+    @staticmethod
+    def _apply_open_sides_and_stepped_walls(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
+        """Open specified exterior walls down to the floor and/or step down the middle wall span."""
+        from pybosl2 import cuboid
+        from pybosl2.constants import BACK, BOTTOM, FRONT, LEFT, RIGHT
+
+        from pyboxbuilder.box.shell import block
+
+        wt = spec.wall_thickness
+        ft = spec.floor_thickness
+        w = spec.width
+        l = spec.length
+        h = spec.height
+        cut_z_h = h - ft + 1.0
+
+        for side in spec.open_sides:
+            if side is ScoopSide.FRONT:
+                body = body - block((w - 2.0 * wt, wt + 1.0, cut_z_h), at=(wt, -0.5, ft))
+            elif side is ScoopSide.BACK:
+                body = body - block((w - 2.0 * wt, wt + 1.0, cut_z_h), at=(wt, l - wt - 0.5, ft))
+            elif side is ScoopSide.LEFT:
+                body = body - block((wt + 1.0, l - 2.0 * wt, cut_z_h), at=(-0.5, wt, ft))
+            elif side is ScoopSide.RIGHT:
+                body = body - block((wt + 1.0, l - 2.0 * wt, cut_z_h), at=(w - wt - 0.5, wt, ft))
+
+        ratio = spec.mid_wall_height_ratio
+        if ratio is not None and 0.0 < ratio < 1.0:
+            mid_z = max(ft, h * ratio)
+            notch_h = (h + 1.0) - mid_z
+            open_set = set(spec.open_sides)
+            along_y = bool(open_set & {ScoopSide.FRONT, ScoopSide.BACK}) or (
+                not (open_set & {ScoopSide.LEFT, ScoopSide.RIGHT}) and l >= w
+            )
+            if along_y:
+                end_len = min(spec.end_wall_length, l / 3.0)
+                span = l - 2.0 * end_len
+                if span > 1.0:
+                    r = min(6.0, (h - mid_z) * 0.45, span * 0.25)
+                    notch = cuboid(
+                        [w + 1.0, span, notch_h],
+                        rounding=r,
+                        edges=[BOTTOM + FRONT, BOTTOM + BACK],
+                        **precision_kwargs(),
+                    ).translate([w / 2.0, l / 2.0, mid_z + notch_h / 2.0])
+                    body = body - notch
+            else:
+                end_len = min(spec.end_wall_length, w / 3.0)
+                span = w - 2.0 * end_len
+                if span > 1.0:
+                    r = min(6.0, (h - mid_z) * 0.45, span * 0.25)
+                    notch = cuboid(
+                        [span, l + 1.0, notch_h],
+                        rounding=r,
+                        edges=[BOTTOM + LEFT, BOTTOM + RIGHT],
+                        **precision_kwargs(),
+                    ).translate([w / 2.0, l / 2.0, mid_z + notch_h / 2.0])
+                    body = body - notch
+
         return body
 
     def _add_stackable_rim(self, body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:

@@ -165,6 +165,12 @@ class BoxSpec:
     wall_tops: dict[ScoopSide, float] = field(default_factory=dict)
     """The z of each wall's top, per side (FR-070). Filled in by
     :meth:`with_wall_tops`; empty until then."""
+    open_sides: tuple[ScoopSide, ...] = ()
+    """Exterior walls omitted down to the floor on a no-lid tray/cradle."""
+    mid_wall_height_ratio: float | None = None
+    """Optional fractional height (0 < r < 1) for the lowered middle span of side walls."""
+    end_wall_length: float = 30.0
+    """Length in mm of the full-height wall sections at each end when stepped."""
 
     # ── Rounding (FR-043/FR-044) ─────────────────────────────────────────
     rounding: float | None = None
@@ -564,6 +570,9 @@ class UnresolvedBoxSpec:
     path: tuple[tuple[float, float], ...] = ()
     interior_top: float | None = None
     wall_tops: dict[ScoopSide, float] = field(default_factory=dict)
+    open_sides: tuple[ScoopSide, ...] = ()
+    mid_wall_height_ratio: float | None = None
+    end_wall_length: float = 30.0
 
     # Rounding
     rounding: float | None = None

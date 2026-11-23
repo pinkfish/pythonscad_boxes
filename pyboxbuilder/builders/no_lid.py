@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from pyboxbuilder.builders._base import BoxBuilder
-from pyboxbuilder.enums import BoxType
+from pyboxbuilder.enums import BoxType, ScoopSide
 
 
 @dataclass(frozen=True)
@@ -40,6 +40,13 @@ class NoLidBoxBuilder(BoxBuilder):
     Empty falls back to the rectangle implied by `size`."""
     hollow: bool = True
     """False produces a solid block instead of a walled tray."""
+    open_sides: tuple[ScoopSide, ...] = ()
+    """Exterior walls to omit down to the floor (e.g. FRONT and BACK for an open-ended cradle)."""
+    mid_wall_height_ratio: float | None = None
+    """Optional height ratio (0 < r < 1) for the middle section of the side walls,
+    rising to full height at each end for `end_wall_length` mm."""
+    end_wall_length: float = 30.0
+    """Length in mm of the full-height end sections when `mid_wall_height_ratio` is set."""
 
     def __post_init__(self) -> None:
         """Normalize path points to immutable tuples of floats."""
