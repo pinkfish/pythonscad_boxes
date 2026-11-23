@@ -22,6 +22,8 @@ for _sp in ROOT.glob("venv/*/lib/*/site-packages"):
 from pyboxbuilder import (
     BoxType,
     Color,
+    CompartmentElement,
+    ElementShape,
     FingerCut,
     LabelMode,
     LidBuilder,
@@ -411,13 +413,78 @@ project.box(
     lid=_lid("Coal", "darkslategray"),
 ).compartment("Coal", cut=FingerCut.SCOOP)
 
-# ── 5. Gear / Cog Boxes (3 stacked) ──────────────────────────────
+# ── 5. Gear / Cog Boxes (3 stacked, 5 circular gear wells + finger bites each)
+gear_width = 26.0
+gear_thickness = 4.0
+gear_finger_diameter = 20.0  # finger_hole_radius = 10mm in adas_dream.scad
+cog_inner_width = cog_box_width - wall_thickness * 2.0
+cog_inner_length = cog_box_length - wall_thickness * 2.0
+
+
+def _gear_elements(top_box: bool) -> tuple[CompartmentElement, ...]:
+    """Build the 5 staggered circular gear wells with finger bites (CylinderWithIndents)."""
+    elems: list[CompartmentElement] = []
+    std_depth = gear_thickness * 3.0
+    for i in range(2):
+        for j in range(2):
+            cx = (gear_width / 2.0 if j == 0 else gear_width * 1.17) + gear_width * i * 1.35
+            cy = gear_width / 2.0 if j == 0 else cog_inner_length - gear_width / 2.0
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(gear_width, gear_width),
+                    offset=(cx - gear_width / 2.0, cy - gear_width / 2.0),
+                    depth=std_depth,
+                    pull_out=False,
+                    label=f"Gear_{i}_{j}",
+                )
+            )
+            # Finger bite at 0 deg (+X perimeter)
+            bite_cx = cx + gear_width / 2.0
+            elems.append(
+                CompartmentElement(
+                    shape=ElementShape.CIRCLE,
+                    size=(gear_finger_diameter, gear_finger_diameter),
+                    offset=(bite_cx - gear_finger_diameter / 2.0, cy - gear_finger_diameter / 2.0),
+                    depth=std_depth,
+                    pull_out=False,
+                    label=f"GearBite_{i}_{j}",
+                )
+            )
+    # 5th gear well on the right center (finger bite at 180 deg / -X perimeter)
+    cx5 = cog_inner_width - gear_width / 2.0 - 2.0
+    cy5 = cog_inner_length / 2.0
+    depth5 = gear_thickness * (2.0 if top_box else 3.0)
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(gear_width, gear_width),
+            offset=(cx5 - gear_width / 2.0, cy5 - gear_width / 2.0),
+            depth=depth5,
+            pull_out=False,
+            label="Gear_5",
+        )
+    )
+    bite_cx5 = cx5 - gear_width / 2.0
+    elems.append(
+        CompartmentElement(
+            shape=ElementShape.CIRCLE,
+            size=(gear_finger_diameter, gear_finger_diameter),
+            offset=(bite_cx5 - gear_finger_diameter / 2.0, cy5 - gear_finger_diameter / 2.0),
+            depth=depth5,
+            pull_out=False,
+            label="GearBite_5",
+        )
+    )
+    return tuple(elems)
+
+
 gear_specs = [
-    ("GearBox_AddGears", "Addition", 0),
-    ("GearBox_SubGears", "Subtraction", 1),
-    ("GearBox_MulGears", "Multiplier", 2),
+    ("GearBox_AddGears", "Addition", 0, False),
+    ("GearBox_SubGears", "Subtraction", 1, False),
+    ("GearBox_MulGears", "Multiplier", 2, True),
 ]
-for label, text, idx in gear_specs:
+for label, text, idx, is_top in gear_specs:
     project.box(
         BoxType.CAP,
         label,
@@ -428,7 +495,12 @@ for label, text, idx in gear_specs:
             cog_box_height * idx,
         ),
         lid=_lid(text, "peru"),
-    ).compartment("Gears", cut=FingerCut.SCOOP)
+    ).compartment(
+        "Gears",
+        size=(cog_inner_width, cog_inner_length),
+        position=(0.0, 0.0),
+        elements=_gear_elements(top_box=is_top),
+    )
 
 # ── 6. Right Side Strip: SpacerSide & ObjectiveBox ────────────────
 project.box(
