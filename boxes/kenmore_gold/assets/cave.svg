@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20mm" height="20mm">
+  <!-- Crisp rocky cave arch silhouette (filled path only, no strokes) -->
+  <path fill="#000000" d="M 6,90 L 14,48 L 28,24 L 46,12 L 66,18 L 84,36 L 94,90 L 70,90 L 68,62 C 66,46 58,40 50,40 C 42,40 34,46 32,62 L 30,90 Z"/>
+</svg>

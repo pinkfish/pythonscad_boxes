@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Investigator's magnifying glass: bold lens ring and diagonal handle -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 42 8
+    A 34 34 0 1 0 42 76
+    A 34 34 0 1 0 42 8
+    Z
+    M 42 20
+    A 22 22 0 1 1 42 64
+    A 22 22 0 1 1 42 20
+    Z
+  "/>
+  <!-- Diagonal handle -->
+  <polygon fill="#000000" points="60,68 68,60 94,86 86,94"/>
+</svg>

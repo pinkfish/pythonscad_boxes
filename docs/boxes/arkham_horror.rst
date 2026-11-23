@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1,../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=373893ca,../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c,../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=97c209d5,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=8e4e77ac,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=f6936d47,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=31b4b322,../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d,../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=f6814a8b,../_stl/boxes/arkham_horror/spacer_1.stl?v=04f697a4,../_stl/boxes/arkham_horror/spacer_2.stl?v=eb5a529f
+.. stl:: ../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1,../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=73223362,../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c,../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=50de4802,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=b46bd252,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=d69d6ef0,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=428af8fd,../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d,../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=de577765,../_stl/boxes/arkham_horror/spacer_1.stl?v=04f697a4,../_stl/boxes/arkham_horror/spacer_2.stl?v=eb5a529f
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1" data-stl-combine="../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1,../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=373893ca,../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c,../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=97c209d5,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=8e4e77ac,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=f6936d47,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=31b4b322,../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d,../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=f6814a8b,../_stl/boxes/arkham_horror/spacer_1.stl?v=04f697a4,../_stl/boxes/arkham_horror/spacer_2.stl?v=eb5a529f" download="ArkhamHorrorLCG_full_packing.stl">⬇ Download Full Box Packing STL (<code>ArkhamHorrorLCG_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1" data-stl-combine="../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1,../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=73223362,../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c,../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=50de4802,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=b46bd252,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=d69d6ef0,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=428af8fd,../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d,../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=de577765,../_stl/boxes/arkham_horror/spacer_1.stl?v=04f697a4,../_stl/boxes/arkham_horror/spacer_2.stl?v=eb5a529f" download="ArkhamHorrorLCG_full_packing.stl">⬇ Download Full Box Packing STL (<code>ArkhamHorrorLCG_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -98,12 +98,12 @@ CorePlayerCards
 
 **Assembled Box (CorePlayerCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1,../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=373893ca
+.. stl:: ../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1,../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=73223362
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1" data-stl-combine="../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1,../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=373893ca" download="CorePlayerCards_assembled.stl">⬇ Download Assembled CorePlayerCards STL (<code>CorePlayerCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1" data-stl-combine="../_stl/boxes/arkham_horror/CorePlayerCards_body.stl?v=6aa804e1,../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=73223362" download="CorePlayerCards_assembled.stl">⬇ Download Assembled CorePlayerCards STL (<code>CorePlayerCards_assembled.stl</code>)</a></p>
 
 **Part: CorePlayerCards Body**
 
@@ -116,12 +116,12 @@ CorePlayerCards
 
 **Part: CorePlayerCards Lid**
 
-.. stl:: ../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=373893ca
+.. stl:: ../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=73223362
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=373893ca" download="CorePlayerCards_lid.stl">⬇ Download CorePlayerCards Lid STL (<code>CorePlayerCards_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/CorePlayerCards_lid.stl?v=73223362" download="CorePlayerCards_lid.stl">⬇ Download CorePlayerCards Lid STL (<code>CorePlayerCards_lid.stl</code>)</a></p>
 
 .. _box-arkham_horror-corescenariocards:
 
@@ -135,12 +135,12 @@ CoreScenarioCards
 
 **Assembled Box (CoreScenarioCards — Body + Lid)**
 
-.. stl:: ../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c,../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=97c209d5
+.. stl:: ../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c,../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=50de4802
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c" data-stl-combine="../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c,../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=97c209d5" download="CoreScenarioCards_assembled.stl">⬇ Download Assembled CoreScenarioCards STL (<code>CoreScenarioCards_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c" data-stl-combine="../_stl/boxes/arkham_horror/CoreScenarioCards_body.stl?v=5982e36c,../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=50de4802" download="CoreScenarioCards_assembled.stl">⬇ Download Assembled CoreScenarioCards STL (<code>CoreScenarioCards_assembled.stl</code>)</a></p>
 
 **Part: CoreScenarioCards Body**
 
@@ -153,12 +153,12 @@ CoreScenarioCards
 
 **Part: CoreScenarioCards Lid**
 
-.. stl:: ../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=97c209d5
+.. stl:: ../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=50de4802
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=97c209d5" download="CoreScenarioCards_lid.stl">⬇ Download CoreScenarioCards Lid STL (<code>CoreScenarioCards_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/CoreScenarioCards_lid.stl?v=50de4802" download="CoreScenarioCards_lid.stl">⬇ Download CoreScenarioCards Lid STL (<code>CoreScenarioCards_lid.stl</code>)</a></p>
 
 .. _box-arkham_horror-tokentray1_chaostokens:
 
@@ -172,12 +172,12 @@ TokenTray1_ChaosTokens
 
 **Assembled Box (TokenTray1_ChaosTokens — Body + Lid)**
 
-.. stl:: ../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=8e4e77ac
+.. stl:: ../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=b46bd252
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456" data-stl-combine="../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=8e4e77ac" download="TokenTray1_ChaosTokens_assembled.stl">⬇ Download Assembled TokenTray1_ChaosTokens STL (<code>TokenTray1_ChaosTokens_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456" data-stl-combine="../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_body.stl?v=5fd7d456,../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=b46bd252" download="TokenTray1_ChaosTokens_assembled.stl">⬇ Download Assembled TokenTray1_ChaosTokens STL (<code>TokenTray1_ChaosTokens_assembled.stl</code>)</a></p>
 
 **Part: TokenTray1_ChaosTokens Body**
 
@@ -190,12 +190,12 @@ TokenTray1_ChaosTokens
 
 **Part: TokenTray1_ChaosTokens Lid**
 
-.. stl:: ../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=8e4e77ac
+.. stl:: ../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=b46bd252
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=8e4e77ac" download="TokenTray1_ChaosTokens_lid.stl">⬇ Download TokenTray1_ChaosTokens Lid STL (<code>TokenTray1_ChaosTokens_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/TokenTray1_ChaosTokens_lid.stl?v=b46bd252" download="TokenTray1_ChaosTokens_lid.stl">⬇ Download TokenTray1_ChaosTokens Lid STL (<code>TokenTray1_ChaosTokens_lid.stl</code>)</a></p>
 
 .. _box-arkham_horror-tokentray2_damageandhorror:
 
@@ -209,12 +209,12 @@ TokenTray2_DamageAndHorror
 
 **Assembled Box (TokenTray2_DamageAndHorror — Body + Lid)**
 
-.. stl:: ../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=f6936d47
+.. stl:: ../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=d69d6ef0
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804" data-stl-combine="../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=f6936d47" download="TokenTray2_DamageAndHorror_assembled.stl">⬇ Download Assembled TokenTray2_DamageAndHorror STL (<code>TokenTray2_DamageAndHorror_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804" data-stl-combine="../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_body.stl?v=e396a804,../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=d69d6ef0" download="TokenTray2_DamageAndHorror_assembled.stl">⬇ Download Assembled TokenTray2_DamageAndHorror STL (<code>TokenTray2_DamageAndHorror_assembled.stl</code>)</a></p>
 
 **Part: TokenTray2_DamageAndHorror Body**
 
@@ -227,12 +227,12 @@ TokenTray2_DamageAndHorror
 
 **Part: TokenTray2_DamageAndHorror Lid**
 
-.. stl:: ../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=f6936d47
+.. stl:: ../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=d69d6ef0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=f6936d47" download="TokenTray2_DamageAndHorror_lid.stl">⬇ Download TokenTray2_DamageAndHorror Lid STL (<code>TokenTray2_DamageAndHorror_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/TokenTray2_DamageAndHorror_lid.stl?v=d69d6ef0" download="TokenTray2_DamageAndHorror_lid.stl">⬇ Download TokenTray2_DamageAndHorror Lid STL (<code>TokenTray2_DamageAndHorror_lid.stl</code>)</a></p>
 
 .. _box-arkham_horror-tokentray3_cluesandresources:
 
@@ -246,12 +246,12 @@ TokenTray3_CluesAndResources
 
 **Assembled Box (TokenTray3_CluesAndResources — Body + Lid)**
 
-.. stl:: ../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=31b4b322
+.. stl:: ../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=428af8fd
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae" data-stl-combine="../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=31b4b322" download="TokenTray3_CluesAndResources_assembled.stl">⬇ Download Assembled TokenTray3_CluesAndResources STL (<code>TokenTray3_CluesAndResources_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae" data-stl-combine="../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_body.stl?v=e40000ae,../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=428af8fd" download="TokenTray3_CluesAndResources_assembled.stl">⬇ Download Assembled TokenTray3_CluesAndResources STL (<code>TokenTray3_CluesAndResources_assembled.stl</code>)</a></p>
 
 **Part: TokenTray3_CluesAndResources Body**
 
@@ -264,12 +264,12 @@ TokenTray3_CluesAndResources
 
 **Part: TokenTray3_CluesAndResources Lid**
 
-.. stl:: ../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=31b4b322
+.. stl:: ../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=428af8fd
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=31b4b322" download="TokenTray3_CluesAndResources_lid.stl">⬇ Download TokenTray3_CluesAndResources Lid STL (<code>TokenTray3_CluesAndResources_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/TokenTray3_CluesAndResources_lid.stl?v=428af8fd" download="TokenTray3_CluesAndResources_lid.stl">⬇ Download TokenTray3_CluesAndResources Lid STL (<code>TokenTray3_CluesAndResources_lid.stl</code>)</a></p>
 
 .. _box-arkham_horror-accessorytray:
 
@@ -283,12 +283,12 @@ AccessoryTray
 
 **Assembled Box (AccessoryTray — Body + Lid)**
 
-.. stl:: ../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d,../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=f6814a8b
+.. stl:: ../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d,../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=de577765
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d" data-stl-combine="../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d,../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=f6814a8b" download="AccessoryTray_assembled.stl">⬇ Download Assembled AccessoryTray STL (<code>AccessoryTray_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d" data-stl-combine="../_stl/boxes/arkham_horror/AccessoryTray_body.stl?v=eab2bb5d,../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=de577765" download="AccessoryTray_assembled.stl">⬇ Download Assembled AccessoryTray STL (<code>AccessoryTray_assembled.stl</code>)</a></p>
 
 **Part: AccessoryTray Body**
 
@@ -301,12 +301,12 @@ AccessoryTray
 
 **Part: AccessoryTray Lid**
 
-.. stl:: ../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=f6814a8b
+.. stl:: ../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=de577765
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=f6814a8b" download="AccessoryTray_lid.stl">⬇ Download AccessoryTray Lid STL (<code>AccessoryTray_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/arkham_horror/AccessoryTray_lid.stl?v=de577765" download="AccessoryTray_lid.stl">⬇ Download AccessoryTray Lid STL (<code>AccessoryTray_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------

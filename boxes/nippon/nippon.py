@@ -26,7 +26,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -130,7 +132,8 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-NIPPON_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+NIPPON_PATTERN = PatternBuilder(PatternType.AMMANN_BEENKER)
+NIPPON_FONT = "Georgia:style=Bold"
 
 # ── Row 1: Player Boxes & Player Bits Boxes (Y = 0 .. 92) ─────────
 player_colors = ["purple", "yellow", "green", "red"]
@@ -327,6 +330,7 @@ def _player_bits_elements() -> tuple[CompartmentElement, ...]:
 
 
 for i, color_name in enumerate(player_colors):
+    txt_color = Color("black" if color_name == "yellow" else "white")
     project.box(
         BoxType.CAP,
         f"PlayerBox_{color_name}",
@@ -335,9 +339,16 @@ for i, color_name in enumerate(player_colors):
         lid=LidBuilder(
             text="Ships & Trains",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.ORNATE_FRAME,
+            label_finial=LabelFinial.DIAMOND,
+            font=NIPPON_FONT,
             pattern=NIPPON_PATTERN,
-            text_color=Color("black" if color_name == "yellow" else "white"),
+            text_color=txt_color,
             frame_color=Color(color_name),
+            logo=str(ASSETS / "ship.svg"),
+            logo_color=txt_color,
+            logo_position="left",
+            label_logo_size_mm=15.0,
         ),
     ).compartment(
         "ShipsAndTrains",
@@ -349,6 +360,7 @@ for i, color_name in enumerate(player_colors):
 for i, color_name in enumerate(player_colors):
     col = i % 2
     layer = i // 2
+    txt_color = Color("black" if color_name == "yellow" else "white")
     project.box(
         BoxType.CAP,
         f"PlayerBoxBits_{color_name}",
@@ -361,9 +373,16 @@ for i, color_name in enumerate(player_colors):
         lid=LidBuilder(
             text=f"Player ({color_name.title()})",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.ORNATE_FRAME,
+            label_finial=LabelFinial.DIAMOND,
+            font=NIPPON_FONT,
             pattern=NIPPON_PATTERN,
-            text_color=Color("black" if color_name == "yellow" else "white"),
+            text_color=txt_color,
             frame_color=Color(color_name),
+            logo=str(ASSETS / "train.svg"),
+            logo_color=txt_color,
+            logo_position="left",
+            label_logo_size_mm=16.0,
         ),
     ).compartment(
         "PlayerBits",
@@ -385,9 +404,16 @@ for idx, text in enumerate(["Factories I", "Factories II"], start=1):
         lid=LidBuilder(
             text=text,
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.NOTCHED,
+            label_finial=LabelFinial.DIAMOND,
+            font=NIPPON_FONT,
             pattern=NIPPON_PATTERN,
             text_color=Color("white"),
             frame_color=Color("navy"),
+            logo=str(ASSETS / "factory.svg"),
+            logo_color=Color("white"),
+            logo_position="left",
+            label_logo_size_mm=14.0,
         ),
     ).compartment("Tiles", cut=FingerCut.SCOOP)
     row2_x += factory_tile_box_width
@@ -400,6 +426,9 @@ project.box(
     lid=LidBuilder(
         text="Demand",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.NOTCHED,
+        label_finial=LabelFinial.DIAMOND,
+        font=NIPPON_FONT,
         pattern=NIPPON_PATTERN,
         text_color=Color("white"),
         frame_color=Color("navy"),
@@ -415,6 +444,9 @@ project.box(
     lid=LidBuilder(
         text="Start",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.NOTCHED,
+        label_finial=LabelFinial.DIAMOND,
+        font=NIPPON_FONT,
         pattern=NIPPON_PATTERN,
         text_color=Color("white"),
         frame_color=Color("navy"),
@@ -467,6 +499,9 @@ project.box(
     lid=LidBuilder(
         text="Upgraded",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.NOTCHED,
+        label_finial=LabelFinial.DIAMOND,
+        font=NIPPON_FONT,
         pattern=NIPPON_PATTERN,
         text_color=Color("white"),
         frame_color=Color("teal"),
@@ -486,9 +521,16 @@ project.box(
     lid=LidBuilder(
         text="Money",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.ORNATE_FRAME,
+        label_finial=LabelFinial.DIAMOND,
+        font=NIPPON_FONT,
         pattern=NIPPON_PATTERN,
         text_color=Color("black"),
         frame_color=Color("gold"),
+        logo=str(ASSETS / "coin.svg"),
+        logo_color=Color("black"),
+        logo_position="left",
+        label_logo_size_mm=15.0,
     ),
 ).compartment("Money", cut=FingerCut.SCOOP)
 
@@ -542,6 +584,9 @@ project.box(
     lid=LidBuilder(
         text="Solo",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.NOTCHED,
+        label_finial=LabelFinial.DIAMOND,
+        font=NIPPON_FONT,
         pattern=NIPPON_PATTERN,
         text_color=Color("white"),
         frame_color=Color("slategray"),
@@ -561,9 +606,16 @@ project.box(
     lid=LidBuilder(
         text="Late Game",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.NOTCHED,
+        label_finial=LabelFinial.DIAMOND,
+        font=NIPPON_FONT,
         pattern=NIPPON_PATTERN,
         text_color=Color("white"),
         frame_color=Color("navy"),
+        logo=str(ASSETS / "factory.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=14.0,
     ),
 ).compartment("LateGameFactories", cut=FingerCut.SCOOP)
 
@@ -579,6 +631,9 @@ project.box(
     lid=LidBuilder(
         text="Round",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.NOTCHED,
+        label_finial=LabelFinial.NONE,
+        font=NIPPON_FONT,
         pattern=NIPPON_PATTERN,
         text_color=Color("white"),
         frame_color=Color("darkred"),
@@ -682,6 +737,7 @@ worker_colors = ["white", "blue", "grey", "yellow", "red", "black"]
 for idx, wcolor in enumerate(worker_colors):
     col = idx % 3
     layer = idx // 3
+    txt_color = Color("black" if wcolor in ("white", "yellow") else "white")
     project.box(
         BoxType.CAP,
         f"WorkerBox_{wcolor}",
@@ -690,9 +746,16 @@ for idx, wcolor in enumerate(worker_colors):
         lid=LidBuilder(
             text="Workers",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.NOTCHED,
+            label_finial=LabelFinial.DIAMOND,
+            font=NIPPON_FONT,
             pattern=NIPPON_PATTERN,
-            text_color=Color("black" if wcolor in ("white", "yellow") else "white"),
+            text_color=txt_color,
             frame_color=Color(wcolor if wcolor != "white" else "silver"),
+            logo=str(ASSETS / "worker.svg"),
+            logo_color=txt_color,
+            logo_position="left",
+            label_logo_size_mm=14.0,
         ),
     ).compartment(
         "Workers",
@@ -711,6 +774,7 @@ for layer, (label, color) in enumerate([
     ("ResourceBox_silk", "lightgrey"),
     ("ResourceBox_paper", "red"),
 ]):
+    txt_color = Color("black" if color == "lightgrey" else "white")
     project.box(
         BoxType.SLIDING,
         label,
@@ -719,9 +783,16 @@ for layer, (label, color) in enumerate([
         lid=LidBuilder(
             text="Resources",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.NOTCHED,
+            label_finial=LabelFinial.NONE,
+            font=NIPPON_FONT,
             pattern=NIPPON_PATTERN,
-            text_color=Color("black" if color == "lightgrey" else "white"),
+            text_color=txt_color,
             frame_color=Color(color),
+            logo=str(ASSETS / "coal.svg"),
+            logo_color=txt_color,
+            logo_position="left",
+            label_logo_size_mm=14.0,
         ),
     ).compartment(
         "Cubes",
@@ -756,6 +827,7 @@ for layer, (label, color) in enumerate([
     main_l = cube_size * 3.0 + 0.5  # 32.0mm
     ext_w = cube_size + 1.0  # 11.5mm
     ext_l = cube_size * 2.0 + 0.5  # 21.5mm
+    txt_color = Color("black" if color == "palegoldenrod" else "white")
     project.box(
         BoxType.SLIDING,
         label,
@@ -764,9 +836,16 @@ for layer, (label, color) in enumerate([
         lid=LidBuilder(
             text="Resources",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.NOTCHED,
+            label_finial=LabelFinial.NONE,
+            font=NIPPON_FONT,
             pattern=NIPPON_PATTERN,
-            text_color=Color("black" if color == "palegoldenrod" else "white"),
+            text_color=txt_color,
             frame_color=Color(color),
+            logo=str(ASSETS / "coal.svg"),
+            logo_color=txt_color,
+            logo_position="left",
+            label_logo_size_mm=14.0,
         ),
     ).compartment(
         "Cubes",

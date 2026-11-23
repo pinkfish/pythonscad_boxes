@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Geometric auctioneer's gavel and sound block -->
+  <!-- Gavel head -->
+  <polygon fill="#000000" points="42,10 66,34 52,48 28,24"/>
+  <!-- Top cap -->
+  <polygon fill="#000000" points="35,7 45,17 31,31 21,21"/>
+  <!-- Bottom cap -->
+  <polygon fill="#000000" points="59,31 69,41 55,55 45,45"/>
+  <!-- Diagonal handle -->
+  <polygon fill="#000000" points="48,38 56,46 20,82 12,74"/>
+  <!-- Sound block -->
+  <polygon fill="#000000" points="42,80 92,80 96,92 38,92"/>
+</svg>

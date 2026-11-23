@@ -23,12 +23,20 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "earth_animal_kingdom" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -68,20 +76,39 @@ project = Project(
     generate_spacers=True,
 )
 
-ANIMAL_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+ANIMAL_PATTERN = PatternBuilder(PatternType.LEAF)
+ANIMAL_FONT = "Georgia:style=Bold"
+
+
+def _animal_lid(
+    text: str,
+    frame_color: str,
+    *,
+    logo_file: str | None = None,
+    logo_size: float = 16.0,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCALLOPED,
+        label_finial=LabelFinial.FLEURON,
+        font=ANIMAL_FONT,
+        pattern=ANIMAL_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color(frame_color),
+        logo=str(ASSETS / logo_file) if logo_file is not None else None,
+        logo_color=Color("white") if logo_file is not None else None,
+        logo_position="left" if logo_file is not None else None,
+        label_logo_size_mm=logo_size if logo_file is not None else None,
+    )
+
 
 # ── 1. Oversized Animal Cards & Sprout Box ────────────────────────
 project.box(
     BoxType.SLIDING,
     "AnimalCardsBox",
     size=(card_box_width, card_box_length, card_box_height),
-    lid=LidBuilder(
-        text="Animal Cards",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANIMAL_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("maroon"),
-    ),
+    lid=_animal_lid("Animal Cards", "maroon"),
     expandable=False,
 ).compartment(
     "Cards",
@@ -92,13 +119,7 @@ project.box(
     BoxType.CAP,
     "ExpansionSproutBox",
     size=(sprout_box_width, sprout_box_length, sprout_box_height),
-    lid=LidBuilder(
-        text="Sprouts",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANIMAL_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("forestgreen"),
-    ),
+    lid=_animal_lid("Sprouts", "forestgreen", logo_file="sprout.svg", logo_size=16.0),
     expandable=False,
 ).compartment(
     "Cubes",
@@ -110,13 +131,7 @@ project.box(
     BoxType.CAP,
     "ExpansionCanopyBox",
     size=(canopy_box_width, canopy_box_length, canopy_box_height),
-    lid=LidBuilder(
-        text="Canopies",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANIMAL_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("peru"),
-    ),
+    lid=_animal_lid("Canopies", "peru", logo_file="canopy.svg", logo_size=14.0),
     expandable=False,
 ).compartment(
     "Canopies",
@@ -173,13 +188,7 @@ for tier in range(2):
         BoxType.CAP,
         f"AnimalTokensBox_{tier + 1}",
         size=(animal_box_width, animal_box_length, animal_box_height),
-        lid=LidBuilder(
-            text=f"Animal Tokens {tier + 1}",
-            label_mode=LabelMode.FRAMED,
-            pattern=ANIMAL_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("darkgoldenrod"),
-        ),
+        lid=_animal_lid(f"Animal Tokens {tier + 1}", "darkgoldenrod", logo_file="paw.svg", logo_size=18.0),
     )
     a_box.compartment(
         f"AnimalTray_{tier + 1}",

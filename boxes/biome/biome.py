@@ -26,7 +26,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -101,44 +103,67 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-BIOME_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+BIOME_PATTERN = PatternBuilder(PatternType.LEAF_VEINS)
+BIOME_FONT = "Georgia:style=Bold"
+
+
+def _biome_lid(
+    text: str,
+    frame_color: str,
+    *,
+    text_color: str | None = None,
+    logo_file: str | None = None,
+    logo_size: float = 15.0,
+    narrow: bool = False,
+) -> LidBuilder:
+    resolved_text_color = text_color or ("black" if frame_color in ("gold", "khaki", "yellow") else "white")
+    use_logo = logo_file is not None and not narrow
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCALLOPED,
+        label_finial=LabelFinial.NONE if narrow else LabelFinial.FLEURON,
+        font=BIOME_FONT,
+        pattern=BIOME_PATTERN,
+        text_color=Color(resolved_text_color),
+        frame_color=Color(frame_color),
+        logo=str(ASSETS / logo_file) if use_logo and logo_file is not None else None,
+        logo_color=Color(resolved_text_color) if use_logo else None,
+        logo_position="left" if use_logo else None,
+        label_logo_size_mm=logo_size if use_logo else None,
+    )
+
 
 # ── Column 0: Player & Resource Trays (4x3 stack at X = 0 .. 57) ──
-col0_layers = [
+col0_layers: list[list[tuple[str, str, str, str | None]]] = [
     [
-        ("PlayerBox_Red", "Red", "darkred"),
-        ("PlayerBox_Blue", "Blue", "navy"),
-        ("PlayerBox_Green", "Green", "green"),
-        ("PlayerBox_Yellow", "Yellow", "goldenrod"),
+        ("PlayerBox_Red", "Red", "darkred", None),
+        ("PlayerBox_Blue", "Blue", "navy", None),
+        ("PlayerBox_Green", "Green", "green", None),
+        ("PlayerBox_Yellow", "Yellow", "goldenrod", None),
     ],
     [
-        ("Resource_Mouse", "Mouse", "gray"),
-        ("Resource_Sun", "Sun", "gold"),
-        ("Resource_Fish", "Fish", "dodgerblue"),
-        ("Resource_Leaf", "Leaf", "forestgreen"),
+        ("Resource_Mouse", "Mouse", "gray", "mouse.svg"),
+        ("Resource_Sun", "Sun", "gold", "sun.svg"),
+        ("Resource_Fish", "Fish", "dodgerblue", "fish.svg"),
+        ("Resource_Leaf", "Leaf", "forestgreen", "leaf.svg"),
     ],
     [
-        ("Resource_Spider", "Spider", "black"),
-        ("Resource_Berry", "Berry", "purple"),
-        ("Resource_Chicks", "Chicks", "khaki"),
-        ("Resource_Rabbits", "Rabbits", "saddlebrown"),
+        ("Resource_Spider", "Spider", "black", "spider.svg"),
+        ("Resource_Berry", "Berry", "purple", "berry.svg"),
+        ("Resource_Chicks", "Chicks", "khaki", "chick.svg"),
+        ("Resource_Rabbits", "Rabbits", "saddlebrown", "rabbit.svg"),
     ],
 ]
 
 for layer_idx, items in enumerate(col0_layers):
-    for row_idx, (box_id, title, color_name) in enumerate(items):
+    for row_idx, (box_id, title, color_name, logo_file) in enumerate(items):
         project.box(
             BoxType.CAP,
             box_id,
             size=(player_box_width, player_box_length, player_box_height),
             position=(0.0, player_box_length * row_idx, player_box_height * layer_idx),
-            lid=LidBuilder(
-                text=title,
-                label_mode=LabelMode.FRAMED,
-                pattern=BIOME_PATTERN,
-                text_color=Color("black" if color_name in ("gold", "khaki", "yellow") else "white"),
-                frame_color=Color(color_name),
-            ),
+            lid=_biome_lid(title, color_name, logo_file=logo_file, logo_size=14.0),
         ).compartment("Tokens", cut=FingerCut.SCOOP)
 
 # ── Column 1: Nest Boards Longitudinal Tray (X = 57 .. 109) ───────
@@ -147,13 +172,7 @@ project.box(
     "NestBox",
     size=(nest_box_width, nest_box_length, nest_box_height),
     position=(player_box_width, 0.0, 0.0),
-    lid=LidBuilder(
-        text="Nests",
-        label_mode=LabelMode.FRAMED,
-        pattern=BIOME_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("peru"),
-    ),
+    lid=_biome_lid("Nests", "peru", logo_file="nest.svg", logo_size=16.0),
 ).compartment("NestBoards", cut=FingerCut.SCOOP)
 
 # ── Columns 2–3: Card Boxes & Spinner Holder (X = 109 .. 255) ─────
@@ -169,13 +188,7 @@ for deck_id, title, x_pos, color_name in [
         deck_id,
         size=(card_box_width, card_box_length, card_box_height),
         position=(x_pos, 0.0, 0.0),
-        lid=LidBuilder(
-            text=title,
-            label_mode=LabelMode.FRAMED,
-            pattern=BIOME_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color(color_name),
-        ),
+        lid=_biome_lid(title, color_name),
     ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -183,13 +196,7 @@ project.box(
     "CardBox_Starting",
     size=(card_box_width, card_box_length, starting_card_box_height),
     position=(cards_x0, card_box_length, 0.0),
-    lid=LidBuilder(
-        text="Starting",
-        label_mode=LabelMode.FRAMED,
-        pattern=BIOME_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("teal"),
-    ),
+    lid=_biome_lid("Starting", "teal"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -197,13 +204,7 @@ project.box(
     "CardBox_Achievement",
     size=(card_box_width, card_box_length, achievement_card_box_height),
     position=(cards_x0, card_box_length, starting_card_box_height),
-    lid=LidBuilder(
-        text="Achievement",
-        label_mode=LabelMode.FRAMED,
-        pattern=BIOME_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkgoldenrod"),
-    ),
+    lid=_biome_lid("Achievement", "darkgoldenrod"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -211,13 +212,7 @@ project.box(
     "CardBox_ChangingCondition",
     size=(card_box_width, card_box_length, changing_condition_card_box_height),
     position=(cards_x0, card_box_length, starting_card_box_height + achievement_card_box_height),
-    lid=LidBuilder(
-        text="Change",
-        label_mode=LabelMode.FRAMED,
-        pattern=BIOME_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("sienna"),
-    ),
+    lid=_biome_lid("Change", "sienna"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -225,13 +220,7 @@ project.box(
     "CardBox_Legend",
     size=(card_box_width, card_box_length, legend_card_box_height),
     position=(cards_x1, card_box_length, 0.0),
-    lid=LidBuilder(
-        text="Legend",
-        label_mode=LabelMode.FRAMED,
-        pattern=BIOME_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("indigo"),
-    ),
+    lid=_biome_lid("Legend", "indigo"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -239,13 +228,7 @@ project.box(
     "CardBox_PlantAnimalExtra",
     size=(card_box_width, card_box_length, plant_animal_extra_card_box_height),
     position=(cards_x1, card_box_length, legend_card_box_height),
-    lid=LidBuilder(
-        text="Play Extra",
-        label_mode=LabelMode.FRAMED,
-        pattern=BIOME_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("seagreen"),
-    ),
+    lid=_biome_lid("Play Extra", "seagreen"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 # BigCardBox is rotated 90 deg in biome.scad (98mm wide x 73mm long x 52mm tall)
@@ -254,13 +237,7 @@ project.box(
     "CardBox_BigBiome",
     size=(card_box_length, card_box_width, big_card_box_height),
     position=(cards_x0, card_box_length * 2.0, 0.0),
-    lid=LidBuilder(
-        text="Biome",
-        label_mode=LabelMode.FRAMED,
-        pattern=BIOME_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkgreen"),
-    ),
+    lid=_biome_lid("Biome", "darkgreen"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 # SpinnerHolder sits atop the card boxes and ExtraBitsBox at Z = 41mm
@@ -421,13 +398,7 @@ extra_bits = project.box(
     "ExtraBitsBox",
     size=(extra_bits_box_width, extra_bits_box_length, extra_bits_box_height),
     position=(board_width, 0.0, 0.0),
-    lid=LidBuilder(
-        text="Biome",
-        label_mode=LabelMode.FRAMED,
-        pattern=BIOME_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("olivedrab"),
-    ),
+    lid=_biome_lid("Biome", "olivedrab", narrow=True),
 )
 extra_bits.compartment(
     "CubesCoinTokensDie",

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Railroad Tiles Starting Clock icon: station clock face with hands -->
+  <!-- Outer clock bezel ring -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 50,10 A 40,40 0 1,0 50,90 A 40,40 0 1,0 50,10 Z
+    M 50,21 A 29,29 0 1,1 50,79 A 29,29 0 1,1 50,21 Z" />
+  <!-- Clock hands (12:00 and 3:00) + center hub -->
+  <polygon fill="#000000" points="46,26 54,26 54,54 46,54" />
+  <polygon fill="#000000" points="46,46 72,46 72,54 46,54" />
+  <circle fill="#000000" cx="50" cy="50" r="6" />
+</svg>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sci-fi fusion reactor: three containment sectors around a glowing central core -->
+  <circle fill="#000000" cx="50" cy="50" r="14"/>
+  <!-- Top sector -->
+  <polygon fill="#000000" points="50,6 76,16 64,34 50,28 36,34 24,16"/>
+  <!-- Bottom-left sector -->
+  <polygon fill="#000000" points="10,44 28,46 34,62 24,78 10,68 6,54"/>
+  <!-- Bottom-right sector -->
+  <polygon fill="#000000" points="90,44 94,54 90,68 76,78 66,62 72,46"/>
+  <!-- Lower stabilizer bar -->
+  <polygon fill="#000000" points="32,84 50,74 68,84 60,94 40,94"/>
+</svg>

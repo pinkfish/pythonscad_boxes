@@ -23,7 +23,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -97,7 +99,8 @@ project = Project(
     generate_spacers=True,
 )
 
-ATHLETE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+ATHLETE_PATTERN = PatternBuilder(PatternType.DICE)
+ATHLETE_FONT = "Futura:style=Bold"
 
 # ── 1. Athlete Cards Box ──────────────────────────────────────────
 project.box(
@@ -107,6 +110,9 @@ project.box(
     lid=LidBuilder(
         text="Athletes",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.PILL,
+        label_finial=LabelFinial.TRIPLE_DOT,
+        font=ATHLETE_FONT,
         pattern=ATHLETE_PATTERN,
         text_color=Color("white"),
         frame_color=Color("darkblue"),
@@ -158,9 +164,16 @@ project.box(
     lid=LidBuilder(
         text="Dice",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.PILL,
+        label_finial=LabelFinial.TRIPLE_DOT,
+        font=ATHLETE_FONT,
         pattern=ATHLETE_PATTERN,
         text_color=Color("white"),
         frame_color=Color("crimson"),
+        logo=str(ASSETS / "dice.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "Dice",
@@ -255,9 +268,16 @@ project.box(
     lid=LidBuilder(
         text="Awards",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.PILL,
+        label_finial=LabelFinial.TRIPLE_DOT,
+        font=ATHLETE_FONT,
         pattern=ATHLETE_PATTERN,
         text_color=Color("white"),
         frame_color=Color("gold"),
+        logo=str(ASSETS / "gold_medal.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "Medals",
@@ -325,6 +345,9 @@ for i in range(2):
         lid=LidBuilder(
             text=f"Athletes {i + 1}",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.PILL,
+            label_finial=LabelFinial.TRIPLE_DOT,
+            font=ATHLETE_FONT,
             pattern=ATHLETE_PATTERN,
             text_color=Color("white"),
             frame_color=Color("darkorange"),
@@ -344,6 +367,9 @@ project.box(
     lid=LidBuilder(
         text="Big Baby",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.PILL,
+        label_finial=LabelFinial.TRIPLE_DOT,
+        font=ATHLETE_FONT,
         pattern=ATHLETE_PATTERN,
         text_color=Color("white"),
         frame_color=Color("purple"),
@@ -362,9 +388,16 @@ for token_val in ("1", "3"):
         lid=LidBuilder(
             text=f"Awards {token_val}",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.PILL,
+            label_finial=LabelFinial.TRIPLE_DOT,
+            font=ATHLETE_FONT,
             pattern=ATHLETE_PATTERN,
             text_color=Color("white"),
             frame_color=Color("saddlebrown"),
+            logo=str(ASSETS / "trophy.svg"),
+            logo_color=Color("white"),
+            logo_position="left",
+            label_logo_size_mm=14.0,
         ),
     ).compartment(
         f"Tokens_{token_val}",

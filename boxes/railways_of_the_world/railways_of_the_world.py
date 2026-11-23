@@ -23,8 +23,12 @@ from pyboxbuilder import (
     Color,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
+    PatternBuilder,
+    PatternType,
     Project,
     StackableMode,
     centered,
@@ -157,6 +161,28 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+ROTW_PATTERN = PatternBuilder(PatternType.TUMBLING_BLOCKS)
+ROTW_FONT = "Georgia:style=Bold"
+
+
+def _lid(
+    text: str,
+    *,
+    text_color: str = "black",
+    logo: str | None = None,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        logo=logo,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CORNER_STUD,
+        label_finial=LabelFinial.SPEAR,
+        font=ROTW_FONT,
+        pattern=ROTW_PATTERN,
+        text_color=Color(text_color),
+    )
+
+
 def _inner_size(box_size: tuple[float, float, float]) -> tuple[float, float]:
     return (box_size[0] - wall_thickness * 2.0, box_size[1] - wall_thickness * 2.0)
 
@@ -168,7 +194,7 @@ project.box(
     BoxType.SLIDING,
     "CardBoxEasternUS",
     size=card_eastern_us_size,
-    lid=LidBuilder(text="Eastern US", label_mode=LabelMode.FRAMED, text_color=Color("black")),
+    lid=_lid("Eastern US"),
     color=Color("purple"),
 ).compartment(
     "CardsAndBonds",
@@ -210,11 +236,9 @@ project.box(
     BoxType.SLIDING,
     "CardBoxAustralia",
     size=(card_aus_len, card_box_width, all_boxes_height),
-    lid=LidBuilder(
-        text="Australia",
+    lid=_lid(
+        "Australia",
         logo=str(SVG_DIR / "australia.svg") if (SVG_DIR / "australia.svg").is_file() else None,
-        label_mode=LabelMode.FRAMED,
-        text_color=Color("black"),
     ),
     color=Color("purple"),
 ).compartment(
@@ -228,11 +252,9 @@ project.box(
     BoxType.SLIDING,
     "CardBoxSweden",
     size=(card_swe_len, card_box_width, all_boxes_height),
-    lid=LidBuilder(
-        text="Sweden",
+    lid=_lid(
+        "Sweden",
         logo=str(SVG_DIR / "sweden.svg") if (SVG_DIR / "sweden.svg").is_file() else None,
-        label_mode=LabelMode.FRAMED,
-        text_color=Color("black"),
     ),
     color=Color("purple"),
 ).compartment(
@@ -246,7 +268,7 @@ project.box(
     BoxType.SLIDING,
     "CardBoxMexico",
     size=(card_mex_len, card_box_width, all_boxes_height),
-    lid=LidBuilder(text="Mexico", label_mode=LabelMode.FRAMED, text_color=Color("black")),
+    lid=_lid("Mexico"),
     color=Color("purple"),
 ).compartment(
     "Cards",
@@ -259,11 +281,9 @@ project.box(
     BoxType.SLIDING,
     "CardBoxPortugal",
     size=(card_por_len, card_box_width, all_boxes_height),
-    lid=LidBuilder(
-        text="Portugal",
+    lid=_lid(
+        "Portugal",
         logo=str(SVG_DIR / "portugal_castle.svg") if (SVG_DIR / "portugal_castle.svg").is_file() else None,
-        label_mode=LabelMode.FRAMED,
-        text_color=Color("black"),
     ),
     color=Color("purple"),
 ).compartment(
@@ -277,7 +297,7 @@ for idx in (1, 2):
         BoxType.SLIDING,
         f"EmptyCityBox{idx}",
         size=(empty_city_width, empty_city_length, empty_city_height),
-        lid=LidBuilder(text="Empty City", label_mode=LabelMode.FRAMED, text_color=Color("black")),
+        lid=_lid("Empty City"),
         color=Color("purple"),
     ).compartment(
         "Markers",
@@ -293,7 +313,7 @@ for color_name in PLAYER_COLORS:
         BoxType.SLIDING,
         f"PlayerBoxTrains_{color_name}",
         size=(player_box_trains_length, player_box_width, player_box_height),
-        lid=LidBuilder(text=f"Trains ({color_name.title()})", label_mode=LabelMode.FRAMED, text_color=Color("black")),
+        lid=_lid(f"Trains ({color_name.title()})"),
         color=Color(color_name if color_name != "black" else "gray"),
         stackable=StackableMode.PYRAMIDS,
     ).compartment(
@@ -308,7 +328,7 @@ for color_name in PLAYER_COLORS:
         BoxType.CAP,
         f"PlayerBox_{color_name}",
         size=player_box_size,
-        lid=LidBuilder(text=f"Player ({color_name.title()})", label_mode=LabelMode.FRAMED, text_color=Color("black")),
+        lid=_lid(f"Player ({color_name.title()})"),
         color=Color(color_name if color_name != "black" else "gray"),
     ).compartment(
         "CardsAndMarker",
@@ -348,7 +368,7 @@ for i in range(2):
         BoxType.CAP,
         f"HexBox{i + 1}",
         size=(hex_box_width, hex_box_length, hex_box_height),
-        lid=LidBuilder(text="Tracks", label_mode=LabelMode.FRAMED, text_color=Color("black")),
+        lid=_lid("Tracks"),
         color=Color("purple"),
     ).compartment(
         "HexGrid",
@@ -360,7 +380,7 @@ project.box(
     BoxType.SLIDING,
     "MoneyBox",
     size=(money_section_width + new_city_extra_length, money_section_length + new_city_extra_width, top_section_height),
-    lid=LidBuilder(text="Money", label_mode=LabelMode.FRAMED, text_color=Color("black")),
+    lid=_lid("Money"),
     color=Color("purple"),
 ).compartment(
     "Money",
@@ -376,7 +396,7 @@ project.box(
     BoxType.CAP,
     "NewCityBox",
     size=new_city_box_size,
-    lid=LidBuilder(text="New Cities", label_mode=LabelMode.FRAMED, text_color=Color("black")),
+    lid=_lid("New Cities"),
     color=Color("purple"),
 ).compartment(
     "NewCities",
@@ -419,11 +439,10 @@ project.box(
     BoxType.CAP,
     "AustraliaBox",
     size=australia_box_size,
-    lid=LidBuilder(
-        text="Australia",
+    lid=_lid(
+        "Australia",
+        text_color="blue",
         logo=str(SVG_DIR / "australia.svg") if (SVG_DIR / "australia.svg").is_file() else None,
-        label_mode=LabelMode.FRAMED,
-        text_color=Color("blue"),
     ),
     color=Color("purple"),
 ).compartment(
@@ -468,11 +487,10 @@ project.box(
     BoxType.CAP,
     "SwedenBox",
     size=sweden_box_size,
-    lid=LidBuilder(
-        text="Sweden",
+    lid=_lid(
+        "Sweden",
+        text_color="lightblue",
         logo=str(SVG_DIR / "sweden.svg") if (SVG_DIR / "sweden.svg").is_file() else None,
-        label_mode=LabelMode.FRAMED,
-        text_color=Color("lightblue"),
     ),
     color=Color("purple"),
 ).compartment(

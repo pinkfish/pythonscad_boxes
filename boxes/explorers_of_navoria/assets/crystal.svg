@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20mm" height="20mm">
+  <!-- Crisp faceted crystal cluster silhouette (filled polygons only, no strokes) -->
+  <polygon fill="#000000" points="50,6 68,30 62,92 38,92 32,30"/>
+  <polygon fill="#000000" points="22,30 33,44 35,92 16,92 12,52"/>
+  <polygon fill="#000000" points="78,26 88,48 84,92 65,92 67,42"/>
+</svg>

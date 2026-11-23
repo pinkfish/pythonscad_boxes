@@ -23,12 +23,20 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "irish_gauge" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -66,7 +74,8 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-IRISH_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+IRISH_PATTERN = PatternBuilder(PatternType.RING)
+IRISH_FONT = "Georgia:style=Bold"
 
 # ── 1. Railway Company Boxes ──────────────────────────────────────
 company_inner_width = company_box_width - wall_thickness * 2.0  # 47.5mm
@@ -185,6 +194,7 @@ companies = [
 ]
 
 for company_id, title, color_name, shares in companies:
+    txt_color = Color("black" if color_name == "gold" else "white")
     c_box = project.box(
         BoxType.SLIDING,
         f"CompanyBox_{company_id}",
@@ -192,9 +202,16 @@ for company_id, title, color_name, shares in companies:
         lid=LidBuilder(
             text=title,
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.DOUBLE_FRAME,
+            label_finial=LabelFinial.FLEURON,
+            font=IRISH_FONT,
             pattern=IRISH_PATTERN,
-            text_color=Color("black" if color_name == "gold" else "white"),
+            text_color=txt_color,
             frame_color=Color(color_name),
+            logo=str(ASSETS / "train_cube.svg"),
+            logo_color=txt_color,
+            logo_position="left",
+            label_logo_size_mm=14.0,
         ),
     )
     c_box.compartment(
@@ -214,9 +231,16 @@ m_box = project.box(
     lid=LidBuilder(
         text="Bank & Dividends",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.DOUBLE_FRAME,
+        label_finial=LabelFinial.FLEURON,
+        font=IRISH_FONT,
         pattern=IRISH_PATTERN,
         text_color=Color("white"),
         frame_color=Color("forestgreen"),
+        logo=str(ASSETS / "coin.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 )
 for name in ["Money_1", "Money_5", "Money_10", "DividendCubes"]:

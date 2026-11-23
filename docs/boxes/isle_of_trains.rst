@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=4a00a2bc,../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=21322dab,../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=91e0e054,../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=10de95ab,../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=23220073
+.. stl:: ../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=8025f8d6,../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=7cf33007,../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=4febed5c,../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=f65d9464,../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=7b408313
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379" data-stl-combine="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=4a00a2bc,../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=21322dab,../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=91e0e054,../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=10de95ab,../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=23220073" download="IsleOfTrains_full_packing.stl">⬇ Download Full Box Packing STL (<code>IsleOfTrains_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379" data-stl-combine="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=8025f8d6,../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=7cf33007,../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=4febed5c,../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=f65d9464,../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=7b408313" download="IsleOfTrains_full_packing.stl">⬇ Download Full Box Packing STL (<code>IsleOfTrains_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -83,12 +83,12 @@ DestinationBox
 
 **Assembled Box (DestinationBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=4a00a2bc
+.. stl:: ../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=8025f8d6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379" data-stl-combine="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=4a00a2bc" download="DestinationBox_assembled.stl">⬇ Download Assembled DestinationBox STL (<code>DestinationBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379" data-stl-combine="../_stl/boxes/isle_of_trains/DestinationBox_body.stl?v=11906379,../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=8025f8d6" download="DestinationBox_assembled.stl">⬇ Download Assembled DestinationBox STL (<code>DestinationBox_assembled.stl</code>)</a></p>
 
 **Part: DestinationBox Body**
 
@@ -101,12 +101,12 @@ DestinationBox
 
 **Part: DestinationBox Lid**
 
-.. stl:: ../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=4a00a2bc
+.. stl:: ../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=8025f8d6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=4a00a2bc" download="DestinationBox_lid.stl">⬇ Download DestinationBox Lid STL (<code>DestinationBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/DestinationBox_lid.stl?v=8025f8d6" download="DestinationBox_lid.stl">⬇ Download DestinationBox Lid STL (<code>DestinationBox_lid.stl</code>)</a></p>
 
 .. _box-isle_of_trains-victorybox:
 
@@ -120,12 +120,12 @@ VictoryBox
 
 **Assembled Box (VictoryBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=21322dab
+.. stl:: ../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=7cf33007
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7" data-stl-combine="../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=21322dab" download="VictoryBox_assembled.stl">⬇ Download Assembled VictoryBox STL (<code>VictoryBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7" data-stl-combine="../_stl/boxes/isle_of_trains/VictoryBox_body.stl?v=3d881fb7,../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=7cf33007" download="VictoryBox_assembled.stl">⬇ Download Assembled VictoryBox STL (<code>VictoryBox_assembled.stl</code>)</a></p>
 
 **Part: VictoryBox Body**
 
@@ -138,12 +138,12 @@ VictoryBox
 
 **Part: VictoryBox Lid**
 
-.. stl:: ../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=21322dab
+.. stl:: ../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=7cf33007
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=21322dab" download="VictoryBox_lid.stl">⬇ Download VictoryBox Lid STL (<code>VictoryBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/VictoryBox_lid.stl?v=7cf33007" download="VictoryBox_lid.stl">⬇ Download VictoryBox Lid STL (<code>VictoryBox_lid.stl</code>)</a></p>
 
 .. _box-isle_of_trains-middlebox:
 
@@ -157,12 +157,12 @@ MiddleBox
 
 **Assembled Box (MiddleBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=91e0e054
+.. stl:: ../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=4febed5c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e" data-stl-combine="../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=91e0e054" download="MiddleBox_assembled.stl">⬇ Download Assembled MiddleBox STL (<code>MiddleBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e" data-stl-combine="../_stl/boxes/isle_of_trains/MiddleBox_body.stl?v=25abfd2e,../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=4febed5c" download="MiddleBox_assembled.stl">⬇ Download Assembled MiddleBox STL (<code>MiddleBox_assembled.stl</code>)</a></p>
 
 **Part: MiddleBox Body**
 
@@ -175,12 +175,12 @@ MiddleBox
 
 **Part: MiddleBox Lid**
 
-.. stl:: ../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=91e0e054
+.. stl:: ../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=4febed5c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=91e0e054" download="MiddleBox_lid.stl">⬇ Download MiddleBox Lid STL (<code>MiddleBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/MiddleBox_lid.stl?v=4febed5c" download="MiddleBox_lid.stl">⬇ Download MiddleBox Lid STL (<code>MiddleBox_lid.stl</code>)</a></p>
 
 .. _box-isle_of_trains-cardbox:
 
@@ -194,12 +194,12 @@ CardBox
 
 **Assembled Box (CardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=10de95ab
+.. stl:: ../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=f65d9464
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0" data-stl-combine="../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=10de95ab" download="CardBox_assembled.stl">⬇ Download Assembled CardBox STL (<code>CardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0" data-stl-combine="../_stl/boxes/isle_of_trains/CardBox_body.stl?v=35923fb0,../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=f65d9464" download="CardBox_assembled.stl">⬇ Download Assembled CardBox STL (<code>CardBox_assembled.stl</code>)</a></p>
 
 **Part: CardBox Body**
 
@@ -212,12 +212,12 @@ CardBox
 
 **Part: CardBox Lid**
 
-.. stl:: ../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=10de95ab
+.. stl:: ../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=f65d9464
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=10de95ab" download="CardBox_lid.stl">⬇ Download CardBox Lid STL (<code>CardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/CardBox_lid.stl?v=f65d9464" download="CardBox_lid.stl">⬇ Download CardBox Lid STL (<code>CardBox_lid.stl</code>)</a></p>
 
 .. _box-isle_of_trains-ticketbox:
 
@@ -231,12 +231,12 @@ TicketBox
 
 **Assembled Box (TicketBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=23220073
+.. stl:: ../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=7b408313
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328" data-stl-combine="../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=23220073" download="TicketBox_assembled.stl">⬇ Download Assembled TicketBox STL (<code>TicketBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328" data-stl-combine="../_stl/boxes/isle_of_trains/TicketBox_body.stl?v=2a3da328,../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=7b408313" download="TicketBox_assembled.stl">⬇ Download Assembled TicketBox STL (<code>TicketBox_assembled.stl</code>)</a></p>
 
 **Part: TicketBox Body**
 
@@ -249,9 +249,9 @@ TicketBox
 
 **Part: TicketBox Lid**
 
-.. stl:: ../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=23220073
+.. stl:: ../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=7b408313
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=23220073" download="TicketBox_lid.stl">⬇ Download TicketBox Lid STL (<code>TicketBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/isle_of_trains/TicketBox_lid.stl?v=7b408313" download="TicketBox_lid.stl">⬇ Download TicketBox Lid STL (<code>TicketBox_lid.stl</code>)</a></p>

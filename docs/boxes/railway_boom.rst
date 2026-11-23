@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=c4ec3c79,../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=f5797ba0,../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=a1aa8988,../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=4e57f01f,../_stl/boxes/railway_boom/SpacerPlayerBoardBox_body.stl?v=61a3d24a,../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=5315f2e1,../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=f6fb94eb,../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df,../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=e709f554,../_stl/boxes/railway_boom/TouristTileBox_body.stl?v=ed8c3f23,../_stl/boxes/railway_boom/TouristTileBox_lid.stl?v=a77b0622,../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=5026b709,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=136cdb78,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=926c7611,../_stl/boxes/railway_boom/FrontSpacerBox_body.stl?v=cfb7549d,../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602,../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ecc18900,../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054,../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=28aa7233,../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6,../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=6d0b1b63,../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562,../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=512578c1,../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923,../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=3f36ea4a,../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788,../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=55d95c93,../_stl/boxes/railway_boom/IndicatorBox_body.stl?v=7159ecf7,../_stl/boxes/railway_boom/IndicatorBox_lid.stl?v=40829411,../_stl/boxes/railway_boom/ResourceBox_Money_body.stl?v=3fdf9b22,../_stl/boxes/railway_boom/ResourceBox_Money_lid.stl?v=a4dd002c,../_stl/boxes/railway_boom/spacer_1.stl?v=ee9e9628
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=2fee6d9b,../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=1d8a9c20,../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=78610860,../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=614ef049,../_stl/boxes/railway_boom/SpacerPlayerBoardBox_body.stl?v=61a3d24a,../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=3732fbc1,../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=b15a91ce,../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df,../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=442668bf,../_stl/boxes/railway_boom/TouristTileBox_body.stl?v=ed8c3f23,../_stl/boxes/railway_boom/TouristTileBox_lid.stl?v=a77b0622,../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=67c05cc4,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=25600623,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=c2484dc6,../_stl/boxes/railway_boom/FrontSpacerBox_body.stl?v=cfb7549d,../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602,../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ec9433eb,../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054,../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=fcb8de3c,../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6,../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=c7b49c24,../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562,../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=ea5d0208,../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923,../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=e2c61e22,../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788,../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=2094059b,../_stl/boxes/railway_boom/IndicatorBox_body.stl?v=7159ecf7,../_stl/boxes/railway_boom/IndicatorBox_lid.stl?v=40829411,../_stl/boxes/railway_boom/ResourceBox_Money_body.stl?v=3fdf9b22,../_stl/boxes/railway_boom/ResourceBox_Money_lid.stl?v=a4dd002c,../_stl/boxes/railway_boom/spacer_1.stl?v=ee9e9628
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=c4ec3c79,../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=f5797ba0,../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=a1aa8988,../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=4e57f01f,../_stl/boxes/railway_boom/SpacerPlayerBoardBox_body.stl?v=61a3d24a,../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=5315f2e1,../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=f6fb94eb,../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df,../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=e709f554,../_stl/boxes/railway_boom/TouristTileBox_body.stl?v=ed8c3f23,../_stl/boxes/railway_boom/TouristTileBox_lid.stl?v=a77b0622,../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=5026b709,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=136cdb78,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=926c7611,../_stl/boxes/railway_boom/FrontSpacerBox_body.stl?v=cfb7549d,../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602,../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ecc18900,../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054,../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=28aa7233,../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6,../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=6d0b1b63,../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562,../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=512578c1,../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923,../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=3f36ea4a,../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788,../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=55d95c93,../_stl/boxes/railway_boom/IndicatorBox_body.stl?v=7159ecf7,../_stl/boxes/railway_boom/IndicatorBox_lid.stl?v=40829411,../_stl/boxes/railway_boom/ResourceBox_Money_body.stl?v=3fdf9b22,../_stl/boxes/railway_boom/ResourceBox_Money_lid.stl?v=a4dd002c,../_stl/boxes/railway_boom/spacer_1.stl?v=ee9e9628" download="RailwayBoom_full_packing.stl">⬇ Download Full Box Packing STL (<code>RailwayBoom_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=2fee6d9b,../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=1d8a9c20,../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=78610860,../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=614ef049,../_stl/boxes/railway_boom/SpacerPlayerBoardBox_body.stl?v=61a3d24a,../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=3732fbc1,../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=b15a91ce,../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df,../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=442668bf,../_stl/boxes/railway_boom/TouristTileBox_body.stl?v=ed8c3f23,../_stl/boxes/railway_boom/TouristTileBox_lid.stl?v=a77b0622,../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=67c05cc4,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=25600623,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=c2484dc6,../_stl/boxes/railway_boom/FrontSpacerBox_body.stl?v=cfb7549d,../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602,../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ec9433eb,../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054,../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=fcb8de3c,../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6,../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=c7b49c24,../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562,../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=ea5d0208,../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923,../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=e2c61e22,../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788,../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=2094059b,../_stl/boxes/railway_boom/IndicatorBox_body.stl?v=7159ecf7,../_stl/boxes/railway_boom/IndicatorBox_lid.stl?v=40829411,../_stl/boxes/railway_boom/ResourceBox_Money_body.stl?v=3fdf9b22,../_stl/boxes/railway_boom/ResourceBox_Money_lid.stl?v=a4dd002c,../_stl/boxes/railway_boom/spacer_1.stl?v=ee9e9628" download="RailwayBoom_full_packing.stl">⬇ Download Full Box Packing STL (<code>RailwayBoom_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -168,12 +168,12 @@ PlayerBox_Green
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=c4ec3c79
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=2fee6d9b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=c4ec3c79" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Green_body.stl?v=f1c16e9a,../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=2fee6d9b" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Green Body**
 
@@ -186,12 +186,12 @@ PlayerBox_Green
 
 **Part: PlayerBox_Green Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=c4ec3c79
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=2fee6d9b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=c4ec3c79" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Green_lid.stl?v=2fee6d9b" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-playerbox_blue:
 
@@ -205,12 +205,12 @@ PlayerBox_Blue
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=f5797ba0
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=1d8a9c20
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=f5797ba0" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Blue_body.stl?v=84f84ba7,../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=1d8a9c20" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Blue Body**
 
@@ -223,12 +223,12 @@ PlayerBox_Blue
 
 **Part: PlayerBox_Blue Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=f5797ba0
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=1d8a9c20
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=f5797ba0" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Blue_lid.stl?v=1d8a9c20" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-playerbox_red:
 
@@ -242,12 +242,12 @@ PlayerBox_Red
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=a1aa8988
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=78610860
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=a1aa8988" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Red_body.stl?v=92280dfb,../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=78610860" download="PlayerBox_Red_assembled.stl">⬇ Download Assembled PlayerBox_Red STL (<code>PlayerBox_Red_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Red Body**
 
@@ -260,12 +260,12 @@ PlayerBox_Red
 
 **Part: PlayerBox_Red Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=a1aa8988
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=78610860
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=a1aa8988" download="PlayerBox_Red_lid.stl">⬇ Download PlayerBox_Red Lid STL (<code>PlayerBox_Red_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Red_lid.stl?v=78610860" download="PlayerBox_Red_lid.stl">⬇ Download PlayerBox_Red Lid STL (<code>PlayerBox_Red_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-playerbox_yellow:
 
@@ -279,12 +279,12 @@ PlayerBox_Yellow
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=4e57f01f
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=614ef049
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=4e57f01f" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3" data-stl-combine="../_stl/boxes/railway_boom/PlayerBox_Yellow_body.stl?v=fd26acd3,../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=614ef049" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
 
 **Part: PlayerBox_Yellow Body**
 
@@ -297,12 +297,12 @@ PlayerBox_Yellow
 
 **Part: PlayerBox_Yellow Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=4e57f01f
+.. stl:: ../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=614ef049
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=4e57f01f" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/PlayerBox_Yellow_lid.stl?v=614ef049" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-spacerplayerboardbox:
 
@@ -334,12 +334,12 @@ StationCardBox
 
 **Assembled Box (StationCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=5315f2e1
+.. stl:: ../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=3732fbc1
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0" data-stl-combine="../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=5315f2e1" download="StationCardBox_assembled.stl">⬇ Download Assembled StationCardBox STL (<code>StationCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0" data-stl-combine="../_stl/boxes/railway_boom/StationCardBox_body.stl?v=8faa5cd0,../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=3732fbc1" download="StationCardBox_assembled.stl">⬇ Download Assembled StationCardBox STL (<code>StationCardBox_assembled.stl</code>)</a></p>
 
 **Part: StationCardBox Body**
 
@@ -352,12 +352,12 @@ StationCardBox
 
 **Part: StationCardBox Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=5315f2e1
+.. stl:: ../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=3732fbc1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=5315f2e1" download="StationCardBox_lid.stl">⬇ Download StationCardBox Lid STL (<code>StationCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/StationCardBox_lid.stl?v=3732fbc1" download="StationCardBox_lid.stl">⬇ Download StationCardBox Lid STL (<code>StationCardBox_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-objectivecardbox:
 
@@ -371,12 +371,12 @@ ObjectiveCardBox
 
 **Assembled Box (ObjectiveCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=f6fb94eb
+.. stl:: ../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=b15a91ce
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b" data-stl-combine="../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=f6fb94eb" download="ObjectiveCardBox_assembled.stl">⬇ Download Assembled ObjectiveCardBox STL (<code>ObjectiveCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b" data-stl-combine="../_stl/boxes/railway_boom/ObjectiveCardBox_body.stl?v=c21bf62b,../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=b15a91ce" download="ObjectiveCardBox_assembled.stl">⬇ Download Assembled ObjectiveCardBox STL (<code>ObjectiveCardBox_assembled.stl</code>)</a></p>
 
 **Part: ObjectiveCardBox Body**
 
@@ -389,12 +389,12 @@ ObjectiveCardBox
 
 **Part: ObjectiveCardBox Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=f6fb94eb
+.. stl:: ../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=b15a91ce
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=f6fb94eb" download="ObjectiveCardBox_lid.stl">⬇ Download ObjectiveCardBox Lid STL (<code>ObjectiveCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ObjectiveCardBox_lid.stl?v=b15a91ce" download="ObjectiveCardBox_lid.stl">⬇ Download ObjectiveCardBox Lid STL (<code>ObjectiveCardBox_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-routecardbox:
 
@@ -408,12 +408,12 @@ RouteCardBox
 
 **Assembled Box (RouteCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df,../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=e709f554
+.. stl:: ../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df,../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=442668bf
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df" data-stl-combine="../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df,../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=e709f554" download="RouteCardBox_assembled.stl">⬇ Download Assembled RouteCardBox STL (<code>RouteCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df" data-stl-combine="../_stl/boxes/railway_boom/RouteCardBox_body.stl?v=f498f3df,../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=442668bf" download="RouteCardBox_assembled.stl">⬇ Download Assembled RouteCardBox STL (<code>RouteCardBox_assembled.stl</code>)</a></p>
 
 **Part: RouteCardBox Body**
 
@@ -426,12 +426,12 @@ RouteCardBox
 
 **Part: RouteCardBox Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=e709f554
+.. stl:: ../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=442668bf
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=e709f554" download="RouteCardBox_lid.stl">⬇ Download RouteCardBox Lid STL (<code>RouteCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/RouteCardBox_lid.stl?v=442668bf" download="RouteCardBox_lid.stl">⬇ Download RouteCardBox Lid STL (<code>RouteCardBox_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-touristtilebox:
 
@@ -482,12 +482,12 @@ SmallCardBox_Carriages
 
 **Assembled Box (SmallCardBox_Carriages — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=5026b709
+.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=67c05cc4
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3" data-stl-combine="../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=5026b709" download="SmallCardBox_Carriages_assembled.stl">⬇ Download Assembled SmallCardBox_Carriages STL (<code>SmallCardBox_Carriages_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3" data-stl-combine="../_stl/boxes/railway_boom/SmallCardBox_Carriages_body.stl?v=4cd35bf3,../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=67c05cc4" download="SmallCardBox_Carriages_assembled.stl">⬇ Download Assembled SmallCardBox_Carriages STL (<code>SmallCardBox_Carriages_assembled.stl</code>)</a></p>
 
 **Part: SmallCardBox_Carriages Body**
 
@@ -500,12 +500,12 @@ SmallCardBox_Carriages
 
 **Part: SmallCardBox_Carriages Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=5026b709
+.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=67c05cc4
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=5026b709" download="SmallCardBox_Carriages_lid.stl">⬇ Download SmallCardBox_Carriages Lid STL (<code>SmallCardBox_Carriages_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_Carriages_lid.stl?v=67c05cc4" download="SmallCardBox_Carriages_lid.stl">⬇ Download SmallCardBox_Carriages Lid STL (<code>SmallCardBox_Carriages_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-smallcardbox_locomotives:
 
@@ -519,12 +519,12 @@ SmallCardBox_Locomotives
 
 **Assembled Box (SmallCardBox_Locomotives — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=136cdb78
+.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=25600623
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72" data-stl-combine="../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=136cdb78" download="SmallCardBox_Locomotives_assembled.stl">⬇ Download Assembled SmallCardBox_Locomotives STL (<code>SmallCardBox_Locomotives_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72" data-stl-combine="../_stl/boxes/railway_boom/SmallCardBox_Locomotives_body.stl?v=c2150f72,../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=25600623" download="SmallCardBox_Locomotives_assembled.stl">⬇ Download Assembled SmallCardBox_Locomotives STL (<code>SmallCardBox_Locomotives_assembled.stl</code>)</a></p>
 
 **Part: SmallCardBox_Locomotives Body**
 
@@ -537,12 +537,12 @@ SmallCardBox_Locomotives
 
 **Part: SmallCardBox_Locomotives Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=136cdb78
+.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=25600623
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=136cdb78" download="SmallCardBox_Locomotives_lid.stl">⬇ Download SmallCardBox_Locomotives Lid STL (<code>SmallCardBox_Locomotives_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_Locomotives_lid.stl?v=25600623" download="SmallCardBox_Locomotives_lid.stl">⬇ Download SmallCardBox_Locomotives Lid STL (<code>SmallCardBox_Locomotives_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-smallcardbox_citytiles:
 
@@ -556,12 +556,12 @@ SmallCardBox_CityTiles
 
 **Assembled Box (SmallCardBox_CityTiles — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=926c7611
+.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=c2484dc6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344" data-stl-combine="../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=926c7611" download="SmallCardBox_CityTiles_assembled.stl">⬇ Download Assembled SmallCardBox_CityTiles STL (<code>SmallCardBox_CityTiles_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344" data-stl-combine="../_stl/boxes/railway_boom/SmallCardBox_CityTiles_body.stl?v=fd54a344,../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=c2484dc6" download="SmallCardBox_CityTiles_assembled.stl">⬇ Download Assembled SmallCardBox_CityTiles STL (<code>SmallCardBox_CityTiles_assembled.stl</code>)</a></p>
 
 **Part: SmallCardBox_CityTiles Body**
 
@@ -574,12 +574,12 @@ SmallCardBox_CityTiles
 
 **Part: SmallCardBox_CityTiles Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=926c7611
+.. stl:: ../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=c2484dc6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=926c7611" download="SmallCardBox_CityTiles_lid.stl">⬇ Download SmallCardBox_CityTiles Lid STL (<code>SmallCardBox_CityTiles_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/SmallCardBox_CityTiles_lid.stl?v=c2484dc6" download="SmallCardBox_CityTiles_lid.stl">⬇ Download SmallCardBox_CityTiles Lid STL (<code>SmallCardBox_CityTiles_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-frontspacerbox:
 
@@ -611,12 +611,12 @@ DevelopmentCardBox_1
 
 **Assembled Box (DevelopmentCardBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602,../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ecc18900
+.. stl:: ../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602,../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ec9433eb
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602" data-stl-combine="../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602,../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ecc18900" download="DevelopmentCardBox_1_assembled.stl">⬇ Download Assembled DevelopmentCardBox_1 STL (<code>DevelopmentCardBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602" data-stl-combine="../_stl/boxes/railway_boom/DevelopmentCardBox_1_body.stl?v=5c84f602,../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ec9433eb" download="DevelopmentCardBox_1_assembled.stl">⬇ Download Assembled DevelopmentCardBox_1 STL (<code>DevelopmentCardBox_1_assembled.stl</code>)</a></p>
 
 **Part: DevelopmentCardBox_1 Body**
 
@@ -629,12 +629,12 @@ DevelopmentCardBox_1
 
 **Part: DevelopmentCardBox_1 Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ecc18900
+.. stl:: ../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ec9433eb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ecc18900" download="DevelopmentCardBox_1_lid.stl">⬇ Download DevelopmentCardBox_1 Lid STL (<code>DevelopmentCardBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/DevelopmentCardBox_1_lid.stl?v=ec9433eb" download="DevelopmentCardBox_1_lid.stl">⬇ Download DevelopmentCardBox_1 Lid STL (<code>DevelopmentCardBox_1_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-developmentcardbox_2:
 
@@ -648,12 +648,12 @@ DevelopmentCardBox_2
 
 **Assembled Box (DevelopmentCardBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054,../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=28aa7233
+.. stl:: ../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054,../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=fcb8de3c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054" data-stl-combine="../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054,../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=28aa7233" download="DevelopmentCardBox_2_assembled.stl">⬇ Download Assembled DevelopmentCardBox_2 STL (<code>DevelopmentCardBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054" data-stl-combine="../_stl/boxes/railway_boom/DevelopmentCardBox_2_body.stl?v=29b77054,../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=fcb8de3c" download="DevelopmentCardBox_2_assembled.stl">⬇ Download Assembled DevelopmentCardBox_2 STL (<code>DevelopmentCardBox_2_assembled.stl</code>)</a></p>
 
 **Part: DevelopmentCardBox_2 Body**
 
@@ -666,12 +666,12 @@ DevelopmentCardBox_2
 
 **Part: DevelopmentCardBox_2 Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=28aa7233
+.. stl:: ../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=fcb8de3c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=28aa7233" download="DevelopmentCardBox_2_lid.stl">⬇ Download DevelopmentCardBox_2 Lid STL (<code>DevelopmentCardBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/DevelopmentCardBox_2_lid.stl?v=fcb8de3c" download="DevelopmentCardBox_2_lid.stl">⬇ Download DevelopmentCardBox_2 Lid STL (<code>DevelopmentCardBox_2_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-resourcebox_materials:
 
@@ -685,12 +685,12 @@ ResourceBox_Materials
 
 **Assembled Box (ResourceBox_Materials — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6,../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=6d0b1b63
+.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6,../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=c7b49c24
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6" data-stl-combine="../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6,../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=6d0b1b63" download="ResourceBox_Materials_assembled.stl">⬇ Download Assembled ResourceBox_Materials STL (<code>ResourceBox_Materials_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6" data-stl-combine="../_stl/boxes/railway_boom/ResourceBox_Materials_body.stl?v=33a49ff6,../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=c7b49c24" download="ResourceBox_Materials_assembled.stl">⬇ Download Assembled ResourceBox_Materials STL (<code>ResourceBox_Materials_assembled.stl</code>)</a></p>
 
 **Part: ResourceBox_Materials Body**
 
@@ -703,12 +703,12 @@ ResourceBox_Materials
 
 **Part: ResourceBox_Materials Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=6d0b1b63
+.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=c7b49c24
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=6d0b1b63" download="ResourceBox_Materials_lid.stl">⬇ Download ResourceBox_Materials Lid STL (<code>ResourceBox_Materials_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Materials_lid.stl?v=c7b49c24" download="ResourceBox_Materials_lid.stl">⬇ Download ResourceBox_Materials Lid STL (<code>ResourceBox_Materials_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-resourcebox_vp:
 
@@ -722,12 +722,12 @@ ResourceBox_VP
 
 **Assembled Box (ResourceBox_VP — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562,../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=512578c1
+.. stl:: ../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562,../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=ea5d0208
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562" data-stl-combine="../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562,../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=512578c1" download="ResourceBox_VP_assembled.stl">⬇ Download Assembled ResourceBox_VP STL (<code>ResourceBox_VP_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562" data-stl-combine="../_stl/boxes/railway_boom/ResourceBox_VP_body.stl?v=843b5562,../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=ea5d0208" download="ResourceBox_VP_assembled.stl">⬇ Download Assembled ResourceBox_VP STL (<code>ResourceBox_VP_assembled.stl</code>)</a></p>
 
 **Part: ResourceBox_VP Body**
 
@@ -740,12 +740,12 @@ ResourceBox_VP
 
 **Part: ResourceBox_VP Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=512578c1
+.. stl:: ../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=ea5d0208
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=512578c1" download="ResourceBox_VP_lid.stl">⬇ Download ResourceBox_VP Lid STL (<code>ResourceBox_VP_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ResourceBox_VP_lid.stl?v=ea5d0208" download="ResourceBox_VP_lid.stl">⬇ Download ResourceBox_VP Lid STL (<code>ResourceBox_VP_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-resourcebox_tech:
 
@@ -759,12 +759,12 @@ ResourceBox_Tech
 
 **Assembled Box (ResourceBox_Tech — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923,../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=3f36ea4a
+.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923,../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=e2c61e22
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923" data-stl-combine="../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923,../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=3f36ea4a" download="ResourceBox_Tech_assembled.stl">⬇ Download Assembled ResourceBox_Tech STL (<code>ResourceBox_Tech_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923" data-stl-combine="../_stl/boxes/railway_boom/ResourceBox_Tech_body.stl?v=b53c2923,../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=e2c61e22" download="ResourceBox_Tech_assembled.stl">⬇ Download Assembled ResourceBox_Tech STL (<code>ResourceBox_Tech_assembled.stl</code>)</a></p>
 
 **Part: ResourceBox_Tech Body**
 
@@ -777,12 +777,12 @@ ResourceBox_Tech
 
 **Part: ResourceBox_Tech Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=3f36ea4a
+.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=e2c61e22
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=3f36ea4a" download="ResourceBox_Tech_lid.stl">⬇ Download ResourceBox_Tech Lid STL (<code>ResourceBox_Tech_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Tech_lid.stl?v=e2c61e22" download="ResourceBox_Tech_lid.stl">⬇ Download ResourceBox_Tech Lid STL (<code>ResourceBox_Tech_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-resourcebox_coal:
 
@@ -796,12 +796,12 @@ ResourceBox_Coal
 
 **Assembled Box (ResourceBox_Coal — Body + Lid)**
 
-.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788,../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=55d95c93
+.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788,../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=2094059b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788" data-stl-combine="../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788,../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=55d95c93" download="ResourceBox_Coal_assembled.stl">⬇ Download Assembled ResourceBox_Coal STL (<code>ResourceBox_Coal_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788" data-stl-combine="../_stl/boxes/railway_boom/ResourceBox_Coal_body.stl?v=7ca87788,../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=2094059b" download="ResourceBox_Coal_assembled.stl">⬇ Download Assembled ResourceBox_Coal STL (<code>ResourceBox_Coal_assembled.stl</code>)</a></p>
 
 **Part: ResourceBox_Coal Body**
 
@@ -814,12 +814,12 @@ ResourceBox_Coal
 
 **Part: ResourceBox_Coal Lid**
 
-.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=55d95c93
+.. stl:: ../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=2094059b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=55d95c93" download="ResourceBox_Coal_lid.stl">⬇ Download ResourceBox_Coal Lid STL (<code>ResourceBox_Coal_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/railway_boom/ResourceBox_Coal_lid.stl?v=2094059b" download="ResourceBox_Coal_lid.stl">⬇ Download ResourceBox_Coal Lid STL (<code>ResourceBox_Coal_lid.stl</code>)</a></p>
 
 .. _box-railway_boom-indicatorbox:
 

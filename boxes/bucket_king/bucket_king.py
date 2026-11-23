@@ -25,6 +25,7 @@ from pyboxbuilder import (
     Color,
     CompartmentElement,
     ElementShape,
+    LabelFinial,
     LabelMode,
     LabelShape,
     LidBuilder,
@@ -126,7 +127,8 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-BUCKET_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+BUCKET_PATTERN = PatternBuilder(PatternType.CIRCLE)
+BUCKET_FONT = "Futura:style=Bold"
 
 # ── 1. Playing Card Box (single full-width compartment + left finger hole) ──
 c_box = project.box(
@@ -138,6 +140,8 @@ c_box = project.box(
         text="Bucket King",
         label_mode=LabelMode.FRAMED,
         label_shape=LabelShape.DOUBLE_FRAME,
+        label_finial=LabelFinial.TRIPLE_DOT,
+        font=BUCKET_FONT,
         pattern=BUCKET_PATTERN,
         text_color=Color("white"),
         frame_color=Color("royalblue"),
@@ -163,6 +167,7 @@ player_colors = [
 for idx, (num, frame_col) in enumerate(player_colors):
     col = idx % 2
     row = idx // 2
+    player_ink = Color("black" if frame_col == "gold" else "white")
     p_box = project.box(
         BoxType.CAP,
         f"PlayerBox_{num}",
@@ -172,9 +177,15 @@ for idx, (num, frame_col) in enumerate(player_colors):
             text="Buckets",
             label_mode=LabelMode.FRAMED,
             label_shape=LabelShape.PILL,
+            label_finial=LabelFinial.TRIPLE_DOT,
+            font=BUCKET_FONT,
             pattern=BUCKET_PATTERN,
-            text_color=Color("black" if frame_col == "gold" else "white"),
+            text_color=player_ink,
             frame_color=Color(frame_col),
+            logo=BUCKET_SVG,
+            logo_color=player_ink,
+            logo_position="left",
+            label_logo_size_mm=15.0,
         ),
     )
     p_box.compartment(

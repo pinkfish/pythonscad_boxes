@@ -23,12 +23,20 @@ from pyboxbuilder import (
     BoxType,
     Color,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "maglev_metro_vol2" / "assets"
 )
 
 # ── Box & Board Dimensions (from maglev_metro_vol2.scad) ──────────
@@ -124,13 +132,28 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-METRO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+METRO_PATTERN = PatternBuilder(PatternType.PENROSE)
+METRO_FONT = "Futura:style=Bold"
 
 
-def _lid(text: str, frame_color: str) -> LidBuilder:
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    image: str | None = None,
+    logo_size_mm: float | None = None,
+    finial: LabelFinial = LabelFinial.CHEVRON,
+) -> LidBuilder:
     return LidBuilder(
         text=text,
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.HEX_BRACKET,
+        label_finial=finial,
+        font=METRO_FONT,
+        logo=image,
+        logo_color=Color("white") if image else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm,
         pattern=METRO_PATTERN,
         text_color=Color("white"),
         frame_color=Color(frame_color),
@@ -177,7 +200,7 @@ s_box = project.box(
     "SummonBox",
     size=(summon_box_width, summon_box_length, summon_box_height),
     position=(0.0, extra_hex_boxes_length + upgrade_box_length, 0.0),
-    lid=_lid("Summons", "purple"),
+    lid=_lid("Summons", "purple", image=str(ASSETS / "ghost.svg"), logo_size_mm=14.0),
 )
 s_box.compartment("Summon_1", width_ratio=0.5, cut=FingerCut.SCOOP)
 s_box.compartment("Summon_2", width_ratio=0.5, cut=FingerCut.SCOOP)
@@ -202,7 +225,7 @@ for label, color_name, idx in robot_specs:
         label,
         size=(robot_box_width, robot_box_length, robot_box_height),
         position=(robot_box_width * idx, player_board_length, card_box_height),
-        lid=_lid("Robots", color_name),
+        lid=_lid("Robots", color_name, image=str(ASSETS / "robot.svg"), logo_size_mm=15.0),
     ).compartment("Robots", cut=FingerCut.SCOOP)
 
 nanobot_specs = [
@@ -216,7 +239,7 @@ for label, color_name, idx in nanobot_specs:
         label,
         size=(nanobot_box_width, nanobot_box_length, nanobot_box_height),
         position=(nanobot_box_width * idx, player_board_length + robot_box_length, card_box_height),
-        lid=_lid("Nanobots", color_name),
+        lid=_lid("Nanobots", color_name, image=str(ASSETS / "robot.svg"), logo_size_mm=14.0),
     ).compartment("Nanobots", cut=FingerCut.SCOOP)
 
 # ── 3. Right Column: Outback & Ghost Hexes + Metro Tokens ────────
@@ -250,7 +273,7 @@ for label, color_name, idx in commuter_specs:
         label,
         size=(commuter_box_width, commuter_box_length, commuter_box_height),
         position=(0.0, commuter_box_length * idx, usable_height),
-        lid=_lid("Commuter", color_name),
+        lid=_lid("Commuter", color_name, image=str(ASSETS / "commuter.svg"), logo_size_mm=14.0),
     ).compartment("Commuters", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────

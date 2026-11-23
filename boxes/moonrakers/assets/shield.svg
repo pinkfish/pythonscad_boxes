@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sci-fi angular energy shield with inner emblem cutout -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 50 6
+    L 88 20
+    L 84 60
+    L 50 94
+    L 16 60
+    L 12 20
+    Z
+    M 50 18
+    L 24 28
+    L 27 56
+    L 50 79
+    L 73 56
+    L 76 28
+    Z
+  "/>
+  <!-- Inner hexagonal core -->
+  <polygon fill="#000000" points="50,28 65,36 65,54 50,68 35,54 35,36"/>
+</svg>

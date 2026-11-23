@@ -23,7 +23,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -79,7 +81,8 @@ project = Project(
     generate_spacers=True,
 )
 
-NAVORIA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+NAVORIA_PATTERN = PatternBuilder(PatternType.RING)
+NAVORIA_FONT = "Georgia:style=Bold"
 
 # ── Interior Geometry Helpers (from explorers_of_navoria_forgotten_lands.scad)
 player_inner_w = player_box_width - wall_thickness * 2.0    # 92.0mm
@@ -348,9 +351,16 @@ project.box(
     lid=LidBuilder(
         text="Player (White 1)",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("black"),
         frame_color=Color("white"),
+        logo=str(ASSETS / "trading_post_white.svg"),
+        logo_color=Color("black"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "TradingPosts",
@@ -366,9 +376,16 @@ project.box(
     lid=LidBuilder(
         text="Player (White 2)",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("black"),
         frame_color=Color("white"),
+        logo=str(ASSETS / "explorer_white.svg"),
+        logo_color=Color("black"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "Explorers",
@@ -384,6 +401,9 @@ project.box(
     lid=LidBuilder(
         text="Solo",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("white"),
         frame_color=Color("peru"),
@@ -402,6 +422,9 @@ project.box(
     lid=LidBuilder(
         text="Contract",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("white"),
         frame_color=Color("sienna"),
@@ -421,9 +444,16 @@ project.box(
     lid=LidBuilder(
         text="Faction Skills",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("white"),
         frame_color=Color("purple"),
+        logo=str(ASSETS / "faction_skill_tile.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "FactionTiles",
@@ -439,6 +469,9 @@ project.box(
     lid=LidBuilder(
         text="Exploration Bits",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("white"),
         frame_color=Color("darkorange"),
@@ -458,6 +491,9 @@ project.box(
     lid=LidBuilder(
         text="Forgotten Cards",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("white"),
         frame_color=Color("navy"),

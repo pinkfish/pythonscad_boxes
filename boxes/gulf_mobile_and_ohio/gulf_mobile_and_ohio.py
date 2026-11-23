@@ -23,12 +23,20 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "gulf_mobile_and_ohio" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -72,7 +80,8 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-GMO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+GMO_PATTERN = PatternBuilder(PatternType.CHEVRON)
+GMO_FONT = "Futura:style=Bold"
 
 # ── 1. Bank Money Box ─────────────────────────────────────────────
 money_box = project.box(
@@ -82,9 +91,16 @@ money_box = project.box(
     lid=LidBuilder(
         text="Bank",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CHAMFERED,
+        label_finial=LabelFinial.SPEAR,
+        font=GMO_FONT,
         pattern=GMO_PATTERN,
         text_color=Color("white"),
         frame_color=Color("gold"),
+        logo=str(ASSETS / "coin.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 )
 for slot in range(3):
@@ -103,6 +119,9 @@ for i in range(2):
         lid=LidBuilder(
             text=f"Companies {i + 1}",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.CHAMFERED,
+            label_finial=LabelFinial.SPEAR,
+            font=GMO_FONT,
             pattern=GMO_PATTERN,
             text_color=Color("white"),
             frame_color=Color("navy"),
@@ -177,6 +196,7 @@ def _cube_box_elements(num_x: int, num_y: int, remainder: int) -> tuple[Compartm
 
 
 for color_name, num_x, num_y, remainder in cube_specs:
+    txt_color = Color("black" if color_name == "yellow" else "white")
     bx = project.box(
         BoxType.CAP,
         f"CubeBox_{color_name.title()}",
@@ -184,9 +204,16 @@ for color_name, num_x, num_y, remainder in cube_specs:
         lid=LidBuilder(
             text=color_name.title(),
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.CHAMFERED,
+            label_finial=LabelFinial.SPEAR,
+            font=GMO_FONT,
             pattern=GMO_PATTERN,
-            text_color=Color("black" if color_name == "yellow" else "white"),
+            text_color=txt_color,
             frame_color=Color(color_name),
+            logo=str(ASSETS / "cube.svg"),
+            logo_color=txt_color,
+            logo_position="left",
+            label_logo_size_mm=14.0,
         ),
     )
     bx.compartment(
@@ -264,6 +291,9 @@ tok_box = project.box(
     lid=LidBuilder(
         text="Tokens",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CHAMFERED,
+        label_finial=LabelFinial.SPEAR,
+        font=GMO_FONT,
         pattern=GMO_PATTERN,
         text_color=Color("white"),
         frame_color=Color("darkslategray"),

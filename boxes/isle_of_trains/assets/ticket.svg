@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Isle of Trains Ticket icon: classic notched rail ticket with perforated stub -->
+  <!-- Main left ticket body with left semicircular notch -->
+  <path fill="#000000" d="
+    M 6,24 L 66,24 L 66,76 L 6,76 L 6,62
+    A 12,12 0 0,0 6,38 Z" />
+  <!-- Detachable right stub with right semicircular notch -->
+  <path fill="#000000" d="
+    M 72,24 L 94,24 L 94,38
+    A 12,12 0 0,0 94,62
+    L 94,76 L 72,76 Z" />
+</svg>

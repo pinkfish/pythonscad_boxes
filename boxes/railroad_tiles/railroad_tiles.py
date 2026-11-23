@@ -23,7 +23,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -76,7 +78,33 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-TILE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+TILE_PATTERN = PatternBuilder(PatternType.CHECKER)
+TILE_FONT = "Gill Sans:style=Bold"
+
+
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    image: str | None = None,
+    logo_size_mm: float | None = None,
+    finial: LabelFinial = LabelFinial.TRIPLE_DOT,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.PILL,
+        label_finial=finial,
+        font=TILE_FONT,
+        logo=image,
+        logo_color=Color("white") if image else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm,
+        pattern=TILE_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color(frame_color),
+    )
+
 
 # ── 1. Tokens Boxes (4 columns, stacked 2 high at Y = 0) ──────────
 token_labels = ["Tokens_1", "Tokens_2", "Tokens_3", "Tokens_4"]
@@ -86,13 +114,7 @@ for label in token_labels:
             BoxType.CAP,
             f"{label}_Tier{tier + 1}",
             size=(token_box_width, token_box_length, token_box_height),
-            lid=LidBuilder(
-                text=label,
-                label_mode=LabelMode.FRAMED,
-                pattern=TILE_PATTERN,
-                text_color=Color("white"),
-                frame_color=Color("navy"),
-            ),
+            lid=_lid(label, "navy"),
         )
         t_box.compartment(
             "Tokens",
@@ -218,12 +240,11 @@ project.box(
     BoxType.CAP,
     "PlayerMarkersBox",
     size=(player_box_width, player_box_length, player_box_height),
-    lid=LidBuilder(
-        text="Player Markers",
-        label_mode=LabelMode.FRAMED,
-        pattern=TILE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkgreen"),
+    lid=_lid(
+        "Player Markers",
+        "darkgreen",
+        image=str(ASSETS / "player_marker.svg"),
+        logo_size_mm=14.0,
     ),
 ).compartment(
     "Markers",
@@ -236,12 +257,11 @@ project.box(
     BoxType.CAP,
     "StartingClocksBox",
     size=(player_box_width, player_box_length, player_box_height),
-    lid=LidBuilder(
-        text="Clocks",
-        label_mode=LabelMode.FRAMED,
-        pattern=TILE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("gold"),
+    lid=_lid(
+        "Clocks",
+        "gold",
+        image=str(ASSETS / "clock.svg"),
+        logo_size_mm=14.0,
     ),
 ).compartment(
     "Clocks",
@@ -256,13 +276,7 @@ for i in range(5):
         BoxType.CAP,
         f"ObjectiveBox_{i + 1}",
         size=(objective_box_width, objective_box_length, objective_box_height),
-        lid=LidBuilder(
-            text=f"Objectives {i + 1}",
-            label_mode=LabelMode.FRAMED,
-            pattern=TILE_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("darkorange"),
-        ),
+        lid=_lid(f"Objectives {i + 1}", "darkorange"),
     )
     obj_box.compartment(
         "ObjectiveTiles_Left",

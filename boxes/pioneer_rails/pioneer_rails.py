@@ -23,12 +23,20 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "pioneer_rails" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -76,7 +84,8 @@ project = Project(
     generate_spacers=True,
 )
 
-PIONEER_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+PIONEER_PATTERN = PatternBuilder(PatternType.CHEVRON)
+PIONEER_FONT = "Georgia:style=Bold"
 
 
 def _pencil_box_elements() -> tuple[CompartmentElement, ...]:
@@ -155,6 +164,13 @@ p_box = project.box(
     lid=LidBuilder(
         text="Pencils",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.BRACKET,
+        label_finial=LabelFinial.SPEAR,
+        font=PIONEER_FONT,
+        logo=str(ASSETS / "pencil.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
         pattern=PIONEER_PATTERN,
         text_color=Color("white"),
         frame_color=Color("peru"),
@@ -183,6 +199,9 @@ for deck_id, title, color_name in decks:
         lid=LidBuilder(
             text=title,
             label_mode=LabelMode.FRAMELESS,
+            label_shape=LabelShape.BRACKET,
+            label_finial=LabelFinial.NONE,
+            font=PIONEER_FONT,
             pattern=PIONEER_PATTERN,
             text_color=Color("white"),
             frame_color=Color(color_name),

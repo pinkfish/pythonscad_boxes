@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Pioneer Rails Pencil icon: diagonal roll-and-write pencil -->
+  <!-- Eraser cap (top-right) -->
+  <polygon fill="#000000" points="72,12 88,28 79,37 63,21" />
+  <!-- Metal ferrule band -->
+  <polygon fill="#000000" points="59,25 75,41 70,46 54,30" />
+  <!-- Main hexagonal pencil shaft -->
+  <polygon fill="#000000" points="50,34 66,50 37,79 21,63" />
+  <!-- Sharpened wood cone & graphite tip (bottom-left) -->
+  <polygon fill="#000000" points="18,67 33,82 10,90" />
+</svg>

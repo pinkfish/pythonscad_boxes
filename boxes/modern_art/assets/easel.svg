@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Bold geometric gallery easel with framed canvas -->
+  <!-- Top easel post -->
+  <polygon fill="#000000" points="45,6 55,6 55,18 45,18"/>
+  <!-- Canvas frame with geometric interior cutout -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 18 18
+    L 82 18
+    L 82 64
+    L 18 64
+    Z
+    M 28 28
+    L 28 54
+    L 72 54
+    L 72 28
+    Z
+  "/>
+  <!-- Abstract geometric painting inside canvas -->
+  <polygon fill="#000000" points="33,50 47,32 61,50"/>
+  <circle fill="#000000" cx="63" cy="36" r="5"/>
+  <!-- Easel shelf ledge -->
+  <polygon fill="#000000" points="12,64 88,64 88,72 12,72"/>
+  <!-- Tripod legs -->
+  <polygon fill="#000000" points="26,72 36,72 24,94 14,94"/>
+  <polygon fill="#000000" points="64,72 74,72 86,94 76,94"/>
+  <polygon fill="#000000" points="46,72 54,72 54,90 46,90"/>
+</svg>

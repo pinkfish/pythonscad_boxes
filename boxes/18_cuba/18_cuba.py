@@ -23,7 +23,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -75,7 +77,32 @@ project = Project(
     generate_spacers=True,
 )
 
-CUBA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+CUBA_PATTERN = PatternBuilder(PatternType.CHEVRON)
+CUBA_FONT = "Georgia:style=Bold"
+
+
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    logo: str | None = None,
+    logo_size_mm: float = 16.0,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CORNER_STUD,
+        label_finial=LabelFinial.SPEAR,
+        font=CUBA_FONT,
+        pattern=CUBA_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color(frame_color),
+        logo=logo,
+        logo_color=Color("white") if logo else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm if logo else None,
+    )
+
 
 # ── 1. Money Boxes (2 full-width stacked boxes, 4 denoms each) ────
 for i in range(2):
@@ -83,12 +110,11 @@ for i in range(2):
         BoxType.SLIPOVER,
         f"MoneyBox_{i + 1}",
         size=(tray_width, money_box_len, tray_height),
-        lid=LidBuilder(
-            text="18Cuba",
-            label_mode=LabelMode.FRAMED,
-            pattern=CUBA_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("gold"),
+        lid=_lid(
+            "18Cuba",
+            "gold",
+            logo=str(ASSETS / "coin.svg"),
+            logo_size_mm=16.0,
         ),
     )
     for slot in range(4):
@@ -427,12 +453,11 @@ t_box = project.box(
     BoxType.SLIPOVER,
     "TrainBox",
     size=(tray_width, train_box_len, tray_height),
-    lid=LidBuilder(
-        text="Trains",
-        label_mode=LabelMode.FRAMED,
-        pattern=CUBA_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("blue"),
+    lid=_lid(
+        "Trains",
+        "blue",
+        logo=str(ASSETS / "train_icon.svg"),
+        logo_size_mm=16.0,
     ),
     expandable=False,
 )
@@ -447,13 +472,7 @@ for i in range(2):
         BoxType.SLIPOVER,
         f"SharesBox_{i + 1}",
         size=(tray_width, train_box_len, tray_height),
-        lid=LidBuilder(
-            text="Shares",
-            label_mode=LabelMode.FRAMED,
-            pattern=CUBA_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("royalblue"),
-        ),
+        lid=_lid("Shares", "royalblue"),
         expandable=False,
     )
     for slot in range(5):
@@ -468,13 +487,7 @@ last_box = project.box(
     BoxType.SLIPOVER,
     "LastBox",
     size=(tray_width, train_box_len, tray_height),
-    lid=LidBuilder(
-        text="Machine/Minor",
-        label_mode=LabelMode.FRAMED,
-        pattern=CUBA_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("teal"),
-    ),
+    lid=_lid("Machine/Minor", "teal"),
 )
 last_box.compartment(
     "MinorAndRails",
@@ -486,13 +499,7 @@ large_tokens = project.box(
     BoxType.SLIPOVER,
     "LargeTokensBox",
     size=(tray_width, rest_section_len, tray_height),
-    lid=LidBuilder(
-        text="Major Tokens",
-        label_mode=LabelMode.FRAMED,
-        pattern=CUBA_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkblue"),
-    ),
+    lid=_lid("Major Tokens", "darkblue"),
 )
 large_tokens.compartment(
     "MajorTokens",

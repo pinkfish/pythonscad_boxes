@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20mm" height="20mm">
+  <!-- Crisp dungeon treasure chest silhouette (filled paths & polygons only, no strokes) -->
+  <path fill="#000000" d="M 10,44 C 10,22 24,14 50,14 C 76,14 90,22 90,44 Z"/>
+  <polygon fill="#000000" points="10,50 42,50 42,58 58,58 58,50 90,50 90,88 10,88"/>
+  <polygon fill="#000000" points="44,44 56,44 56,55 44,55"/>
+</svg>

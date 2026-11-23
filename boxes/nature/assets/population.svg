@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Nature population group icon -->
+  <!-- Center figure -->
+  <circle fill="#000000" cx="50" cy="28" r="14"/>
+  <path fill="#000000" d="M 28,88 C 28,62 36,48 50,48 C 64,48 72,62 72,88 Z"/>
+  <!-- Left figure -->
+  <circle fill="#000000" cx="22" cy="38" r="11"/>
+  <path fill="#000000" d="M 6,88 C 6,66 12,54 22,54 C 30,54 36,62 38,88 Z"/>
+  <!-- Right figure -->
+  <circle fill="#000000" cx="78" cy="38" r="11"/>
+  <path fill="#000000" d="M 62,88 C 64,62 70,54 78,54 C 88,54 94,66 94,88 Z"/>
+</svg>

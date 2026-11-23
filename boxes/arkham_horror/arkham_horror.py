@@ -21,13 +21,17 @@ from pyboxbuilder import (
     BoxType,
     Color,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
 )
+
+ASSETS = ROOT / "boxes" / "arkham_horror" / "assets"
 
 # ── Game Box Dimensions ───────────────────────────────────────────
 box_width = 242.0
@@ -93,18 +97,27 @@ project = Project(
 )
 
 ARKHAM_PATTERN = PatternBuilder(PatternType.VORONOI)
+ARKHAM_LID = LidBuilder(
+    label_mode=LabelMode.FRAMED,
+    label_shape=LabelShape.ORNATE_FRAME,
+    label_finial=LabelFinial.SCROLLWORK,
+    font="Georgia:style=Bold",
+    pattern=ARKHAM_PATTERN,
+    text_color=Color("white"),
+    logo_color=Color("white"),
+    logo_position="left",
+    label_logo_size_mm=16.0,
+)
 
 # ── 1. Core Set Player Card Box ────────────────────────────────────
 player_box = project.box(
     BoxType.SLIDING,
     "CorePlayerCards",
     size=(card_box_width, player_box_len, all_boxes_height),
-    lid=LidBuilder(
-        text="Core Investigators",
-        label_mode=LabelMode.FRAMED,
-        pattern=ARKHAM_PATTERN,
-        text_color=Color("white"),
+    lid=ARKHAM_LID.titled(
+        "Core Investigators",
         frame_color=Color("teal"),
+        logo=str(ASSETS / "magnifying_glass.svg"),
     ),
     expandable=False,
 )
@@ -118,12 +131,10 @@ scenario_box = project.box(
     BoxType.SLIDING,
     "CoreScenarioCards",
     size=(card_box_width, scenario_box_len, all_boxes_height),
-    lid=LidBuilder(
-        text="Core Campaign",
-        label_mode=LabelMode.FRAMED,
-        pattern=ARKHAM_PATTERN,
-        text_color=Color("white"),
+    lid=ARKHAM_LID.titled(
+        "Core Campaign",
         frame_color=Color("midnightblue"),
+        logo=str(ASSETS / "elder_sign.svg"),
     ),
     expandable=False,
 )
@@ -136,18 +147,21 @@ scenario_box.compartment(
 token_box_width = box_width - card_box_width - 2.0  # 140.0mm
 token_tray_height = all_boxes_height / 3.0          # ~24.3mm
 
-for label in ["ChaosTokens", "DamageAndHorror", "CluesAndResources"]:
-    idx = ["ChaosTokens", "DamageAndHorror", "CluesAndResources"].index(label) + 1
+token_trays = [
+    ("ChaosTokens", "elder_sign.svg"),
+    ("DamageAndHorror", "skull.svg"),
+    ("CluesAndResources", "magnifying_glass.svg"),
+]
+
+for idx, (label, icon_file) in enumerate(token_trays, start=1):
     tray = project.box(
         BoxType.CAP,
         f"TokenTray{idx}_{label}",
         size=(token_box_width, player_box_len, token_tray_height),
-        lid=LidBuilder(
-            text=label,
-            label_mode=LabelMode.FRAMED,
-            pattern=ARKHAM_PATTERN,
-            text_color=Color("white"),
+        lid=ARKHAM_LID.titled(
+            label,
             frame_color=Color("darkred"),
+            logo=str(ASSETS / icon_file),
         ),
     )
     for c_idx in range(4):
@@ -162,11 +176,10 @@ accessory_box = project.box(
     BoxType.CAP,
     "AccessoryTray",
     size=(token_box_width, scenario_box_len, all_boxes_height / 2.0),
-    lid=LidBuilder(
-        text="Accessories",
-        label_mode=LabelMode.FRAMED,
-        pattern=ARKHAM_PATTERN,
-        text_color=Color("white"),
+    lid=ARKHAM_LID.titled(
+        "Accessories",
+        frame_color=Color("darkslategray"),
+        logo=str(ASSETS / "elder_sign.svg"),
     ),
 )
 accessory_box.compartment(

@@ -25,7 +25,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -113,7 +115,33 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-ORIENT_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+ORIENT_PATTERN = PatternBuilder(PatternType.CHEVRON)
+ORIENT_FONT = "Georgia:style=Bold"
+
+
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    text_color: str = "white",
+    shape: LabelShape = LabelShape.DOUBLE_FRAME,
+    logo: str | None = None,
+    logo_size_mm: float = 15.0,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=shape,
+        label_finial=LabelFinial.DIAMOND,
+        font=ORIENT_FONT,
+        pattern=ORIENT_PATTERN,
+        text_color=Color(text_color),
+        frame_color=Color(frame_color),
+        logo=logo,
+        logo_color=Color(text_color) if logo else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm if logo else None,
+    )
 
 # ── Row 1: Player Boxes (x4), Money Box & Evidence Box (Y = 0 .. 53) ──
 player_inner_w = player_box_width - wall_thickness * 2.0  # 102.5mm
@@ -199,12 +227,13 @@ for color_name, pos in player_positions:
         f"PlayerBox_{color_name}",
         size=(player_box_width, player_box_length, player_box_height),
         position=pos,
-        lid=LidBuilder(
-            text=f"Player ({color_name.title()})",
-            label_mode=LabelMode.FRAMED,
-            pattern=ORIENT_PATTERN,
-            text_color=Color("black" if color_name == "yellow" else "white"),
-            frame_color=Color(color_name),
+        lid=_lid(
+            f"Player ({color_name.title()})",
+            color_name,
+            text_color="black" if color_name == "yellow" else "white",
+            shape=LabelShape.ORNATE_FRAME,
+            logo=str(ASSETS / "meeple_token.svg"),
+            logo_size_mm=14.0,
         ),
     ).compartment(
         "PlayerBits",
@@ -218,12 +247,12 @@ project.box(
     "MoneyBox",
     size=(player_box_width, player_box_length, player_box_height),
     position=(player_box_width, 0.0, player_box_height),
-    lid=LidBuilder(
-        text="Money",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("black"),
-        frame_color=Color("lightgrey"),
+    lid=_lid(
+        "Money",
+        "lightgrey",
+        text_color="black",
+        logo=str(ASSETS / "coin.svg"),
+        logo_size_mm=15.0,
     ),
 ).compartment("Coins", cut=FingerCut.SCOOP)
 
@@ -232,13 +261,7 @@ project.box(
     "EvidenceBox",
     size=(player_box_width, player_box_length, player_box_height),
     position=(player_box_width, 0.0, player_box_height * 2.0),
-    lid=LidBuilder(
-        text="Evidence",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("black"),
-        frame_color=Color("lightsalmon"),
-    ),
+    lid=_lid("Evidence", "lightsalmon", text_color="black"),
 ).compartment("Tokens", cut=FingerCut.SCOOP)
 
 # ── Row 2: Module, Base/Mail/Evidence, Railroad & Whodunit Cards (Y = 53 .. 129) ──
@@ -261,13 +284,7 @@ for deck_id, label_text, col, layer in module_decks:
         f"CardBox_{deck_id}",
         size=(card_box_width, card_box_length, module_box_height),
         position=(card_box_width * col, row2_y, module_box_height * layer),
-        lid=LidBuilder(
-            text=label_text,
-            label_mode=LabelMode.FRAMED,
-            pattern=ORIENT_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("darkblue"),
-        ),
+        lid=_lid(label_text, "darkblue"),
     ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -275,13 +292,7 @@ project.box(
     "CardBox_Railroad712",
     size=(card_box_width, card_box_length, railroad_7_12_height),
     position=(card_box_width * 2.0, row2_y, module_box_height * 2.0),
-    lid=LidBuilder(
-        text="7-12",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("black"),
-        frame_color=Color("cyan"),
-    ),
+    lid=_lid("7-12", "cyan", text_color="black"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -289,13 +300,7 @@ project.box(
     "CardBox_Railroad01",
     size=(card_box_width, card_box_length, railroad_0_1_height),
     position=(card_box_width * 3.0, row2_y, 0.0),
-    lid=LidBuilder(
-        text="0-1",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("black"),
-        frame_color=Color("cyan"),
-    ),
+    lid=_lid("0-1", "cyan", text_color="black"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -303,13 +308,7 @@ project.box(
     "CardBox_Railroad24",
     size=(card_box_width, card_box_length, railroad_2_4_height),
     position=(card_box_width * 3.0, row2_y, railroad_0_1_height),
-    lid=LidBuilder(
-        text="2-4",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("black"),
-        frame_color=Color("cyan"),
-    ),
+    lid=_lid("2-4", "cyan", text_color="black"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -317,13 +316,7 @@ project.box(
     "CardBox_Whodunit",
     size=(card_box_width, card_box_length, whodunit_card_box_height),
     position=(card_box_width * 3.0, row2_y, railroad_0_1_height + railroad_2_4_height),
-    lid=LidBuilder(
-        text="Whodunit",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkred"),
-    ),
+    lid=_lid("Whodunit", "darkred"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── Row 3: Game End, Start Tile & Locomotive Tile Boxes (Y = 129 .. 205) ──
@@ -334,13 +327,7 @@ project.box(
     "CardBox_GameEnd",
     size=(card_box_width, card_box_length, game_end_card_box_height),
     position=(0.0, row3_y, 0.0),
-    lid=LidBuilder(
-        text="End",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("deepskyblue"),
-    ),
+    lid=_lid("End", "deepskyblue"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -348,13 +335,7 @@ project.box(
     "StartTileCardBox",
     size=(card_box_width, card_box_length, start_tile_box_height),
     position=(0.0, row3_y, game_end_card_box_height),
-    lid=LidBuilder(
-        text="Start",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("black"),
-        frame_color=Color("khaki"),
-    ),
+    lid=_lid("Start", "khaki", text_color="black"),
 ).compartment("StartTile", cut=FingerCut.SCOOP)
 
 project.box(
@@ -362,12 +343,13 @@ project.box(
     "LocomotiveTileBox",
     size=(locomotive_box_width, locomotive_box_length, locomotive_box_height),
     position=(card_box_width, row3_y, 0.0),
-    lid=LidBuilder(
-        text="Locomotive",
-        label_mode=LabelMode.FRAMED,
-        pattern=ORIENT_PATTERN,
-        text_color=Color("black"),
-        frame_color=Color("aquamarine"),
+    lid=_lid(
+        "Locomotive",
+        "aquamarine",
+        text_color="black",
+        shape=LabelShape.ORNATE_FRAME,
+        logo=str(ASSETS / "train_token.svg"),
+        logo_size_mm=15.0,
     ),
 ).compartment("Tiles", cut=FingerCut.SCOOP)
 

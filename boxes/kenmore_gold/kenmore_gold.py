@@ -21,12 +21,20 @@ from pyboxbuilder import (
     BoxType,
     Color,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "kenmore_gold" / "assets"
 )
 
 # ── Box Dimensions ────────────────────────────────────────────────
@@ -61,7 +69,8 @@ project = Project(
     generate_spacers=True,
 )
 
-GOLD_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+GOLD_PATTERN = PatternBuilder(PatternType.STEPPED_CUBE)
+GOLD_FONT = "Georgia:style=Bold"
 
 # ── 1. Square Dungeon Tile Box ────────────────────────────────────
 t_box = project.box(
@@ -71,6 +80,9 @@ t_box = project.box(
     lid=LidBuilder(
         text="Kenmore Gold",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CORNER_STUD,
+        label_finial=LabelFinial.DIAMOND,
+        font=GOLD_FONT,
         pattern=GOLD_PATTERN,
         text_color=Color("white"),
         frame_color=Color("goldenrod"),
@@ -95,9 +107,16 @@ project.box(
     lid=LidBuilder(
         text="Start Cave",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CORNER_STUD,
+        label_finial=LabelFinial.DIAMOND,
+        font=GOLD_FONT,
         pattern=GOLD_PATTERN,
         text_color=Color("white"),
         frame_color=Color("saddlebrown"),
+        logo=str(ASSETS / "cave.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "CaveTile",
@@ -111,9 +130,16 @@ project.box(
     lid=LidBuilder(
         text="Loot",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CORNER_STUD,
+        label_finial=LabelFinial.DIAMOND,
+        font=GOLD_FONT,
         pattern=GOLD_PATTERN,
         text_color=Color("white"),
         frame_color=Color("gold"),
+        logo=str(ASSETS / "gold_chest.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "LootTokens",
