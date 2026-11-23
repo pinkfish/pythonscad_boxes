@@ -8,6 +8,7 @@ from boxes.explorers_of_navoria.explorers_of_navoria import (
     box_length,
     box_width,
     project,
+    usable_height,
 )
 
 
@@ -17,23 +18,28 @@ class TestExplorersOfNavoria(unittest.TestCase):
     def test_build_completes(self) -> None:
         """Verify the project builds all pieces without errors."""
         build = project.build()
-        self.assertGreater(len(build.pieces), 7)
+        self.assertGreaterEqual(len(build.pieces), 27)
 
     def test_box_labels_present(self) -> None:
-        """Verify all essential box labels are generated."""
+        """Verify all 14 boxes from explorers_of_navoria.scad are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
-            "PlayerBox_Yellow",
-            "PlayerBox_Purple",
-            "PlayerBox_Black",
-            "PlayerBox_Green",
+            "PlayerBox_Green_One",
+            "PlayerBox_Yellow_One",
+            "PlayerBox_Purple_One",
+            "PlayerBox_Black_One",
+            "PlayerBox_Green_Two",
+            "PlayerBox_Yellow_Two",
+            "PlayerBox_Purple_Two",
+            "PlayerBox_Black_Two",
+            "FavourBox",
+            "StuffBox_Swords",
+            "StuffBox_Apples",
+            "StuffBox_Crystals",
             "CardBox",
-            "FavourBox_1",
-            "FavourBox_2",
             "BagBox",
         }
-        for name in expected:
-            self.assertIn(name, labels)
+        self.assertEqual(labels, expected)
 
     def test_automatic_spacers_generated(self) -> None:
         """Verify automatic spacers or tight volumetric packaging."""
@@ -44,7 +50,7 @@ class TestExplorersOfNavoria(unittest.TestCase):
         self.assertTrue(len(spacers) > 0 or total_vol / box_vol > 0.4)
 
     def test_all_pieces_fit_within_box_bounds(self) -> None:
-        """Verify no piece overflows the physical box dimensions."""
+        """Verify no piece overflows the physical box dimensions or usable height."""
         build = project.build()
         tol = 1e-3
         for piece in build.pieces:
@@ -57,4 +63,9 @@ class TestExplorersOfNavoria(unittest.TestCase):
             self.assertGreaterEqual(z, -tol, f"{piece.label} Z < 0")
             self.assertLessEqual(x + w, box_width + tol, f"{piece.label} overflows box width ({x+w} > {box_width})")
             self.assertLessEqual(y + l, box_length + tol, f"{piece.label} overflows box length ({y+l} > {box_length})")
+            self.assertLessEqual(
+                z + h,
+                usable_height + tol,
+                f"{piece.label} overflows usable height ({z + h} > {usable_height})",
+            )
             self.assertLessEqual(z + h, box_height + tol, f"{piece.label} overflows box height ({z+h} > {box_height})")

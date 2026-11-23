@@ -7,27 +7,27 @@ Explorers of Navoria board game organizer.
 
 - **Source Script**: ``boxes/explorers_of_navoria/explorers_of_navoria.py``
 - **Game Box Dimensions**: ``211 × 268 × 68 mm`` (usable height ``56 mm`` with ``12 mm`` board storage)
-- **Boxes**: 8 sub-box(es)
-- **Box Types Used**: :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`
+- **Boxes**: 14 sub-box(es)
+- **Box Types Used**: :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
 
 Full Box Packing
 ----------------
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=4cd66bee,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=064d1817,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=534eb925,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=d0200c67,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=212687db,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=bb0a6baa,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=b6c6fcca,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=fce576f7,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=b506be65,../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=3d570137,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=b28ba537,../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=77407185,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=35d3d802,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=3b67c96b,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=fdc43937
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_body.stl?v=45c50474,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_lid.stl?v=26b75061,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_body.stl?v=dfa8c14c,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_lid.stl?v=8920d0b6,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_body.stl?v=e9e0524b,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_lid.stl?v=bb1c553d,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_body.stl?v=30f7fe69,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_lid.stl?v=8d71b40f,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_body.stl?v=8c95c038,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_lid.stl?v=32d719b2,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_body.stl?v=c5e37a2f,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_lid.stl?v=2aca6472,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_body.stl?v=01954d49,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_lid.stl?v=8d0ba575,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_body.stl?v=b95c8d65,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_lid.stl?v=0cdf1895,../_stl/boxes/explorers_of_navoria/FavourBox_body.stl?v=3338858a,../_stl/boxes/explorers_of_navoria/FavourBox_lid.stl?v=13007972,../_stl/boxes/explorers_of_navoria/StuffBox_Swords_body.stl?v=3b7ee7e5,../_stl/boxes/explorers_of_navoria/StuffBox_Swords_lid.stl?v=f6f96e33,../_stl/boxes/explorers_of_navoria/StuffBox_Apples_body.stl?v=658c6c39,../_stl/boxes/explorers_of_navoria/StuffBox_Apples_lid.stl?v=71c48da5,../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_body.stl?v=41752b9a,../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_lid.stl?v=b037deb3,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=51c9c2db,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=cb16d660,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=b97dcabb
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=4cd66bee,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=064d1817,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=534eb925,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=d0200c67,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=212687db,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=bb0a6baa,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=b6c6fcca,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=fce576f7,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=b506be65,../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=3d570137,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=b28ba537,../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=77407185,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=35d3d802,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=3b67c96b,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=fdc43937" download="ExplorersOfNavoria_full_packing.stl">⬇ Download Full Box Packing STL (<code>ExplorersOfNavoria_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_body.stl?v=45c50474" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_body.stl?v=45c50474,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_lid.stl?v=26b75061,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_body.stl?v=dfa8c14c,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_lid.stl?v=8920d0b6,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_body.stl?v=e9e0524b,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_lid.stl?v=bb1c553d,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_body.stl?v=30f7fe69,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_lid.stl?v=8d71b40f,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_body.stl?v=8c95c038,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_lid.stl?v=32d719b2,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_body.stl?v=c5e37a2f,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_lid.stl?v=2aca6472,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_body.stl?v=01954d49,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_lid.stl?v=8d0ba575,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_body.stl?v=b95c8d65,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_lid.stl?v=0cdf1895,../_stl/boxes/explorers_of_navoria/FavourBox_body.stl?v=3338858a,../_stl/boxes/explorers_of_navoria/FavourBox_lid.stl?v=13007972,../_stl/boxes/explorers_of_navoria/StuffBox_Swords_body.stl?v=3b7ee7e5,../_stl/boxes/explorers_of_navoria/StuffBox_Swords_lid.stl?v=f6f96e33,../_stl/boxes/explorers_of_navoria/StuffBox_Apples_body.stl?v=658c6c39,../_stl/boxes/explorers_of_navoria/StuffBox_Apples_lid.stl?v=71c48da5,../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_body.stl?v=41752b9a,../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_lid.stl?v=b037deb3,../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=51c9c2db,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=cb16d660,../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=b97dcabb" download="ExplorersOfNavoria_full_packing.stl">⬇ Download Full Box Packing STL (<code>ExplorersOfNavoria_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=83d09498" download="ExplorersOfNavoria_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoria_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=83d09498" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=242fe388" download="ExplorersOfNavoria_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoria_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=242fe388" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=83d09498" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=242fe388" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -42,197 +42,523 @@ Parts Overview
      - Dimensions (W × L × H)
      - Packed Position
      - Compartments
-   * - :ref:`PlayerBox_Yellow <box-explorers_of_navoria-playerbox_yellow>`
+   * - :ref:`PlayerBox_Green_One <box-explorers_of_navoria-playerbox_green_one>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``100 × 133 × 28 mm``
-     - ``(111, 0, 0)``
-     - 2
-   * - :ref:`PlayerBox_Purple <box-explorers_of_navoria-playerbox_purple>`
+     - ``98 × 133 × 14 mm``
+     - ``(0, 0, 0)``
+     - 1
+   * - :ref:`PlayerBox_Green_Two <box-explorers_of_navoria-playerbox_green_two>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``100 × 133 × 28 mm``
-     - ``(111, 0, 28)``
-     - 2
-   * - :ref:`PlayerBox_Black <box-explorers_of_navoria-playerbox_black>`
+     - ``98 × 133 × 14 mm``
+     - ``(0, 133, 0)``
+     - 1
+   * - :ref:`PlayerBox_Yellow_One <box-explorers_of_navoria-playerbox_yellow_one>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``100 × 135 × 28 mm``
-     - ``(111, 133, 0)``
-     - 2
-   * - :ref:`PlayerBox_Green <box-explorers_of_navoria-playerbox_green>`
+     - ``98 × 133 × 14 mm``
+     - ``(0, 0, 14)``
+     - 1
+   * - :ref:`PlayerBox_Yellow_Two <box-explorers_of_navoria-playerbox_yellow_two>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``100 × 135 × 28 mm``
-     - ``(111, 133, 28)``
+     - ``98 × 133 × 14 mm``
+     - ``(0, 133, 14)``
+     - 1
+   * - :ref:`PlayerBox_Purple_One <box-explorers_of_navoria-playerbox_purple_one>`
+     - :ref:`BoxType.CAP <box-type-cap>`
+     - ``98 × 133 × 14 mm``
+     - ``(0, 0, 28)``
+     - 1
+   * - :ref:`PlayerBox_Purple_Two <box-explorers_of_navoria-playerbox_purple_two>`
+     - :ref:`BoxType.CAP <box-type-cap>`
+     - ``98 × 133 × 14 mm``
+     - ``(0, 133, 28)``
+     - 1
+   * - :ref:`PlayerBox_Black_One <box-explorers_of_navoria-playerbox_black_one>`
+     - :ref:`BoxType.CAP <box-type-cap>`
+     - ``98 × 133 × 14 mm``
+     - ``(0, 0, 42)``
+     - 1
+   * - :ref:`PlayerBox_Black_Two <box-explorers_of_navoria-playerbox_black_two>`
+     - :ref:`BoxType.CAP <box-type-cap>`
+     - ``98 × 133 × 14 mm``
+     - ``(0, 133, 42)``
+     - 1
+   * - :ref:`FavourBox <box-explorers_of_navoria-favourbox>`
+     - :ref:`BoxType.CAP <box-type-cap>`
+     - ``111.5 × 60 × 14.5 mm``
+     - ``(98, 0, 0)``
      - 2
+   * - :ref:`StuffBox_Swords <box-explorers_of_navoria-stuffbox_swords>`
+     - :ref:`BoxType.SLIDING <box-type-sliding>`
+     - ``37.1667 × 60 × 32.5 mm``
+     - ``(98, 0, 14.5)``
+     - 1
+   * - :ref:`StuffBox_Apples <box-explorers_of_navoria-stuffbox_apples>`
+     - :ref:`BoxType.SLIDING <box-type-sliding>`
+     - ``37.1667 × 60 × 32.5 mm``
+     - ``(135.167, 0, 14.5)``
+     - 1
+   * - :ref:`StuffBox_Crystals <box-explorers_of_navoria-stuffbox_crystals>`
+     - :ref:`BoxType.SLIDING <box-type-sliding>`
+     - ``37.1667 × 60 × 32.5 mm``
+     - ``(172.333, 0, 14.5)``
+     - 1
    * - :ref:`CardBox <box-explorers_of_navoria-cardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``111 × 74 × 56 mm``
-     - ``(0, 132, 0)``
-     - 1
-   * - :ref:`FavourBox_1 <box-explorers_of_navoria-favourbox_1>`
-     - :ref:`BoxType.CAP <box-type-cap>`
-     - ``111 × 62 × 28 mm``
-     - ``(0, 206, 0)``
-     - 1
-   * - :ref:`FavourBox_2 <box-explorers_of_navoria-favourbox_2>`
-     - :ref:`BoxType.CAP <box-type-cap>`
-     - ``111 × 62 × 28 mm``
-     - ``(0, 206, 28)``
+     - ``111 × 74.5 × 45 mm``
+     - ``(98, 60, 0)``
      - 1
    * - :ref:`BagBox <box-explorers_of_navoria-bagbox>`
-     - :ref:`BoxType.CAP <box-type-cap>`
-     - ``111 × 132 × 56 mm``
-     - ``(0, 0, 0)``
+     - :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - ``111 × 131.5 × 45 mm``
+     - ``(98, 134.5, 0)``
      - 1
 
 Individual Boxes & Parts
 ------------------------
 
-.. _box-explorers_of_navoria-playerbox_yellow:
+.. _box-explorers_of_navoria-playerbox_green_one:
 
-PlayerBox_Yellow
-^^^^^^^^^^^^^^^^
+PlayerBox_Green_One
+^^^^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``100 × 133 × 28 mm``
-- **Packed Position**: ``(111, 0, 0)``
-- **Compartments (2)**: ``TradingPosts`` (L=60%), ``Explorers`` (L=40%)
+- **Outer Dimensions**: ``98 × 133 × 14 mm``
+- **Packed Position**: ``(0, 0, 0)``
+- **Compartments (1)**: ``TradingPosts`` (full interior)
 
-**Assembled Box (PlayerBox_Yellow — Body + Lid)**
+**Assembled Box (PlayerBox_Green_One — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=4cd66bee
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_body.stl?v=45c50474,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_lid.stl?v=26b75061
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=4cd66bee" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_body.stl?v=45c50474" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_body.stl?v=45c50474,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_lid.stl?v=26b75061" download="PlayerBox_Green_One_assembled.stl">⬇ Download Assembled PlayerBox_Green_One STL (<code>PlayerBox_Green_One_assembled.stl</code>)</a></p>
 
-**Part: PlayerBox_Yellow Body**
+**Part: PlayerBox_Green_One Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_body.stl?v=45c50474
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_body.stl?v=f864ad9a" download="PlayerBox_Yellow_body.stl">⬇ Download PlayerBox_Yellow Body STL (<code>PlayerBox_Yellow_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_body.stl?v=45c50474" download="PlayerBox_Green_One_body.stl">⬇ Download PlayerBox_Green_One Body STL (<code>PlayerBox_Green_One_body.stl</code>)</a></p>
 
-**Part: PlayerBox_Yellow Lid**
+**Part: PlayerBox_Green_One Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=4cd66bee
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_lid.stl?v=26b75061
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_lid.stl?v=4cd66bee" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_One_lid.stl?v=26b75061" download="PlayerBox_Green_One_lid.stl">⬇ Download PlayerBox_Green_One Lid STL (<code>PlayerBox_Green_One_lid.stl</code>)</a></p>
 
-.. _box-explorers_of_navoria-playerbox_purple:
+.. _box-explorers_of_navoria-playerbox_green_two:
 
-PlayerBox_Purple
-^^^^^^^^^^^^^^^^
+PlayerBox_Green_Two
+^^^^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``100 × 133 × 28 mm``
-- **Packed Position**: ``(111, 0, 28)``
-- **Compartments (2)**: ``TradingPosts`` (L=60%), ``Explorers`` (L=40%)
+- **Outer Dimensions**: ``98 × 133 × 14 mm``
+- **Packed Position**: ``(0, 133, 0)``
+- **Compartments (1)**: ``Explorers`` (full interior)
 
-**Assembled Box (PlayerBox_Purple — Body + Lid)**
+**Assembled Box (PlayerBox_Green_Two — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=064d1817,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=534eb925
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_body.stl?v=dfa8c14c,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_lid.stl?v=8920d0b6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=064d1817" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=064d1817,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=534eb925" download="PlayerBox_Purple_assembled.stl">⬇ Download Assembled PlayerBox_Purple STL (<code>PlayerBox_Purple_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_body.stl?v=dfa8c14c" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_body.stl?v=dfa8c14c,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_lid.stl?v=8920d0b6" download="PlayerBox_Green_Two_assembled.stl">⬇ Download Assembled PlayerBox_Green_Two STL (<code>PlayerBox_Green_Two_assembled.stl</code>)</a></p>
 
-**Part: PlayerBox_Purple Body**
+**Part: PlayerBox_Green_Two Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=064d1817
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_body.stl?v=dfa8c14c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_body.stl?v=064d1817" download="PlayerBox_Purple_body.stl">⬇ Download PlayerBox_Purple Body STL (<code>PlayerBox_Purple_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_body.stl?v=dfa8c14c" download="PlayerBox_Green_Two_body.stl">⬇ Download PlayerBox_Green_Two Body STL (<code>PlayerBox_Green_Two_body.stl</code>)</a></p>
 
-**Part: PlayerBox_Purple Lid**
+**Part: PlayerBox_Green_Two Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=534eb925
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_lid.stl?v=8920d0b6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_lid.stl?v=534eb925" download="PlayerBox_Purple_lid.stl">⬇ Download PlayerBox_Purple Lid STL (<code>PlayerBox_Purple_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_Two_lid.stl?v=8920d0b6" download="PlayerBox_Green_Two_lid.stl">⬇ Download PlayerBox_Green_Two Lid STL (<code>PlayerBox_Green_Two_lid.stl</code>)</a></p>
 
-.. _box-explorers_of_navoria-playerbox_black:
+.. _box-explorers_of_navoria-playerbox_yellow_one:
 
-PlayerBox_Black
+PlayerBox_Yellow_One
+^^^^^^^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
+- **Outer Dimensions**: ``98 × 133 × 14 mm``
+- **Packed Position**: ``(0, 0, 14)``
+- **Compartments (1)**: ``TradingPosts`` (full interior)
+
+**Assembled Box (PlayerBox_Yellow_One — Body + Lid)**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_body.stl?v=e9e0524b,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_lid.stl?v=bb1c553d
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_body.stl?v=e9e0524b" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_body.stl?v=e9e0524b,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_lid.stl?v=bb1c553d" download="PlayerBox_Yellow_One_assembled.stl">⬇ Download Assembled PlayerBox_Yellow_One STL (<code>PlayerBox_Yellow_One_assembled.stl</code>)</a></p>
+
+**Part: PlayerBox_Yellow_One Body**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_body.stl?v=e9e0524b
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_body.stl?v=e9e0524b" download="PlayerBox_Yellow_One_body.stl">⬇ Download PlayerBox_Yellow_One Body STL (<code>PlayerBox_Yellow_One_body.stl</code>)</a></p>
+
+**Part: PlayerBox_Yellow_One Lid**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_lid.stl?v=bb1c553d
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_One_lid.stl?v=bb1c553d" download="PlayerBox_Yellow_One_lid.stl">⬇ Download PlayerBox_Yellow_One Lid STL (<code>PlayerBox_Yellow_One_lid.stl</code>)</a></p>
+
+.. _box-explorers_of_navoria-playerbox_yellow_two:
+
+PlayerBox_Yellow_Two
+^^^^^^^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
+- **Outer Dimensions**: ``98 × 133 × 14 mm``
+- **Packed Position**: ``(0, 133, 14)``
+- **Compartments (1)**: ``Explorers`` (full interior)
+
+**Assembled Box (PlayerBox_Yellow_Two — Body + Lid)**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_body.stl?v=30f7fe69,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_lid.stl?v=8d71b40f
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_body.stl?v=30f7fe69" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_body.stl?v=30f7fe69,../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_lid.stl?v=8d71b40f" download="PlayerBox_Yellow_Two_assembled.stl">⬇ Download Assembled PlayerBox_Yellow_Two STL (<code>PlayerBox_Yellow_Two_assembled.stl</code>)</a></p>
+
+**Part: PlayerBox_Yellow_Two Body**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_body.stl?v=30f7fe69
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_body.stl?v=30f7fe69" download="PlayerBox_Yellow_Two_body.stl">⬇ Download PlayerBox_Yellow_Two Body STL (<code>PlayerBox_Yellow_Two_body.stl</code>)</a></p>
+
+**Part: PlayerBox_Yellow_Two Lid**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_lid.stl?v=8d71b40f
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Yellow_Two_lid.stl?v=8d71b40f" download="PlayerBox_Yellow_Two_lid.stl">⬇ Download PlayerBox_Yellow_Two Lid STL (<code>PlayerBox_Yellow_Two_lid.stl</code>)</a></p>
+
+.. _box-explorers_of_navoria-playerbox_purple_one:
+
+PlayerBox_Purple_One
+^^^^^^^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
+- **Outer Dimensions**: ``98 × 133 × 14 mm``
+- **Packed Position**: ``(0, 0, 28)``
+- **Compartments (1)**: ``TradingPosts`` (full interior)
+
+**Assembled Box (PlayerBox_Purple_One — Body + Lid)**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_body.stl?v=8c95c038,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_lid.stl?v=32d719b2
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_body.stl?v=8c95c038" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_body.stl?v=8c95c038,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_lid.stl?v=32d719b2" download="PlayerBox_Purple_One_assembled.stl">⬇ Download Assembled PlayerBox_Purple_One STL (<code>PlayerBox_Purple_One_assembled.stl</code>)</a></p>
+
+**Part: PlayerBox_Purple_One Body**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_body.stl?v=8c95c038
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_body.stl?v=8c95c038" download="PlayerBox_Purple_One_body.stl">⬇ Download PlayerBox_Purple_One Body STL (<code>PlayerBox_Purple_One_body.stl</code>)</a></p>
+
+**Part: PlayerBox_Purple_One Lid**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_lid.stl?v=32d719b2
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_One_lid.stl?v=32d719b2" download="PlayerBox_Purple_One_lid.stl">⬇ Download PlayerBox_Purple_One Lid STL (<code>PlayerBox_Purple_One_lid.stl</code>)</a></p>
+
+.. _box-explorers_of_navoria-playerbox_purple_two:
+
+PlayerBox_Purple_Two
+^^^^^^^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
+- **Outer Dimensions**: ``98 × 133 × 14 mm``
+- **Packed Position**: ``(0, 133, 28)``
+- **Compartments (1)**: ``Explorers`` (full interior)
+
+**Assembled Box (PlayerBox_Purple_Two — Body + Lid)**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_body.stl?v=c5e37a2f,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_lid.stl?v=2aca6472
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_body.stl?v=c5e37a2f" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_body.stl?v=c5e37a2f,../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_lid.stl?v=2aca6472" download="PlayerBox_Purple_Two_assembled.stl">⬇ Download Assembled PlayerBox_Purple_Two STL (<code>PlayerBox_Purple_Two_assembled.stl</code>)</a></p>
+
+**Part: PlayerBox_Purple_Two Body**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_body.stl?v=c5e37a2f
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_body.stl?v=c5e37a2f" download="PlayerBox_Purple_Two_body.stl">⬇ Download PlayerBox_Purple_Two Body STL (<code>PlayerBox_Purple_Two_body.stl</code>)</a></p>
+
+**Part: PlayerBox_Purple_Two Lid**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_lid.stl?v=2aca6472
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Purple_Two_lid.stl?v=2aca6472" download="PlayerBox_Purple_Two_lid.stl">⬇ Download PlayerBox_Purple_Two Lid STL (<code>PlayerBox_Purple_Two_lid.stl</code>)</a></p>
+
+.. _box-explorers_of_navoria-playerbox_black_one:
+
+PlayerBox_Black_One
+^^^^^^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
+- **Outer Dimensions**: ``98 × 133 × 14 mm``
+- **Packed Position**: ``(0, 0, 42)``
+- **Compartments (1)**: ``TradingPosts`` (full interior)
+
+**Assembled Box (PlayerBox_Black_One — Body + Lid)**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_body.stl?v=01954d49,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_lid.stl?v=8d0ba575
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_body.stl?v=01954d49" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_body.stl?v=01954d49,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_lid.stl?v=8d0ba575" download="PlayerBox_Black_One_assembled.stl">⬇ Download Assembled PlayerBox_Black_One STL (<code>PlayerBox_Black_One_assembled.stl</code>)</a></p>
+
+**Part: PlayerBox_Black_One Body**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_body.stl?v=01954d49
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_body.stl?v=01954d49" download="PlayerBox_Black_One_body.stl">⬇ Download PlayerBox_Black_One Body STL (<code>PlayerBox_Black_One_body.stl</code>)</a></p>
+
+**Part: PlayerBox_Black_One Lid**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_lid.stl?v=8d0ba575
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_One_lid.stl?v=8d0ba575" download="PlayerBox_Black_One_lid.stl">⬇ Download PlayerBox_Black_One Lid STL (<code>PlayerBox_Black_One_lid.stl</code>)</a></p>
+
+.. _box-explorers_of_navoria-playerbox_black_two:
+
+PlayerBox_Black_Two
+^^^^^^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
+- **Outer Dimensions**: ``98 × 133 × 14 mm``
+- **Packed Position**: ``(0, 133, 42)``
+- **Compartments (1)**: ``Explorers`` (full interior)
+
+**Assembled Box (PlayerBox_Black_Two — Body + Lid)**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_body.stl?v=b95c8d65,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_lid.stl?v=0cdf1895
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_body.stl?v=b95c8d65" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_body.stl?v=b95c8d65,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_lid.stl?v=0cdf1895" download="PlayerBox_Black_Two_assembled.stl">⬇ Download Assembled PlayerBox_Black_Two STL (<code>PlayerBox_Black_Two_assembled.stl</code>)</a></p>
+
+**Part: PlayerBox_Black_Two Body**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_body.stl?v=b95c8d65
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_body.stl?v=b95c8d65" download="PlayerBox_Black_Two_body.stl">⬇ Download PlayerBox_Black_Two Body STL (<code>PlayerBox_Black_Two_body.stl</code>)</a></p>
+
+**Part: PlayerBox_Black_Two Lid**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_lid.stl?v=0cdf1895
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_Two_lid.stl?v=0cdf1895" download="PlayerBox_Black_Two_lid.stl">⬇ Download PlayerBox_Black_Two Lid STL (<code>PlayerBox_Black_Two_lid.stl</code>)</a></p>
+
+.. _box-explorers_of_navoria-favourbox:
+
+FavourBox
+^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
+- **Outer Dimensions**: ``111.5 × 60 × 14.5 mm``
+- **Packed Position**: ``(98, 0, 0)``
+- **Compartments (2)**: ``FavoursLeft`` (W=50%), ``FavoursRight`` (W=50%)
+
+**Assembled Box (FavourBox — Body + Lid)**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_body.stl?v=3338858a,../_stl/boxes/explorers_of_navoria/FavourBox_lid.stl?v=13007972
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_body.stl?v=3338858a" data-stl-combine="../_stl/boxes/explorers_of_navoria/FavourBox_body.stl?v=3338858a,../_stl/boxes/explorers_of_navoria/FavourBox_lid.stl?v=13007972" download="FavourBox_assembled.stl">⬇ Download Assembled FavourBox STL (<code>FavourBox_assembled.stl</code>)</a></p>
+
+**Part: FavourBox Body**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_body.stl?v=3338858a
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_body.stl?v=3338858a" download="FavourBox_body.stl">⬇ Download FavourBox Body STL (<code>FavourBox_body.stl</code>)</a></p>
+
+**Part: FavourBox Lid**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_lid.stl?v=13007972
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_lid.stl?v=13007972" download="FavourBox_lid.stl">⬇ Download FavourBox Lid STL (<code>FavourBox_lid.stl</code>)</a></p>
+
+.. _box-explorers_of_navoria-stuffbox_swords:
+
+StuffBox_Swords
 ^^^^^^^^^^^^^^^
 
-- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``100 × 135 × 28 mm``
-- **Packed Position**: ``(111, 133, 0)``
-- **Compartments (2)**: ``TradingPosts`` (L=60%), ``Explorers`` (L=40%)
+- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
+- **Outer Dimensions**: ``37.1667 × 60 × 32.5 mm``
+- **Packed Position**: ``(98, 0, 14.5)``
+- **Compartments (1)**: ``Tokens`` (full interior)
 
-**Assembled Box (PlayerBox_Black — Body + Lid)**
+**Assembled Box (StuffBox_Swords — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=d0200c67,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=212687db
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Swords_body.stl?v=3b7ee7e5,../_stl/boxes/explorers_of_navoria/StuffBox_Swords_lid.stl?v=f6f96e33
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=d0200c67" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=d0200c67,../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=212687db" download="PlayerBox_Black_assembled.stl">⬇ Download Assembled PlayerBox_Black STL (<code>PlayerBox_Black_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Swords_body.stl?v=3b7ee7e5" data-stl-combine="../_stl/boxes/explorers_of_navoria/StuffBox_Swords_body.stl?v=3b7ee7e5,../_stl/boxes/explorers_of_navoria/StuffBox_Swords_lid.stl?v=f6f96e33" download="StuffBox_Swords_assembled.stl">⬇ Download Assembled StuffBox_Swords STL (<code>StuffBox_Swords_assembled.stl</code>)</a></p>
 
-**Part: PlayerBox_Black Body**
+**Part: StuffBox_Swords Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=d0200c67
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Swords_body.stl?v=3b7ee7e5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_body.stl?v=d0200c67" download="PlayerBox_Black_body.stl">⬇ Download PlayerBox_Black Body STL (<code>PlayerBox_Black_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Swords_body.stl?v=3b7ee7e5" download="StuffBox_Swords_body.stl">⬇ Download StuffBox_Swords Body STL (<code>StuffBox_Swords_body.stl</code>)</a></p>
 
-**Part: PlayerBox_Black Lid**
+**Part: StuffBox_Swords Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=212687db
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Swords_lid.stl?v=f6f96e33
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Black_lid.stl?v=212687db" download="PlayerBox_Black_lid.stl">⬇ Download PlayerBox_Black Lid STL (<code>PlayerBox_Black_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Swords_lid.stl?v=f6f96e33" download="StuffBox_Swords_lid.stl">⬇ Download StuffBox_Swords Lid STL (<code>StuffBox_Swords_lid.stl</code>)</a></p>
 
-.. _box-explorers_of_navoria-playerbox_green:
+.. _box-explorers_of_navoria-stuffbox_apples:
 
-PlayerBox_Green
+StuffBox_Apples
 ^^^^^^^^^^^^^^^
 
-- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``100 × 135 × 28 mm``
-- **Packed Position**: ``(111, 133, 28)``
-- **Compartments (2)**: ``TradingPosts`` (L=60%), ``Explorers`` (L=40%)
+- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
+- **Outer Dimensions**: ``37.1667 × 60 × 32.5 mm``
+- **Packed Position**: ``(135.167, 0, 14.5)``
+- **Compartments (1)**: ``Tokens`` (full interior)
 
-**Assembled Box (PlayerBox_Green — Body + Lid)**
+**Assembled Box (StuffBox_Apples — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=bb0a6baa,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=b6c6fcca
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Apples_body.stl?v=658c6c39,../_stl/boxes/explorers_of_navoria/StuffBox_Apples_lid.stl?v=71c48da5
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=bb0a6baa" data-stl-combine="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=bb0a6baa,../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=b6c6fcca" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Apples_body.stl?v=658c6c39" data-stl-combine="../_stl/boxes/explorers_of_navoria/StuffBox_Apples_body.stl?v=658c6c39,../_stl/boxes/explorers_of_navoria/StuffBox_Apples_lid.stl?v=71c48da5" download="StuffBox_Apples_assembled.stl">⬇ Download Assembled StuffBox_Apples STL (<code>StuffBox_Apples_assembled.stl</code>)</a></p>
 
-**Part: PlayerBox_Green Body**
+**Part: StuffBox_Apples Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=bb0a6baa
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Apples_body.stl?v=658c6c39
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_body.stl?v=bb0a6baa" download="PlayerBox_Green_body.stl">⬇ Download PlayerBox_Green Body STL (<code>PlayerBox_Green_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Apples_body.stl?v=658c6c39" download="StuffBox_Apples_body.stl">⬇ Download StuffBox_Apples Body STL (<code>StuffBox_Apples_body.stl</code>)</a></p>
 
-**Part: PlayerBox_Green Lid**
+**Part: StuffBox_Apples Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=b6c6fcca
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Apples_lid.stl?v=71c48da5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/PlayerBox_Green_lid.stl?v=b6c6fcca" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Apples_lid.stl?v=71c48da5" download="StuffBox_Apples_lid.stl">⬇ Download StuffBox_Apples Lid STL (<code>StuffBox_Apples_lid.stl</code>)</a></p>
+
+.. _box-explorers_of_navoria-stuffbox_crystals:
+
+StuffBox_Crystals
+^^^^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
+- **Outer Dimensions**: ``37.1667 × 60 × 32.5 mm``
+- **Packed Position**: ``(172.333, 0, 14.5)``
+- **Compartments (1)**: ``Tokens`` (full interior)
+
+**Assembled Box (StuffBox_Crystals — Body + Lid)**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_body.stl?v=41752b9a,../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_lid.stl?v=b037deb3
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_body.stl?v=41752b9a" data-stl-combine="../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_body.stl?v=41752b9a,../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_lid.stl?v=b037deb3" download="StuffBox_Crystals_assembled.stl">⬇ Download Assembled StuffBox_Crystals STL (<code>StuffBox_Crystals_assembled.stl</code>)</a></p>
+
+**Part: StuffBox_Crystals Body**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_body.stl?v=41752b9a
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_body.stl?v=41752b9a" download="StuffBox_Crystals_body.stl">⬇ Download StuffBox_Crystals Body STL (<code>StuffBox_Crystals_body.stl</code>)</a></p>
+
+**Part: StuffBox_Crystals Lid**
+
+.. stl:: ../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_lid.stl?v=b037deb3
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/explorers_of_navoria/StuffBox_Crystals_lid.stl?v=b037deb3" download="StuffBox_Crystals_lid.stl">⬇ Download StuffBox_Crystals Lid STL (<code>StuffBox_Crystals_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria-cardbox:
 
@@ -240,144 +566,52 @@ CardBox
 ^^^^^^^
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``111 × 74 × 56 mm``
-- **Packed Position**: ``(0, 132, 0)``
+- **Outer Dimensions**: ``111 × 74.5 × 45 mm``
+- **Packed Position**: ``(98, 60, 0)``
 - **Compartments (1)**: ``AdventureCards`` (full interior)
 
 **Assembled Box (CardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=fce576f7,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=b506be65
+.. stl:: ../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=51c9c2db,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=cb16d660
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=fce576f7" data-stl-combine="../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=fce576f7,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=b506be65" download="CardBox_assembled.stl">⬇ Download Assembled CardBox STL (<code>CardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=51c9c2db" data-stl-combine="../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=51c9c2db,../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=cb16d660" download="CardBox_assembled.stl">⬇ Download Assembled CardBox STL (<code>CardBox_assembled.stl</code>)</a></p>
 
 **Part: CardBox Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=fce576f7
+.. stl:: ../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=51c9c2db
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=fce576f7" download="CardBox_body.stl">⬇ Download CardBox Body STL (<code>CardBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/CardBox_body.stl?v=51c9c2db" download="CardBox_body.stl">⬇ Download CardBox Body STL (<code>CardBox_body.stl</code>)</a></p>
 
 **Part: CardBox Lid**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=b506be65
+.. stl:: ../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=cb16d660
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=b506be65" download="CardBox_lid.stl">⬇ Download CardBox Lid STL (<code>CardBox_lid.stl</code>)</a></p>
-
-.. _box-explorers_of_navoria-favourbox_1:
-
-FavourBox_1
-^^^^^^^^^^^
-
-- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``111 × 62 × 28 mm``
-- **Packed Position**: ``(0, 206, 0)``
-- **Compartments (1)**: ``Tiles`` (full interior)
-
-**Assembled Box (FavourBox_1 — Body + Lid)**
-
-.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=3d570137,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=b28ba537
-   :height: 320px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=3d570137" data-stl-combine="../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=3d570137,../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=b28ba537" download="FavourBox_1_assembled.stl">⬇ Download Assembled FavourBox_1 STL (<code>FavourBox_1_assembled.stl</code>)</a></p>
-
-**Part: FavourBox_1 Body**
-
-.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=3d570137
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_1_body.stl?v=3d570137" download="FavourBox_1_body.stl">⬇ Download FavourBox_1 Body STL (<code>FavourBox_1_body.stl</code>)</a></p>
-
-**Part: FavourBox_1 Lid**
-
-.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=b28ba537
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_1_lid.stl?v=b28ba537" download="FavourBox_1_lid.stl">⬇ Download FavourBox_1 Lid STL (<code>FavourBox_1_lid.stl</code>)</a></p>
-
-.. _box-explorers_of_navoria-favourbox_2:
-
-FavourBox_2
-^^^^^^^^^^^
-
-- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``111 × 62 × 28 mm``
-- **Packed Position**: ``(0, 206, 28)``
-- **Compartments (1)**: ``Tiles`` (full interior)
-
-**Assembled Box (FavourBox_2 — Body + Lid)**
-
-.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=77407185,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=35d3d802
-   :height: 320px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=77407185" data-stl-combine="../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=77407185,../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=35d3d802" download="FavourBox_2_assembled.stl">⬇ Download Assembled FavourBox_2 STL (<code>FavourBox_2_assembled.stl</code>)</a></p>
-
-**Part: FavourBox_2 Body**
-
-.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=77407185
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_2_body.stl?v=77407185" download="FavourBox_2_body.stl">⬇ Download FavourBox_2 Body STL (<code>FavourBox_2_body.stl</code>)</a></p>
-
-**Part: FavourBox_2 Lid**
-
-.. stl:: ../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=35d3d802
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/explorers_of_navoria/FavourBox_2_lid.stl?v=35d3d802" download="FavourBox_2_lid.stl">⬇ Download FavourBox_2 Lid STL (<code>FavourBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/CardBox_lid.stl?v=cb16d660" download="CardBox_lid.stl">⬇ Download CardBox Lid STL (<code>CardBox_lid.stl</code>)</a></p>
 
 .. _box-explorers_of_navoria-bagbox:
 
 BagBox
 ^^^^^^
 
-- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``111 × 132 × 56 mm``
-- **Packed Position**: ``(0, 0, 0)``
+- **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
+- **Outer Dimensions**: ``111 × 131.5 × 45 mm``
+- **Packed Position**: ``(98, 134.5, 0)``
 - **Compartments (1)**: ``BagAndBits`` (full interior)
-
-**Assembled Box (BagBox — Body + Lid)**
-
-.. stl:: ../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=3b67c96b,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=fdc43937
-   :height: 320px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=3b67c96b" data-stl-combine="../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=3b67c96b,../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=fdc43937" download="BagBox_assembled.stl">⬇ Download Assembled BagBox STL (<code>BagBox_assembled.stl</code>)</a></p>
 
 **Part: BagBox Body**
 
-.. stl:: ../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=3b67c96b
+.. stl:: ../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=b97dcabb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=3b67c96b" download="BagBox_body.stl">⬇ Download BagBox Body STL (<code>BagBox_body.stl</code>)</a></p>
-
-**Part: BagBox Lid**
-
-.. stl:: ../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=fdc43937
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/explorers_of_navoria/BagBox_lid.stl?v=fdc43937" download="BagBox_lid.stl">⬇ Download BagBox Lid STL (<code>BagBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/explorers_of_navoria/BagBox_body.stl?v=b97dcabb" download="BagBox_body.stl">⬇ Download BagBox Body STL (<code>BagBox_body.stl</code>)</a></p>

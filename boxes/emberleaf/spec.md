@@ -1,6 +1,6 @@
 # Emberleaf Board Game Organizer Specification
 
-This document details the layout, component inventory, sub-box specifications, and 3D packing configuration for the **Emberleaf** board game organizer, ported from `examples/emberleaf.scad` to PythonSCAD (`pyboxbuilder`).
+This document details the layout, component inventory, sub-box specifications, and 3D packing configuration for the **Emberleaf** board game organizer, ported from `boxes/emberleaf/emberleaf.scad` to PythonSCAD (`pyboxbuilder`).
 
 ---
 
@@ -14,6 +14,7 @@ This document details the layout, component inventory, sub-box specifications, a
 * **Lid Thickness**: `2.0mm`
 * **Clearance Slack**: `0.0mm`
 * **Standard Cards**: `66.0mm x 91.0mm`
+* **Expandable**: `False` (`box_defaults={"expandable": False}`)
 
 ---
 
@@ -21,44 +22,28 @@ This document details the layout, component inventory, sub-box specifications, a
 
 | Component | Quantity / Dimension | Storage Location | Box Type | Lid Style / Decoration |
 |---|---|---|---|---|
-| Player Animal Workers (4 Colors) | Owls, rabbits, frogs, rats meeples + hero figures | `PlayerBox_Pink` .. `PlayerBox_Green` (4 boxes) | Cap Lid | Color-coded Framed lids |
-| Main Card Decks | Village, building, and forest card decks (`66 x 91mm`) | `CardBox_MainDeck1` .. `CardBox_MainDeck3` | Sliding Lid | Framed deck names |
-| Hero Card Decks | Player hero & starting cards | `HeroCards_1` .. `HeroCards_5` (5 boxes) | Cap Lid | Framed "Hero Deck" (Purple) |
-| Common Material Tokens | Wood, stone, gold, and trophy tokens | `CommonTokensBox` | Cap Lid | Framed "Common Tokens" (Brown) |
+| Player Animal Workers & Heroes (5 Colors) | Black, Red, Yellow, Blue, Grey (owls, rabbits, frogs, rats, hero, markers, hexes, victory tokens) | `PlayerBoxBlack`, `PlayerBoxRed`, `PlayerBoxYellow`, `PlayerBoxBlue`, `PlayerBoxGrey` (5 boxes) | Cap Lid | Color-coded Framed lids |
+| Material Resource Tokens (4 Types) | Food, Stone, Honey, Wood tokens | `MaterialBoxFood`, `MaterialBoxStone`, `MaterialBoxHoney`, `MaterialBoxWood` (4 boxes) | Cap Lid | Color-coded Framed "Food", "Stone", "Honey", "Wood" |
+| Main Card Decks | Favor, Hero, and Solo decks (`66.0 x 91.0mm`) | `CardBoxFavor`, `CardBoxHero`, `CardBoxSolo` (3 boxes) | Sliding Lid | Framed "Favors", "Heroes", "Solo" |
+| Player Starting Decks (5 Colors) | Black, Blue, Yellow, Grey, Red player decks (`66.0 x 91.0mm`) | `CardBoxPlayerBlack`, `CardBoxPlayerBlue`, `CardBoxPlayerYellow`, `CardBoxPlayerGrey`, `CardBoxPlayerRed` (5 boxes) | Sliding Lid | Color-coded Framed player deck lids |
+| Common Hexes & Trophies | 5 common hex stacks (`38.5mm`) + trophy tiles (`26.0 x 36.0mm`) + marker | `CommonBox` | Cap Lid | Framed "Trophy" (Saddle Brown) |
 | Game Boards & Mats | Village boards and player mats | Sits atop insert (`Z = 52.5 .. 79.0mm`) | Board Layer | Flat storage beneath box lid |
-| Automatic Spacers | Remaining 3D void volume | Derived automatically | No-Lid Trays | Auto finger scoops |
+| Automatic Spacers | 3 leftover voids (`SpacerFront`, `SpacerSide`, `SpacerPlayer`) | Derived automatically | No-Lid Trays | Auto-generated |
 
 ---
 
 ## 3. Sub-Box Specifications
 
-### 3.1 Player Meeple Column (Column 0, `X = 0.0 .. 98.0mm`)
-* **Dimensions**: `98.0mm x 142.5mm x 13.12mm` each.
-* **Arrangement**: Stacked 4 high (`Z = 0.0 .. 52.5mm`) along the front half of length.
+### 3.1 Column 0: Player & Material Boxes (`X = 0.0 .. 98.0mm`)
+* **Player Boxes (x5)**: `98.0mm x 142.5mm x 13.125mm` each (`BoxType.CAP`), occupying 5 of the 8 half-length slots across 4 stacked layers (`Z = 0.0 .. 52.5mm`).
+* **Material Boxes (x4)**: `98.0mm x 71.25mm x 13.125mm` each (`BoxType.CAP`), occupying 2 of the remaining 3 half-length slots (`Food` & `Stone` on layer 2, `Honey` & `Wood` on layer 3).
+* **Remaining Slot**: Layer 3 back half (`Y = 142.5 .. 287.0mm`) filled by automatic `spacer_3`.
 
-### 3.2 Main Card Library (Column 1, `X = 98.0 .. 196.0mm`)
-* **Dimensions**: `98.0mm x 73.0mm x 52.5mm` each.
-* **Arrangement**: 3 full-depth sliding card boxes stored sequentially along Y (`Y = 0.0 .. 219.0mm`).
+### 3.2 Column 1: Main Card Boxes (`X = 98.0 .. 196.0mm`)
+* **`CardBoxFavor`, `CardBoxHero`, `CardBoxSolo`**: `98.0mm x 73.0mm x 52.5mm` each (`BoxType.SLIDING`) along `Y = 0.0 .. 219.0mm`.
+* **Remaining Length**: `Y = 219.0 .. 287.0mm` filled by automatic `spacer_2`.
 
-### 3.3 Hero Decks & Common Tokens (Column 2, `X = 196.0 .. 286.0mm`)
-* **`HeroCards_1` .. `HeroCards_5`**: `90.0mm x 73.0mm x 10.5mm` each, stacked 5 high at `Y = 0.0 .. 73.0mm`.
-* **`CommonTokensBox`**: `90.0mm x 213.0mm x 25.0mm` at `Y = 73.0 .. 286.0mm`.
-
----
-
-## 4. 3D Spatial Layout Map
-
-```
-+------------------------------------+------------------------------------+-----------------------+
-| PlayerBox_Pink / Yellow / Blue /   | CardBox_MainDeck1 (98.0 x 73.0mm)  | HeroCards_1 .. 5      |
-| Green (Stacked 4-high, 13.1mm each)|                                    | (Stacked 5-high)      |
-| (98.0 x 142.5mm)                   +------------------------------------+ (90.0 x 73.0mm)       |
-|                                    | CardBox_MainDeck2 (98.0 x 73.0mm)  +-----------------------+
-|                                    |                                    | CommonTokensBox       |
-+------------------------------------+------------------------------------+ (90.0 x 213.0 x 25mm) |
-| Automatic 3D Void Spacers          | CardBox_MainDeck3 (98.0 x 73.0mm)  |                       |
-| (Y = 142.5..287mm)                 +------------------------------------+                       |
-|                                    | Automatic 3D Spacers               |                       |
-+------------------------------------+------------------------------------+-----------------------+
-|<-------------- 98.0mm ------------>|<-------------- 98.0mm ------------>|<------- 90.0mm ------>|
-```
+### 3.3 Column 2: Player Decks & Common Box (`X = 196.0 .. 286.0mm`)
+* **Player Card Boxes (x5)**: `90.0mm x 98.0mm x 10.5mm` each (`BoxType.SLIDING`), stacked 5 high (`Z = 0.0 .. 52.5mm`) at `Y = 0.0 .. 98.0mm`.
+* **`CommonBox`**: `90.0mm x 188.0mm x 25.0mm` (`BoxType.CAP`) at `Y = 98.0 .. 286.0mm, Z = 0.0 .. 25.0mm`.
+* **Remaining Height Above CommonBox**: `Z = 25.0 .. 52.5mm` filled by automatic `spacer_1`.

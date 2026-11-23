@@ -74,7 +74,7 @@ share_box_length = money_box_length
 share_box_height = usable_height / 3.0
 
 train_card_box_width = small_card_length + wall_thickness * 2.0   # 77.0mm
-train_card_box_length = box_length - hex_box_length * 2.0         # 47.0mm (fits within 305mm)
+train_card_box_length = small_card_width + wall_thickness * 2.0   # 54.0mm
 train_card_box_height = single_card_thickness * 48.0 + floor_thickness + lid_thickness  # 32.8mm
 
 company_marker_box_width = hex_box_width

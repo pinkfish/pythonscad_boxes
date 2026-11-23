@@ -22,23 +22,23 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - Box Types Used
    * - :doc:`EighteenThirtyFive (1835) <1835>`
      - ``216 × 298 × 50 mm``
-     - 9
-     - 2
-     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 12
+     - 1
+     - :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.INSET <box-type-inset>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`1899Daihan (1899_daihan) <1899_daihan>`
      - ``225 × 305 × 63 mm``
      - 12
-     - 4
+     - 2
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`18Cuba (18_cuba) <18_cuba>`
      - ``225 × 314 × 68 mm``
-     - 5
-     - 1
+     - 8
+     - 0
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`AdasDream (adas_dream) <adas_dream>`
      - ``212 × 291 × 90 mm``
-     - 13
-     - 1
+     - 26
+     - 8
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`ArkhamHorrorLCG (arkham_horror) <arkham_horror>`
      - ``242 × 283 × 75 mm``
@@ -47,9 +47,9 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Biome (biome) <biome>`
      - ``285 × 285 × 73 mm``
-     - 15
-     - 1
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 23
+     - 2
+     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`
    * - :doc:`Brink (brink) <brink>`
      - ``215 × 307 × 96 mm``
      - 20
@@ -82,9 +82,9 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Earth (earth) <earth>`
      - ``288 × 288 × 72 mm``
-     - 12
+     - 26
      - 1
-     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.NO_LID <box-type-no-lid>`, :ref:`BoxType.CAP <box-type-cap>`
    * - :doc:`EarthAnimalKingdom (earth_animal_kingdom) <earth_animal_kingdom>`
      - ``288 × 158 × 47 mm``
      - 5
@@ -92,24 +92,24 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Emberleaf (emberleaf) <emberleaf>`
      - ``287 × 287 × 79 mm``
-     - 10
-     - 6
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 18
+     - 3
+     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`ExplorersOfNavoria (explorers_of_navoria) <explorers_of_navoria>`
      - ``211 × 268 × 68 mm``
-     - 8
+     - 14
      - 0
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`
+     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`ExplorersOfNavoriaForgottenLands (explorers_of_navoria_forgotten_lands) <explorers_of_navoria_forgotten_lands>`
      - ``211 × 268 × 50 mm``
-     - 5
-     - 1
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 7
+     - 0
+     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`
    * - :doc:`FirstClass (first_class) <first_class>`
      - ``217 × 307 × 70 mm``
-     - 11
-     - 5
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 21
+     - 2
+     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`GulfMobileAndOhio (gulf_mobile_and_ohio) <gulf_mobile_and_ohio>`
      - ``217 × 307 × 39 mm``
      - 10
@@ -132,24 +132,24 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`MagicalAthlete (magical_athlete) <magical_athlete>`
      - ``184 × 294 × 45 mm``
-     - 6
-     - 1
-     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 8
+     - 0
+     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`
    * - :doc:`MaglevMetro (maglev_metro) <maglev_metro>`
      - ``286 × 286 × 65 mm``
-     - 14
+     - 25
      - 1
-     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`MaglevMetroVol2 (maglev_metro_vol2) <maglev_metro_vol2>`
      - ``286 × 286 × 65 mm``
-     - 4
-     - 3
-     - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 18
+     - 2
+     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`MarchOfTheAnts (march_of_the_ants) <march_of_the_ants>`
      - ``195 × 275 × 65 mm``
-     - 10
-     - 1
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 12
+     - 0
+     - :ref:`BoxType.CAP <box-type-cap>`
    * - :doc:`ModernArt (modern_art) <modern_art>`
      - ``154 × 208 × 44 mm``
      - 2
@@ -157,18 +157,18 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - :ref:`BoxType.CAP <box-type-cap>`
    * - :doc:`Moonrakers (moonrakers) <moonrakers>`
      - ``213 × 303 × 93 mm``
-     - 10
-     - 1
+     - 11
+     - 3
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Nature (nature) <nature>`
      - ``210 × 210 × 75 mm``
-     - 7
-     - 4
+     - 9
+     - 2
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Nippon (nippon) <nippon>`
      - ``303 × 380 × 70 mm``
-     - 11
-     - 3
+     - 27
+     - 1
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`PioneerRails (pioneer_rails) <pioneer_rails>`
      - ``209 × 209 × 38 mm``
@@ -182,9 +182,9 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`RailwayBoom (railway_boom) <railway_boom>`
      - ``209 × 300 × 46 mm``
-     - 9
-     - 2
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 21
+     - 1
+     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`
    * - :doc:`Railways of the World (railways_of_the_world) <railways_of_the_world>`
      - ``310 × 385 × 100 mm``
      - 25

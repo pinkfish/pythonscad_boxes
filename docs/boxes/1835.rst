@@ -7,27 +7,27 @@ EighteenThirtyFive (1835)
 
 - **Source Script**: ``boxes/1835/1835.py``
 - **Game Box Dimensions**: ``216 × 298 × 50 mm`` (usable height ``35 mm`` with ``15 mm`` board storage)
-- **Boxes**: 9 sub-box(es), 2 spacer tray(s)
-- **Box Types Used**: :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+- **Boxes**: 12 sub-box(es), 1 spacer tray(s)
+- **Box Types Used**: :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.INSET <box-type-inset>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
 
 Full Box Packing
 ----------------
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=7567c509,../_stl/boxes/1835/HexBox_1_lid.stl?v=1cde6112,../_stl/boxes/1835/HexBox_2_body.stl?v=de4bc6db,../_stl/boxes/1835/HexBox_2_lid.stl?v=8fe9cd0a,../_stl/boxes/1835/HexBox_3_body.stl?v=c8125523,../_stl/boxes/1835/HexBox_3_lid.stl?v=eaf23b64,../_stl/boxes/1835/MoneyBox_1_body.stl?v=fe28d16c,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=7fa1ac88,../_stl/boxes/1835/MoneyBox_2_body.stl?v=3d1bdaa6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=a3c1a16c,../_stl/boxes/1835/MoneyBox_3_body.stl?v=c19d67c4,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=cc92f95c,../_stl/boxes/1835/SharesBox_1_body.stl?v=d913e944,../_stl/boxes/1835/SharesBox_1_lid.stl?v=56e59196,../_stl/boxes/1835/SharesBox_2_body.stl?v=d7b31b01,../_stl/boxes/1835/SharesBox_2_lid.stl?v=24f2eb8f,../_stl/boxes/1835/MarkerBox_body.stl?v=e0ffa887,../_stl/boxes/1835/MarkerBox_lid.stl?v=3dad2361,../_stl/boxes/1835/spacer_1.stl?v=9c343728,../_stl/boxes/1835/spacer_2.stl?v=93250225
+.. stl:: ../_stl/boxes/1835/MoneyBox_1_body.stl?v=1601c30f,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=a11fefcf,../_stl/boxes/1835/MoneyBox_2_body.stl?v=615135b7,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=8822c3f5,../_stl/boxes/1835/MiddleBox_body.stl?v=027c388a,../_stl/boxes/1835/MiddleBox_lid.stl?v=0c5d4270,../_stl/boxes/1835/HexBox_1_body.stl?v=dd03ba44,../_stl/boxes/1835/HexBox_1_lid.stl?v=952a3563,../_stl/boxes/1835/HexBox_2_body.stl?v=f8fe0da3,../_stl/boxes/1835/HexBox_2_lid.stl?v=0298f122,../_stl/boxes/1835/HexBox_3_body.stl?v=844a4a57,../_stl/boxes/1835/HexBox_3_lid.stl?v=c8b482fa,../_stl/boxes/1835/HexBox_4_body.stl?v=a0aee3da,../_stl/boxes/1835/HexBox_4_lid.stl?v=51fa84d6,../_stl/boxes/1835/SharesBox_1_body.stl?v=a19beb33,../_stl/boxes/1835/SharesBox_1_lid.stl?v=9629c0ec,../_stl/boxes/1835/SharesBox_2_body.stl?v=779705bd,../_stl/boxes/1835/SharesBox_2_lid.stl?v=021ea5d3,../_stl/boxes/1835/SharesBox_3_body.stl?v=62c3c73a,../_stl/boxes/1835/SharesBox_3_lid.stl?v=ef115570,../_stl/boxes/1835/SharesBox_4_body.stl?v=6582b4c2,../_stl/boxes/1835/SharesBox_4_lid.stl?v=29826ef1,../_stl/boxes/1835/FirstPlayerBox_body.stl?v=bb1b9a76,../_stl/boxes/1835/FirstPlayerBox_lid.stl?v=f7471a41,../_stl/boxes/1835/spacer_1.stl?v=831a9633
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=7567c509" data-stl-combine="../_stl/boxes/1835/HexBox_1_body.stl?v=7567c509,../_stl/boxes/1835/HexBox_1_lid.stl?v=1cde6112,../_stl/boxes/1835/HexBox_2_body.stl?v=de4bc6db,../_stl/boxes/1835/HexBox_2_lid.stl?v=8fe9cd0a,../_stl/boxes/1835/HexBox_3_body.stl?v=c8125523,../_stl/boxes/1835/HexBox_3_lid.stl?v=eaf23b64,../_stl/boxes/1835/MoneyBox_1_body.stl?v=fe28d16c,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=7fa1ac88,../_stl/boxes/1835/MoneyBox_2_body.stl?v=3d1bdaa6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=a3c1a16c,../_stl/boxes/1835/MoneyBox_3_body.stl?v=c19d67c4,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=cc92f95c,../_stl/boxes/1835/SharesBox_1_body.stl?v=d913e944,../_stl/boxes/1835/SharesBox_1_lid.stl?v=56e59196,../_stl/boxes/1835/SharesBox_2_body.stl?v=d7b31b01,../_stl/boxes/1835/SharesBox_2_lid.stl?v=24f2eb8f,../_stl/boxes/1835/MarkerBox_body.stl?v=e0ffa887,../_stl/boxes/1835/MarkerBox_lid.stl?v=3dad2361,../_stl/boxes/1835/spacer_1.stl?v=9c343728,../_stl/boxes/1835/spacer_2.stl?v=93250225" download="EighteenThirtyFive_full_packing.stl">⬇ Download Full Box Packing STL (<code>EighteenThirtyFive_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_1_body.stl?v=1601c30f" data-stl-combine="../_stl/boxes/1835/MoneyBox_1_body.stl?v=1601c30f,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=a11fefcf,../_stl/boxes/1835/MoneyBox_2_body.stl?v=615135b7,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=8822c3f5,../_stl/boxes/1835/MiddleBox_body.stl?v=027c388a,../_stl/boxes/1835/MiddleBox_lid.stl?v=0c5d4270,../_stl/boxes/1835/HexBox_1_body.stl?v=dd03ba44,../_stl/boxes/1835/HexBox_1_lid.stl?v=952a3563,../_stl/boxes/1835/HexBox_2_body.stl?v=f8fe0da3,../_stl/boxes/1835/HexBox_2_lid.stl?v=0298f122,../_stl/boxes/1835/HexBox_3_body.stl?v=844a4a57,../_stl/boxes/1835/HexBox_3_lid.stl?v=c8b482fa,../_stl/boxes/1835/HexBox_4_body.stl?v=a0aee3da,../_stl/boxes/1835/HexBox_4_lid.stl?v=51fa84d6,../_stl/boxes/1835/SharesBox_1_body.stl?v=a19beb33,../_stl/boxes/1835/SharesBox_1_lid.stl?v=9629c0ec,../_stl/boxes/1835/SharesBox_2_body.stl?v=779705bd,../_stl/boxes/1835/SharesBox_2_lid.stl?v=021ea5d3,../_stl/boxes/1835/SharesBox_3_body.stl?v=62c3c73a,../_stl/boxes/1835/SharesBox_3_lid.stl?v=ef115570,../_stl/boxes/1835/SharesBox_4_body.stl?v=6582b4c2,../_stl/boxes/1835/SharesBox_4_lid.stl?v=29826ef1,../_stl/boxes/1835/FirstPlayerBox_body.stl?v=bb1b9a76,../_stl/boxes/1835/FirstPlayerBox_lid.stl?v=f7471a41,../_stl/boxes/1835/spacer_1.stl?v=831a9633" download="EighteenThirtyFive_full_packing.stl">⬇ Download Full Box Packing STL (<code>EighteenThirtyFive_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=f723b82c" download="EighteenThirtyFive_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EighteenThirtyFive_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=f723b82c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=fa44dcbe" download="EighteenThirtyFive_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EighteenThirtyFive_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=fa44dcbe" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=f723b82c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=fa44dcbe" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -42,413 +42,526 @@ Parts Overview
      - Dimensions (W × L × H)
      - Packed Position
      - Compartments
-   * - :ref:`HexBox_1 <box-1835-hexbox_1>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``135 × 107.5 × 11.6667 mm``
-     - ``(0, 0, 0)``
-     - 3
-   * - :ref:`HexBox_2 <box-1835-hexbox_2>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``135 × 107.5 × 11.6667 mm``
-     - ``(0, 0, 11.6667)``
-     - 3
-   * - :ref:`HexBox_3 <box-1835-hexbox_3>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``135 × 107.5 × 11.6667 mm``
-     - ``(0, 0, 23.3333)``
-     - 3
    * - :ref:`MoneyBox_1 <box-1835-moneybox_1>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``135 × 107.5 × 11.6667 mm``
-     - ``(0, 107.5, 0)``
-     - 3
+     - :ref:`BoxType.SLIPOVER <box-type-slipover>`
+     - ``216 × 102 × 9.5 mm``
+     - ``(0, 142.564, 17)``
+     - 4
    * - :ref:`MoneyBox_2 <box-1835-moneybox_2>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``135 × 107.5 × 11.6667 mm``
-     - ``(0, 107.5, 11.6667)``
+     - :ref:`BoxType.SLIPOVER <box-type-slipover>`
+     - ``216 × 102 × 8.5 mm``
+     - ``(0, 142.564, 26.5)``
+     - 4
+   * - :ref:`MiddleBox <box-1835-middlebox>`
+     - :ref:`BoxType.CAP <box-type-cap>`
+     - ``216 × 102 × 17 mm``
+     - ``(0, 142.564, 0)``
      - 3
-   * - :ref:`MoneyBox_3 <box-1835-moneybox_3>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``135 × 107.5 × 11.6667 mm``
-     - ``(0, 107.5, 23.3333)``
-     - 3
+   * - :ref:`HexBox_1 <box-1835-hexbox_1>`
+     - :ref:`BoxType.INSET <box-type-inset>`
+     - ``216 × 142.564 × 8.75 mm``
+     - ``(0, 0, 0)``
+     - 5
+   * - :ref:`HexBox_2 <box-1835-hexbox_2>`
+     - :ref:`BoxType.INSET <box-type-inset>`
+     - ``216 × 142.564 × 8.75 mm``
+     - ``(0, 0, 8.75)``
+     - 5
+   * - :ref:`HexBox_3 <box-1835-hexbox_3>`
+     - :ref:`BoxType.INSET <box-type-inset>`
+     - ``216 × 142.564 × 8.75 mm``
+     - ``(0, 0, 17.5)``
+     - 5
+   * - :ref:`HexBox_4 <box-1835-hexbox_4>`
+     - :ref:`BoxType.INSET <box-type-inset>`
+     - ``216 × 142.564 × 8.75 mm``
+     - ``(0, 0, 26.25)``
+     - 5
    * - :ref:`SharesBox_1 <box-1835-sharesbox_1>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``81 × 138 × 17.5 mm``
-     - ``(135, 0, 0)``
+     - :ref:`BoxType.SLIPOVER <box-type-slipover>`
+     - ``138 × 53.4359 × 8.75 mm``
+     - ``(0, 244.564, 0)``
      - 2
    * - :ref:`SharesBox_2 <box-1835-sharesbox_2>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``81 × 138 × 17.5 mm``
-     - ``(135, 0, 17.5)``
+     - :ref:`BoxType.SLIPOVER <box-type-slipover>`
+     - ``138 × 53.4359 × 8.75 mm``
+     - ``(0, 244.564, 8.75)``
      - 2
-   * - :ref:`MarkerBox <box-1835-markerbox>`
-     - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``81 × 77 × 17.5 mm``
-     - ``(135, 138, 0)``
+   * - :ref:`SharesBox_3 <box-1835-sharesbox_3>`
+     - :ref:`BoxType.SLIPOVER <box-type-slipover>`
+     - ``138 × 53.4359 × 8.75 mm``
+     - ``(0, 244.564, 17.5)``
+     - 2
+   * - :ref:`SharesBox_4 <box-1835-sharesbox_4>`
+     - :ref:`BoxType.SLIPOVER <box-type-slipover>`
+     - ``138 × 53.4359 × 8.75 mm``
+     - ``(0, 244.564, 26.25)``
+     - 2
+   * - :ref:`FirstPlayerBox <box-1835-firstplayerbox>`
+     - :ref:`BoxType.SLIPOVER <box-type-slipover>`
+     - ``78 × 53.4359 × 24 mm``
+     - ``(138, 244.564, 0)``
      - 1
    * - :ref:`spacer_1 <spacer-1835-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``216 × 83 × 35 mm``
-     - ``(0, 215, 0)``
-     - —
-   * - :ref:`spacer_2 <spacer-1835-spacer_2>`
-     - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``81 × 77 × 17.5 mm``
-     - ``(135, 138, 17.5)``
+     - ``78 × 53.4359 × 11 mm``
+     - ``(138, 244.564, 24)``
      - —
 
 Individual Boxes & Parts
 ------------------------
-
-.. _box-1835-hexbox_1:
-
-HexBox_1
-^^^^^^^^
-
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
-- **Packed Position**: ``(0, 0, 0)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
-- **Compartments (3)**: ``Col_1`` (W=33%), ``Col_2`` (W=33%), ``Col_3`` (W=33%)
-
-**Assembled Box (HexBox_1 — Body + Lid)**
-
-.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=7567c509,../_stl/boxes/1835/HexBox_1_lid.stl?v=1cde6112
-   :height: 320px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=7567c509" data-stl-combine="../_stl/boxes/1835/HexBox_1_body.stl?v=7567c509,../_stl/boxes/1835/HexBox_1_lid.stl?v=1cde6112" download="HexBox_1_assembled.stl">⬇ Download Assembled HexBox_1 STL (<code>HexBox_1_assembled.stl</code>)</a></p>
-
-**Part: HexBox_1 Body**
-
-.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=7567c509
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=7567c509" download="HexBox_1_body.stl">⬇ Download HexBox_1 Body STL (<code>HexBox_1_body.stl</code>)</a></p>
-
-**Part: HexBox_1 Lid**
-
-.. stl:: ../_stl/boxes/1835/HexBox_1_lid.stl?v=1cde6112
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_1_lid.stl?v=1cde6112" download="HexBox_1_lid.stl">⬇ Download HexBox_1 Lid STL (<code>HexBox_1_lid.stl</code>)</a></p>
-
-.. _box-1835-hexbox_2:
-
-HexBox_2
-^^^^^^^^
-
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
-- **Packed Position**: ``(0, 0, 11.6667)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
-- **Compartments (3)**: ``Col_1`` (W=33%), ``Col_2`` (W=33%), ``Col_3`` (W=33%)
-
-**Assembled Box (HexBox_2 — Body + Lid)**
-
-.. stl:: ../_stl/boxes/1835/HexBox_2_body.stl?v=de4bc6db,../_stl/boxes/1835/HexBox_2_lid.stl?v=8fe9cd0a
-   :height: 320px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_2_body.stl?v=de4bc6db" data-stl-combine="../_stl/boxes/1835/HexBox_2_body.stl?v=de4bc6db,../_stl/boxes/1835/HexBox_2_lid.stl?v=8fe9cd0a" download="HexBox_2_assembled.stl">⬇ Download Assembled HexBox_2 STL (<code>HexBox_2_assembled.stl</code>)</a></p>
-
-**Part: HexBox_2 Body**
-
-.. stl:: ../_stl/boxes/1835/HexBox_2_body.stl?v=de4bc6db
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_2_body.stl?v=de4bc6db" download="HexBox_2_body.stl">⬇ Download HexBox_2 Body STL (<code>HexBox_2_body.stl</code>)</a></p>
-
-**Part: HexBox_2 Lid**
-
-.. stl:: ../_stl/boxes/1835/HexBox_2_lid.stl?v=8fe9cd0a
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_2_lid.stl?v=8fe9cd0a" download="HexBox_2_lid.stl">⬇ Download HexBox_2 Lid STL (<code>HexBox_2_lid.stl</code>)</a></p>
-
-.. _box-1835-hexbox_3:
-
-HexBox_3
-^^^^^^^^
-
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
-- **Packed Position**: ``(0, 0, 23.3333)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
-- **Compartments (3)**: ``Col_1`` (W=33%), ``Col_2`` (W=33%), ``Col_3`` (W=33%)
-
-**Assembled Box (HexBox_3 — Body + Lid)**
-
-.. stl:: ../_stl/boxes/1835/HexBox_3_body.stl?v=c8125523,../_stl/boxes/1835/HexBox_3_lid.stl?v=eaf23b64
-   :height: 320px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_3_body.stl?v=c8125523" data-stl-combine="../_stl/boxes/1835/HexBox_3_body.stl?v=c8125523,../_stl/boxes/1835/HexBox_3_lid.stl?v=eaf23b64" download="HexBox_3_assembled.stl">⬇ Download Assembled HexBox_3 STL (<code>HexBox_3_assembled.stl</code>)</a></p>
-
-**Part: HexBox_3 Body**
-
-.. stl:: ../_stl/boxes/1835/HexBox_3_body.stl?v=c8125523
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_3_body.stl?v=c8125523" download="HexBox_3_body.stl">⬇ Download HexBox_3 Body STL (<code>HexBox_3_body.stl</code>)</a></p>
-
-**Part: HexBox_3 Lid**
-
-.. stl:: ../_stl/boxes/1835/HexBox_3_lid.stl?v=eaf23b64
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/HexBox_3_lid.stl?v=eaf23b64" download="HexBox_3_lid.stl">⬇ Download HexBox_3 Lid STL (<code>HexBox_3_lid.stl</code>)</a></p>
 
 .. _box-1835-moneybox_1:
 
 MoneyBox_1
 ^^^^^^^^^^
 
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
-- **Packed Position**: ``(0, 107.5, 0)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
-- **Compartments (3)**: ``Slot_1`` (W=33%), ``Slot_2`` (W=33%), ``Slot_3`` (W=33%)
+- **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
+- **Outer Dimensions**: ``216 × 102 × 9.5 mm``
+- **Packed Position**: ``(0, 142.564, 17)``
+- **Compartments (4)**: ``Denom_1`` (W=25%), ``Denom_2`` (W=25%), ``Denom_3`` (W=25%), ``Denom_4`` (W=25%)
 
 **Assembled Box (MoneyBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_1_body.stl?v=fe28d16c,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=7fa1ac88
+.. stl:: ../_stl/boxes/1835/MoneyBox_1_body.stl?v=1601c30f,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=a11fefcf
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_1_body.stl?v=fe28d16c" data-stl-combine="../_stl/boxes/1835/MoneyBox_1_body.stl?v=fe28d16c,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=7fa1ac88" download="MoneyBox_1_assembled.stl">⬇ Download Assembled MoneyBox_1 STL (<code>MoneyBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_1_body.stl?v=1601c30f" data-stl-combine="../_stl/boxes/1835/MoneyBox_1_body.stl?v=1601c30f,../_stl/boxes/1835/MoneyBox_1_lid.stl?v=a11fefcf" download="MoneyBox_1_assembled.stl">⬇ Download Assembled MoneyBox_1 STL (<code>MoneyBox_1_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox_1 Body**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_1_body.stl?v=fe28d16c
+.. stl:: ../_stl/boxes/1835/MoneyBox_1_body.stl?v=1601c30f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_1_body.stl?v=fe28d16c" download="MoneyBox_1_body.stl">⬇ Download MoneyBox_1 Body STL (<code>MoneyBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_1_body.stl?v=1601c30f" download="MoneyBox_1_body.stl">⬇ Download MoneyBox_1 Body STL (<code>MoneyBox_1_body.stl</code>)</a></p>
 
 **Part: MoneyBox_1 Lid**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_1_lid.stl?v=7fa1ac88
+.. stl:: ../_stl/boxes/1835/MoneyBox_1_lid.stl?v=a11fefcf
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_1_lid.stl?v=7fa1ac88" download="MoneyBox_1_lid.stl">⬇ Download MoneyBox_1 Lid STL (<code>MoneyBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_1_lid.stl?v=a11fefcf" download="MoneyBox_1_lid.stl">⬇ Download MoneyBox_1 Lid STL (<code>MoneyBox_1_lid.stl</code>)</a></p>
 
 .. _box-1835-moneybox_2:
 
 MoneyBox_2
 ^^^^^^^^^^
 
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
-- **Packed Position**: ``(0, 107.5, 11.6667)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
-- **Compartments (3)**: ``Slot_1`` (W=33%), ``Slot_2`` (W=33%), ``Slot_3`` (W=33%)
+- **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
+- **Outer Dimensions**: ``216 × 102 × 8.5 mm``
+- **Packed Position**: ``(0, 142.564, 26.5)``
+- **Compartments (4)**: ``Denom_1`` (W=25%), ``Denom_2`` (W=25%), ``Denom_3`` (W=25%), ``Denom_4`` (W=25%)
 
 **Assembled Box (MoneyBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_2_body.stl?v=3d1bdaa6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=a3c1a16c
+.. stl:: ../_stl/boxes/1835/MoneyBox_2_body.stl?v=615135b7,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=8822c3f5
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_2_body.stl?v=3d1bdaa6" data-stl-combine="../_stl/boxes/1835/MoneyBox_2_body.stl?v=3d1bdaa6,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=a3c1a16c" download="MoneyBox_2_assembled.stl">⬇ Download Assembled MoneyBox_2 STL (<code>MoneyBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_2_body.stl?v=615135b7" data-stl-combine="../_stl/boxes/1835/MoneyBox_2_body.stl?v=615135b7,../_stl/boxes/1835/MoneyBox_2_lid.stl?v=8822c3f5" download="MoneyBox_2_assembled.stl">⬇ Download Assembled MoneyBox_2 STL (<code>MoneyBox_2_assembled.stl</code>)</a></p>
 
 **Part: MoneyBox_2 Body**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_2_body.stl?v=3d1bdaa6
+.. stl:: ../_stl/boxes/1835/MoneyBox_2_body.stl?v=615135b7
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_2_body.stl?v=3d1bdaa6" download="MoneyBox_2_body.stl">⬇ Download MoneyBox_2 Body STL (<code>MoneyBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_2_body.stl?v=615135b7" download="MoneyBox_2_body.stl">⬇ Download MoneyBox_2 Body STL (<code>MoneyBox_2_body.stl</code>)</a></p>
 
 **Part: MoneyBox_2 Lid**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_2_lid.stl?v=a3c1a16c
+.. stl:: ../_stl/boxes/1835/MoneyBox_2_lid.stl?v=8822c3f5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_2_lid.stl?v=a3c1a16c" download="MoneyBox_2_lid.stl">⬇ Download MoneyBox_2 Lid STL (<code>MoneyBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MoneyBox_2_lid.stl?v=8822c3f5" download="MoneyBox_2_lid.stl">⬇ Download MoneyBox_2 Lid STL (<code>MoneyBox_2_lid.stl</code>)</a></p>
 
-.. _box-1835-moneybox_3:
+.. _box-1835-middlebox:
 
-MoneyBox_3
-^^^^^^^^^^
+MiddleBox
+^^^^^^^^^
 
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``135 × 107.5 × 11.6667 mm``
-- **Packed Position**: ``(0, 107.5, 23.3333)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
-- **Compartments (3)**: ``Slot_1`` (W=33%), ``Slot_2`` (W=33%), ``Slot_3`` (W=33%)
+- **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
+- **Outer Dimensions**: ``216 × 102 × 17 mm``
+- **Packed Position**: ``(0, 142.564, 0)``
+- **Compartments (3)**: ``Tokens`` (W=45%), ``Trains`` (W=28%), ``Private`` (W=28%)
 
-**Assembled Box (MoneyBox_3 — Body + Lid)**
+**Assembled Box (MiddleBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_3_body.stl?v=c19d67c4,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=cc92f95c
+.. stl:: ../_stl/boxes/1835/MiddleBox_body.stl?v=027c388a,../_stl/boxes/1835/MiddleBox_lid.stl?v=0c5d4270
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_3_body.stl?v=c19d67c4" data-stl-combine="../_stl/boxes/1835/MoneyBox_3_body.stl?v=c19d67c4,../_stl/boxes/1835/MoneyBox_3_lid.stl?v=cc92f95c" download="MoneyBox_3_assembled.stl">⬇ Download Assembled MoneyBox_3 STL (<code>MoneyBox_3_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MiddleBox_body.stl?v=027c388a" data-stl-combine="../_stl/boxes/1835/MiddleBox_body.stl?v=027c388a,../_stl/boxes/1835/MiddleBox_lid.stl?v=0c5d4270" download="MiddleBox_assembled.stl">⬇ Download Assembled MiddleBox STL (<code>MiddleBox_assembled.stl</code>)</a></p>
 
-**Part: MoneyBox_3 Body**
+**Part: MiddleBox Body**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_3_body.stl?v=c19d67c4
+.. stl:: ../_stl/boxes/1835/MiddleBox_body.stl?v=027c388a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_3_body.stl?v=c19d67c4" download="MoneyBox_3_body.stl">⬇ Download MoneyBox_3 Body STL (<code>MoneyBox_3_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MiddleBox_body.stl?v=027c388a" download="MiddleBox_body.stl">⬇ Download MiddleBox Body STL (<code>MiddleBox_body.stl</code>)</a></p>
 
-**Part: MoneyBox_3 Lid**
+**Part: MiddleBox Lid**
 
-.. stl:: ../_stl/boxes/1835/MoneyBox_3_lid.stl?v=cc92f95c
+.. stl:: ../_stl/boxes/1835/MiddleBox_lid.stl?v=0c5d4270
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MoneyBox_3_lid.stl?v=cc92f95c" download="MoneyBox_3_lid.stl">⬇ Download MoneyBox_3 Lid STL (<code>MoneyBox_3_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/MiddleBox_lid.stl?v=0c5d4270" download="MiddleBox_lid.stl">⬇ Download MiddleBox Lid STL (<code>MiddleBox_lid.stl</code>)</a></p>
+
+.. _box-1835-hexbox_1:
+
+HexBox_1
+^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.INSET <box-type-inset>`
+- **Outer Dimensions**: ``216 × 142.564 × 8.75 mm``
+- **Packed Position**: ``(0, 0, 0)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
+- **Compartments (5)**: ``HexCol_1`` (W=20%), ``HexCol_2`` (W=20%), ``HexCol_3`` (W=20%), ``HexCol_4`` (W=20%), ``HexCol_5`` (W=20%)
+
+**Assembled Box (HexBox_1 — Body + Lid)**
+
+.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=dd03ba44,../_stl/boxes/1835/HexBox_1_lid.stl?v=952a3563
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=dd03ba44" data-stl-combine="../_stl/boxes/1835/HexBox_1_body.stl?v=dd03ba44,../_stl/boxes/1835/HexBox_1_lid.stl?v=952a3563" download="HexBox_1_assembled.stl">⬇ Download Assembled HexBox_1 STL (<code>HexBox_1_assembled.stl</code>)</a></p>
+
+**Part: HexBox_1 Body**
+
+.. stl:: ../_stl/boxes/1835/HexBox_1_body.stl?v=dd03ba44
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_1_body.stl?v=dd03ba44" download="HexBox_1_body.stl">⬇ Download HexBox_1 Body STL (<code>HexBox_1_body.stl</code>)</a></p>
+
+**Part: HexBox_1 Lid**
+
+.. stl:: ../_stl/boxes/1835/HexBox_1_lid.stl?v=952a3563
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_1_lid.stl?v=952a3563" download="HexBox_1_lid.stl">⬇ Download HexBox_1 Lid STL (<code>HexBox_1_lid.stl</code>)</a></p>
+
+.. _box-1835-hexbox_2:
+
+HexBox_2
+^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.INSET <box-type-inset>`
+- **Outer Dimensions**: ``216 × 142.564 × 8.75 mm``
+- **Packed Position**: ``(0, 0, 8.75)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
+- **Compartments (5)**: ``HexCol_1`` (W=20%), ``HexCol_2`` (W=20%), ``HexCol_3`` (W=20%), ``HexCol_4`` (W=20%), ``HexCol_5`` (W=20%)
+
+**Assembled Box (HexBox_2 — Body + Lid)**
+
+.. stl:: ../_stl/boxes/1835/HexBox_2_body.stl?v=f8fe0da3,../_stl/boxes/1835/HexBox_2_lid.stl?v=0298f122
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_2_body.stl?v=f8fe0da3" data-stl-combine="../_stl/boxes/1835/HexBox_2_body.stl?v=f8fe0da3,../_stl/boxes/1835/HexBox_2_lid.stl?v=0298f122" download="HexBox_2_assembled.stl">⬇ Download Assembled HexBox_2 STL (<code>HexBox_2_assembled.stl</code>)</a></p>
+
+**Part: HexBox_2 Body**
+
+.. stl:: ../_stl/boxes/1835/HexBox_2_body.stl?v=f8fe0da3
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_2_body.stl?v=f8fe0da3" download="HexBox_2_body.stl">⬇ Download HexBox_2 Body STL (<code>HexBox_2_body.stl</code>)</a></p>
+
+**Part: HexBox_2 Lid**
+
+.. stl:: ../_stl/boxes/1835/HexBox_2_lid.stl?v=0298f122
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_2_lid.stl?v=0298f122" download="HexBox_2_lid.stl">⬇ Download HexBox_2 Lid STL (<code>HexBox_2_lid.stl</code>)</a></p>
+
+.. _box-1835-hexbox_3:
+
+HexBox_3
+^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.INSET <box-type-inset>`
+- **Outer Dimensions**: ``216 × 142.564 × 8.75 mm``
+- **Packed Position**: ``(0, 0, 17.5)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=3``, top ``pyramids=(2, 3, 3, 2)``
+- **Compartments (5)**: ``HexCol_1`` (W=20%), ``HexCol_2`` (W=20%), ``HexCol_3`` (W=20%), ``HexCol_4`` (W=20%), ``HexCol_5`` (W=20%)
+
+**Assembled Box (HexBox_3 — Body + Lid)**
+
+.. stl:: ../_stl/boxes/1835/HexBox_3_body.stl?v=844a4a57,../_stl/boxes/1835/HexBox_3_lid.stl?v=c8b482fa
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_3_body.stl?v=844a4a57" data-stl-combine="../_stl/boxes/1835/HexBox_3_body.stl?v=844a4a57,../_stl/boxes/1835/HexBox_3_lid.stl?v=c8b482fa" download="HexBox_3_assembled.stl">⬇ Download Assembled HexBox_3 STL (<code>HexBox_3_assembled.stl</code>)</a></p>
+
+**Part: HexBox_3 Body**
+
+.. stl:: ../_stl/boxes/1835/HexBox_3_body.stl?v=844a4a57
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_3_body.stl?v=844a4a57" download="HexBox_3_body.stl">⬇ Download HexBox_3 Body STL (<code>HexBox_3_body.stl</code>)</a></p>
+
+**Part: HexBox_3 Lid**
+
+.. stl:: ../_stl/boxes/1835/HexBox_3_lid.stl?v=c8b482fa
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_3_lid.stl?v=c8b482fa" download="HexBox_3_lid.stl">⬇ Download HexBox_3 Lid STL (<code>HexBox_3_lid.stl</code>)</a></p>
+
+.. _box-1835-hexbox_4:
+
+HexBox_4
+^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.INSET <box-type-inset>`
+- **Outer Dimensions**: ``216 × 142.564 × 8.75 mm``
+- **Packed Position**: ``(0, 0, 26.25)``
+- **Stackable Mode**: ``StackableMode.PYRAMIDS``
+- **Stacking Order Key**: bottom ``pyramids=(2, 3, 3, 2)``, top ``flat (top of stack)``
+- **Compartments (5)**: ``HexCol_1`` (W=20%), ``HexCol_2`` (W=20%), ``HexCol_3`` (W=20%), ``HexCol_4`` (W=20%), ``HexCol_5`` (W=20%)
+
+**Assembled Box (HexBox_4 — Body + Lid)**
+
+.. stl:: ../_stl/boxes/1835/HexBox_4_body.stl?v=a0aee3da,../_stl/boxes/1835/HexBox_4_lid.stl?v=51fa84d6
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_4_body.stl?v=a0aee3da" data-stl-combine="../_stl/boxes/1835/HexBox_4_body.stl?v=a0aee3da,../_stl/boxes/1835/HexBox_4_lid.stl?v=51fa84d6" download="HexBox_4_assembled.stl">⬇ Download Assembled HexBox_4 STL (<code>HexBox_4_assembled.stl</code>)</a></p>
+
+**Part: HexBox_4 Body**
+
+.. stl:: ../_stl/boxes/1835/HexBox_4_body.stl?v=a0aee3da
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_4_body.stl?v=a0aee3da" download="HexBox_4_body.stl">⬇ Download HexBox_4 Body STL (<code>HexBox_4_body.stl</code>)</a></p>
+
+**Part: HexBox_4 Lid**
+
+.. stl:: ../_stl/boxes/1835/HexBox_4_lid.stl?v=51fa84d6
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/HexBox_4_lid.stl?v=51fa84d6" download="HexBox_4_lid.stl">⬇ Download HexBox_4 Lid STL (<code>HexBox_4_lid.stl</code>)</a></p>
 
 .. _box-1835-sharesbox_1:
 
 SharesBox_1
 ^^^^^^^^^^^
 
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``81 × 138 × 17.5 mm``
-- **Packed Position**: ``(135, 0, 0)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
-- **Compartments (2)**: ``Shares_1`` (L=50%), ``Shares_2`` (L=50%)
+- **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
+- **Outer Dimensions**: ``138 × 53.4359 × 8.75 mm``
+- **Packed Position**: ``(0, 244.564, 0)``
+- **Compartments (2)**: ``Shares_1`` (W=50%), ``Shares_2`` (W=50%)
 
 **Assembled Box (SharesBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_1_body.stl?v=d913e944,../_stl/boxes/1835/SharesBox_1_lid.stl?v=56e59196
+.. stl:: ../_stl/boxes/1835/SharesBox_1_body.stl?v=a19beb33,../_stl/boxes/1835/SharesBox_1_lid.stl?v=9629c0ec
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_1_body.stl?v=d913e944" data-stl-combine="../_stl/boxes/1835/SharesBox_1_body.stl?v=d913e944,../_stl/boxes/1835/SharesBox_1_lid.stl?v=56e59196" download="SharesBox_1_assembled.stl">⬇ Download Assembled SharesBox_1 STL (<code>SharesBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_1_body.stl?v=a19beb33" data-stl-combine="../_stl/boxes/1835/SharesBox_1_body.stl?v=a19beb33,../_stl/boxes/1835/SharesBox_1_lid.stl?v=9629c0ec" download="SharesBox_1_assembled.stl">⬇ Download Assembled SharesBox_1 STL (<code>SharesBox_1_assembled.stl</code>)</a></p>
 
 **Part: SharesBox_1 Body**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_1_body.stl?v=d913e944
+.. stl:: ../_stl/boxes/1835/SharesBox_1_body.stl?v=a19beb33
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_1_body.stl?v=d913e944" download="SharesBox_1_body.stl">⬇ Download SharesBox_1 Body STL (<code>SharesBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_1_body.stl?v=a19beb33" download="SharesBox_1_body.stl">⬇ Download SharesBox_1 Body STL (<code>SharesBox_1_body.stl</code>)</a></p>
 
 **Part: SharesBox_1 Lid**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_1_lid.stl?v=56e59196
+.. stl:: ../_stl/boxes/1835/SharesBox_1_lid.stl?v=9629c0ec
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_1_lid.stl?v=56e59196" download="SharesBox_1_lid.stl">⬇ Download SharesBox_1 Lid STL (<code>SharesBox_1_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_1_lid.stl?v=9629c0ec" download="SharesBox_1_lid.stl">⬇ Download SharesBox_1 Lid STL (<code>SharesBox_1_lid.stl</code>)</a></p>
 
 .. _box-1835-sharesbox_2:
 
 SharesBox_2
 ^^^^^^^^^^^
 
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``81 × 138 × 17.5 mm``
-- **Packed Position**: ``(135, 0, 17.5)``
-- **Stackable Mode**: ``StackableMode.PYRAMIDS``
-- **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
-- **Compartments (2)**: ``Shares_1`` (L=50%), ``Shares_2`` (L=50%)
+- **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
+- **Outer Dimensions**: ``138 × 53.4359 × 8.75 mm``
+- **Packed Position**: ``(0, 244.564, 8.75)``
+- **Compartments (2)**: ``Shares_1`` (W=50%), ``Shares_2`` (W=50%)
 
 **Assembled Box (SharesBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_2_body.stl?v=d7b31b01,../_stl/boxes/1835/SharesBox_2_lid.stl?v=24f2eb8f
+.. stl:: ../_stl/boxes/1835/SharesBox_2_body.stl?v=779705bd,../_stl/boxes/1835/SharesBox_2_lid.stl?v=021ea5d3
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_2_body.stl?v=d7b31b01" data-stl-combine="../_stl/boxes/1835/SharesBox_2_body.stl?v=d7b31b01,../_stl/boxes/1835/SharesBox_2_lid.stl?v=24f2eb8f" download="SharesBox_2_assembled.stl">⬇ Download Assembled SharesBox_2 STL (<code>SharesBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_2_body.stl?v=779705bd" data-stl-combine="../_stl/boxes/1835/SharesBox_2_body.stl?v=779705bd,../_stl/boxes/1835/SharesBox_2_lid.stl?v=021ea5d3" download="SharesBox_2_assembled.stl">⬇ Download Assembled SharesBox_2 STL (<code>SharesBox_2_assembled.stl</code>)</a></p>
 
 **Part: SharesBox_2 Body**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_2_body.stl?v=d7b31b01
+.. stl:: ../_stl/boxes/1835/SharesBox_2_body.stl?v=779705bd
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_2_body.stl?v=d7b31b01" download="SharesBox_2_body.stl">⬇ Download SharesBox_2 Body STL (<code>SharesBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_2_body.stl?v=779705bd" download="SharesBox_2_body.stl">⬇ Download SharesBox_2 Body STL (<code>SharesBox_2_body.stl</code>)</a></p>
 
 **Part: SharesBox_2 Lid**
 
-.. stl:: ../_stl/boxes/1835/SharesBox_2_lid.stl?v=24f2eb8f
+.. stl:: ../_stl/boxes/1835/SharesBox_2_lid.stl?v=021ea5d3
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/SharesBox_2_lid.stl?v=24f2eb8f" download="SharesBox_2_lid.stl">⬇ Download SharesBox_2 Lid STL (<code>SharesBox_2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_2_lid.stl?v=021ea5d3" download="SharesBox_2_lid.stl">⬇ Download SharesBox_2 Lid STL (<code>SharesBox_2_lid.stl</code>)</a></p>
 
-.. _box-1835-markerbox:
+.. _box-1835-sharesbox_3:
 
-MarkerBox
-^^^^^^^^^
+SharesBox_3
+^^^^^^^^^^^
 
-- **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``81 × 77 × 17.5 mm``
-- **Packed Position**: ``(135, 138, 0)``
-- **Compartments (1)**: ``Markers`` (full interior)
+- **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
+- **Outer Dimensions**: ``138 × 53.4359 × 8.75 mm``
+- **Packed Position**: ``(0, 244.564, 17.5)``
+- **Compartments (2)**: ``Shares_1`` (W=50%), ``Shares_2`` (W=50%)
 
-**Assembled Box (MarkerBox — Body + Lid)**
+**Assembled Box (SharesBox_3 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/1835/MarkerBox_body.stl?v=e0ffa887,../_stl/boxes/1835/MarkerBox_lid.stl?v=3dad2361
+.. stl:: ../_stl/boxes/1835/SharesBox_3_body.stl?v=62c3c73a,../_stl/boxes/1835/SharesBox_3_lid.stl?v=ef115570
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MarkerBox_body.stl?v=e0ffa887" data-stl-combine="../_stl/boxes/1835/MarkerBox_body.stl?v=e0ffa887,../_stl/boxes/1835/MarkerBox_lid.stl?v=3dad2361" download="MarkerBox_assembled.stl">⬇ Download Assembled MarkerBox STL (<code>MarkerBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_3_body.stl?v=62c3c73a" data-stl-combine="../_stl/boxes/1835/SharesBox_3_body.stl?v=62c3c73a,../_stl/boxes/1835/SharesBox_3_lid.stl?v=ef115570" download="SharesBox_3_assembled.stl">⬇ Download Assembled SharesBox_3 STL (<code>SharesBox_3_assembled.stl</code>)</a></p>
 
-**Part: MarkerBox Body**
+**Part: SharesBox_3 Body**
 
-.. stl:: ../_stl/boxes/1835/MarkerBox_body.stl?v=e0ffa887
+.. stl:: ../_stl/boxes/1835/SharesBox_3_body.stl?v=62c3c73a
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MarkerBox_body.stl?v=e0ffa887" download="MarkerBox_body.stl">⬇ Download MarkerBox Body STL (<code>MarkerBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_3_body.stl?v=62c3c73a" download="SharesBox_3_body.stl">⬇ Download SharesBox_3 Body STL (<code>SharesBox_3_body.stl</code>)</a></p>
 
-**Part: MarkerBox Lid**
+**Part: SharesBox_3 Lid**
 
-.. stl:: ../_stl/boxes/1835/MarkerBox_lid.stl?v=3dad2361
+.. stl:: ../_stl/boxes/1835/SharesBox_3_lid.stl?v=ef115570
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/MarkerBox_lid.stl?v=3dad2361" download="MarkerBox_lid.stl">⬇ Download MarkerBox Lid STL (<code>MarkerBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/SharesBox_3_lid.stl?v=ef115570" download="SharesBox_3_lid.stl">⬇ Download SharesBox_3 Lid STL (<code>SharesBox_3_lid.stl</code>)</a></p>
+
+.. _box-1835-sharesbox_4:
+
+SharesBox_4
+^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
+- **Outer Dimensions**: ``138 × 53.4359 × 8.75 mm``
+- **Packed Position**: ``(0, 244.564, 26.25)``
+- **Compartments (2)**: ``Shares_1`` (W=50%), ``Shares_2`` (W=50%)
+
+**Assembled Box (SharesBox_4 — Body + Lid)**
+
+.. stl:: ../_stl/boxes/1835/SharesBox_4_body.stl?v=6582b4c2,../_stl/boxes/1835/SharesBox_4_lid.stl?v=29826ef1
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/SharesBox_4_body.stl?v=6582b4c2" data-stl-combine="../_stl/boxes/1835/SharesBox_4_body.stl?v=6582b4c2,../_stl/boxes/1835/SharesBox_4_lid.stl?v=29826ef1" download="SharesBox_4_assembled.stl">⬇ Download Assembled SharesBox_4 STL (<code>SharesBox_4_assembled.stl</code>)</a></p>
+
+**Part: SharesBox_4 Body**
+
+.. stl:: ../_stl/boxes/1835/SharesBox_4_body.stl?v=6582b4c2
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/SharesBox_4_body.stl?v=6582b4c2" download="SharesBox_4_body.stl">⬇ Download SharesBox_4 Body STL (<code>SharesBox_4_body.stl</code>)</a></p>
+
+**Part: SharesBox_4 Lid**
+
+.. stl:: ../_stl/boxes/1835/SharesBox_4_lid.stl?v=29826ef1
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/SharesBox_4_lid.stl?v=29826ef1" download="SharesBox_4_lid.stl">⬇ Download SharesBox_4 Lid STL (<code>SharesBox_4_lid.stl</code>)</a></p>
+
+.. _box-1835-firstplayerbox:
+
+FirstPlayerBox
+^^^^^^^^^^^^^^
+
+- **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
+- **Outer Dimensions**: ``78 × 53.4359 × 24 mm``
+- **Packed Position**: ``(138, 244.564, 0)``
+- **Compartments (1)**: ``FirstPlayerMarker`` (full interior)
+
+**Assembled Box (FirstPlayerBox — Body + Lid)**
+
+.. stl:: ../_stl/boxes/1835/FirstPlayerBox_body.stl?v=bb1b9a76,../_stl/boxes/1835/FirstPlayerBox_lid.stl?v=f7471a41
+   :height: 320px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/FirstPlayerBox_body.stl?v=bb1b9a76" data-stl-combine="../_stl/boxes/1835/FirstPlayerBox_body.stl?v=bb1b9a76,../_stl/boxes/1835/FirstPlayerBox_lid.stl?v=f7471a41" download="FirstPlayerBox_assembled.stl">⬇ Download Assembled FirstPlayerBox STL (<code>FirstPlayerBox_assembled.stl</code>)</a></p>
+
+**Part: FirstPlayerBox Body**
+
+.. stl:: ../_stl/boxes/1835/FirstPlayerBox_body.stl?v=bb1b9a76
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/FirstPlayerBox_body.stl?v=bb1b9a76" download="FirstPlayerBox_body.stl">⬇ Download FirstPlayerBox Body STL (<code>FirstPlayerBox_body.stl</code>)</a></p>
+
+**Part: FirstPlayerBox Lid**
+
+.. stl:: ../_stl/boxes/1835/FirstPlayerBox_lid.stl?v=f7471a41
+   :height: 280px
+
+.. raw:: html
+
+   <p><a href="../_stl/boxes/1835/FirstPlayerBox_lid.stl?v=f7471a41" download="FirstPlayerBox_lid.stl">⬇ Download FirstPlayerBox Lid STL (<code>FirstPlayerBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
@@ -459,28 +572,12 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``216 × 83 × 35 mm``
-- **Packed Position**: ``(0, 215, 0)``
+- **Outer Dimensions**: ``78 × 53.4359 × 11 mm``
+- **Packed Position**: ``(138, 244.564, 24)``
 
-.. stl:: ../_stl/boxes/1835/spacer_1.stl?v=9c343728
+.. stl:: ../_stl/boxes/1835/spacer_1.stl?v=831a9633
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/1835/spacer_1.stl?v=9c343728" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
-
-.. _spacer-1835-spacer_2:
-
-spacer_2
-^^^^^^^^
-
-- **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``81 × 77 × 17.5 mm``
-- **Packed Position**: ``(135, 138, 17.5)``
-
-.. stl:: ../_stl/boxes/1835/spacer_2.stl?v=93250225
-   :height: 280px
-
-.. raw:: html
-
-   <p><a href="../_stl/boxes/1835/spacer_2.stl?v=93250225" download="spacer_2.stl">⬇ Download spacer_2 STL (<code>spacer_2.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/1835/spacer_1.stl?v=831a9633" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>

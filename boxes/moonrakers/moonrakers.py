@@ -26,7 +26,6 @@ from pyboxbuilder import (
     PatternBuilder,
     PatternType,
     Project,
-    StackableMode,
     run,
 )
 
@@ -35,19 +34,36 @@ box_width = 213.0
 box_length = 303.0
 box_height = 93.0
 
-board_thickness = 37.5  # Main board + player boards + Binding Ties expansion
-usable_height = box_height - board_thickness  # 55.5mm
+base_board_thickness = 9.0
+player_board_thickness = 15.0
+board_thickness = base_board_thickness + player_board_thickness  # 24.0mm (matching BoxLayout in moonrakers.scad)
+usable_height = box_height - board_thickness  # 69.0mm
 
 wall_thickness = 3.0
 floor_thickness = 2.0
 lid_thickness = 2.0
 
+dice_size = 17.0
 card_width = 67.0
 card_length = 90.0
+ten_cards_thickness = 6.0
+single_card_thickness = ten_cards_thickness / 10.0  # 0.6mm
 
 card_box_width = card_length + wall_thickness * 2.0  # 96.0mm
 card_box_length = card_width + wall_thickness * 2.0  # 73.0mm
-card_box_height = usable_height / 2.0                # 27.75mm
+
+# Exact per-deck box heights from moonrakers.scad
+thruster_card_box_height = floor_thickness + lid_thickness + single_card_thickness * 25 + 2.0        # 21.0mm
+damage_card_box_height = floor_thickness + lid_thickness + single_card_thickness * 35 + 2.0          # 27.0mm
+shield_card_box_height = floor_thickness + lid_thickness + single_card_thickness * 25 + 1.5          # 20.5mm
+reactor_card_box_height = floor_thickness + lid_thickness + single_card_thickness * 30 + 0.5         # 22.5mm
+miss_card_box_height = floor_thickness + lid_thickness + single_card_thickness * 15 + 0.5            # 13.5mm
+reference_card_box_height = floor_thickness + lid_thickness + single_card_thickness * 10             # 10.0mm
+crew_card_box_height = floor_thickness + lid_thickness + single_card_thickness * (20 + 10) + 1.0     # 23.0mm
+contract_card_box_height = floor_thickness + lid_thickness + single_card_thickness * (40 + 10) + 1.0 # 35.0mm
+ship_card_box_height = floor_thickness + lid_thickness + single_card_thickness * (37 + 10) + 1.0     # 33.2mm
+objective_card_box_height = floor_thickness + lid_thickness + single_card_thickness * (23 + 10) + 1.0  # 24.8mm
+dice_box_height = floor_thickness + lid_thickness + dice_size + 1.0                                  # 22.0mm
 
 project = Project(
     "Moonrakers",
@@ -63,23 +79,25 @@ project = Project(
 
 MOON_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
 
-# ── 1. Command & Expansion Card Decks ─────────────────────────────
-command_decks = [
-    ("Thrusters", "Thrusters", "gold"),
-    ("Damage", "Damage", "darkred"),
-    ("Reactor", "Reactor", "royalblue"),
-    ("Shield", "Shield", "forestgreen"),
-    ("Miss", "Miss", "gray"),
-    ("Crew", "Crew", "purple"),
-    ("Contracts", "Contracts", "darkorange"),
-    ("Ships", "Ship Parts", "navy"),
+# ── 1. All 10 Card Decks (matching moonrakers.scad) ───────────────
+card_decks = [
+    ("Thrusters", "Thrusters", "gold", thruster_card_box_height),
+    ("Damage", "Damage", "darkred", damage_card_box_height),
+    ("Reactor", "Reactor", "royalblue", reactor_card_box_height),
+    ("Miss", "Miss", "gray", miss_card_box_height),
+    ("Shield", "Shield", "forestgreen", shield_card_box_height),
+    ("Reference", "Reference", "slategray", reference_card_box_height),
+    ("Crew", "Crew", "darkorange", crew_card_box_height),
+    ("Contracts", "Contracts", "purple", contract_card_box_height),
+    ("Ships", "Ship Parts", "navy", ship_card_box_height),
+    ("Objectives", "Objectives", "teal", objective_card_box_height),
 ]
 
-for deck_id, title, color_name in command_decks:
+for deck_id, title, color_name, deck_height in card_decks:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
-        size=(card_box_width, card_box_length, card_box_height),
+        size=(card_box_width, card_box_length, deck_height),
         lid=LidBuilder(
             text=title,
             label_mode=LabelMode.FRAMED,
@@ -90,25 +108,11 @@ for deck_id, title, color_name in command_decks:
     )
     c_box.compartment("Cards", cut=FingerCut.SCOOP)
 
-# ── 2. Objectives & Hazard Dice Tray ──────────────────────────────
-obj_box = project.box(
-    BoxType.SLIDING,
-    "CardBox_Objectives",
-    size=(card_box_width, card_box_length, card_box_height),
-    lid=LidBuilder(
-        text="Objectives",
-        label_mode=LabelMode.FRAMED,
-        pattern=MOON_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("teal"),
-    ),
-)
-obj_box.compartment("Cards", cut=FingerCut.SCOOP)
-
+# ── 2. Hazard Dice & Tokens Tray ──────────────────────────────────
 dice_box = project.box(
     BoxType.CAP,
     "DiceAndTokensBox",
-    size=(card_box_width, card_box_length, card_box_height),
+    size=(card_box_width, card_box_length, dice_box_height),
     lid=LidBuilder(
         text="Hazard Dice",
         label_mode=LabelMode.FRAMED,
@@ -119,7 +123,9 @@ dice_box = project.box(
 )
 dice_box.compartment("Dice", cut=FingerCut.SCOOP)
 
-project.stack_order("CardBox_Thrusters", "CardBox_Objectives", mode=StackableMode.PYRAMIDS)
+project.stack_order("CardBox_Thrusters", "CardBox_Damage", "CardBox_Shield")
+project.stack_order("CardBox_Reactor", "CardBox_Miss", "CardBox_Crew", "CardBox_Reference")
+project.stack_order("CardBox_Contracts", "CardBox_Ships")
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

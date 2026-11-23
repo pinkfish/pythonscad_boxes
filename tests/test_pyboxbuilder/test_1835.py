@@ -2,8 +2,8 @@
 """Tests for the 1835 board game insert."""
 
 import importlib.util
-from pathlib import Path
 import unittest
+from pathlib import Path
 
 _MOD_PATH = Path(__file__).resolve().parents[2] / "boxes" / "1835" / "1835.py"
 _SPEC = importlib.util.spec_from_file_location("mod_1835", _MOD_PATH)
@@ -28,15 +28,18 @@ class Test1835(unittest.TestCase):
         """Verify all essential box labels are generated."""
         labels = {b.label for b in project._boxes}
         expected = {
+            "MoneyBox_1",
+            "MoneyBox_2",
+            "MiddleBox",
             "HexBox_1",
             "HexBox_2",
             "HexBox_3",
-            "MoneyBox_1",
-            "MoneyBox_2",
-            "MoneyBox_3",
+            "HexBox_4",
             "SharesBox_1",
             "SharesBox_2",
-            "MarkerBox",
+            "SharesBox_3",
+            "SharesBox_4",
+            "FirstPlayerBox",
         }
         for name in expected:
             self.assertIn(name, labels)

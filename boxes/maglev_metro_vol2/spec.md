@@ -1,57 +1,40 @@
 # Maglev Metro: Volume 2 Organizer Specification
 
-This document details the layout, component inventory, sub-box specifications, and 3D packing configuration for the **Maglev Metro: Volume 2** expansion organizer, ported from `examples/maglev_metro_vol2.scad` to PythonSCAD (`pyboxbuilder`).
+This document details the layout, component inventory, sub-box specifications, and 3D packing configuration for the **Maglev Metro: Volume 2** expansion organizer, ported faithfully from `boxes/maglev_metro_vol2/maglev_metro_vol2.scad` to PythonSCAD (`pyboxbuilder`).
 
 ---
 
 ## 1. Game Box Dimensions & Constraints
 
 * **Game Box Footprint**: `286.0mm (Width) x 286.0mm (Length) x 65.0mm (Height)`
-* **Board & Player Mat Reserve**: `27.0mm` (Map boards and punchboards sit atop insert at `Z = 38.0 .. 65.0mm`)
-* **Main Insert Usable Height**: `38.0mm` (`Z = 0.0 .. 38.0mm`)
-* **Wall Thickness**: `3.0mm`
-* **Floor Thickness**: `2.0mm`
-* **Lid Thickness**: `2.0mm`
-* **Clearance Slack**: `0.0mm`
+* **Board Reserve**:
+  * Top game board (`280 x 281 x 17mm`) at `Z = 48.0 .. 65.0mm`
+  * Game board base (`242 x 272 x 17mm`) at `X = 44..286mm, Z = 31.0 .. 48.0mm`
+  * 4 Player boards (`145 x 162 x 2.5mm` each = `10mm`) at `X = 0..145mm, Y = 0..162mm, Z = 21.0 .. 31.0mm`
+* **Main Insert Usable Height**: `31.0mm` (`Z = 0.0 .. 31.0mm`, with 4 `CommuterBox`es beside the base board at `X = 0..44mm, Z = 31.0 .. 48.0mm`)
+* **Wall / Floor / Lid Thickness**: `3.0mm` / `2.0mm` / `3.0mm`
 
 ---
 
-## 2. Component Inventory & Storage Strategy
+## 2. Complete Component Inventory (18 Boxes)
 
-| Component | Quantity / Dimension | Storage Location | Box Type | Lid Style / Decoration |
+| Component | Dimensions (`W x L x H` mm) | Position (`X, Y, Z` mm) | Box Type | Storage |
 |---|---|---|---|---|
-| Expansion Cards | Map 2 & connection cards (`67 x 90mm`) | `ExpansionCardsBox` | Sliding Lid | Framed "Maps 2" (Dark Orange) |
-| Upgrade Tiles | Player upgrade tiles with cutouts | `UpgradeTileBox` | Cap Lid | Framed "Upgrades" (Seagreen) |
-| Outback & Ghost Station Hexes | Expansion station hexes | `OutbackGhostTilesBox` | Cap Lid | Framed "Outback & Ghost" (Dark Violet) |
-| Metro Tickets & Nanobots | Metal/cardboard ticket tokens, nanobot figures | `MetroTokenBox` | Cap Lid | Framed "Tokens & Nanobots" (Gold) |
-| Expansion Game Boards | Moon and Mars map boards | Sits atop insert (`Z = 38.0 .. 65.0mm`) | Board Layer | Flat storage beneath box lid |
-| Automatic Spacers | Remaining 3D void volume | Derived automatically | No-Lid Trays | Auto finger scoops |
-
----
-
-## 3. Sub-Box Specifications
-
-### 3.1 Card & Upgrade Column (`X = 0.0 .. 73.0mm`)
-* **`ExpansionCardsBox`** (`73.0mm x 96.0mm x 19.0mm`): Positioned at `Y = 0.0mm`.
-* **`UpgradeTileBox`** (`73.0mm x 126.0mm x 19.0mm`): Positioned at `Y = 96.0mm`.
-
-### 3.2 Hex & Token Column (`X = 73.0 .. 183.0mm`)
-* **`OutbackGhostTilesBox`** (`110.0mm x 140.0mm x 19.0mm`): Bottom tier at `Z = 0.0mm`.
-* **`MetroTokenBox`** (`110.0mm x 140.0mm x 19.0mm`): Upper tier at `Z = 19.0mm`.
-
----
-
-## 4. 3D Spatial Layout Map
-
-```
-+-------------------+-----------------------------------------------------------+
-| ExpansionCardsBox | OutbackGhostTilesBox (110.0 x 140.0 x 19.0mm, Z: 0..19mm) |
-| (73.0 x 96.0mm)   | [ MetroTokenBox stacked atop, Z: 19..38mm, H: 19.0mm ]    |
-+-------------------+                                                           |
-| UpgradeTileBox    |                                                           |
-| (73.0 x 126.0mm)  |                                                           |
-+-------------------+-----------------------------------------------------------+
-|                            Automatic 3D Void Spacers                          |
-|                     (X = 0..286mm, Y = 222..286mm, Z = 0..38mm)               |
-+-------------------------------------------------------------------------------+
-```
+| `ExtraTilesBox` | `166.84 x 122.0 x 21.0` | `(0.0, 0.0, 0.0)` | Cap | Loop & Outback small tiles |
+| `UpgradeTileBox` | `73.0 x 126.0 x 14.0` | `(0.0, 122.0, 0.0)` | Cap | Upgrade tiles (3 bays) |
+| `ExpansionCardsBox` | `73.0 x 96.0 x 14.0` | `(73.0, 122.0, 0.0)` | Sliding | Maps 2 expansion cards (`67 x 90mm`) |
+| `MiddleBoxSpacer` | `20.84 x 126.0 x 14.0` | `(146.0, 122.0, 0.0)` | No-Lid | Hollow spacer beside cards |
+| `SummonBox` | `166.84 x 38.0 x 14.0` | `(0.0, 248.0, 0.0)` | Cap | Summon tiles (2 bays) |
+| `PlayerBoxSpacer` | `166.84 x 39.0 x 7.0` | `(0.0, 122.0, 14.0)` | No-Lid | Hollow spacer beneath player boards |
+| `RobotBox_Silver` | `55.61 x 66.2 x 17.0` | `(0.0, 162.0, 14.0)` | Cap | Silver robots |
+| `RobotBox_Gold` | `55.61 x 66.2 x 17.0` | `(55.61, 162.0, 14.0)` | Cap | Gold robots |
+| `RobotBox_Orange` | `55.61 x 66.2 x 17.0` | `(111.23, 162.0, 14.0)` | Cap | Orange robots |
+| `NanobotBox_1` | `55.61 x 57.8 x 17.0` | `(0.0, 228.2, 14.0)` | Cap | Nanobots (set 1) |
+| `NanobotBox_2` | `55.61 x 57.8 x 17.0` | `(55.61, 228.2, 14.0)` | Cap | Nanobots (set 2) |
+| `NanobotBox_3` | `55.61 x 57.8 x 17.0` | `(111.23, 228.2, 14.0)` | Cap | Nanobots (set 3) |
+| `OutbackGhostTilesBox` | `116.16 x 227.0 x 31.0` | `(166.84, 0.0, 0.0)` | No-Lid | Outback & Ghost hex tiles |
+| `MetroTokenBox` | `116.16 x 58.0 x 31.0` | `(166.84, 227.0, 0.0)` | Cap | Metro tickets (`25mm` dia) |
+| `CommuterBox_Pink` | `44.0 x 71.5 x 17.0` | `(0.0, 0.0, 31.0)` | Cap | Pink commuters |
+| `CommuterBox_Aqua` | `44.0 x 71.5 x 17.0` | `(0.0, 71.5, 31.0)` | Cap | Aqua commuters |
+| `CommuterBox_Coral` | `44.0 x 71.5 x 17.0` | `(0.0, 143.0, 31.0)` | Cap | Coral commuters |
+| `CommuterBox_Purple` | `44.0 x 71.5 x 17.0` | `(0.0, 214.5, 31.0)` | Cap | Purple commuters |

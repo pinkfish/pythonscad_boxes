@@ -57,8 +57,13 @@ dial_box_width = 107.0
 dial_box_length = (box_width - hunter_card_box_width - 2.0) / 2.0  # 52.0mm
 dial_box_height = 51.0
 
+leopard_box_width = dial_box_width                                        # 107.0mm
+leopard_box_length = box_length - 2.0 - dial_box_length * 2.0 - card_box_length  # 31.0mm
+leopard_box_height = dial_box_height                                      # 51.0mm
+
 resource_box_width = box_length - dial_box_width - 2.0             # 101.0mm
 resource_box_length = (box_length - 2.0 - card_box_length) / 2.0   # 67.5mm
+resource_box_double_length = box_length - 2.0 - card_box_length    # 135.0mm
 resource_box_height = dial_box_height / 2.0                        # 25.5mm
 
 project = Project(
@@ -79,6 +84,7 @@ project.box(
     BoxType.SLIDING,
     "NatureCardsBox",
     size=(card_box_width, card_box_length, card_box_height),
+    position=(0.0, 0.0, 0.0),
     lid=LidBuilder(
         text="Nature Cards",
         label_mode=LabelMode.FRAMED,
@@ -86,7 +92,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("forestgreen"),
     ),
-    expandable=False,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 2. Small Decks (Hunter & Solo) ────────────────────────────────
@@ -94,6 +99,7 @@ project.box(
     BoxType.SLIDING,
     "HunterCardsBox",
     size=(hunter_card_box_width, hunter_card_box_length, hunter_card_box_height),
+    position=(card_box_width, 0.0, 0.0),
     lid=LidBuilder(
         text="Hunters",
         label_mode=LabelMode.FRAMED,
@@ -101,7 +107,6 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("darkred"),
     ),
-    expandable=False,
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
@@ -109,6 +114,7 @@ project.box(
     BoxType.SLIDING,
     "SoloCardsBox",
     size=(hunter_card_box_width, hunter_card_box_length, hunter_card_box_height),
+    position=(card_box_width, 0.0, hunter_card_box_height),
     lid=LidBuilder(
         text="Solo / Event",
         label_mode=LabelMode.FRAMED,
@@ -116,28 +122,30 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("royalblue"),
     ),
-    expandable=False,
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
-# ── 3. Population Dials & Leopard Box ─────────────────────────────
-project.box(
-    BoxType.CAP,
-    "DialBox",
-    size=(dial_box_width, dial_box_length, dial_box_height),
-    lid=LidBuilder(
-        text="Population Dials",
-        label_mode=LabelMode.FRAMED,
-        pattern=NATURE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkgoldenrod"),
-    ),
-).compartment("Dials", cut=FingerCut.SCOOP)
+# ── 3. Population Dials (x2) & Leopard Box ────────────────────────
+for idx in range(1, 3):
+    project.box(
+        BoxType.CAP,
+        f"DialBox_{idx}",
+        size=(dial_box_width, dial_box_length, dial_box_height),
+        position=(resource_box_width, card_box_length + dial_box_length * (idx - 1), 0.0),
+        lid=LidBuilder(
+            text="Population Dials",
+            label_mode=LabelMode.FRAMED,
+            pattern=NATURE_PATTERN,
+            text_color=Color("white"),
+            frame_color=Color("darkgoldenrod"),
+        ),
+    ).compartment("Dials", cut=FingerCut.SCOOP)
 
 project.box(
-    BoxType.CAP,
+    BoxType.SLIDING,
     "LeopardBox",
-    size=(dial_box_width, dial_box_length, dial_box_height),
+    size=(leopard_box_width, leopard_box_length, leopard_box_height),
+    position=(resource_box_width, card_box_length + dial_box_length * 2.0, 0.0),
     lid=LidBuilder(
         text="Apex Leopard",
         label_mode=LabelMode.FRAMED,
@@ -147,11 +155,12 @@ project.box(
     ),
 ).compartment("Leopard", cut=FingerCut.SCOOP)
 
-# ── 4. Food Resource Trays (Grass & Meat) ─────────────────────────
+# ── 4. Food & Population Resource Trays (Grass, Meat & Population) ─
 project.box(
     BoxType.CAP,
     "ResourceBox_Grass",
     size=(resource_box_width, resource_box_length, resource_box_height),
+    position=(0.0, card_box_length, resource_box_height),
     lid=LidBuilder(
         text="Grass",
         label_mode=LabelMode.FRAMED,
@@ -165,6 +174,7 @@ project.box(
     BoxType.CAP,
     "ResourceBox_Meat",
     size=(resource_box_width, resource_box_length, resource_box_height),
+    position=(0.0, card_box_length + resource_box_length, resource_box_height),
     lid=LidBuilder(
         text="Meat",
         label_mode=LabelMode.FRAMED,
@@ -173,6 +183,20 @@ project.box(
         frame_color=Color("firebrick"),
     ),
 ).compartment("MeatTokens", cut=FingerCut.SCOOP)
+
+project.box(
+    BoxType.CAP,
+    "ResourceBox_Population",
+    size=(resource_box_width, resource_box_double_length, resource_box_height),
+    position=(0.0, card_box_length, 0.0),
+    lid=LidBuilder(
+        text="Population",
+        label_mode=LabelMode.FRAMED,
+        pattern=NATURE_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color("darkgoldenrod"),
+    ),
+).compartment("PopulationTokens", cut=FingerCut.SCOOP)
 
 project.stack_order("HunterCardsBox", "SoloCardsBox")
 

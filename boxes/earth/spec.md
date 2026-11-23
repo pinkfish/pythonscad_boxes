@@ -1,66 +1,42 @@
-# Earth Board Game Organizer Specification
+# Earth (+ Abundance) Board Game Organizer Specification
 
-This document details the layout, component inventory, sub-box specifications, and 3D packing configuration for the **Earth** board game organizer, ported from `examples/earth.scad` to PythonSCAD (`pyboxbuilder`).
+This document details the layout, component inventory, sub-box specifications, and 3D packing configuration for the **Earth** (+ Abundance expansion) board game organizer, ported faithfully from `boxes/earth/earth.scad` to PythonSCAD (`pyboxbuilder`).
 
 ---
 
 ## 1. Game Box Dimensions & Constraints
 
 * **Game Box Footprint**: `288.0mm (Width) x 288.0mm (Length) x 72.0mm (Height)`
-* **Board & Player Mat Reserve**: `16.8mm` (6 player mats + 2 central board tracks sit atop insert at `Z = 55.2 .. 72.0mm`)
+* **Board Reserve**: `16.8mm` (6 player boards `12.6mm` + 2 middle boards `4.2mm` at `Z = 55.2 .. 72.0mm`)
+* **Standing Abundance Boards**: 6 boards (`12.6mm` total width x `241mm` length x `57mm` height) along the right wall (`X = 275.4 .. 288.0mm, Y = 46 .. 287mm`)
 * **Main Insert Usable Height**: `55.2mm` (`Z = 0.0 .. 55.2mm`)
-* **Wall Thickness**: `3.0mm`
-* **Floor Thickness**: `2.0mm`
-* **Lid Thickness**: `2.0mm`
-* **Clearance Slack**: `0.0mm`
-* **Earth Cards**: `62.0mm x 93.0mm`
+* **Wall / Floor / Lid Thickness**: `3.0mm` / `2.0mm` / `2.0mm` (`2.0mm` walls on narrow `SeedBox`)
+* **Earth Cards**: `62.0mm x 93.0mm` (`0.6mm` per card)
 
 ---
 
-## 2. Component Inventory & Storage Strategy
+## 2. Complete Component Inventory (26 Boxes)
 
-| Component | Quantity / Dimension | Storage Location | Box Type | Lid Style / Decoration |
+| Component | Dimensions (`W x L x H` mm) | Position (`X, Y, Z` mm) | Box Type | Storage |
 |---|---|---|---|---|
-| Flora Cards | 179 Plant & tree cards | `CardBox_Flora` | Sliding Lid | Framed "Flora Cards" (Forest Green) |
-| Terrain Cards | 66 Terrain cards | `CardBox_Terrain` | Sliding Lid | Framed "Terrain Cards" (Sienna) |
-| Event Cards | 38 Event cards | `CardBox_Events` | Sliding Lid | Framed "Event Cards" (Royal Blue) |
-| Abundance Cards | Expansion cards | `CardBox_Abundance` | Sliding Lid | Framed "Abundance" (Dark Goldenrod) |
-| Wooden Canopies & Trunks | Stackable tree pieces | `CanopyBox` | Cap Lid | Framed "Canopies" (Peru) |
-| Wooden Sprout Cubes | Green sprout cubes (~195 cubes) | `SproutBox` | Cap Lid | Framed "Sprouts" (Lime Green) |
-| Player Leaf Tokens (6 Colors) | Red, Green, Yellow, Blue, Purple, Pink | `PlayerBox_Red` .. `PlayerBox_Pink` (6 boxes) | Cap Lid | Color-coded Framed lids |
-| Player Boards & Maps | 6 Double-sided player boards | Sits atop insert (`Z = 55.2 .. 72.0mm`) | Board Layer | Flat storage beneath game lid |
-| Automatic Spacers | Remaining 3D void volume | Derived automatically | No-Lid Trays | Auto finger scoops |
-
----
-
-## 3. Sub-Box Specifications
-
-### 3.1 Card Library (Row 0, `Y = 0.0 .. 99.0mm`)
-* **Dimensions**: `68.0mm x 99.0mm x 55.2mm` each.
-* **Arrangement**: 4 card wells across width (`X = 0.0 .. 272.0mm`).
-
-### 3.2 Tree & Sprout Storage (Row 1, `Y = 99.0 .. 189.0mm`)
-* **`CanopyBox`** (`75.0mm x 90.0mm x 55.2mm`): Tree trunks and canopy toppers.
-* **`SproutBox`** (`75.0mm x 90.0mm x 55.2mm`): Resource cubes.
-
-### 3.3 Player Leaf Token Trays (`X = 150.0 .. 288.0mm`, `Y = 99.0 .. 189.0mm`)
-* **Dimensions**: `69.0mm x 90.0mm x 18.4mm` each.
-* **Arrangement**: 2 columns across X, stacked 3 high (`Z = 0.0 .. 55.2mm`).
-
----
-
-## 4. 3D Spatial Layout Map
-
-```
-+----------------+----------------+----------------+----------------+-----------+
-| CardBox_Flora  | CardBox_Terrain| CardBox_Events | CardBox_Abund. | Auto      |
-| (68 x 99x55mm) | (68 x 99x55mm) | (68 x 99x55mm) | (68 x 99x55mm) | Spacer    |
-+----------------+----------------+----------------+----------------+-----------+
-| CanopyBox      | SproutBox      | PlayerBox_Red / Green / Yellow (Stacked)    |
-| (75 x 90x55mm) | (75 x 90x55mm) | PlayerBox_Blue / Purple / Pink (Stacked)    |
-|                |                | (69.0 x 90.0 x 18.4mm each)                 |
-+----------------+----------------+---------------------------------------------+
-|                           Automatic 3D Void Spacers                           |
-|                    (Y = 189..288mm, Z = 0..55.2mm)                            |
-+-------------------------------------------------------------------------------+
-```
+| `CardBox_Flora` | `68.0 x 99.0 x 55.2` | `(0.0, 0.0, 0.0)` | Sliding | Earth deck #1 |
+| `CardBox_Terrain` | `68.0 x 99.0 x 55.2` | `(68.0, 0.0, 0.0)` | Sliding | Earth deck #2 |
+| `CardBox_Events` | `68.0 x 99.0 x 55.2` | `(136.0, 0.0, 0.0)` | Sliding | Earth deck #3 |
+| `CardBox_Abundance` | `68.0 x 99.0 x 55.2` | `(136.0, 99.0, 0.0)` | Sliding | Earth deck #4 / Abundance |
+| `EarthCardBoxSmall` | `68.0 x 99.0 x 18.4` | `(204.0, 0.0, 0.0)` | Sliding | Small Earth card overflow |
+| `CompostBox_1` | `68.0 x 99.0 x 18.4` | `(204.0, 0.0, 18.4)` | Filament Hinge | Compost / soil tokens (tray 1) |
+| `CompostBox_2` | `68.0 x 99.0 x 18.4` | `(204.0, 0.0, 36.8)` | Filament Hinge | Compost / soil tokens (tray 2) |
+| `SeedBox` | `16.0 x 46.0 x 72.0` | `(272.0, 0.0, 0.0)` | Cap | Seed tokens (full-height corner) |
+| `TopSpacedBox` | `46.0 x 240.5 x 15.0` | `(242.0, 46.0, 57.0)` | No-Lid | Hollow spacer above Abundance boards |
+| `EcosystemCardBox` | `68.0 x 99.0 x 24.2` | `(0.0, 99.0, 0.0)` | Sliding | 32 Ecosystem cards |
+| `FaunaCardBox` | `68.0 x 99.0 x 18.8` | `(0.0, 99.0, 24.2)` | Sliding | 23 Fauna cards |
+| `IslandCardBox` | `68.0 x 99.0 x 12.2` | `(0.0, 99.0, 43.0)` | Sliding | 10 Island cards |
+| `ClimateCardBox` | `68.0 x 99.0 x 11.0` | `(68.0, 99.0, 0.0)` | Sliding | 10 Climate cards |
+| `SoloCardBox` | `68.0 x 99.0 x 8.6` | `(68.0, 99.0, 11.0)` | Sliding | 6 Solo cards |
+| `SeasonCardBox` | `68.0 x 99.0 x 12.2` | `(68.0, 99.0, 19.6)` | Sliding | 12 Season cards |
+| `AbundanceOtherCardBox` | `68.0 x 99.0 x 11.0` | `(68.0, 99.0, 31.8)` | Sliding | 10 Abundance other cards |
+| `StartBox` | `68.0 x 99.0 x 12.4` | `(68.0, 99.0, 42.8)` | Cap | Start disk, active token, score override |
+| `PlayerBox_Red` .. `PlayerBox_Pink` (6) | `68.0 x 99.0 x 9.2` each | `(204.0, 99.0, 0..46.0)` | Slipover | Readiness token + 5 leaf tokens per player |
+| `CanopyBox` | `163.9 x 89.0 x 55.2` | `(0.0, 198.0, 0.0)` | Filament Hinge | Tree trunks & canopies |
+| `ScorePadBox` | `111.0 x 89.0 x 7.0` | `(163.9, 198.0, 0.0)` | No-Lid | Score pads (`81 x 99 x 5mm`) |
+| `SproutBox` | `111.0 x 89.0 x 48.2` | `(163.9, 198.0, 7.0)` | Filament Hinge | 195 Sprout cubes (`8mm`) |

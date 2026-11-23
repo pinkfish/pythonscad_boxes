@@ -60,8 +60,13 @@ award_box_height = usable_height - dice_box_height    # 12.0mm
 big_baby_box_width = big_baby_length + 20.0 + wall_thickness * 2.0  # 61.5mm
 big_baby_box_length = big_baby_width + wall_thickness * 2.0 + 1.0  # 46.0mm
 
-piece_box_length = (box_length - card_box_length - big_baby_box_length) / 2.0  # 87.5mm
-piece_box_height = usable_height / 2.0                                          # 19.0mm
+piece_box_width = box_width                                                 # 184.0mm
+piece_box_length = box_length - card_box_length - big_baby_box_length       # 175.0mm
+piece_box_height = usable_height / 2.0                                      # 19.0mm
+
+award_tokens_width = 50.0
+award_tokens_length = big_baby_box_length                                   # 46.0mm
+award_tokens_height = usable_height / 2.0                                   # 19.0mm
 
 project = Project(
     "MagicalAthlete",
@@ -82,7 +87,7 @@ project.box(
     "AthleteCardsBox",
     size=(card_box_width, card_box_length, card_box_height),
     lid=LidBuilder(
-        text="Athlete Cards",
+        text="Athletes",
         label_mode=LabelMode.FRAMED,
         pattern=ATHLETE_PATTERN,
         text_color=Color("white"),
@@ -112,11 +117,11 @@ project.box(
 )
 
 project.box(
-    BoxType.CAP,
+    BoxType.SLIPOVER,
     "AwardMedalBox",
     size=(dice_box_width, dice_box_length, award_box_height),
     lid=LidBuilder(
-        text="Medals",
+        text="Awards",
         label_mode=LabelMode.FRAMED,
         pattern=ATHLETE_PATTERN,
         text_color=Color("white"),
@@ -127,12 +132,12 @@ project.box(
     cut=FingerCut.SCOOP,
 )
 
-# ── 3. Athlete Character Pieces ───────────────────────────────────
+# ── 3. Athlete Character Pieces (2 stacked full-length trays) ─────
 for i in range(2):
     p_box = project.box(
         BoxType.CAP,
         f"AthletePiecesBox_{i + 1}",
-        size=(box_width, piece_box_length, piece_box_height),
+        size=(piece_box_width, piece_box_length, piece_box_height),
         lid=LidBuilder(
             text=f"Athletes {i + 1}",
             label_mode=LabelMode.FRAMED,
@@ -160,11 +165,28 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("purple"),
     ),
-    expandable=False,
 ).compartment(
     "BigBaby",
     cut=FingerCut.SCOOP,
 )
+
+# ── 5. Award Tokens Boxes (2 stacked: "1" and "3") ────────────────
+for token_val in ("1", "3"):
+    project.box(
+        BoxType.CAP,
+        f"AwardTokensBox_{token_val}",
+        size=(award_tokens_width, award_tokens_length, award_tokens_height),
+        lid=LidBuilder(
+            text=f"Awards {token_val}",
+            label_mode=LabelMode.FRAMED,
+            pattern=ATHLETE_PATTERN,
+            text_color=Color("white"),
+            frame_color=Color("saddlebrown"),
+        ),
+    ).compartment(
+        f"Tokens_{token_val}",
+        cut=FingerCut.SCOOP,
+    )
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
