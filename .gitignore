@@ -31,4 +31,11 @@ pysolidfive/tests/_render_output/
 .render-tmp/
 .tmp_test_sprout.py
 
+# Coverage outputs
+.coverage
+.coverage.*
+coverage.xml
+diff-coverage.html
+htmlcov/
+
 .DS_Store

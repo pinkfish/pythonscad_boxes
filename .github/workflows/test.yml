@@ -2,34 +2,65 @@ name: test
 
 on:
   push:
+    branches: [main]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
     runs-on: macos-15
     steps:
+      # Full history: diff-cover compares against `origin/<base ref>` on PRs.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+          cache: pip
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest "pybosl2>=0.8.0" numpy fpdf2 shapely pillow "pythonscad>=1.2.0"
+          pip install pytest pytest-xdist "pytest-cov>=5" diff-cover \
+            "pybosl2>=0.8.0" numpy fpdf2 shapely pillow "pythonscad>=1.2.0"
           pip install -e .
 
-      # Pure-Python tests of the base library. --base-only dynamically excludes all
-      # 41 game-specific box insert test suites in boxes/ and test_ci_smoke.py.
-      # The export path is not part of a CI pass: export() tessellates and writes
-      # 3MFs, which is `make export`'s job, not a test's. `-k "not export"` drops
-      # the export-focused test classes.
-      - name: Run fast pure-Python base tests
+      # Pure-Python tests of the base library with coverage.
+      # --base-only dynamically excludes game-specific box insert test suites in
+      # boxes/ and test_ci_smoke.py. `-k "not export"` drops export-focused classes.
+      - name: Run fast pure-Python base tests with coverage
         env:
           PYTHONPATH: ".:tests"
         run: |
-          python -m pytest tests/test_pyboxbuilder/ -q \
+          python -m pytest tests/test_pyboxbuilder/ -q -n auto \
             --base-only \
             --ignore=tests/test_pyboxbuilder/render \
-            -k "not export"
+            -k "not export" \
+            --cov=pyboxbuilder \
+            --cov-report=xml \
+            --cov-report=term \
+            --cov-fail-under=85
+
+      - name: Check diff coverage (>=80% on new/modified code)
+        if: github.event_name == 'pull_request'
+        run: |
+          diff-cover coverage.xml \
+            --compare-branch=origin/${{ github.base_ref }} \
+            --fail-under=80 \
+            --html-report=diff-coverage.html
+
+      - name: Upload diff coverage HTML (PR only)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-coverage-report
+          path: diff-coverage.html
