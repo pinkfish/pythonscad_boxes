@@ -105,7 +105,8 @@ project = Project(
 
 # ── Game Component Inventory ──────────────────────────────────────
 project.define_inventory({
-    "Player Wooden Piece Sets": 4,
+    "Player Wooden Cubes": 64,
+    "Player Point Trackers": 4,
     "Mouse Resource Tokens": 20,
     "Sun Resource Tokens": 20,
     "Fish Resource Tokens": 20,
@@ -173,36 +174,36 @@ def _biome_lid(
 
 
 # ── Column 0: Player & Resource Trays (4x3 stack at X = 0 .. 57) ──
-col0_layers: list[list[tuple[str, str, str, str | None, str, int]]] = [
+col0_layers: list[list[tuple[str, str, str, str | None, dict[str, int]]]] = [
     [
-        ("PlayerBox_Red", "Red", "darkred", None, "Player Wooden Piece Sets", 1),
-        ("PlayerBox_Blue", "Blue", "navy", None, "Player Wooden Piece Sets", 1),
-        ("PlayerBox_Green", "Green", "green", None, "Player Wooden Piece Sets", 1),
-        ("PlayerBox_Yellow", "Yellow", "goldenrod", None, "Player Wooden Piece Sets", 1),
+        ("PlayerBox_Red", "Red", "darkred", None, {"Player Wooden Cubes": 16, "Player Point Trackers": 1}),
+        ("PlayerBox_Blue", "Blue", "navy", None, {"Player Wooden Cubes": 16, "Player Point Trackers": 1}),
+        ("PlayerBox_Green", "Green", "green", None, {"Player Wooden Cubes": 16, "Player Point Trackers": 1}),
+        ("PlayerBox_Yellow", "Yellow", "goldenrod", None, {"Player Wooden Cubes": 16, "Player Point Trackers": 1}),
     ],
     [
-        ("Resource_Mouse", "Mouse", "gray", "mouse.svg", "Mouse Resource Tokens", 20),
-        ("Resource_Sun", "Sun", "gold", "sun.svg", "Sun Resource Tokens", 20),
-        ("Resource_Fish", "Fish", "dodgerblue", "fish.svg", "Fish Resource Tokens", 20),
-        ("Resource_Leaf", "Leaf", "forestgreen", "leaf.svg", "Leaf Resource Tokens", 20),
+        ("Resource_Mouse", "Mouse", "gray", "mouse.svg", {"Mouse Resource Tokens": 20}),
+        ("Resource_Sun", "Sun", "gold", "sun.svg", {"Sun Resource Tokens": 20}),
+        ("Resource_Fish", "Fish", "dodgerblue", "fish.svg", {"Fish Resource Tokens": 20}),
+        ("Resource_Leaf", "Leaf", "forestgreen", "leaf.svg", {"Leaf Resource Tokens": 20}),
     ],
     [
-        ("Resource_Spider", "Spider", "black", "spider.svg", "Spider Resource Tokens", 20),
-        ("Resource_Berry", "Berry", "purple", "berry.svg", "Berry Resource Tokens", 20),
-        ("Resource_Chicks", "Chicks", "khaki", "chick.svg", "Chick Tokens", 20),
-        ("Resource_Rabbits", "Rabbits", "saddlebrown", "rabbit.svg", "Rabbit Tokens", 20),
+        ("Resource_Spider", "Spider", "black", "spider.svg", {"Spider Resource Tokens": 20}),
+        ("Resource_Berry", "Berry", "purple", "berry.svg", {"Berry Resource Tokens": 20}),
+        ("Resource_Chicks", "Chicks", "khaki", "chick.svg", {"Chick Tokens": 20}),
+        ("Resource_Rabbits", "Rabbits", "saddlebrown", "rabbit.svg", {"Rabbit Tokens": 20}),
     ],
 ]
 
 for layer_idx, items in enumerate(col0_layers):
-    for row_idx, (box_id, title, color_name, logo_file, comp_name, qty) in enumerate(items):
+    for row_idx, (box_id, title, color_name, logo_file, allocs) in enumerate(items):
         project.box(
             BoxType.CAP,
             box_id,
             size=(player_box_width, player_box_length, player_box_height),
             position=(0.0, player_box_length * row_idx, player_box_height * layer_idx),
             lid=_biome_lid(title, color_name, logo_file=logo_file, logo_size=14.0),
-        ).compartment("Tokens", cut=FingerCut.SCOOP, component=comp_name, count=qty)
+        ).compartment("Tokens", cut=FingerCut.SCOOP, allocates=allocs)
 
 # ── Column 1: Nest Boards Longitudinal Tray (X = 57 .. 109) ───────
 project.box(

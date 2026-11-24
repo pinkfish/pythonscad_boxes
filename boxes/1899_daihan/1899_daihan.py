@@ -112,9 +112,12 @@ project = Project(
 
 # ── Game Component Inventory ──────────────────────────────────────
 project.define_inventory({
-    "Hex Track Tile Stacks": 36,
-    "Corporate Share Decks": 8,
-    "Paper Currency Stacks": 5,
+    "Yellow Track Hex Tiles": 42,
+    "Green Track Hex Tiles": 36,
+    "Brown Track Hex Tiles": 24,
+    "Grey Track Hex Tiles": 6,
+    "Corporate Share Certificates": 72,
+    "Paper Banknotes": 150,
     "Company Charter Discs": 56,
     "Private Company Cards": 8,
     "Priority Deal & Extra Markers": 6,
@@ -266,7 +269,13 @@ def _company_marker_elements() -> tuple[CompartmentElement, ...]:
 
 
 # ── 1. Hex Tile Boxes ─────────────────────────────────────────────
-for box_num in range(1, 5):
+_hex_tile_tiers = [
+    ("Yellow Track Hex Tiles", 42),
+    ("Green Track Hex Tiles", 36),
+    ("Brown Track Hex Tiles", 24),
+    ("Grey Track Hex Tiles", 6),
+]
+for box_num, (tile_comp, tile_qty) in enumerate(_hex_tile_tiers, start=1):
     box = project.box(
         BoxType.CAP,
         f"HexBox_{box_num}",
@@ -276,8 +285,8 @@ for box_num in range(1, 5):
     box.compartment(
         "Tiles",
         elements=_hex_box_elements(),
-        component="Hex Track Tile Stacks",
-        count=9,
+        component=tile_comp,
+        count=tile_qty,
     )
 
 # ── 2. Share & Money Boxes ────────────────────────────────────────
@@ -293,8 +302,8 @@ for i in range(2):
             f"Slot_{slot + 1}",
             length_ratio=0.25,
             cut=FingerCut.SCOOP,
-            component="Corporate Share Decks",
-            count=1,
+            component="Corporate Share Certificates",
+            count=9,
         )
 
 m_box = project.box(
@@ -313,8 +322,8 @@ for slot in range(5):
         f"Denom_{slot + 1}",
         length_ratio=0.2,
         cut=FingerCut.SCOOP,
-        component="Paper Currency Stacks",
-        count=1,
+        component="Paper Banknotes",
+        count=30,
     )
 
 # ── 3. Company Markers, Private Cards & Extra Bits ────────────────

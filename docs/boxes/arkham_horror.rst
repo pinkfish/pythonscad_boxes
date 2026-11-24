@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=65f076c7" download="ArkhamHorrorLCG_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ArkhamHorrorLCG_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=65f076c7" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=8feb71ed" download="ArkhamHorrorLCG_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ArkhamHorrorLCG_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=8feb71ed" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=65f076c7" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=8feb71ed" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -85,6 +85,46 @@ Parts Overview
      - ``142 × 143 × 12.1667 mm``
      - ``(100, 140, 48.6667)``
      - Printed spacer tray
+
+Component Checklist
+-------------------
+
+All **550** pieces across **9** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 265
+     - Player & Investigator Cards
+     - CorePlayerCards
+   * - 111
+     - Campaign Scenario Cards
+     - CoreScenarioCards
+   * - 44
+     - Chaos Tokens
+     - TokenTray1_ChaosTokens
+   * - 30
+     - Damage Tokens
+     - TokenTray2_DamageAndHorror
+   * - 27
+     - Horror Tokens
+     - TokenTray2_DamageAndHorror
+   * - 30
+     - Clue / Doom Tokens
+     - TokenTray3_CluesAndResources
+   * - 30
+     - Resource Tokens
+     - TokenTray3_CluesAndResources
+   * - 7
+     - Investigator Mini Cards & Dials
+     - AccessoryTray
+   * - 6
+     - Lead Investigator & Standee Markers
+     - AccessoryTray
 
 Individual Boxes & Parts
 ------------------------

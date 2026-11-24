@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=e23b6eca" download="ExplorersOfNavoriaForgottenLands_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoriaForgottenLands_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=e23b6eca" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=b5c52a24" download="ExplorersOfNavoriaForgottenLands_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoriaForgottenLands_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=b5c52a24" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=e23b6eca" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=b5c52a24" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -86,6 +86,76 @@ Parts Overview
      - ``211 × 268 × 4 mm``
      - ``(0, 0, 46)``
      - 2x White Player Board & Rulebook (5th player board and expansion rulebook resting on top)
+
+Component Checklist
+-------------------
+
+All **113** pieces across **19** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 9
+     - White Trading Post Tokens
+     - PlayerBox_White
+   * - 4
+     - White Favor Markers
+     - PlayerBox_White
+   * - 3
+     - White Exploration Markers
+     - PlayerBox_White_2
+   * - 1
+     - White Turn-Order Marker
+     - PlayerBox_White_2
+   * - 1
+     - White Crown Marker
+     - PlayerBox_White_2
+   * - 10
+     - Solo Bonus Tokens
+     - SpeciesTokensBox
+   * - 18
+     - Contract Tokens
+     - ContractTokensBox
+   * - 9
+     - Faction Skill Tiles
+     - FactionSkillBox
+   * - 5
+     - Player Overlays
+     - ExplorationBitsBox
+   * - 1
+     - Start Order Oval
+     - ExplorationBitsBox
+   * - 6
+     - Exploration Bonus Tiles
+     - ExplorationBitsBox
+   * - 4
+     - Grey Action Tokens
+     - ExplorationBitsBox
+   * - 12
+     - Grey Adventure Cards
+     - ExpansionCardsBox
+   * - 12
+     - Goal Cards
+     - ExpansionCardsBox
+   * - 10
+     - Solo Mission Cards
+     - ExpansionCardsBox
+   * - 5
+     - Solo Action Cards
+     - ExpansionCardsBox
+   * - 1
+     - White Player Reference Card
+     - ExpansionCardsBox
+   * - 1
+     - White Player Board
+     - White Player Board & Rulebook (5th player board and expansion rulebook resting on top)
+   * - 1
+     - Expansion Rulebook
+     - White Player Board & Rulebook (5th player board and expansion rulebook resting on top)
 
 Individual Boxes & Parts
 ------------------------

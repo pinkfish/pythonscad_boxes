@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=4af24328" download="MaglevMetro_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MaglevMetro_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=4af24328" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=32ae3d0d" download="MaglevMetro_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MaglevMetro_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=32ae3d0d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=4af24328" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=32ae3d0d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -186,6 +186,94 @@ Parts Overview
      - ``207 × 281 × 8.4 mm``
      - ``(79, 0, 39.4)``
      - 2x Game Boards
+
+Component Checklist
+-------------------
+
+All **256** pieces across **25** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 13
+     - Connection Cards
+     - CardBox_Connections
+   * - 13
+     - Track Cards
+     - CardBox_Tracks
+   * - 13
+     - Passenger Cards
+     - CardBox_Passengers
+   * - 13
+     - Player Objective Cards
+     - CardBox_PlayerObjectives
+   * - 18
+     - Silver Robots
+     - RobotBox_Silver
+   * - 18
+     - Gold Robots
+     - RobotBox_Gold
+   * - 18
+     - Orange Robots
+     - RobotBox_Orange
+   * - 14
+     - Pink Commuters
+     - CommuterBox_Pink
+   * - 14
+     - Aqua Commuters
+     - CommuterBox_Aqua
+   * - 11
+     - Purple Commuters
+     - CommuterBoxSmall_Purple
+   * - 11
+     - Coral Commuters
+     - CommuterBoxSmall_Coral
+   * - 1
+     - Start Token
+     - StartTokenBox
+   * - 72
+     - Player Track Hexes
+     - PlayerBox_green (18), PlayerBox_deeppink (18), PlayerBox_cyan (18), PlayerBox_darkorange (18)
+   * - 4
+     - Player Trains
+     - PlayerBox_green (1), PlayerBox_deeppink (1), PlayerBox_cyan (1), PlayerBox_darkorange (1)
+   * - 2
+     - Factory Station Hexes
+     - FactoryBox_Factories
+   * - 2
+     - Warehouse Station Hexes
+     - FactoryBox_Warehouses
+   * - 2
+     - Lab Station Hexes
+     - FactoryBox_Labs
+   * - 2
+     - Office Station Hexes
+     - FactoryBox_Offices
+   * - 2
+     - Store Station Hexes
+     - FactoryBox_Stores
+   * - 2
+     - Embassy Station Hexes
+     - FactoryBox_Embassies
+   * - 2
+     - Studio Station Hexes
+     - MetroTileBox
+   * - 1
+     - Metro Hub Tile
+     - MetroTileBox
+   * - 2
+     - Game Board Bases
+     - Game Board Bases
+   * - 4
+     - Player Boards
+     - Player Boards
+   * - 2
+     - Game Boards
+     - Game Boards
 
 Individual Boxes & Parts
 ------------------------

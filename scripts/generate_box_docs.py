@@ -491,6 +491,30 @@ def process_game(game_slug: str) -> dict[str, Any]:
         ])
     rst_lines.append("")
 
+    if inv.checklist:
+        total_items = sum(row.count for row in inv.checklist)
+        rst_lines.extend([
+            "Component Checklist",
+            "-------------------",
+            "",
+            f"All **{total_items}** pieces across **{len(inv.checklist)}** component types accounted for:",
+            "",
+            ".. list-table::",
+            "   :header-rows: 1",
+            "   :widths: 12 38 50",
+            "",
+            "   * - Count",
+            "     - Component / Tile",
+            "     - Packed In",
+        ])
+        for row in inv.checklist:
+            rst_lines.extend([
+                f"   * - {row.count}",
+                f"     - {row.name}",
+                f"     - {row.format_locations(max_items=6)}",
+            ])
+        rst_lines.append("")
+
     # 3. Individual Boxes & Their Parts
     rst_lines.extend([
         "Individual Boxes & Parts",

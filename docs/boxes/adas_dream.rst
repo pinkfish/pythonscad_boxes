@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=968eb2b7" download="AdasDream_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>AdasDream_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=968eb2b7" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=93498b47" download="AdasDream_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>AdasDream_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=93498b47" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=968eb2b7" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=93498b47" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -211,6 +211,121 @@ Parts Overview
      - ``18 × 246.5 × 9 mm``
      - ``(194, 0, 0)``
      - 1x Assignment Tiles Board (Rests under SpacerSide & ObjectiveBox along right wall)
+
+Component Checklist
+-------------------
+
+All **544** pieces across **34** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 28
+     - Starting Player Cards
+     - PlayerBox_Red (7), PlayerBox_Blue (7), PlayerBox_Green (7), PlayerBox_Purple (7)
+   * - 48
+     - Player Discs
+     - PlayerBox_Red (12), PlayerBox_Blue (12), PlayerBox_Green (12), PlayerBox_Purple (12)
+   * - 16
+     - Research Tokens
+     - PlayerBox_Red (4), PlayerBox_Blue (4), PlayerBox_Green (4), PlayerBox_Purple (4)
+   * - 4
+     - Innovation Tokens
+     - PlayerBox_Red (1), PlayerBox_Blue (1), PlayerBox_Green (1), PlayerBox_Purple (1)
+   * - 4
+     - Steam Cloud Tokens
+     - PlayerBox_Red (1), PlayerBox_Blue (1), PlayerBox_Green (1), PlayerBox_Purple (1)
+   * - 4
+     - Character Meeples
+     - PlayerBox_Red (1), PlayerBox_Blue (1), PlayerBox_Green (1), PlayerBox_Purple (1)
+   * - 16
+     - Scoring Tiles
+     - ScoringBox
+   * - 4
+     - Visitor Tokens
+     - VisitorBox
+   * - 40
+     - Silver Coins
+     - MoneyBox
+   * - 24
+     - Exhibitor & Other Cards
+     - OtherCardBox
+   * - 10
+     - Tier 1 Partner Cards
+     - TierCardBox
+   * - 30
+     - Tier 2 Partner Cards
+     - TierCardBox
+   * - 30
+     - Assignment Cards
+     - AssignmentCardBox
+   * - 12
+     - Book Tokens
+     - BookBox
+   * - 16
+     - Assignment Tiles
+     - AssignmentBox
+   * - 50
+     - Engine Dice
+     - DiceBox
+   * - 1
+     - First Player Token
+     - FirstPlayerBox
+   * - 12
+     - Alternative Objective Tiles
+     - AlternativeObjectiveBox
+   * - 9
+     - Breakthrough Tiles
+     - BreakthroughBox
+   * - 1
+     - Score Pad
+     - ScorePadBox
+   * - 28
+     - Program Tiles
+     - ProgramBox
+   * - 6
+     - Workshop Bonus Discs
+     - UniversityBox
+   * - 15
+     - University Tiles
+     - UniversityBox
+   * - 30
+     - Brass Resource Tokens
+     - ResourceBox_Brass
+   * - 30
+     - Coal Resource Tokens
+     - ResourceBox_Coal
+   * - 15
+     - Addition Gears
+     - GearBox_AddGears
+   * - 15
+     - Subtraction Gears
+     - GearBox_SubGears
+   * - 14
+     - Multiplier Gears
+     - GearBox_MulGears
+   * - 24
+     - Objective Tiles
+     - ObjectiveBox
+   * - 1
+     - Main Game Board
+     - Game Boards & Player Mats (Main game board and 4 player workshop mats atop insert)
+   * - 1
+     - Great Exhibition Board
+     - Great Exhibition Board (Rests over rear columns behind front player/scoring row)
+   * - 4
+     - Player Workshop Boards
+     - Game Boards & Player Mats (Main game board and 4 player workshop mats atop insert)
+   * - 1
+     - Solo Reward Board
+     - Solo Reward Board (Rests under Dice, First Player & Assignment Card boxes along left wall)
+   * - 1
+     - Assignment Tiles Board
+     - Assignment Tiles Board (Rests under SpacerSide & ObjectiveBox along right wall)
 
 Individual Boxes & Parts
 ------------------------

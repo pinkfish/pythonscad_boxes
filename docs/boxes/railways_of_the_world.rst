@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=22603a98" download="Railways of the World_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Railways of the World_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=22603a98" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=15f2b7ef" download="Railways of the World_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Railways of the World_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=15f2b7ef" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=22603a98" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=15f2b7ef" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -206,6 +206,79 @@ Parts Overview
      - ``310 × 385 × 22 mm``
      - ``(0, 0, 0)``
      - 5x Game Map Boards (Folded map boards stored flat underneath the insert)
+
+Component Checklist
+-------------------
+
+All **858** pieces across **20** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 5
+     - Game Map Boards
+     - Game Map Boards (Folded map boards stored flat underneath the insert)
+   * - 51
+     - Eastern US Operations Cards
+     - CardBoxEasternUS
+   * - 40
+     - Bond Cards
+     - CardBoxEasternUS
+   * - 84
+     - Australia Expansion Cards
+     - CardBoxAustralia
+   * - 55
+     - Sweden Expansion Cards
+     - CardBoxSweden
+   * - 59
+     - Mexico Expansion Cards
+     - CardBoxMexico
+   * - 48
+     - Portugal Expansion Cards
+     - CardBoxPortugal
+   * - 30
+     - Empty City Markers
+     - EmptyCityBox1 (15), EmptyCityBox2 (15)
+   * - 150
+     - Player Train Miniatures
+     - PlayerBoxTrains_red (25), PlayerBoxTrains_blue (25), PlayerBoxTrains_green (25), PlayerBoxTrains_yellow (25), PlayerBoxTrains_black (25), PlayerBoxTrains_purple (25)
+   * - 24
+     - Player Locomotive Cards
+     - PlayerBox_red (4), PlayerBox_blue (4), PlayerBox_green (4), PlayerBox_yellow (4), PlayerBox_black (4), PlayerBox_purple (4)
+   * - 6
+     - Player Score Markers
+     - PlayerBox_red (1), PlayerBox_blue (1), PlayerBox_green (1), PlayerBox_yellow (1), PlayerBox_black (1), PlayerBox_purple (1)
+   * - 134
+     - Base Track Hex Tiles
+     - HexBox1 (67), HexBox2 (67)
+   * - 100
+     - Paper Currency Bills
+     - MoneyBox
+   * - 8
+     - New City Hex Tiles
+     - NewCityBox
+   * - 10
+     - New City Markers
+     - NewCityBox
+   * - 20
+     - Australia Track Hex Tiles
+     - AustraliaBox
+   * - 4
+     - Australia Bonus Tiles
+     - AustraliaBox
+   * - 8
+     - Australia Switch Track Tokens
+     - AustraliaBox
+   * - 18
+     - Sweden Track Hex Tiles
+     - SwedenBox
+   * - 4
+     - Sweden Bonus Tiles
+     - SwedenBox
 
 Individual Boxes & Parts
 ------------------------

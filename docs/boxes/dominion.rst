@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=e99970d8" download="DominionBigBox_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>DominionBigBox_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=e99970d8" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=843b795c" download="DominionBigBox_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>DominionBigBox_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=843b795c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=e99970d8" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=843b795c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -85,6 +85,40 @@ Parts Overview
      - ``101 × 60 × 75 mm``
      - ``(0, 230, 0)``
      - Printed spacer tray
+
+Component Checklist
+-------------------
+
+All **772** pieces across **7** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 260
+     - Base Kingdom Cards
+     - BaseKingdomCards
+   * - 250
+     - Treasure & Victory Supply Cards
+     - TreasureAndVictoryCards
+   * - 120
+     - Alchemy & Expansion Kingdom Cards
+     - AlchemyExpansionCards
+   * - 50
+     - Metal Coin Tokens
+     - TokenTray1_CoinAndDebtTokens
+   * - 50
+     - Debt Tokens
+     - TokenTray1_CoinAndDebtTokens
+   * - 12
+     - Player Mats
+     - TokenTray2_MatsAndSpecialTokens
+   * - 30
+     - Special Tokens
+     - TokenTray2_MatsAndSpecialTokens
 
 Individual Boxes & Parts
 ------------------------

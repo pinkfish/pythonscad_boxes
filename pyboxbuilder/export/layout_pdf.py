@@ -856,6 +856,71 @@ def _draw_inventory_summary_pages(
         desc = f"{gb.count}x {gb.label}" + (f" ({gb.notes})" if gb.notes else "") + " [non-printed]"
         _draw_row("B", gb.label, dims, pos, desc, tint=(248, 241, 224))
 
+    # Master Component Checklist: every declared piece/tile type, exact count, and where it packs
+    if inv.checklist:
+        total_items = sum(row.count for row in inv.checklist)
+
+        def _start_checklist_page(continued: bool = False) -> None:
+            pdf.add_page()
+            pdf.set_font("Helvetica", "B", 14)
+            suffix = " (continued)" if continued else ""
+            pdf.cell(
+                0,
+                8,
+                _ascii_safe(f"Packing Guide: {project_name} - Component Checklist{suffix}"),
+                align="C",
+                new_x="LMARGIN",
+                new_y="NEXT",
+            )
+            pdf.set_font("Helvetica", "", 9)
+            pdf.cell(
+                0,
+                5,
+                _ascii_safe(
+                    f"{len(inv.checklist)} component types   |   {total_items} total pieces accounted for"
+                ),
+                align="C",
+                new_x="LMARGIN",
+                new_y="NEXT",
+            )
+            pdf.ln(3)
+            pdf.set_fill_color(55, 70, 90)
+            pdf.set_text_color(255, 255, 255)
+            pdf.set_font("Helvetica", "B", 8)
+            pdf.cell(20, 6, "Count", border=1, align="C", fill=True)
+            pdf.cell(85, 6, "Game Component / Tile", border=1, fill=True)
+            pdf.cell(
+                172,
+                6,
+                "Packed Location (Box / Spacer / Board)",
+                border=1,
+                fill=True,
+                new_x="LMARGIN",
+                new_y="NEXT",
+            )
+            pdf.set_text_color(20, 20, 20)
+            pdf.set_font("Helvetica", "", 7.5)
+
+        _start_checklist_page(continued=False)
+        for c_idx, row in enumerate(inv.checklist):
+            if pdf.get_y() > 192:
+                _start_checklist_page(continued=True)
+            if c_idx % 2 == 1:
+                pdf.set_fill_color(246, 248, 250)
+            else:
+                pdf.set_fill_color(255, 255, 255)
+            pdf.cell(20, 5.5, str(row.count), border=1, align="C", fill=True)
+            pdf.cell(85, 5.5, _ascii_safe(row.name[:48]), border=1, fill=True)
+            pdf.cell(
+                172,
+                5.5,
+                _ascii_safe(row.format_locations(max_items=6)[:105]),
+                border=1,
+                fill=True,
+                new_x="LMARGIN",
+                new_y="NEXT",
+            )
+
 
 def draw_box_blueprint(
     pdf: FPDF,
@@ -966,7 +1031,7 @@ def draw_box_blueprint(
 def should_regenerate_layout(
     packing: BoxPacking,
     pdf_path: Path,
-    library_version: str = "1.2.0",
+    library_version: str = "1.3.0",
 ) -> bool:
     """Check whether the PDF needs regeneration.
 

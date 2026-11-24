@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=32786303" download="MaglevMetroVol2_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MaglevMetroVol2_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=32786303" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=15c44b34" download="MaglevMetroVol2_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MaglevMetroVol2_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=15c44b34" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=32786303" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=15c44b34" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -161,6 +161,76 @@ Parts Overview
      - ``145 × 162 × 10 mm``
      - ``(0, 0, 21)``
      - 4x Player Boards
+
+Component Checklist
+-------------------
+
+All **222** pieces across **19** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 1
+     - Loop Tile
+     - ExtraTilesBox
+   * - 1
+     - Outback Small Tile
+     - ExtraTilesBox
+   * - 7
+     - Upgrade Tiles
+     - UpgradeTileBox
+   * - 16
+     - Expansion Cards
+     - ExpansionCardsBox
+   * - 4
+     - Summon Tiles
+     - SummonBox
+   * - 18
+     - Silver Robots
+     - RobotBox_Silver
+   * - 18
+     - Gold Robots
+     - RobotBox_Gold
+   * - 18
+     - Orange Robots
+     - RobotBox_Orange
+   * - 48
+     - Nanobots
+     - NanobotBox_1 (16), NanobotBox_2 (16), NanobotBox_3 (16)
+   * - 4
+     - Outback Hex Tiles
+     - OutbackGhostTilesBox
+   * - 4
+     - Ghost Hex Tiles
+     - OutbackGhostTilesBox
+   * - 24
+     - Metro Tickets
+     - MetroTokenBox
+   * - 14
+     - Pink Commuters
+     - CommuterBox_Pink
+   * - 14
+     - Aqua Commuters
+     - CommuterBox_Aqua
+   * - 11
+     - Coral Commuters
+     - CommuterBox_Coral
+   * - 11
+     - Purple Commuters
+     - CommuterBox_Purple
+   * - 3
+     - Map Boards
+     - Map Boards
+   * - 2
+     - Game Board Bases
+     - Game Board Bases
+   * - 4
+     - Player Boards
+     - Player Boards
 
 Individual Boxes & Parts
 ------------------------

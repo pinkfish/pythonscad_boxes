@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=0ac6996d" download="Biome_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Biome_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=0ac6996d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=116aa8e1" download="Biome_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Biome_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=116aa8e1" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=0ac6996d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=116aa8e1" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -35,7 +35,7 @@ Parts Overview
 
 - **3-D Printed Parts**: 23 bodies, 22 lids, 2 spacers (47 total)
 - **Boards & Non-Printed Components**: 5
-- **Counted Game Pieces**: 452
+- **Counted Game Pieces**: 516
 
 .. list-table::
    :header-rows: 1
@@ -50,22 +50,22 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 0, 0)``
-     - 1x Player Wooden Piece Sets
+     - 16x Player Wooden Cubes, 1x Player Point Trackers
    * - :ref:`PlayerBox_Blue <box-biome-playerbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 70.75, 0)``
-     - 1x Player Wooden Piece Sets
+     - 16x Player Wooden Cubes, 1x Player Point Trackers
    * - :ref:`PlayerBox_Green <box-biome-playerbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 141.5, 0)``
-     - 1x Player Wooden Piece Sets
+     - 16x Player Wooden Cubes, 1x Player Point Trackers
    * - :ref:`PlayerBox_Yellow <box-biome-playerbox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 212.25, 0)``
-     - 1x Player Wooden Piece Sets
+     - 16x Player Wooden Cubes, 1x Player Point Trackers
    * - :ref:`Resource_Mouse <box-biome-resource_mouse>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
@@ -177,6 +177,97 @@ Parts Overview
      - ``(0, 0, 53)``
      - 5x Game Boards & Player Mats (Main folding game board and 4 player biome mats atop insert)
 
+Component Checklist
+-------------------
+
+All **521** pieces across **26** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 64
+     - Player Wooden Cubes
+     - PlayerBox_Red (16), PlayerBox_Blue (16), PlayerBox_Green (16), PlayerBox_Yellow (16)
+   * - 4
+     - Player Point Trackers
+     - PlayerBox_Red (1), PlayerBox_Blue (1), PlayerBox_Green (1), PlayerBox_Yellow (1)
+   * - 20
+     - Mouse Resource Tokens
+     - Resource_Mouse
+   * - 20
+     - Sun Resource Tokens
+     - Resource_Sun
+   * - 20
+     - Fish Resource Tokens
+     - Resource_Fish
+   * - 20
+     - Leaf Resource Tokens
+     - Resource_Leaf
+   * - 20
+     - Spider Resource Tokens
+     - Resource_Spider
+   * - 20
+     - Berry Resource Tokens
+     - Resource_Berry
+   * - 20
+     - Chick Tokens
+     - Resource_Chicks
+   * - 20
+     - Rabbit Tokens
+     - Resource_Rabbits
+   * - 4
+     - Nest Player Boards
+     - NestBox
+   * - 120
+     - Main Plant & Animal Cards
+     - CardBox_MainDeck1 (60), CardBox_MainDeck2 (60)
+   * - 14
+     - Starting Cards
+     - CardBox_Starting
+   * - 13
+     - Achievement Cards
+     - CardBox_Achievement
+   * - 11
+     - Changing Condition Cards
+     - CardBox_ChangingCondition
+   * - 9
+     - Legend Cards
+     - CardBox_Legend
+   * - 40
+     - Extra Plant & Animal Cards
+     - CardBox_PlantAnimalExtra
+   * - 70
+     - Big Biome Cards
+     - CardBox_BigBiome
+   * - 1
+     - Climate Spinner
+     - SpinnerHolder
+   * - 2
+     - Phase & Year Cubes
+     - ExtraBitsBox
+   * - 1
+     - Metal Coin
+     - ExtraBitsBox
+   * - 1
+     - Season Crescent Token
+     - ExtraBitsBox
+   * - 1
+     - Start-Player Leaf Token
+     - ExtraBitsBox
+   * - 1
+     - Custom Die
+     - ExtraBitsBox
+   * - 1
+     - Main Game Board
+     - Game Boards & Player Mats (Main folding game board and 4 player biome mats atop insert)
+   * - 4
+     - Player Biome Boards
+     - Game Boards & Player Mats (Main folding game board and 4 player biome mats atop insert)
+
 Individual Boxes & Parts
 ------------------------
 
@@ -188,7 +279,7 @@ PlayerBox_Red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 1x Player Wooden Piece Sets
+- **Pieces / Contents**: 16x Player Wooden Cubes, 1x Player Point Trackers
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
@@ -226,7 +317,7 @@ PlayerBox_Blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 70.75, 0)``
-- **Pieces / Contents**: 1x Player Wooden Piece Sets
+- **Pieces / Contents**: 16x Player Wooden Cubes, 1x Player Point Trackers
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
@@ -264,7 +355,7 @@ PlayerBox_Green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 141.5, 0)``
-- **Pieces / Contents**: 1x Player Wooden Piece Sets
+- **Pieces / Contents**: 16x Player Wooden Cubes, 1x Player Point Trackers
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
@@ -302,7 +393,7 @@ PlayerBox_Yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 212.25, 0)``
-- **Pieces / Contents**: 1x Player Wooden Piece Sets
+- **Pieces / Contents**: 16x Player Wooden Cubes, 1x Player Point Trackers
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
