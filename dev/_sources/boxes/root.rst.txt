@@ -19,9 +19,9 @@ by box type, inspect the matching layout in 3-D, and download ready-to-print ZIP
 .. raw:: html
 
    <div class="box-selector" data-box-selector>
-     <script type="application/json" data-box-selector-config>{"projectName":"Root","defaultPreset":"base_riverfolk","boardStorage":{"capacityMm":28.0,"totalBoxHeightMm":67.0,"thinTopSpaceHint":"Base Game boards (~22 mm) leave a thin ~6 mm space at the top where Riverfolk's 2 faction boards and rules would go. Place a thin ~6 mm foam/cardboard pad on top of the trays to keep lids snug, or leave open to fit Riverfolk boards later.","exactFitHint":"Base + Riverfolk boards (~28 mm) fill the 28 mm bottom bay flush beneath the 39 mm insert trays.","externalBoxHint":"Expansions beyond Riverfolk exceed the 28 mm board bay in this box: move all game/map and faction boards into a separate dedicated board box, freeing the full 67 mm height of the Base box for expansion insert trays."},"presets":[{"key":"base_only","name":"Base Game Only (No Expansions)","description":"16 core boxes (4 base factions, cards, items, dice) + Base-only spacer trays","subgroups":["shared_cards","items","dice","marquise","eyrie","alliance","vagabond1"],"spacerPresetKey":"base"},{"key":"base_riverfolk","name":"Base + Riverfolk Expansion (Current Layout)","description":"All 21 boxes including Lizard Cult, Riverfolk Company & 2nd Vagabond + Full spacers","subgroups":["shared_cards","items","dice","marquise","eyrie","alliance","vagabond1","lizard_cult","riverfolk_company","vagabond2"],"spacerPresetKey":"base+riverfolk"}],"expansions":[{"key":"base","name":"Base Game","status":"available","required":true,"description":"Core 4 factions (Marquise de Cat, Eyrie Dynasties, Woodland Alliance, Vagabond), shared & overview decks, starting/craftable items, Winter clearing markers, and dice.","subgroups":["shared_cards","items","dice","marquise","eyrie","alliance","vagabond1"],"boardThicknessMm":22.0,"boardsSummary":"Main folded map board, 4 Base faction boards, and Base rulebooks (~22 mm)","notes":""},{"key":"riverfolk","name":"The Riverfolk Expansion","status":"available","required":false,"description":"Adds Lizard Cult, Riverfolk Company, and a 2nd Vagabond tray (extra Vagabond quest/character cards and items already fit in the Base trays).","subgroups":["lizard_cult","riverfolk_company","vagabond2"],"boardThicknessMm":6.0,"boardsSummary":"Lizard Cult & Riverfolk faction boards + expansion rulebook (~6 mm)","notes":""},{"key":"underworld","name":"The Underworld Expansion","status":"planned","required":false,"description":"Underground Duchy & Corvid Conspiracy factions, landmarks, and extra maps.","subgroups":["underground_duchy","corvid_conspiracy"],"boardThicknessMm":11.0,"boardsSummary":"Extra Underground/Lake map board + Duchy & Corvid boards (~11 mm)","notes":"Beyond single-box board capacity: requires moving all boards out to a separate box. Warrior SVGs (duchy_warrior.svg, corvid_warrior.svg) exist in boxes/root/svg/."},{"key":"marauder","name":"The Marauder Expansion","status":"planned","required":false,"description":"Lord of the Hundreds & Keepers in Iron factions, advance setup, and hirelings.","subgroups":["lord_of_the_hundreds","keepers_in_iron"],"boardThicknessMm":7.0,"boardsSummary":"Hundreds & Keepers faction boards + setup/rule sheets (~7 mm)","notes":"Beyond single-box board capacity: requires moving all boards out to a separate box. Warrior SVGs (hundreds_warrior.svg, keepers_warrior.svg) exist in boxes/root/svg/."},{"key":"exiles_and_partisans","name":"Exiles & Partisans Deck","status":"planned","required":false,"description":"Alternative 54-card shared deck storage.","subgroups":[],"boardThicknessMm":0.0,"boardsSummary":"Cards only (no extra boards)","notes":""},{"key":"hirelings_landmarks","name":"Hirelings & Landmarks","status":"planned","required":false,"description":"Modular trays for Hirelings and Landmarks packs.","subgroups":[],"boardThicknessMm":2.0,"boardsSummary":"Hirelings & Landmarks rule/reference sheets (~2 mm)","notes":""}],"subgroups":[{"key":"shared_cards","name":"Shared & Overview Cards","expansion":"base","description":"54-card main deck & overview/reference cards"},{"key":"items","name":"Items, Winter & Extra Tokens","expansion":"base","description":"Vagabond item stacks, ruin loot, Winter clearing markers, and spare token slots"},{"key":"dice","name":"Combat Dice","expansion":"base","description":"2 Root combat dice"},{"key":"marquise","name":"Marquise de Cat","expansion":"base","description":"25 warriors, wood, keep, and buildings"},{"key":"eyrie","name":"Eyrie Dynasties","expansion":"base","description":"20 warriors, 7 roosts, leader & vizier cards"},{"key":"alliance","name":"Woodland Alliance","expansion":"base","description":"10 warriors, 3 bases, 10 sympathy tokens"},{"key":"vagabond1","name":"Vagabond #1 & Quests","expansion":"base","description":"1st Vagabond meeple, items, score, relations & quest/character cards"},{"key":"lizard_cult","name":"Lizard Cult","expansion":"riverfolk","description":"25 warriors, 15 gardens, outcast & score markers"},{"key":"riverfolk_company","name":"Riverfolk Company","expansion":"riverfolk","description":"15 warriors, 9 trade posts, 3 glass gems, score & faction markers"},{"key":"vagabond2","name":"2nd Vagabond","expansion":"riverfolk","description":"2nd Vagabond meeple, score marker & 6 relationship markers"}],"categories":[{"key":"cards","name":"Card Boxes","description":"Sleeved card storage boxes"},{"key":"factions","name":"Faction Boxes","description":"Faction warrior, building & token trays"},{"key":"items_and_dice","name":"Items & Dice Boxes","description":"Shared Vagabond items, clearing markers & dice"},{"key":"spacers","name":"Spacer Trays","description":"Filler trays for unoccupied box space"}],"boxes":[{"label":"BaseCardBox","anchor":"box-root-basecardbox","expansion":"base","subgroup":"shared_cards","category":"cards","categoryName":"Card Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 98.5 \u00d7 39 mm","position":"(79.875, 0, 28)","compartments":1,"description":"Shared 54-card main deck","files":[{"uri":"../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb","filename":"BaseCardBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/BaseCardBox_lid.stl?v=f7a52ec0","filename":"BaseCardBox_lid.stl","kind":"lid"}]},{"label":"ErieCardBox","anchor":"box-root-eriecardbox","expansion":"base","subgroup":"eyrie","category":"cards","categoryName":"Card Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 98.5 \u00d7 8.6 mm","position":"(0, 0, 28)","compartments":1,"description":"Eyrie leader & vizier cards","files":[{"uri":"../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5","filename":"ErieCardBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ErieCardBox_lid.stl?v=8fd10207","filename":"ErieCardBox_lid.stl","kind":"lid"}]},{"label":"VagabondCardBox","anchor":"box-root-vagabondcardbox","expansion":"base","subgroup":"vagabond1","category":"cards","categoryName":"Card Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 98.5 \u00d7 19.4 mm","position":"(0, 0, 36.6)","compartments":1,"description":"Vagabond quest & character cards","files":[{"uri":"../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3","filename":"VagabondCardBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/VagabondCardBox_lid.stl?v=1e30bd13","filename":"VagabondCardBox_lid.stl","kind":"lid"}]},{"label":"OverviewCardBox","anchor":"box-root-overviewcardbox","expansion":"base","subgroup":"shared_cards","category":"cards","categoryName":"Card Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 98.5 \u00d7 11 mm","position":"(0, 0, 56)","compartments":1,"description":"Faction overview cards","files":[{"uri":"../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967","filename":"OverviewCardBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/OverviewCardBox_lid.stl?v=08075eb5","filename":"OverviewCardBox_lid.stl","kind":"lid"}]},{"label":"ItemsBoxBottom","anchor":"box-root-itemsboxbottom","expansion":"base","subgroup":"items","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 103.5 \u00d7 10 mm","position":"(0, 158.333, 28)","compartments":1,"description":"Starting Vagabond items & ruins","files":[{"uri":"../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c","filename":"ItemsBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=fb9d850b","filename":"ItemsBoxBottom_lid.stl","kind":"lid"}]},{"label":"ItemsBoxMiddle","anchor":"box-root-itemsboxmiddle","expansion":"base","subgroup":"items","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 103.5 \u00d7 9 mm","position":"(0, 158.333, 38)","compartments":1,"description":"Craftable items & extra ruin slots","files":[{"uri":"../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3","filename":"ItemsBoxMiddle_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=19dcdaa4","filename":"ItemsBoxMiddle_lid.stl","kind":"lid"}]},{"label":"ItemsBoxWinter","anchor":"box-root-itemsboxwinter","expansion":"base","subgroup":"items","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 103.5 \u00d7 9 mm","position":"(0, 158.333, 47)","compartments":1,"description":"Winter Map clearing markers","files":[{"uri":"../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac","filename":"ItemsBoxWinter_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=00995441","filename":"ItemsBoxWinter_lid.stl","kind":"lid"}]},{"label":"ItemsBoxExtras","anchor":"box-root-itemsboxextras","expansion":"base","subgroup":"items","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 103.5 \u00d7 11 mm","position":"(0, 158.333, 56)","compartments":1,"description":"8 generic scenario/extra token pockets","files":[{"uri":"../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22","filename":"ItemsBoxExtras_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=f025454e","filename":"ItemsBoxExtras_lid.stl","kind":"lid"}]},{"label":"MarquisBoxBottom","anchor":"box-root-marquisboxbottom","expansion":"base","subgroup":"marquise","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"106.5 \u00d7 59.833 \u00d7 24.5 mm","position":"(0, 98.5, 28)","compartments":1,"description":"Marquise warriors (25 meeples)","files":[{"uri":"../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31","filename":"MarquisBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=eb8a03ce","filename":"MarquisBoxBottom_lid.stl","kind":"lid"}]},{"label":"MarquisBoxTop","anchor":"box-root-marquisboxtop","expansion":"base","subgroup":"marquise","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"106.5 \u00d7 59.833 \u00d7 14.5 mm","position":"(0, 98.5, 52.5)","compartments":1,"description":"Marquise wood, keep, buildings & score","files":[{"uri":"../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31","filename":"MarquisBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/MarquisBoxTop_lid.stl?v=0f1520ae","filename":"MarquisBoxTop_lid.stl","kind":"lid"}]},{"label":"ErieBoxBottom","anchor":"box-root-erieboxbottom","expansion":"base","subgroup":"eyrie","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"106.5 \u00d7 59.833 \u00d7 24.5 mm","position":"(106.5, 158.333, 28)","compartments":1,"description":"Eyrie warriors (20 meeples)","files":[{"uri":"../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736","filename":"ErieBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ErieBoxBottom_lid.stl?v=7a12e776","filename":"ErieBoxBottom_lid.stl","kind":"lid"}]},{"label":"ErieBoxTop","anchor":"box-root-erieboxtop","expansion":"base","subgroup":"eyrie","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(53.25, 218.166, 52.5)","compartments":1,"description":"Eyrie roosts, faction & score","files":[{"uri":"../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a","filename":"ErieBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ErieBoxTop_lid.stl?v=66b3006f","filename":"ErieBoxTop_lid.stl","kind":"lid"}]},{"label":"AllianceBoxBottom","anchor":"box-root-allianceboxbottom","expansion":"base","subgroup":"alliance","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 24.5 mm","position":"(53.25, 218.166, 28)","compartments":1,"description":"Woodland Alliance warriors (10 meeples)","files":[{"uri":"../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233","filename":"AllianceBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=2208ea44","filename":"AllianceBoxBottom_lid.stl","kind":"lid"}]},{"label":"AllianceBoxTop","anchor":"box-root-allianceboxtop","expansion":"base","subgroup":"alliance","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(106.5, 158.333, 52.5)","compartments":1,"description":"Alliance bases, sympathy, faction & score","files":[{"uri":"../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a","filename":"AllianceBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/AllianceBoxTop_lid.stl?v=4c5b863a","filename":"AllianceBoxTop_lid.stl","kind":"lid"}]},{"label":"LizardBoxBottom","anchor":"box-root-lizardboxbottom","expansion":"riverfolk","subgroup":"lizard_cult","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"106.5 \u00d7 59.833 \u00d7 26.5 mm","position":"(106.5, 98.5, 28)","compartments":1,"description":"Lizard Cult warriors (25 meeples)","files":[{"uri":"../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455","filename":"LizardBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/LizardBoxBottom_lid.stl?v=42acf918","filename":"LizardBoxBottom_lid.stl","kind":"lid"}]},{"label":"LizardBoxTop","anchor":"box-root-lizardboxtop","expansion":"riverfolk","subgroup":"lizard_cult","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 59.833 \u00d7 12.5 mm","position":"(106.5, 98.5, 54.5)","compartments":1,"description":"Lizard gardens, outcast, faction & score","files":[{"uri":"../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc","filename":"LizardBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/LizardBoxTop_lid.stl?v=f3fc93d6","filename":"LizardBoxTop_lid.stl","kind":"lid"}]},{"label":"RiverfolkBoxBottom","anchor":"box-root-riverfolkboxbottom","expansion":"riverfolk","subgroup":"riverfolk_company","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 26.5 mm","position":"(106.5, 218.166, 40.5)","compartments":1,"description":"Riverfolk warriors (15 meeples)","files":[{"uri":"../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643","filename":"RiverfolkBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=c391c237","filename":"RiverfolkBoxBottom_lid.stl","kind":"lid"}]},{"label":"RiverfolkBoxTop","anchor":"box-root-riverfolkboxtop","expansion":"riverfolk","subgroup":"riverfolk_company","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 59.833 \u00d7 12.5 mm","position":"(106.5, 218.166, 28)","compartments":1,"description":"Riverfolk trade posts, gems & score","files":[{"uri":"../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8","filename":"RiverfolkBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=67cdc71d","filename":"RiverfolkBoxTop_lid.stl","kind":"lid"}]},{"label":"VagabondBox","anchor":"box-root-vagabondbox","expansion":"base","subgroup":"vagabond1","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 19.5 mm","position":"(159.75, 0, 28)","compartments":1,"description":"1st Vagabond meeple, score & relation tokens","files":[{"uri":"../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7","filename":"VagabondBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/VagabondBox_lid.stl?v=c3a127d4","filename":"VagabondBox_lid.stl","kind":"lid"}]},{"label":"VagabondBox2","anchor":"box-root-vagabondbox2","expansion":"riverfolk","subgroup":"vagabond2","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 19.5 mm","position":"(159.75, 0, 47.5)","compartments":1,"description":"2nd Vagabond meeple, score & relation tokens","files":[{"uri":"../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc","filename":"VagabondBox2_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/VagabondBox2_lid.stl?v=f4f17379","filename":"VagabondBox2_lid.stl","kind":"lid"}]},{"label":"DiceBox","anchor":"box-root-dicebox","expansion":"base","subgroup":"dice","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 39 mm","position":"(53.25, 158.333, 28)","compartments":1,"description":"2 combat dice","files":[{"uri":"../_stl/boxes/root/DiceBox_body.stl?v=ec84affd","filename":"DiceBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/DiceBox_lid.stl?v=579dd709","filename":"DiceBox_lid.stl","kind":"lid"}]}],"spacerSets":{"base+riverfolk":[{"label":"spacer_1","dimensions":"54.25 \u00d7 119.667 \u00d7 14.5 mm","position":"(159.75, 158.333, 52.5)","files":[{"uri":"../_stl/boxes/root/spacer_1.stl?v=e6ca2e7a","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/spacer_2.stl?v=64e4c7e5","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"27.625 \u00d7 59.834 \u00d7 24.5 mm","position":"(186.375, 218.166, 28)","files":[{"uri":"../_stl/boxes/root/spacer_3.stl?v=418d673c","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/spacer_4.stl?v=49d3ef51","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"27.625 \u00d7 59.833 \u00d7 12.5 mm","position":"(186.375, 98.5, 54.5)","files":[{"uri":"../_stl/boxes/root/spacer_5.stl?v=04794665","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"26.625 \u00d7 59.834 \u00d7 12 mm","position":"(159.75, 218.166, 40.5)","files":[{"uri":"../_stl/boxes/root/spacer_6.stl?v=72fd3944","filename":"spacer_6.stl","kind":"spacer"}]}],"base":[{"label":"spacer_1","dimensions":"80.875 \u00d7 278 \u00d7 39 mm","position":"(133.125, 0, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_add687b498e3.stl?v=14df38aa","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"133.125 \u00d7 81 \u00d7 19.5 mm","position":"(53.25, 197, 47.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_f6d884c13533.stl?v=9ea7143d","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"46.667 \u00d7 54.834 \u00d7 19.5 mm","position":"(139.708, 223.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_65700d8429e0.stl?v=f9cccabc","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"53.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(133.125, 163.333, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_d89c65dc97bd.stl?v=d07957c2","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 21.167 \u00d7 39 mm","position":"(0, 256.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_cd45b402d47e.stl?v=68903e97","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"26.625 \u00d7 81 \u00d7 19.5 mm","position":"(53.25, 197, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_57dd3dd9f430.stl?v=4405037a","filename":"spacer_6.stl","kind":"spacer"}]}],"base+lizard_cult":[{"label":"spacer_1","dimensions":"107.5 \u00d7 59.834 \u00d7 39 mm","position":"(106.5, 218.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_4725b206359c.stl?v=e45a4562","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"107.5 \u00d7 59.833 \u00d7 14.5 mm","position":"(106.5, 158.333, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_9ab2b8fac77b.stl?v=f328a913","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"27.625 \u00d7 59.833 \u00d7 12.5 mm","position":"(186.375, 98.5, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_a71324494509.stl?v=3dd3dccb","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"53.25 \u00d7 59.834 \u00d7 5 mm","position":"(53.25, 218.166, 62)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_e0b315c6394c.stl?v=c8db60cd","filename":"spacer_6.stl","kind":"spacer"}]}],"base+riverfolk_company":[{"label":"spacer_1","dimensions":"107.5 \u00d7 119.667 \u00d7 19.5 mm","position":"(106.5, 158.333, 47.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_80f963d4284e.stl?v=20a07583","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 119.667 \u00d7 19.5 mm","position":"(159.75, 158.333, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_772b16c676be.stl?v=ba86738f","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"54.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(159.75, 98.5, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_303ee4c1202a.stl?v=58c4ce9e","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 59.834 \u00d7 12.5 mm","position":"(53.25, 218.166, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_d69e10465b2d.stl?v=d0a22c80","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_6.stl","kind":"spacer"}]},{"label":"spacer_7","dimensions":"79.875 \u00d7 59.834 \u00d7 7 mm","position":"(106.5, 218.166, 40.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_a54b74fb82ea.stl?v=dbf36608","filename":"spacer_7.stl","kind":"spacer"}]}],"base+vagabond2":[{"label":"spacer_1","dimensions":"27.625 \u00d7 278 \u00d7 39 mm","position":"(186.375, 0, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_3987cea27208.stl?v=c647f096","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"79.875 \u00d7 81 \u00d7 39 mm","position":"(0, 197, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_aa40185e94c7.stl?v=1ee0dee0","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"53.25 \u00d7 158.334 \u00d7 14.5 mm","position":"(133.125, 119.666, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_31fd7f44b486.stl?v=d1723304","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"46.667 \u00d7 54.834 \u00d7 24.5 mm","position":"(139.708, 223.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_d80080607c79.stl?v=5e214050","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 43.667 \u00d7 24.5 mm","position":"(133.125, 119.666, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_80cabf98779d.stl?v=a6b09ea9","filename":"spacer_5.stl","kind":"spacer"}]}],"base+lizard_cult+riverfolk_company":[{"label":"spacer_1","dimensions":"54.25 \u00d7 119.667 \u00d7 14.5 mm","position":"(159.75, 158.333, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_82d67750a216.stl?v=cdfcee76","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"106.5 \u00d7 59.834 \u00d7 7 mm","position":"(53.25, 218.166, 60)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_c65156bad221.stl?v=47dd0077","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"27.625 \u00d7 59.834 \u00d7 24.5 mm","position":"(186.375, 218.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_1e365c049fe1.stl?v=81de7e9f","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"27.625 \u00d7 59.833 \u00d7 12.5 mm","position":"(186.375, 98.5, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_a71324494509.stl?v=3dd3dccb","filename":"spacer_6.stl","kind":"spacer"}]},{"label":"spacer_7","dimensions":"26.625 \u00d7 59.834 \u00d7 12 mm","position":"(159.75, 218.166, 40.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_26351688f5b1.stl?v=105417ac","filename":"spacer_7.stl","kind":"spacer"}]},{"label":"spacer_8","dimensions":"53.25 \u00d7 59.834 \u00d7 5.5 mm","position":"(53.25, 218.166, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_019f482860a5.stl?v=ce4f0d11","filename":"spacer_8.stl","kind":"spacer"}]}],"base+lizard_cult+vagabond2":[{"label":"spacer_1","dimensions":"107.5 \u00d7 59.834 \u00d7 39 mm","position":"(106.5, 218.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_4725b206359c.stl?v=e45a4562","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"54.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(159.75, 158.333, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_8c5d8641ba89.stl?v=8b0654c4","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"27.625 \u00d7 59.833 \u00d7 12.5 mm","position":"(186.375, 98.5, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_a71324494509.stl?v=3dd3dccb","filename":"spacer_5.stl","kind":"spacer"}]}],"base+riverfolk_company+vagabond2":[{"label":"spacer_1","dimensions":"107.5 \u00d7 119.667 \u00d7 26.5 mm","position":"(106.5, 158.333, 40.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_64aed51d7570.stl?v=116bf73c","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"54.25 \u00d7 119.667 \u00d7 12.5 mm","position":"(159.75, 158.333, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_eaddb7a37135.stl?v=27f8c526","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"54.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(159.75, 98.5, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_303ee4c1202a.stl?v=58c4ce9e","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 59.833 \u00d7 12.5 mm","position":"(106.5, 158.333, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_1d64b56ac3f7.stl?v=8f2e23cd","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_6.stl","kind":"spacer"}]}]}}</script>
+     <script type="application/json" data-box-selector-config>{"projectName":"Root","defaultPreset":"base_riverfolk","boardStorage":{"capacityMm":28.0,"totalBoxHeightMm":67.0,"thinTopSpaceHint":"Base Game boards (~22 mm) leave a thin ~6 mm space at the top where Riverfolk's 2 faction boards and rules would go. Place a thin ~6 mm foam/cardboard pad on top of the trays to keep lids snug, or leave open to fit Riverfolk boards later.","exactFitHint":"Base + Riverfolk boards (~28 mm) fill the 28 mm bottom bay flush beneath the 39 mm insert trays.","externalBoxHint":"Expansions beyond Riverfolk exceed the 28 mm board bay in this box: move all game/map and faction boards into a separate dedicated board box, freeing the full 67 mm height of the Base box for expansion insert trays."},"presets":[{"key":"base_only","name":"Base Game Only (No Expansions)","description":"16 core boxes (4 base factions, cards, items, dice) + Base-only spacer trays","subgroups":["shared_cards","items","dice","marquise","eyrie","alliance","vagabond1"],"spacerPresetKey":"base"},{"key":"base_riverfolk","name":"Base + Riverfolk Expansion (Current Layout)","description":"All 21 boxes including Lizard Cult, Riverfolk Company & 2nd Vagabond + Full spacers","subgroups":["shared_cards","items","dice","marquise","eyrie","alliance","vagabond1","lizard_cult","riverfolk_company","vagabond2"],"spacerPresetKey":"base+riverfolk"}],"expansions":[{"key":"base","name":"Base Game","status":"available","required":true,"description":"Core 4 factions (Marquise de Cat, Eyrie Dynasties, Woodland Alliance, Vagabond), shared & overview decks, starting/craftable items, Winter clearing markers, and dice.","subgroups":["shared_cards","items","dice","marquise","eyrie","alliance","vagabond1"],"boardThicknessMm":22.0,"boardsSummary":"Main folded map board, 4 Base faction boards, and Base rulebooks (~22 mm)","notes":""},{"key":"riverfolk","name":"The Riverfolk Expansion","status":"available","required":false,"description":"Adds Lizard Cult, Riverfolk Company, and a 2nd Vagabond tray (extra Vagabond quest/character cards and items already fit in the Base trays).","subgroups":["lizard_cult","riverfolk_company","vagabond2"],"boardThicknessMm":6.0,"boardsSummary":"Lizard Cult & Riverfolk faction boards + expansion rulebook (~6 mm)","notes":""},{"key":"underworld","name":"The Underworld Expansion","status":"planned","required":false,"description":"Underground Duchy & Corvid Conspiracy factions, landmarks, and extra maps.","subgroups":["underground_duchy","corvid_conspiracy"],"boardThicknessMm":11.0,"boardsSummary":"Extra Underground/Lake map board + Duchy & Corvid boards (~11 mm)","notes":"Beyond single-box board capacity: requires moving all boards out to a separate box. Warrior SVGs (duchy_warrior.svg, corvid_warrior.svg) exist in boxes/root/svg/."},{"key":"marauder","name":"The Marauder Expansion","status":"planned","required":false,"description":"Lord of the Hundreds & Keepers in Iron factions, advance setup, and hirelings.","subgroups":["lord_of_the_hundreds","keepers_in_iron"],"boardThicknessMm":7.0,"boardsSummary":"Hundreds & Keepers faction boards + setup/rule sheets (~7 mm)","notes":"Beyond single-box board capacity: requires moving all boards out to a separate box. Warrior SVGs (hundreds_warrior.svg, keepers_warrior.svg) exist in boxes/root/svg/."},{"key":"exiles_and_partisans","name":"Exiles & Partisans Deck","status":"planned","required":false,"description":"Alternative 54-card shared deck storage.","subgroups":[],"boardThicknessMm":0.0,"boardsSummary":"Cards only (no extra boards)","notes":""},{"key":"hirelings_landmarks","name":"Hirelings & Landmarks","status":"planned","required":false,"description":"Modular trays for Hirelings and Landmarks packs.","subgroups":[],"boardThicknessMm":2.0,"boardsSummary":"Hirelings & Landmarks rule/reference sheets (~2 mm)","notes":""}],"subgroups":[{"key":"shared_cards","name":"Shared & Overview Cards","expansion":"base","description":"54-card main deck & overview/reference cards"},{"key":"items","name":"Items, Winter & Extra Tokens","expansion":"base","description":"Vagabond item stacks, ruin loot, Winter clearing markers, and spare token slots"},{"key":"dice","name":"Combat Dice","expansion":"base","description":"2 Root combat dice"},{"key":"marquise","name":"Marquise de Cat","expansion":"base","description":"25 warriors, wood, keep, and buildings"},{"key":"eyrie","name":"Eyrie Dynasties","expansion":"base","description":"20 warriors, 7 roosts, leader & vizier cards"},{"key":"alliance","name":"Woodland Alliance","expansion":"base","description":"10 warriors, 3 bases, 10 sympathy tokens"},{"key":"vagabond1","name":"Vagabond #1 & Quests","expansion":"base","description":"1st Vagabond meeple, items, score, relations & quest/character cards"},{"key":"lizard_cult","name":"Lizard Cult","expansion":"riverfolk","description":"25 warriors, 15 gardens, outcast & score markers"},{"key":"riverfolk_company","name":"Riverfolk Company","expansion":"riverfolk","description":"15 warriors, 9 trade posts, 3 glass gems, score & faction markers"},{"key":"vagabond2","name":"2nd Vagabond","expansion":"riverfolk","description":"2nd Vagabond meeple, score marker & 6 relationship markers"}],"categories":[{"key":"cards","name":"Card Boxes","description":"Sleeved card storage boxes"},{"key":"factions","name":"Faction Boxes","description":"Faction warrior, building & token trays"},{"key":"items_and_dice","name":"Items & Dice Boxes","description":"Shared Vagabond items, clearing markers & dice"},{"key":"spacers","name":"Spacer Trays","description":"Filler trays for unoccupied box space"}],"boxes":[{"label":"BaseCardBox","anchor":"box-root-basecardbox","expansion":"base","subgroup":"shared_cards","category":"cards","categoryName":"Card Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 98.5 \u00d7 39 mm","position":"(79.875, 0, 28)","compartments":1,"description":"Shared 54-card main deck","files":[{"uri":"../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb","filename":"BaseCardBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/BaseCardBox_lid.stl?v=8cb5369d","filename":"BaseCardBox_lid.stl","kind":"lid"}]},{"label":"ErieCardBox","anchor":"box-root-eriecardbox","expansion":"base","subgroup":"eyrie","category":"cards","categoryName":"Card Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 98.5 \u00d7 8.6 mm","position":"(0, 0, 28)","compartments":1,"description":"Eyrie leader & vizier cards","files":[{"uri":"../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5","filename":"ErieCardBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ErieCardBox_lid.stl?v=c3346042","filename":"ErieCardBox_lid.stl","kind":"lid"}]},{"label":"VagabondCardBox","anchor":"box-root-vagabondcardbox","expansion":"base","subgroup":"vagabond1","category":"cards","categoryName":"Card Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 98.5 \u00d7 19.4 mm","position":"(0, 0, 36.6)","compartments":1,"description":"Vagabond quest & character cards","files":[{"uri":"../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3","filename":"VagabondCardBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/VagabondCardBox_lid.stl?v=c3ee950c","filename":"VagabondCardBox_lid.stl","kind":"lid"}]},{"label":"OverviewCardBox","anchor":"box-root-overviewcardbox","expansion":"base","subgroup":"shared_cards","category":"cards","categoryName":"Card Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 98.5 \u00d7 11 mm","position":"(0, 0, 56)","compartments":1,"description":"Faction overview cards","files":[{"uri":"../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967","filename":"OverviewCardBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/OverviewCardBox_lid.stl?v=2da30240","filename":"OverviewCardBox_lid.stl","kind":"lid"}]},{"label":"ItemsBoxBottom","anchor":"box-root-itemsboxbottom","expansion":"base","subgroup":"items","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 103.5 \u00d7 10 mm","position":"(0, 158.333, 28)","compartments":1,"description":"Starting Vagabond items & ruins","files":[{"uri":"../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c","filename":"ItemsBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=82ffaaba","filename":"ItemsBoxBottom_lid.stl","kind":"lid"}]},{"label":"ItemsBoxMiddle","anchor":"box-root-itemsboxmiddle","expansion":"base","subgroup":"items","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 103.5 \u00d7 9 mm","position":"(0, 158.333, 38)","compartments":1,"description":"Craftable items & extra ruin slots","files":[{"uri":"../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3","filename":"ItemsBoxMiddle_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=df7cf2e6","filename":"ItemsBoxMiddle_lid.stl","kind":"lid"}]},{"label":"ItemsBoxWinter","anchor":"box-root-itemsboxwinter","expansion":"base","subgroup":"items","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 103.5 \u00d7 9 mm","position":"(0, 158.333, 47)","compartments":1,"description":"Winter Map clearing markers","files":[{"uri":"../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac","filename":"ItemsBoxWinter_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=dbabecf0","filename":"ItemsBoxWinter_lid.stl","kind":"lid"}]},{"label":"ItemsBoxExtras","anchor":"box-root-itemsboxextras","expansion":"base","subgroup":"items","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 103.5 \u00d7 11 mm","position":"(0, 158.333, 56)","compartments":1,"description":"8 generic scenario/extra token pockets","files":[{"uri":"../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22","filename":"ItemsBoxExtras_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=6d606735","filename":"ItemsBoxExtras_lid.stl","kind":"lid"}]},{"label":"MarquisBoxBottom","anchor":"box-root-marquisboxbottom","expansion":"base","subgroup":"marquise","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"106.5 \u00d7 59.833 \u00d7 24.5 mm","position":"(0, 98.5, 28)","compartments":1,"description":"Marquise warriors (25 meeples)","files":[{"uri":"../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31","filename":"MarquisBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=d6814f6c","filename":"MarquisBoxBottom_lid.stl","kind":"lid"}]},{"label":"MarquisBoxTop","anchor":"box-root-marquisboxtop","expansion":"base","subgroup":"marquise","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"106.5 \u00d7 59.833 \u00d7 14.5 mm","position":"(0, 98.5, 52.5)","compartments":1,"description":"Marquise wood, keep, buildings & score","files":[{"uri":"../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31","filename":"MarquisBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/MarquisBoxTop_lid.stl?v=dc65dd35","filename":"MarquisBoxTop_lid.stl","kind":"lid"}]},{"label":"ErieBoxBottom","anchor":"box-root-erieboxbottom","expansion":"base","subgroup":"eyrie","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"106.5 \u00d7 59.833 \u00d7 24.5 mm","position":"(106.5, 158.333, 28)","compartments":1,"description":"Eyrie warriors (20 meeples)","files":[{"uri":"../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736","filename":"ErieBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ErieBoxBottom_lid.stl?v=29f3d31f","filename":"ErieBoxBottom_lid.stl","kind":"lid"}]},{"label":"ErieBoxTop","anchor":"box-root-erieboxtop","expansion":"base","subgroup":"eyrie","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(53.25, 218.166, 52.5)","compartments":1,"description":"Eyrie roosts, faction & score","files":[{"uri":"../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a","filename":"ErieBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/ErieBoxTop_lid.stl?v=fed52df5","filename":"ErieBoxTop_lid.stl","kind":"lid"}]},{"label":"AllianceBoxBottom","anchor":"box-root-allianceboxbottom","expansion":"base","subgroup":"alliance","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 24.5 mm","position":"(53.25, 218.166, 28)","compartments":1,"description":"Woodland Alliance warriors (10 meeples)","files":[{"uri":"../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233","filename":"AllianceBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=3ec0154b","filename":"AllianceBoxBottom_lid.stl","kind":"lid"}]},{"label":"AllianceBoxTop","anchor":"box-root-allianceboxtop","expansion":"base","subgroup":"alliance","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(106.5, 158.333, 52.5)","compartments":1,"description":"Alliance bases, sympathy, faction & score","files":[{"uri":"../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a","filename":"AllianceBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/AllianceBoxTop_lid.stl?v=93f33d89","filename":"AllianceBoxTop_lid.stl","kind":"lid"}]},{"label":"LizardBoxBottom","anchor":"box-root-lizardboxbottom","expansion":"riverfolk","subgroup":"lizard_cult","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"106.5 \u00d7 59.833 \u00d7 26.5 mm","position":"(106.5, 98.5, 28)","compartments":1,"description":"Lizard Cult warriors (25 meeples)","files":[{"uri":"../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455","filename":"LizardBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/LizardBoxBottom_lid.stl?v=e3063d8d","filename":"LizardBoxBottom_lid.stl","kind":"lid"}]},{"label":"LizardBoxTop","anchor":"box-root-lizardboxtop","expansion":"riverfolk","subgroup":"lizard_cult","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 59.833 \u00d7 12.5 mm","position":"(106.5, 98.5, 54.5)","compartments":1,"description":"Lizard gardens, outcast, faction & score","files":[{"uri":"../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc","filename":"LizardBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/LizardBoxTop_lid.stl?v=e2812a36","filename":"LizardBoxTop_lid.stl","kind":"lid"}]},{"label":"RiverfolkBoxBottom","anchor":"box-root-riverfolkboxbottom","expansion":"riverfolk","subgroup":"riverfolk_company","category":"factions","categoryName":"Faction Boxes","boxType":"CAP","boxTypeLabel":"Cap Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 26.5 mm","position":"(106.5, 218.166, 40.5)","compartments":1,"description":"Riverfolk warriors (15 meeples)","files":[{"uri":"../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643","filename":"RiverfolkBoxBottom_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=b4201c81","filename":"RiverfolkBoxBottom_lid.stl","kind":"lid"}]},{"label":"RiverfolkBoxTop","anchor":"box-root-riverfolkboxtop","expansion":"riverfolk","subgroup":"riverfolk_company","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"79.875 \u00d7 59.833 \u00d7 12.5 mm","position":"(106.5, 218.166, 28)","compartments":1,"description":"Riverfolk trade posts, gems & score","files":[{"uri":"../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8","filename":"RiverfolkBoxTop_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=b77c74eb","filename":"RiverfolkBoxTop_lid.stl","kind":"lid"}]},{"label":"VagabondBox","anchor":"box-root-vagabondbox","expansion":"base","subgroup":"vagabond1","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 19.5 mm","position":"(159.75, 0, 28)","compartments":1,"description":"1st Vagabond meeple, score & relation tokens","files":[{"uri":"../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7","filename":"VagabondBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/VagabondBox_lid.stl?v=7bc178e1","filename":"VagabondBox_lid.stl","kind":"lid"}]},{"label":"VagabondBox2","anchor":"box-root-vagabondbox2","expansion":"riverfolk","subgroup":"vagabond2","category":"factions","categoryName":"Faction Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 19.5 mm","position":"(159.75, 0, 47.5)","compartments":1,"description":"2nd Vagabond meeple, score & relation tokens","files":[{"uri":"../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc","filename":"VagabondBox2_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/VagabondBox2_lid.stl?v=c55c2aaf","filename":"VagabondBox2_lid.stl","kind":"lid"}]},{"label":"DiceBox","anchor":"box-root-dicebox","expansion":"base","subgroup":"dice","category":"items_and_dice","categoryName":"Items & Dice Boxes","boxType":"SLIDING","boxTypeLabel":"Sliding Lid","dimensions":"53.25 \u00d7 59.833 \u00d7 39 mm","position":"(53.25, 158.333, 28)","compartments":1,"description":"2 combat dice","files":[{"uri":"../_stl/boxes/root/DiceBox_body.stl?v=ec84affd","filename":"DiceBox_body.stl","kind":"body"},{"uri":"../_stl/boxes/root/DiceBox_lid.stl?v=ddc9a1d0","filename":"DiceBox_lid.stl","kind":"lid"}]}],"spacerSets":{"base+riverfolk":[{"label":"spacer_1","dimensions":"54.25 \u00d7 119.667 \u00d7 14.5 mm","position":"(159.75, 158.333, 52.5)","files":[{"uri":"../_stl/boxes/root/spacer_1.stl?v=e6ca2e7a","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/spacer_2.stl?v=64e4c7e5","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"27.625 \u00d7 59.834 \u00d7 24.5 mm","position":"(186.375, 218.166, 28)","files":[{"uri":"../_stl/boxes/root/spacer_3.stl?v=418d673c","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/spacer_4.stl?v=49d3ef51","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"27.625 \u00d7 59.833 \u00d7 12.5 mm","position":"(186.375, 98.5, 54.5)","files":[{"uri":"../_stl/boxes/root/spacer_5.stl?v=04794665","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"26.625 \u00d7 59.834 \u00d7 12 mm","position":"(159.75, 218.166, 40.5)","files":[{"uri":"../_stl/boxes/root/spacer_6.stl?v=72fd3944","filename":"spacer_6.stl","kind":"spacer"}]}],"base":[{"label":"spacer_1","dimensions":"80.875 \u00d7 278 \u00d7 39 mm","position":"(133.125, 0, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_add687b498e3.stl?v=14df38aa","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"133.125 \u00d7 81 \u00d7 19.5 mm","position":"(53.25, 197, 47.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_f6d884c13533.stl?v=9ea7143d","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"46.667 \u00d7 54.834 \u00d7 19.5 mm","position":"(139.708, 223.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_65700d8429e0.stl?v=f9cccabc","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"53.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(133.125, 163.333, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_d89c65dc97bd.stl?v=d07957c2","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 21.167 \u00d7 39 mm","position":"(0, 256.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_cd45b402d47e.stl?v=68903e97","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"26.625 \u00d7 81 \u00d7 19.5 mm","position":"(53.25, 197, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_57dd3dd9f430.stl?v=4405037a","filename":"spacer_6.stl","kind":"spacer"}]}],"base+lizard_cult":[{"label":"spacer_1","dimensions":"107.5 \u00d7 59.834 \u00d7 39 mm","position":"(106.5, 218.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_4725b206359c.stl?v=e45a4562","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"107.5 \u00d7 59.833 \u00d7 14.5 mm","position":"(106.5, 158.333, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_9ab2b8fac77b.stl?v=f328a913","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"27.625 \u00d7 59.833 \u00d7 12.5 mm","position":"(186.375, 98.5, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_a71324494509.stl?v=3dd3dccb","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"53.25 \u00d7 59.834 \u00d7 5 mm","position":"(53.25, 218.166, 62)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_e0b315c6394c.stl?v=c8db60cd","filename":"spacer_6.stl","kind":"spacer"}]}],"base+riverfolk_company":[{"label":"spacer_1","dimensions":"107.5 \u00d7 119.667 \u00d7 19.5 mm","position":"(106.5, 158.333, 47.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_80f963d4284e.stl?v=20a07583","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 119.667 \u00d7 19.5 mm","position":"(159.75, 158.333, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_772b16c676be.stl?v=ba86738f","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"54.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(159.75, 98.5, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_303ee4c1202a.stl?v=58c4ce9e","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 59.834 \u00d7 12.5 mm","position":"(53.25, 218.166, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_d69e10465b2d.stl?v=d0a22c80","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_6.stl","kind":"spacer"}]},{"label":"spacer_7","dimensions":"79.875 \u00d7 59.834 \u00d7 7 mm","position":"(106.5, 218.166, 40.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_a54b74fb82ea.stl?v=dbf36608","filename":"spacer_7.stl","kind":"spacer"}]}],"base+vagabond2":[{"label":"spacer_1","dimensions":"27.625 \u00d7 278 \u00d7 39 mm","position":"(186.375, 0, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_3987cea27208.stl?v=c647f096","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"79.875 \u00d7 81 \u00d7 39 mm","position":"(0, 197, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_aa40185e94c7.stl?v=1ee0dee0","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"53.25 \u00d7 158.334 \u00d7 14.5 mm","position":"(133.125, 119.666, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_31fd7f44b486.stl?v=d1723304","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"46.667 \u00d7 54.834 \u00d7 24.5 mm","position":"(139.708, 223.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_d80080607c79.stl?v=5e214050","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 43.667 \u00d7 24.5 mm","position":"(133.125, 119.666, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_80cabf98779d.stl?v=a6b09ea9","filename":"spacer_5.stl","kind":"spacer"}]}],"base+lizard_cult+riverfolk_company":[{"label":"spacer_1","dimensions":"54.25 \u00d7 119.667 \u00d7 14.5 mm","position":"(159.75, 158.333, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_82d67750a216.stl?v=cdfcee76","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"106.5 \u00d7 59.834 \u00d7 7 mm","position":"(53.25, 218.166, 60)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_c65156bad221.stl?v=47dd0077","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"27.625 \u00d7 59.834 \u00d7 24.5 mm","position":"(186.375, 218.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_1e365c049fe1.stl?v=81de7e9f","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"27.625 \u00d7 59.833 \u00d7 12.5 mm","position":"(186.375, 98.5, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_a71324494509.stl?v=3dd3dccb","filename":"spacer_6.stl","kind":"spacer"}]},{"label":"spacer_7","dimensions":"26.625 \u00d7 59.834 \u00d7 12 mm","position":"(159.75, 218.166, 40.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_26351688f5b1.stl?v=105417ac","filename":"spacer_7.stl","kind":"spacer"}]},{"label":"spacer_8","dimensions":"53.25 \u00d7 59.834 \u00d7 5.5 mm","position":"(53.25, 218.166, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_019f482860a5.stl?v=ce4f0d11","filename":"spacer_8.stl","kind":"spacer"}]}],"base+lizard_cult+vagabond2":[{"label":"spacer_1","dimensions":"107.5 \u00d7 59.834 \u00d7 39 mm","position":"(106.5, 218.166, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_4725b206359c.stl?v=e45a4562","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"54.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(159.75, 158.333, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_8c5d8641ba89.stl?v=8b0654c4","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"27.625 \u00d7 59.833 \u00d7 12.5 mm","position":"(186.375, 98.5, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_a71324494509.stl?v=3dd3dccb","filename":"spacer_5.stl","kind":"spacer"}]}],"base+riverfolk_company+vagabond2":[{"label":"spacer_1","dimensions":"107.5 \u00d7 119.667 \u00d7 26.5 mm","position":"(106.5, 158.333, 40.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_64aed51d7570.stl?v=116bf73c","filename":"spacer_1.stl","kind":"spacer"}]},{"label":"spacer_2","dimensions":"54.25 \u00d7 38.667 \u00d7 39 mm","position":"(159.75, 59.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_7e6ba060c386.stl?v=3961197a","filename":"spacer_2.stl","kind":"spacer"}]},{"label":"spacer_3","dimensions":"54.25 \u00d7 119.667 \u00d7 12.5 mm","position":"(159.75, 158.333, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_eaddb7a37135.stl?v=27f8c526","filename":"spacer_3.stl","kind":"spacer"}]},{"label":"spacer_4","dimensions":"54.25 \u00d7 59.833 \u00d7 14.5 mm","position":"(159.75, 98.5, 52.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_303ee4c1202a.stl?v=58c4ce9e","filename":"spacer_4.stl","kind":"spacer"}]},{"label":"spacer_5","dimensions":"53.25 \u00d7 59.833 \u00d7 12.5 mm","position":"(106.5, 158.333, 54.5)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_1d64b56ac3f7.stl?v=8f2e23cd","filename":"spacer_5.stl","kind":"spacer"}]},{"label":"spacer_6","dimensions":"53.25 \u00d7 16.167 \u00d7 39 mm","position":"(0, 261.833, 28)","files":[{"uri":"../_stl/boxes/root/variant_spacers/spacer_51da42901f6c.stl?v=878173b9","filename":"spacer_6.stl","kind":"spacer"}]}]}}</script>
      <div data-box-selector-mount></div>
-     <div class="stl-viewer" data-stl-uri="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=f7a52ec0,../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=8fd10207,../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=1e30bd13,../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=08075eb5,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=fb9d850b,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=19dcdaa4,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=00995441,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=f025454e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=eb8a03ce,../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=0f1520ae,../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=7a12e776,../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=66b3006f,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=2208ea44,../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=4c5b863a,../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=42acf918,../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=f3fc93d6,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=c391c237,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=67cdc71d,../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=c3a127d4,../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=f4f17379,../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=579dd709,../_stl/boxes/root/spacer_1.stl?v=e6ca2e7a,../_stl/boxes/root/spacer_2.stl?v=64e4c7e5,../_stl/boxes/root/spacer_3.stl?v=418d673c,../_stl/boxes/root/spacer_4.stl?v=49d3ef51,../_stl/boxes/root/spacer_5.stl?v=04794665,../_stl/boxes/root/spacer_6.stl?v=72fd3944" data-stl-color="#6f9ac9" style="width:100%;height:420px">
+     <div class="stl-viewer" data-stl-uri="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=8cb5369d,../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=c3346042,../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=c3ee950c,../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=2da30240,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=82ffaaba,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=df7cf2e6,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=dbabecf0,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=6d606735,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=d6814f6c,../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=dc65dd35,../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=29f3d31f,../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=fed52df5,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=3ec0154b,../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=93f33d89,../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=e3063d8d,../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=e2812a36,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=b4201c81,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=b77c74eb,../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=7bc178e1,../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=c55c2aaf,../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=ddc9a1d0,../_stl/boxes/root/spacer_1.stl?v=e6ca2e7a,../_stl/boxes/root/spacer_2.stl?v=64e4c7e5,../_stl/boxes/root/spacer_3.stl?v=418d673c,../_stl/boxes/root/spacer_4.stl?v=49d3ef51,../_stl/boxes/root/spacer_5.stl?v=04794665,../_stl/boxes/root/spacer_6.stl?v=72fd3944" data-stl-color="#6f9ac9" style="width:100%;height:420px">
        <div class="stl-viewer-status">Loading 3-D preview&hellip;</div>
      </div>
    </div>
@@ -31,12 +31,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=f7a52ec0,../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=8fd10207,../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=1e30bd13,../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=08075eb5,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=fb9d850b,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=19dcdaa4,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=00995441,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=f025454e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=eb8a03ce,../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=0f1520ae,../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=7a12e776,../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=66b3006f,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=2208ea44,../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=4c5b863a,../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=42acf918,../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=f3fc93d6,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=c391c237,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=67cdc71d,../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=c3a127d4,../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=f4f17379,../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=579dd709,../_stl/boxes/root/spacer_1.stl?v=e6ca2e7a,../_stl/boxes/root/spacer_2.stl?v=64e4c7e5,../_stl/boxes/root/spacer_3.stl?v=418d673c,../_stl/boxes/root/spacer_4.stl?v=49d3ef51,../_stl/boxes/root/spacer_5.stl?v=04794665,../_stl/boxes/root/spacer_6.stl?v=72fd3944
+.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=8cb5369d,../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=c3346042,../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=c3ee950c,../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=2da30240,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=82ffaaba,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=df7cf2e6,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=dbabecf0,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=6d606735,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=d6814f6c,../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=dc65dd35,../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=29f3d31f,../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=fed52df5,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=3ec0154b,../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=93f33d89,../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=e3063d8d,../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=e2812a36,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=b4201c81,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=b77c74eb,../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=7bc178e1,../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=c55c2aaf,../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=ddc9a1d0,../_stl/boxes/root/spacer_1.stl?v=e6ca2e7a,../_stl/boxes/root/spacer_2.stl?v=64e4c7e5,../_stl/boxes/root/spacer_3.stl?v=418d673c,../_stl/boxes/root/spacer_4.stl?v=49d3ef51,../_stl/boxes/root/spacer_5.stl?v=04794665,../_stl/boxes/root/spacer_6.stl?v=72fd3944
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=f7a52ec0,../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=8fd10207,../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=1e30bd13,../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=08075eb5,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=fb9d850b,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=19dcdaa4,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=00995441,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=f025454e,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=eb8a03ce,../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=0f1520ae,../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=7a12e776,../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=66b3006f,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=2208ea44,../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=4c5b863a,../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=42acf918,../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=f3fc93d6,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=c391c237,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=67cdc71d,../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=c3a127d4,../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=f4f17379,../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=579dd709,../_stl/boxes/root/spacer_1.stl?v=e6ca2e7a,../_stl/boxes/root/spacer_2.stl?v=64e4c7e5,../_stl/boxes/root/spacer_3.stl?v=418d673c,../_stl/boxes/root/spacer_4.stl?v=49d3ef51,../_stl/boxes/root/spacer_5.stl?v=04794665,../_stl/boxes/root/spacer_6.stl?v=72fd3944" download="Root_full_packing.stl">⬇ Download Full Box Packing STL (<code>Root_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=8cb5369d,../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=c3346042,../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=c3ee950c,../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=2da30240,../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=82ffaaba,../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=df7cf2e6,../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=dbabecf0,../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=6d606735,../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=d6814f6c,../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=dc65dd35,../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=29f3d31f,../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=fed52df5,../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=3ec0154b,../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=93f33d89,../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=e3063d8d,../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=e2812a36,../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=b4201c81,../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=b77c74eb,../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=7bc178e1,../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=c55c2aaf,../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=ddc9a1d0,../_stl/boxes/root/spacer_1.stl?v=e6ca2e7a,../_stl/boxes/root/spacer_2.stl?v=64e4c7e5,../_stl/boxes/root/spacer_3.stl?v=418d673c,../_stl/boxes/root/spacer_4.stl?v=49d3ef51,../_stl/boxes/root/spacer_5.stl?v=04794665,../_stl/boxes/root/spacer_6.stl?v=72fd3944" download="Root_full_packing.stl">⬇ Download Full Box Packing STL (<code>Root_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -209,12 +209,12 @@ BaseCardBox
 
 **Assembled Box (BaseCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=f7a52ec0
+.. stl:: ../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=8cb5369d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=f7a52ec0" download="BaseCardBox_assembled.stl">⬇ Download Assembled BaseCardBox STL (<code>BaseCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb" data-stl-combine="../_stl/boxes/root/BaseCardBox_body.stl?v=670155cb,../_stl/boxes/root/BaseCardBox_lid.stl?v=8cb5369d" download="BaseCardBox_assembled.stl">⬇ Download Assembled BaseCardBox STL (<code>BaseCardBox_assembled.stl</code>)</a></p>
 
 **Part: BaseCardBox Body**
 
@@ -227,12 +227,12 @@ BaseCardBox
 
 **Part: BaseCardBox Lid**
 
-.. stl:: ../_stl/boxes/root/BaseCardBox_lid.stl?v=f7a52ec0
+.. stl:: ../_stl/boxes/root/BaseCardBox_lid.stl?v=8cb5369d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/BaseCardBox_lid.stl?v=f7a52ec0" download="BaseCardBox_lid.stl">⬇ Download BaseCardBox Lid STL (<code>BaseCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/BaseCardBox_lid.stl?v=8cb5369d" download="BaseCardBox_lid.stl">⬇ Download BaseCardBox Lid STL (<code>BaseCardBox_lid.stl</code>)</a></p>
 
 .. _box-root-eriecardbox:
 
@@ -248,12 +248,12 @@ ErieCardBox
 
 **Assembled Box (ErieCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=8fd10207
+.. stl:: ../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=c3346042
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5" data-stl-combine="../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=8fd10207" download="ErieCardBox_assembled.stl">⬇ Download Assembled ErieCardBox STL (<code>ErieCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5" data-stl-combine="../_stl/boxes/root/ErieCardBox_body.stl?v=678d5ba5,../_stl/boxes/root/ErieCardBox_lid.stl?v=c3346042" download="ErieCardBox_assembled.stl">⬇ Download Assembled ErieCardBox STL (<code>ErieCardBox_assembled.stl</code>)</a></p>
 
 **Part: ErieCardBox Body**
 
@@ -266,12 +266,12 @@ ErieCardBox
 
 **Part: ErieCardBox Lid**
 
-.. stl:: ../_stl/boxes/root/ErieCardBox_lid.stl?v=8fd10207
+.. stl:: ../_stl/boxes/root/ErieCardBox_lid.stl?v=c3346042
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieCardBox_lid.stl?v=8fd10207" download="ErieCardBox_lid.stl">⬇ Download ErieCardBox Lid STL (<code>ErieCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieCardBox_lid.stl?v=c3346042" download="ErieCardBox_lid.stl">⬇ Download ErieCardBox Lid STL (<code>ErieCardBox_lid.stl</code>)</a></p>
 
 .. _box-root-vagabondcardbox:
 
@@ -287,12 +287,12 @@ VagabondCardBox
 
 **Assembled Box (VagabondCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=1e30bd13
+.. stl:: ../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=c3ee950c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3" data-stl-combine="../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=1e30bd13" download="VagabondCardBox_assembled.stl">⬇ Download Assembled VagabondCardBox STL (<code>VagabondCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3" data-stl-combine="../_stl/boxes/root/VagabondCardBox_body.stl?v=83935fd3,../_stl/boxes/root/VagabondCardBox_lid.stl?v=c3ee950c" download="VagabondCardBox_assembled.stl">⬇ Download Assembled VagabondCardBox STL (<code>VagabondCardBox_assembled.stl</code>)</a></p>
 
 **Part: VagabondCardBox Body**
 
@@ -305,12 +305,12 @@ VagabondCardBox
 
 **Part: VagabondCardBox Lid**
 
-.. stl:: ../_stl/boxes/root/VagabondCardBox_lid.stl?v=1e30bd13
+.. stl:: ../_stl/boxes/root/VagabondCardBox_lid.stl?v=c3ee950c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondCardBox_lid.stl?v=1e30bd13" download="VagabondCardBox_lid.stl">⬇ Download VagabondCardBox Lid STL (<code>VagabondCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondCardBox_lid.stl?v=c3ee950c" download="VagabondCardBox_lid.stl">⬇ Download VagabondCardBox Lid STL (<code>VagabondCardBox_lid.stl</code>)</a></p>
 
 .. _box-root-overviewcardbox:
 
@@ -326,12 +326,12 @@ OverviewCardBox
 
 **Assembled Box (OverviewCardBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=08075eb5
+.. stl:: ../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=2da30240
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967" data-stl-combine="../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=08075eb5" download="OverviewCardBox_assembled.stl">⬇ Download Assembled OverviewCardBox STL (<code>OverviewCardBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967" data-stl-combine="../_stl/boxes/root/OverviewCardBox_body.stl?v=1aad1967,../_stl/boxes/root/OverviewCardBox_lid.stl?v=2da30240" download="OverviewCardBox_assembled.stl">⬇ Download Assembled OverviewCardBox STL (<code>OverviewCardBox_assembled.stl</code>)</a></p>
 
 **Part: OverviewCardBox Body**
 
@@ -344,12 +344,12 @@ OverviewCardBox
 
 **Part: OverviewCardBox Lid**
 
-.. stl:: ../_stl/boxes/root/OverviewCardBox_lid.stl?v=08075eb5
+.. stl:: ../_stl/boxes/root/OverviewCardBox_lid.stl?v=2da30240
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/OverviewCardBox_lid.stl?v=08075eb5" download="OverviewCardBox_lid.stl">⬇ Download OverviewCardBox Lid STL (<code>OverviewCardBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/OverviewCardBox_lid.stl?v=2da30240" download="OverviewCardBox_lid.stl">⬇ Download OverviewCardBox Lid STL (<code>OverviewCardBox_lid.stl</code>)</a></p>
 
 .. _box-root-itemsboxbottom:
 
@@ -365,12 +365,12 @@ ItemsBoxBottom
 
 **Assembled Box (ItemsBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=fb9d850b
+.. stl:: ../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=82ffaaba
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c" data-stl-combine="../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=fb9d850b" download="ItemsBoxBottom_assembled.stl">⬇ Download Assembled ItemsBoxBottom STL (<code>ItemsBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c" data-stl-combine="../_stl/boxes/root/ItemsBoxBottom_body.stl?v=0fbc1d1c,../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=82ffaaba" download="ItemsBoxBottom_assembled.stl">⬇ Download Assembled ItemsBoxBottom STL (<code>ItemsBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: ItemsBoxBottom Body**
 
@@ -383,12 +383,12 @@ ItemsBoxBottom
 
 **Part: ItemsBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=fb9d850b
+.. stl:: ../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=82ffaaba
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=fb9d850b" download="ItemsBoxBottom_lid.stl">⬇ Download ItemsBoxBottom Lid STL (<code>ItemsBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxBottom_lid.stl?v=82ffaaba" download="ItemsBoxBottom_lid.stl">⬇ Download ItemsBoxBottom Lid STL (<code>ItemsBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-itemsboxmiddle:
 
@@ -404,12 +404,12 @@ ItemsBoxMiddle
 
 **Assembled Box (ItemsBoxMiddle — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=19dcdaa4
+.. stl:: ../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=df7cf2e6
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3" data-stl-combine="../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=19dcdaa4" download="ItemsBoxMiddle_assembled.stl">⬇ Download Assembled ItemsBoxMiddle STL (<code>ItemsBoxMiddle_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3" data-stl-combine="../_stl/boxes/root/ItemsBoxMiddle_body.stl?v=232bcbe3,../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=df7cf2e6" download="ItemsBoxMiddle_assembled.stl">⬇ Download Assembled ItemsBoxMiddle STL (<code>ItemsBoxMiddle_assembled.stl</code>)</a></p>
 
 **Part: ItemsBoxMiddle Body**
 
@@ -422,12 +422,12 @@ ItemsBoxMiddle
 
 **Part: ItemsBoxMiddle Lid**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=19dcdaa4
+.. stl:: ../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=df7cf2e6
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=19dcdaa4" download="ItemsBoxMiddle_lid.stl">⬇ Download ItemsBoxMiddle Lid STL (<code>ItemsBoxMiddle_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxMiddle_lid.stl?v=df7cf2e6" download="ItemsBoxMiddle_lid.stl">⬇ Download ItemsBoxMiddle Lid STL (<code>ItemsBoxMiddle_lid.stl</code>)</a></p>
 
 .. _box-root-itemsboxwinter:
 
@@ -443,12 +443,12 @@ ItemsBoxWinter
 
 **Assembled Box (ItemsBoxWinter — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=00995441
+.. stl:: ../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=dbabecf0
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac" data-stl-combine="../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=00995441" download="ItemsBoxWinter_assembled.stl">⬇ Download Assembled ItemsBoxWinter STL (<code>ItemsBoxWinter_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac" data-stl-combine="../_stl/boxes/root/ItemsBoxWinter_body.stl?v=80120cac,../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=dbabecf0" download="ItemsBoxWinter_assembled.stl">⬇ Download Assembled ItemsBoxWinter STL (<code>ItemsBoxWinter_assembled.stl</code>)</a></p>
 
 **Part: ItemsBoxWinter Body**
 
@@ -461,12 +461,12 @@ ItemsBoxWinter
 
 **Part: ItemsBoxWinter Lid**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=00995441
+.. stl:: ../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=dbabecf0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=00995441" download="ItemsBoxWinter_lid.stl">⬇ Download ItemsBoxWinter Lid STL (<code>ItemsBoxWinter_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxWinter_lid.stl?v=dbabecf0" download="ItemsBoxWinter_lid.stl">⬇ Download ItemsBoxWinter Lid STL (<code>ItemsBoxWinter_lid.stl</code>)</a></p>
 
 .. _box-root-itemsboxextras:
 
@@ -482,12 +482,12 @@ ItemsBoxExtras
 
 **Assembled Box (ItemsBoxExtras — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=f025454e
+.. stl:: ../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=6d606735
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22" data-stl-combine="../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=f025454e" download="ItemsBoxExtras_assembled.stl">⬇ Download Assembled ItemsBoxExtras STL (<code>ItemsBoxExtras_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22" data-stl-combine="../_stl/boxes/root/ItemsBoxExtras_body.stl?v=7d5e6e22,../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=6d606735" download="ItemsBoxExtras_assembled.stl">⬇ Download Assembled ItemsBoxExtras STL (<code>ItemsBoxExtras_assembled.stl</code>)</a></p>
 
 **Part: ItemsBoxExtras Body**
 
@@ -500,12 +500,12 @@ ItemsBoxExtras
 
 **Part: ItemsBoxExtras Lid**
 
-.. stl:: ../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=f025454e
+.. stl:: ../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=6d606735
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=f025454e" download="ItemsBoxExtras_lid.stl">⬇ Download ItemsBoxExtras Lid STL (<code>ItemsBoxExtras_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ItemsBoxExtras_lid.stl?v=6d606735" download="ItemsBoxExtras_lid.stl">⬇ Download ItemsBoxExtras Lid STL (<code>ItemsBoxExtras_lid.stl</code>)</a></p>
 
 .. _box-root-marquisboxbottom:
 
@@ -519,12 +519,12 @@ MarquisBoxBottom
 
 **Assembled Box (MarquisBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=eb8a03ce
+.. stl:: ../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=d6814f6c
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31" data-stl-combine="../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=eb8a03ce" download="MarquisBoxBottom_assembled.stl">⬇ Download Assembled MarquisBoxBottom STL (<code>MarquisBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31" data-stl-combine="../_stl/boxes/root/MarquisBoxBottom_body.stl?v=c4d25f31,../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=d6814f6c" download="MarquisBoxBottom_assembled.stl">⬇ Download Assembled MarquisBoxBottom STL (<code>MarquisBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: MarquisBoxBottom Body**
 
@@ -537,12 +537,12 @@ MarquisBoxBottom
 
 **Part: MarquisBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=eb8a03ce
+.. stl:: ../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=d6814f6c
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=eb8a03ce" download="MarquisBoxBottom_lid.stl">⬇ Download MarquisBoxBottom Lid STL (<code>MarquisBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/MarquisBoxBottom_lid.stl?v=d6814f6c" download="MarquisBoxBottom_lid.stl">⬇ Download MarquisBoxBottom Lid STL (<code>MarquisBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-marquisboxtop:
 
@@ -556,12 +556,12 @@ MarquisBoxTop
 
 **Assembled Box (MarquisBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=0f1520ae
+.. stl:: ../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=dc65dd35
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31" data-stl-combine="../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=0f1520ae" download="MarquisBoxTop_assembled.stl">⬇ Download Assembled MarquisBoxTop STL (<code>MarquisBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31" data-stl-combine="../_stl/boxes/root/MarquisBoxTop_body.stl?v=56574d31,../_stl/boxes/root/MarquisBoxTop_lid.stl?v=dc65dd35" download="MarquisBoxTop_assembled.stl">⬇ Download Assembled MarquisBoxTop STL (<code>MarquisBoxTop_assembled.stl</code>)</a></p>
 
 **Part: MarquisBoxTop Body**
 
@@ -574,12 +574,12 @@ MarquisBoxTop
 
 **Part: MarquisBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/MarquisBoxTop_lid.stl?v=0f1520ae
+.. stl:: ../_stl/boxes/root/MarquisBoxTop_lid.stl?v=dc65dd35
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/MarquisBoxTop_lid.stl?v=0f1520ae" download="MarquisBoxTop_lid.stl">⬇ Download MarquisBoxTop Lid STL (<code>MarquisBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/MarquisBoxTop_lid.stl?v=dc65dd35" download="MarquisBoxTop_lid.stl">⬇ Download MarquisBoxTop Lid STL (<code>MarquisBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-erieboxbottom:
 
@@ -593,12 +593,12 @@ ErieBoxBottom
 
 **Assembled Box (ErieBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=7a12e776
+.. stl:: ../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=29f3d31f
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736" data-stl-combine="../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=7a12e776" download="ErieBoxBottom_assembled.stl">⬇ Download Assembled ErieBoxBottom STL (<code>ErieBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736" data-stl-combine="../_stl/boxes/root/ErieBoxBottom_body.stl?v=93bac736,../_stl/boxes/root/ErieBoxBottom_lid.stl?v=29f3d31f" download="ErieBoxBottom_assembled.stl">⬇ Download Assembled ErieBoxBottom STL (<code>ErieBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: ErieBoxBottom Body**
 
@@ -611,12 +611,12 @@ ErieBoxBottom
 
 **Part: ErieBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/ErieBoxBottom_lid.stl?v=7a12e776
+.. stl:: ../_stl/boxes/root/ErieBoxBottom_lid.stl?v=29f3d31f
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieBoxBottom_lid.stl?v=7a12e776" download="ErieBoxBottom_lid.stl">⬇ Download ErieBoxBottom Lid STL (<code>ErieBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieBoxBottom_lid.stl?v=29f3d31f" download="ErieBoxBottom_lid.stl">⬇ Download ErieBoxBottom Lid STL (<code>ErieBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-erieboxtop:
 
@@ -630,12 +630,12 @@ ErieBoxTop
 
 **Assembled Box (ErieBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=66b3006f
+.. stl:: ../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=fed52df5
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a" data-stl-combine="../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=66b3006f" download="ErieBoxTop_assembled.stl">⬇ Download Assembled ErieBoxTop STL (<code>ErieBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a" data-stl-combine="../_stl/boxes/root/ErieBoxTop_body.stl?v=9cc0060a,../_stl/boxes/root/ErieBoxTop_lid.stl?v=fed52df5" download="ErieBoxTop_assembled.stl">⬇ Download Assembled ErieBoxTop STL (<code>ErieBoxTop_assembled.stl</code>)</a></p>
 
 **Part: ErieBoxTop Body**
 
@@ -648,12 +648,12 @@ ErieBoxTop
 
 **Part: ErieBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/ErieBoxTop_lid.stl?v=66b3006f
+.. stl:: ../_stl/boxes/root/ErieBoxTop_lid.stl?v=fed52df5
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/ErieBoxTop_lid.stl?v=66b3006f" download="ErieBoxTop_lid.stl">⬇ Download ErieBoxTop Lid STL (<code>ErieBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/ErieBoxTop_lid.stl?v=fed52df5" download="ErieBoxTop_lid.stl">⬇ Download ErieBoxTop Lid STL (<code>ErieBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-allianceboxbottom:
 
@@ -667,12 +667,12 @@ AllianceBoxBottom
 
 **Assembled Box (AllianceBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=2208ea44
+.. stl:: ../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=3ec0154b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233" data-stl-combine="../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=2208ea44" download="AllianceBoxBottom_assembled.stl">⬇ Download Assembled AllianceBoxBottom STL (<code>AllianceBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233" data-stl-combine="../_stl/boxes/root/AllianceBoxBottom_body.stl?v=aaae0233,../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=3ec0154b" download="AllianceBoxBottom_assembled.stl">⬇ Download Assembled AllianceBoxBottom STL (<code>AllianceBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: AllianceBoxBottom Body**
 
@@ -685,12 +685,12 @@ AllianceBoxBottom
 
 **Part: AllianceBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=2208ea44
+.. stl:: ../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=3ec0154b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=2208ea44" download="AllianceBoxBottom_lid.stl">⬇ Download AllianceBoxBottom Lid STL (<code>AllianceBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/AllianceBoxBottom_lid.stl?v=3ec0154b" download="AllianceBoxBottom_lid.stl">⬇ Download AllianceBoxBottom Lid STL (<code>AllianceBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-allianceboxtop:
 
@@ -704,12 +704,12 @@ AllianceBoxTop
 
 **Assembled Box (AllianceBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=4c5b863a
+.. stl:: ../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=93f33d89
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a" data-stl-combine="../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=4c5b863a" download="AllianceBoxTop_assembled.stl">⬇ Download Assembled AllianceBoxTop STL (<code>AllianceBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a" data-stl-combine="../_stl/boxes/root/AllianceBoxTop_body.stl?v=bd80717a,../_stl/boxes/root/AllianceBoxTop_lid.stl?v=93f33d89" download="AllianceBoxTop_assembled.stl">⬇ Download Assembled AllianceBoxTop STL (<code>AllianceBoxTop_assembled.stl</code>)</a></p>
 
 **Part: AllianceBoxTop Body**
 
@@ -722,12 +722,12 @@ AllianceBoxTop
 
 **Part: AllianceBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/AllianceBoxTop_lid.stl?v=4c5b863a
+.. stl:: ../_stl/boxes/root/AllianceBoxTop_lid.stl?v=93f33d89
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/AllianceBoxTop_lid.stl?v=4c5b863a" download="AllianceBoxTop_lid.stl">⬇ Download AllianceBoxTop Lid STL (<code>AllianceBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/AllianceBoxTop_lid.stl?v=93f33d89" download="AllianceBoxTop_lid.stl">⬇ Download AllianceBoxTop Lid STL (<code>AllianceBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-lizardboxbottom:
 
@@ -741,12 +741,12 @@ LizardBoxBottom
 
 **Assembled Box (LizardBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=42acf918
+.. stl:: ../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=e3063d8d
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455" data-stl-combine="../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=42acf918" download="LizardBoxBottom_assembled.stl">⬇ Download Assembled LizardBoxBottom STL (<code>LizardBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455" data-stl-combine="../_stl/boxes/root/LizardBoxBottom_body.stl?v=120ba455,../_stl/boxes/root/LizardBoxBottom_lid.stl?v=e3063d8d" download="LizardBoxBottom_assembled.stl">⬇ Download Assembled LizardBoxBottom STL (<code>LizardBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: LizardBoxBottom Body**
 
@@ -759,12 +759,12 @@ LizardBoxBottom
 
 **Part: LizardBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/LizardBoxBottom_lid.stl?v=42acf918
+.. stl:: ../_stl/boxes/root/LizardBoxBottom_lid.stl?v=e3063d8d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/LizardBoxBottom_lid.stl?v=42acf918" download="LizardBoxBottom_lid.stl">⬇ Download LizardBoxBottom Lid STL (<code>LizardBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/LizardBoxBottom_lid.stl?v=e3063d8d" download="LizardBoxBottom_lid.stl">⬇ Download LizardBoxBottom Lid STL (<code>LizardBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-lizardboxtop:
 
@@ -778,12 +778,12 @@ LizardBoxTop
 
 **Assembled Box (LizardBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=f3fc93d6
+.. stl:: ../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=e2812a36
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc" data-stl-combine="../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=f3fc93d6" download="LizardBoxTop_assembled.stl">⬇ Download Assembled LizardBoxTop STL (<code>LizardBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc" data-stl-combine="../_stl/boxes/root/LizardBoxTop_body.stl?v=5e6322dc,../_stl/boxes/root/LizardBoxTop_lid.stl?v=e2812a36" download="LizardBoxTop_assembled.stl">⬇ Download Assembled LizardBoxTop STL (<code>LizardBoxTop_assembled.stl</code>)</a></p>
 
 **Part: LizardBoxTop Body**
 
@@ -796,12 +796,12 @@ LizardBoxTop
 
 **Part: LizardBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/LizardBoxTop_lid.stl?v=f3fc93d6
+.. stl:: ../_stl/boxes/root/LizardBoxTop_lid.stl?v=e2812a36
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/LizardBoxTop_lid.stl?v=f3fc93d6" download="LizardBoxTop_lid.stl">⬇ Download LizardBoxTop Lid STL (<code>LizardBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/LizardBoxTop_lid.stl?v=e2812a36" download="LizardBoxTop_lid.stl">⬇ Download LizardBoxTop Lid STL (<code>LizardBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-riverfolkboxbottom:
 
@@ -815,12 +815,12 @@ RiverfolkBoxBottom
 
 **Assembled Box (RiverfolkBoxBottom — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=c391c237
+.. stl:: ../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=b4201c81
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643" data-stl-combine="../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=c391c237" download="RiverfolkBoxBottom_assembled.stl">⬇ Download Assembled RiverfolkBoxBottom STL (<code>RiverfolkBoxBottom_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643" data-stl-combine="../_stl/boxes/root/RiverfolkBoxBottom_body.stl?v=34731643,../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=b4201c81" download="RiverfolkBoxBottom_assembled.stl">⬇ Download Assembled RiverfolkBoxBottom STL (<code>RiverfolkBoxBottom_assembled.stl</code>)</a></p>
 
 **Part: RiverfolkBoxBottom Body**
 
@@ -833,12 +833,12 @@ RiverfolkBoxBottom
 
 **Part: RiverfolkBoxBottom Lid**
 
-.. stl:: ../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=c391c237
+.. stl:: ../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=b4201c81
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=c391c237" download="RiverfolkBoxBottom_lid.stl">⬇ Download RiverfolkBoxBottom Lid STL (<code>RiverfolkBoxBottom_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/RiverfolkBoxBottom_lid.stl?v=b4201c81" download="RiverfolkBoxBottom_lid.stl">⬇ Download RiverfolkBoxBottom Lid STL (<code>RiverfolkBoxBottom_lid.stl</code>)</a></p>
 
 .. _box-root-riverfolkboxtop:
 
@@ -852,12 +852,12 @@ RiverfolkBoxTop
 
 **Assembled Box (RiverfolkBoxTop — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=67cdc71d
+.. stl:: ../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=b77c74eb
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8" data-stl-combine="../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=67cdc71d" download="RiverfolkBoxTop_assembled.stl">⬇ Download Assembled RiverfolkBoxTop STL (<code>RiverfolkBoxTop_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8" data-stl-combine="../_stl/boxes/root/RiverfolkBoxTop_body.stl?v=882d1be8,../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=b77c74eb" download="RiverfolkBoxTop_assembled.stl">⬇ Download Assembled RiverfolkBoxTop STL (<code>RiverfolkBoxTop_assembled.stl</code>)</a></p>
 
 **Part: RiverfolkBoxTop Body**
 
@@ -870,12 +870,12 @@ RiverfolkBoxTop
 
 **Part: RiverfolkBoxTop Lid**
 
-.. stl:: ../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=67cdc71d
+.. stl:: ../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=b77c74eb
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=67cdc71d" download="RiverfolkBoxTop_lid.stl">⬇ Download RiverfolkBoxTop Lid STL (<code>RiverfolkBoxTop_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/RiverfolkBoxTop_lid.stl?v=b77c74eb" download="RiverfolkBoxTop_lid.stl">⬇ Download RiverfolkBoxTop Lid STL (<code>RiverfolkBoxTop_lid.stl</code>)</a></p>
 
 .. _box-root-vagabondbox:
 
@@ -891,12 +891,12 @@ VagabondBox
 
 **Assembled Box (VagabondBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=c3a127d4
+.. stl:: ../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=7bc178e1
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7" data-stl-combine="../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=c3a127d4" download="VagabondBox_assembled.stl">⬇ Download Assembled VagabondBox STL (<code>VagabondBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7" data-stl-combine="../_stl/boxes/root/VagabondBox_body.stl?v=c325bfd7,../_stl/boxes/root/VagabondBox_lid.stl?v=7bc178e1" download="VagabondBox_assembled.stl">⬇ Download Assembled VagabondBox STL (<code>VagabondBox_assembled.stl</code>)</a></p>
 
 **Part: VagabondBox Body**
 
@@ -909,12 +909,12 @@ VagabondBox
 
 **Part: VagabondBox Lid**
 
-.. stl:: ../_stl/boxes/root/VagabondBox_lid.stl?v=c3a127d4
+.. stl:: ../_stl/boxes/root/VagabondBox_lid.stl?v=7bc178e1
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox_lid.stl?v=c3a127d4" download="VagabondBox_lid.stl">⬇ Download VagabondBox Lid STL (<code>VagabondBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox_lid.stl?v=7bc178e1" download="VagabondBox_lid.stl">⬇ Download VagabondBox Lid STL (<code>VagabondBox_lid.stl</code>)</a></p>
 
 .. _box-root-vagabondbox2:
 
@@ -930,12 +930,12 @@ VagabondBox2
 
 **Assembled Box (VagabondBox2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=f4f17379
+.. stl:: ../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=c55c2aaf
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc" data-stl-combine="../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=f4f17379" download="VagabondBox2_assembled.stl">⬇ Download Assembled VagabondBox2 STL (<code>VagabondBox2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc" data-stl-combine="../_stl/boxes/root/VagabondBox2_body.stl?v=4c7508dc,../_stl/boxes/root/VagabondBox2_lid.stl?v=c55c2aaf" download="VagabondBox2_assembled.stl">⬇ Download Assembled VagabondBox2 STL (<code>VagabondBox2_assembled.stl</code>)</a></p>
 
 **Part: VagabondBox2 Body**
 
@@ -948,12 +948,12 @@ VagabondBox2
 
 **Part: VagabondBox2 Lid**
 
-.. stl:: ../_stl/boxes/root/VagabondBox2_lid.stl?v=f4f17379
+.. stl:: ../_stl/boxes/root/VagabondBox2_lid.stl?v=c55c2aaf
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/VagabondBox2_lid.stl?v=f4f17379" download="VagabondBox2_lid.stl">⬇ Download VagabondBox2 Lid STL (<code>VagabondBox2_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/VagabondBox2_lid.stl?v=c55c2aaf" download="VagabondBox2_lid.stl">⬇ Download VagabondBox2 Lid STL (<code>VagabondBox2_lid.stl</code>)</a></p>
 
 .. _box-root-dicebox:
 
@@ -967,12 +967,12 @@ DiceBox
 
 **Assembled Box (DiceBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=579dd709
+.. stl:: ../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=ddc9a1d0
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/DiceBox_body.stl?v=ec84affd" data-stl-combine="../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=579dd709" download="DiceBox_assembled.stl">⬇ Download Assembled DiceBox STL (<code>DiceBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/DiceBox_body.stl?v=ec84affd" data-stl-combine="../_stl/boxes/root/DiceBox_body.stl?v=ec84affd,../_stl/boxes/root/DiceBox_lid.stl?v=ddc9a1d0" download="DiceBox_assembled.stl">⬇ Download Assembled DiceBox STL (<code>DiceBox_assembled.stl</code>)</a></p>
 
 **Part: DiceBox Body**
 
@@ -985,12 +985,12 @@ DiceBox
 
 **Part: DiceBox Lid**
 
-.. stl:: ../_stl/boxes/root/DiceBox_lid.stl?v=579dd709
+.. stl:: ../_stl/boxes/root/DiceBox_lid.stl?v=ddc9a1d0
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/root/DiceBox_lid.stl?v=579dd709" download="DiceBox_lid.stl">⬇ Download DiceBox Lid STL (<code>DiceBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/root/DiceBox_lid.stl?v=ddc9a1d0" download="DiceBox_lid.stl">⬇ Download DiceBox Lid STL (<code>DiceBox_lid.stl</code>)</a></p>
 
 Spacer Trays
 ------------
