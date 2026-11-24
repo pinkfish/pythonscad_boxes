@@ -1,0 +1,8 @@
+pyboxbuilder.project.pipeline.GeometryPipeline
+==============================================
+
+.. currentmodule:: pyboxbuilder.project.pipeline
+
+.. autoclass:: GeometryPipeline
+   :members:
+   :show-inheritance:

@@ -5,5 +5,4 @@ pyboxbuilder.builders.sliding.SlidingBoxBuilder
 
 .. autoclass:: SlidingBoxBuilder
    :members:
-   :undoc-members:
    :show-inheritance:

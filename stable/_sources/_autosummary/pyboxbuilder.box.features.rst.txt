@@ -30,29 +30,67 @@ pyboxbuilder.box.features
       :toctree:
       :nosignatures:
    
+      apply_horizontal_interlock
+      apply_stackable_body
+      apply_stackable_lid
+      build_bump_detent
+      build_horizontal_dovetail
+      build_interlock_clip
+      build_leaf_spring_detent
+      build_loop_detent
+      build_magnet_detent
+      build_pattern_stacking_groove
+      build_pattern_stacking_ridge
+      build_perimeter_stacking_foot
+      build_perimeter_stacking_indent
+      build_pinch_slide_hinge_catch
+      build_push_button_hinge_catch
+      build_rotary_bolt_hinge_catch
+      build_slide_across_hinge_catch
+      build_slide_up_hinge_catch
+      build_spin_hinge_catch
+      build_stacking_feet
+      build_stacking_indents
+      build_stacking_pyramid_indents
+      build_stacking_pyramids
+      build_stacking_slide_latch
+      build_stacking_slide_latch_parts
+      build_toggle_latch_hinge_catch
+      build_vertical_pinch_slide_hinge_catch
+      build_vertical_rotary_bolt_hinge_catch
+      build_vertical_slide_across_hinge_catch
+      build_wedge_detent
       cap_body
       cap_finger_cutouts
       cap_finger_metrics
       cap_lid
       cap_metrics
+      cap_slipover_catch
       corner_catch
       dovetail_track
       extrude_footprint
+      extrude_rounded_footprint
       filament_hinge
       fingernail_catch
       fingernail_dish
+      hinge_catch
       hinge_intrusion
       lead_chamfer_size
       lid_corner_rounding
+      magnetic_hinge_catch
+      magnetic_hinge_catch_metrics
       offset_footprint
       path_body_metrics
       path_cap
       path_sleeve
+      polygon_grid_position
       rabbet
+      regular_polygon_path
       sliding_catch
       sliding_dovetail
       sliding_track
       slipover_gap
       slipover_metrics
+      stacking_order_pyramid_config
    
    

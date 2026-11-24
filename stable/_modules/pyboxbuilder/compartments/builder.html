@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -357,10 +570,18 @@
 <span class="sd">    """</span>
     <span class="n">no_rotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Prevent the layout algorithm from rotating this compartment (e.g. directional card slots)."""</span>
+    <span class="n">is_card</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Whether this compartment holds cards, enforcing short-wall finger cutouts (FR-068)."""</span>
     <span class="n">shape_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Path to an SVG file defining the custom shape of the compartment cutout."""</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Manual coordinate override (x, y) in mm within the interior frame."""</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional explicit count of game pieces stored in this compartment (for summaries &amp; packing sheets)."""</span>
+    <span class="n">component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional declared inventory component name stored in this compartment."""</span>
+    <span class="n">allocates</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="w">    </span><span class="sd">"""Optional explicit ``((component_name, qty), ...)`` allocations from the project inventory."""</span>
     <span class="n">elements</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
 <span class="w">    </span><span class="sd">"""Physical game components nested inside this compartment (FR-004b).</span>
 
@@ -370,6 +591,8 @@
     <span class="n">element_margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="w">    </span><span class="sd">"""Clearance added around an element pack's bounding box when `size` is</span>
 <span class="sd">    derived from the elements."""</span>
+    <span class="n">growable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Whether this well's width/length may expand into leftover row slack (FR-004)."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate the ratio fields lie in (0.0, 1.0]."""</span>
@@ -419,16 +642,29 @@
 <span class="sd">            wells all fill needs an explicit size, and says so.</span>
 
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fills_interior</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fills_interior</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">elements_footprint</span>
+
+            <span class="n">ew</span><span class="p">,</span> <span class="n">el</span> <span class="o">=</span> <span class="n">elements_footprint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">element_margin</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">ew</span><span class="p">,</span> <span class="n">el</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="CompartmentBuilder.resolved">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.builder.CompartmentBuilder.html#pyboxbuilder.compartments.builder.CompartmentBuilder.resolved">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolved</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">interior_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">interior_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">interior_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">interior_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">siblings</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">x_tracks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_tracks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
         <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span>
         <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
@@ -443,12 +679,16 @@
 <span class="sd">            siblings: How many compartments share the interior, so a ratio can</span>
 <span class="sd">                be read against the room left once the dividing walls are taken</span>
 <span class="sd">                out (see :meth:`resolve_size`).</span>
+<span class="sd">            x_tracks: Number of horizontal columns across the width (optional).</span>
+<span class="sd">            y_tracks: Number of vertical rows along the length (optional).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ``(label, width, length, depth, shape_file, position, elements)``.</span>
 
 <span class="sd">        """</span>
-        <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_size</span><span class="p">(</span><span class="n">interior_w</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">,</span> <span class="n">siblings</span><span class="p">)</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_size</span><span class="p">(</span>
+            <span class="n">interior_w</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">,</span> <span class="n">siblings</span><span class="p">,</span> <span class="n">x_tracks</span><span class="o">=</span><span class="n">x_tracks</span><span class="p">,</span> <span class="n">y_tracks</span><span class="o">=</span><span class="n">y_tracks</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_depth</span><span class="p">(</span><span class="n">interior_h</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shape_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">,</span>
@@ -474,7 +714,13 @@
 <div class="viewcode-block" id="CompartmentBuilder.resolve_size">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.builder.CompartmentBuilder.html#pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_size">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve_size</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">interior_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">siblings</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">interior_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">interior_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">siblings</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">x_tracks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_tracks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Resolve absolute size from ratios and/or absolute dimensions.</span>
 
@@ -492,6 +738,9 @@
 <span class="sd">            siblings: How many compartments share the interior. One well takes</span>
 <span class="sd">                the interior whole, since the layout gives a lone compartment no</span>
 <span class="sd">                spacing at all.</span>
+<span class="sd">            x_tracks: Explicit column count across width; inferred from siblings when None.</span>
+<span class="sd">            y_tracks: Explicit row count along length; inferred as 1 (or siblings for</span>
+<span class="sd">                length-only ratios) when None.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (width, length) in mm.</span>
@@ -499,33 +748,43 @@
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">WALL_SPACING_MM</span>
 
-        <span class="c1"># The layout runs compartments along the width, so that axis carries a</span>
-        <span class="c1"># gutter before, between and after them — `siblings + 1` of them. The</span>
-        <span class="c1"># length axis only ever has the two outer gutters, whatever the count.</span>
-        <span class="c1"># A lone compartment gets none at all: the layout sits it flush.</span>
-        <span class="n">gutter</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">siblings</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">WALL_SPACING_MM</span>
-        <span class="n">room_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">interior_w</span> <span class="o">-</span> <span class="n">gutter</span> <span class="o">*</span> <span class="p">(</span><span class="n">siblings</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">room_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">interior_l</span> <span class="o">-</span> <span class="n">gutter</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x_tracks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">y_tracks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">xt</span><span class="p">,</span> <span class="n">yt</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">siblings</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">xt</span><span class="p">,</span> <span class="n">yt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">siblings</span><span class="p">),</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_tracks</span> <span class="k">if</span> <span class="n">x_tracks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">siblings</span><span class="p">)</span>
+            <span class="n">yt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_tracks</span> <span class="k">if</span> <span class="n">y_tracks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">total_cells</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">siblings</span><span class="p">,</span> <span class="n">xt</span> <span class="o">*</span> <span class="n">yt</span><span class="p">)</span>
+        <span class="n">gutter</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">total_cells</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">WALL_SPACING_MM</span>
+        <span class="n">room_w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">interior_w</span> <span class="o">-</span> <span class="n">gutter</span> <span class="o">*</span> <span class="p">(</span><span class="n">xt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">room_l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">interior_l</span> <span class="o">-</span> <span class="n">gutter</span> <span class="o">*</span> <span class="p">(</span><span class="n">yt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">w</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">raw_w</span><span class="p">,</span> <span class="n">raw_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">raw_w</span><span class="p">)</span> <span class="k">if</span> <span class="n">raw_w</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">room_w</span> <span class="o">/</span> <span class="n">xt</span><span class="p">)</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">raw_l</span><span class="p">)</span> <span class="k">if</span> <span class="n">raw_l</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">room_l</span> <span class="o">/</span> <span class="n">yt</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
             <span class="c1"># Element pack: the bounding box of the pack IS the compartment (FR-004b).</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">elements_footprint</span>
 
             <span class="n">w</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">elements_footprint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">element_margin</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># No size given: fill the room there is, sharing the width with any</span>
-            <span class="c1"># siblings so a row of unsized wells divides the box evenly.</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">room_w</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">siblings</span><span class="p">)</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="n">room_l</span>
+            <span class="c1"># No size given: fill the room there is, sharing tracks across siblings.</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">room_w</span> <span class="o">/</span> <span class="n">xt</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">room_l</span> <span class="o">/</span> <span class="n">yt</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">w</span> <span class="o">=</span> <span class="n">room_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">room_l</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_ratio</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">interior_w</span> <span class="o">-</span> <span class="n">gutter</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Sized by width alone: the length is whatever is left.</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="n">room_l</span>
+            <span class="c1"># Sized by width alone: the length is whatever is left across Y.</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">interior_l</span> <span class="o">-</span> <span class="n">gutter</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
 
         <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
@@ -534,6 +793,31 @@
             <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">l</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">)</span> <span class="o">*</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">,</span>
         <span class="p">)</span></div>
 </div>
+
+
+
+<div class="viewcode-block" id="infer_ratio_tracks">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.builder.infer_ratio_tracks.html#pyboxbuilder.compartments.builder.infer_ratio_tracks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">infer_ratio_tracks</span><span class="p">(</span><span class="n">compartments</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentBuilder</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">CompartmentBuilder</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Infer ``(x_tracks, y_tracks)`` grid dimensions for a box's auto-placed compartments."""</span>
+    <span class="n">auto_comps</span> <span class="o">=</span> <span class="p">[</span><span class="n">cb</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">compartments</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">auto_comps</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">has_w</span> <span class="o">=</span> <span class="p">[</span><span class="n">cb</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">auto_comps</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">has_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">cb</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">auto_comps</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">length_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">both</span> <span class="o">=</span> <span class="p">[</span><span class="n">cb</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">auto_comps</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cb</span><span class="o">.</span><span class="n">length_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">both</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">both</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">w_sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">width_ratio</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">both</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">width_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">l_sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">length_ratio</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">both</span> <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">length_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">l_sum</span><span class="p">)),</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">w_sum</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="n">has_l</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_w</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 </code></pre></div>
 
@@ -602,8 +886,9 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

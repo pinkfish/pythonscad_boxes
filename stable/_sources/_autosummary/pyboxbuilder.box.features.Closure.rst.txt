@@ -5,5 +5,4 @@ pyboxbuilder.box.features.Closure
 
 .. autoclass:: Closure
    :members:
-   :undoc-members:
    :show-inheritance:

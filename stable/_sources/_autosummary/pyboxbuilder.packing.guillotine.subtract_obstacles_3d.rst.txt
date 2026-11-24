@@ -1,0 +1,6 @@
+pyboxbuilder.packing.guillotine.subtract\_obstacles\_3d
+=======================================================
+
+.. currentmodule:: pyboxbuilder.packing.guillotine
+
+.. autofunction:: subtract_obstacles_3d

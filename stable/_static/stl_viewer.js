@@ -17,6 +17,7 @@
 
 import * as THREE from "https://esm.sh/three@0.160.0";
 import { STLLoader } from "https://esm.sh/three@0.160.0/examples/jsm/loaders/STLLoader.js";
+import { ThreeMFLoader } from "https://esm.sh/three@0.160.0/examples/jsm/loaders/3MFLoader.js";
 import { OrbitControls } from "https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
 const MAX_DPR = 2; // rendering a 3x retina buffer costs 2.25x the pixels for no visible gain
@@ -24,6 +25,7 @@ const VIEW_DIR = new THREE.Vector3(0.8, -1.1, 0.7).normalize();
 
 const viewers = [];
 const loader = new STLLoader();
+const threeMFLoader = new ThreeMFLoader();
 let renderer = null;
 let rendererFailed = false;
 let looping = false;
@@ -53,6 +55,39 @@ function getRenderer() {
   }
   return renderer;
 }
+
+// --------------------------------------------------------------------------
+// context lifecycle — one page, one context, but never more than one at a time
+// --------------------------------------------------------------------------
+//
+// Browsers cap the number of live WebGL contexts (~16). This page already
+// shares one context between every viewer on it, but each *tab* still holds
+// its own, and a browser full of docs tabs exhausts the cap — new pages then
+// throw in `new THREE.WebGLRenderer` and every viewer reports "WebGL is
+// unavailable". A hidden or unloaded tab must hand its context back so the
+// page the user is actually looking at can have one.
+
+function disposeRenderer() {
+  if (!renderer) return;
+  renderer.dispose();
+  renderer.forceContextLoss();
+  renderer = null;
+  rendererFailed = false;
+  for (const v of viewers) v.dirty = true;
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    disposeRenderer();
+  } else {
+    // A transient failure (the cap was briefly hit) can now succeed; the next
+    // blit re-creates the context lazily.
+    rendererFailed = false;
+    for (const v of viewers) v.dirty = true;
+  }
+});
+
+window.addEventListener("pagehide", disposeRenderer);
 
 function blit(v) {
   const r = getRenderer();
@@ -92,8 +127,10 @@ function tick() {
 class Viewer {
   constructor(el) {
     this.el = el;
-    this.uri = el.dataset.stlUri;
-    this.color = el.dataset.stlColor || "#6f9ac9";
+    this.uris = (el.dataset.stlUri || "").split(",").map((s) => s.trim()).filter(Boolean);
+    this.colors = (el.dataset.stlColor || "").split(",").map((s) => s.trim()).filter(Boolean);
+    this.uri = this.uris[0] || "";
+    this.color = this.colors[0] || "#6f9ac9";
     this.status = el.querySelector(".stl-viewer-status");
     this.mesh = null;
     this.corners = [];
@@ -170,8 +207,56 @@ class Viewer {
   }
 
   load() {
-    if (this.requested || !this.uri) return;
+    if (this.requested || !this.uris.length) return;
     this.requested = true;
+
+    if (this.uris.length === 1 && this.uris[0].endsWith(".3mf")) {
+      threeMFLoader.load(
+        this.uris[0],
+        (group) => this.onGroup(group),
+        undefined,
+        () => this.fail("Could not load 3MF (serve the docs over HTTP to view)."),
+      );
+      return;
+    }
+
+    if (this.uris.length > 1) {
+      const promises = this.uris.map(
+        (uri) =>
+          new Promise((resolve, reject) => {
+            loader.load(uri, resolve, undefined, reject);
+          }),
+      );
+      Promise.all(promises)
+        .then((geos) => {
+          const group = new THREE.Group();
+          const palette = this.colors.length > 0 ? this.colors : ["#4a90e2", "#e5a93b", "#50b878", "#d9534f", "#9c56b8"];
+          geos.forEach((geo, i) => {
+            geo.computeVertexNormals();
+            const col = palette[i % palette.length];
+            const mat = geo.hasColors
+              ? new THREE.MeshPhongMaterial({
+                  vertexColors: true,
+                  specular: 0x222222,
+                  shininess: 25,
+                  flatShading: false,
+                  transparent: geo.alpha !== undefined && geo.alpha < 1.0,
+                  opacity: geo.alpha !== undefined ? geo.alpha : 1.0,
+                })
+              : new THREE.MeshPhongMaterial({
+                  color: col,
+                  specular: 0x222222,
+                  shininess: 25,
+                  flatShading: false,
+                });
+            group.add(new THREE.Mesh(geo, mat));
+          });
+          this.onGroup(group);
+        })
+        .catch(() => this.fail("Could not load STLs (serve the docs over HTTP to view)."));
+      return;
+    }
+
     loader.load(
       this.uri,
       (geo) => this.onGeometry(geo),
@@ -195,26 +280,119 @@ class Viewer {
       }
     }
 
-    this.mesh = new THREE.Mesh(
-      geo,
-      new THREE.MeshPhongMaterial({
+    let material;
+    if (geo.hasColors) {
+      material = new THREE.MeshPhongMaterial({
+        vertexColors: true,
+        specular: 0x222222,
+        shininess: 25,
+        flatShading: false,
+        transparent: geo.alpha !== undefined && geo.alpha < 1.0,
+        opacity: geo.alpha !== undefined ? geo.alpha : 1.0,
+      });
+    } else if (geo.groups && geo.groups.length > 1) {
+      const palette = this.colors.length > 1 ? this.colors : ["#4a90e2", "#e5a93b", "#50b878", "#d9534f", "#9c56b8"];
+      material = geo.groups.map(
+        (_, i) =>
+          new THREE.MeshPhongMaterial({
+            color: palette[i % palette.length],
+            specular: 0x222222,
+            shininess: 25,
+            flatShading: false,
+          }),
+      );
+    } else {
+      material = new THREE.MeshPhongMaterial({
         color: this.color,
         specular: 0x222222,
         shininess: 25,
         flatShading: false,
-      }),
-    );
+      });
+    }
+
+    this.mesh = new THREE.Mesh(geo, material);
     this.scene.add(this.mesh);
     if (this.status) this.status.remove();
     this.syncSize();
     this.frame();
   }
 
+  onGroup(group) {
+    const box = new THREE.Box3().setFromObject(group);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    group.position.sub(center);
+
+    const b = new THREE.Box3().setFromObject(group);
+    this.corners = [];
+    for (const x of [b.min.x, b.max.x]) {
+      for (const y of [b.min.y, b.max.y]) {
+        for (const z of [b.min.z, b.max.z]) this.corners.push(new THREE.Vector3(x, y, z));
+      }
+    }
+
+    this.mesh = group;
+    this.scene.add(this.mesh);
+    if (this.status) this.status.remove();
+    this.syncSize();
+    this.frame();
+  }
+
+  /** Replace displayed mesh URIs dynamically and reload the viewer. */
+  setUris(newUris, newColors = null) {
+    const cleaned = (Array.isArray(newUris) ? newUris : String(newUris || "").split(","))
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (cleaned.join(",") === this.uris.join(",")) return;
+
+    if (this.mesh) {
+      this.scene.remove(this.mesh);
+      this.mesh.traverse((obj) => {
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) {
+          const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+          for (const m of mats) m.dispose();
+        }
+      });
+      this.mesh = null;
+    }
+
+    this.uris = cleaned;
+    this.uri = cleaned[0] || "";
+    if (newColors !== null) {
+      this.colors = Array.isArray(newColors)
+        ? newColors
+        : String(newColors).split(",").map((s) => s.trim()).filter(Boolean);
+      this.color = this.colors[0] || "#6f9ac9";
+    }
+    this.el.dataset.stlUri = cleaned.join(",");
+    this.requested = false;
+
+    if (!this.status) {
+      this.status = document.createElement("div");
+      this.status.className = "stl-viewer-status";
+      this.el.appendChild(this.status);
+    } else if (!this.status.parentNode) {
+      this.el.appendChild(this.status);
+    }
+    this.status.className = "stl-viewer-status";
+
+    if (!cleaned.length) {
+      this.status.textContent = "Select at least one box to preview.";
+      this.dirty = true;
+      return;
+    }
+
+    this.status.textContent = "Loading 3-D preview\u2026";
+    this.visible = true;
+    this.load();
+  }
+
   fail(message) {
     if (this.status) {
       if (this.uri) {
         this.status.innerHTML =
-          '<a href="' + this.uri + '" download>&#8681; Download STL mesh</a>'
+          '<a href="' + this.uri + '" download>&#8681; Download 3-D mesh</a>'
           + '<br><small style="opacity:0.65">WebGL is unavailable &mdash; <a href="https://support.google.com/chrome/answer/6138473">enable hardware acceleration</a> in Chrome, or try <a href="chrome://flags/#enable-webgl-swiftshader">SwiftShader</a> for software rendering.</small>';
         this.status.classList.add("stl-viewer-fallback");
       } else {
@@ -280,8 +458,65 @@ function init() {
   }
 }
 
+function initCombinedDownloads() {
+  document.addEventListener("click", async (e) => {
+    const link = e.target.closest("a[data-stl-combine]");
+    if (!link) return;
+    e.preventDefault();
+    const uris = (link.dataset.stlCombine || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (!uris.length) return;
+    const filename = link.getAttribute("download") || "combined.stl";
+    const origText = link.textContent;
+    try {
+      link.textContent = "Preparing STL…";
+      const buffers = await Promise.all(
+        uris.map(async (u) => {
+          const resp = await fetch(u);
+          if (!resp.ok) throw new Error(`HTTP ${resp.status} for ${u}`);
+          return resp.arrayBuffer();
+        }),
+      );
+      let totalTris = 0;
+      const slices = [];
+      for (const buf of buffers) {
+        if (buf.byteLength < 84) continue;
+        const count = new DataView(buf).getUint32(80, true);
+        const byteLen = Math.min(count * 50, buf.byteLength - 84);
+        const actualCount = Math.floor(byteLen / 50);
+        totalTris += actualCount;
+        slices.push(new Uint8Array(buf, 84, actualCount * 50));
+      }
+      const header = new Uint8Array(84);
+      if (buffers[0] && buffers[0].byteLength >= 80) {
+        header.set(new Uint8Array(buffers[0], 0, 80), 0);
+      }
+      new DataView(header.buffer).setUint32(80, totalTris, true);
+      const blob = new Blob([header, ...slices], { type: "model/stl" });
+      const url = URL.createObjectURL(blob);
+      const tmp = document.createElement("a");
+      tmp.href = url;
+      tmp.download = filename;
+      document.body.appendChild(tmp);
+      tmp.click();
+      tmp.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    } catch {
+      window.location.href = uris[0];
+    } finally {
+      link.textContent = origText;
+    }
+  });
+}
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
+  document.addEventListener("DOMContentLoaded", () => {
+    init();
+    initCombinedDownloads();
+  });
 } else {
   init();
+  initCombinedDownloads();
 }

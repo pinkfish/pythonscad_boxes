@@ -16,6 +16,8 @@ pyboxbuilder.box.spec
       :nosignatures:
    
       BoxSpec
+      ResolvedBoxSpec
+      UnresolvedBoxSpec
    
    
 

@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -303,32 +516,67 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">UnresolvedBoxSpec</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
 
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span><span class="p">,</span> <span class="n">Interior</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_box</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBoxBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
 
 
 <div class="viewcode-block" id="SlipoverPathBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover_path.SlipoverPathBox.html#pyboxbuilder.box.types.slipover_path.SlipoverPathBox">[docs]</a>
+<span class="nd">@register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIPOVER_PATH</span><span class="p">,</span> <span class="n">builder</span><span class="o">=</span><span class="n">SlipoverPathBoxBuilder</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SlipoverPathBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Slipover-path lid box type."""</span>
 
 <div class="viewcode-block" id="SlipoverPathBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover_path.SlipoverPathBox.html#pyboxbuilder.box.types.slipover_path.SlipoverPathBox.interior">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the frame the box's contents may occupy."""</span>
+<span class="w">        </span><span class="sd">"""Return the frame the box's contents may occupy inside the inset body."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">path_body_metrics</span><span class="p">,</span> <span class="n">slipover_metrics</span>
+
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="k">else</span> <span class="n">slipover_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Interior</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)),</span>
+            <span class="n">length</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)),</span>
+            <span class="n">height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span><span class="p">),</span>
+            <span class="n">origin_x</span><span class="o">=</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span>
+            <span class="n">origin_y</span><span class="o">=</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span>
+            <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
+            <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SlipoverPathBox.outer_size_for_interior">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover_path.SlipoverPathBox.html#pyboxbuilder.box.types.slipover_path.SlipoverPathBox.outer_size_for_interior">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outer_size_for_interior</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span><span class="p">,</span>
+        <span class="n">inner_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return outer (W, L, H) required to enclose (inner_w, inner_l, inner_h)."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">SLIPOVER_SLEEVE_WALL_SHARE</span>
+
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
-        <span class="k">return</span> <span class="n">Interior</span><span class="p">(</span>
-            <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-            <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-            <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">ft</span><span class="p">,</span>
-            <span class="n">origin_x</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">origin_y</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
+        <span class="n">wiggle</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">size_spacing</span>
+        <span class="n">inset</span> <span class="o">=</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">slip</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip_slack</span><span class="p">)</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="k">else</span> <span class="p">(</span><span class="n">wt</span> <span class="o">*</span> <span class="n">SLIPOVER_SLEEVE_WALL_SHARE</span> <span class="o">+</span> <span class="n">wiggle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">inner_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_l</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_h</span> <span class="o">+</span> <span class="n">ft</span> <span class="o">+</span> <span class="n">lt</span> <span class="o">+</span> <span class="n">wiggle</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -337,10 +585,12 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">build_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a hollow tray on a polygon footprint, for a sleeve to slip over."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-            <span class="n">extrude_footprint</span><span class="p">,</span>
+            <span class="n">extrude_rounded_footprint</span><span class="p">,</span>
             <span class="n">offset_footprint</span><span class="p">,</span>
             <span class="n">path_body_metrics</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">base_rounding</span><span class="p">,</span> <span class="n">body_rounding</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">mating_rounding</span>
 
         <span class="n">path</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
@@ -353,15 +603,42 @@
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">r_body</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">r_mating</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">mating_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">r_body</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
+        <span class="n">r_base</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="n">base_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">*</span> <span class="mf">0.45</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">,</span>
+            <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.45</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">body_path</span> <span class="o">=</span> <span class="n">offset_footprint</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">inset</span><span class="p">)</span>
-        <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span><span class="n">body_path</span><span class="p">,</span> <span class="n">body_height</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">outer</span>
-        <span class="n">inner</span> <span class="o">=</span> <span class="n">extrude_footprint</span><span class="p">(</span>
-            <span class="n">offset_footprint</span><span class="p">(</span><span class="n">body_path</span><span class="p">,</span> <span class="n">wt</span><span class="p">),</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span><span class="p">,</span> <span class="n">ft</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="n">extrude_rounded_footprint</span><span class="p">(</span>
+            <span class="n">body_path</span><span class="p">,</span>
+            <span class="n">body_height</span><span class="p">,</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">r_corner</span><span class="o">=</span><span class="n">r_mating</span><span class="p">,</span>
+            <span class="n">r_bottom</span><span class="o">=</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">r_base</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span></div>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">|</span> <span class="n">extrude_rounded_footprint</span><span class="p">(</span>
+                <span class="n">path</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">r_corner</span><span class="o">=</span><span class="n">r_body</span><span class="p">,</span> <span class="n">r_bottom</span><span class="o">=</span><span class="n">r_base</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">outer</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r_inner</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r_body</span><span class="p">,</span> <span class="n">wt</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span><span class="p">)</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">))</span>
+            <span class="n">inner</span> <span class="o">=</span> <span class="n">extrude_rounded_footprint</span><span class="p">(</span>
+                <span class="n">offset_footprint</span><span class="p">(</span><span class="n">body_path</span><span class="p">,</span> <span class="n">wt</span><span class="p">),</span>
+                <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+                <span class="n">ft</span><span class="p">,</span>
+                <span class="n">r_corner</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">r_mating</span><span class="p">),</span>
+                <span class="n">r_bottom</span><span class="o">=</span><span class="n">r_inner</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">inner</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span>
+
+        <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">anchor_top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SlipoverPathBox.build_lid">
@@ -370,13 +647,192 @@
 <span class="w">        </span><span class="sd">"""Return a sleeve following the body's outline, stopping at the foot."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">path_sleeve</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverBox</span>
 
-            <span class="k">return</span> <span class="n">SlipoverBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">path_sleeve</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span><span class="p">)</span></div>
-</div>
+            <span class="k">return</span> <span class="n">SlipoverBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">)</span>
+        <span class="n">lid</span> <span class="o">=</span> <span class="n">path_sleeve</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">slip</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span><span class="p">)</span>
+        <span class="n">notches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finger_notches</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">notches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">notches</span>
+        <span class="k">return</span> <span class="n">lid</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_finger_notches</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Corner notches at outer corners of the polygon sleeve so it can be pulled off."""</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">cylinder</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">path_body_metrics</span><span class="p">,</span> <span class="n">slipover_gap</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span><span class="p">,</span> <span class="n">body_rounding</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+            <span class="n">SLIPOVER_FINGER_MAX_MM</span><span class="p">,</span>
+            <span class="n">SLIPOVER_FINGER_MAX_RADIUS_MM</span><span class="p">,</span>
+            <span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_cuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_wall_scoop</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">CutProfile</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">FaceTreatment</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+            <span class="n">is_rectilinear</span><span class="p">,</span>
+            <span class="n">polygon_area</span><span class="p">,</span>
+            <span class="n">polygon_opposite_corners</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">mating_rounding</span>
+
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
+        <span class="n">foot</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span>
+        <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">gap</span>
+        <span class="n">requested</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slipover_finger_height</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">min</span><span class="p">(</span><span class="n">SLIPOVER_FINGER_MAX_MM</span><span class="p">,</span> <span class="n">skirt</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="k">if</span> <span class="n">requested</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">requested</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">skirt</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">height</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">opp_indices</span> <span class="o">=</span> <span class="n">polygon_opposite_corners</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">opp_indices</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">ccw</span> <span class="o">=</span> <span class="n">polygon_area</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.0</span>
+        <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">corner_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">opp_indices</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">p_prev</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+            <span class="n">p_next</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+            <span class="n">e1</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">ccw</span>
+                <span class="k">else</span> <span class="p">(</span><span class="n">p_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="p">)</span>
+            <span class="n">e2</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">p_next</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">ccw</span>
+                <span class="k">else</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="p">)</span>
+            <span class="n">d1</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="o">*</span><span class="n">e1</span><span class="p">)</span>
+            <span class="n">d2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="o">*</span><span class="n">e2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">cross</span> <span class="o">=</span> <span class="n">e1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">e2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">e1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">e2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">cross</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">on_front_or_back</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span> <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">max_y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+            <span class="p">)</span>
+            <span class="n">near_side</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_x</span> <span class="o">+</span> <span class="mf">16.0</span> <span class="ow">or</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">max_x</span> <span class="o">-</span> <span class="mf">16.0</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">on_front_or_back</span> <span class="ow">and</span> <span class="n">near_side</span><span class="p">:</span>
+                <span class="n">corner_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+        <span class="n">corner_indices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">corner_set</span><span class="p">)</span>
+        <span class="n">base_z</span> <span class="o">=</span> <span class="n">foot</span> <span class="o">+</span> <span class="n">gap</span>
+        <span class="n">inset</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">path_body_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">r_body</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">r_mating</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">mating_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">r_body</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">)</span>
+        <span class="n">min_edge</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span>
+                <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r_body</span><span class="p">,</span> <span class="n">min_edge</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="n">cut_wt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">wt</span><span class="p">,</span> <span class="n">inset</span> <span class="o">+</span> <span class="n">r_mating</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span>
+        <span class="n">fillet</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">/</span> <span class="mi">4</span>
+        <span class="n">radius_cap</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">SLIPOVER_FINGER_MAX_RADIUS_MM</span>
+            <span class="k">if</span> <span class="n">requested</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">SLIPOVER_FINGER_MAX_RADIUS_MM</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">notches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">corner_indices</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">p_prev</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+            <span class="n">p_next</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+            <span class="n">d_prev</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">d_next</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">max_r</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.5</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">d_prev</span><span class="p">,</span> <span class="n">d_next</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.22</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span><span class="p">),</span> <span class="n">radius_cap</span><span class="p">,</span> <span class="n">max_r</span><span class="p">)</span>
+            <span class="n">top_rounding</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">)</span>
+            <span class="n">span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">r</span><span class="p">,</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">cut_wt</span><span class="p">)</span>
+            <span class="n">base_scoop</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">build_wall_scoop</span><span class="p">(</span>
+                    <span class="n">span</span><span class="p">,</span>
+                    <span class="n">span</span><span class="p">,</span>
+                    <span class="n">height</span><span class="p">,</span>
+                    <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span>
+                    <span class="n">radius</span><span class="o">=</span><span class="n">r</span><span class="p">,</span>
+                    <span class="n">wall_thickness</span><span class="o">=</span><span class="n">cut_wt</span><span class="p">,</span>
+                    <span class="n">profile</span><span class="o">=</span><span class="n">CutProfile</span><span class="p">(</span><span class="n">mouth_flare</span><span class="o">=</span><span class="n">top_rounding</span><span class="p">),</span>
+                    <span class="n">faces</span><span class="o">=</span><span class="n">FaceTreatment</span><span class="p">(</span>
+                        <span class="n">fillet</span><span class="o">=</span><span class="n">fillet</span><span class="p">,</span>
+                        <span class="n">round_inner</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">breach_floor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">top_limit</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">span</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">cut_wt</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">+</span> <span class="n">height</span><span class="p">])</span>
+            <span class="p">)</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">ccw</span>
+                <span class="k">else</span> <span class="p">(</span><span class="n">p_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="p">(</span><span class="n">p_next</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">ccw</span>
+                <span class="k">else</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="p">)</span>
+            <span class="n">unit_edges</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+                <span class="n">length</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">unit_edges</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dx</span> <span class="o">/</span> <span class="n">length</span><span class="p">,</span> <span class="n">dy</span> <span class="o">/</span> <span class="n">length</span><span class="p">))</span>
+                <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">dy</span><span class="p">,</span> <span class="n">dx</span><span class="p">))</span>
+                <span class="n">notches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">base_scoop</span><span class="o">.</span><span class="n">rotate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">angle</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">unit_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+                <span class="ow">and</span> <span class="n">rc</span> <span class="o">&gt;</span> <span class="n">fillet</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+                <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">unit_edges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">unit_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">unit_edges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">unit_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+            <span class="p">):</span>
+                <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">unit_edges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">cx</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">u1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">rc</span> <span class="o">+</span> <span class="n">u2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">rc</span>
+                <span class="n">cy</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">u1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">rc</span> <span class="o">+</span> <span class="n">u2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">rc</span>
+                <span class="n">c_box</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">rc</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">rc</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">fillet</span><span class="p">],</span>
+                    <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">rc</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">rc</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">+</span> <span class="n">height</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">c_cone</span> <span class="o">=</span> <span class="n">cylinder</span><span class="p">(</span>
+                    <span class="n">height</span><span class="o">=</span><span class="n">fillet</span> <span class="o">+</span> <span class="mf">0.04</span><span class="p">,</span>
+                    <span class="n">radius1</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rc</span> <span class="o">-</span> <span class="n">fillet</span><span class="p">),</span>
+                    <span class="n">radius2</span><span class="o">=</span><span class="n">rc</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">precision_kwargs</span><span class="p">(),</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="n">fillet</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">])</span>
+                <span class="n">notches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_box</span> <span class="o">-</span> <span class="n">c_cone</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">union_all</span><span class="p">(</span><span class="n">notches</span><span class="p">)</span></div>
+
 
 </code></pre></div>
 
@@ -445,8 +901,9 @@
     <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

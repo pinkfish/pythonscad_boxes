@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -297,23 +510,20 @@
 
 <h1>Source code for pyboxbuilder.packing.spacer</h1><div class="highlight"><pre>
 <span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
-<span class="sd">"""Spacer tray generation — fill the leftover space with as few trays as possible.</span>
+<span class="sd">"""Spacer tray generation — fill leftover space with minimal, hole-free, supported trays.</span>
 
-<span class="sd">Three stages (FR-014, FR-014a/b/c):</span>
+<span class="sd">Four stages (FR-014, FR-014a/b/c, FR-018):</span>
 
-<span class="sd">1. **Sweep** the game box for the volume no sub-box occupies, and decompose that</span>
-<span class="sd">   volume into axis-aligned boxes, largest first.</span>
-<span class="sd">2. **Merge** any two boxes whose union is itself a box, to a fixed point.</span>
-<span class="sd">3. **Shrink** each survivor by the clearance slack and drop the ones too thin to</span>
-<span class="sd">   print.</span>
-
-<span class="sd">Stage 1 takes the largest box available at each step rather than scanning the</span>
-<span class="sd">grid in index order, and stage 2 exists at all, for the same reason: the plane</span>
-<span class="sd">grid is global, so a box in one corner of the game box contributes cut planes</span>
-<span class="sd">that slice free space everywhere else. Index-order scanning lets a 2 mm sliver</span>
-<span class="sd">claim cells out of the middle of a large void and leave it in fragments — the</span>
-<span class="sd">number of trays then depends on how many boxes the layout happens to contain,</span>
-<span class="sd">which is what FR-014a forbids.</span>
+<span class="sd">1. **Sweep** the game box for empty volume using an axis-unbiased 3D histogram</span>
+<span class="sd">   maximal-empty-cuboid DP ($O(N_x N_y N_z^2)$), extracting the globally largest</span>
+<span class="sd">   empty cuboid at every step regardless of axis orientation.</span>
+<span class="sd">2. **Merge** adjacent cuboids whose union is itself a cuboid via indexed face</span>
+<span class="sd">   matching to a deterministic fixed point.</span>
+<span class="sd">3. **Rectilinear polygon merge** of coplanar same-Z neighbors into L/T/U</span>
+<span class="sd">   `PathBox` footprints, automatically splitting genus &gt;= 1 ring/donut frames</span>
+<span class="sd">   around interior boxes so no spacer ever swallows an enclosed box.</span>
+<span class="sd">4. **Support &amp; clearance filter** shrinking footprints by `clearance` and</span>
+<span class="sd">   verifying both vertical support from below and minimum printable thickness.</span>
 <span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
@@ -332,7 +542,7 @@
 <span class="sd">"""A tray thinner than this in any axis is too fragile to print (FR-014)."""</span>
 
 <span class="n">MAX_GRID_CELLS</span> <span class="o">=</span> <span class="mi">200_000</span>
-<span class="sd">"""Above this the largest-first search is skipped for the cheap index-order scan."""</span>
+<span class="sd">"""Above this the exact 3D histogram search falls back to the cheap linear scan."""</span>
 
 
 <div class="viewcode-block" id="SpacerSpec">
@@ -353,12 +563,7 @@
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.Void.html#pyboxbuilder.packing.spacer.Void">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Void</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""An empty region: a box, or a prism over a non-rectangular footprint.</span>
-
-<span class="sd">    `position` and `size` are always the axis-aligned bounding box. `path`, when</span>
-<span class="sd">    set, is the real footprint outline in absolute X/Y — an L, T or U left over</span>
-<span class="sd">    between boxes (FR-018).</span>
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""An empty region: a box, or a prism over a non-rectangular footprint."""</span>
 
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
@@ -401,6 +606,17 @@
 <span class="c1"># --------------------------------------------------------------------- sweep</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_dedupe_planes</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Sort plane coordinates inside ``[0..upper]`` and collapse &lt; EPSILON/10 duplicates."""</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span> <span class="k">if</span> <span class="o">-</span><span class="n">EPSILON</span> <span class="o">&lt;=</span> <span class="n">v</span> <span class="o">&lt;=</span> <span class="n">upper</span> <span class="o">+</span> <span class="n">EPSILON</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">:</span>
+        <span class="n">clamped</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">upper</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">out</span> <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">clamped</span> <span class="o">-</span> <span class="n">out</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clamped</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_plane_grid</span><span class="p">(</span>
     <span class="n">container</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
@@ -410,9 +626,10 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
             <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
             <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">placement</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">placement</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
-    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>  <span class="c1"># type: ignore[return-value]</span>
-        <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span> <span class="k">if</span> <span class="o">-</span><span class="n">EPSILON</span> <span class="o">&lt;=</span> <span class="n">v</span> <span class="o">&lt;=</span> <span class="n">container</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">EPSILON</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">_dedupe_planes</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
+        <span class="n">_dedupe_planes</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
+        <span class="n">_dedupe_planes</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
     <span class="p">)</span>
 
 
@@ -444,7 +661,7 @@
     <span class="n">start</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
     <span class="n">counts</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Grow the largest cell box from `start`: +x as far as it goes, then +y, then +z."""</span>
+<span class="w">    </span><span class="sd">"""Cheap linear fallback growth from ``start`` when grid exceeds MAX_GRID_CELLS."""</span>
     <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">start</span>
     <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="n">counts</span>
 
@@ -465,25 +682,90 @@
     <span class="k">return</span> <span class="n">i2</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">k2</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_best_empty_cuboid_3d</span><span class="p">(</span>
+    <span class="n">taken</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]],</span>
+    <span class="n">xs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">ys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">zs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Find the globally largest-volume empty 3D cuboid via 2D histogram DP across Z slabs."""</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">zs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">max_xy_area</span> <span class="o">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">best_vol</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">best_bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">best_tiebreak</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nz</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">zs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">zs</span><span class="p">[</span><span class="n">k1</span><span class="p">])</span> <span class="o">*</span> <span class="n">max_xy_area</span> <span class="o">&lt;=</span> <span class="n">best_vol</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">slab_free</span> <span class="o">=</span> <span class="p">[[</span><span class="kc">True</span><span class="p">]</span> <span class="o">*</span> <span class="n">ny</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">k2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">kk</span> <span class="o">=</span> <span class="n">k2</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">any_free</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
+                <span class="n">tk_col</span> <span class="o">=</span> <span class="n">taken</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">sf_col</span> <span class="o">=</span> <span class="n">slab_free</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">sf_col</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">tk_col</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">kk</span><span class="p">]:</span>
+                            <span class="n">sf_col</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">any_free</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">any_free</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">h_mm</span> <span class="o">=</span> <span class="n">zs</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span> <span class="o">-</span> <span class="n">zs</span><span class="p">[</span><span class="n">k1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">h_mm</span> <span class="o">*</span> <span class="n">max_xy_area</span> <span class="o">&lt;=</span> <span class="n">best_vol</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Monotonic-stack largest physical-area rectangle on (xs, ys)</span>
+            <span class="n">start_j</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">nx</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
+                <span class="n">y_end</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="c1"># Stack entries: (start_col_i, physical_len_y, row_start_j)</span>
+                <span class="n">stack</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nx</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">slab_free</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]:</span>
+                            <span class="n">sj</span> <span class="o">=</span> <span class="n">start_j</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                            <span class="n">hy</span> <span class="o">=</span> <span class="n">y_end</span> <span class="o">-</span> <span class="n">ys</span><span class="p">[</span><span class="n">sj</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">start_j</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+                            <span class="n">sj</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+                            <span class="n">hy</span> <span class="o">=</span> <span class="mf">0.0</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">sj</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="n">hy</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+                    <span class="n">push_i</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="k">while</span> <span class="n">stack</span> <span class="ow">and</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">hy</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">:</span>
+                        <span class="n">si</span><span class="p">,</span> <span class="n">prev_hy</span><span class="p">,</span> <span class="n">prev_sj</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                        <span class="n">vol</span> <span class="o">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">xs</span><span class="p">[</span><span class="n">si</span><span class="p">])</span> <span class="o">*</span> <span class="n">prev_hy</span> <span class="o">*</span> <span class="n">h_mm</span>
+                        <span class="n">tb</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">xs</span><span class="p">[</span><span class="n">si</span><span class="p">],</span> <span class="o">-</span><span class="n">ys</span><span class="p">[</span><span class="n">prev_sj</span><span class="p">],</span> <span class="o">-</span><span class="n">zs</span><span class="p">[</span><span class="n">k1</span><span class="p">])</span>
+                        <span class="k">if</span> <span class="n">vol</span> <span class="o">&gt;</span> <span class="n">best_vol</span> <span class="o">+</span> <span class="mf">1e-9</span> <span class="ow">or</span> <span class="p">(</span>
+                            <span class="nb">abs</span><span class="p">(</span><span class="n">vol</span> <span class="o">-</span> <span class="n">best_vol</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span> <span class="ow">and</span> <span class="n">tb</span> <span class="o">&gt;</span> <span class="n">best_tiebreak</span>
+                        <span class="p">):</span>
+                            <span class="n">best_vol</span> <span class="o">=</span> <span class="n">vol</span>
+                            <span class="n">best_bounds</span> <span class="o">=</span> <span class="p">((</span><span class="n">si</span><span class="p">,</span> <span class="n">prev_sj</span><span class="p">,</span> <span class="n">k1</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="p">))</span>
+                            <span class="n">best_tiebreak</span> <span class="o">=</span> <span class="n">tb</span>
+                        <span class="n">push_i</span> <span class="o">=</span> <span class="n">si</span>
+
+                    <span class="k">if</span> <span class="n">hy</span> <span class="o">&gt;</span> <span class="mf">1e-9</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">stack</span> <span class="ow">or</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">hy</span> <span class="o">-</span> <span class="mf">1e-9</span><span class="p">):</span>
+                        <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">push_i</span><span class="p">,</span> <span class="n">hy</span><span class="p">,</span> <span class="n">sj</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">best_bounds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">best_vol</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">best_vol</span><span class="p">,</span> <span class="n">best_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">best_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+
 <div class="viewcode-block" id="sweep_free_space">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.sweep_free_space.html#pyboxbuilder.packing.spacer.sweep_free_space">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sweep_free_space</span><span class="p">(</span>
     <span class="n">container</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Decompose the space no placement occupies into boxes, largest first.</span>
-
-<span class="sd">    Taking the biggest box available at each step is what keeps a big void in one</span>
-<span class="sd">    piece: a sliver alongside it would otherwise claim cells out of its middle</span>
-<span class="sd">    and leave it split (FR-014a).</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        container: (width, length, height) of the volume to fill.</span>
-<span class="sd">        placements: The boxes already placed in it.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Disjoint `Void`s covering all of the free space, in descending volume.</span>
-
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""Decompose the space no placement occupies into disjoint boxes, largest first."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">placements</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -494,7 +776,7 @@
         <span class="k">return</span> <span class="p">[]</span>
 
     <span class="n">taken</span> <span class="o">=</span> <span class="n">_occupancy</span><span class="p">(</span><span class="n">planes</span><span class="p">,</span> <span class="n">placements</span><span class="p">)</span>
-    <span class="n">largest_first</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">MAX_GRID_CELLS</span>
+    <span class="n">exact_dp</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">MAX_GRID_CELLS</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">void_from</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">end</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">:</span>
         <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">start</span>
@@ -505,33 +787,31 @@
         <span class="p">)</span>
 
     <span class="n">voids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">best</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Void</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
-                    <span class="k">if</span> <span class="n">taken</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]:</span>
-                        <span class="k">continue</span>
-                    <span class="n">end</span> <span class="o">=</span> <span class="n">_grow</span><span class="p">(</span><span class="n">taken</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">counts</span><span class="p">)</span>
-                    <span class="n">candidate</span> <span class="o">=</span> <span class="n">void_from</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">end</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">candidate</span><span class="o">.</span><span class="n">volume</span> <span class="o">&gt;</span> <span class="n">best</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">volume</span><span class="p">:</span>
-                        <span class="n">best</span> <span class="o">=</span> <span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">end</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">largest_first</span><span class="p">:</span>
-                        <span class="k">break</span>
-                <span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">largest_first</span><span class="p">:</span>
-                    <span class="k">break</span>
-            <span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">largest_first</span><span class="p">:</span>
-                <span class="k">break</span>
+    <span class="k">if</span> <span class="n">exact_dp</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="n">_best_empty_cuboid_3d</span><span class="p">(</span><span class="n">taken</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">found</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">voids</span>
+            <span class="n">_vol</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="p">(</span><span class="n">i2</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span> <span class="o">=</span> <span class="n">found</span>
+            <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i2</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j2</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k2</span><span class="p">):</span>
+                        <span class="n">taken</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="n">kk</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">voids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">void_from</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="p">(</span><span class="n">i2</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)))</span>
 
-        <span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">voids</span>
-
-        <span class="n">void</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="p">(</span><span class="n">i2</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span> <span class="o">=</span> <span class="n">best</span>
-        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i2</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j2</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k2</span><span class="p">):</span>
-                    <span class="n">taken</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="n">kk</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">voids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">void</span><span class="p">)</span></div>
+    <span class="c1"># Fallback cheap linear scan when grid exceeds MAX_GRID_CELLS</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">taken</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]:</span>
+                    <span class="k">continue</span>
+                <span class="n">i2</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">_grow</span><span class="p">(</span><span class="n">taken</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">counts</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i2</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j2</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k2</span><span class="p">):</span>
+                            <span class="n">taken</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="n">kk</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">voids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">void_from</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="p">(</span><span class="n">i2</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">voids</span></div>
 
 
 
@@ -539,12 +819,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_mergeable_axis</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Void</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return the axis along which `a` and `b` fuse into one box, or None.</span>
-
-<span class="sd">    They fuse when they meet face to face on one axis and match exactly on the</span>
-<span class="sd">    other two — the union then covers the two originals and nothing else, so it</span>
-<span class="sd">    can never swallow occupied space.</span>
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""Return the axis along which `a` and `b` fuse into one box, or None."""</span>
     <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
         <span class="n">others</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">axis</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
@@ -573,36 +848,62 @@
 <div class="viewcode-block" id="merge_voids">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.merge_voids.html#pyboxbuilder.packing.spacer.merge_voids">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">merge_voids</span><span class="p">(</span><span class="n">voids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Fuse mergeable voids until none remain (FR-014b).</span>
+<span class="w">    </span><span class="sd">"""Fuse mergeable voids deterministically using orthogonal face-bucket indexing (FR-014b)."""</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">voids</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">voids</span><span class="p">)</span>
 
-<span class="sd">    Every fusion drops the count by one, so this terminates in at most N rounds.</span>
-<span class="sd">    Voids are visited in a canonical order, which makes the result depend only on</span>
-<span class="sd">    the geometry and not on the order the sweep happened to find them in — note</span>
-<span class="sd">    that this is determinism, not uniqueness: an L-shaped run of three voids can</span>
-<span class="sd">    legitimately fuse two different ways, and both leave two boxes behind.</span>
-<span class="sd">    """</span>
-    <span class="n">remaining</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">voids</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+    <span class="n">remaining</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="n">voids</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 
-    <span class="n">fused</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">while</span> <span class="n">fused</span><span class="p">:</span>
-        <span class="n">fused</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="n">index_a</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">remaining</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">offset</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">remaining</span><span class="p">[</span><span class="n">index_a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]):</span>
-                <span class="n">axis</span> <span class="o">=</span> <span class="n">_mergeable_axis</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">index_b</span> <span class="o">=</span> <span class="n">index_a</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">offset</span>
-                <span class="n">merged</span> <span class="o">=</span> <span class="n">_fuse</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
-                <span class="n">remaining</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="n">v</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">remaining</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">index_a</span><span class="p">,</span> <span class="n">index_b</span><span class="p">)</span>
-                <span class="p">]</span>
-                <span class="n">remaining</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span>
-                <span class="n">remaining</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
-                <span class="n">fused</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">break</span>
-            <span class="k">if</span> <span class="n">fused</span><span class="p">:</span>
-                <span class="k">break</span>
+    <span class="c1"># Fuse along each axis in canonical order, repeating until fixed point</span>
+    <span class="n">changed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">while</span> <span class="n">changed</span><span class="p">:</span>
+        <span class="n">changed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">axis</span><span class="p">]</span>
+            <span class="n">buckets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">remaining</span><span class="p">:</span>
+                <span class="n">bkey</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="n">o1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">50</span><span class="p">),</span>
+                    <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">o1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">50</span><span class="p">),</span>
+                    <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="n">o2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">50</span><span class="p">),</span>
+                    <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">o2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">50</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">buckets</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">bkey</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
+            <span class="n">next_remaining</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">buckets</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">group</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
+                <span class="n">cur</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">nxt</span> <span class="ow">in</span> <span class="n">group</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                    <span class="k">if</span> <span class="n">_mergeable_axis</span><span class="p">(</span><span class="n">cur</span><span class="p">,</span> <span class="n">nxt</span><span class="p">)</span> <span class="o">==</span> <span class="n">axis</span><span class="p">:</span>
+                        <span class="n">cur</span> <span class="o">=</span> <span class="n">_fuse</span><span class="p">(</span><span class="n">cur</span><span class="p">,</span> <span class="n">nxt</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+                        <span class="n">changed</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">next_remaining</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span>
+                        <span class="n">cur</span> <span class="o">=</span> <span class="n">nxt</span>
+                <span class="n">next_remaining</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span>
+            <span class="n">remaining</span> <span class="o">=</span> <span class="n">next_remaining</span>
+
+    <span class="n">remaining</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">remaining</span></div>
 
 
@@ -651,19 +952,16 @@
     <span class="k">return</span> <span class="n">groups</span>
 
 
-<div class="viewcode-block" id="union_outline">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.union_outline.html#pyboxbuilder.packing.spacer.union_outline">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">union_outline</span><span class="p">(</span><span class="n">voids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Trace the outline of a union of axis-aligned footprints.</span>
-
-<span class="sd">    Works by cancellation: walk each cell's border counter-clockwise, and drop</span>
-<span class="sd">    any edge that also appears reversed — those are the internal seams between</span>
-<span class="sd">    two filled cells. What survives is the boundary, which then chains into a</span>
-<span class="sd">    loop. Collinear runs are collapsed so an L comes back as six points, not</span>
-<span class="sd">    every grid step along its sides.</span>
-<span class="sd">    """</span>
-    <span class="n">xs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">})</span>
-    <span class="n">ys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">})</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_extract_boundary_loops</span><span class="p">(</span><span class="n">voids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Extract all closed boundary rings (outer CCW rings and inner CW hole rings)."""</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">_dedupe_planes</span><span class="p">(</span>
+        <span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">},</span>
+        <span class="nb">max</span><span class="p">((</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">_dedupe_planes</span><span class="p">(</span>
+        <span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">},</span>
+        <span class="nb">max</span><span class="p">((</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">filled</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">void</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">:</span>
@@ -686,38 +984,90 @@
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
             <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">corners</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">corners</span><span class="p">[(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">]</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-                <span class="n">edges</span><span class="o">.</span><span class="n">discard</span><span class="p">((</span><span class="n">end</span><span class="p">,</span> <span class="n">start</span><span class="p">))</span>  <span class="c1"># internal seam — cancels with its twin</span>
+                <span class="n">edges</span><span class="o">.</span><span class="n">discard</span><span class="p">((</span><span class="n">end</span><span class="p">,</span> <span class="n">start</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">edges</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">()</span>
+        <span class="k">return</span> <span class="p">[]</span>
 
-    <span class="c1"># A reflex corner is the start of two boundary edges, so this has to be a</span>
-    <span class="c1"># multimap — keying by start vertex alone drops one of them and the trace</span>
-    <span class="c1"># below then never closes.</span>
     <span class="n">outgoing</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
         <span class="n">outgoing</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
 
-    <span class="n">first</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">outgoing</span><span class="p">)</span>
-    <span class="n">loop</span> <span class="o">=</span> <span class="p">[</span><span class="n">first</span><span class="p">]</span>
-    <span class="n">node</span> <span class="o">=</span> <span class="n">outgoing</span><span class="p">[</span><span class="n">first</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-    <span class="k">while</span> <span class="n">node</span> <span class="o">!=</span> <span class="n">first</span><span class="p">:</span>
-        <span class="n">loop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">outgoing</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">:</span>  <span class="c1"># not a closed ring; caller keeps the pieces apart</span>
-            <span class="k">return</span> <span class="p">()</span>
-        <span class="n">node</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">loop</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># cannot happen, but never spin</span>
-            <span class="k">return</span> <span class="p">()</span>
+    <span class="c1"># Right-turn preference at degree-4 saddle vertices keeps filled cells on the left</span>
+    <span class="c1"># and splits figure-8 pinches cleanly without self-crossing.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">turn_priority</span><span class="p">(</span><span class="n">prev_pt</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">cur_pt</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">nxt_pt</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">dx1</span><span class="p">,</span> <span class="n">dy1</span> <span class="o">=</span> <span class="n">cur_pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev_pt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cur_pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev_pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dx2</span><span class="p">,</span> <span class="n">dy2</span> <span class="o">=</span> <span class="n">nxt_pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">cur_pt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nxt_pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cur_pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cross</span> <span class="o">=</span> <span class="n">dx1</span> <span class="o">*</span> <span class="n">dy2</span> <span class="o">-</span> <span class="n">dy1</span> <span class="o">*</span> <span class="n">dx2</span>
+        <span class="n">dot</span> <span class="o">=</span> <span class="n">dx1</span> <span class="o">*</span> <span class="n">dx2</span> <span class="o">+</span> <span class="n">dy1</span> <span class="o">*</span> <span class="n">dy2</span>
+        <span class="k">if</span> <span class="n">cross</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># right turn (keeps interior connected locally)</span>
+        <span class="k">if</span> <span class="n">dot</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span>  <span class="c1"># straight</span>
+        <span class="k">if</span> <span class="n">cross</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">2</span>  <span class="c1"># left turn</span>
+        <span class="k">return</span> <span class="mi">3</span>
 
-    <span class="k">return</span> <span class="n">_drop_collinear</span><span class="p">([(</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">loop</span><span class="p">])</span></div>
+    <span class="n">loops</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">max_steps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+
+    <span class="k">while</span> <span class="n">outgoing</span><span class="p">:</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">outgoing</span><span class="p">)</span>
+        <span class="n">opts_first</span> <span class="o">=</span> <span class="n">outgoing</span><span class="p">[</span><span class="n">first</span><span class="p">]</span>
+        <span class="n">nxt</span> <span class="o">=</span> <span class="n">opts_first</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">opts_first</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">outgoing</span><span class="p">[</span><span class="n">first</span><span class="p">]</span>
+
+        <span class="n">ring_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">first</span><span class="p">]</span>
+        <span class="n">prev</span><span class="p">,</span> <span class="n">node</span> <span class="o">=</span> <span class="n">first</span><span class="p">,</span> <span class="n">nxt</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="o">!=</span> <span class="n">first</span><span class="p">:</span>
+            <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">steps</span> <span class="o">&gt;</span> <span class="n">max_steps</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[]</span>
+            <span class="n">ring_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="n">outgoing</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">options</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">cand</span><span class="p">:</span> <span class="n">turn_priority</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">cand</span><span class="p">))</span>
+            <span class="n">chosen</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">outgoing</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+            <span class="n">prev</span><span class="p">,</span> <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="p">,</span> <span class="n">chosen</span>
+
+        <span class="n">pts</span> <span class="o">=</span> <span class="n">_drop_collinear</span><span class="p">([(</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">ring_idx</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">loops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">loops</span>
+
+
+<div class="viewcode-block" id="union_outline">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.union_outline.html#pyboxbuilder.packing.spacer.union_outline">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">union_outline</span><span class="p">(</span><span class="n">voids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Trace the single genus-0 outline of a union of axis-aligned footprints.</span>
+
+<span class="sd">    Returns ``()`` if the union is disconnected or contains an interior hole</span>
+<span class="sd">    (genus &gt;= 1), so callers never swallow an enclosed box inside a ring void.</span>
+<span class="sd">    """</span>
+    <span class="n">loops</span> <span class="o">=</span> <span class="n">_extract_boundary_loops</span><span class="p">(</span><span class="n">voids</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">loops</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">()</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">signed_area</span>
+
+    <span class="k">if</span> <span class="n">signed_area</span><span class="p">(</span><span class="n">loops</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">()</span>
+    <span class="k">return</span> <span class="n">loops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_drop_collinear</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Remove points that sit in the middle of a straight run."""</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
     <span class="n">kept</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
         <span class="n">before</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
@@ -732,21 +1082,69 @@
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">kept</span><span class="p">)</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_slice_voids_at_y</span><span class="p">(</span><span class="n">voids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">],</span> <span class="n">cut_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Split rectangular voids across horizontal plane ``y = cut_y``."""</span>
+    <span class="n">below</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">above</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">:</span>
+        <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">y1</span> <span class="o">&lt;=</span> <span class="n">cut_y</span> <span class="o">+</span> <span class="n">EPSILON</span><span class="p">:</span>
+            <span class="n">below</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">y0</span> <span class="o">&gt;=</span> <span class="n">cut_y</span> <span class="o">-</span> <span class="n">EPSILON</span><span class="p">:</span>
+            <span class="n">above</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">below</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Void</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cut_y</span> <span class="o">-</span> <span class="n">y0</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
+            <span class="n">above</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Void</span><span class="p">((</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cut_y</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">cut_y</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">merge_voids</span><span class="p">(</span><span class="n">below</span><span class="p">),</span> <span class="n">merge_voids</span><span class="p">(</span><span class="n">above</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_merge_component_with_hole_split</span><span class="p">(</span><span class="n">group</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">],</span> <span class="n">z_origin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Merge a connected coplanar component, splitting along interior holes if genus &gt;= 1."""</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">group</span>
+
+    <span class="n">loops</span> <span class="o">=</span> <span class="n">_extract_boundary_loops</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">loops</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">group</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">signed_area</span>
+
+    <span class="n">outer_loops</span> <span class="o">=</span> <span class="p">[</span><span class="n">lp</span> <span class="k">for</span> <span class="n">lp</span> <span class="ow">in</span> <span class="n">loops</span> <span class="k">if</span> <span class="n">signed_area</span><span class="p">(</span><span class="n">lp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">hole_loops</span> <span class="o">=</span> <span class="p">[</span><span class="n">lp</span> <span class="k">for</span> <span class="n">lp</span> <span class="ow">in</span> <span class="n">loops</span> <span class="k">if</span> <span class="n">signed_area</span><span class="p">(</span><span class="n">lp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outer_loops</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">hole_loops</span><span class="p">:</span>
+        <span class="n">outline</span> <span class="o">=</span> <span class="n">outer_loops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">]</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">Void</span><span class="p">(</span>
+                <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span> <span class="n">z_origin</span><span class="p">),</span>
+                <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span> <span class="n">z_size</span><span class="p">),</span>
+                <span class="n">path</span><span class="o">=</span><span class="n">outline</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">hole_loops</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">group</span><span class="p">):</span>
+        <span class="c1"># Cut across the middle of the first interior hole so the donut splits into two U/L trays!</span>
+        <span class="n">hys</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">hole_loops</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">cut_y</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">hys</span><span class="p">)</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">hys</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">low_part</span><span class="p">,</span> <span class="n">high_part</span> <span class="o">=</span> <span class="n">_slice_voids_at_y</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">cut_y</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">low_part</span> <span class="ow">and</span> <span class="n">high_part</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">half</span> <span class="ow">in</span> <span class="p">(</span><span class="n">low_part</span><span class="p">,</span> <span class="n">high_part</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">sub_comp</span> <span class="ow">in</span> <span class="n">_components</span><span class="p">(</span><span class="n">half</span><span class="p">):</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_merge_component_with_hole_split</span><span class="p">(</span><span class="n">sub_comp</span><span class="p">,</span> <span class="n">z_origin</span><span class="p">,</span> <span class="n">z_size</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">return</span> <span class="n">group</span>
+
+
 <div class="viewcode-block" id="merge_rectilinear">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.merge_rectilinear.html#pyboxbuilder.packing.spacer.merge_rectilinear">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">merge_rectilinear</span><span class="p">(</span><span class="n">voids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Fuse coplanar neighbours into one polygon-footprint tray (FR-018).</span>
-
-<span class="sd">    After `merge_voids` has taken every rectangular fusion, what can be left is</span>
-<span class="sd">    an L, T or U — a shape no rectangle covers. Those still want to be one part,</span>
-<span class="sd">    so they become a single tray with a polygon footprint.</span>
-
-<span class="sd">    Only voids sharing an **identical Z span** are considered. Two voids at</span>
-<span class="sd">    different heights can also form an L, but in the vertical plane, and fusing</span>
-<span class="sd">    those is a mistake: the upper arm would have nothing beneath it, turning two</span>
-<span class="sd">    trays that each sit flat on what is below them into one part with an</span>
-<span class="sd">    unsupported overhang. Stacked neighbours stay separate on purpose.</span>
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""Fuse coplanar same-Z neighbours into polygon-footprint trays, splitting holes (FR-018)."""</span>
     <span class="n">by_layer</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">void</span> <span class="ow">in</span> <span class="n">voids</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">void</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -757,23 +1155,11 @@
 
     <span class="n">merged</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">z_origin</span><span class="p">,</span> <span class="n">z_size</span><span class="p">),</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">by_layer</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">_components</span><span class="p">(</span><span class="n">layer</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">merged</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="k">continue</span>
-            <span class="n">outline</span> <span class="o">=</span> <span class="n">union_outline</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">outline</span><span class="p">:</span>
-                <span class="n">merged</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-                <span class="k">continue</span>
-            <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">]</span>
-            <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">]</span>
-            <span class="n">merged</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Void</span><span class="p">(</span>
-                    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span> <span class="n">z_origin</span><span class="p">),</span>
-                    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span> <span class="n">z_size</span><span class="p">),</span>
-                    <span class="n">path</span><span class="o">=</span><span class="n">outline</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
+        <span class="n">passthrough</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">layer</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">rects</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">layer</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">merged</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">passthrough</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">_components</span><span class="p">(</span><span class="n">rects</span><span class="p">):</span>
+            <span class="n">merged</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_merge_component_with_hole_split</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">z_origin</span><span class="p">,</span> <span class="n">z_size</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">merged</span></div>
 
 
@@ -784,12 +1170,7 @@
 <div class="viewcode-block" id="apply_clearance">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.packing.spacer.apply_clearance.html#pyboxbuilder.packing.spacer.apply_clearance">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">apply_clearance</span><span class="p">(</span><span class="n">void</span><span class="p">:</span> <span class="n">Void</span><span class="p">,</span> <span class="n">slack</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Shrink a void by `slack` on every side so the tray can be lifted out.</span>
-
-<span class="sd">    The sweep measures the true empty volume; a tray printed to that exact size</span>
-<span class="sd">    is an interference fit against its neighbours (FR-014c). Height is left</span>
-<span class="sd">    alone — a tray is lifted straight up, so only the footprint needs the gap.</span>
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""Shrink a void by `slack` on every horizontal side so the tray lifts out freely."""</span>
     <span class="k">if</span> <span class="n">slack</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">void</span>
 
@@ -808,17 +1189,56 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_inset_polygon_void</span><span class="p">(</span><span class="n">void</span><span class="p">:</span> <span class="n">Void</span><span class="p">,</span> <span class="n">slack</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Pull an L/T/U footprint inward by `slack` on every side."""</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">inset_rectilinear</span>
+<span class="w">    </span><span class="sd">"""Pull an L/T/U footprint inward by `slack` on every side, guarding against inversion."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">inset_rectilinear</span><span class="p">,</span> <span class="n">signed_area</span>
 
     <span class="k">assert</span> <span class="n">void</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">orig_sign</span> <span class="o">=</span> <span class="n">signed_area</span><span class="p">(</span><span class="n">void</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
     <span class="n">moved</span> <span class="o">=</span> <span class="n">inset_rectilinear</span><span class="p">(</span><span class="n">void</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">slack</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">orig_sign</span> <span class="o">*</span> <span class="n">signed_area</span><span class="p">(</span><span class="n">moved</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Arm collapsed/inverted under slack</span>
+        <span class="k">return</span> <span class="n">Void</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="n">void</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">void</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
     <span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">),</span> <span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span><span class="p">)</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">(</span><span class="n">moved</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Void</span><span class="p">(</span>
         <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">void</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
-        <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">void</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+        <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">),</span> <span class="n">void</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
         <span class="n">path</span><span class="o">=</span><span class="n">moved</span><span class="p">,</span>
     <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_has_vertical_support</span><span class="p">(</span>
+    <span class="n">void</span><span class="p">:</span> <span class="n">Void</span><span class="p">,</span>
+    <span class="n">placements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Placement</span><span class="p">],</span>
+    <span class="n">lower_spacers</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Void</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True if ``void`` sits on the floor or has substantial support at ``z = void.position[2]``."""</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">void</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="n">EPSILON</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">void</span><span class="o">.</span><span class="n">position</span>
+    <span class="n">vw</span><span class="p">,</span> <span class="n">vl</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">void</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">footprint_area</span> <span class="o">=</span> <span class="n">_polygon_area</span><span class="p">(</span><span class="n">void</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="n">void</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">vw</span> <span class="o">*</span> <span class="n">vl</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">footprint_area</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">supported_area</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="c1"># Sum overlap with placed boxes whose top sits at z</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">placements</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPSILON</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">ox</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">vx</span> <span class="o">+</span> <span class="n">vw</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">oy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">vy</span> <span class="o">+</span> <span class="n">vl</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="n">vy</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">supported_area</span> <span class="o">+=</span> <span class="n">ox</span> <span class="o">*</span> <span class="n">oy</span>
+
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">lower_spacers</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">((</span><span class="n">s</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPSILON</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">ox</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">vx</span> <span class="o">+</span> <span class="n">vw</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">oy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">vy</span> <span class="o">+</span> <span class="n">vl</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="n">vy</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">supported_area</span> <span class="o">+=</span> <span class="n">ox</span> <span class="o">*</span> <span class="n">oy</span>
+
+    <span class="k">return</span> <span class="n">supported_area</span> <span class="o">&gt;=</span> <span class="n">footprint_area</span> <span class="o">*</span> <span class="mf">0.70</span> <span class="o">-</span> <span class="mf">1e-4</span>
 
 
 <div class="viewcode-block" id="generate_spacer_voids">
@@ -829,25 +1249,35 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">min_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">MIN_SPACER_DIM</span><span class="p">,</span>
+    <span class="n">min_xy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Sweep, merge, shrink and filter — the whole spacer pass.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        container: (width, length, height) of the volume to fill.</span>
-<span class="sd">        placements: The sub-boxes already placed in it.</span>
-<span class="sd">        clearance: Slack removed from each side of a tray's footprint.</span>
-<span class="sd">        min_dim: Trays thinner than this on any axis are dropped as unprintable.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        The voids that earn a tray, in descending volume.</span>
-
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""Sweep, merge, split holes, verify support, shrink and filter — the whole spacer pass."""</span>
+    <span class="n">xy_floor</span> <span class="o">=</span> <span class="n">min_dim</span> <span class="k">if</span> <span class="n">min_xy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">min_xy</span>
     <span class="n">voids</span> <span class="o">=</span> <span class="n">merge_voids</span><span class="p">(</span><span class="n">sweep_free_space</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">placements</span><span class="p">))</span>
-    <span class="c1"># Drop the unprintable slivers before grouping, so a 2mm shard cannot become</span>
-    <span class="c1"># the thin arm of an L that then has to be printed.</span>
-    <span class="n">printable</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">thinnest</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">min_dim</span> <span class="o">-</span> <span class="n">EPSILON</span><span class="p">]</span>
-    <span class="n">trays</span> <span class="o">=</span> <span class="p">[</span><span class="n">apply_clearance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">clearance</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merge_rectilinear</span><span class="p">(</span><span class="n">printable</span><span class="p">)]</span>
-    <span class="n">kept</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">trays</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_dim</span> <span class="o">-</span> <span class="n">EPSILON</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">volume</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">printable</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">v</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_dim</span> <span class="o">-</span> <span class="n">EPSILON</span>
+        <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">xy_floor</span> <span class="o">-</span> <span class="n">EPSILON</span>
+        <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">xy_floor</span> <span class="o">-</span> <span class="n">EPSILON</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Check vertical support from bottom to top so an upper spacer never floats over a dropped sliver</span>
+    <span class="n">supported_rects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">printable</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">_has_vertical_support</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">placements</span><span class="p">,</span> <span class="n">supported_rects</span><span class="p">):</span>
+            <span class="n">supported_rects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="n">min_post_xy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">xy_floor</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span> <span class="o">-</span> <span class="n">EPSILON</span>
+    <span class="n">trays</span> <span class="o">=</span> <span class="p">[</span><span class="n">apply_clearance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">clearance</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merge_rectilinear</span><span class="p">(</span><span class="n">supported_rects</span><span class="p">)]</span>
+    <span class="n">kept</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">v</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">trays</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_dim</span> <span class="o">-</span> <span class="n">EPSILON</span>
+        <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_post_xy</span>
+        <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_post_xy</span>
+        <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">volume</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">]</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kept</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">v</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">))</span></div>
 
 
@@ -860,6 +1290,7 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">min_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">MIN_SPACER_DIM</span><span class="p">,</span>
+    <span class="n">min_xy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""`generate_spacer_voids` as `Placement`s named `spacer_1..spacer_N`."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Placement</span>
@@ -874,7 +1305,11 @@
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">void</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
             <span class="n">generate_spacer_voids</span><span class="p">(</span>
-                <span class="n">container</span><span class="p">,</span> <span class="n">placements</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span> <span class="n">min_dim</span><span class="o">=</span><span class="n">min_dim</span>
+                <span class="n">container</span><span class="p">,</span>
+                <span class="n">placements</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">min_dim</span><span class="o">=</span><span class="n">min_dim</span><span class="p">,</span>
+                <span class="n">min_xy</span><span class="o">=</span><span class="n">min_xy</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
@@ -896,24 +1331,7 @@
     <span class="n">min_spacer_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
     <span class="n">min_spacer_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SpacerSpec</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Generate spacer tray specs for gaps left at the end of 2D rows.</span>
-
-<span class="sd">    Predates the 3D sweep above and only sees row widths, not real placements.</span>
-<span class="sd">    Kept for callers that lay out in rows rather than packing in 3D.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        container_width: Outer container interior width.</span>
-<span class="sd">        container_length: Outer container interior length.</span>
-<span class="sd">        row_widths: Total width used by each row.</span>
-<span class="sd">        row_lengths: Length of each row.</span>
-<span class="sd">        gap_threshold: Gaps &lt; this are absorbed, not filled.</span>
-<span class="sd">        min_spacer_dim: Minimum spacer width/length before absorption.</span>
-<span class="sd">        min_spacer_height: Default spacer tray height.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        List of SpacerSpec for gaps that need filling.</span>
-
-<span class="sd">    """</span>
+<span class="w">    </span><span class="sd">"""Generate spacer tray specs for gaps left at the end of 2D rows."""</span>
     <span class="n">spacers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SpacerSpec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
 
@@ -932,7 +1350,6 @@
             <span class="p">)</span>
             <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="c1"># Check for gap after last row</span>
     <span class="n">total_length_used</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">row_lengths</span><span class="p">)</span>
     <span class="n">remaining_l</span> <span class="o">=</span> <span class="n">container_length</span> <span class="o">-</span> <span class="n">total_length_used</span>
     <span class="k">if</span> <span class="n">remaining_l</span> <span class="o">&gt;=</span> <span class="n">min_spacer_dim</span> <span class="ow">and</span> <span class="n">remaining_l</span> <span class="o">&gt;=</span> <span class="n">gap_threshold</span><span class="p">:</span>
@@ -1015,8 +1432,9 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

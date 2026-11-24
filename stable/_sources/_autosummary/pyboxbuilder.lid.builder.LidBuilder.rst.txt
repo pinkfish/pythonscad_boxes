@@ -5,5 +5,4 @@ pyboxbuilder.lid.builder.LidBuilder
 
 .. autoclass:: LidBuilder
    :members:
-   :undoc-members:
    :show-inheritance:

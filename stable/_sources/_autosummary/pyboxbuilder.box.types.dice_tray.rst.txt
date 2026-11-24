@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.dice\_tray
+=================================
+
+.. automodule:: pyboxbuilder.box.types.dice_tray
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      DiceTrayBox
+   
+   
+
+   
+   
+   

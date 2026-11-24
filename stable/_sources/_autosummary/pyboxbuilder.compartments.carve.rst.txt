@@ -22,6 +22,7 @@ pyboxbuilder.compartments.carve
       build_compartment_scoop
       build_compartment_well
       build_contents
+      build_inserts
       compartment_floor_z
       default_scoop_side
       interior_column

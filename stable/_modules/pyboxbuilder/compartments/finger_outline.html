@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -325,23 +538,25 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">replace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path2D</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.precision</span><span class="w"> </span><span class="kn">import</span> <span class="n">kwargs</span> <span class="k">as</span> <span class="n">precision_kwargs</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes2d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Shape2D</span>
 
 
-<span class="n">DEFAULT_MOUTH_ROUNDING_MM</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="n">DEFAULT_MOUTH_ROUNDING_MM</span> <span class="o">=</span> <span class="mf">5.0</span>
 <span class="sd">"""Fallback ``r1`` where nothing better can be derived."""</span>
-<span class="n">DEFAULT_TOP_ROUNDING_RATIO</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">DEFAULT_TOP_ROUNDING_RATIO</span> <span class="o">=</span> <span class="mf">0.75</span>
 <span class="sd">"""How far the top roll flares **outward**, as a fraction of the throat half-width.</span>
 
-<span class="sd">Derived rather than fixed so the roll stays in proportion: a 3mm constant is</span>
+<span class="sd">Derived rather than fixed so the roll stays in proportion: a fixed constant is</span>
 <span class="sd">invisible on a 14mm finger hole and overwhelming on a 4mm one. This is the one</span>
 <span class="sd">number that sets how *wide* the scoop's mouth is, so it is also the one to</span>
 <span class="sd">leave alone when the width is already right.</span>
 <span class="sd">"""</span>
-<span class="n">TOP_ROLL_RISE_RATIO</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="n">TOP_ROLL_RISE_RATIO</span> <span class="o">=</span> <span class="mf">1.2</span>
 <span class="sd">"""How far the top roll reaches **down**, as a multiple of its outward flare.</span>
 
 <span class="sd">The roll is an ellipse quadrant, not a circle, because its two extents answer</span>
@@ -400,7 +615,7 @@
 <span class="sd">at least this fraction of each half stays straight.</span>
 <span class="sd">"""</span>
 <div class="viewcode-block" id="CutProfile">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.CutProfile.html#pyboxbuilder.compartments.finger_cuts.CutProfile">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.CutProfile.html#pyboxbuilder.compartments.finger_outline.CutProfile">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CutProfile</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""The four numbers that decide a finger cut's **outline** (FR-051).</span>
@@ -435,7 +650,7 @@
         <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span>
 
 <div class="viewcode-block" id="CutProfile.with_half_width">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.CutProfile.html#pyboxbuilder.compartments.finger_cuts.CutProfile.with_half_width">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.CutProfile.html#pyboxbuilder.compartments.finger_outline.CutProfile.with_half_width">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">with_half_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">half_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CutProfile</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a copy whose width is set from a half-width."""</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">half_width</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">)</span></div>
@@ -480,7 +695,7 @@
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">points</span>
 <div class="viewcode-block" id="scoop_profile">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.scoop_profile.html#pyboxbuilder.compartments.finger_cuts.scoop_profile">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.scoop_profile.html#pyboxbuilder.compartments.finger_outline.scoop_profile">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scoop_profile</span><span class="p">(</span>
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -544,10 +759,10 @@
     <span class="n">flare</span><span class="p">,</span> <span class="n">rise</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">_fit_radii</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">top_rounding</span><span class="p">,</span> <span class="n">bottom_rounding</span><span class="p">)</span>
 
     <span class="n">ring</span> <span class="o">=</span> <span class="n">scoop_outline</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">flare</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">rise</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">shapes2d</span><span class="o">.</span><span class="n">polygon</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">ring</span><span class="p">])</span></div>
+    <span class="k">return</span> <span class="n">shapes2d</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">Path2D</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">ring</span><span class="p">]))</span></div>
 
 <div class="viewcode-block" id="dish_radius">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.dish_radius.html#pyboxbuilder.compartments.finger_cuts.dish_radius">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.dish_radius.html#pyboxbuilder.compartments.finger_outline.dish_radius">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dish_radius</span><span class="p">(</span><span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">flare</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return the radius of a **shallow** cut's base: one arc across its whole width.</span>
 
@@ -680,7 +895,7 @@
     <span class="n">r2</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="n">cap</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">flare</span><span class="p">,</span> <span class="n">rise</span><span class="p">,</span> <span class="n">r2</span>
 <div class="viewcode-block" id="floor_bore_outline">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.floor_bore_outline.html#pyboxbuilder.compartments.finger_cuts.floor_bore_outline">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.floor_bore_outline.html#pyboxbuilder.compartments.finger_outline.floor_bore_outline">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">floor_bore_outline</span><span class="p">(</span>
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -712,18 +927,10 @@
     <span class="k">if</span> <span class="n">top_rounding</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"top_rounding must be &gt;= 0; got </span><span class="si">{</span><span class="n">top_rounding</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">r1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">top_rounding</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="n">radius</span><span class="p">))</span>
-    <span class="n">right</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c1"># The bowl: a quarter of the bore circle, from its lowest point out to the</span>
-    <span class="c1"># side, tangent to the floor at the bottom and vertical at the side.</span>
-    <span class="n">right</span> <span class="o">+=</span> <span class="n">_quarter_arc</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">radius</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-    <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">radius</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="n">r1</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">r1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">right</span> <span class="o">+=</span> <span class="n">_quarter_arc</span><span class="p">((</span><span class="n">radius</span> <span class="o">+</span> <span class="n">r1</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="n">r1</span><span class="p">),</span> <span class="n">r1</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">)</span>
-    <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">radius</span> <span class="o">+</span> <span class="n">r1</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="n">RIM_OVERSHOOT_MM</span><span class="p">))</span>
-
-    <span class="n">left</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">right</span><span class="p">)]</span>
-    <span class="k">return</span> <span class="n">left</span> <span class="o">+</span> <span class="n">right</span></div>
+    <span class="n">flare</span><span class="p">,</span> <span class="n">rise</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">_fit_radii</span><span class="p">(</span>
+        <span class="n">radius</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">top_rounding</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keep_flat_bottom</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">scoop_outline</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">flare</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">rise</span><span class="p">)</span></div>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_elliptical_quarter</span><span class="p">(</span>
     <span class="n">centre</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -881,7 +1088,7 @@
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">best</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">best</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <div class="viewcode-block" id="window_outline">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.window_outline.html#pyboxbuilder.compartments.finger_cuts.window_outline">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.window_outline.html#pyboxbuilder.compartments.finger_outline.window_outline">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">window_outline</span><span class="p">(</span>
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -936,7 +1143,7 @@
         <span class="n">angle</span> <span class="o">+=</span> <span class="mf">360.0</span>
     <span class="k">return</span> <span class="n">angle</span>
 <div class="viewcode-block" id="scoop_outline">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.scoop_outline.html#pyboxbuilder.compartments.finger_cuts.scoop_outline">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.scoop_outline.html#pyboxbuilder.compartments.finger_outline.scoop_outline">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scoop_outline</span><span class="p">(</span>
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1015,7 +1222,7 @@
     <span class="k">return</span> <span class="n">left</span> <span class="o">+</span> <span class="n">right</span></div>
 
 <div class="viewcode-block" id="floor_bore_profile">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.floor_bore_profile.html#pyboxbuilder.compartments.finger_cuts.floor_bore_profile">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_outline.floor_bore_profile.html#pyboxbuilder.compartments.finger_outline.floor_bore_profile">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">floor_bore_profile</span><span class="p">(</span>
     <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1073,7 +1280,7 @@
             <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="n">top_rounding</span><span class="p">,</span> <span class="n">throat_top</span><span class="p">),</span> <span class="n">top_rounding</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">90.0</span>
         <span class="p">)</span>
         <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
-        <span class="n">mouth</span> <span class="o">=</span> <span class="n">shapes2d</span><span class="o">.</span><span class="n">polygon</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">points</span><span class="p">])</span>
+        <span class="n">mouth</span> <span class="o">=</span> <span class="n">shapes2d</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">Path2D</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">points</span><span class="p">]))</span>
         <span class="n">profile</span> <span class="o">=</span> <span class="n">profile</span> <span class="o">|</span> <span class="n">mouth</span> <span class="o">|</span> <span class="n">mouth</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">profile</span></div>
@@ -1145,8 +1352,9 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

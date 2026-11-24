@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.bayonet.BayonetBox
+=========================================
+
+.. currentmodule:: pyboxbuilder.box.types.bayonet
+
+.. autoclass:: BayonetBox
+   :members:
+   :show-inheritance:

@@ -1,0 +1,24 @@
+pyboxbuilder.builders.magnetic\_hinge
+=====================================
+
+.. automodule:: pyboxbuilder.builders.magnetic_hinge
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      MagneticHingeBoxBuilder
+   
+   
+
+   
+   
+   

@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -326,6 +539,10 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.deps</span><span class="w"> </span><span class="kn">import</span> <span class="n">require</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">fingerprint</span> <span class="k">as</span> <span class="n">fp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">read_3mf_geometry</span><span class="p">,</span>
+    <span class="n">same_geometry</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
@@ -431,6 +648,18 @@
         <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">),</span> <span class="n">fingerprint</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="BoxExporter.recorded">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter.recorded">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">recorded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return True when this piece has *some* recorded fingerprint.</span>
+
+<span class="sd">        A piece whose description changed must be rewritten; a piece that has</span>
+<span class="sd">        simply never been exported here before (a fresh clone) may fall back to</span>
+<span class="sd">        comparing geometry instead.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">recorded</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="BoxExporter.note_unchanged">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.export.exporter.BoxExporter.html#pyboxbuilder.export.exporter.BoxExporter.note_unchanged">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">note_unchanged</span><span class="p">(</span>
@@ -467,6 +696,8 @@
         <span class="n">inserts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fingerprint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">geometry_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Export one piece, skipping the write when nothing about it changed.</span>
 
@@ -480,6 +711,11 @@
 <span class="sd">            size: Bounding box to record when it cannot be measured from `solid`.</span>
 <span class="sd">            fingerprint: Digest of the description this piece was built from,</span>
 <span class="sd">                recorded beside the file for the next run to compare against.</span>
+<span class="sd">            force: Rewrite even when the geometry on disk already matches.</span>
+<span class="sd">            geometry_check: Compare the shape (bounding box + volume) against the</span>
+<span class="sd">                file already on disk and skip when they agree. Defaults to True so</span>
+<span class="sd">                metadata or description changes with invariant geometry do not</span>
+<span class="sd">                rewrite 3MF files.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The relative path if written, None if skipped.</span>
@@ -491,7 +727,9 @@
 
 <span class="sd">        Note:</span>
 <span class="sd">            Whether a write is *needed* is :meth:`is_current`'s decision, taken</span>
-<span class="sd">            before the geometry is built. This writes what it is given.</span>
+<span class="sd">            before the geometry is built. This writes what it is given — but it</span>
+<span class="sd">            also re-measures the geometry on disk first, so a piece whose bytes</span>
+<span class="sd">            changed without its shape changing is not rewritten.</span>
 
 <span class="sd">        """</span>
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_for</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
@@ -521,6 +759,22 @@
                 <span class="s2">"empty file. A box that cannot be built must say so rather than "</span>
                 <span class="s2">"exporting nothing."</span>
             <span class="p">)</span>
+
+        <span class="c1"># The fingerprint is the fast path; this is the honest one. The bytes</span>
+        <span class="c1"># OpenSCAD writes are not deterministic (e.g. CreationDate, UUIDs, zip</span>
+        <span class="c1"># headers, solver retriangulations), so compare the shape itself —</span>
+        <span class="c1"># bounding box and volume — against the file already on disk and leave</span>
+        <span class="c1"># it alone when they agree.</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">geometry_check</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">force</span>
+            <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="n">same_geometry</span><span class="p">(</span><span class="n">read_3mf_geometry</span><span class="p">(</span><span class="n">candidate</span><span class="p">),</span> <span class="n">read_3mf_geometry</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="p">):</span>
+            <span class="n">candidate</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">skipped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relative</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="n">candidate</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="n">fp</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">)</span>
@@ -589,7 +843,7 @@
             <span class="k">return</span> <span class="p">([</span><span class="n">solid</span><span class="p">]</span> <span class="k">if</span> <span class="n">solid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[])</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">inserts</span><span class="p">)</span>
         <span class="n">merged</span> <span class="o">=</span> <span class="n">solid</span>
         <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="n">inserts</span><span class="p">:</span>
-            <span class="n">merged</span> <span class="o">=</span> <span class="n">insert</span> <span class="k">if</span> <span class="n">merged</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">merged</span> <span class="o">+</span> <span class="n">insert</span>
+            <span class="n">merged</span> <span class="o">=</span> <span class="n">insert</span> <span class="k">if</span> <span class="n">merged</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">merged</span> <span class="o">|</span> <span class="n">insert</span>
         <span class="k">return</span> <span class="n">merged</span></div>
 
 
@@ -639,8 +893,19 @@
 <span class="sd">    """</span>
     <span class="n">bounds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"bounds"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">bounds</span><span class="p">):</span>
-        <span class="n">origin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">size</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">min</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"min_x"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"width"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">min_x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">min_y</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"min_z"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))),</span>
+                    <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">width</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">length</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"height"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))),</span>
+                <span class="p">)</span>
+            <span class="n">origin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">b</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">size</span><span class="p">))</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
 
     <span class="n">position</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"position"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">solid</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -757,8 +1022,9 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

@@ -17,6 +17,7 @@ pyboxbuilder.layout
    
       Arrangement
       Group
+      PolygonGrid
    
    
 
@@ -32,6 +33,7 @@ pyboxbuilder.layout
       check_complete
       columns
       measure
+      polygon_grid
       rows
       stack
    

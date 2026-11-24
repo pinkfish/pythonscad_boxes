@@ -5,5 +5,4 @@ pyboxbuilder.lid.label.Label
 
 .. autoclass:: Label
    :members:
-   :undoc-members:
    :show-inheritance:

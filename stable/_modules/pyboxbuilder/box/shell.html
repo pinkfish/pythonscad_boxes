@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -482,24 +695,49 @@
     <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">]</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">tilt_to_lift</span><span class="p">:</span>
-        <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-
     <span class="c1"># Round what a hand grips: the vertical corners and the base always, and the</span>
     <span class="c1"># top rim too when nothing has to mate with it. On a lidded box the rim is a</span>
     <span class="c1"># sealing surface, so its rounding lives on the lid instead — the closed box</span>
     <span class="c1"># still reads as rounded top, sides and bottom (FR-043/FR-044).</span>
-    <span class="n">radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">tilt_to_lift</span><span class="p">:</span>
-            <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">())</span>
-            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
-                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
+    <span class="c1"># The base has a rounded bottom (defaulting to wall_thickness) so the box rocks</span>
+    <span class="c1"># up smoothly for extraction without a sharp or chamfered bottom edge.</span>
+    <span class="n">v_radius</span> <span class="o">=</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">b_radius</span> <span class="o">=</span> <span class="n">base_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="n">v_edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vertical_edges</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
+        <span class="n">v_edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">v_edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
+
+    <span class="n">base_chamfer_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"base_chamfer"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">base_chamfer_val</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">chamfer_val</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base_chamfer_val</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">base_chamfer_val</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">chamfer_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">base_chamfer_val</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">chamfer_val</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">chamfer_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">chamfer_val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">v_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">v_radius</span><span class="p">,</span> <span class="n">v_edges</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">v_radius</span> <span class="o">==</span> <span class="n">b_radius</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"tilt_to_lift"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"base_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="n">v_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="n">vertical_and_bottom_edges</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
+                    <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
+                <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">v_radius</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">edges</span> <span class="o">=</span> <span class="n">vertical_and_bottom_edges</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rim_free</span><span class="p">:</span>
-                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">edges</span><span class="p">,</span> <span class="n">_top_anchor</span><span class="p">()]</span>
-        <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">v_radius</span><span class="p">,</span> <span class="n">v_edges</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">b_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
+
+                <span class="n">outer</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">b_radius</span><span class="p">,</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">])</span>
 
     <span class="c1"># A type whose top face is exposed *with the lid on* rounds that edge too,</span>
     <span class="c1"># at its own radius — a sliding box, whose lid lies down in the channel so</span>
@@ -515,6 +753,32 @@
     <span class="n">outer</span> <span class="o">=</span> <span class="n">apply_finger_holes</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="n">apply_ribbon_channels</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">outer</span></div>
+
+
+
+<div class="viewcode-block" id="base_rounding">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.box.shell.base_rounding.html#pyboxbuilder.box.shell.base_rounding">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">base_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the edge radius for this box body's base.</span>
+
+<span class="sd">    The base is rounded by wall_thickness (smaller than the previous 3mm chamfer)</span>
+<span class="sd">    so the box rocks smoothly for extraction without a sharp or chamfered base.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spec: Reads `base_rounding`, `rounding`, `tilt_to_lift`, and `wall_thickness`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The radius in mm. ``0`` disables rounding entirely.</span>
+
+<span class="sd">    """</span>
+    <span class="n">explicit</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"base_rounding"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">explicit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">explicit</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">rounding</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"tilt_to_lift"</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
 
 
 
@@ -693,18 +957,23 @@
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">span</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span>
         <span class="n">span_interior</span> <span class="o">=</span> <span class="n">span</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_TOP_ROUNDING_RATIO</span>
+
         <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">17.0</span><span class="p">,</span> <span class="n">span_interior</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">ft</span> <span class="o">-</span> <span class="n">MIN_WALL_BELOW_HOLE_MM</span><span class="p">)</span>
         <span class="n">hole_height</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_HEIGHT_SHARE</span><span class="p">)</span>
+        <span class="n">max_flare</span> <span class="o">=</span> <span class="n">span_interior</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="n">radius</span>
+        <span class="n">flare</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">radius</span> <span class="o">*</span> <span class="n">DEFAULT_TOP_ROUNDING_RATIO</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_flare</span><span class="p">))</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">hole_height</span> <span class="o">&gt;=</span> <span class="n">MIN_FINGER_HOLE_REACH_MM</span>
-            <span class="ow">and</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">span_interior</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span>
+            <span class="ow">and</span> <span class="n">flare</span> <span class="o">&gt;=</span> <span class="mf">2.0</span>
+            <span class="ow">and</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">radius</span> <span class="o">+</span> <span class="n">flare</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">span_interior</span> <span class="o">*</span> <span class="n">MAX_FINGER_HOLE_SPAN_SHARE</span> <span class="o">+</span> <span class="mf">1e-6</span>
         <span class="p">):</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FingerHoleBuilder</span>
             <span class="n">keystone_hole</span> <span class="o">=</span> <span class="n">FingerHoleBuilder</span><span class="p">(</span>
                 <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">,</span>
                 <span class="n">width</span><span class="o">=</span><span class="n">radius</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
                 <span class="n">depth</span><span class="o">=</span><span class="n">hole_height</span><span class="p">,</span>
-                <span class="n">mouth_flare</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+                <span class="n">mouth_flare</span><span class="o">=</span><span class="n">flare</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">finger_holes</span><span class="o">=</span><span class="p">(</span><span class="n">keystone_hole</span><span class="p">,))</span>
 
@@ -848,7 +1117,7 @@
 <span class="sd">            `floor_thickness`.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A tuple of `FingerHoleBuilder`s — one per longer wall — or an empty</span>
+<span class="sd">        A tuple of ``FingerHoleBuilder`` instances — one per longer wall — or an empty</span>
 <span class="sd">        tuple when the holes would not fit.</span>
 
 <span class="sd">    """</span>
@@ -872,7 +1141,9 @@
         <span class="c1"># No room for both. The strip wins: a tray this short is liftable by</span>
         <span class="c1"># its walls, and a grip cut out of what holds it is not a grip.</span>
         <span class="k">return</span> <span class="p">()</span>
-    <span class="n">rounding_radius</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.finger_outline</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span>
+
+    <span class="n">rounding_radius</span> <span class="o">=</span> <span class="n">DEFAULT_MOUTH_ROUNDING_MM</span>
 
     <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;=</span> <span class="n">width</span><span class="p">:</span>
         <span class="n">sides</span> <span class="o">=</span> <span class="p">(</span><span class="n">ScoopSide</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">)</span>
@@ -908,9 +1179,15 @@
 <span class="sd">    a second call to this changes nothing. A spec that sets</span>
 <span class="sd">    ``auto_finger_holes`` to ``False`` opts out entirely (FR-047b).</span>
 
+<span class="sd">    A **compartmented** tray (``hollow=False``) is skipped: its outer rim is</span>
+<span class="sd">    backed by inner gutter walls and compartment dividers, so an edge dip only</span>
+<span class="sd">    one ``wall_thickness`` deep forms a blind pocket in the side wall instead of</span>
+<span class="sd">    opening into a well (use per-compartment ``cut=FingerCut.SCOOP`` where side</span>
+<span class="sd">    access is wanted).</span>
+
 <span class="sd">    A **polygon** footprint gets none either (FR-047c). The rule names four</span>
 <span class="sd">    walls and a longer side, and a polygon has neither — `no_lid_finger_holes`</span>
-<span class="sd">    would read the bounding box and place a cut on a wall that need not exist.</span>
+<span class="sd">    would read the bounding box and cut into a wall that need not exist.</span>
 <span class="sd">    The test is the footprint rather than the box type, because that is what</span>
 <span class="sd">    the rule is actually about; an explicit `finger_hole(side)` still works,</span>
 <span class="sd">    since the caller can see the outline.</span>
@@ -922,7 +1199,7 @@
 <span class="sd">        The spec, or a copy carrying the automatic pair.</span>
 
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">auto_finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">auto_finger_holes</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">finger_holes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">finger_holes</span><span class="o">=</span><span class="n">no_lid_finger_holes</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">spec</span></div>
 
@@ -1048,7 +1325,8 @@
         <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="n">radius</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">],</span>
         <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">ring</span> <span class="o">=</span> <span class="p">(</span><span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span> <span class="o">&amp;</span> <span class="n">keep</span><span class="p">)</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">swept_solid</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">swept</span><span class="p">,</span> <span class="s2">"polyhedron"</span><span class="p">)</span> <span class="k">else</span> <span class="n">swept</span>
+    <span class="n">ring</span> <span class="o">=</span> <span class="p">(</span><span class="n">swept_solid</span> <span class="o">&amp;</span> <span class="n">keep</span><span class="p">)</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">ring</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">])</span></div>
 
 </code></pre></div>
@@ -1118,8 +1396,9 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

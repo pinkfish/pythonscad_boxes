@@ -5,5 +5,4 @@ pyboxbuilder.lid.builder.PatternBuilder
 
 .. autoclass:: PatternBuilder
    :members:
-   :undoc-members:
    :show-inheritance:

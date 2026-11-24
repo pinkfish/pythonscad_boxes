@@ -5,5 +5,4 @@ pyboxbuilder.layout.Arrangement
 
 .. autoclass:: Arrangement
    :members:
-   :undoc-members:
    :show-inheritance:

@@ -5,5 +5,4 @@ pyboxbuilder.compartments.element.CompartmentElement
 
 .. autoclass:: CompartmentElement
    :members:
-   :undoc-members:
    :show-inheritance:

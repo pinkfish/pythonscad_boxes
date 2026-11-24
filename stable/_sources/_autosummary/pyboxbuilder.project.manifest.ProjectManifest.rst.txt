@@ -1,0 +1,8 @@
+pyboxbuilder.project.manifest.ProjectManifest
+=============================================
+
+.. currentmodule:: pyboxbuilder.project.manifest
+
+.. autoclass:: ProjectManifest
+   :members:
+   :show-inheritance:

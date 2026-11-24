@@ -29,5 +29,6 @@ pyboxbuilder.packing.guillotine
       :nosignatures:
    
       pack_guillotine
+      subtract_obstacles_3d
    
    

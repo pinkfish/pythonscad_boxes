@@ -5,5 +5,4 @@ pyboxbuilder.box.types.filament\_hinge.FilamentHingeBox
 
 .. autoclass:: FilamentHingeBox
    :members:
-   :undoc-members:
    :show-inheritance:

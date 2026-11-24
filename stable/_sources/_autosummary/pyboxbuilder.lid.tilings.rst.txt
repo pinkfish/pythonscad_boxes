@@ -27,7 +27,11 @@ pyboxbuilder.lid.tilings
       :toctree:
       :nosignatures:
    
+      chevron_tiling
+      multigrid_colored_tiling
       multigrid_tiling
       polygon_area
+      stepped_cube_tiling
+      tumbling_blocks_tiling
    
    

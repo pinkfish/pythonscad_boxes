@@ -5,5 +5,4 @@ pyboxbuilder.project.piece.Build
 
 .. autoclass:: Build
    :members:
-   :undoc-members:
    :show-inheritance:

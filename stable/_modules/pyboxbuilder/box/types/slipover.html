@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -305,13 +518,19 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span><span class="p">,</span> <span class="n">Interior</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_box</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">UnresolvedBoxSpec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.slipover</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverBoxBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">InterlockType</span>
 
-<span class="n">SLIPOVER_FINGER_MAX_MM</span> <span class="o">=</span> <span class="mf">20.0</span>
+<span class="n">SLIPOVER_FINGER_MAX_MM</span> <span class="o">=</span> <span class="mf">6.0</span>
 <span class="sd">"""Tallest a sleeve's corner notch gets, however deep the box."""</span>
 
-<span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span> <span class="o">=</span> <span class="mf">7.0</span>
+<span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span> <span class="o">=</span> <span class="mf">5.0</span>
 <span class="sd">"""Smallest notch radius that still admits a fingertip."""</span>
+
+<span class="n">SLIPOVER_FINGER_MAX_RADIUS_MM</span> <span class="o">=</span> <span class="mf">6.5</span>
+<span class="sd">"""Largest default notch radius so corner cutouts stay subtle."""</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
@@ -319,21 +538,56 @@
 
 <div class="viewcode-block" id="SlipoverBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox">[docs]</a>
+<span class="nd">@register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIPOVER</span><span class="p">,</span> <span class="n">builder</span><span class="o">=</span><span class="n">SlipoverBoxBuilder</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SlipoverBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Slipover lid box type."""</span>
 
 <div class="viewcode-block" id="SlipoverBox.interior">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox.interior">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">interior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Interior</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the frame the box's contents may occupy."""</span>
+<span class="w">        </span><span class="sd">"""Return the frame the box's contents may occupy inside the inset body."""</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBox</span>
+
+            <span class="k">return</span> <span class="n">SlipoverPathBox</span><span class="p">()</span><span class="o">.</span><span class="n">interior</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">slipover_metrics</span>
+
+        <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
+        <span class="n">inset</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">=</span> <span class="n">slipover_metrics</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Interior</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)),</span>
+            <span class="n">length</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)),</span>
+            <span class="n">height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">body_height</span> <span class="o">-</span> <span class="n">ft</span><span class="p">),</span>
+            <span class="n">origin_x</span><span class="o">=</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span>
+            <span class="n">origin_y</span><span class="o">=</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">,</span>
+            <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
+            <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SlipoverBox.outer_size_for_interior">
+<a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox.outer_size_for_interior">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outer_size_for_interior</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span> <span class="o">|</span> <span class="n">UnresolvedBoxSpec</span><span class="p">,</span>
+        <span class="n">inner_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">inner_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return outer (W, L, H) required to enclose (inner_w, inner_l, inner_h)."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">SLIPOVER_SLEEVE_WALL_SHARE</span>
+
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">ft</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
-        <span class="k">return</span> <span class="n">Interior</span><span class="p">(</span>
-            <span class="n">width</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-            <span class="n">length</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">wt</span><span class="p">,</span>
-            <span class="n">height</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span> <span class="o">-</span> <span class="n">ft</span><span class="p">,</span>
-            <span class="n">origin_x</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">origin_y</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">origin_z</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
+        <span class="n">wiggle</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">size_spacing</span>
+        <span class="n">inset</span> <span class="o">=</span> <span class="n">wt</span> <span class="o">*</span> <span class="n">SLIPOVER_SLEEVE_WALL_SHARE</span> <span class="o">+</span> <span class="n">wiggle</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">inner_w</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_l</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">wt</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">inner_h</span> <span class="o">+</span> <span class="n">ft</span> <span class="o">+</span> <span class="n">lt</span> <span class="o">+</span> <span class="n">wiggle</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -347,6 +601,11 @@
 <span class="sd">        occupies the difference. A `foot` keeps its full footprint at the very</span>
 <span class="sd">        bottom for the sleeve to seat against.</span>
 <span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBox</span>
+
+            <span class="k">return</span> <span class="n">SlipoverPathBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_body</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">slipover_metrics</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_shell</span>
 
@@ -371,21 +630,83 @@
         <span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="n">inset</span><span class="p">,</span> <span class="n">inset</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">foot</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">body_rounding</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">rounded_block</span><span class="p">,</span> <span class="n">vertical_edges</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Anchor</span>
 
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">rounded_block</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">foot</span><span class="p">],</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">base_rounding</span><span class="p">,</span>
+                <span class="n">body_rounding</span><span class="p">,</span>
+                <span class="n">bottom_chamfer_slivers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.rounding</span><span class="w"> </span><span class="kn">import</span> <span class="n">round_edges</span><span class="p">,</span> <span class="n">rounded_block</span><span class="p">,</span> <span class="n">vertical_edges</span>
+
+            <span class="n">foot_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">foot</span><span class="p">]</span>
+            <span class="n">foot_block</span> <span class="o">=</span> <span class="n">rounded_block</span><span class="p">(</span>
+                <span class="n">foot_size</span><span class="p">,</span>
                 <span class="n">body_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span>
                 <span class="n">vertical_edges</span><span class="p">(),</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">body</span></div>
+
+            <span class="n">base_chamfer_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s2">"base_chamfer"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">base_chamfer_val</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">chamfer_val</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mf">3.0</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base_chamfer_val</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">base_chamfer_val</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">chamfer_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">base_chamfer_val</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">chamfer_val</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">chamfer_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">foot_block</span> <span class="o">=</span> <span class="n">foot_block</span> <span class="o">-</span> <span class="n">bottom_chamfer_slivers</span><span class="p">(</span><span class="n">foot_size</span><span class="p">,</span> <span class="n">chamfer_val</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">b_radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">base_rounding</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">foot</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">b_radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">foot_block</span> <span class="o">=</span> <span class="n">round_edges</span><span class="p">(</span>
+                        <span class="n">foot_block</span><span class="p">,</span> <span class="n">foot_size</span><span class="p">,</span> <span class="n">b_radius</span><span class="p">,</span> <span class="p">[</span><span class="n">Anchor</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">]</span>
+                    <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">hollow</span> <span class="ow">and</span> <span class="n">foot</span> <span class="o">&gt;</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
+
+                <span class="n">interior_w</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">)</span>
+                <span class="n">interior_l</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inset</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">)</span>
+                <span class="n">foot_block</span> <span class="o">=</span> <span class="n">foot_block</span> <span class="o">-</span> <span class="n">block</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">interior_w</span><span class="p">,</span> <span class="n">interior_l</span><span class="p">,</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">],</span>
+                    <span class="n">at</span><span class="o">=</span><span class="p">(</span>
+                        <span class="n">inset</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span>
+                        <span class="n">inset</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span>
+                        <span class="n">spec</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">|</span> <span class="n">foot_block</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_slipover_catch</span>
+        <span class="n">catch</span> <span class="o">=</span> <span class="n">cap_slipover_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">is_slipover</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_horizontal_interlock</span>
+
+            <span class="n">body</span> <span class="o">=</span> <span class="n">apply_horizontal_interlock</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span><span class="p">,</span> <span class="n">slipover_gap</span>
+
+        <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span>
+            <span class="n">body</span><span class="p">,</span>
+            <span class="n">spec</span><span class="p">,</span>
+            <span class="n">anchor_top_z</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">+</span> <span class="nb">min</span><span class="p">(</span><span class="n">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span> <span class="o">-</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SlipoverBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.slipover.SlipoverBox.html#pyboxbuilder.box.types.slipover.SlipoverBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a sleeve that slips down over the body, stopping at the foot."""</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.types.slipover_path</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlipoverPathBox</span>
+
+            <span class="k">return</span> <span class="n">SlipoverPathBox</span><span class="p">()</span><span class="o">.</span><span class="n">build_lid</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reject_stackable</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">slipover_metrics</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">block</span>
 
@@ -419,7 +740,17 @@
             <span class="n">at</span><span class="o">=</span><span class="p">(</span><span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span> <span class="n">inset</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span> <span class="n">foot</span> <span class="o">+</span> <span class="n">gap</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">sleeve</span> <span class="o">=</span> <span class="n">outer</span> <span class="o">-</span> <span class="n">cavity</span>
-        <span class="k">return</span> <span class="n">sleeve</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finger_notches</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">cap_slipover_catch</span>
+
+        <span class="n">catch</span> <span class="o">=</span> <span class="n">cap_slipover_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">is_slipover</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sleeve</span> <span class="o">=</span> <span class="n">sleeve</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span>
+        <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sleeve</span> <span class="o">=</span> <span class="n">sleeve</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span>
+        <span class="n">notches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finger_notches</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">notches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sleeve</span> <span class="o">=</span> <span class="n">sleeve</span> <span class="o">-</span> <span class="n">notches</span>
+        <span class="k">return</span> <span class="n">sleeve</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_finger_notches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
@@ -430,8 +761,8 @@
 <span class="sd">        get a fingertip. The original cuts a notch into two **diagonally</span>
 <span class="sd">        opposite** corners — diagonal so the two hands pull along the sleeve's</span>
 <span class="sd">        axis rather than twisting it — sized at half the skirt's height and</span>
-<span class="sd">        placed just under the lid plate, where the notch exposes the body's</span>
-<span class="sd">        corner and a thumb can push it out.</span>
+<span class="sd">        placed at the bottom rim of the lid sleeve, where the notch exposes</span>
+<span class="sd">        the body's corner and fingers can grip or push the sleeve off.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: Box dimensions; reads `wall_thickness`, `lid_thickness`,</span>
@@ -441,40 +772,58 @@
 <span class="sd">            The solid to subtract from the sleeve.</span>
 
 <span class="sd">        """</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">corner_catch</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">corner_catch</span><span class="p">,</span> <span class="n">slipover_gap</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">union_all</span>
 
         <span class="n">wt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">wall_thickness</span>
         <span class="n">lt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span>
         <span class="n">foot</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">foot</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">slipover_gap</span><span class="p">(</span><span class="n">spec</span><span class="p">),</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span>
+        <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">gap</span>
 
-        <span class="n">skirt</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">foot</span> <span class="o">-</span> <span class="n">lt</span>
-        <span class="c1"># The original's sizing: half the skirt, capped, and a radius that stays</span>
-        <span class="c1"># usable on a shallow box.</span>
+        <span class="c1"># A subtle corner notch above the bottom gap: capped at 8mm and a third</span>
+        <span class="c1"># of the skirt so it does not dominate the sleeve, while combining with</span>
+        <span class="c1"># the bottom gap to give fingertips plenty of room to grip the corner.</span>
         <span class="c1"># An explicit None check, not `or`: `slipover_finger_height=0` means</span>
         <span class="c1"># "no notch", and `or` reads zero as "unset" and hands back the default.</span>
         <span class="n">requested</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">slipover_finger_height</span>
         <span class="n">height</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">min</span><span class="p">(</span><span class="n">SLIPOVER_FINGER_MAX_MM</span><span class="p">,</span> <span class="n">skirt</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">requested</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="nb">min</span><span class="p">(</span><span class="n">SLIPOVER_FINGER_MAX_MM</span><span class="p">,</span> <span class="n">skirt</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="k">if</span> <span class="n">requested</span> <span class="ow">is</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">requested</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">height</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">skirt</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">height</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="n">radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span><span class="p">)</span>
+        <span class="n">max_span_r</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">3.5</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.22</span><span class="p">)</span>
+        <span class="n">radius_cap</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">SLIPOVER_FINGER_MAX_RADIUS_MM</span>
+            <span class="k">if</span> <span class="n">requested</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">SLIPOVER_FINGER_MAX_RADIUS_MM</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="nb">max</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">SLIPOVER_FINGER_MIN_RADIUS_MM</span><span class="p">),</span>
+            <span class="n">radius_cap</span><span class="p">,</span>
+            <span class="n">max_span_r</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">top_rounding</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">)</span>
 
-        <span class="n">top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">lt</span>
+        <span class="n">base_z</span> <span class="o">=</span> <span class="n">foot</span> <span class="o">+</span> <span class="n">gap</span>
         <span class="n">notches</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">corner_catch</span><span class="p">(</span>
                 <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
                 <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">rounding_edge</span><span class="o">=</span><span class="n">wt</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="n">top_rounding</span><span class="o">=</span><span class="n">top_rounding</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">corner_catch</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
                 <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wt</span><span class="p">,</span> <span class="n">rounding_edge</span><span class="o">=</span><span class="n">wt</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="n">top_rounding</span><span class="o">=</span><span class="n">top_rounding</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="n">union_all</span><span class="p">([</span><span class="n">n</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">top</span> <span class="o">-</span> <span class="n">height</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notches</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">union_all</span><span class="p">([</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">mirror</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">base_z</span> <span class="o">+</span> <span class="n">height</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notches</span>
+        <span class="p">])</span></div>
 
 </code></pre></div>
 
@@ -543,8 +892,9 @@
     <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

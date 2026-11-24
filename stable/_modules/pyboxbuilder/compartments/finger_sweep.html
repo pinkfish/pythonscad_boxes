@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -316,6 +529,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
@@ -359,7 +573,7 @@
 <span class="sd">the original passes and the largest fillet a wall has room for.</span>
 <span class="sd">"""</span>
 <div class="viewcode-block" id="FaceTreatment">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.FaceTreatment.html#pyboxbuilder.compartments.finger_cuts.FaceTreatment">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.FaceTreatment.html#pyboxbuilder.compartments.finger_sweep.FaceTreatment">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FaceTreatment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""What happens where a cut **meets the wall it passes through** (FR-073).</span>
@@ -391,7 +605,7 @@
 <span class="sd">    not be cut into."""</span></div>
 
 <div class="viewcode-block" id="scoop_face_flare">
-<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.scoop_face_flare.html#pyboxbuilder.compartments.finger_cuts.scoop_face_flare">[docs]</a>
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.compartments.finger_sweep.scoop_face_flare.html#pyboxbuilder.compartments.finger_sweep.scoop_face_flare">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scoop_face_flare</span><span class="p">(</span>
     <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rounding_edge</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -421,6 +635,142 @@
         <span class="n">rounding_edge</span> <span class="o">=</span> <span class="n">wall_thickness</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">fudge</span> <span class="o">=</span> <span class="mf">0.03</span>
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">rounding_edge</span><span class="p">,</span> <span class="p">(</span><span class="n">wall_thickness</span> <span class="o">+</span> <span class="n">fudge</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span></div>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_offset_open_top_outline</span><span class="p">(</span>
+    <span class="n">outline</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">comp_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Expand a symmetric open-top cut outline outward while keeping its rim tangent.</span>
+
+<span class="sd">    A 2D polygon offset turns the 90-degree transition from the mouth roll into</span>
+<span class="sd">    the vertical ``RIM_OVERSHOOT_MM`` stem inward/downward, leaving a sharp</span>
+<span class="sd">    triangular step on the wall's rim where the face fillet emerges. Expanding</span>
+<span class="sd">    along the outward normal below the roll and fading the vertical component</span>
+<span class="sd">    to zero along the roll keeps every slice tangent at ``y = comp_depth``.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">]</span>
+
+    <span class="n">mid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">outline</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">right_full</span> <span class="o">=</span> <span class="n">outline</span><span class="p">[</span><span class="n">mid</span><span class="p">:]</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="p">[</span><span class="n">pt</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">right_full</span> <span class="k">if</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">comp_depth</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">]</span>
+    <span class="n">overshoot_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">right_full</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">right</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">]</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+    <span class="c1"># Square sub-floor throat (e.g. build_through_hole) starts away from X=0</span>
+    <span class="c1"># below the box base rather than tangent to Y=0 on the centreline.</span>
+    <span class="n">square_throat_base</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-9</span>
+
+    <span class="n">tangents</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">j_prev</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">j_prev</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">math</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">j_prev</span><span class="p">],</span> <span class="n">right</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-9</span><span class="p">:</span>
+            <span class="n">j_prev</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">j_next</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">j_next</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="ow">and</span> <span class="n">math</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">j_next</span><span class="p">],</span> <span class="n">right</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-9</span><span class="p">:</span>
+            <span class="n">j_next</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">j_prev</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">square_throat_base</span><span class="p">:</span>
+                <span class="n">tangents</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+                <span class="k">continue</span>
+            <span class="n">tangents</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">j_next</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">p_prev</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">j_prev</span><span class="p">]</span>
+            <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">right</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p_prev</span><span class="p">,</span> <span class="n">p_next</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">j_prev</span><span class="p">],</span> <span class="n">right</span><span class="p">[</span><span class="n">j_next</span><span class="p">]</span>
+            <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mf">1e-12</span><span class="p">:</span>
+            <span class="n">tangents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tangents</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">tangents</span> <span class="k">else</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tangents</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dx</span> <span class="o">/</span> <span class="n">length</span><span class="p">,</span> <span class="n">dy</span> <span class="o">/</span> <span class="n">length</span><span class="p">))</span>
+
+    <span class="n">normals</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ty</span><span class="p">,</span> <span class="o">-</span><span class="n">tx</span><span class="p">)</span> <span class="k">for</span> <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="ow">in</span> <span class="n">tangents</span><span class="p">]</span>
+    <span class="n">peak_i</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">tangents</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">y_start</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">peak_i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">span_y</span> <span class="o">=</span> <span class="n">comp_depth</span> <span class="o">-</span> <span class="n">y_start</span>
+    <span class="n">nx0</span><span class="p">,</span> <span class="n">ny0</span> <span class="o">=</span> <span class="n">normals</span><span class="p">[</span><span class="n">peak_i</span><span class="p">]</span>
+
+    <span class="n">out_right</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">peak_i</span> <span class="ow">or</span> <span class="n">span_y</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">:</span>
+            <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">normals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">ox</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">nx</span>
+            <span class="n">oy</span> <span class="o">=</span> <span class="o">-</span><span class="n">offset</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">square_throat_base</span><span class="p">)</span> <span class="k">else</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">ny</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_start</span><span class="p">)</span> <span class="o">/</span> <span class="n">span_y</span><span class="p">))</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span><span class="p">))</span>
+            <span class="n">ox</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">*</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">nx0</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">oy</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">*</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">ny0</span><span class="p">)</span>
+        <span class="n">nx_pt</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-9</span> <span class="k">else</span> <span class="n">x</span> <span class="o">+</span> <span class="n">ox</span>
+        <span class="n">out_right</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">nx_pt</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">oy</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">overshoot_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">top_x</span> <span class="o">=</span> <span class="n">out_right</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">overshoot_count</span><span class="p">):</span>
+            <span class="n">out_right</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">top_x</span><span class="p">,</span> <span class="n">comp_depth</span> <span class="o">+</span> <span class="n">RIM_OVERSHOOT_MM</span><span class="p">))</span>
+
+    <span class="n">out_left</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">out_right</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">(</span><span class="n">out_left</span> <span class="o">+</span> <span class="n">out_right</span><span class="p">)]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_open_top_rounded_sweep</span><span class="p">(</span>
+    <span class="n">outline</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">comp_depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fillet</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">round_inner</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">round_outer</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Loft a rounded open-top cut across the wall without a rim-corner cliff."""</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_math</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2</span><span class="w"> </span><span class="kn">import</span> <span class="n">VNF</span><span class="p">,</span> <span class="n">Path3D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">VNFStyle</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.skin</span><span class="w"> </span><span class="kn">import</span> <span class="n">CapType</span><span class="p">,</span> <span class="n">_as_solid</span>
+
+    <span class="n">samples</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">round_inner</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">_math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">steps</span>
+            <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">fillet</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">_math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="n">fillet</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">_math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">round_outer</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">_math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">i</span> <span class="o">/</span> <span class="n">steps</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">depth</span> <span class="o">-</span> <span class="n">fillet</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">_math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">samples</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">z</span><span class="p">,</span> <span class="n">fillet</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">_math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">))))</span>
+    <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="n">samples</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-7</span><span class="p">:</span>
+        <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">depth</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Path3D</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">_offset_open_top_outline</span><span class="p">(</span><span class="n">outline</span><span class="p">,</span> <span class="n">comp_depth</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="p">])</span>
+        <span class="k">for</span> <span class="n">z</span><span class="p">,</span> <span class="n">offset</span> <span class="ow">in</span> <span class="n">samples</span>
+    <span class="p">]</span>
+    <span class="n">vnf</span> <span class="o">=</span> <span class="n">VNF</span><span class="o">.</span><span class="n">vertex_array</span><span class="p">(</span>
+        <span class="n">rows</span><span class="p">,</span> <span class="n">caps</span><span class="o">=</span><span class="n">CapType</span><span class="o">.</span><span class="n">BUTT</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">VNFStyle</span><span class="o">.</span><span class="n">MIN_EDGE</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">vnf</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">vnf</span> <span class="o">=</span> <span class="n">vnf</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">_as_solid</span><span class="p">(</span><span class="n">vnf</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_sweep_through_wall</span><span class="p">(</span>
     <span class="n">outline</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
@@ -489,8 +839,13 @@
     <span class="n">steps</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">rounding_facets</span><span class="p">()[</span><span class="s2">"fn"</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
     <span class="n">ring</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">]</span>
     <span class="n">fillet</span> <span class="o">=</span> <span class="n">rim</span> <span class="k">if</span> <span class="p">(</span><span class="n">rim</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">round_outer</span> <span class="ow">or</span> <span class="n">round_inner</span><span class="p">))</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="n">is_open_top</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">outline</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">comp_depth</span> <span class="o">+</span> <span class="mf">1e-4</span>
 
-    <span class="k">if</span> <span class="n">fillet</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">fillet</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">is_open_top</span> <span class="ow">and</span> <span class="n">top_limit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">swept</span> <span class="o">=</span> <span class="n">_build_open_top_rounded_sweep</span><span class="p">(</span>
+            <span class="n">outline</span><span class="p">,</span> <span class="n">comp_depth</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">fillet</span><span class="p">,</span> <span class="n">round_inner</span><span class="p">,</span> <span class="n">round_outer</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fillet</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># The path is the cross-section **at the end face**, and a rim profile</span>
         <span class="c1"># moves it as you travel inward. So the widened outline is the path and</span>
         <span class="c1"># the rim brings it back in: that is what puts the extra material at</span>
@@ -511,13 +866,14 @@
             <span class="n">top</span><span class="o">=</span><span class="n">roundover_profile</span><span class="p">(</span><span class="n">fillet</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span> <span class="k">if</span> <span class="n">round_outer</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">swept</span><span class="p">,</span> <span class="s2">"polyhedron"</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsgSolid</span>
+            <span class="n">swept</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">swept</span> <span class="o">=</span> <span class="n">Path2D</span><span class="p">(</span><span class="n">ring</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">offset_sweep</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
-    <span class="c1"># offset_sweep hands back a VNF; realise it and wrap the native solid so</span>
-    <span class="c1"># the transforms and booleans below have something to work with.</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsgSolid</span>
-
-    <span class="n">swept</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">swept</span><span class="p">,</span> <span class="s2">"polyhedron"</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsgSolid</span>
+            <span class="n">swept</span> <span class="o">=</span> <span class="n">CsgSolid</span><span class="p">(</span><span class="n">swept</span><span class="o">.</span><span class="n">polyhedron</span><span class="p">())</span>
 
     <span class="c1"># The profile is built in X-Z and extruded along +Z. Stand it up so the</span>
     <span class="c1"># extrusion runs along -Y (into the wall), then shift it so it spans the</span>
@@ -628,8 +984,9 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

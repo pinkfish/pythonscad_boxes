@@ -5,5 +5,4 @@ pyboxbuilder.lid.color\_layers.ColorLayerAssignment
 
 .. autoclass:: ColorLayerAssignment
    :members:
-   :undoc-members:
    :show-inheritance:

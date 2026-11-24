@@ -5,5 +5,4 @@ pyboxbuilder.helpers.CardSize
 
 .. autoclass:: CardSize
    :members:
-   :undoc-members:
    :show-inheritance:

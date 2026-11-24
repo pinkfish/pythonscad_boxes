@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.build\_vertical\_rotary\_bolt\_hinge\_catch
+=====================================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: build_vertical_rotary_bolt_hinge_catch

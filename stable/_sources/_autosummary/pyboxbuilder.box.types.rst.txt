@@ -11,19 +11,31 @@ pyboxbuilder.box.types
       :toctree:
       :recursive:
    
+      bayonet
       cap
       cap_path
       card_library
+      card_shoe
+      clamshell
+      dice_tray
+      dispenser
       filament_hinge
-      hinge
       inset
+      inset_hinge
       magnetic
+      magnetic_hinge
+      modular_interlock
       no_lid
       path
+      pip_hinge
+      sleeve_drawer
       sliding
       sliding_catch
+      sliding_hinge
       slipover
       slipover_path
+      snap_fit
+      threaded
    
    
 

@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -313,10 +526,14 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxTypeBase</span><span class="p">,</span> <span class="n">Interior</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_box</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders.sliding</span><span class="w"> </span><span class="kn">import</span> <span class="n">SlidingBoxBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">InterlockType</span>
 
 
 <div class="viewcode-block" id="SlidingBox">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox">[docs]</a>
+<span class="nd">@register_box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="n">builder</span><span class="o">=</span><span class="n">SlidingBoxBuilder</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SlidingBox</span><span class="p">(</span><span class="n">BoxTypeBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Sliding lid box type.</span>
 
@@ -354,23 +571,12 @@
 <div class="viewcode-block" id="SlidingBox.slides_along_length">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.slides_along_length">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">slides_along_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Whether the lid slides along Y rather than X.</span>
-
-<span class="sd">        The lid leaves through the **shorter** face, which means sliding along</span>
-<span class="sd">        the longer axis. That is what a card box wants: the opening is the</span>
-<span class="sd">        narrow end, the lid is supported along its long run by the grooves, and</span>
-<span class="sd">        the box reads the right way round. Sliding along the short axis instead</span>
-<span class="sd">        puts the opening on the wide face and the grooves on the short walls,</span>
-<span class="sd">        where they have least material to bite into.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            spec: Needs `width` and `length`.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            True when the box is longer than it is wide.</span>
-
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">spec</span><span class="o">.</span><span class="n">width</span></div>
+<span class="w">        </span><span class="sd">"""Whether the lid slides along Y rather than X."""</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_slide_axis</span> <span class="o">==</span> <span class="s2">"x"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">lid_slide_axis</span> <span class="o">==</span> <span class="s2">"y"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="SlidingBox.open_end_side">
@@ -396,10 +602,9 @@
 <span class="w">        </span><span class="sd">"""Where each wall ends, which is not the same height all round.</span>
 
 <span class="sd">        The channel is cut out of the top band across the whole box and runs</span>
-<span class="sd">        out through the exit wall, so **every** wall effectively stops a lid</span>
-<span class="sd">        thickness below the box's top: the exit wall because its material is</span>
-<span class="sd">        gone, the other three because anything cut above that line breaks into</span>
-<span class="sd">        the channel the lid slides in.</span>
+<span class="sd">        out through the exit wall, so the entry side wall stops a lid</span>
+<span class="sd">        thickness below the box's top (its material is gone). The other three</span>
+<span class="sd">        sides go all the way to the top of the box itself.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: Needs `height`; reads `lid_thickness`.</span>
@@ -410,8 +615,9 @@
 <span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoopSide</span>
 
+        <span class="n">open_side</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_end_side</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">top</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lid_thickness</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">ScoopSide</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="n">side</span><span class="p">:</span> <span class="p">(</span><span class="n">top</span> <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="n">open_side</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">ScoopSide</span><span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="SlidingBox.preferred_scoop_side">
@@ -498,12 +704,11 @@
         <span class="k">return</span> <span class="n">body</span> <span class="o">-</span> <span class="n">dovetail_track</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span><span class="o">.</span><span class="n">body</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_catch_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return the bump catch's radius, or 0 for a plain sliding lid (FR-002e3).</span>
+<span class="w">        </span><span class="sd">"""Return the bump catch's radius, or 0 for no catch (FR-002e3).</span>
 
-<span class="sd">        A plain sliding box has **no** catch by default, as the original</span>
-<span class="sd">        toolkit's does: the dovetail already stops the lid lifting out, and</span>
-<span class="sd">        defaulting a catch on here would leave nothing to tell `SLIDING` and</span>
-<span class="sd">        `SLIDING_CATCH` apart. Setting `catch_radius` turns one on.</span>
+<span class="sd">        Both sliding box and sliding-catch box carry this catch by default,</span>
+<span class="sd">        with a default radius of 1.0mm, so the lid does not fall out on its own.</span>
+<span class="sd">        Setting `catch_radius` to 0 turns it off.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spec: Reads `catch_radius`.</span>
@@ -512,7 +717,7 @@
 <span class="sd">            The bump radius in mm; ``0`` for no catch.</span>
 
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="ow">or</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">spec</span><span class="o">.</span><span class="n">catch_radius</span>
 
 <div class="viewcode-block" id="SlidingBox.build_body">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.build_body">[docs]</a>
@@ -525,15 +730,25 @@
         <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">sliding_catch</span>
 
-            <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span><span class="o">.</span><span class="n">body</span>
-        <span class="k">return</span> <span class="n">body</span></div>
+            <span class="n">catch</span> <span class="o">=</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="n">body</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">body_cut</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">interlock_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">InterlockType</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_horizontal_interlock</span>
+
+            <span class="n">body</span> <span class="o">=</span> <span class="n">apply_horizontal_interlock</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_body</span>
+
+        <span class="k">return</span> <span class="n">apply_stackable_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SlidingBox.build_lid">
 <a class="viewcode-back" href="../../../../_autosummary/pyboxbuilder.box.types.sliding.SlidingBox.html#pyboxbuilder.box.types.sliding.SlidingBox.build_lid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_lid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">BoxSpec</span><span class="p">,</span> <span class="n">decoration</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Build the sliding lid — a dovetailed plate, chamfered at its leading end."""</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">dovetail_track</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_stackable_lid</span><span class="p">,</span> <span class="n">dovetail_track</span>
 
         <span class="n">closure</span> <span class="o">=</span> <span class="n">dovetail_track</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
         <span class="k">assert</span> <span class="n">closure</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -542,8 +757,13 @@
         <span class="k">if</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">sliding_catch</span>
 
-            <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span><span class="o">.</span><span class="n">lid</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut_fingernail_catch</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
+            <span class="n">catch</span> <span class="o">=</span> <span class="n">sliding_catch</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_along_axis</span><span class="p">(</span><span class="n">spec</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">|</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid</span>
+            <span class="k">if</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lid</span> <span class="o">=</span> <span class="n">lid</span> <span class="o">-</span> <span class="n">catch</span><span class="o">.</span><span class="n">lid_cut</span>
+        <span class="n">lid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cut_fingernail_catch</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">apply_stackable_lid</span><span class="p">(</span><span class="n">lid</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SlidingBox.slide_axis">
@@ -620,8 +840,9 @@
     <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

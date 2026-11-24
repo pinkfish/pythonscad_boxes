@@ -5,5 +5,4 @@ pyboxbuilder.enums.FingerCut
 
 .. autoclass:: FingerCut
    :members:
-   :undoc-members:
    :show-inheritance:

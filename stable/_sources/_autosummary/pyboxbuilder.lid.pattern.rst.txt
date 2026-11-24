@@ -9,6 +9,14 @@ pyboxbuilder.lid.pattern
 
    
    
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      PatternResult
+   
    
 
    

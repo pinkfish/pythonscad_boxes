@@ -5,5 +5,4 @@ pyboxbuilder.compartments.hex\_grid.HexGridSpec
 
 .. autoclass:: HexGridSpec
    :members:
-   :undoc-members:
    :show-inheritance:

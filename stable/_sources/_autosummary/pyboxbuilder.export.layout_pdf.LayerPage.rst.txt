@@ -5,5 +5,4 @@ pyboxbuilder.export.layout\_pdf.LayerPage
 
 .. autoclass:: LayerPage
    :members:
-   :undoc-members:
    :show-inheritance:

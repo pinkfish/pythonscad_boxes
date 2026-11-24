@@ -5,5 +5,4 @@ pyboxbuilder.compartments.hex\_grid.HexCell
 
 .. autoclass:: HexCell
    :members:
-   :undoc-members:
    :show-inheritance:

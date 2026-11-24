@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -413,6 +626,337 @@
     <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">EPSILON</span><span class="p">:</span>
         <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span>
     <span class="k">return</span> <span class="mf">0.0</span>
+
+
+<div class="viewcode-block" id="point_in_polygon">
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.point_in_polygon.html#pyboxbuilder.paths.point_in_polygon">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">point_in_polygon</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">poly</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True if point (x, y) is inside the polygon by ray casting."""</span>
+    <span class="n">inside</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">poly</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">poly</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">y1</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">y2</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">+</span> <span class="n">x1</span><span class="p">):</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">inside</span>
+    <span class="k">return</span> <span class="n">inside</span></div>
+
+
+
+<div class="viewcode-block" id="largest_inscribed_rectangle">
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.largest_inscribed_rectangle.html#pyboxbuilder.paths.largest_inscribed_rectangle">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">largest_inscribed_rectangle</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Find the largest axis-aligned inscribed rectangle in a simple polygon.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        `(x, y, width, length)` in the polygon's local frame.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">})</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">})</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="n">ncols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="n">grid</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span>
+                <span class="n">point_in_polygon</span><span class="p">((</span><span class="n">xs</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="n">xs</span><span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">+</span> <span class="n">ys</span><span class="p">[</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncols</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrows</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">best_area</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="n">best_rect</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncols</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">ncols</span><span class="p">):</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">c2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xs</span><span class="p">[</span><span class="n">c1</span><span class="p">]</span>
+                <span class="n">r_start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrows</span><span class="p">):</span>
+                    <span class="n">all_inside</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">all_inside</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">r_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">r_start</span> <span class="o">=</span> <span class="n">r</span>
+                        <span class="n">length</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ys</span><span class="p">[</span><span class="n">r_start</span><span class="p">]</span>
+                        <span class="n">area</span> <span class="o">=</span> <span class="n">width</span> <span class="o">*</span> <span class="n">length</span>
+                        <span class="k">if</span> <span class="n">area</span> <span class="o">&gt;</span> <span class="n">best_area</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">area</span> <span class="o">-</span> <span class="n">best_area</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span> <span class="ow">and</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="n">best_rect</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                            <span class="n">best_area</span> <span class="o">=</span> <span class="n">area</span>
+                            <span class="n">best_rect</span> <span class="o">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">c1</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="n">r_start</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">r_start</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">best_rect</span>
+
+    <span class="c1"># Non-rectilinear polygon: grid discretization with histogram method</span>
+    <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+
+    <span class="n">w</span> <span class="o">=</span> <span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">n_samples</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">l</span> <span class="o">/</span> <span class="n">n_samples</span>
+
+    <span class="n">grid_non_rect</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">y0</span> <span class="o">=</span> <span class="n">min_y</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">dy</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">dy</span>
+        <span class="n">ymid</span> <span class="o">=</span> <span class="p">(</span><span class="n">y0</span> <span class="o">+</span> <span class="n">y1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+            <span class="n">x0</span> <span class="o">=</span> <span class="n">min_x</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">dx</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">dx</span>
+            <span class="n">xmid</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">x1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">xmid</span><span class="p">,</span> <span class="n">ymid</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inside</span><span class="p">)</span>
+        <span class="n">grid_non_rect</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+    <span class="n">best_area</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">best_rect</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="n">heights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_samples</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+            <span class="n">heights</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">heights</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">grid_non_rect</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="n">stack</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">heights</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="n">n_samples</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">stack</span> <span class="ow">and</span> <span class="n">heights</span><span class="p">[</span><span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&gt;=</span> <span class="n">h</span><span class="p">:</span>
+                <span class="n">top</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="n">width_cells</span> <span class="o">=</span> <span class="n">c</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">stack</span> <span class="k">else</span> <span class="n">c</span> <span class="o">-</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">length_cells</span> <span class="o">=</span> <span class="n">heights</span><span class="p">[</span><span class="n">top</span><span class="p">]</span>
+                <span class="n">col_start</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">stack</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="n">row_start</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="n">length_cells</span> <span class="o">+</span> <span class="mi">1</span>
+
+                <span class="n">actual_w</span> <span class="o">=</span> <span class="n">width_cells</span> <span class="o">*</span> <span class="n">dx</span>
+                <span class="n">actual_l</span> <span class="o">=</span> <span class="n">length_cells</span> <span class="o">*</span> <span class="n">dy</span>
+                <span class="n">area</span> <span class="o">=</span> <span class="n">actual_w</span> <span class="o">*</span> <span class="n">actual_l</span>
+                <span class="k">if</span> <span class="n">area</span> <span class="o">&gt;</span> <span class="n">best_area</span><span class="p">:</span>
+                    <span class="n">best_area</span> <span class="o">=</span> <span class="n">area</span>
+                    <span class="n">best_rect</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_x</span> <span class="o">+</span> <span class="n">col_start</span> <span class="o">*</span> <span class="n">dx</span><span class="p">,</span> <span class="n">min_y</span> <span class="o">+</span> <span class="n">row_start</span> <span class="o">*</span> <span class="n">dy</span><span class="p">,</span> <span class="n">actual_w</span><span class="p">,</span> <span class="n">actual_l</span><span class="p">)</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">best_rect</span></div>
+
+
+
+<div class="viewcode-block" id="longest_inscribed_rectangle">
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.longest_inscribed_rectangle.html#pyboxbuilder.paths.longest_inscribed_rectangle">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">longest_inscribed_rectangle</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">],</span>
+    <span class="n">min_short_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Find the inscribed rectangle with the longest span (max(width, length)) in a simple polygon.</span>
+
+<span class="sd">    Ties are broken by area (width * length), then width.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path: Vertices of the polygon.</span>
+<span class="sd">        min_short_dim: Minimum required thickness (min(width, length)) for validity.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        `(x, y, width, length)` in the polygon's local frame.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_rectilinear</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">})</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">})</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="n">ncols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="n">grid</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span>
+                <span class="n">point_in_polygon</span><span class="p">((</span><span class="n">xs</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="n">xs</span><span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">+</span> <span class="n">ys</span><span class="p">[</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncols</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrows</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">best_score</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">best_rect</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncols</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">ncols</span><span class="p">):</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">c2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xs</span><span class="p">[</span><span class="n">c1</span><span class="p">]</span>
+                <span class="n">r_start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrows</span><span class="p">):</span>
+                    <span class="n">all_inside</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">all_inside</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">r_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">r_start</span> <span class="o">=</span> <span class="n">r</span>
+                        <span class="n">length</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ys</span><span class="p">[</span><span class="n">r_start</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">min_short_dim</span><span class="p">:</span>
+                            <span class="n">longer</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+                            <span class="n">area</span> <span class="o">=</span> <span class="n">width</span> <span class="o">*</span> <span class="n">length</span>
+                            <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">longer</span><span class="p">,</span> <span class="n">area</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                                <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+                                <span class="n">best_rect</span> <span class="o">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">c1</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="n">r_start</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">r_start</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">best_score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">best_rect</span>
+        <span class="k">return</span> <span class="n">largest_inscribed_rectangle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="c1"># Non-rectilinear polygon: grid discretization</span>
+    <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+
+    <span class="n">w</span> <span class="o">=</span> <span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">n_samples</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">l</span> <span class="o">/</span> <span class="n">n_samples</span>
+
+    <span class="n">grid_non_rect</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">y0</span> <span class="o">=</span> <span class="n">min_y</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">dy</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">dy</span>
+        <span class="n">ymid</span> <span class="o">=</span> <span class="p">(</span><span class="n">y0</span> <span class="o">+</span> <span class="n">y1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+            <span class="n">x0</span> <span class="o">=</span> <span class="n">min_x</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">dx</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">dx</span>
+            <span class="n">xmid</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">x1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">xmid</span><span class="p">,</span> <span class="n">ymid</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">point_in_polygon</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inside</span><span class="p">)</span>
+        <span class="n">grid_non_rect</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+    <span class="n">best_score</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">best_rect</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="n">heights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_samples</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+            <span class="n">heights</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">heights</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">grid_non_rect</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="n">stack</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">heights</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="n">n_samples</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">stack</span> <span class="ow">and</span> <span class="n">heights</span><span class="p">[</span><span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&gt;=</span> <span class="n">h</span><span class="p">:</span>
+                <span class="n">top</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="n">width_cells</span> <span class="o">=</span> <span class="n">c</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">stack</span> <span class="k">else</span> <span class="n">c</span> <span class="o">-</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">length_cells</span> <span class="o">=</span> <span class="n">heights</span><span class="p">[</span><span class="n">top</span><span class="p">]</span>
+                <span class="n">col_start</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">stack</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="n">row_start</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="n">length_cells</span> <span class="o">+</span> <span class="mi">1</span>
+
+                <span class="n">actual_w</span> <span class="o">=</span> <span class="n">width_cells</span> <span class="o">*</span> <span class="n">dx</span>
+                <span class="n">actual_l</span> <span class="o">=</span> <span class="n">length_cells</span> <span class="o">*</span> <span class="n">dy</span>
+                <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">actual_w</span><span class="p">,</span> <span class="n">actual_l</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">min_short_dim</span><span class="p">:</span>
+                    <span class="n">longer</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">actual_w</span><span class="p">,</span> <span class="n">actual_l</span><span class="p">)</span>
+                    <span class="n">area</span> <span class="o">=</span> <span class="n">actual_w</span> <span class="o">*</span> <span class="n">actual_l</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">longer</span><span class="p">,</span> <span class="n">area</span><span class="p">,</span> <span class="n">actual_w</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                        <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+                        <span class="n">best_rect</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_x</span> <span class="o">+</span> <span class="n">col_start</span> <span class="o">*</span> <span class="n">dx</span><span class="p">,</span> <span class="n">min_y</span> <span class="o">+</span> <span class="n">row_start</span> <span class="o">*</span> <span class="n">dy</span><span class="p">,</span> <span class="n">actual_w</span><span class="p">,</span> <span class="n">actual_l</span><span class="p">)</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">best_score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">best_rect</span>
+    <span class="k">return</span> <span class="n">largest_inscribed_rectangle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="polygon_convex_corners">
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.polygon_convex_corners.html#pyboxbuilder.paths.polygon_convex_corners">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">polygon_convex_corners</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return indices of convex vertices (outer corners) of a closed polygon path.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path: Ordered vertices of a closed 2D polygon.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of vertex indices that are convex (exterior corners).</span>
+
+<span class="sd">    """</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">area2</span> <span class="o">=</span> <span class="n">signed_area</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">is_ccw</span> <span class="o">=</span> <span class="n">area2</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">convex</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">p_prev</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+        <span class="n">p_curr</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">p_next</span> <span class="o">=</span> <span class="n">path</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+        <span class="n">e1</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_curr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p_curr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_prev</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_next</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_curr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p_next</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_curr</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">cross</span> <span class="o">=</span> <span class="n">e1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">e2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">e1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">e2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># In CCW, a convex corner turns left (cross &gt; 0); in CW, turns right (cross &lt; 0)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">is_ccw</span> <span class="ow">and</span> <span class="n">cross</span> <span class="o">&gt;</span> <span class="mf">1e-4</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">is_ccw</span> <span class="ow">and</span> <span class="n">cross</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">1e-4</span><span class="p">):</span>
+            <span class="n">convex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">convex</span></div>
+
+
+
+<div class="viewcode-block" id="polygon_opposite_corners">
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.paths.polygon_opposite_corners.html#pyboxbuilder.paths.polygon_opposite_corners">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">polygon_opposite_corners</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Point</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return indices of two opposite convex corners (furthest apart) of a polygon.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path: Ordered vertices of a closed 2D polygon.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Indices of the two convex vertices with maximum Euclidean separation.</span>
+
+<span class="sd">    """</span>
+    <span class="n">convex</span> <span class="o">=</span> <span class="n">polygon_convex_corners</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">convex</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">convex</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">convex</span>
+    <span class="n">best_pair</span> <span class="o">=</span> <span class="p">(</span><span class="n">convex</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">convex</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">max_d2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">convex</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">convex</span><span class="p">)):</span>
+            <span class="n">idx_a</span> <span class="o">=</span> <span class="n">convex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">idx_b</span> <span class="o">=</span> <span class="n">convex</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">pa</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">idx_a</span><span class="p">]</span>
+            <span class="n">pb</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">idx_b</span><span class="p">]</span>
+            <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="n">pa</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">pb</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pb</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">d2</span> <span class="o">&gt;</span> <span class="n">max_d2</span><span class="p">:</span>
+                <span class="n">max_d2</span> <span class="o">=</span> <span class="n">d2</span>
+                <span class="n">best_pair</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx_a</span><span class="p">,</span> <span class="n">idx_b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">best_pair</span><span class="p">)</span></div>
+
+
 </code></pre></div>
 
 
@@ -480,8 +1024,9 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

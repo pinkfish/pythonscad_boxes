@@ -1,0 +1,8 @@
+pyboxbuilder.project.manifest.GameComponent
+===========================================
+
+.. currentmodule:: pyboxbuilder.project.manifest
+
+.. autoclass:: GameComponent
+   :members:
+   :show-inheritance:

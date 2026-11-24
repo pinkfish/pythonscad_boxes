@@ -5,5 +5,4 @@ pyboxbuilder.enums.ScoopSide
 
 .. autoclass:: ScoopSide
    :members:
-   :undoc-members:
    :show-inheritance:

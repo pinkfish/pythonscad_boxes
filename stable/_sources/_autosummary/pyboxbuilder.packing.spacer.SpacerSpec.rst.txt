@@ -5,5 +5,4 @@ pyboxbuilder.packing.spacer.SpacerSpec
 
 .. autoclass:: SpacerSpec
    :members:
-   :undoc-members:
    :show-inheritance:

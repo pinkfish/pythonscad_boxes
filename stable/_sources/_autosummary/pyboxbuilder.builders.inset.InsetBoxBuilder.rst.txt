@@ -5,5 +5,4 @@ pyboxbuilder.builders.inset.InsetBoxBuilder
 
 .. autoclass:: InsetBoxBuilder
    :members:
-   :undoc-members:
    :show-inheritance:

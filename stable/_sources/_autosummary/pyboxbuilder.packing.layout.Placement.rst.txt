@@ -5,5 +5,4 @@ pyboxbuilder.packing.layout.Placement
 
 .. autoclass:: Placement
    :members:
-   :undoc-members:
    :show-inheritance:

@@ -34,6 +34,7 @@
     
         <link rel="stylesheet" type="text/css" href="../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
         <link rel="stylesheet" type="text/css" href="../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../_static/box_selector.css?v=7dff43fb" />
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -215,7 +216,7 @@
   
   
   <span class="md-ellipsis">
-    <span>Contents</span>
+    <span>User Guide</span>
     
   </span>
   
@@ -226,7 +227,219 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            <span>Contents</span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -380,6 +593,9 @@
     <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">DEFAULT_OUT_DIR</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">show_lids</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">lids_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">remove_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">only</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">argv</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Preview a project, or export it when asked for files.</span>
@@ -398,6 +614,9 @@
 <span class="sd">        show_lids: Show lids by default in a preview. Off by default, since a</span>
 <span class="sd">            lid covers the compartments a packing preview exists to show;</span>
 <span class="sd">            ``--lids`` turns it on for one run.</span>
+<span class="sd">        lids_only: Show the lids without their bodies.</span>
+<span class="sd">        remove_layers: Omit the top N layers in the preview to see underneath.</span>
+<span class="sd">        only: Only preview/export this box label (or list of labels).</span>
 <span class="sd">        argv: Command-line arguments; ``None`` reads ``sys.argv``.</span>
 
 <span class="sd">    Raises:</span>
@@ -405,18 +624,21 @@
 
 <span class="sd">    """</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_parser</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir</span><span class="p">))</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">argv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">argv</span><span class="p">)</span>
-    <span class="n">only</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">box</span> <span class="ow">or</span> <span class="kc">None</span>
+
+    <span class="n">selected_only</span> <span class="o">=</span> <span class="n">only</span>
+    <span class="k">if</span> <span class="n">selected_only</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">box</span><span class="p">:</span>
+        <span class="n">selected_only</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">box</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">export</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">FROM_MAKE_ENV</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"1"</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">force</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">selected_only</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">force</span><span class="p">)</span>
         <span class="n">_report</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
         <span class="n">show_lids</span><span class="o">=</span><span class="n">show_lids</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">lids</span><span class="p">,</span>
-        <span class="n">lids_only</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">lids_only</span><span class="p">,</span>
-        <span class="n">remove_layers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">remove_layers</span><span class="p">,</span>
-        <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">,</span>
+        <span class="n">lids_only</span><span class="o">=</span><span class="n">lids_only</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">lids_only</span><span class="p">,</span>
+        <span class="n">remove_layers</span><span class="o">=</span><span class="n">remove_layers</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">remove_layers</span><span class="p">,</span>
+        <span class="n">only</span><span class="o">=</span><span class="n">selected_only</span><span class="p">,</span>
         <span class="n">fn</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span>
     <span class="p">)</span></div>
 
@@ -499,8 +721,9 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
       
-        <script src="../../_static/sphinx_immaterial_theme.32136f45f91ae6956.min.js?v=a7a9472a"></script>
-        <script type="module" src="../../_static/stl_viewer.js?v=0ab88475"></script>
+        <script src="../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../_static/box_selector.js?v=e027fd2f"></script>
     
   </body>
 </html>

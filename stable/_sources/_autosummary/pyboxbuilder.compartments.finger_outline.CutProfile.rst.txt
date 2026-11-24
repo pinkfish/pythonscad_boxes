@@ -5,5 +5,4 @@ pyboxbuilder.compartments.finger\_outline.CutProfile
 
 .. autoclass:: CutProfile
    :members:
-   :undoc-members:
    :show-inheritance:

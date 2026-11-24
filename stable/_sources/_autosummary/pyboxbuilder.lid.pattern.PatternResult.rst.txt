@@ -1,0 +1,8 @@
+pyboxbuilder.lid.pattern.PatternResult
+======================================
+
+.. currentmodule:: pyboxbuilder.lid.pattern
+
+.. autoclass:: PatternResult
+   :members:
+   :show-inheritance:

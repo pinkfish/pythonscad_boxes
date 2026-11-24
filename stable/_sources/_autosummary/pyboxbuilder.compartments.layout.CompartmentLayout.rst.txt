@@ -5,5 +5,4 @@ pyboxbuilder.compartments.layout.CompartmentLayout
 
 .. autoclass:: CompartmentLayout
    :members:
-   :undoc-members:
    :show-inheritance:

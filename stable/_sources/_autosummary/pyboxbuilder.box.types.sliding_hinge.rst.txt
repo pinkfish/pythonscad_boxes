@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.sliding\_hinge
+=====================================
+
+.. automodule:: pyboxbuilder.box.types.sliding_hinge
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      SlidingHingeBox
+   
+   
+
+   
+   
+   

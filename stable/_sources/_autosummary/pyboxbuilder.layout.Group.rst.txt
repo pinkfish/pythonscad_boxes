@@ -5,5 +5,4 @@ pyboxbuilder.layout.Group
 
 .. autoclass:: Group
    :members:
-   :undoc-members:
    :show-inheritance:

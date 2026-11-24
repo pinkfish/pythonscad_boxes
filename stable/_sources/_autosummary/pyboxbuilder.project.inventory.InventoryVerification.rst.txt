@@ -1,0 +1,8 @@
+pyboxbuilder.project.inventory.InventoryVerification
+====================================================
+
+.. currentmodule:: pyboxbuilder.project.inventory
+
+.. autoclass:: InventoryVerification
+   :members:
+   :show-inheritance:

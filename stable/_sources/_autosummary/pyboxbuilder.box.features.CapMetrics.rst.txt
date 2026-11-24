@@ -5,5 +5,4 @@ pyboxbuilder.box.features.CapMetrics
 
 .. autoclass:: CapMetrics
    :members:
-   :undoc-members:
    :show-inheritance:

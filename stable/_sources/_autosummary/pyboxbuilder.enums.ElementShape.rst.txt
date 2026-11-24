@@ -5,5 +5,4 @@ pyboxbuilder.enums.ElementShape
 
 .. autoclass:: ElementShape
    :members:
-   :undoc-members:
    :show-inheritance:

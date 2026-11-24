@@ -29,12 +29,20 @@ pyboxbuilder.compartments.element
    
       build_element
       build_element_pack
+      build_element_pack_inserts
+      build_element_pack_pull_outs
       build_pull_out
+      centered
+      centered_in_box
+      distribute_2d_bounds
+      distribute_linear_gap
       elements_bounding_box
       elements_footprint
       elements_overlap
       grid_pack
       normalize_elements
+      pack_elements
+      pack_into_compartment
       svg_solid
       union_all
    

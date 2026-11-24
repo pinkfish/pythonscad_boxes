@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.polygon\_grid\_position
+=================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: polygon_grid_position
