@@ -22,7 +22,7 @@ pybox = "pyboxbuilder.cli:main"
 scripts = [
     "pybosl2>=0.7.13",
     "lark",
-    "fpdf",
+    "fpdf2",
     "inkex",
     "numpy",
     "shapely",
