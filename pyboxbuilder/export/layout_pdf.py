@@ -569,6 +569,7 @@ def generate_layout_pdf(
             packing=packing,
             manifest=manifest,
             orig_index_map=orig_index_map,
+            box_colors=colors,
         )
 
     # Also render non-printed GameBoard regions (partial boards, screens, playmats)
@@ -749,177 +750,428 @@ def _draw_inventory_summary_pages(
     packing: BoxPacking,
     manifest: ProjectManifest,
     orig_index_map: dict[str, int],
+    box_colors: list[tuple[int, int, int]] | None = None,
 ) -> None:
-    """Render the Box Summary & Piece Count inventory table at the start of the PDF."""
+    """Render compact, two-column color-coded Box Summary and Component Checklist pages."""
     from pyboxbuilder.project.inventory import summarize_project
 
     inv = summarize_project(manifest, spacer_count=len(packing.spacer_placements))
-    placements_by_label = {p.label: p for p in packing.placements}
+    palette = box_colors or [
+        (70, 130, 180),
+        (220, 140, 70),
+        (60, 160, 80),
+        (200, 100, 150),
+        (100, 160, 200),
+        (180, 180, 60),
+        (160, 100, 80),
+        (120, 140, 160),
+    ]
+
+    margin_x = 10.0
+    gutter = 5.0
+    col_w = 136.0  # 136 + 5 + 136 = 277 mm on A4 landscape (297 mm - 20 mm)
+    col_xs = (margin_x, margin_x + col_w + gutter)
+    y_table_top = 31.5
+    y_bottom = 199.0
+    hdr_h = 6.2
+    line_h = 3.4
+    single_row_h = 5.4
+    max_col_h = y_bottom - (y_table_top + hdr_h)
 
     def _ascii_safe(text: str) -> str:
         return (
             text.replace("\u00d7", "x")
             .replace("\u2014", "-")
             .replace("\u2013", "-")
+            .replace("\u00b7", "|")
             .encode("latin-1", "replace")
             .decode("latin-1")
         )
 
-    def _start_page(continued: bool = False) -> None:
-        pdf.add_page()
-        pdf.set_font("Helvetica", "B", 14)
-        suffix = " (continued)" if continued else ""
-        pdf.cell(
-            0,
-            8,
-            _ascii_safe(f"Packing Guide: {project_name} - Box Summary & Piece Counts{suffix}"),
-            align="C",
-            new_x="LMARGIN",
-            new_y="NEXT",
-        )
-        pdf.set_font("Helvetica", "", 9)
-        summary_bits = [
-            f"Game box: {game_box_size[0]:.0f}x{game_box_size[1]:.0f}x{game_box_size[2]:.0f}mm",
-            (
-                f"Printed parts: {inv.printed_bodies} bodies, {inv.printed_lids} lids, "
-                f"{inv.printed_spacers} spacers ({inv.total_printed_parts} total)"
-            ),
-        ]
-        if inv.total_board_count > 0:
-            summary_bits.append(f"Boards/non-printed: {inv.total_board_count}")
-        if inv.total_counted_pieces > 0:
-            summary_bits.append(f"Counted pieces: {inv.total_counted_pieces}")
-        pdf.cell(
-            0,
-            5,
-            _ascii_safe("   |   ".join(summary_bits)),
-            align="C",
-            new_x="LMARGIN",
-            new_y="NEXT",
-        )
-        pdf.ln(3)
-        # Table header
-        pdf.set_fill_color(55, 70, 90)
-        pdf.set_text_color(255, 255, 255)
-        pdf.set_font("Helvetica", "B", 8)
-        pdf.cell(10, 6, "#", border=1, align="C", fill=True)
-        pdf.cell(58, 6, "Box / Component", border=1, fill=True)
-        pdf.cell(36, 6, "Dimensions (mm)", border=1, align="C", fill=True)
-        pdf.cell(36, 6, "Position (X,Y,Z)", border=1, align="C", fill=True)
-        pdf.cell(137, 6, "Pieces / Contents", border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
-        pdf.set_text_color(20, 20, 20)
-        pdf.set_font("Helvetica", "", 7.5)
+    def _fit_text(text: str, max_w: float) -> str:
+        safe = _ascii_safe(text)
+        if pdf.get_string_width(safe) <= max_w:
+            return safe
+        ellipsis = "..."
+        ell_w = pdf.get_string_width(ellipsis)
+        lo, hi = 0, len(safe)
+        while lo < hi:
+            mid = (lo + hi + 1) // 2
+            if pdf.get_string_width(safe[:mid]) + ell_w <= max_w:
+                lo = mid
+            else:
+                hi = mid - 1
+        return safe[:lo].rstrip() + ellipsis
 
-    _start_page(continued=False)
-    row_idx = 0
+    def _wrap_lines(text: str, max_w: float, max_lines: int = 2) -> list[str]:
+        safe = _ascii_safe(text)
+        if pdf.get_string_width(safe) <= max_w or max_lines <= 1:
+            return [_fit_text(safe, max_w)]
+        words = safe.split(" ")
+        lines: list[str] = []
+        current = ""
+        for idx, word in enumerate(words):
+            cand = f"{current} {word}".strip() if current else word
+            if pdf.get_string_width(cand) <= max_w:
+                current = cand
+            else:
+                if current:
+                    lines.append(current)
+                    if len(lines) == max_lines - 1:
+                        rest = " ".join(words[idx:])
+                        lines.append(_fit_text(rest, max_w))
+                        return lines
+                    current = word
+                else:
+                    lines.append(_fit_text(word, max_w))
+                    if len(lines) == max_lines:
+                        return lines
+                    current = ""
+        if current:
+            lines.append(_fit_text(current, max_w))
+        return lines or [""]
 
-    def _draw_row(
-        idx_str: str,
-        name: str,
-        dims: str,
-        pos: str,
-        contents: str,
-        *,
-        tint: tuple[int, int, int] | None = None,
+    def _paginate_two_cols(
+        heights: list[float],
+    ) -> list[tuple[list[int], list[int]]]:
+        """Group row indices into balanced two-column pages."""
+        pages_out: list[tuple[list[int], list[int]]] = []
+        idx = 0
+        n = len(heights)
+        while idx < n:
+            # Take as many rows as can fit into two columns of max_col_h
+            start = idx
+            col_h = 0.0
+            col_num = 0
+            while idx < n:
+                rh = heights[idx]
+                if col_h + rh <= max_col_h:
+                    col_h += rh
+                    idx += 1
+                elif col_num == 0:
+                    col_num = 1
+                    col_h = rh
+                    idx += 1
+                else:
+                    break
+            page_indices = list(range(start, idx))
+            # Balance left and right columns on this page when >= 4 rows
+            if len(page_indices) < 4:
+                pages_out.append((page_indices, []))
+            else:
+                total_h = sum(heights[i] for i in page_indices)
+                half_h = total_h / 2.0
+                left_ids: list[int] = []
+                acc = 0.0
+                for i in page_indices:
+                    if left_ids and acc + heights[i] > max_col_h:
+                        break
+                    if left_ids and acc >= half_h:
+                        break
+                    left_ids.append(i)
+                    acc += heights[i]
+                right_ids = page_indices[len(left_ids) :]
+                # Ensure right column fits within max_col_h
+                while right_ids and sum(heights[i] for i in right_ids) > max_col_h:
+                    if sum(heights[i] for i in left_ids) + heights[right_ids[0]] <= max_col_h:
+                        left_ids.append(right_ids.pop(0))
+                    else:
+                        break
+                pages_out.append((left_ids, right_ids))
+        return pages_out
+
+    def _draw_banner(
+        title: str,
+        subtitle: str,
+        banner_rgb: tuple[int, int, int],
+        accent_rgb: tuple[int, int, int],
+        pills: list[tuple[str, tuple[int, int, int], tuple[int, int, int], tuple[int, int, int]]],
     ) -> None:
-        nonlocal row_idx
-        if pdf.get_y() > 192:
-            _start_page(continued=True)
-        if tint is not None:
-            pdf.set_fill_color(*tint)
-        elif row_idx % 2 == 1:
-            pdf.set_fill_color(246, 248, 250)
-        else:
-            pdf.set_fill_color(255, 255, 255)
-        pdf.cell(10, 5.5, _ascii_safe(idx_str), border=1, align="C", fill=True)
-        pdf.cell(58, 5.5, _ascii_safe(name[:34]), border=1, fill=True)
-        pdf.cell(36, 5.5, _ascii_safe(dims), border=1, align="C", fill=True)
-        pdf.cell(36, 5.5, _ascii_safe(pos), border=1, align="C", fill=True)
-        pdf.cell(137, 5.5, _ascii_safe(contents[:88]), border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
-        row_idx += 1
+        pdf.add_page()
+        # Top colored banner
+        pdf.set_fill_color(*banner_rgb)
+        pdf.set_draw_color(*banner_rgb)
+        pdf.rect(margin_x, 8.0, 277.0, 12.0, style="F")
+        # Thin left accent bar
+        pdf.set_fill_color(*accent_rgb)
+        pdf.rect(margin_x, 8.0, 3.0, 12.0, style="F")
 
+        pdf.set_xy(margin_x + 6.0, 9.8)
+        pdf.set_font("Helvetica", "B", 13)
+        pdf.set_text_color(255, 255, 255)
+        pdf.cell(175.0, 8.4, _ascii_safe(title), border=0, align="L")
+
+        pdf.set_xy(margin_x + 185.0, 10.2)
+        pdf.set_font("Helvetica", "B", 9.5)
+        pdf.set_text_color(218, 232, 245)
+        pdf.cell(88.0, 7.6, _ascii_safe(subtitle), border=0, align="R")
+
+        # KPI summary pills
+        px = margin_x
+        py = 22.2
+        pdf.set_font("Helvetica", "B", 7.8)
+        pdf.set_line_width(0.25)
+        for label, fill_c, border_c, text_c in pills:
+            txt = _ascii_safe(label)
+            pw = pdf.get_string_width(txt) + 7.0
+            pdf.set_fill_color(*fill_c)
+            pdf.set_draw_color(*border_c)
+            pdf.set_text_color(*text_c)
+            pdf.rect(px, py, pw, 6.2, style="DF")
+            pdf.set_xy(px, py + 0.5)
+            pdf.cell(pw, 5.2, txt, border=0, align="C")
+            px += pw + 3.0
+
+        pdf.set_draw_color(214, 222, 232)
+        pdf.set_line_width(0.2)
+
+    # ------------------------------------------------------------------
+    # Section 1: Box Summary & Piece Counts (2 columns, no dims/position)
+    # ------------------------------------------------------------------
+    # Row tuple: (badge_str, badge_rgb, name, contents, row_bg_override)
+    box_rows: list[tuple[str, tuple[int, int, int], str, str, tuple[int, int, int] | None]] = []
     for summary in inv.box_summaries:
-        pl = placements_by_label.get(summary.label)
-        dims = f"{pl.size[0]:.1f}x{pl.size[1]:.1f}x{pl.size[2]:.1f}" if pl else "-"
-        pos = f"({pl.position[0]:.0f}, {pl.position[1]:.0f}, {pl.position[2]:.0f})" if pl else "-"
-        idx_num = str(orig_index_map[summary.label] + 1) if summary.label in orig_index_map else "-"
-        _draw_row(idx_num, summary.label, dims, pos, summary.format_contents(max_items=6))
+        if summary.label in orig_index_map:
+            idx_val = orig_index_map[summary.label]
+            badge_str = str(idx_val + 1)
+            badge_rgb = palette[idx_val % len(palette)]
+        else:
+            badge_str = "-"
+            badge_rgb = (95, 112, 132)
+        box_rows.append(
+            (badge_str, badge_rgb, summary.label, summary.format_contents(max_items=6), None)
+        )
 
     for sp in packing.spacer_placements:
-        dims = f"{sp.size[0]:.1f}x{sp.size[1]:.1f}x{sp.size[2]:.1f}"
-        pos = f"({sp.position[0]:.0f}, {sp.position[1]:.0f}, {sp.position[2]:.0f})"
-        _draw_row("S", f"{sp.label} (spacer)", dims, pos, "Printed spacer tray", tint=(240, 240, 240))
+        box_rows.append(
+            ("S", (118, 128, 140), f"{sp.label} (spacer)", "Printed spacer tray", (241, 244, 247))
+        )
 
     for gb in inv.boards:
-        dims = f"{gb.size[0]:.1f}x{gb.size[1]:.1f}x{gb.size[2]:.1f}"
-        pos = f"({gb.position[0]:.0f}, {gb.position[1]:.0f}, {gb.position[2]:.0f})"
-        desc = f"{gb.count}x {gb.label}" + (f" ({gb.notes})" if gb.notes else "") + " [non-printed]"
-        _draw_row("B", gb.label, dims, pos, desc, tint=(248, 241, 224))
+        desc = f"{gb.count}x {gb.label}" + (f" ({gb.notes})" if gb.notes else "")
+        box_rows.append(("B", (192, 142, 54), gb.label, desc, (253, 247, 234)))
 
-    # Master Component Checklist: every declared piece/tile type, exact count, and where it packs
+    summary_pills: list[tuple[str, tuple[int, int, int], tuple[int, int, int], tuple[int, int, int]]] = [
+        (
+            f"Game Box: {game_box_size[0]:.0f}x{game_box_size[1]:.0f}x{game_box_size[2]:.0f} mm",
+            (232, 241, 250),
+            (176, 204, 230),
+            (32, 68, 104),
+        ),
+        (
+            f"Printed: {inv.printed_bodies} bodies, {inv.printed_lids} lids, {inv.printed_spacers} spacers",
+            (231, 246, 239),
+            (168, 214, 192),
+            (26, 88, 62),
+        ),
+    ]
+    if inv.total_board_count > 0:
+        summary_pills.append(
+            (
+                f"Boards / Non-Printed: {inv.total_board_count}",
+                (253, 244, 224),
+                (230, 200, 142),
+                (128, 86, 22),
+            )
+        )
+    if inv.total_counted_pieces > 0:
+        summary_pills.append(
+            (
+                f"Counted Pieces: {inv.total_counted_pieces}",
+                (242, 236, 252),
+                (198, 182, 230),
+                (78, 48, 126),
+            )
+        )
+
+    box_col_widths = (9.0, 44.0, 83.0)  # sum = 136.0 mm
+
+    def _draw_box_col_header(x0: float) -> None:
+        pdf.set_fill_color(48, 72, 102)
+        pdf.set_draw_color(48, 72, 102)
+        pdf.set_text_color(255, 255, 255)
+        pdf.set_font("Helvetica", "B", 7.8)
+        pdf.set_xy(x0, y_table_top)
+        pdf.cell(box_col_widths[0], hdr_h, "#", border=1, align="C", fill=True)
+        pdf.cell(box_col_widths[1], hdr_h, "Box / Component", border=1, align="L", fill=True)
+        pdf.cell(box_col_widths[2], hdr_h, "Pieces / Contents", border=1, align="L", fill=True)
+
+    # Pre-wrap contents lines and compute exact row heights
+    pdf.set_font("Helvetica", "", 7.2)
+    box_wrapped: list[list[str]] = [
+        _wrap_lines(contents, box_col_widths[2] - 2.4, max_lines=2)
+        for (_, _, _, contents, _) in box_rows
+    ]
+    box_heights: list[float] = [
+        single_row_h if len(lines) == 1 else (len(lines) * line_h + 1.8)
+        for lines in box_wrapped
+    ]
+    box_pages = _paginate_two_cols(box_heights) if box_rows else [([], [])]
+
+    for p_idx, (left_ids, right_ids) in enumerate(box_pages):
+        suffix = " (continued)" if p_idx > 0 else ""
+        _draw_banner(
+            f"Packing Guide: {project_name}",
+            f"Box Summary & Contents{suffix}",
+            banner_rgb=(36, 54, 78),
+            accent_rgb=(86, 168, 222),
+            pills=summary_pills,
+        )
+        for col_idx, col_ids in enumerate((left_ids, right_ids)):
+            if not col_ids:
+                continue
+            x0 = col_xs[col_idx]
+            _draw_box_col_header(x0)
+            y_cur = y_table_top + hdr_h
+            for r_idx, item_i in enumerate(col_ids):
+                badge_str, badge_rgb, name, _contents, row_bg = box_rows[item_i]
+                lines = box_wrapped[item_i]
+                rh = box_heights[item_i]
+                bg = row_bg if row_bg is not None else ((246, 250, 254) if r_idx % 2 == 1 else (255, 255, 255))
+                pdf.set_draw_color(216, 224, 234)
+                pdf.set_line_width(0.2)
+                # Colored badge cell
+                pdf.set_fill_color(*badge_rgb)
+                pdf.set_text_color(255, 255, 255)
+                pdf.set_font("Helvetica", "B", 7.5)
+                pdf.set_xy(x0, y_cur)
+                pdf.cell(box_col_widths[0], rh, _ascii_safe(badge_str), border=1, align="C", fill=True)
+                # Box name cell
+                pdf.set_fill_color(*bg)
+                pdf.set_text_color(24, 34, 48)
+                pdf.set_font("Helvetica", "B", 7.4)
+                pdf.cell(
+                    box_col_widths[1],
+                    rh,
+                    _fit_text(name, box_col_widths[1] - 2.2),
+                    border=1,
+                    align="L",
+                    fill=True,
+                )
+                # Contents cell (1 or 2 cleanly centered lines)
+                cx = x0 + box_col_widths[0] + box_col_widths[1]
+                pdf.set_fill_color(*bg)
+                pdf.rect(cx, y_cur, box_col_widths[2], rh, style="DF")
+                pdf.set_text_color(52, 62, 76)
+                pdf.set_font("Helvetica", "", 7.2)
+                if len(lines) == 1:
+                    pdf.set_xy(cx + 1.0, y_cur)
+                    pdf.cell(box_col_widths[2] - 2.0, rh, lines[0], border=0, align="L")
+                else:
+                    y_text = y_cur + (rh - len(lines) * line_h) / 2.0
+                    for li, ln in enumerate(lines):
+                        pdf.set_xy(cx + 1.0, y_text + li * line_h)
+                        pdf.cell(box_col_widths[2] - 2.0, line_h, ln, border=0, align="L")
+                y_cur += rh
+
+    # ------------------------------------------------------------------
+    # Section 2: Master Component Checklist (2 columns, color-coded)
+    # ------------------------------------------------------------------
     if inv.checklist:
         total_items = sum(row.count for row in inv.checklist)
+        checklist_pills = [
+            (
+                f"{len(inv.checklist)} Component Types",
+                (226, 244, 242),
+                (156, 208, 202),
+                (20, 84, 82),
+            ),
+            (
+                f"{total_items} Total Pieces Accounted For",
+                (234, 243, 252),
+                (172, 204, 232),
+                (30, 68, 108),
+            ),
+        ]
+        chk_col_widths = (13.0, 56.0, 67.0)  # sum = 136.0 mm
 
-        def _start_checklist_page(continued: bool = False) -> None:
-            pdf.add_page()
-            pdf.set_font("Helvetica", "B", 14)
-            suffix = " (continued)" if continued else ""
-            pdf.cell(
-                0,
-                8,
-                _ascii_safe(f"Packing Guide: {project_name} - Component Checklist{suffix}"),
-                align="C",
-                new_x="LMARGIN",
-                new_y="NEXT",
-            )
-            pdf.set_font("Helvetica", "", 9)
-            pdf.cell(
-                0,
-                5,
-                _ascii_safe(
-                    f"{len(inv.checklist)} component types   |   {total_items} total pieces accounted for"
-                ),
-                align="C",
-                new_x="LMARGIN",
-                new_y="NEXT",
-            )
-            pdf.ln(3)
-            pdf.set_fill_color(55, 70, 90)
+        def _draw_checklist_col_header(x0: float) -> None:
+            pdf.set_fill_color(30, 96, 94)
+            pdf.set_draw_color(30, 96, 94)
             pdf.set_text_color(255, 255, 255)
-            pdf.set_font("Helvetica", "B", 8)
-            pdf.cell(20, 6, "Count", border=1, align="C", fill=True)
-            pdf.cell(85, 6, "Game Component / Tile", border=1, fill=True)
-            pdf.cell(
-                172,
-                6,
-                "Packed Location (Box / Spacer / Board)",
-                border=1,
-                fill=True,
-                new_x="LMARGIN",
-                new_y="NEXT",
-            )
-            pdf.set_text_color(20, 20, 20)
-            pdf.set_font("Helvetica", "", 7.5)
+            pdf.set_font("Helvetica", "B", 7.8)
+            pdf.set_xy(x0, y_table_top)
+            pdf.cell(chk_col_widths[0], hdr_h, "Qty", border=1, align="C", fill=True)
+            pdf.cell(chk_col_widths[1], hdr_h, "Game Component / Tile", border=1, align="L", fill=True)
+            pdf.cell(chk_col_widths[2], hdr_h, "Packed In", border=1, align="L", fill=True)
 
-        _start_checklist_page(continued=False)
-        for c_idx, row in enumerate(inv.checklist):
-            if pdf.get_y() > 192:
-                _start_checklist_page(continued=True)
-            if c_idx % 2 == 1:
-                pdf.set_fill_color(246, 248, 250)
-            else:
-                pdf.set_fill_color(255, 255, 255)
-            pdf.cell(20, 5.5, str(row.count), border=1, align="C", fill=True)
-            pdf.cell(85, 5.5, _ascii_safe(row.name[:48]), border=1, fill=True)
-            pdf.cell(
-                172,
-                5.5,
-                _ascii_safe(row.format_locations(max_items=6)[:105]),
-                border=1,
-                fill=True,
-                new_x="LMARGIN",
-                new_y="NEXT",
+        checklist_rows = list(inv.checklist)
+        pdf.set_font("Helvetica", "", 7.2)
+        chk_loc_texts = [row.format_locations(max_items=6) for row in checklist_rows]
+        chk_wrapped: list[list[str]] = [
+            _wrap_lines(loc, chk_col_widths[2] - 2.4, max_lines=2) for loc in chk_loc_texts
+        ]
+        chk_heights: list[float] = [
+            single_row_h if len(lines) == 1 else (len(lines) * line_h + 1.8)
+            for lines in chk_wrapped
+        ]
+        chk_pages = _paginate_two_cols(chk_heights)
+
+        for p_idx, (left_ids, right_ids) in enumerate(chk_pages):
+            suffix = " (continued)" if p_idx > 0 else ""
+            _draw_banner(
+                f"Packing Guide: {project_name}",
+                f"Component Checklist{suffix}",
+                banner_rgb=(24, 78, 78),
+                accent_rgb=(82, 196, 178),
+                pills=checklist_pills,
             )
+            for col_idx, col_ids in enumerate((left_ids, right_ids)):
+                if not col_ids:
+                    continue
+                x0 = col_xs[col_idx]
+                _draw_checklist_col_header(x0)
+                y_cur = y_table_top + hdr_h
+                for r_idx, item_i in enumerate(col_ids):
+                    row = checklist_rows[item_i]
+                    loc_text = chk_loc_texts[item_i]
+                    lines = chk_wrapped[item_i]
+                    rh = chk_heights[item_i]
+                    loc_lower = loc_text.lower()
+                    is_spacer_or_board = "spacer" in loc_lower or "board" in loc_lower or "tray" in loc_lower
+                    if is_spacer_or_board:
+                        bg = (253, 248, 236)
+                        qty_bg = (246, 229, 192)
+                        qty_fg = (126, 82, 18)
+                    else:
+                        bg = (245, 250, 250) if r_idx % 2 == 1 else (255, 255, 255)
+                        qty_bg = (224, 243, 241)
+                        qty_fg = (20, 82, 80)
+                    pdf.set_draw_color(214, 226, 226)
+                    pdf.set_line_width(0.2)
+                    # Qty pill cell
+                    pdf.set_fill_color(*qty_bg)
+                    pdf.set_text_color(*qty_fg)
+                    pdf.set_font("Helvetica", "B", 7.6)
+                    pdf.set_xy(x0, y_cur)
+                    pdf.cell(chk_col_widths[0], rh, str(row.count), border=1, align="C", fill=True)
+                    # Component name cell
+                    pdf.set_fill_color(*bg)
+                    pdf.set_text_color(24, 34, 44)
+                    pdf.set_font("Helvetica", "B", 7.3)
+                    pdf.cell(
+                        chk_col_widths[1],
+                        rh,
+                        _fit_text(row.name, chk_col_widths[1] - 2.2),
+                        border=1,
+                        align="L",
+                        fill=True,
+                    )
+                    # Packed In cell (1 or 2 cleanly centered lines)
+                    cx = x0 + chk_col_widths[0] + chk_col_widths[1]
+                    pdf.set_fill_color(*bg)
+                    pdf.rect(cx, y_cur, chk_col_widths[2], rh, style="DF")
+                    pdf.set_text_color(52, 66, 76)
+                    pdf.set_font("Helvetica", "", 7.2)
+                    if len(lines) == 1:
+                        pdf.set_xy(cx + 1.0, y_cur)
+                        pdf.cell(chk_col_widths[2] - 2.0, rh, lines[0], border=0, align="L")
+                    else:
+                        y_text = y_cur + (rh - len(lines) * line_h) / 2.0
+                        for li, ln in enumerate(lines):
+                            pdf.set_xy(cx + 1.0, y_text + li * line_h)
+                            pdf.cell(chk_col_widths[2] - 2.0, line_h, ln, border=0, align="L")
+                    y_cur += rh
 
 
 def draw_box_blueprint(
@@ -1031,7 +1283,7 @@ def draw_box_blueprint(
 def should_regenerate_layout(
     packing: BoxPacking,
     pdf_path: Path,
-    library_version: str = "1.3.0",
+    library_version: str = "1.4.0",
 ) -> bool:
     """Check whether the PDF needs regeneration.
 
