@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=b70ef15c" download="TheCrewDeepSea_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>TheCrewDeepSea_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=b70ef15c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=bf255aa3" download="TheCrewDeepSea_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>TheCrewDeepSea_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=bf255aa3" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=b70ef15c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=bf255aa3" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -67,8 +67,8 @@ Parts Overview
      - 1x Diver Standee, 1x Standee Base, 5x Sonar Tokens, 1x Distress Token
    * - :ref:`spacer_1 <spacer-the_crew_deep_sea-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``108 × 119 × 14.7 mm``
-     - ``(62.5, 1.5, 0)``
+     - ``108 × 46 × 14.7 mm``
+     - ``(62.5, 74.5, 0)``
      - Printed spacer tray
    * - :ref:`spacer_2 <spacer-the_crew_deep_sea-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
@@ -240,8 +240,8 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``108 × 119 × 14.7 mm``
-- **Packed Position**: ``(62.5, 1.5, 0)``
+- **Outer Dimensions**: ``108 × 46 × 14.7 mm``
+- **Packed Position**: ``(62.5, 74.5, 0)``
 
 .. stl:: ../_stl/boxes/the_crew_deep_sea/spacer_1.stl?v=e574cb0d
    :height: 280px

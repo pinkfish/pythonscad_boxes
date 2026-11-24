@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=94c0089c" download="IsleOfTrains_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IsleOfTrains_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=94c0089c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=2e93a742" download="IsleOfTrains_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IsleOfTrains_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=2e93a742" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=94c0089c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=2e93a742" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -62,7 +62,7 @@ Parts Overview
      - 18x Passenger Meeples
    * - :ref:`CardBox <box-isle_of_trains-cardbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``98 × 69 × 37 mm``
+     - ``98 × 69 × 38 mm``
      - ``(31, 0, 0)``
      - 7x Island Cards, 71x Train Cards
    * - :ref:`TicketBox <box-isle_of_trains-ticketbox>`
@@ -194,7 +194,7 @@ CardBox
 ^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``98 × 69 × 37 mm``
+- **Outer Dimensions**: ``98 × 69 × 38 mm``
 - **Packed Position**: ``(31, 0, 0)``
 - **Pieces / Contents**: 7x Island Cards, 71x Train Cards
 - **Compartments (1)**: ``Cards`` (full interior)

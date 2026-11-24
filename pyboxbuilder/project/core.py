@@ -107,8 +107,10 @@ class Project:
     """Gaps <= this are absorbed by adjacent boxes."""
     min_spacer_dim: float = 15.0
     """Minimum spacer width/length before absorption."""
-    min_spacer_height: float = 5.0
-    """A spacer tray thinner than this on any axis is dropped as unprintable (FR-014)."""
+    min_spacer_height: float = 10.0
+    """A spacer tray shorter than this in Z is dropped rather than printed as a thin wafer (FR-014)."""
+    max_height_absorb: float = 10.0
+    """Maximum vertical gap (mm) absorbed by growing a top-exposed box instead of adding a small spacer."""
     clearance_slack: float | None = None
     """Clearance slack on each side of the game box in the X/Y directions (mm).
 
@@ -161,6 +163,7 @@ class Project:
             gap_threshold=self.gap_threshold,
             min_spacer_dim=self.min_spacer_dim,
             min_spacer_height=self.min_spacer_height,
+            max_height_absorb=self.max_height_absorb,
             clearance_slack=self.clearance_slack,
             board_thickness=self.board_thickness,
             board_on_bottom=self.board_on_bottom,

@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=b7a6a6ba" download="EarthAnimalKingdom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EarthAnimalKingdom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=b7a6a6ba" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=e483921c" download="EarthAnimalKingdom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EarthAnimalKingdom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=e483921c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=b7a6a6ba" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=e483921c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -57,7 +57,7 @@ Parts Overview
      - 50x Sprout Cubes
    * - :ref:`ExpansionCanopyBox <box-earth_animal_kingdom-expansioncanopybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
-     - ``38 × 129 × 45 mm``
+     - ``38 × 129 × 47 mm``
      - ``(248, 0, 0)``
      - 20x Wooden Canopies
    * - :ref:`AnimalTokensBox_1 <box-earth_animal_kingdom-animaltokensbox_1>`
@@ -171,7 +171,7 @@ ExpansionCanopyBox
 ^^^^^^^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
-- **Outer Dimensions**: ``38 × 129 × 45 mm``
+- **Outer Dimensions**: ``38 × 129 × 47 mm``
 - **Packed Position**: ``(248, 0, 0)``
 - **Pieces / Contents**: 20x Wooden Canopies
 - **Compartments (1)**: ``Canopies`` (full interior)

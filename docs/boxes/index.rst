@@ -38,7 +38,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`AdasDream (adas_dream) <adas_dream>`
      - ``212 × 291 × 90 mm``
      - 26
-     - 8
+     - 3
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`ArkhamHorrorLCG (arkham_horror) <arkham_horror>`
      - ``242 × 283 × 75 mm``
@@ -128,8 +128,8 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`KenmoreGold (kenmore_gold) <kenmore_gold>`
      - ``130 × 120 × 77 mm``
      - 3
-     - 1
-     - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
+     - 0
+     - :ref:`BoxType.CAP <box-type-cap>`
    * - :doc:`MagicalAthlete (magical_athlete) <magical_athlete>`
      - ``184 × 294 × 45 mm``
      - 8
@@ -138,7 +138,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`MaglevMetro (maglev_metro) <maglev_metro>`
      - ``286 × 286 × 65 mm``
      - 25
-     - 1
+     - 0
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`MaglevMetroVol2 (maglev_metro_vol2) <maglev_metro_vol2>`
      - ``286 × 286 × 65 mm``
@@ -158,7 +158,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`Moonrakers (moonrakers) <moonrakers>`
      - ``213 × 303 × 93 mm``
      - 11
-     - 3
+     - 2
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Nature (nature) <nature>`
      - ``210 × 210 × 75 mm``
@@ -183,12 +183,12 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`RailwayBoom (railway_boom) <railway_boom>`
      - ``209 × 300 × 46 mm``
      - 21
-     - 1
+     - 0
      - :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`, :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`
    * - :doc:`Railways of the World (railways_of_the_world) <railways_of_the_world>`
      - ``310 × 385 × 100 mm``
      - 25
-     - 7
+     - 6
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.CAP <box-type-cap>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
    * - :doc:`Root (root) <root>`
      - ``214 × 278 × 67 mm``
@@ -213,7 +213,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`TheCrewDeepSeaSleeved (the_crew_deep_sea_sleeved) <the_crew_deep_sea_sleeved>`
      - ``172 × 122 × 36 mm``
      - 4
-     - 3
+     - 2
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.NO_LID <box-type-no-lid>`
 
 .. toctree::
