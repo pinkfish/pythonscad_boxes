@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=0e1fcdcc" download="GulfMobileAndOhio_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>GulfMobileAndOhio_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=0e1fcdcc" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=b31fe6a4" download="GulfMobileAndOhio_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>GulfMobileAndOhio_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=b31fe6a4" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=0e1fcdcc" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/gulf_mobile_and_ohio/GulfMobileAndOhio_packing_guide.pdf?v=b31fe6a4" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 10 bodies, 10 lids, 1 spacers (21 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 13
+- **Boards & Non-Printed Components**: 2
+- **Counted Game Pieces**: 259
 
 .. list-table::
    :header-rows: 1
@@ -50,62 +50,62 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``171 × 107 × 29.5 mm``
      - ``(0, 0, 0)``
-     - Denom
+     - 30x $1 Banknotes, 30x $5 Banknotes, 30x $20 Banknotes
    * - :ref:`CompanyCardsBox_1 <box-gulf_mobile_and_ohio-companycardsbox_1>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``72 × 97 × 29.5 mm``
      - ``(0, 107, 0)``
-     - Cards
+     - 23x Charter Share Cards, 5x Player Aid Cards
    * - :ref:`CompanyCardsBox_2 <box-gulf_mobile_and_ohio-companycardsbox_2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``72 × 97 × 29.5 mm``
      - ``(72, 107, 0)``
-     - Cards
+     - 23x Common Share Cards
    * - :ref:`CubeBox_Red <box-gulf_mobile_and_ohio-cubebox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``54.25 × 103 × 14.75 mm``
      - ``(54.25, 204, 0)``
-     - 1x Cube Grid
+     - 20x Red Railroad Cubes
    * - :ref:`CubeBox_Yellow <box-gulf_mobile_and_ohio-cubebox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``54.25 × 103 × 14.75 mm``
      - ``(54.25, 204, 14.75)``
-     - 1x Cube Grid, 1x Cube Remainder
+     - 26x Yellow Railroad Cubes
    * - :ref:`CubeBox_Green <box-gulf_mobile_and_ohio-cubebox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``54.25 × 103 × 14.75 mm``
      - ``(108.5, 204, 0)``
-     - 1x Cube Grid
+     - 32x Green Railroad Cubes
    * - :ref:`CubeBox_Blue <box-gulf_mobile_and_ohio-cubebox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``54.25 × 103 × 14.75 mm``
      - ``(108.5, 204, 14.75)``
-     - 1x Cube Grid
+     - 16x Blue Railroad Cubes
    * - :ref:`CubeBox_Black <box-gulf_mobile_and_ohio-cubebox_black>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``54.25 × 103 × 14.75 mm``
      - ``(162.75, 204, 0)``
-     - 1x Cube Grid
+     - 12x Black Railroad Cubes
    * - :ref:`CubeBox_Purple <box-gulf_mobile_and_ohio-cubebox_purple>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``54.25 × 103 × 14.75 mm``
      - ``(162.75, 204, 14.75)``
-     - 1x Cube Grid
+     - 6x Purple Railroad Cubes
    * - :ref:`PlayerTokenBox <box-gulf_mobile_and_ohio-playertokenbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``54.25 × 103 × 29.5 mm``
      - ``(0, 204, 0)``
-     - 5x Marker Well, 1x Common Shares Cradle
+     - 5x Victory Point Markers, 1x Common Share Sale Marker
    * - :ref:`spacer_1 <spacer-gulf_mobile_and_ohio-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``73 × 204 × 29.5 mm``
      - ``(144, 0, 0)``
      - Printed spacer tray
-   * - Game Board / Manuals
+   * - Game Board & Rulebook
      - Board / Non-Printed
      - ``217 × 307 × 9.5 mm``
      - ``(0, 0, 29.5)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 2x Game Board & Rulebook (Folded map board and rulebook on top)
 
 Individual Boxes & Parts
 ------------------------
@@ -118,7 +118,7 @@ BankMoneyBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``171 × 107 × 29.5 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Denom
+- **Pieces / Contents**: 30x $1 Banknotes, 30x $5 Banknotes, 30x $20 Banknotes
 - **Compartments (3)**: ``Denom_1`` (W=33%), ``Denom_2`` (W=33%), ``Denom_3`` (W=33%)
 
 **Assembled Box (BankMoneyBox — Body + Lid)**
@@ -156,7 +156,7 @@ CompanyCardsBox_1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``72 × 97 × 29.5 mm``
 - **Packed Position**: ``(0, 107, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 23x Charter Share Cards, 5x Player Aid Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CompanyCardsBox_1 — Body + Lid)**
@@ -194,7 +194,7 @@ CompanyCardsBox_2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``72 × 97 × 29.5 mm``
 - **Packed Position**: ``(72, 107, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 23x Common Share Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CompanyCardsBox_2 — Body + Lid)**
@@ -232,7 +232,7 @@ CubeBox_Red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``54.25 × 103 × 14.75 mm``
 - **Packed Position**: ``(54.25, 204, 0)``
-- **Pieces / Contents**: 1x Cube Grid
+- **Pieces / Contents**: 20x Red Railroad Cubes
 - **Compartments (1)**: ``Cubes`` (48.25 × 97 mm, 2 elements)
 
 **Assembled Box (CubeBox_Red — Body + Lid)**
@@ -270,7 +270,7 @@ CubeBox_Yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``54.25 × 103 × 14.75 mm``
 - **Packed Position**: ``(54.25, 204, 14.75)``
-- **Pieces / Contents**: 1x Cube Grid, 1x Cube Remainder
+- **Pieces / Contents**: 26x Yellow Railroad Cubes
 - **Compartments (1)**: ``Cubes`` (48.25 × 97 mm, 3 elements)
 
 **Assembled Box (CubeBox_Yellow — Body + Lid)**
@@ -308,7 +308,7 @@ CubeBox_Green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``54.25 × 103 × 14.75 mm``
 - **Packed Position**: ``(108.5, 204, 0)``
-- **Pieces / Contents**: 1x Cube Grid
+- **Pieces / Contents**: 32x Green Railroad Cubes
 - **Compartments (1)**: ``Cubes`` (48.25 × 97 mm, 2 elements)
 
 **Assembled Box (CubeBox_Green — Body + Lid)**
@@ -346,7 +346,7 @@ CubeBox_Blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``54.25 × 103 × 14.75 mm``
 - **Packed Position**: ``(108.5, 204, 14.75)``
-- **Pieces / Contents**: 1x Cube Grid
+- **Pieces / Contents**: 16x Blue Railroad Cubes
 - **Compartments (1)**: ``Cubes`` (48.25 × 97 mm, 2 elements)
 
 **Assembled Box (CubeBox_Blue — Body + Lid)**
@@ -384,7 +384,7 @@ CubeBox_Black
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``54.25 × 103 × 14.75 mm``
 - **Packed Position**: ``(162.75, 204, 0)``
-- **Pieces / Contents**: 1x Cube Grid
+- **Pieces / Contents**: 12x Black Railroad Cubes
 - **Compartments (1)**: ``Cubes`` (48.25 × 97 mm, 2 elements)
 
 **Assembled Box (CubeBox_Black — Body + Lid)**
@@ -422,7 +422,7 @@ CubeBox_Purple
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``54.25 × 103 × 14.75 mm``
 - **Packed Position**: ``(162.75, 204, 14.75)``
-- **Pieces / Contents**: 1x Cube Grid
+- **Pieces / Contents**: 6x Purple Railroad Cubes
 - **Compartments (1)**: ``Cubes`` (48.25 × 97 mm, 2 elements)
 
 **Assembled Box (CubeBox_Purple — Body + Lid)**
@@ -460,7 +460,7 @@ PlayerTokenBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``54.25 × 103 × 29.5 mm``
 - **Packed Position**: ``(0, 204, 0)``
-- **Pieces / Contents**: 5x Marker Well, 1x Common Shares Cradle
+- **Pieces / Contents**: 5x Victory Point Markers, 1x Common Share Sale Marker
 - **Compartments (1)**: ``Tokens`` (48.25 × 97 mm, 7 elements)
 
 **Assembled Box (PlayerTokenBox — Body + Lid)**

@@ -76,6 +76,15 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory(
+    {
+        "Large Animal Cards": 36,
+        "Sprout Cubes": 50,
+        "Wooden Canopies": 20,
+        "Animal Habitat Tokens": 24,
+    }
+)
+
 ANIMAL_PATTERN = PatternBuilder(PatternType.LEAF)
 ANIMAL_FONT = "Georgia:style=Bold"
 
@@ -113,6 +122,8 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    component="Large Animal Cards",
+    count=36,
 )
 
 project.box(
@@ -124,6 +135,8 @@ project.box(
 ).compartment(
     "Cubes",
     cut=FingerCut.SCOOP,
+    component="Sprout Cubes",
+    count=50,
 )
 
 # ── 2. Canopy Toppers Box ─────────────────────────────────────────
@@ -136,6 +149,8 @@ project.box(
 ).compartment(
     "Canopies",
     cut=FingerCut.SCOOP,
+    component="Wooden Canopies",
+    count=20,
 )
 
 # ── 3. Animal Token Trays ─────────────────────────────────────────
@@ -195,6 +210,8 @@ for tier in range(2):
         size=(animal_inner_width, animal_inner_length),
         position=(0.0, 0.0),
         elements=_animal_tray_elements(tier + 1),
+        component="Animal Habitat Tokens",
+        count=12,
     )
 
 # ── Export ────────────────────────────────────────────────────────

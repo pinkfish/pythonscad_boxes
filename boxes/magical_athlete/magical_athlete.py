@@ -99,6 +99,27 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory({
+    "Athlete Cards": 36,
+    "Dice": 6,
+    "Gold Medal Tokens": 4,
+    "Silver Medal Tokens": 4,
+    "Athlete Standees": 35,
+    "Big Baby Standee": 1,
+    "1-Point Award Tokens": 16,
+    "3-Point Award Tokens": 9,
+    "Race Track Board": 1,
+    "Rulebook": 1,
+})
+
+project.board(
+    "Race Track Board & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=2,
+    allocates={"Race Track Board": 1, "Rulebook": 1},
+)
+
 ATHLETE_PATTERN = PatternBuilder(PatternType.DICE)
 ATHLETE_FONT = "Futura:style=Bold"
 
@@ -121,6 +142,8 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    component="Athlete Cards",
+    count=36,
 )
 
 # ── 2. Dice Box & Award Medal Box ─────────────────────────────────
@@ -179,6 +202,8 @@ project.box(
     "Dice",
     size=(dice_inner_w, dice_inner_l),
     position=(0.0, 0.0),
+    component="Dice",
+    count=6,
     elements=dice_elements,
 )
 
@@ -283,6 +308,7 @@ project.box(
     "Medals",
     size=(award_inner_w, award_inner_l),
     position=(0.0, 0.0),
+    allocates={"Gold Medal Tokens": 4, "Silver Medal Tokens": 4},
     elements=_award_medal_elements(),
 )
 
@@ -337,7 +363,7 @@ def _athlete_piece_elements(tray_index: int) -> tuple[CompartmentElement, ...]:
     return tuple(elems)
 
 
-for i in range(2):
+for i, standee_count in enumerate((21, 14)):
     project.box(
         BoxType.CAP,
         f"AthletePiecesBox_{i + 1}",
@@ -356,6 +382,8 @@ for i in range(2):
         f"AthletePieces_{i + 1}",
         size=(piece_inner_w, piece_inner_l),
         position=(0.0, 0.0),
+        component="Athlete Standees",
+        count=standee_count,
         elements=_athlete_piece_elements(i),
     )
 
@@ -377,10 +405,15 @@ project.box(
 ).compartment(
     "BigBaby",
     cut=FingerCut.SCOOP,
+    component="Big Baby Standee",
+    count=1,
 )
 
 # ── 5. Award Tokens Boxes (2 stacked: "1" and "3") ────────────────
-for token_val in ("1", "3"):
+for token_val, token_comp, token_count in (
+    ("1", "1-Point Award Tokens", 16),
+    ("3", "3-Point Award Tokens", 9),
+):
     project.box(
         BoxType.CAP,
         f"AwardTokensBox_{token_val}",
@@ -402,6 +435,8 @@ for token_val in ("1", "3"):
     ).compartment(
         f"Tokens_{token_val}",
         cut=FingerCut.SCOOP,
+        component=token_comp,
+        count=token_count,
     )
 
 # ── Export ────────────────────────────────────────────────────────

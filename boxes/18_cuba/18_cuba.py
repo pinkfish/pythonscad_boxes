@@ -77,6 +77,31 @@ project = Project(
     generate_spacers=True,
 )
 
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_inventory({
+    "Paper Currency Denomination Stacks": 8,
+    "Train Cards": 36,
+    "Wagon Cards": 18,
+    "Corporate Share Cards": 82,
+    "Help & Commissioner Cards": 12,
+    "Concession Cards": 6,
+    "Minor Company Tokens": 30,
+    "Rail Pieces": 3,
+    "Major Company Tokens": 48,
+    "Ferrocarril Central & Yellow Tokens": 17,
+    "Folded Game Boards": 1,
+    "Hex Track Tile Trays": 1,
+})
+
+project.board(
+    "Game Boards & Hex Track Trays",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=2,
+    notes="Folded game boards (26mm) and hex track tile trays (20mm)",
+    allocates={"Folded Game Boards": 1, "Hex Track Tile Trays": 1},
+)
+
 CUBA_PATTERN = PatternBuilder(PatternType.CHEVRON)
 CUBA_FONT = "Georgia:style=Bold"
 
@@ -122,6 +147,8 @@ for i in range(2):
             f"Denom_{slot + 1}",
             width_ratio=0.25,
             cut=FingerCut.SCOOP,
+            component="Paper Currency Denomination Stacks",
+            count=1,
         )
 
 # ── Interior Geometry Helpers (from 18_cuba.scad) ─────────────────
@@ -464,9 +491,27 @@ t_box = project.box(
 t_box.compartment(
     "TrainSlots",
     elements=_train_box_elements(),
+    allocates={"Train Cards": 36, "Wagon Cards": 18},
 )
 
 # ── 3. Corporate Shares Boxes (2 full-width boxes, 5 companies each)
+# 8 major companies x 9 shares = 72, Ferrocarril Central = 10, Help/Commissioner = 12
+_share_slot_allocs: tuple[tuple[tuple[str, int], ...], ...] = (
+    (
+        ("Corporate Share Cards", 9),
+        ("Corporate Share Cards", 9),
+        ("Corporate Share Cards", 9),
+        ("Corporate Share Cards", 9),
+        ("Corporate Share Cards", 9),
+    ),
+    (
+        ("Corporate Share Cards", 9),
+        ("Corporate Share Cards", 9),
+        ("Corporate Share Cards", 9),
+        ("Corporate Share Cards", 10),
+        ("Help & Commissioner Cards", 12),
+    ),
+)
 for i in range(2):
     s_box = project.box(
         BoxType.SLIPOVER,
@@ -476,10 +521,13 @@ for i in range(2):
         expandable=False,
     )
     for slot in range(5):
+        comp_name, qty = _share_slot_allocs[i][slot]
         s_box.compartment(
             f"ShareSlot_{slot + 1}",
             width_ratio=0.2,
             cut=FingerCut.SCOOP,
+            component=comp_name,
+            count=qty,
         )
 
 # ── 4. Machine / Minor Companies & Concession Box (LastBox) ───────
@@ -492,6 +540,11 @@ last_box = project.box(
 last_box.compartment(
     "MinorAndRails",
     elements=_last_box_elements(),
+    allocates={
+        "Concession Cards": 6,
+        "Minor Company Tokens": 30,
+        "Rail Pieces": 3,
+    },
 )
 
 # ── 5. Large Tokens Box & Inside Token Tray (2-tier token section) ─
@@ -504,6 +557,8 @@ large_tokens = project.box(
 large_tokens.compartment(
     "MajorTokens",
     elements=_large_tokens_elements(),
+    component="Major Company Tokens",
+    count=48,
 )
 
 inside_tray = project.box(
@@ -514,6 +569,8 @@ inside_tray = project.box(
 inside_tray.compartment(
     "InsideTokens",
     elements=_inside_token_tray_elements(),
+    component="Ferrocarril Central & Yellow Tokens",
+    count=17,
 )
 
 # ── Export ────────────────────────────────────────────────────────

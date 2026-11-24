@@ -24,17 +24,17 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=3d0c71f2" download="EarthAnimalKingdom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EarthAnimalKingdom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=3d0c71f2" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=b7a6a6ba" download="EarthAnimalKingdom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EarthAnimalKingdom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=b7a6a6ba" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=3d0c71f2" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=b7a6a6ba" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 5 bodies, 5 lids, 3 spacers (13 total)
-- **Counted Game Pieces**: 24
+- **Counted Game Pieces**: 130
 
 .. list-table::
    :header-rows: 1
@@ -49,27 +49,27 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``78 × 129 × 24 mm``
      - ``(170, 0, 0)``
-     - Cards
+     - 36x Large Animal Cards
    * - :ref:`ExpansionSproutBox <box-earth_animal_kingdom-expansionsproutbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``78 × 129 × 21 mm``
      - ``(0, 0, 26)``
-     - Cubes
+     - 50x Sprout Cubes
    * - :ref:`ExpansionCanopyBox <box-earth_animal_kingdom-expansioncanopybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``38 × 129 × 45 mm``
      - ``(248, 0, 0)``
-     - Canopies
+     - 20x Wooden Canopies
    * - :ref:`AnimalTokensBox_1 <box-earth_animal_kingdom-animaltokensbox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``170 × 129 × 13 mm``
      - ``(0, 0, 0)``
-     - 12x Animal
+     - 12x Animal Habitat Tokens
    * - :ref:`AnimalTokensBox_2 <box-earth_animal_kingdom-animaltokensbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``170 × 129 × 13 mm``
      - ``(0, 0, 13)``
-     - 12x Animal
+     - 12x Animal Habitat Tokens
    * - :ref:`spacer_1 <spacer-earth_animal_kingdom-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``288 × 29 × 26 mm``
@@ -97,7 +97,7 @@ AnimalCardsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``78 × 129 × 24 mm``
 - **Packed Position**: ``(170, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 36x Large Animal Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (AnimalCardsBox — Body + Lid)**
@@ -135,7 +135,7 @@ ExpansionSproutBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``78 × 129 × 21 mm``
 - **Packed Position**: ``(0, 0, 26)``
-- **Pieces / Contents**: Cubes
+- **Pieces / Contents**: 50x Sprout Cubes
 - **Compartments (1)**: ``Cubes`` (full interior)
 
 **Assembled Box (ExpansionSproutBox — Body + Lid)**
@@ -173,7 +173,7 @@ ExpansionCanopyBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``38 × 129 × 45 mm``
 - **Packed Position**: ``(248, 0, 0)``
-- **Pieces / Contents**: Canopies
+- **Pieces / Contents**: 20x Wooden Canopies
 - **Compartments (1)**: ``Canopies`` (full interior)
 
 **Assembled Box (ExpansionCanopyBox — Body + Lid)**
@@ -211,7 +211,7 @@ AnimalTokensBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``170 × 129 × 13 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 12x Animal
+- **Pieces / Contents**: 12x Animal Habitat Tokens
 - **Compartments (1)**: ``AnimalTray_1`` (164 × 123 mm, 13 elements)
 
 **Assembled Box (AnimalTokensBox_1 — Body + Lid)**
@@ -249,7 +249,7 @@ AnimalTokensBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``170 × 129 × 13 mm``
 - **Packed Position**: ``(0, 0, 13)``
-- **Pieces / Contents**: 12x Animal
+- **Pieces / Contents**: 12x Animal Habitat Tokens
 - **Compartments (1)**: ``AnimalTray_2`` (164 × 123 mm, 13 elements)
 
 **Assembled Box (AnimalTokensBox_2 — Body + Lid)**

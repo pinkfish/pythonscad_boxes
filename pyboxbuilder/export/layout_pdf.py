@@ -966,7 +966,7 @@ def draw_box_blueprint(
 def should_regenerate_layout(
     packing: BoxPacking,
     pdf_path: Path,
-    library_version: str = "1.1.0",
+    library_version: str = "1.2.0",
 ) -> bool:
     """Check whether the PDF needs regeneration.
 

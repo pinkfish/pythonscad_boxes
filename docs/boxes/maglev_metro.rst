@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=ee85a04e" download="MaglevMetro_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MaglevMetro_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=ee85a04e" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=1e116d8e" download="MaglevMetro_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MaglevMetro_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=1e116d8e" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=ee85a04e" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/maglev_metro/MaglevMetro_packing_guide.pdf?v=1e116d8e" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 25 bodies, 22 lids, 1 spacers (48 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 22
+- **Boards & Non-Printed Components**: 8
+- **Counted Game Pieces**: 248
 
 .. list-table::
    :header-rows: 1
@@ -50,57 +50,57 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 96 × 23.9 mm``
      - ``(0, 0, 0)``
-     - Cards
+     - 13x Connection Cards
    * - :ref:`CardBox_Tracks <box-maglev_metro-cardbox_tracks>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 96 × 23.9 mm``
      - ``(0, 0, 23.9)``
-     - Cards
+     - 13x Track Cards
    * - :ref:`CardBox_Passengers <box-maglev_metro-cardbox_passengers>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 96 × 23.9 mm``
      - ``(0, 96, 0)``
-     - Cards
+     - 13x Passenger Cards
    * - :ref:`CardBox_PlayerObjectives <box-maglev_metro-cardbox_playerobjectives>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 96 × 23.9 mm``
      - ``(0, 96, 23.9)``
-     - Cards
+     - 13x Player Objective Cards
    * - :ref:`RobotBox_Silver <box-maglev_metro-robotbox_silver>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``63 × 94 × 11.95 mm``
      - ``(10, 192, 0)``
-     - Robots
+     - 18x Silver Robots
    * - :ref:`RobotBox_Gold <box-maglev_metro-robotbox_gold>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``63 × 94 × 11.95 mm``
      - ``(10, 192, 11.95)``
-     - Robots
+     - 18x Gold Robots
    * - :ref:`RobotBox_Orange <box-maglev_metro-robotbox_orange>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``63 × 94 × 11.95 mm``
      - ``(10, 192, 23.9)``
-     - Robots
+     - 18x Orange Robots
    * - :ref:`CommuterBox_Pink <box-maglev_metro-commuterbox_pink>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``63 × 47 × 11.95 mm``
      - ``(10, 192, 35.85)``
-     - Commuters
+     - 14x Pink Commuters
    * - :ref:`CommuterBox_Aqua <box-maglev_metro-commuterbox_aqua>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``63 × 47 × 11.95 mm``
      - ``(10, 239, 35.85)``
-     - Commuters
+     - 14x Aqua Commuters
    * - :ref:`CommuterBoxSmall_Purple <box-maglev_metro-commuterboxsmall_purple>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``45 × 67.5 × 17.2 mm``
      - ``(0, 0, 47.8)``
-     - Commuters
+     - 11x Purple Commuters
    * - :ref:`CommuterBoxSmall_Coral <box-maglev_metro-commuterboxsmall_coral>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``45 × 67.5 × 17.2 mm``
      - ``(0, 67.5, 47.8)``
-     - Commuters
+     - 11x Coral Commuters
    * - :ref:`SpacerTop <box-maglev_metro-spacertop>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``45 × 57 × 17.2 mm``
@@ -110,62 +110,62 @@ Parts Overview
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``10 × 94 × 65 mm``
      - ``(0, 192, 0)``
-     - Start Token
+     - 1x Start Token
    * - :ref:`PlayerBox_green <box-maglev_metro-playerbox_green>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``61.5 × 143 × 19.7 mm``
      - ``(73, 0, 0)``
-     - 1x Track Hex Front, 1x Track Hex Back, 1x Train Slot
+     - 18x Player Track Hexes, 1x Player Trains
    * - :ref:`PlayerBox_deeppink <box-maglev_metro-playerbox_deeppink>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``61.5 × 143 × 19.7 mm``
      - ``(73, 143, 0)``
-     - 1x Track Hex Front, 1x Track Hex Back, 1x Train Slot
+     - 18x Player Track Hexes, 1x Player Trains
    * - :ref:`PlayerBox_cyan <box-maglev_metro-playerbox_cyan>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``61.5 × 143 × 19.7 mm``
      - ``(73, 0, 19.7)``
-     - 1x Track Hex Front, 1x Track Hex Back, 1x Train Slot
+     - 18x Player Track Hexes, 1x Player Trains
    * - :ref:`PlayerBox_darkorange <box-maglev_metro-playerbox_darkorange>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``61.5 × 143 × 19.7 mm``
      - ``(73, 143, 19.7)``
-     - 1x Track Hex Front, 1x Track Hex Back, 1x Train Slot
+     - 18x Player Track Hexes, 1x Player Trains
    * - :ref:`FactoryBox_Factories <box-maglev_metro-factorybox_factories>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``75.75 × 71.5 × 19.7 mm``
      - ``(134.5, 0, 0)``
-     - 1x Station Hex
+     - 2x Factory Station Hexes
    * - :ref:`FactoryBox_Warehouses <box-maglev_metro-factorybox_warehouses>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``75.75 × 71.5 × 19.7 mm``
      - ``(210.25, 0, 0)``
-     - 1x Station Hex
+     - 2x Warehouse Station Hexes
    * - :ref:`FactoryBox_Labs <box-maglev_metro-factorybox_labs>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``75.75 × 71.5 × 19.7 mm``
      - ``(134.5, 71.5, 0)``
-     - 1x Station Hex
+     - 2x Lab Station Hexes
    * - :ref:`FactoryBox_Offices <box-maglev_metro-factorybox_offices>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``75.75 × 71.5 × 19.7 mm``
      - ``(210.25, 71.5, 0)``
-     - 1x Station Hex
+     - 2x Office Station Hexes
    * - :ref:`FactoryBox_Stores <box-maglev_metro-factorybox_stores>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``75.75 × 71.5 × 19.7 mm``
      - ``(134.5, 0, 19.7)``
-     - 1x Station Hex
+     - 2x Store Station Hexes
    * - :ref:`FactoryBox_Embassies <box-maglev_metro-factorybox_embassies>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``75.75 × 71.5 × 19.7 mm``
      - ``(210.25, 0, 19.7)``
-     - 1x Station Hex
+     - 2x Embassy Station Hexes
    * - :ref:`MetroTileBox <box-maglev_metro-metrotilebox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``151.5 × 143 × 19.7 mm``
      - ``(134.5, 143, 0)``
-     - 3x Metro Clover Hex, 1x Studio Hex
+     - 1x Metro Hub Tile, 2x Studio Station Hexes
    * - :ref:`SpacerBox <box-maglev_metro-spacerbox>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``151.5 × 212.5 × 19.7 mm``
@@ -176,11 +176,21 @@ Parts Overview
      - ``213 × 286 × 8.4 mm``
      - ``(73, 0, 39.4)``
      - Printed spacer tray
-   * - Game Board / Manuals
+   * - Game Board Bases
      - Board / Non-Printed
-     - ``286 × 286 × 17.2 mm``
-     - ``(0, 0, 47.8)``
-     - 1x Game Board / Manuals (On top of insert)
+     - ``241 × 272 × 8.4 mm``
+     - ``(45, 0, 56.6)``
+     - 2x Game Board Bases
+   * - Player Boards
+     - Board / Non-Printed
+     - ``221 × 245 × 8.8 mm``
+     - ``(65, 0, 47.8)``
+     - 4x Player Boards
+   * - Game Boards
+     - Board / Non-Printed
+     - ``207 × 281 × 8.4 mm``
+     - ``(79, 0, 39.4)``
+     - 2x Game Boards
 
 Individual Boxes & Parts
 ------------------------
@@ -193,7 +203,7 @@ CardBox_Connections
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 96 × 23.9 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 13x Connection Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -233,7 +243,7 @@ CardBox_Tracks
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 96 × 23.9 mm``
 - **Packed Position**: ``(0, 0, 23.9)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 13x Track Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -273,7 +283,7 @@ CardBox_Passengers
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 96 × 23.9 mm``
 - **Packed Position**: ``(0, 96, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 13x Passenger Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -313,7 +323,7 @@ CardBox_PlayerObjectives
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 96 × 23.9 mm``
 - **Packed Position**: ``(0, 96, 23.9)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 13x Player Objective Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -353,7 +363,7 @@ RobotBox_Silver
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``63 × 94 × 11.95 mm``
 - **Packed Position**: ``(10, 192, 0)``
-- **Pieces / Contents**: Robots
+- **Pieces / Contents**: 18x Silver Robots
 - **Compartments (1)**: ``Robots`` (full interior)
 
 **Assembled Box (RobotBox_Silver — Body + Lid)**
@@ -391,7 +401,7 @@ RobotBox_Gold
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``63 × 94 × 11.95 mm``
 - **Packed Position**: ``(10, 192, 11.95)``
-- **Pieces / Contents**: Robots
+- **Pieces / Contents**: 18x Gold Robots
 - **Compartments (1)**: ``Robots`` (full interior)
 
 **Assembled Box (RobotBox_Gold — Body + Lid)**
@@ -429,7 +439,7 @@ RobotBox_Orange
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``63 × 94 × 11.95 mm``
 - **Packed Position**: ``(10, 192, 23.9)``
-- **Pieces / Contents**: Robots
+- **Pieces / Contents**: 18x Orange Robots
 - **Compartments (1)**: ``Robots`` (full interior)
 
 **Assembled Box (RobotBox_Orange — Body + Lid)**
@@ -467,7 +477,7 @@ CommuterBox_Pink
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``63 × 47 × 11.95 mm``
 - **Packed Position**: ``(10, 192, 35.85)``
-- **Pieces / Contents**: Commuters
+- **Pieces / Contents**: 14x Pink Commuters
 - **Compartments (1)**: ``Commuters`` (full interior)
 
 **Assembled Box (CommuterBox_Pink — Body + Lid)**
@@ -505,7 +515,7 @@ CommuterBox_Aqua
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``63 × 47 × 11.95 mm``
 - **Packed Position**: ``(10, 239, 35.85)``
-- **Pieces / Contents**: Commuters
+- **Pieces / Contents**: 14x Aqua Commuters
 - **Compartments (1)**: ``Commuters`` (full interior)
 
 **Assembled Box (CommuterBox_Aqua — Body + Lid)**
@@ -543,7 +553,7 @@ CommuterBoxSmall_Purple
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``45 × 67.5 × 17.2 mm``
 - **Packed Position**: ``(0, 0, 47.8)``
-- **Pieces / Contents**: Commuters
+- **Pieces / Contents**: 11x Purple Commuters
 - **Compartments (1)**: ``Commuters`` (full interior)
 
 **Assembled Box (CommuterBoxSmall_Purple — Body + Lid)**
@@ -581,7 +591,7 @@ CommuterBoxSmall_Coral
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``45 × 67.5 × 17.2 mm``
 - **Packed Position**: ``(0, 67.5, 47.8)``
-- **Pieces / Contents**: Commuters
+- **Pieces / Contents**: 11x Coral Commuters
 - **Compartments (1)**: ``Commuters`` (full interior)
 
 **Assembled Box (CommuterBoxSmall_Coral — Body + Lid)**
@@ -637,7 +647,7 @@ StartTokenBox
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``10 × 94 × 65 mm``
 - **Packed Position**: ``(0, 192, 0)``
-- **Pieces / Contents**: Start Token
+- **Pieces / Contents**: 1x Start Token
 - **Compartments (1)**: ``StartToken`` (full interior)
 
 **Part: StartTokenBox Body**
@@ -657,7 +667,7 @@ PlayerBox_green
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``61.5 × 143 × 19.7 mm``
 - **Packed Position**: ``(73, 0, 0)``
-- **Pieces / Contents**: 1x Track Hex Front, 1x Track Hex Back, 1x Train Slot
+- **Pieces / Contents**: 18x Player Track Hexes, 1x Player Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``PlayerBits`` (55.5 × 137 mm, 4 elements)
@@ -697,7 +707,7 @@ PlayerBox_deeppink
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``61.5 × 143 × 19.7 mm``
 - **Packed Position**: ``(73, 143, 0)``
-- **Pieces / Contents**: 1x Track Hex Front, 1x Track Hex Back, 1x Train Slot
+- **Pieces / Contents**: 18x Player Track Hexes, 1x Player Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``PlayerBits`` (55.5 × 137 mm, 4 elements)
@@ -737,7 +747,7 @@ PlayerBox_cyan
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``61.5 × 143 × 19.7 mm``
 - **Packed Position**: ``(73, 0, 19.7)``
-- **Pieces / Contents**: 1x Track Hex Front, 1x Track Hex Back, 1x Train Slot
+- **Pieces / Contents**: 18x Player Track Hexes, 1x Player Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``PlayerBits`` (55.5 × 137 mm, 4 elements)
@@ -777,7 +787,7 @@ PlayerBox_darkorange
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``61.5 × 143 × 19.7 mm``
 - **Packed Position**: ``(73, 143, 19.7)``
-- **Pieces / Contents**: 1x Track Hex Front, 1x Track Hex Back, 1x Train Slot
+- **Pieces / Contents**: 18x Player Track Hexes, 1x Player Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``PlayerBits`` (55.5 × 137 mm, 4 elements)
@@ -817,7 +827,7 @@ FactoryBox_Factories
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``75.75 × 71.5 × 19.7 mm``
 - **Packed Position**: ``(134.5, 0, 0)``
-- **Pieces / Contents**: 1x Station Hex
+- **Pieces / Contents**: 2x Factory Station Hexes
 - **Compartments (1)**: ``StationHexes`` (69.75 × 65.5 mm, 2 elements)
 
 **Assembled Box (FactoryBox_Factories — Body + Lid)**
@@ -855,7 +865,7 @@ FactoryBox_Warehouses
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``75.75 × 71.5 × 19.7 mm``
 - **Packed Position**: ``(210.25, 0, 0)``
-- **Pieces / Contents**: 1x Station Hex
+- **Pieces / Contents**: 2x Warehouse Station Hexes
 - **Compartments (1)**: ``StationHexes`` (69.75 × 65.5 mm, 2 elements)
 
 **Assembled Box (FactoryBox_Warehouses — Body + Lid)**
@@ -893,7 +903,7 @@ FactoryBox_Labs
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``75.75 × 71.5 × 19.7 mm``
 - **Packed Position**: ``(134.5, 71.5, 0)``
-- **Pieces / Contents**: 1x Station Hex
+- **Pieces / Contents**: 2x Lab Station Hexes
 - **Compartments (1)**: ``StationHexes`` (69.75 × 65.5 mm, 2 elements)
 
 **Assembled Box (FactoryBox_Labs — Body + Lid)**
@@ -931,7 +941,7 @@ FactoryBox_Offices
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``75.75 × 71.5 × 19.7 mm``
 - **Packed Position**: ``(210.25, 71.5, 0)``
-- **Pieces / Contents**: 1x Station Hex
+- **Pieces / Contents**: 2x Office Station Hexes
 - **Compartments (1)**: ``StationHexes`` (69.75 × 65.5 mm, 2 elements)
 
 **Assembled Box (FactoryBox_Offices — Body + Lid)**
@@ -969,7 +979,7 @@ FactoryBox_Stores
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``75.75 × 71.5 × 19.7 mm``
 - **Packed Position**: ``(134.5, 0, 19.7)``
-- **Pieces / Contents**: 1x Station Hex
+- **Pieces / Contents**: 2x Store Station Hexes
 - **Compartments (1)**: ``StationHexes`` (69.75 × 65.5 mm, 2 elements)
 
 **Assembled Box (FactoryBox_Stores — Body + Lid)**
@@ -1007,7 +1017,7 @@ FactoryBox_Embassies
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``75.75 × 71.5 × 19.7 mm``
 - **Packed Position**: ``(210.25, 0, 19.7)``
-- **Pieces / Contents**: 1x Station Hex
+- **Pieces / Contents**: 2x Embassy Station Hexes
 - **Compartments (1)**: ``StationHexes`` (69.75 × 65.5 mm, 2 elements)
 
 **Assembled Box (FactoryBox_Embassies — Body + Lid)**
@@ -1045,7 +1055,7 @@ MetroTileBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``151.5 × 143 × 19.7 mm``
 - **Packed Position**: ``(134.5, 143, 0)``
-- **Pieces / Contents**: 3x Metro Clover Hex, 1x Studio Hex
+- **Pieces / Contents**: 1x Metro Hub Tile, 2x Studio Station Hexes
 - **Compartments (1)**: ``MetroTiles`` (145.5 × 137 mm, 4 elements)
 
 **Assembled Box (MetroTileBox — Body + Lid)**

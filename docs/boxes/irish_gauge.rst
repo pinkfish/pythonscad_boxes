@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=84fa0c31" download="IrishGauge_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IrishGauge_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=84fa0c31" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=c44456ec" download="IrishGauge_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IrishGauge_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=c44456ec" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=84fa0c31" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=c44456ec" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 6 bodies, 6 lids, 3 spacers (15 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 15
+- **Boards & Non-Printed Components**: 2
+- **Counted Game Pieces**: 217
 
 .. list-table::
    :header-rows: 1
@@ -50,32 +50,32 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.5 × 133.8 × 14.25 mm``
      - ``(0, 77, 0)``
-     - 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+     - 2x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
    * - :ref:`CompanyBox_Cork <box-irish_gauge-companybox_cork>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.5 × 133.8 × 14.25 mm``
      - ``(53.5, 77, 0)``
-     - 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+     - 3x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
    * - :ref:`CompanyBox_Midland <box-irish_gauge-companybox_midland>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.5 × 133.8 × 14.25 mm``
      - ``(53.5, 77, 14.25)``
-     - 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+     - 3x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
    * - :ref:`CompanyBox_Waterford <box-irish_gauge-companybox_waterford>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.5 × 133.8 × 14.25 mm``
      - ``(107, 77, 0)``
-     - 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+     - 4x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
    * - :ref:`CompanyBox_GreatSouthern <box-irish_gauge-companybox_greatsouthern>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.5 × 133.8 × 14.25 mm``
      - ``(0, 77, 14.25)``
-     - 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+     - 4x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
    * - :ref:`MoneyAndDividendsBox <box-irish_gauge-moneyanddividendsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``214 × 77 × 28.5 mm``
      - ``(0, 0, 0)``
-     - Money, Dividend Cubes
+     - 30x £1 Currency Cards, 20x £5 Currency Cards, 20x £10 Currency Cards, 30x Dividend Cubes, 1x Cloth Bag
    * - :ref:`spacer_1 <spacer-irish_gauge-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``214 × 91.2 × 28.5 mm``
@@ -91,11 +91,11 @@ Parts Overview
      - ``53.5 × 133.8 × 14.25 mm``
      - ``(160.5, 77, 0)``
      - Printed spacer tray
-   * - Game Board / Manuals
+   * - Game Board & Rulebook
      - Board / Non-Printed
      - ``214 × 302 × 10.5 mm``
      - ``(0, 0, 28.5)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 2x Game Board & Rulebook (Folded Ireland map board and rulebook on top)
 
 Individual Boxes & Parts
 ------------------------
@@ -108,7 +108,7 @@ CompanyBox_Belfast
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(0, 77, 0)``
-- **Pieces / Contents**: 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+- **Pieces / Contents**: 2x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``SharesAndLocos`` (47.5 × 127.8 mm, 7 elements)
@@ -148,7 +148,7 @@ CompanyBox_Cork
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(53.5, 77, 0)``
-- **Pieces / Contents**: 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+- **Pieces / Contents**: 3x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
 - **Compartments (1)**: ``SharesAndLocos`` (47.5 × 127.8 mm, 7 elements)
 
 **Assembled Box (CompanyBox_Cork — Body + Lid)**
@@ -186,7 +186,7 @@ CompanyBox_Midland
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(53.5, 77, 14.25)``
-- **Pieces / Contents**: 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+- **Pieces / Contents**: 3x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
 - **Compartments (1)**: ``SharesAndLocos`` (47.5 × 127.8 mm, 7 elements)
 
 **Assembled Box (CompanyBox_Midland — Body + Lid)**
@@ -224,7 +224,7 @@ CompanyBox_Waterford
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(107, 77, 0)``
-- **Pieces / Contents**: 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+- **Pieces / Contents**: 4x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
 - **Compartments (1)**: ``SharesAndLocos`` (47.5 × 127.8 mm, 7 elements)
 
 **Assembled Box (CompanyBox_Waterford — Body + Lid)**
@@ -262,7 +262,7 @@ CompanyBox_GreatSouthern
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.5 × 133.8 × 14.25 mm``
 - **Packed Position**: ``(0, 77, 14.25)``
-- **Pieces / Contents**: 1x Share Cards, 1x Dividend Marker, 1x Train Cubes
+- **Pieces / Contents**: 4x Share Certificates, 19x Locomotives, 1x Railway Dividend Disks
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``SharesAndLocos`` (47.5 × 127.8 mm, 7 elements)
@@ -302,7 +302,7 @@ MoneyAndDividendsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``214 × 77 × 28.5 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Money, Dividend Cubes
+- **Pieces / Contents**: 30x £1 Currency Cards, 20x £5 Currency Cards, 20x £10 Currency Cards, 30x Dividend Cubes, 1x Cloth Bag
 - **Compartments (4)**: ``Money_1`` (W=25%), ``Money_5`` (W=25%), ``Money_10`` (W=25%), ``DividendCubes`` (W=25%)
 
 **Assembled Box (MoneyAndDividendsBox — Body + Lid)**

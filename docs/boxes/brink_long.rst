@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=1ae79aff" download="BrinkLong_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>BrinkLong_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=1ae79aff" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=dbef0b73" download="BrinkLong_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>BrinkLong_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=dbef0b73" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=1ae79aff" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=dbef0b73" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -35,7 +35,7 @@ Parts Overview
 
 - **3-D Printed Parts**: 17 bodies, 17 lids, 1 spacers (35 total)
 - **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 128
+- **Counted Game Pieces**: 355
 
 .. list-table::
    :header-rows: 1
@@ -50,87 +50,87 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106 × 305 × 19 mm``
      - ``(0, 0, 0)``
-     - 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, +7 more
+     - 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more
    * - :ref:`PlayerBox_Purple <box-brink_long-playerbox_purple>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106 × 305 × 19 mm``
      - ``(0, 0, 19)``
-     - 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, +7 more
+     - 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more
    * - :ref:`PlayerBox_Green <box-brink_long-playerbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106 × 305 × 19 mm``
      - ``(0, 0, 38)``
-     - 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, +7 more
+     - 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more
    * - :ref:`PlayerBox_Orange <box-brink_long-playerbox_orange>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106 × 305 × 19 mm``
      - ``(106, 0, 0)``
-     - 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, +7 more
+     - 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more
    * - :ref:`PlayerBox_Blue <box-brink_long-playerbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106 × 305 × 19 mm``
      - ``(106, 0, 19)``
-     - 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, +7 more
+     - 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more
    * - :ref:`ResourceBox_Komek <box-brink_long-resourcebox_komek>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``53 × 93.5 × 21 mm``
      - ``(0, 119.5, 57)``
-     - Cubes
+     - 28x Komek Resource Cubes
    * - :ref:`ResourceBox_Ventus <box-brink_long-resourcebox_ventus>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``53 × 93.5 × 21 mm``
      - ``(53, 119.5, 57)``
-     - Cubes
+     - 28x Ventus Resource Cubes
    * - :ref:`ResourceBox_Henko <box-brink_long-resourcebox_henko>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``53 × 93.5 × 21 mm``
      - ``(0, 213, 57)``
-     - Cubes
+     - 28x Henko Resource Cubes
    * - :ref:`ResourceBox_Magnomi <box-brink_long-resourcebox_magnomi>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``53 × 93.5 × 21 mm``
      - ``(53, 213, 57)``
-     - Cubes
+     - 28x Magnomi Resource Cubes
    * - :ref:`ResourceBox_Sorelia <box-brink_long-resourcebox_sorelia>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``53 × 119.5 × 19 mm``
      - ``(106, 0, 38)``
-     - Cubes
+     - 28x Sorelia Resource Cubes
    * - :ref:`ResourceBox_UA <box-brink_long-resourcebox_ua>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``53 × 119.5 × 19 mm``
      - ``(159, 0, 38)``
-     - UA And Extras
+     - 15x UA Resource Cubes, 1x UA Flagship, 1x Fusion Drive, 1x First Player Token
    * - :ref:`CardBox_Actions <box-brink_long-cardbox_actions>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106 × 77.5 × 26 mm``
      - ``(106, 119.5, 38)``
-     - Cards Left, Cards Right
+     - 52x Action Cards
    * - :ref:`CardBox_Riders <box-brink_long-cardbox_riders>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106 × 77.5 × 14 mm``
      - ``(106, 119.5, 64)``
-     - Cards Left, Cards Right
+     - 20x Rider Cards
    * - :ref:`CardBox_Ambassadors <box-brink_long-cardbox_ambassadors>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106 × 77.5 × 23.5 mm``
      - ``(106, 197, 38)``
-     - Cards
+     - 25x Ambassador Cards
    * - :ref:`CardBox_Factions <box-brink_long-cardbox_factions>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106 × 77.5 × 8 mm``
      - ``(106, 197, 61.5)``
-     - Cards
+     - 5x Faction Objective Cards
    * - :ref:`CardBox_Rivals <box-brink_long-cardbox_rivals>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106 × 77.5 × 8.5 mm``
      - ``(106, 197, 69.5)``
-     - Cards
+     - 4x Rival & Guide Cards
    * - :ref:`HexBox <box-brink_long-hexbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``212 × 119.5 × 21 mm``
      - ``(0, 0, 57)``
-     - 3x Hex Stack
+     - 25x Sector Hex Tiles, 1x Starting Hex Tile
    * - :ref:`spacer_1 <spacer-brink_long-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``109 × 32.5 × 40 mm``
@@ -153,7 +153,7 @@ PlayerBox_Yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106 × 305 × 19 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, 1x Player Tokens, 1x Voting Board, 5x Voting Bay, 1x Class III Ship, +3 more
+- **Pieces / Contents**: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens
 - **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 29 elements)
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
@@ -191,7 +191,7 @@ PlayerBox_Purple
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106 × 305 × 19 mm``
 - **Packed Position**: ``(0, 0, 19)``
-- **Pieces / Contents**: 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, 1x Player Tokens, 1x Voting Board, 5x Voting Bay, 1x Class III Ship, +3 more
+- **Pieces / Contents**: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens
 - **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 29 elements)
 
 **Assembled Box (PlayerBox_Purple — Body + Lid)**
@@ -229,7 +229,7 @@ PlayerBox_Green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106 × 305 × 19 mm``
 - **Packed Position**: ``(0, 0, 38)``
-- **Pieces / Contents**: 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, 1x Player Tokens, 1x Voting Board, 5x Voting Bay, 1x Class III Ship, +3 more
+- **Pieces / Contents**: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens
 - **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 29 elements)
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
@@ -267,7 +267,7 @@ PlayerBox_Orange
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106 × 305 × 19 mm``
 - **Packed Position**: ``(106, 0, 0)``
-- **Pieces / Contents**: 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, 1x Player Tokens, 1x Voting Board, 5x Voting Bay, 1x Class III Ship, +3 more
+- **Pieces / Contents**: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens
 - **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 29 elements)
 
 **Assembled Box (PlayerBox_Orange — Body + Lid)**
@@ -305,7 +305,7 @@ PlayerBox_Blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106 × 305 × 19 mm``
 - **Packed Position**: ``(106, 0, 19)``
-- **Pieces / Contents**: 1x Upgrade Board, 1x Under Upgrade, 3x Cargo, 3x Cargo Nub, 3x Railgun, 3x Railgun Nub, 1x Player Tokens, 1x Voting Board, 5x Voting Bay, 1x Class III Ship, +3 more
+- **Pieces / Contents**: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens
 - **Compartments (1)**: ``FleetContents`` (100 × 299 mm, 29 elements)
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
@@ -343,7 +343,7 @@ ResourceBox_Komek
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``53 × 93.5 × 21 mm``
 - **Packed Position**: ``(0, 119.5, 57)``
-- **Pieces / Contents**: Cubes
+- **Pieces / Contents**: 28x Komek Resource Cubes
 - **Compartments (1)**: ``Cubes`` (full interior)
 
 **Assembled Box (ResourceBox_Komek — Body + Lid)**
@@ -381,7 +381,7 @@ ResourceBox_Ventus
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``53 × 93.5 × 21 mm``
 - **Packed Position**: ``(53, 119.5, 57)``
-- **Pieces / Contents**: Cubes
+- **Pieces / Contents**: 28x Ventus Resource Cubes
 - **Compartments (1)**: ``Cubes`` (full interior)
 
 **Assembled Box (ResourceBox_Ventus — Body + Lid)**
@@ -419,7 +419,7 @@ ResourceBox_Henko
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``53 × 93.5 × 21 mm``
 - **Packed Position**: ``(0, 213, 57)``
-- **Pieces / Contents**: Cubes
+- **Pieces / Contents**: 28x Henko Resource Cubes
 - **Compartments (1)**: ``Cubes`` (full interior)
 
 **Assembled Box (ResourceBox_Henko — Body + Lid)**
@@ -457,7 +457,7 @@ ResourceBox_Magnomi
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``53 × 93.5 × 21 mm``
 - **Packed Position**: ``(53, 213, 57)``
-- **Pieces / Contents**: Cubes
+- **Pieces / Contents**: 28x Magnomi Resource Cubes
 - **Compartments (1)**: ``Cubes`` (full interior)
 
 **Assembled Box (ResourceBox_Magnomi — Body + Lid)**
@@ -495,7 +495,7 @@ ResourceBox_Sorelia
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``53 × 119.5 × 19 mm``
 - **Packed Position**: ``(106, 0, 38)``
-- **Pieces / Contents**: Cubes
+- **Pieces / Contents**: 28x Sorelia Resource Cubes
 - **Compartments (1)**: ``Cubes`` (full interior)
 
 **Assembled Box (ResourceBox_Sorelia — Body + Lid)**
@@ -533,7 +533,7 @@ ResourceBox_UA
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``53 × 119.5 × 19 mm``
 - **Packed Position**: ``(159, 0, 38)``
-- **Pieces / Contents**: UA And Extras
+- **Pieces / Contents**: 15x UA Resource Cubes, 1x UA Flagship, 1x Fusion Drive, 1x First Player Token
 - **Compartments (1)**: ``UAAndExtras`` (full interior)
 
 **Assembled Box (ResourceBox_UA — Body + Lid)**
@@ -571,7 +571,7 @@ CardBox_Actions
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106 × 77.5 × 26 mm``
 - **Packed Position**: ``(106, 119.5, 38)``
-- **Pieces / Contents**: Cards Left, Cards Right
+- **Pieces / Contents**: 52x Action Cards
 - **Compartments (2)**: ``CardsLeft`` (W=50%), ``CardsRight`` (W=50%)
 
 **Assembled Box (CardBox_Actions — Body + Lid)**
@@ -609,7 +609,7 @@ CardBox_Riders
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106 × 77.5 × 14 mm``
 - **Packed Position**: ``(106, 119.5, 64)``
-- **Pieces / Contents**: Cards Left, Cards Right
+- **Pieces / Contents**: 20x Rider Cards
 - **Compartments (2)**: ``CardsLeft`` (W=50%), ``CardsRight`` (W=50%)
 
 **Assembled Box (CardBox_Riders — Body + Lid)**
@@ -647,7 +647,7 @@ CardBox_Ambassadors
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106 × 77.5 × 23.5 mm``
 - **Packed Position**: ``(106, 197, 38)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 25x Ambassador Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Ambassadors — Body + Lid)**
@@ -685,7 +685,7 @@ CardBox_Factions
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106 × 77.5 × 8 mm``
 - **Packed Position**: ``(106, 197, 61.5)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 5x Faction Objective Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Factions — Body + Lid)**
@@ -723,7 +723,7 @@ CardBox_Rivals
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106 × 77.5 × 8.5 mm``
 - **Packed Position**: ``(106, 197, 69.5)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 4x Rival & Guide Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Rivals — Body + Lid)**
@@ -761,7 +761,7 @@ HexBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``212 × 119.5 × 21 mm``
 - **Packed Position**: ``(0, 0, 57)``
-- **Pieces / Contents**: 3x Hex Stack
+- **Pieces / Contents**: 25x Sector Hex Tiles, 1x Starting Hex Tile
 - **Compartments (1)**: ``HexTiles`` (206 × 113.5 mm, 3 elements)
 
 **Assembled Box (HexBox — Body + Lid)**

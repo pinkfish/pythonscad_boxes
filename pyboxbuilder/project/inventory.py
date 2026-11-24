@@ -166,7 +166,20 @@ def summarize_box_pieces(builder: BoxBuilder) -> BoxPieceSummary:
     counted_groups: OrderedDict[str, int] = OrderedDict()
     bulk_names: list[str] = []
 
+    # Box-level explicit allocations (e.g. hollow no-lid trays holding a score pad)
+    for comp_name, qty in getattr(builder, "allocates", ()):
+        if qty > 0:
+            counted_groups[comp_name] = counted_groups.get(comp_name, 0) + qty
+
     for comp in builder.compartments:
+        if comp.allocates:
+            for comp_name, qty in comp.allocates:
+                if qty > 0:
+                    counted_groups[comp_name] = counted_groups.get(comp_name, 0) + qty
+            continue
+        if comp.component is not None and comp.count is not None:
+            counted_groups[comp.component] = counted_groups.get(comp.component, 0) + comp.count
+            continue
         if comp.count is not None:
             name = _normalize_item_name(comp.label)
             counted_groups[name] = counted_groups.get(name, 0) + comp.count
@@ -177,15 +190,15 @@ def summarize_box_pieces(builder: BoxBuilder) -> BoxPieceSummary:
                     continue
                 found_any = True
                 qty = elem.count if elem.count is not None else 1
-                raw_name = elem.label or comp.label
-                name = _normalize_item_name(raw_name)
+                raw_name = elem.component or elem.label or comp.label
+                name = elem.component if elem.component else _normalize_item_name(raw_name)
                 counted_groups[name] = counted_groups.get(name, 0) + qty
             if not found_any:
                 name = _normalize_item_name(comp.label)
                 if name not in bulk_names:
                     bulk_names.append(name)
         else:
-            name = _normalize_item_name(comp.label)
+            name = comp.component if comp.component else _normalize_item_name(comp.label)
             if name not in bulk_names:
                 bulk_names.append(name)
 
@@ -205,6 +218,107 @@ def summarize_box_pieces(builder: BoxBuilder) -> BoxPieceSummary:
         entries=tuple(entries),
         counted_pieces=sum(counted_groups.values()),
     )
+
+
+@dataclass(frozen=True)
+class InventoryVerification:
+    """Result of verifying that all declared game components are allocated into boxes/boards."""
+
+    declared: dict[str, int]
+    allocated: dict[str, int]
+    missing: dict[str, int]
+    over_allocated: dict[str, int]
+    unknown: dict[str, int]
+
+    @property
+    def is_valid(self) -> bool:
+        """True when every declared component is allocated with exact count and no unknowns."""
+        return not (self.missing or self.over_allocated or self.unknown)
+
+    def format_errors(self) -> str:
+        """Return a human-readable summary of all inventory mismatches."""
+        lines: list[str] = []
+        if self.missing:
+            lines.append(
+                "Missing (unallocated) pieces: "
+                + ", ".join(f"{k} (need {v} more)" for k, v in self.missing.items())
+            )
+        if self.over_allocated:
+            lines.append(
+                "Over-allocated pieces: "
+                + ", ".join(f"{k} (+{v} extra)" for k, v in self.over_allocated.items())
+            )
+        if self.unknown:
+            lines.append(
+                "Unknown (undeclared) components: "
+                + ", ".join(f"{k} ({v})" for k, v in self.unknown.items())
+            )
+        return "; ".join(lines)
+
+
+def verify_inventory(
+    manifest: ProjectManifest,
+    *,
+    strict: bool = False,
+) -> InventoryVerification:
+    """Check that boxes and boards account for 100% of the declared game component inventory."""
+    declared: dict[str, int] = {}
+    for comp in manifest.components:
+        declared[comp.name] = declared.get(comp.name, 0) + comp.count
+
+    allocated: dict[str, int] = {}
+
+    def _add(name: str, qty: int) -> None:
+        if qty > 0:
+            allocated[name] = allocated.get(name, 0) + qty
+
+    for builder in manifest.boxes:
+        for name, qty in getattr(builder, "allocates", ()):
+            _add(name, qty)
+        for comp_b in builder.compartments:
+            if comp_b.allocates:
+                for name, qty in comp_b.allocates:
+                    _add(name, qty)
+            elif comp_b.component is not None:
+                _add(comp_b.component, comp_b.count if comp_b.count is not None else 1)
+            for elem in comp_b.elements:
+                if elem.component is not None:
+                    _add(elem.component, elem.count if elem.count is not None else 1)
+
+    for gb in manifest.boards:
+        if gb.allocates:
+            for name, qty in gb.allocates:
+                _add(name, qty)
+        elif gb.component is not None:
+            _add(gb.component, gb.count)
+        elif gb.label in declared:
+            _add(gb.label, gb.count)
+
+    missing: dict[str, int] = {}
+    over_allocated: dict[str, int] = {}
+    unknown: dict[str, int] = {}
+
+    for name, req in declared.items():
+        got = allocated.get(name, 0)
+        if got < req:
+            missing[name] = req - got
+        elif got > req:
+            over_allocated[name] = got - req
+
+    for name, got in allocated.items():
+        if name not in declared:
+            unknown[name] = got
+
+    result = InventoryVerification(
+        declared=declared,
+        allocated=allocated,
+        missing=missing,
+        over_allocated=over_allocated,
+        unknown=unknown,
+    )
+    if strict and not result.is_valid:
+        raise ValueError(f"Inventory mismatch in {manifest.name!r}: {result.format_errors()}")
+    return result
 
 
 def summarize_project(

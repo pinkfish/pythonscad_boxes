@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=88a84b8d" download="ExplorersOfNavoria_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoria_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=88a84b8d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=ad479ab8" download="ExplorersOfNavoria_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoria_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=ad479ab8" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=88a84b8d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/explorers_of_navoria/ExplorersOfNavoria_packing_guide.pdf?v=ad479ab8" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 14 bodies, 13 lids, 0 spacers (27 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 69
+- **Boards & Non-Printed Components**: 6
+- **Counted Game Pieces**: 216
 
 .. list-table::
    :header-rows: 1
@@ -50,77 +50,82 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 133 × 14 mm``
      - ``(0, 0, 0)``
-     - 8x Trading Post, 1x Marker Tray
+     - 9x Trading Post Tokens, 4x Favor Markers
    * - :ref:`PlayerBox_Green_Two <box-explorers_of_navoria-playerbox_green_two>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 133 × 14 mm``
      - ``(0, 133, 0)``
-     - 6x Explorer, 1x Bird And Discs Tray
+     - 3x Exploration Markers, 1x Turn-Order Markers, 1x Crown Markers
    * - :ref:`PlayerBox_Yellow_One <box-explorers_of_navoria-playerbox_yellow_one>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 133 × 14 mm``
      - ``(0, 0, 14)``
-     - 8x Trading Post, 1x Marker Tray
+     - 9x Trading Post Tokens, 4x Favor Markers
    * - :ref:`PlayerBox_Yellow_Two <box-explorers_of_navoria-playerbox_yellow_two>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 133 × 14 mm``
      - ``(0, 133, 14)``
-     - 6x Explorer, 1x Bird And Discs Tray
+     - 3x Exploration Markers, 1x Turn-Order Markers, 1x Crown Markers
    * - :ref:`PlayerBox_Purple_One <box-explorers_of_navoria-playerbox_purple_one>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 133 × 14 mm``
      - ``(0, 0, 28)``
-     - 8x Trading Post, 1x Marker Tray
+     - 9x Trading Post Tokens, 4x Favor Markers
    * - :ref:`PlayerBox_Purple_Two <box-explorers_of_navoria-playerbox_purple_two>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 133 × 14 mm``
      - ``(0, 133, 28)``
-     - 6x Explorer, 1x Bird And Discs Tray
+     - 3x Exploration Markers, 1x Turn-Order Markers, 1x Crown Markers
    * - :ref:`PlayerBox_Black_One <box-explorers_of_navoria-playerbox_black_one>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 133 × 14 mm``
      - ``(0, 0, 42)``
-     - 8x Trading Post, 1x Marker Tray
+     - 9x Trading Post Tokens, 4x Favor Markers
    * - :ref:`PlayerBox_Black_Two <box-explorers_of_navoria-playerbox_black_two>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 133 × 14 mm``
      - ``(0, 133, 42)``
-     - 6x Explorer, 1x Bird And Discs Tray
+     - 3x Exploration Markers, 1x Turn-Order Markers, 1x Crown Markers
    * - :ref:`FavourBox <box-explorers_of_navoria-favourbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``111.5 × 60 × 14.5 mm``
      - ``(98, 0, 0)``
-     - 1x Favour Tile Left, 1x Favour Tile Right
+     - 10x Favour Tiles
    * - :ref:`StuffBox_Swords <box-explorers_of_navoria-stuffbox_swords>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``37.1667 × 60 × 32.5 mm``
      - ``(98, 0, 14.5)``
-     - 1x Rounded Bin
+     - 18x Sword Goods Tokens
    * - :ref:`StuffBox_Apples <box-explorers_of_navoria-stuffbox_apples>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``37.1667 × 60 × 32.5 mm``
      - ``(135.167, 0, 14.5)``
-     - 1x Rounded Bin
+     - 18x Apple Goods Tokens
    * - :ref:`StuffBox_Crystals <box-explorers_of_navoria-stuffbox_crystals>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``37.1667 × 60 × 32.5 mm``
      - ``(172.333, 0, 14.5)``
-     - 1x Rounded Bin
+     - 18x Crystal Goods Tokens
    * - :ref:`CardBox <box-explorers_of_navoria-cardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``111 × 74.5 × 45 mm``
      - ``(98, 60, 0)``
-     - Adventure Cards
+     - 60x Adventure Cards, 4x Player Reference Cards
    * - :ref:`BagBox <box-explorers_of_navoria-bagbox>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``111 × 131.5 × 45 mm``
      - ``(98, 134.5, 0)``
-     - Bag And Bits
-   * - Game Board / Manuals
+     - 1x Cloth Draw Bag, 15x Action Tokens
+   * - Player Boards
+     - Board / Non-Printed
+     - ``113 × 268 × 8 mm``
+     - ``(98, 0, 48)``
+     - 4x Player Boards (4 player layout boards resting atop the right column)
+   * - Main Board & Rulebook
      - Board / Non-Printed
      - ``211 × 268 × 12 mm``
      - ``(0, 0, 56)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 2x Main Board & Rulebook (Folded main board and rulebook on top)
 
 Individual Boxes & Parts
 ------------------------
@@ -133,7 +138,7 @@ PlayerBox_Green_One
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 133 × 14 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 8x Trading Post, 1x Marker Tray
+- **Pieces / Contents**: 9x Trading Post Tokens, 4x Favor Markers
 - **Compartments (1)**: ``TradingPosts`` (92 × 127 mm, 13 elements)
 
 **Assembled Box (PlayerBox_Green_One — Body + Lid)**
@@ -171,7 +176,7 @@ PlayerBox_Green_Two
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 133 × 14 mm``
 - **Packed Position**: ``(0, 133, 0)``
-- **Pieces / Contents**: 6x Explorer, 1x Bird And Discs Tray
+- **Pieces / Contents**: 3x Exploration Markers, 1x Turn-Order Markers, 1x Crown Markers
 - **Compartments (1)**: ``Explorers`` (92 × 127 mm, 10 elements)
 
 **Assembled Box (PlayerBox_Green_Two — Body + Lid)**
@@ -209,7 +214,7 @@ PlayerBox_Yellow_One
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 133 × 14 mm``
 - **Packed Position**: ``(0, 0, 14)``
-- **Pieces / Contents**: 8x Trading Post, 1x Marker Tray
+- **Pieces / Contents**: 9x Trading Post Tokens, 4x Favor Markers
 - **Compartments (1)**: ``TradingPosts`` (92 × 127 mm, 13 elements)
 
 **Assembled Box (PlayerBox_Yellow_One — Body + Lid)**
@@ -247,7 +252,7 @@ PlayerBox_Yellow_Two
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 133 × 14 mm``
 - **Packed Position**: ``(0, 133, 14)``
-- **Pieces / Contents**: 6x Explorer, 1x Bird And Discs Tray
+- **Pieces / Contents**: 3x Exploration Markers, 1x Turn-Order Markers, 1x Crown Markers
 - **Compartments (1)**: ``Explorers`` (92 × 127 mm, 10 elements)
 
 **Assembled Box (PlayerBox_Yellow_Two — Body + Lid)**
@@ -285,7 +290,7 @@ PlayerBox_Purple_One
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 133 × 14 mm``
 - **Packed Position**: ``(0, 0, 28)``
-- **Pieces / Contents**: 8x Trading Post, 1x Marker Tray
+- **Pieces / Contents**: 9x Trading Post Tokens, 4x Favor Markers
 - **Compartments (1)**: ``TradingPosts`` (92 × 127 mm, 13 elements)
 
 **Assembled Box (PlayerBox_Purple_One — Body + Lid)**
@@ -323,7 +328,7 @@ PlayerBox_Purple_Two
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 133 × 14 mm``
 - **Packed Position**: ``(0, 133, 28)``
-- **Pieces / Contents**: 6x Explorer, 1x Bird And Discs Tray
+- **Pieces / Contents**: 3x Exploration Markers, 1x Turn-Order Markers, 1x Crown Markers
 - **Compartments (1)**: ``Explorers`` (92 × 127 mm, 10 elements)
 
 **Assembled Box (PlayerBox_Purple_Two — Body + Lid)**
@@ -361,7 +366,7 @@ PlayerBox_Black_One
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 133 × 14 mm``
 - **Packed Position**: ``(0, 0, 42)``
-- **Pieces / Contents**: 8x Trading Post, 1x Marker Tray
+- **Pieces / Contents**: 9x Trading Post Tokens, 4x Favor Markers
 - **Compartments (1)**: ``TradingPosts`` (92 × 127 mm, 13 elements)
 
 **Assembled Box (PlayerBox_Black_One — Body + Lid)**
@@ -399,7 +404,7 @@ PlayerBox_Black_Two
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 133 × 14 mm``
 - **Packed Position**: ``(0, 133, 42)``
-- **Pieces / Contents**: 6x Explorer, 1x Bird And Discs Tray
+- **Pieces / Contents**: 3x Exploration Markers, 1x Turn-Order Markers, 1x Crown Markers
 - **Compartments (1)**: ``Explorers`` (92 × 127 mm, 10 elements)
 
 **Assembled Box (PlayerBox_Black_Two — Body + Lid)**
@@ -437,7 +442,7 @@ FavourBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``111.5 × 60 × 14.5 mm``
 - **Packed Position**: ``(98, 0, 0)``
-- **Pieces / Contents**: 1x Favour Tile Left, 1x Favour Tile Right
+- **Pieces / Contents**: 10x Favour Tiles
 - **Compartments (1)**: ``Favours`` (105.5 × 54 mm, 4 elements)
 
 **Assembled Box (FavourBox — Body + Lid)**
@@ -475,7 +480,7 @@ StuffBox_Swords
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``37.1667 × 60 × 32.5 mm``
 - **Packed Position**: ``(98, 0, 14.5)``
-- **Pieces / Contents**: 1x Rounded Bin
+- **Pieces / Contents**: 18x Sword Goods Tokens
 - **Compartments (1)**: ``Tokens`` (31.1667 × 54 mm, 1 elements)
 
 **Assembled Box (StuffBox_Swords — Body + Lid)**
@@ -513,7 +518,7 @@ StuffBox_Apples
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``37.1667 × 60 × 32.5 mm``
 - **Packed Position**: ``(135.167, 0, 14.5)``
-- **Pieces / Contents**: 1x Rounded Bin
+- **Pieces / Contents**: 18x Apple Goods Tokens
 - **Compartments (1)**: ``Tokens`` (31.1667 × 54 mm, 1 elements)
 
 **Assembled Box (StuffBox_Apples — Body + Lid)**
@@ -551,7 +556,7 @@ StuffBox_Crystals
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``37.1667 × 60 × 32.5 mm``
 - **Packed Position**: ``(172.333, 0, 14.5)``
-- **Pieces / Contents**: 1x Rounded Bin
+- **Pieces / Contents**: 18x Crystal Goods Tokens
 - **Compartments (1)**: ``Tokens`` (31.1667 × 54 mm, 1 elements)
 
 **Assembled Box (StuffBox_Crystals — Body + Lid)**
@@ -589,7 +594,7 @@ CardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``111 × 74.5 × 45 mm``
 - **Packed Position**: ``(98, 60, 0)``
-- **Pieces / Contents**: Adventure Cards
+- **Pieces / Contents**: 60x Adventure Cards, 4x Player Reference Cards
 - **Compartments (1)**: ``AdventureCards`` (full interior)
 
 **Assembled Box (CardBox — Body + Lid)**
@@ -627,7 +632,7 @@ BagBox
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``111 × 131.5 × 45 mm``
 - **Packed Position**: ``(98, 134.5, 0)``
-- **Pieces / Contents**: Bag And Bits
+- **Pieces / Contents**: 1x Cloth Draw Bag, 15x Action Tokens
 - **Compartments (1)**: ``BagAndBits`` (full interior)
 
 **Part: BagBox Body**

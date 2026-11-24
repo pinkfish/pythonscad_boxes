@@ -153,3 +153,34 @@ class TestPartialBoardsAndInventory(unittest.TestCase):
             GameBoard("Bad", size=(0.0, 10.0, 5.0), position=(0.0, 0.0, 0.0))
         with self.assertRaises(ValueError):
             GameBoard("BadCount", size=(10.0, 10.0, 5.0), position=(0.0, 0.0, 0.0), count=0)
+
+    def test_every_example_game_declares_and_allocates_full_inventory(self) -> None:
+        """Every game in boxes/ declares a piece inventory and allocates 100% of its pieces."""
+        import importlib.util
+
+        repo_root = Path(__file__).resolve().parents[2]
+        game_files = sorted(
+            p
+            for p in (repo_root / "boxes").glob("*/*.py")
+            if not p.parent.name.startswith("_") and p.stem == p.parent.name
+        )
+        self.assertGreaterEqual(len(game_files), 39)
+
+        for path in game_files:
+            game = path.parent.name
+            with self.subTest(game=game):
+                spec = importlib.util.spec_from_file_location(f"_inv_check_{game}", path)
+                assert spec is not None and spec.loader is not None
+                mod = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(mod)
+                proj = mod.project
+                self.assertGreater(
+                    len(proj.components),
+                    0,
+                    f"{game} is missing project.define_inventory(...)",
+                )
+                ver = proj.verify_inventory(strict=False)
+                self.assertTrue(
+                    ver.is_valid,
+                    f"{game} inventory mismatch: {ver.format_errors()}",
+                )

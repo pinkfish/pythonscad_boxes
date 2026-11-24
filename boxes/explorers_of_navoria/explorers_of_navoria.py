@@ -97,6 +97,44 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory(
+    {
+        "Trading Post Tokens": 36,
+        "Favor Markers": 16,
+        "Exploration Markers": 12,
+        "Turn-Order Markers": 4,
+        "Crown Markers": 4,
+        "Favour Tiles": 10,
+        "Sword Goods Tokens": 18,
+        "Apple Goods Tokens": 18,
+        "Crystal Goods Tokens": 18,
+        "Adventure Cards": 60,
+        "Player Reference Cards": 4,
+        "Action Tokens": 15,
+        "Cloth Draw Bag": 1,
+        "Player Boards": 4,
+        "Main Board": 1,
+        "Rulebook": 1,
+    }
+)
+
+project.board(
+    "Player Boards",
+    size=(box_width - player_box_width, box_length, player_layout_thickness * player_layout_num),
+    position=(player_box_width, 0.0, usable_height - player_layout_thickness * player_layout_num),
+    count=player_layout_num,
+    component="Player Boards",
+    notes="4 player layout boards resting atop the right column",
+)
+project.board(
+    "Main Board & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=2,
+    notes="Folded main board and rulebook on top",
+    allocates={"Main Board": 1, "Rulebook": 1},
+)
+
 NAVORIA_PATTERN = PatternBuilder(PatternType.RING)
 NAVORIA_FONT = "Georgia:style=Bold"
 
@@ -316,6 +354,7 @@ for layer_idx, (faction, color_name) in enumerate(player_factions):
         size=(player_inner_w, player_inner_l),
         position=(0.0, 0.0),
         elements=_trading_post_elements(faction_key),
+        allocates={"Trading Post Tokens": 9, "Favor Markers": 4},
     )
 
     # Back stack: Explorers & Turn Order Bird (PlayerBox*Two)
@@ -343,6 +382,7 @@ for layer_idx, (faction, color_name) in enumerate(player_factions):
         size=(player_inner_w, player_inner_l),
         position=(0.0, 0.0),
         elements=_explorer_elements(faction_key),
+        allocates={"Exploration Markers": 3, "Turn-Order Markers": 1, "Crown Markers": 1},
     )
 
 # ── Column 1 Front: Favour Box & 3 Stuff Boxes (Y = 0 .. 60) ──────
@@ -371,12 +411,14 @@ favour_box.compartment(
     size=(favour_inner_w, favour_inner_l),
     position=(0.0, 0.0),
     elements=_favour_elements(),
+    component="Favour Tiles",
+    count=num_favour_tiles,
 )
 
-for idx, (label, text, color_name, icon_file) in enumerate([
-    ("StuffBox_Swords", "Swords", "slategray", "sword.svg"),
-    ("StuffBox_Apples", "Apples", "crimson", "apple.svg"),
-    ("StuffBox_Crystals", "Crystals", "deepskyblue", "crystal.svg"),
+for idx, (label, text, color_name, icon_file, comp_name) in enumerate([
+    ("StuffBox_Swords", "Swords", "slategray", "sword.svg", "Sword Goods Tokens"),
+    ("StuffBox_Apples", "Apples", "crimson", "apple.svg", "Apple Goods Tokens"),
+    ("StuffBox_Crystals", "Crystals", "deepskyblue", "crystal.svg", "Crystal Goods Tokens"),
 ]):
     project.box(
         BoxType.SLIDING,
@@ -402,6 +444,8 @@ for idx, (label, text, color_name, icon_file) in enumerate([
         size=(stuff_inner_w, stuff_inner_l),
         position=(0.0, 0.0),
         elements=_stuff_box_elements(),
+        component=comp_name,
+        count=18,
     )
 
 # ── Column 1 Middle: Adventure Cards Box (Y = 60 .. 134.5) ────────
@@ -420,7 +464,11 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-).compartment("AdventureCards", cut=FingerCut.SCOOP)
+).compartment(
+    "AdventureCards",
+    cut=FingerCut.SCOOP,
+    allocates={"Adventure Cards": 60, "Player Reference Cards": 4},
+)
 
 # ── Column 1 Back: Open Drawing Bag Tray (Y = 134.5 .. 266) ───────
 project.box(
@@ -428,7 +476,11 @@ project.box(
     "BagBox",
     size=(bag_box_width, bag_box_length, bag_box_height),
     position=(player_box_width, favour_box_length + card_box_length, 0.0),
-).compartment("BagAndBits", cut=FingerCut.SCOOP)
+).compartment(
+    "BagAndBits",
+    cut=FingerCut.SCOOP,
+    allocates={"Cloth Draw Bag": 1, "Action Tokens": 15},
+)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

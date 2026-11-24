@@ -127,6 +127,13 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory(
+    {
+        "Animal Suit Cards": 80,
+        "Player Bucket Tiles": 90,
+    }
+)
+
 BUCKET_PATTERN = PatternBuilder(PatternType.CIRCLE)
 BUCKET_FONT = "Futura:style=Bold"
 
@@ -147,7 +154,7 @@ c_box = project.box(
         frame_color=Color("royalblue"),
     ),
 )
-c_box.compartment("Cards")
+c_box.compartment("Cards", component="Animal Suit Cards", count=80)
 c_box.finger_hole(ScoopSide.LEFT, width=20.0)
 
 # ── 2. Six Player Bucket Boxes (2x3 grid behind CardBox) ──────────
@@ -193,6 +200,8 @@ for idx, (num, frame_col) in enumerate(player_colors):
         size=(player_inner_w, player_inner_l),
         elements=PLAYER_ELEMENTS,
         element_margin=0.0,
+        component="Player Bucket Tiles",
+        count=15,
     )
 
 # ── Export ────────────────────────────────────────────────────────

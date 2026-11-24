@@ -12,6 +12,27 @@ if TYPE_CHECKING:
 
 
 @dataclass(frozen=True)
+class GameComponent:
+    """One declared physical component type in the board game's inventory."""
+
+    name: str
+    """Component name (e.g. ``"Action Cards"``, ``"Coal Cubes"``, ``"Player Boards"``)."""
+    count: int
+    """Total number of physical pieces of this component included in the game."""
+    category: str = ""
+    """Optional grouping category (e.g. ``"Cards"``, ``"Tokens"``, ``"Boards"``)."""
+    notes: str = ""
+    """Optional note."""
+
+    def __post_init__(self) -> None:
+        """Validate non-empty name and positive piece count."""
+        if not self.name.strip():
+            raise ValueError("GameComponent name must be non-empty")
+        if self.count < 1:
+            raise ValueError(f"GameComponent {self.name!r} count must be >= 1, got {self.count}")
+
+
+@dataclass(frozen=True)
 class GameBoard:
     """A non-printed board, rulebook, screen, or playmat placed inside the game box.
 
@@ -32,6 +53,10 @@ class GameBoard:
     """How many physical boards/screens/mats occupy this reserved region."""
     notes: str = ""
     """Optional packing note shown in summaries and packing sheets."""
+    component: str | None = None
+    """Optional declared inventory component name satisfied by this board."""
+    allocates: tuple[tuple[str, int], ...] = ()
+    """Optional explicit ``((component_name, qty), ...)`` allocations satisfied by this board."""
 
     def __post_init__(self) -> None:
         """Validate positive board dimensions and non-negative piece count."""
@@ -83,6 +108,8 @@ class ProjectManifest:
     """Registered sub-box builders in definition order."""
     boards: list[GameBoard] = field(default_factory=list)
     """Registered non-printed game boards / screens / playmats occupying partial box space."""
+    components: list[GameComponent] = field(default_factory=list)
+    """Declared physical game component inventory that boxes and boards must account for."""
     shared_groups: list[tuple[list[str], list[tuple[str, float, float, float]]]] = field(
         default_factory=list
     )
@@ -152,6 +179,11 @@ class ProjectManifest:
         """Register a non-printed game board region into the manifest."""
         self.boards.append(board)
         return board
+
+    def add_component(self, component: GameComponent) -> GameComponent:
+        """Register a declared game component into the manifest inventory."""
+        self.components.append(component)
+        return component
 
     def __len__(self) -> int:
         """Return the number of registered boxes."""

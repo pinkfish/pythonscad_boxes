@@ -73,12 +73,30 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory(
+    {
+        "Transparent Art Cards": 60,
+        "Background Cards": 37,
+        "Scoring Cards": 12,
+        "Rolled Cloth Playmat": 1,
+        "Red Ribbon Tokens": 20,
+        "Green Ribbon Tokens": 20,
+        "Grey Ribbon Tokens": 20,
+        "Blue Ribbon Tokens": 20,
+        "Purple Ribbon Tokens": 20,
+        "Inspiration Tokens": 20,
+    }
+)
+
 # Circle lid pattern matching canvas.scad (SHAPE_TYPE_CIRCLE, width=7, thickness=1.5)
 CANVAS_PATTERN = PatternBuilder(PatternType.CIRCLE, spacing=7.0, web=1.5)
 
 # ── 1. Two Independent Art Card Boxes (Y = 0 .. 124mm) ────────────
 # Left (X = 0..73mm) and Right (X = 123..196mm) flanking the 50mm center playmat channel.
-for box_id, col_x in (("ArtCardsBox_Left", 0.0), ("ArtCardsBox_Right", right_col_x)):
+for box_id, col_x, card_alloc in (
+    ("ArtCardsBox_Left", 0.0, {"Transparent Art Cards": 60}),
+    ("ArtCardsBox_Right", right_col_x, {"Background Cards": 37, "Scoring Cards": 12}),
+):
     project.box(
         BoxType.SLIDING,
         box_id,
@@ -97,6 +115,7 @@ for box_id, col_x in (("ArtCardsBox_Left", 0.0), ("ArtCardsBox_Right", right_col
     ).compartment(
         "ArtCards",
         cut=FingerCut.SCOOP,
+        allocates=card_alloc,
     )
 
 # ── 2. Center Playmat Cradle Spacer (X = 73 .. 123mm, Y = 0 .. 247mm)
@@ -121,23 +140,24 @@ project.board(
     position=(piece_box_width + 2.5, 0.0, 1.5),
     count=1,
     notes="Rests inside the open-ended PlaymatSpacer center channel",
+    component="Rolled Cloth Playmat",
 )
 
 # ── 3. Six Ribbon Token Boxes Flanking the Center Playmat Channel ─
 # Left column (X = 0..73mm) and right column (X = 123..196mm), Y = 124..247mm
 left_ribbons = [
-    ("Red", "Red", "darkred"),
-    ("Green", "Green", "forestgreen"),
-    ("Grey", "Grey", "gray"),
+    ("Red", "Red", "darkred", "Red Ribbon Tokens", 20),
+    ("Green", "Green", "forestgreen", "Green Ribbon Tokens", 20),
+    ("Grey", "Grey", "gray", "Grey Ribbon Tokens", 20),
 ]
 right_ribbons = [
-    ("Blue", "Blue", "navy"),
-    ("Purple", "Purple", "purple"),
-    ("Palette", "Palette", "goldenrod"),
+    ("Blue", "Blue", "navy", "Blue Ribbon Tokens", 20),
+    ("Purple", "Purple", "purple", "Purple Ribbon Tokens", 20),
+    ("Palette", "Palette", "goldenrod", "Inspiration Tokens", 20),
 ]
 
 for col_x, group in ((0.0, left_ribbons), (right_col_x, right_ribbons)):
-    for row_idx, (token_id, title, color_name) in enumerate(group):
+    for row_idx, (token_id, title, color_name, comp_name, qty) in enumerate(group):
         r_box = project.box(
             BoxType.CAP,
             f"RibbonBox_{token_id}",
@@ -155,6 +175,8 @@ for col_x, group in ((0.0, left_ribbons), (right_col_x, right_ribbons)):
         r_box.compartment(
             "Ribbons",
             cut=FingerCut.SCOOP,
+            component=comp_name,
+            count=qty,
         )
 
 # ── Export ────────────────────────────────────────────────────────

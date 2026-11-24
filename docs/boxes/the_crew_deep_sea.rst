@@ -24,17 +24,17 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=c0f12237" download="TheCrewDeepSea_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>TheCrewDeepSea_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=c0f12237" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=b70ef15c" download="TheCrewDeepSea_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>TheCrewDeepSea_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=b70ef15c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=c0f12237" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/the_crew_deep_sea/TheCrewDeepSea_packing_guide.pdf?v=b70ef15c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 4 bodies, 4 lids, 2 spacers (10 total)
-- **Counted Game Pieces**: 5
+- **Counted Game Pieces**: 149
 
 .. list-table::
    :header-rows: 1
@@ -49,22 +49,22 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``61 × 93 × 26 mm``
      - ``(0, 0, 0)``
-     - Deck
+     - 45x Playing & Reminder Cards
    * - :ref:`Tasks1 <box-the_crew_deep_sea-tasks1>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``49 × 73 × 14.7 mm``
      - ``(61, 0, 0)``
-     - Tasks
+     - 48x Task Cards
    * - :ref:`Tasks2 <box-the_crew_deep_sea-tasks2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``49 × 73 × 14.7 mm``
      - ``(110, 0, 0)``
-     - Tasks
+     - 48x Task Cards
    * - :ref:`Accessories <box-the_crew_deep_sea-accessories>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``111 × 118 × 11 mm``
      - ``(61, 0, 14.7)``
-     - 1x diver, 1x base, 2x sonar, 1x distress
+     - 1x Diver Standee, 1x Standee Base, 5x Sonar Tokens, 1x Distress Token
    * - :ref:`spacer_1 <spacer-the_crew_deep_sea-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``108 × 119 × 14.7 mm``
@@ -87,7 +87,7 @@ Deck
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``61 × 93 × 26 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Deck
+- **Pieces / Contents**: 45x Playing & Reminder Cards
 - **Compartments (1)**: ``Deck`` (57 × 89 mm)
 
 **Assembled Box (Deck — Body + Lid)**
@@ -125,7 +125,7 @@ Tasks1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``49 × 73 × 14.7 mm``
 - **Packed Position**: ``(61, 0, 0)``
-- **Pieces / Contents**: Tasks
+- **Pieces / Contents**: 48x Task Cards
 - **Compartments (1)**: ``Tasks`` (45 × 69 mm)
 
 **Assembled Box (Tasks1 — Body + Lid)**
@@ -163,7 +163,7 @@ Tasks2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``49 × 73 × 14.7 mm``
 - **Packed Position**: ``(110, 0, 0)``
-- **Pieces / Contents**: Tasks
+- **Pieces / Contents**: 48x Task Cards
 - **Compartments (1)**: ``Tasks`` (45 × 69 mm)
 
 **Assembled Box (Tasks2 — Body + Lid)**
@@ -201,7 +201,7 @@ Accessories
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``111 × 118 × 11 mm``
 - **Packed Position**: ``(61, 0, 14.7)``
-- **Pieces / Contents**: 1x diver, 1x base, 2x sonar, 1x distress
+- **Pieces / Contents**: 1x Diver Standee, 1x Standee Base, 5x Sonar Tokens, 1x Distress Token
 - **Compartments (1)**: ``Contents`` (107 × 114 mm, D=7.4 mm, 8 elements)
 
 **Assembled Box (Accessories — Body + Lid)**

@@ -68,6 +68,18 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory(
+    {
+        "Base Kingdom Cards": 260,
+        "Treasure & Victory Supply Cards": 250,
+        "Alchemy & Expansion Kingdom Cards": 120,
+        "Metal Coin Tokens": 50,
+        "Debt Tokens": 50,
+        "Player Mats": 12,
+        "Special Tokens": 30,
+    }
+)
+
 DOMINION_PATTERN = PatternBuilder(PatternType.OCTAGON)
 DOMINION_FONT = "Georgia:style=Bold"
 
@@ -94,6 +106,8 @@ base_box = project.box(
 base_box.compartment(
     "KingdomDecks",
     cut=FingerCut.SCOOP,
+    component="Base Kingdom Cards",
+    count=260,
 )
 
 # ── 2. Treasure & Victory Cards Box ───────────────────────────────
@@ -119,6 +133,8 @@ treasure_box = project.box(
 treasure_box.compartment(
     "TreasuresAndVictory",
     cut=FingerCut.SCOOP,
+    component="Treasure & Victory Supply Cards",
+    count=250,
 )
 
 # ── 3. Alchemy & Expansion Cards Box ──────────────────────────────
@@ -144,6 +160,8 @@ alchemy_box = project.box(
 alchemy_box.compartment(
     "AlchemyCards",
     cut=FingerCut.SCOOP,
+    component="Alchemy & Expansion Kingdom Cards",
+    count=120,
 )
 
 # ── 4. Token, Coin & Mat Trays ────────────────────────────────────
@@ -151,10 +169,10 @@ token_box_width = card_box_width
 token_tray_len = (money_victory_len + alchemy_cards_len) / 2.0  # 140.0mm
 token_tray_height = all_boxes_height / 2.0                     # 37.5mm
 
-for idx, (label, svg_name) in enumerate(
+for idx, (label, svg_name, left_item, right_item) in enumerate(
     [
-        ("CoinAndDebtTokens", "debt.svg"),
-        ("MatsAndSpecialTokens", "guilds.svg"),
+        ("CoinAndDebtTokens", "debt.svg", ("Metal Coin Tokens", 50), ("Debt Tokens", 50)),
+        ("MatsAndSpecialTokens", "guilds.svg", ("Player Mats", 12), ("Special Tokens", 30)),
     ],
     start=1,
 ):
@@ -181,11 +199,15 @@ for idx, (label, svg_name) in enumerate(
         "Tokens_Left",
         width_ratio=0.5,
         cut=FingerCut.SCOOP,
+        component=left_item[0],
+        count=left_item[1],
     )
     tray.compartment(
         "Tokens_Right",
         width_ratio=0.5,
         cut=FingerCut.SCOOP,
+        component=right_item[0],
+        count=right_item[1],
     )
 
 # ── Export ────────────────────────────────────────────────────────

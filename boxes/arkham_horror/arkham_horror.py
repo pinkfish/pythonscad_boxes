@@ -96,6 +96,19 @@ project = Project(
     generate_spacers=True,
 )
 
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_inventory({
+    "Player & Investigator Cards": total_player_cards,
+    "Campaign Scenario Cards": total_scenario_cards,
+    "Chaos Tokens": 44,
+    "Damage Tokens": 30,
+    "Horror Tokens": 27,
+    "Clue / Doom Tokens": 30,
+    "Resource Tokens": 30,
+    "Investigator Mini Cards & Dials": 7,
+    "Lead Investigator & Standee Markers": 6,
+})
+
 ARKHAM_PATTERN = PatternBuilder(PatternType.VORONOI)
 ARKHAM_LID = LidBuilder(
     label_mode=LabelMode.FRAMED,
@@ -124,6 +137,8 @@ player_box = project.box(
 player_box.compartment(
     "Investigators",
     cut=FingerCut.SCOOP,
+    component="Player & Investigator Cards",
+    count=total_player_cards,
 )
 
 # ── 2. Core Set Campaign Encounter Card Box ────────────────────────
@@ -141,19 +156,38 @@ scenario_box = project.box(
 scenario_box.compartment(
     "Encounters",
     cut=FingerCut.SCOOP,
+    component="Campaign Scenario Cards",
+    count=total_scenario_cards,
 )
 
 # ── 3. Chaos Token & Resource Token Trays ──────────────────────────
 token_box_width = box_width - card_box_width - 2.0  # 140.0mm
 token_tray_height = all_boxes_height / 3.0          # ~24.3mm
 
-token_trays = [
-    ("ChaosTokens", "elder_sign.svg"),
-    ("DamageAndHorror", "skull.svg"),
-    ("CluesAndResources", "magnifying_glass.svg"),
+token_trays: list[tuple[str, str, tuple[tuple[str, int], ...]]] = [
+    (
+        "ChaosTokens",
+        "elder_sign.svg",
+        (("Chaos Tokens", 11), ("Chaos Tokens", 11), ("Chaos Tokens", 11), ("Chaos Tokens", 11)),
+    ),
+    (
+        "DamageAndHorror",
+        "skull.svg",
+        (("Damage Tokens", 15), ("Damage Tokens", 15), ("Horror Tokens", 14), ("Horror Tokens", 13)),
+    ),
+    (
+        "CluesAndResources",
+        "magnifying_glass.svg",
+        (
+            ("Clue / Doom Tokens", 15),
+            ("Clue / Doom Tokens", 15),
+            ("Resource Tokens", 15),
+            ("Resource Tokens", 15),
+        ),
+    ),
 ]
 
-for idx, (label, icon_file) in enumerate(token_trays, start=1):
+for idx, (label, icon_file, pocket_allocs) in enumerate(token_trays, start=1):
     tray = project.box(
         BoxType.CAP,
         f"TokenTray{idx}_{label}",
@@ -164,11 +198,13 @@ for idx, (label, icon_file) in enumerate(token_trays, start=1):
             logo=str(ASSETS / icon_file),
         ),
     )
-    for c_idx in range(4):
+    for c_idx, (comp_name, qty) in enumerate(pocket_allocs):
         tray.compartment(
             f"Pocket_{c_idx + 1}",
             width_ratio=0.25,
             cut=FingerCut.SCOOP,
+            component=comp_name,
+            count=qty,
         )
 
 # ── 4. Accessory & Encounter Token Tray ────────────────────────────
@@ -186,11 +222,15 @@ accessory_box.compartment(
     "MinisAndDials",
     width_ratio=0.5,
     cut=FingerCut.SCOOP,
+    component="Investigator Mini Cards & Dials",
+    count=7,
 )
 accessory_box.compartment(
     "StandsAndMarkers",
     width_ratio=0.5,
     cut=FingerCut.SCOOP,
+    component="Lead Investigator & Standee Markers",
+    count=6,
 )
 
 # ── Export ────────────────────────────────────────────────────────

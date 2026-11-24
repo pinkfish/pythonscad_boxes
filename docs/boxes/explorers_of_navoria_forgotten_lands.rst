@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=fc78dea7" download="ExplorersOfNavoriaForgottenLands_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoriaForgottenLands_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=fc78dea7" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=e23b6eca" download="ExplorersOfNavoriaForgottenLands_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ExplorersOfNavoriaForgottenLands_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=e23b6eca" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=fc78dea7" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/explorers_of_navoria_forgotten_lands/ExplorersOfNavoriaForgottenLands_packing_guide.pdf?v=e23b6eca" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 7 bodies, 7 lids, 0 spacers (14 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 29
+- **Boards & Non-Printed Components**: 2
+- **Counted Game Pieces**: 111
 
 .. list-table::
    :header-rows: 1
@@ -50,42 +50,42 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``100 × 133 × 23 mm``
      - ``(111, 0, 0)``
-     - 8x White Post, 1x White Marker Tray
+     - 9x White Trading Post Tokens, 4x White Favor Markers
    * - :ref:`PlayerBox_White_2 <box-explorers_of_navoria_forgotten_lands-playerbox_white_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``100 × 133 × 23 mm``
      - ``(111, 0, 23)``
-     - 6x White Explorer, 1x White Bird Tray
+     - 3x White Exploration Markers, 1x White Turn-Order Marker, 1x White Crown Marker
    * - :ref:`SpeciesTokensBox <box-explorers_of_navoria_forgotten_lands-speciestokensbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``100 × 135 × 23 mm``
      - ``(111, 133, 0)``
-     - 1x Rounded Token Bin
+     - 10x Solo Bonus Tokens
    * - :ref:`ContractTokensBox <box-explorers_of_navoria_forgotten_lands-contracttokensbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``100 × 135 × 23 mm``
      - ``(111, 133, 23)``
-     - 1x Rounded Token Bin
+     - 18x Contract Tokens
    * - :ref:`FactionSkillBox <box-explorers_of_navoria_forgotten_lands-factionskillbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``111 × 152 × 23 mm``
      - ``(0, 116, 23)``
-     - 1x Faction Skill Front, 1x Faction Skill Back
+     - 9x Faction Skill Tiles
    * - :ref:`ExplorationBitsBox <box-explorers_of_navoria_forgotten_lands-explorationbitsbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``111 × 152 × 23 mm``
      - ``(0, 116, 0)``
-     - 1x Player Overlay, 1x Start Oval, 3x Exploration Tiles, 4x Species Token
+     - 5x Player Overlays, 1x Start Order Oval, 6x Exploration Bonus Tiles, 4x Grey Action Tokens
    * - :ref:`ExpansionCardsBox <box-explorers_of_navoria_forgotten_lands-expansioncardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``111 × 116 × 46 mm``
      - ``(0, 0, 0)``
-     - Cards
-   * - Game Board / Manuals
+     - 12x Grey Adventure Cards, 12x Goal Cards, 10x Solo Mission Cards, 5x Solo Action Cards, 1x White Player Reference Card
+   * - White Player Board & Rulebook
      - Board / Non-Printed
      - ``211 × 268 × 4 mm``
      - ``(0, 0, 46)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 2x White Player Board & Rulebook (5th player board and expansion rulebook resting on top)
 
 Individual Boxes & Parts
 ------------------------
@@ -98,7 +98,7 @@ PlayerBox_White
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``100 × 133 × 23 mm``
 - **Packed Position**: ``(111, 0, 0)``
-- **Pieces / Contents**: 8x White Post, 1x White Marker Tray
+- **Pieces / Contents**: 9x White Trading Post Tokens, 4x White Favor Markers
 - **Compartments (1)**: ``TradingPosts`` (92 × 127 mm, 13 elements)
 
 **Assembled Box (PlayerBox_White — Body + Lid)**
@@ -136,7 +136,7 @@ PlayerBox_White_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``100 × 133 × 23 mm``
 - **Packed Position**: ``(111, 0, 23)``
-- **Pieces / Contents**: 6x White Explorer, 1x White Bird Tray
+- **Pieces / Contents**: 3x White Exploration Markers, 1x White Turn-Order Marker, 1x White Crown Marker
 - **Compartments (1)**: ``Explorers`` (92 × 127 mm, 10 elements)
 
 **Assembled Box (PlayerBox_White_2 — Body + Lid)**
@@ -174,7 +174,7 @@ SpeciesTokensBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``100 × 135 × 23 mm``
 - **Packed Position**: ``(111, 133, 0)``
-- **Pieces / Contents**: 1x Rounded Token Bin
+- **Pieces / Contents**: 10x Solo Bonus Tokens
 - **Compartments (1)**: ``SoloTokens`` (92 × 127 mm, 1 elements)
 
 **Assembled Box (SpeciesTokensBox — Body + Lid)**
@@ -212,7 +212,7 @@ ContractTokensBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``100 × 135 × 23 mm``
 - **Packed Position**: ``(111, 133, 23)``
-- **Pieces / Contents**: 1x Rounded Token Bin
+- **Pieces / Contents**: 18x Contract Tokens
 - **Compartments (1)**: ``ContractTokens`` (92 × 127 mm, 1 elements)
 
 **Assembled Box (ContractTokensBox — Body + Lid)**
@@ -250,7 +250,7 @@ FactionSkillBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``111 × 152 × 23 mm``
 - **Packed Position**: ``(0, 116, 23)``
-- **Pieces / Contents**: 1x Faction Skill Front, 1x Faction Skill Back
+- **Pieces / Contents**: 9x Faction Skill Tiles
 - **Compartments (1)**: ``FactionTiles`` (61 × 144 mm, 3 elements)
 
 **Assembled Box (FactionSkillBox — Body + Lid)**
@@ -288,7 +288,7 @@ ExplorationBitsBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``111 × 152 × 23 mm``
 - **Packed Position**: ``(0, 116, 0)``
-- **Pieces / Contents**: 1x Player Overlay, 1x Start Oval, 3x Exploration Tiles, 4x Species Token
+- **Pieces / Contents**: 5x Player Overlays, 1x Start Order Oval, 6x Exploration Bonus Tiles, 4x Grey Action Tokens
 - **Compartments (1)**: ``Bits`` (105 × 144 mm, 20 elements)
 
 **Assembled Box (ExplorationBitsBox — Body + Lid)**
@@ -326,7 +326,7 @@ ExpansionCardsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``111 × 116 × 46 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 12x Grey Adventure Cards, 12x Goal Cards, 10x Solo Mission Cards, 5x Solo Action Cards, 1x White Player Reference Card
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (ExpansionCardsBox — Body + Lid)**

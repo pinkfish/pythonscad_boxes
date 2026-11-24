@@ -24,16 +24,17 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=1621fe26" download="KenmoreGold_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>KenmoreGold_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=1621fe26" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=b374f523" download="KenmoreGold_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>KenmoreGold_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=b374f523" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=1621fe26" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/kenmore_gold/KenmoreGold_packing_guide.pdf?v=b374f523" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 3 bodies, 3 lids, 1 spacers (7 total)
+- **Counted Game Pieces**: 91
 
 .. list-table::
    :header-rows: 1
@@ -48,17 +49,17 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``130 × 64 × 69 mm``
      - ``(0, 0, 0)``
-     - Tiles
+     - 50x Square Dungeon Tiles
    * - :ref:`StartCaveBox <box-kenmore_gold-startcavebox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``130 × 56 × 21 mm``
      - ``(0, 64, 48)``
-     - Cave Tile
+     - 1x Start Cave Tile
    * - :ref:`LootBox <box-kenmore_gold-lootbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``130 × 56 × 48 mm``
      - ``(0, 64, 0)``
-     - Loot Tokens
+     - 40x Loot & Gold Tokens
    * - :ref:`spacer_1 <spacer-kenmore_gold-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``130 × 120 × 8 mm``
@@ -76,7 +77,7 @@ SquareTileBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``130 × 64 × 69 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Tiles
+- **Pieces / Contents**: 50x Square Dungeon Tiles
 - **Compartments (2)**: ``Tiles_A`` (W=50%), ``Tiles_B`` (W=50%)
 
 **Assembled Box (SquareTileBox — Body + Lid)**
@@ -114,7 +115,7 @@ StartCaveBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``130 × 56 × 21 mm``
 - **Packed Position**: ``(0, 64, 48)``
-- **Pieces / Contents**: Cave Tile
+- **Pieces / Contents**: 1x Start Cave Tile
 - **Compartments (1)**: ``CaveTile`` (full interior)
 
 **Assembled Box (StartCaveBox — Body + Lid)**
@@ -152,7 +153,7 @@ LootBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``130 × 56 × 48 mm``
 - **Packed Position**: ``(0, 64, 0)``
-- **Pieces / Contents**: Loot Tokens
+- **Pieces / Contents**: 40x Loot & Gold Tokens
 - **Compartments (1)**: ``LootTokens`` (full interior)
 
 **Assembled Box (LootBox — Body + Lid)**

@@ -69,6 +69,29 @@ project = Project(
     generate_spacers=True,
 )
 
+# ── Game Piece Inventory ──────────────────────────────────────────
+project.define_inventory({
+    "Painting Cards": 70,
+    "Money Coins": 112,
+    "Artist Value Tiles": 12,
+    "Auction Valuation Board": 1,
+    "Player Screens": 5,
+    "Rulebook": 1,
+})
+
+project.board(
+    "Board, Screens & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=7,
+    notes="Auction valuation board, 5 player screens, and rulebook atop insert",
+    allocates={
+        "Auction Valuation Board": 1,
+        "Player Screens": 5,
+        "Rulebook": 1,
+    },
+)
+
 ART_PATTERN = PatternBuilder(PatternType.TUMBLING_BLOCKS)
 ART_LID = LidBuilder(
     label_mode=LabelMode.FRAMED,
@@ -98,11 +121,15 @@ c_box.compartment(
     "Paintings_1",
     width_ratio=0.5,
     cut=FingerCut.SCOOP,
+    component="Painting Cards",
+    count=35,
 )
 c_box.compartment(
     "Paintings_2",
     width_ratio=0.5,
     cut=FingerCut.SCOOP,
+    component="Painting Cards",
+    count=35,
 )
 
 # ── 2. Auction Money & Chips Box ──────────────────────────────────
@@ -124,6 +151,7 @@ t_box.compartment(
     "Tokens",
     size=(token_inner_width, token_inner_length),
     position=(0.0, 0.0),
+    allocates={"Money Coins": 112, "Artist Value Tiles": 12},
     elements=(
         # Single deeply-rounded dish (RoundedBoxAllSides radius=15 in modern_art.scad)
         CompartmentElement(

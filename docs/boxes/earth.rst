@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=28666e3d" download="Earth_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Earth_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=28666e3d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=c4bb7ffa" download="Earth_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Earth_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=c4bb7ffa" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=28666e3d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=c4bb7ffa" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -35,7 +35,7 @@ Parts Overview
 
 - **3-D Printed Parts**: 26 bodies, 24 lids, 0 spacers (50 total)
 - **Boards & Non-Printed Components**: 14
-- **Counted Game Pieces**: 39
+- **Counted Game Pieces**: 1104
 
 .. list-table::
    :header-rows: 1
@@ -50,42 +50,42 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 55.2 mm``
      - ``(0, 0, 0)``
-     - Cards
+     - 85x Earth Cards
    * - :ref:`CardBox_Terrain <box-earth-cardbox_terrain>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 55.2 mm``
      - ``(68, 0, 0)``
-     - Cards
+     - 85x Earth Cards
    * - :ref:`CardBox_Events <box-earth-cardbox_events>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 55.2 mm``
      - ``(136, 0, 0)``
-     - Cards
+     - 85x Earth Cards
    * - :ref:`CardBox_Abundance <box-earth-cardbox_abundance>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 55.2 mm``
      - ``(136, 99, 0)``
-     - Cards
+     - 75x Earth Cards
    * - :ref:`EarthCardBoxSmall <box-earth-earthcardboxsmall>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 18.4 mm``
      - ``(204, 0, 0)``
-     - Cards
+     - 23x Earth Cards
    * - :ref:`CompostBox_1 <box-earth-compostbox_1>`
      - :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
      - ``68 × 99 × 18.4 mm``
      - ``(204, 0, 18.4)``
-     - Compost
+     - 76x Soil Tokens
    * - :ref:`CompostBox_2 <box-earth-compostbox_2>`
      - :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
      - ``68 × 99 × 18.4 mm``
      - ``(204, 0, 36.8)``
-     - Compost
+     - 75x Soil Tokens
    * - :ref:`SeedBox <box-earth-seedbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``16 × 46 × 72 mm``
      - ``(272, 0, 0)``
-     - Seeds
+     - 32x Seed Tokens
    * - :ref:`TopSpacedBox <box-earth-topspacedbox>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``46 × 240.5 × 15 mm``
@@ -95,87 +95,87 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 24.2 mm``
      - ``(0, 99, 0)``
-     - Ecosystem Cards
+     - 32x Ecosystem Cards
    * - :ref:`FaunaCardBox <box-earth-faunacardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 18.8 mm``
      - ``(0, 99, 24.2)``
-     - Fauna Cards
+     - 23x Fauna Cards
    * - :ref:`IslandCardBox <box-earth-islandcardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 12.2 mm``
      - ``(0, 99, 43)``
-     - Island Cards
+     - 10x Island Cards
    * - :ref:`ClimateCardBox <box-earth-climatecardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 11 mm``
      - ``(68, 99, 0)``
-     - Cards
+     - 10x Climate Cards
    * - :ref:`SoloCardBox <box-earth-solocardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 8.6 mm``
      - ``(68, 99, 11)``
-     - Cards
+     - 6x Solo Cards
    * - :ref:`SeasonCardBox <box-earth-seasoncardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 12.2 mm``
      - ``(68, 99, 19.6)``
-     - Cards
+     - 12x Season Cards
    * - :ref:`AbundanceOtherCardBox <box-earth-abundanceothercardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``68 × 99 × 11 mm``
      - ``(68, 99, 31.8)``
-     - Cards
+     - 10x Abundance Reference & Setup Cards
    * - :ref:`StartBox <box-earth-startbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``68 × 99 × 12.4 mm``
      - ``(68, 99, 42.8)``
-     - 1x Start Disk, 1x Active Token, 1x Score Override Marker
+     - 1x First Player Token, 1x Active Player Token, 1x Score Override Marker
    * - :ref:`PlayerBox_Red <box-earth-playerbox_red>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 0)``
-     - 1x Readiness Token, 5x Leaf Token
+     - 1x Readiness Tokens, 5x Player Leaf Tokens
    * - :ref:`PlayerBox_Green <box-earth-playerbox_green>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 9.2)``
-     - 1x Readiness Token, 5x Leaf Token
+     - 1x Readiness Tokens, 5x Player Leaf Tokens
    * - :ref:`PlayerBox_Yellow <box-earth-playerbox_yellow>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 18.4)``
-     - 1x Readiness Token, 5x Leaf Token
+     - 1x Readiness Tokens, 5x Player Leaf Tokens
    * - :ref:`PlayerBox_Blue <box-earth-playerbox_blue>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 27.6)``
-     - 1x Readiness Token, 5x Leaf Token
+     - 1x Readiness Tokens, 5x Player Leaf Tokens
    * - :ref:`PlayerBox_Purple <box-earth-playerbox_purple>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 36.8)``
-     - 1x Readiness Token, 5x Leaf Token
+     - 1x Readiness Tokens, 5x Player Leaf Tokens
    * - :ref:`PlayerBox_Pink <box-earth-playerbox_pink>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``68 × 99 × 9.2 mm``
      - ``(204, 99, 46)``
-     - 1x Readiness Token, 5x Leaf Token
+     - 1x Readiness Tokens, 5x Player Leaf Tokens
    * - :ref:`CanopyBox <box-earth-canopybox>`
      - :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
      - ``163.9 × 89 × 55.2 mm``
      - ``(0, 198, 0)``
-     - Canopies And Trunks
+     - 125x Tree Trunks, 104x Tree Canopies
    * - :ref:`ScorePadBox <box-earth-scorepadbox>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``111 × 89 × 7 mm``
      - ``(163.9, 198, 0)``
-     - —
+     - 2x Score Pads
    * - :ref:`SproutBox <box-earth-sproutbox>`
      - :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
      - ``111 × 89 × 48.2 mm``
      - ``(163.9, 198, 7)``
-     - Sprout Cubes
+     - 195x Sprout Cubes
    * - Player & Island Boards
      - Board / Non-Printed
      - ``242 × 242 × 16.8 mm``
@@ -198,7 +198,7 @@ CardBox_Flora
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 55.2 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 85x Earth Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Flora — Body + Lid)**
@@ -236,7 +236,7 @@ CardBox_Terrain
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 55.2 mm``
 - **Packed Position**: ``(68, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 85x Earth Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Terrain — Body + Lid)**
@@ -274,7 +274,7 @@ CardBox_Events
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 55.2 mm``
 - **Packed Position**: ``(136, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 85x Earth Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Events — Body + Lid)**
@@ -312,7 +312,7 @@ CardBox_Abundance
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 55.2 mm``
 - **Packed Position**: ``(136, 99, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 75x Earth Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Abundance — Body + Lid)**
@@ -350,7 +350,7 @@ EarthCardBoxSmall
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 18.4 mm``
 - **Packed Position**: ``(204, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 23x Earth Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (EarthCardBoxSmall — Body + Lid)**
@@ -388,7 +388,7 @@ CompostBox_1
 - **Box Type**: :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
 - **Outer Dimensions**: ``68 × 99 × 18.4 mm``
 - **Packed Position**: ``(204, 0, 18.4)``
-- **Pieces / Contents**: Compost
+- **Pieces / Contents**: 76x Soil Tokens
 - **Compartments (1)**: ``Compost`` (full interior)
 
 **Assembled Box (CompostBox_1 — Body + Lid)**
@@ -426,7 +426,7 @@ CompostBox_2
 - **Box Type**: :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
 - **Outer Dimensions**: ``68 × 99 × 18.4 mm``
 - **Packed Position**: ``(204, 0, 36.8)``
-- **Pieces / Contents**: Compost
+- **Pieces / Contents**: 75x Soil Tokens
 - **Compartments (1)**: ``Compost`` (full interior)
 
 **Assembled Box (CompostBox_2 — Body + Lid)**
@@ -464,7 +464,7 @@ SeedBox
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``16 × 46 × 72 mm``
 - **Packed Position**: ``(272, 0, 0)``
-- **Pieces / Contents**: Seeds
+- **Pieces / Contents**: 32x Seed Tokens
 - **Compartments (1)**: ``Seeds`` (full interior)
 
 **Assembled Box (SeedBox — Body + Lid)**
@@ -520,7 +520,7 @@ EcosystemCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 24.2 mm``
 - **Packed Position**: ``(0, 99, 0)``
-- **Pieces / Contents**: Ecosystem Cards
+- **Pieces / Contents**: 32x Ecosystem Cards
 - **Compartments (1)**: ``EcosystemCards`` (full interior)
 
 **Assembled Box (EcosystemCardBox — Body + Lid)**
@@ -558,7 +558,7 @@ FaunaCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 18.8 mm``
 - **Packed Position**: ``(0, 99, 24.2)``
-- **Pieces / Contents**: Fauna Cards
+- **Pieces / Contents**: 23x Fauna Cards
 - **Compartments (1)**: ``FaunaCards`` (full interior)
 
 **Assembled Box (FaunaCardBox — Body + Lid)**
@@ -596,7 +596,7 @@ IslandCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 12.2 mm``
 - **Packed Position**: ``(0, 99, 43)``
-- **Pieces / Contents**: Island Cards
+- **Pieces / Contents**: 10x Island Cards
 - **Compartments (1)**: ``IslandCards`` (full interior)
 
 **Assembled Box (IslandCardBox — Body + Lid)**
@@ -634,7 +634,7 @@ ClimateCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 11 mm``
 - **Packed Position**: ``(68, 99, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 10x Climate Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (ClimateCardBox — Body + Lid)**
@@ -672,7 +672,7 @@ SoloCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 8.6 mm``
 - **Packed Position**: ``(68, 99, 11)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 6x Solo Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (SoloCardBox — Body + Lid)**
@@ -710,7 +710,7 @@ SeasonCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 12.2 mm``
 - **Packed Position**: ``(68, 99, 19.6)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 12x Season Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (SeasonCardBox — Body + Lid)**
@@ -748,7 +748,7 @@ AbundanceOtherCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``68 × 99 × 11 mm``
 - **Packed Position**: ``(68, 99, 31.8)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 10x Abundance Reference & Setup Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (AbundanceOtherCardBox — Body + Lid)**
@@ -786,7 +786,7 @@ StartBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``68 × 99 × 12.4 mm``
 - **Packed Position**: ``(68, 99, 42.8)``
-- **Pieces / Contents**: 1x Start Disk, 1x Active Token, 1x Score Override Marker
+- **Pieces / Contents**: 1x First Player Token, 1x Active Player Token, 1x Score Override Marker
 - **Compartments (1)**: ``StartTokens`` (62 × 93 mm, 7 elements)
 
 **Assembled Box (StartBox — Body + Lid)**
@@ -824,7 +824,7 @@ PlayerBox_Red
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 0)``
-- **Pieces / Contents**: 1x Readiness Token, 5x Leaf Token
+- **Pieces / Contents**: 1x Readiness Tokens, 5x Player Leaf Tokens
 - **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
@@ -862,7 +862,7 @@ PlayerBox_Green
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 9.2)``
-- **Pieces / Contents**: 1x Readiness Token, 5x Leaf Token
+- **Pieces / Contents**: 1x Readiness Tokens, 5x Player Leaf Tokens
 - **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
@@ -900,7 +900,7 @@ PlayerBox_Yellow
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 18.4)``
-- **Pieces / Contents**: 1x Readiness Token, 5x Leaf Token
+- **Pieces / Contents**: 1x Readiness Tokens, 5x Player Leaf Tokens
 - **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
@@ -938,7 +938,7 @@ PlayerBox_Blue
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 27.6)``
-- **Pieces / Contents**: 1x Readiness Token, 5x Leaf Token
+- **Pieces / Contents**: 1x Readiness Tokens, 5x Player Leaf Tokens
 - **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
@@ -976,7 +976,7 @@ PlayerBox_Purple
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 36.8)``
-- **Pieces / Contents**: 1x Readiness Token, 5x Leaf Token
+- **Pieces / Contents**: 1x Readiness Tokens, 5x Player Leaf Tokens
 - **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Purple — Body + Lid)**
@@ -1014,7 +1014,7 @@ PlayerBox_Pink
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``68 × 99 × 9.2 mm``
 - **Packed Position**: ``(204, 99, 46)``
-- **Pieces / Contents**: 1x Readiness Token, 5x Leaf Token
+- **Pieces / Contents**: 1x Readiness Tokens, 5x Player Leaf Tokens
 - **Compartments (1)**: ``PlayerTokens`` (58.6 × 89.6 mm, 12 elements)
 
 **Assembled Box (PlayerBox_Pink — Body + Lid)**
@@ -1052,7 +1052,7 @@ CanopyBox
 - **Box Type**: :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
 - **Outer Dimensions**: ``163.9 × 89 × 55.2 mm``
 - **Packed Position**: ``(0, 198, 0)``
-- **Pieces / Contents**: Canopies And Trunks
+- **Pieces / Contents**: 125x Tree Trunks, 104x Tree Canopies
 - **Compartments (1)**: ``CanopiesAndTrunks`` (full interior)
 
 **Assembled Box (CanopyBox — Body + Lid)**
@@ -1090,6 +1090,7 @@ ScorePadBox
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``111 × 89 × 7 mm``
 - **Packed Position**: ``(163.9, 198, 0)``
+- **Pieces / Contents**: 2x Score Pads
 
 **Part: ScorePadBox Body**
 
@@ -1108,7 +1109,7 @@ SproutBox
 - **Box Type**: :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`
 - **Outer Dimensions**: ``111 × 89 × 48.2 mm``
 - **Packed Position**: ``(163.9, 198, 7)``
-- **Pieces / Contents**: Sprout Cubes
+- **Pieces / Contents**: 195x Sprout Cubes
 - **Compartments (1)**: ``SproutCubes`` (full interior)
 
 **Assembled Box (SproutBox — Body + Lid)**

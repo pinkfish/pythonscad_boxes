@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=6d26b710" download="RailroadTiles_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailroadTiles_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=6d26b710" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=2bb38e39" download="RailroadTiles_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailroadTiles_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=2bb38e39" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=6d26b710" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=2bb38e39" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -35,7 +35,7 @@ Parts Overview
 
 - **3-D Printed Parts**: 15 bodies, 15 lids, 4 spacers (34 total)
 - **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 8
+- **Counted Game Pieces**: 158
 
 .. list-table::
    :header-rows: 1
@@ -50,77 +50,77 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 38 × 24.25 mm``
      - ``(0, 52, 24)``
-     - Tokens
+     - 12x Game Tokens
    * - :ref:`Tokens_1_Tier2 <box-railroad_tiles-tokens_1_tier2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 38 × 24.25 mm``
      - ``(57, 52, 24)``
-     - Tokens
+     - 12x Game Tokens
    * - :ref:`Tokens_2_Tier1 <box-railroad_tiles-tokens_2_tier1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 38 × 24.25 mm``
      - ``(0, 90, 0)``
-     - Tokens
+     - 12x Game Tokens
    * - :ref:`Tokens_2_Tier2 <box-railroad_tiles-tokens_2_tier2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 38 × 24.25 mm``
      - ``(0, 90, 24.25)``
-     - Tokens
+     - 12x Game Tokens
    * - :ref:`Tokens_3_Tier1 <box-railroad_tiles-tokens_3_tier1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 38 × 24.25 mm``
      - ``(0, 128, 0)``
-     - Tokens
+     - 12x Game Tokens
    * - :ref:`Tokens_3_Tier2 <box-railroad_tiles-tokens_3_tier2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 38 × 24.25 mm``
      - ``(0, 128, 24.25)``
-     - Tokens
+     - 12x Game Tokens
    * - :ref:`Tokens_4_Tier1 <box-railroad_tiles-tokens_4_tier1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 38 × 24.25 mm``
      - ``(0, 166, 0)``
-     - Tokens
+     - 12x Game Tokens
    * - :ref:`Tokens_4_Tier2 <box-railroad_tiles-tokens_4_tier2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 38 × 24.25 mm``
      - ``(0, 166, 24.25)``
-     - Tokens
+     - 12x Game Tokens
    * - :ref:`PlayerMarkersBox <box-railroad_tiles-playermarkersbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``114 × 38 × 12 mm``
      - ``(0, 52, 0)``
-     - 4x Player Marker, 1x Two Player Tile
+     - 4x Player Conductor Markers, 1x Two-Player Tile
    * - :ref:`StartingClocksBox <box-railroad_tiles-startingclocksbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``114 × 38 × 12 mm``
      - ``(0, 52, 12)``
-     - 3x Clock Well
+     - 7x Starting Clock Tiles
    * - :ref:`ObjectiveBox_1 <box-railroad_tiles-objectivebox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``114 × 52 × 12.1 mm``
      - ``(0, 0, 0)``
-     - Objective Tiles Left, Objective Tiles Right
+     - 10x Objective Tiles
    * - :ref:`ObjectiveBox_2 <box-railroad_tiles-objectivebox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``114 × 52 × 12.1 mm``
      - ``(0, 0, 12.1)``
-     - Objective Tiles Left, Objective Tiles Right
+     - 10x Objective Tiles
    * - :ref:`ObjectiveBox_3 <box-railroad_tiles-objectivebox_3>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``114 × 52 × 12.1 mm``
      - ``(0, 0, 24.2)``
-     - Objective Tiles Left, Objective Tiles Right
+     - 10x Objective Tiles
    * - :ref:`ObjectiveBox_4 <box-railroad_tiles-objectivebox_4>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``114 × 52 × 12.1 mm``
      - ``(0, 0, 36.3)``
-     - Objective Tiles Left, Objective Tiles Right
+     - 10x Objective Tiles
    * - :ref:`ObjectiveBox_5 <box-railroad_tiles-objectivebox_5>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``114 × 52 × 12.1 mm``
      - ``(0, 0, 48.4)``
-     - Objective Tiles Left, Objective Tiles Right
+     - 10x Objective Tiles
    * - :ref:`spacer_1 <spacer-railroad_tiles-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``173 × 230 × 60.5 mm``
@@ -141,11 +141,11 @@ Parts Overview
      - ``57 × 38 × 12.25 mm``
      - ``(57, 52, 48.25)``
      - Printed spacer tray
-   * - Game Board / Manuals
+   * - Rulebook
      - Board / Non-Printed
      - ``230 × 230 × 2.5 mm``
      - ``(0, 0, 60.5)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 1x Rulebook (Rulebook sits atop insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -158,7 +158,7 @@ Tokens_1_Tier1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 38 × 24.25 mm``
 - **Packed Position**: ``(0, 52, 24)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 12x Game Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Tokens_1_Tier1 — Body + Lid)**
@@ -196,7 +196,7 @@ Tokens_1_Tier2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 38 × 24.25 mm``
 - **Packed Position**: ``(57, 52, 24)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 12x Game Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Tokens_1_Tier2 — Body + Lid)**
@@ -234,7 +234,7 @@ Tokens_2_Tier1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 38 × 24.25 mm``
 - **Packed Position**: ``(0, 90, 0)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 12x Game Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Tokens_2_Tier1 — Body + Lid)**
@@ -272,7 +272,7 @@ Tokens_2_Tier2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 38 × 24.25 mm``
 - **Packed Position**: ``(0, 90, 24.25)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 12x Game Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Tokens_2_Tier2 — Body + Lid)**
@@ -310,7 +310,7 @@ Tokens_3_Tier1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 38 × 24.25 mm``
 - **Packed Position**: ``(0, 128, 0)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 12x Game Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Tokens_3_Tier1 — Body + Lid)**
@@ -348,7 +348,7 @@ Tokens_3_Tier2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 38 × 24.25 mm``
 - **Packed Position**: ``(0, 128, 24.25)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 12x Game Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Tokens_3_Tier2 — Body + Lid)**
@@ -386,7 +386,7 @@ Tokens_4_Tier1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 38 × 24.25 mm``
 - **Packed Position**: ``(0, 166, 0)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 12x Game Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Tokens_4_Tier1 — Body + Lid)**
@@ -424,7 +424,7 @@ Tokens_4_Tier2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 38 × 24.25 mm``
 - **Packed Position**: ``(0, 166, 24.25)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 12x Game Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Tokens_4_Tier2 — Body + Lid)**
@@ -462,7 +462,7 @@ PlayerMarkersBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 38 × 12 mm``
 - **Packed Position**: ``(0, 52, 0)``
-- **Pieces / Contents**: 4x Player Marker, 1x Two Player Tile
+- **Pieces / Contents**: 4x Player Conductor Markers, 1x Two-Player Tile
 - **Compartments (1)**: ``Markers`` (108 × 32 mm, 11 elements)
 
 **Assembled Box (PlayerMarkersBox — Body + Lid)**
@@ -500,7 +500,7 @@ StartingClocksBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 38 × 12 mm``
 - **Packed Position**: ``(0, 52, 12)``
-- **Pieces / Contents**: 3x Clock Well
+- **Pieces / Contents**: 7x Starting Clock Tiles
 - **Compartments (1)**: ``Clocks`` (108 × 32 mm, 9 elements)
 
 **Assembled Box (StartingClocksBox — Body + Lid)**
@@ -538,7 +538,7 @@ ObjectiveBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 52 × 12.1 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Objective Tiles Left, Objective Tiles Right
+- **Pieces / Contents**: 10x Objective Tiles
 - **Compartments (2)**: ``ObjectiveTiles_Left`` (W=50%), ``ObjectiveTiles_Right`` (W=50%)
 
 **Assembled Box (ObjectiveBox_1 — Body + Lid)**
@@ -576,7 +576,7 @@ ObjectiveBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 52 × 12.1 mm``
 - **Packed Position**: ``(0, 0, 12.1)``
-- **Pieces / Contents**: Objective Tiles Left, Objective Tiles Right
+- **Pieces / Contents**: 10x Objective Tiles
 - **Compartments (2)**: ``ObjectiveTiles_Left`` (W=50%), ``ObjectiveTiles_Right`` (W=50%)
 
 **Assembled Box (ObjectiveBox_2 — Body + Lid)**
@@ -614,7 +614,7 @@ ObjectiveBox_3
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 52 × 12.1 mm``
 - **Packed Position**: ``(0, 0, 24.2)``
-- **Pieces / Contents**: Objective Tiles Left, Objective Tiles Right
+- **Pieces / Contents**: 10x Objective Tiles
 - **Compartments (2)**: ``ObjectiveTiles_Left`` (W=50%), ``ObjectiveTiles_Right`` (W=50%)
 
 **Assembled Box (ObjectiveBox_3 — Body + Lid)**
@@ -652,7 +652,7 @@ ObjectiveBox_4
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 52 × 12.1 mm``
 - **Packed Position**: ``(0, 0, 36.3)``
-- **Pieces / Contents**: Objective Tiles Left, Objective Tiles Right
+- **Pieces / Contents**: 10x Objective Tiles
 - **Compartments (2)**: ``ObjectiveTiles_Left`` (W=50%), ``ObjectiveTiles_Right`` (W=50%)
 
 **Assembled Box (ObjectiveBox_4 — Body + Lid)**
@@ -690,7 +690,7 @@ ObjectiveBox_5
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``114 × 52 × 12.1 mm``
 - **Packed Position**: ``(0, 0, 48.4)``
-- **Pieces / Contents**: Objective Tiles Left, Objective Tiles Right
+- **Pieces / Contents**: 10x Objective Tiles
 - **Compartments (2)**: ``ObjectiveTiles_Left`` (W=50%), ``ObjectiveTiles_Right`` (W=50%)
 
 **Assembled Box (ObjectiveBox_5 — Body + Lid)**

@@ -24,17 +24,17 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=95dc0b6b" download="BucketKing_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>BucketKing_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=95dc0b6b" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=f02546fe" download="BucketKing_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>BucketKing_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=f02546fe" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=95dc0b6b" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=f02546fe" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 7 bodies, 7 lids, 1 spacers (15 total)
-- **Counted Game Pieces**: 24
+- **Counted Game Pieces**: 170
 
 .. list-table::
    :header-rows: 1
@@ -49,37 +49,37 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``138 × 73 × 68 mm``
      - ``(0, 0, 0)``
-     - Cards
+     - 80x Animal Suit Cards
    * - :ref:`PlayerBox_1 <box-bucket_king-playerbox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69 × 71 × 34.5 mm``
      - ``(0, 73, 0)``
-     - 4x Bucket Stack
+     - 15x Player Bucket Tiles
    * - :ref:`PlayerBox_2 <box-bucket_king-playerbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69 × 71 × 34.5 mm``
      - ``(69, 73, 0)``
-     - 4x Bucket Stack
+     - 15x Player Bucket Tiles
    * - :ref:`PlayerBox_3 <box-bucket_king-playerbox_3>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69 × 71 × 34.5 mm``
      - ``(0, 144, 0)``
-     - 4x Bucket Stack
+     - 15x Player Bucket Tiles
    * - :ref:`PlayerBox_4 <box-bucket_king-playerbox_4>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69 × 71 × 34.5 mm``
      - ``(69, 144, 0)``
-     - 4x Bucket Stack
+     - 15x Player Bucket Tiles
    * - :ref:`PlayerBox_5 <box-bucket_king-playerbox_5>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69 × 71 × 34.5 mm``
      - ``(0, 215, 0)``
-     - 4x Bucket Stack
+     - 15x Player Bucket Tiles
    * - :ref:`PlayerBox_6 <box-bucket_king-playerbox_6>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69 × 71 × 34.5 mm``
      - ``(69, 215, 0)``
-     - 4x Bucket Stack
+     - 15x Player Bucket Tiles
    * - :ref:`spacer_1 <spacer-bucket_king-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``140 × 215 × 35.5 mm``
@@ -97,7 +97,7 @@ CardBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``138 × 73 × 68 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 80x Animal Suit Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox — Body + Lid)**
@@ -135,7 +135,7 @@ PlayerBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69 × 71 × 34.5 mm``
 - **Packed Position**: ``(0, 73, 0)``
-- **Pieces / Contents**: 4x Bucket Stack
+- **Pieces / Contents**: 15x Player Bucket Tiles
 - **Compartments (1)**: ``Buckets`` (65 × 67 mm, 12 elements)
 
 **Assembled Box (PlayerBox_1 — Body + Lid)**
@@ -173,7 +173,7 @@ PlayerBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69 × 71 × 34.5 mm``
 - **Packed Position**: ``(69, 73, 0)``
-- **Pieces / Contents**: 4x Bucket Stack
+- **Pieces / Contents**: 15x Player Bucket Tiles
 - **Compartments (1)**: ``Buckets`` (65 × 67 mm, 12 elements)
 
 **Assembled Box (PlayerBox_2 — Body + Lid)**
@@ -211,7 +211,7 @@ PlayerBox_3
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69 × 71 × 34.5 mm``
 - **Packed Position**: ``(0, 144, 0)``
-- **Pieces / Contents**: 4x Bucket Stack
+- **Pieces / Contents**: 15x Player Bucket Tiles
 - **Compartments (1)**: ``Buckets`` (65 × 67 mm, 12 elements)
 
 **Assembled Box (PlayerBox_3 — Body + Lid)**
@@ -249,7 +249,7 @@ PlayerBox_4
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69 × 71 × 34.5 mm``
 - **Packed Position**: ``(69, 144, 0)``
-- **Pieces / Contents**: 4x Bucket Stack
+- **Pieces / Contents**: 15x Player Bucket Tiles
 - **Compartments (1)**: ``Buckets`` (65 × 67 mm, 12 elements)
 
 **Assembled Box (PlayerBox_4 — Body + Lid)**
@@ -287,7 +287,7 @@ PlayerBox_5
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69 × 71 × 34.5 mm``
 - **Packed Position**: ``(0, 215, 0)``
-- **Pieces / Contents**: 4x Bucket Stack
+- **Pieces / Contents**: 15x Player Bucket Tiles
 - **Compartments (1)**: ``Buckets`` (65 × 67 mm, 12 elements)
 
 **Assembled Box (PlayerBox_5 — Body + Lid)**
@@ -325,7 +325,7 @@ PlayerBox_6
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69 × 71 × 34.5 mm``
 - **Packed Position**: ``(69, 215, 0)``
-- **Pieces / Contents**: 4x Bucket Stack
+- **Pieces / Contents**: 15x Player Bucket Tiles
 - **Compartments (1)**: ``Buckets`` (65 × 67 mm, 12 elements)
 
 **Assembled Box (PlayerBox_6 — Body + Lid)**

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, ClassVar
 
@@ -146,6 +147,8 @@ class BoxBuilder:
     """
     compartments: tuple[CompartmentBuilder, ...] = ()
     """Interior compartments."""
+    allocates: tuple[tuple[str, int], ...] = ()
+    """Optional box-level ``((component_name, qty), ...)`` inventory allocations."""
     tilt_to_lift: bool = True
     """Subtle bottom rounding (wall_thickness) to rock box up for easy extraction."""
     keystone: bool = False
@@ -282,6 +285,11 @@ class BoxBuilder:
 
             object.__setattr__(self, "lid", replace(self.lid, backing_pattern=self.backing_pattern))
 
+    def allocate(self, component: str, count: int) -> BoxBuilder:
+        """Allocate ``count`` pieces of ``component`` from the project inventory into this box."""
+        object.__setattr__(self, "allocates", (*self.allocates, (str(component), int(count))))
+        return self
+
     def compartment(
         self,
         label: str,
@@ -301,6 +309,8 @@ class BoxBuilder:
         element_margin: float = 0.0,
         growable: bool = False,
         count: int | None = None,
+        component: str | None = None,
+        allocates: Mapping[str, int] | Sequence[tuple[str, int]] | None = None,
     ) -> CompartmentBuilder:
         """Add a compartment to this box.
 
@@ -331,6 +341,8 @@ class BoxBuilder:
             element_margin: Clearance around an element pack's bounding box.
             growable: Whether this well expands proportionally into leftover row width.
             count: Optional explicit count of game pieces stored in this well.
+            component: Optional declared inventory component name stored in this well.
+            allocates: Optional mapping or pairs of ``(component_name, qty)`` allocated from the project inventory.
 
         Returns:
             The :class:`CompartmentBuilder` that was added, already registered
@@ -338,6 +350,13 @@ class BoxBuilder:
 
         """
         from pyboxbuilder.compartments.builder import CompartmentBuilder
+
+        norm_allocates: tuple[tuple[str, int], ...] = ()
+        if allocates is not None:
+            if isinstance(allocates, Mapping):
+                norm_allocates = tuple((str(k), int(v)) for k, v in allocates.items())
+            else:
+                norm_allocates = tuple((str(k), int(v)) for k, v in allocates)
 
         cb = CompartmentBuilder(
             label=label,
@@ -356,6 +375,8 @@ class BoxBuilder:
             element_margin=element_margin,
             growable=growable,
             count=count,
+            component=component,
+            allocates=norm_allocates,
         )
         object.__setattr__(self, "compartments", (*self.compartments, cb))
         if (

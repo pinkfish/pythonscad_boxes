@@ -147,12 +147,41 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory(
+    {
+        "Player Boards": 6,
+        "Fauna Board": 1,
+        "Abundance Teams Board": 1,
+        "Abundance Boards": 6,
+        "Earth Cards": 353,
+        "Ecosystem Cards": ecosystem_cards,
+        "Fauna Cards": fauna_cards,
+        "Island Cards": 10,
+        "Climate Cards": climate_cards,
+        "Solo Cards": solo_cards,
+        "Season Cards": season_cards,
+        "Abundance Reference & Setup Cards": abundance_other_cards,
+        "Soil Tokens": 151,
+        "Seed Tokens": 32,
+        "First Player Token": 1,
+        "Active Player Token": 1,
+        "Score Override Marker": 1,
+        "Readiness Tokens": 6,
+        "Player Leaf Tokens": 30,
+        "Tree Trunks": 125,
+        "Tree Canopies": 104,
+        "Score Pads": 2,
+        "Sprout Cubes": 195,
+    }
+)
+
 project.board(
     "Player & Island Boards",
     size=(player_board_width, player_board_width, total_board_reserve),
     position=(0.0, 0.0, usable_height),
     count=8,
     notes="6 player boards + 2 middle boards on top",
+    allocates={"Player Boards": 6, "Fauna Board": 1, "Abundance Teams Board": 1},
 )
 project.board(
     "Abundance Boards",
@@ -168,6 +197,7 @@ project.board(
     ),
     count=6,
     notes="Standing on edge along right wall under TopSpacedBox",
+    component="Abundance Boards",
 )
 
 EARTH_PATTERN = PatternBuilder(PatternType.LEAF_TESSELLATION)
@@ -203,19 +233,19 @@ def _lid(
 
 # ── 1. Row 0 (Y = 0..99): Main Earth Card Decks, Compost, Seed ───
 main_decks = [
-    ("CardBox_Flora", "Earth", "forestgreen", (0.0, 0.0, 0.0)),
-    ("CardBox_Terrain", "Earth", "sienna", (card_box_width, 0.0, 0.0)),
-    ("CardBox_Events", "Earth", "royalblue", (card_box_width * 2.0, 0.0, 0.0)),
-    ("CardBox_Abundance", "Earth", "darkgoldenrod", (card_box_width * 2.0, card_box_length, 0.0)),
+    ("CardBox_Flora", "Earth", "forestgreen", (0.0, 0.0, 0.0), 85),
+    ("CardBox_Terrain", "Earth", "sienna", (card_box_width, 0.0, 0.0), 85),
+    ("CardBox_Events", "Earth", "royalblue", (card_box_width * 2.0, 0.0, 0.0), 85),
+    ("CardBox_Abundance", "Earth", "darkgoldenrod", (card_box_width * 2.0, card_box_length, 0.0), 75),
 ]
-for label, title, color_name, pos in main_decks:
+for label, title, color_name, pos, card_count in main_decks:
     project.box(
         BoxType.SLIDING,
         label,
         size=(card_box_width, card_box_length, card_box_height),
         position=pos,
         lid=_lid(title, color_name),
-    ).compartment("Cards", cut=FingerCut.SCOOP)
+    ).compartment("Cards", cut=FingerCut.SCOOP, component="Earth Cards", count=card_count)
 
 project.box(
     BoxType.SLIDING,
@@ -223,7 +253,7 @@ project.box(
     size=(card_box_width, card_box_length, earth_small_box_height),
     position=(card_box_width * 3.0, 0.0, 0.0),
     lid=_lid("Earth", "olive"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Earth Cards", count=23)
 
 project.box(
     BoxType.FILAMENT_HINGE,
@@ -231,7 +261,7 @@ project.box(
     size=(card_box_width, card_box_length, compost_box_height),
     position=(card_box_width * 3.0, 0.0, earth_small_box_height),
     lid=_lid("Compost", "dimgray", shape=LabelShape.OVAL, logo_file="compost.svg", logo_size=15.0),
-).compartment("Compost", cut=FingerCut.SCOOP)
+).compartment("Compost", cut=FingerCut.SCOOP, component="Soil Tokens", count=76)
 
 project.box(
     BoxType.FILAMENT_HINGE,
@@ -239,7 +269,7 @@ project.box(
     size=(card_box_width, card_box_length, compost_box_height),
     position=(card_box_width * 3.0, 0.0, earth_small_box_height + compost_box_height),
     lid=_lid("Compost", "dimgray", shape=LabelShape.OVAL, logo_file="compost.svg", logo_size=15.0),
-).compartment("Compost", cut=FingerCut.SCOOP)
+).compartment("Compost", cut=FingerCut.SCOOP, component="Soil Tokens", count=75)
 
 project.box(
     BoxType.SLIPOVER,
@@ -248,7 +278,7 @@ project.box(
     position=(card_box_width * 4.0, 0.0, 0.0),
     wall_thickness=2.0,
     lid=_lid("Seeds", "saddlebrown", shape=LabelShape.OVAL, narrow=True),
-).compartment("Seeds", cut=FingerCut.SCOOP)
+).compartment("Seeds", cut=FingerCut.SCOOP, component="Seed Tokens", count=32)
 
 project.box(
     BoxType.NO_LID,
@@ -265,7 +295,7 @@ project.box(
     size=(card_box_width, card_box_length, ecosystem_cards_height),
     position=(0.0, card_box_length, 0.0),
     lid=_lid("Ecosystem", "seagreen"),
-).compartment("EcosystemCards", cut=FingerCut.SCOOP)
+).compartment("EcosystemCards", cut=FingerCut.SCOOP, component="Ecosystem Cards", count=ecosystem_cards)
 
 project.box(
     BoxType.SLIDING,
@@ -273,7 +303,7 @@ project.box(
     size=(card_box_width, card_box_length, fauna_cards_height),
     position=(0.0, card_box_length, ecosystem_cards_height),
     lid=_lid("Fauna", "chocolate"),
-).compartment("FaunaCards", cut=FingerCut.SCOOP)
+).compartment("FaunaCards", cut=FingerCut.SCOOP, component="Fauna Cards", count=fauna_cards)
 
 project.box(
     BoxType.SLIDING,
@@ -281,24 +311,31 @@ project.box(
     size=(card_box_width, card_box_length, island_cards_height),
     position=(0.0, card_box_length, ecosystem_cards_height + fauna_cards_height),
     lid=_lid("Island", "teal"),
-).compartment("IslandCards", cut=FingerCut.SCOOP)
+).compartment("IslandCards", cut=FingerCut.SCOOP, component="Island Cards", count=10)
 
 # ── 3. Row 1 Col 1 (X = 68..136, Y = 99..198): Climate, Solo, Season, Abundance, Start
 col1_z = 0.0
 col1_cards = [
-    ("ClimateCardBox", "Climate", "steelblue", climate_cards_height),
-    ("SoloCardBox", "Solo", "slategray", solo_cards_height),
-    ("SeasonCardBox", "Season", "darkorange", season_cards_height),
-    ("AbundanceOtherCardBox", "Abundance", "goldenrod", abundance_other_cards_height),
+    ("ClimateCardBox", "Climate", "steelblue", climate_cards_height, "Climate Cards", climate_cards),
+    ("SoloCardBox", "Solo", "slategray", solo_cards_height, "Solo Cards", solo_cards),
+    ("SeasonCardBox", "Season", "darkorange", season_cards_height, "Season Cards", season_cards),
+    (
+        "AbundanceOtherCardBox",
+        "Abundance",
+        "goldenrod",
+        abundance_other_cards_height,
+        "Abundance Reference & Setup Cards",
+        abundance_other_cards,
+    ),
 ]
-for label, title, color_name, h in col1_cards:
+for label, title, color_name, h, comp_name, card_count in col1_cards:
     project.box(
         BoxType.SLIDING,
         label,
         size=(card_box_width, card_box_length, h),
         position=(card_box_width, card_box_length, col1_z),
         lid=_lid(title, color_name),
-    ).compartment("Cards", cut=FingerCut.SCOOP)
+    ).compartment("Cards", cut=FingerCut.SCOOP, component=comp_name, count=card_count)
     col1_z += h
 
 card_inner_width = card_box_width - wall_thickness * 2.0  # 62.0mm
@@ -511,6 +548,11 @@ start_box.compartment(
     size=(card_inner_width, card_inner_length),
     position=(0.0, 0.0),
     elements=_start_box_elements(),
+    allocates={
+        "First Player Token": 1,
+        "Active Player Token": 1,
+        "Score Override Marker": 1,
+    },
 )
 
 # ── 4. Row 1 Col 3 (X = 204..272, Y = 99..198): 6 Stacked Player Boxes
@@ -535,6 +577,7 @@ for idx, color_name in enumerate(player_colors):
         size=(player_inner_width, player_inner_length),
         position=(0.0, 0.0),
         elements=_player_box_elements(),
+        allocates={"Readiness Tokens": 1, "Player Leaf Tokens": 5},
     )
 
 # ── 5. Row 2 (Y = 198..287): Canopy, ScorePad, Sprouts ───────────
@@ -544,7 +587,11 @@ project.box(
     size=(canopy_box_width, canopy_box_length, canopy_box_height),
     position=(0.0, card_box_length * 2.0, 0.0),
     lid=_lid("Canopy", "peru", shape=LabelShape.OVAL, logo_file="canopy.svg", logo_size=18.0),
-).compartment("CanopiesAndTrunks", cut=FingerCut.SCOOP)
+).compartment(
+    "CanopiesAndTrunks",
+    cut=FingerCut.SCOOP,
+    allocates={"Tree Trunks": 125, "Tree Canopies": 104},
+)
 
 project.box(
     BoxType.NO_LID,
@@ -552,7 +599,7 @@ project.box(
     size=(score_pad_box_width, score_pad_box_length, score_pad_box_height),
     position=(canopy_box_width, card_box_length * 2.0, 0.0),
     hollow=True,
-)
+).allocate("Score Pads", 2)
 
 project.box(
     BoxType.FILAMENT_HINGE,
@@ -560,7 +607,7 @@ project.box(
     size=(sprout_box_width, sprout_box_length, sprout_box_height),
     position=(canopy_box_width, card_box_length * 2.0, score_pad_box_height),
     lid=_lid("Sprouts", "limegreen", shape=LabelShape.OVAL, logo_file="sprout.svg", logo_size=16.0),
-).compartment("SproutCubes", cut=FingerCut.SCOOP)
+).compartment("SproutCubes", cut=FingerCut.SCOOP, component="Sprout Cubes", count=195)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

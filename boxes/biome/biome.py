@@ -103,6 +103,44 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_inventory({
+    "Player Wooden Piece Sets": 4,
+    "Mouse Resource Tokens": 20,
+    "Sun Resource Tokens": 20,
+    "Fish Resource Tokens": 20,
+    "Leaf Resource Tokens": 20,
+    "Spider Resource Tokens": 20,
+    "Berry Resource Tokens": 20,
+    "Chick Tokens": 20,
+    "Rabbit Tokens": 20,
+    "Nest Player Boards": 4,
+    "Main Plant & Animal Cards": 120,
+    "Starting Cards": 14,
+    "Achievement Cards": 13,
+    "Changing Condition Cards": 11,
+    "Legend Cards": 9,
+    "Extra Plant & Animal Cards": 40,
+    "Big Biome Cards": 70,
+    "Climate Spinner": 1,
+    "Phase & Year Cubes": 2,
+    "Metal Coin": 1,
+    "Season Crescent Token": 1,
+    "Start-Player Leaf Token": 1,
+    "Custom Die": 1,
+    "Main Game Board": 1,
+    "Player Biome Boards": 4,
+})
+
+project.board(
+    "Game Boards & Player Mats",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=5,
+    notes="Main folding game board and 4 player biome mats atop insert",
+    allocates={"Main Game Board": 1, "Player Biome Boards": 4},
+)
+
 BIOME_PATTERN = PatternBuilder(PatternType.LEAF_VEINS)
 BIOME_FONT = "Georgia:style=Bold"
 
@@ -135,36 +173,36 @@ def _biome_lid(
 
 
 # ── Column 0: Player & Resource Trays (4x3 stack at X = 0 .. 57) ──
-col0_layers: list[list[tuple[str, str, str, str | None]]] = [
+col0_layers: list[list[tuple[str, str, str, str | None, str, int]]] = [
     [
-        ("PlayerBox_Red", "Red", "darkred", None),
-        ("PlayerBox_Blue", "Blue", "navy", None),
-        ("PlayerBox_Green", "Green", "green", None),
-        ("PlayerBox_Yellow", "Yellow", "goldenrod", None),
+        ("PlayerBox_Red", "Red", "darkred", None, "Player Wooden Piece Sets", 1),
+        ("PlayerBox_Blue", "Blue", "navy", None, "Player Wooden Piece Sets", 1),
+        ("PlayerBox_Green", "Green", "green", None, "Player Wooden Piece Sets", 1),
+        ("PlayerBox_Yellow", "Yellow", "goldenrod", None, "Player Wooden Piece Sets", 1),
     ],
     [
-        ("Resource_Mouse", "Mouse", "gray", "mouse.svg"),
-        ("Resource_Sun", "Sun", "gold", "sun.svg"),
-        ("Resource_Fish", "Fish", "dodgerblue", "fish.svg"),
-        ("Resource_Leaf", "Leaf", "forestgreen", "leaf.svg"),
+        ("Resource_Mouse", "Mouse", "gray", "mouse.svg", "Mouse Resource Tokens", 20),
+        ("Resource_Sun", "Sun", "gold", "sun.svg", "Sun Resource Tokens", 20),
+        ("Resource_Fish", "Fish", "dodgerblue", "fish.svg", "Fish Resource Tokens", 20),
+        ("Resource_Leaf", "Leaf", "forestgreen", "leaf.svg", "Leaf Resource Tokens", 20),
     ],
     [
-        ("Resource_Spider", "Spider", "black", "spider.svg"),
-        ("Resource_Berry", "Berry", "purple", "berry.svg"),
-        ("Resource_Chicks", "Chicks", "khaki", "chick.svg"),
-        ("Resource_Rabbits", "Rabbits", "saddlebrown", "rabbit.svg"),
+        ("Resource_Spider", "Spider", "black", "spider.svg", "Spider Resource Tokens", 20),
+        ("Resource_Berry", "Berry", "purple", "berry.svg", "Berry Resource Tokens", 20),
+        ("Resource_Chicks", "Chicks", "khaki", "chick.svg", "Chick Tokens", 20),
+        ("Resource_Rabbits", "Rabbits", "saddlebrown", "rabbit.svg", "Rabbit Tokens", 20),
     ],
 ]
 
 for layer_idx, items in enumerate(col0_layers):
-    for row_idx, (box_id, title, color_name, logo_file) in enumerate(items):
+    for row_idx, (box_id, title, color_name, logo_file, comp_name, qty) in enumerate(items):
         project.box(
             BoxType.CAP,
             box_id,
             size=(player_box_width, player_box_length, player_box_height),
             position=(0.0, player_box_length * row_idx, player_box_height * layer_idx),
             lid=_biome_lid(title, color_name, logo_file=logo_file, logo_size=14.0),
-        ).compartment("Tokens", cut=FingerCut.SCOOP)
+        ).compartment("Tokens", cut=FingerCut.SCOOP, component=comp_name, count=qty)
 
 # ── Column 1: Nest Boards Longitudinal Tray (X = 57 .. 109) ───────
 project.box(
@@ -173,7 +211,7 @@ project.box(
     size=(nest_box_width, nest_box_length, nest_box_height),
     position=(player_box_width, 0.0, 0.0),
     lid=_biome_lid("Nests", "peru", logo_file="nest.svg", logo_size=16.0),
-).compartment("NestBoards", cut=FingerCut.SCOOP)
+).compartment("NestBoards", cut=FingerCut.SCOOP, component="Nest Player Boards", count=4)
 
 # ── Columns 2–3: Card Boxes & Spinner Holder (X = 109 .. 255) ─────
 cards_x0 = player_box_width + nest_box_width  # 109.0mm
@@ -189,7 +227,7 @@ for deck_id, title, x_pos, color_name in [
         size=(card_box_width, card_box_length, card_box_height),
         position=(x_pos, 0.0, 0.0),
         lid=_biome_lid(title, color_name),
-    ).compartment("Cards", cut=FingerCut.SCOOP)
+    ).compartment("Cards", cut=FingerCut.SCOOP, component="Main Plant & Animal Cards", count=60)
 
 project.box(
     BoxType.SLIDING,
@@ -197,7 +235,7 @@ project.box(
     size=(card_box_width, card_box_length, starting_card_box_height),
     position=(cards_x0, card_box_length, 0.0),
     lid=_biome_lid("Starting", "teal"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Starting Cards", count=14)
 
 project.box(
     BoxType.SLIDING,
@@ -205,7 +243,7 @@ project.box(
     size=(card_box_width, card_box_length, achievement_card_box_height),
     position=(cards_x0, card_box_length, starting_card_box_height),
     lid=_biome_lid("Achievement", "darkgoldenrod"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Achievement Cards", count=13)
 
 project.box(
     BoxType.SLIDING,
@@ -213,7 +251,7 @@ project.box(
     size=(card_box_width, card_box_length, changing_condition_card_box_height),
     position=(cards_x0, card_box_length, starting_card_box_height + achievement_card_box_height),
     lid=_biome_lid("Change", "sienna"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Changing Condition Cards", count=11)
 
 project.box(
     BoxType.SLIDING,
@@ -221,7 +259,7 @@ project.box(
     size=(card_box_width, card_box_length, legend_card_box_height),
     position=(cards_x1, card_box_length, 0.0),
     lid=_biome_lid("Legend", "indigo"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Legend Cards", count=9)
 
 project.box(
     BoxType.SLIDING,
@@ -229,7 +267,7 @@ project.box(
     size=(card_box_width, card_box_length, plant_animal_extra_card_box_height),
     position=(cards_x1, card_box_length, legend_card_box_height),
     lid=_biome_lid("Play Extra", "seagreen"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Extra Plant & Animal Cards", count=40)
 
 # BigCardBox is rotated 90 deg in biome.scad (98mm wide x 73mm long x 52mm tall)
 project.box(
@@ -238,7 +276,7 @@ project.box(
     size=(card_box_length, card_box_width, big_card_box_height),
     position=(cards_x0, card_box_length * 2.0, 0.0),
     lid=_biome_lid("Biome", "darkgreen"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Big Biome Cards", count=70)
 
 # SpinnerHolder sits atop the card boxes and ExtraBitsBox at Z = 41mm
 project.box(
@@ -246,7 +284,7 @@ project.box(
     "SpinnerHolder",
     size=(spinner_box_width, spinner_box_length, spinner_box_height),
     position=(cards_x0, 0.0, card_box_height),
-).compartment("Spinner", cut=FingerCut.SCOOP)
+).compartment("Spinner", cut=FingerCut.SCOOP, component="Climate Spinner", count=1)
 
 # ── Column 4: Extra Bits Box (X = 255 .. 284) ─────────────────────
 # SlipoverBox interior is reduced by outer slipover lid wall + clearance (9.4mm total)
@@ -405,6 +443,13 @@ extra_bits.compartment(
     size=(extra_bits_inner_width, extra_bits_inner_length),
     position=(0.0, 0.0),
     elements=_extra_bits_elements(),
+    allocates={
+        "Phase & Year Cubes": 2,
+        "Metal Coin": 1,
+        "Season Crescent Token": 1,
+        "Start-Player Leaf Token": 1,
+        "Custom Die": 1,
+    },
 )
 
 # ── Export ────────────────────────────────────────────────────────

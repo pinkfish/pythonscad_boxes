@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fe2b7d79" download="Nippon_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nippon_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fe2b7d79" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fcb391c0" download="Nippon_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nippon_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fcb391c0" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fe2b7d79" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fcb391c0" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 27 bodies, 27 lids, 1 spacers (55 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 226
+- **Boards & Non-Printed Components**: 6
+- **Counted Game Pieces**: 506
 
 .. list-table::
    :header-rows: 1
@@ -50,147 +50,147 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``75.75 × 92 × 15 mm``
      - ``(0, 0, 0)``
-     - 6x Ship, 6x Train, 3x Track Marker
+     - 6x Player Ships, 6x Player Trains, 3x Track Marker Cylinders
    * - :ref:`PlayerBox_yellow <box-nippon-playerbox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``75.75 × 92 × 15 mm``
      - ``(75.75, 0, 0)``
-     - 6x Ship, 6x Train, 3x Track Marker
+     - 6x Player Ships, 6x Player Trains, 3x Track Marker Cylinders
    * - :ref:`PlayerBox_green <box-nippon-playerbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``75.75 × 92 × 15 mm``
      - ``(151.5, 0, 0)``
-     - 6x Ship, 6x Train, 3x Track Marker
+     - 6x Player Ships, 6x Player Trains, 3x Track Marker Cylinders
    * - :ref:`PlayerBox_red <box-nippon-playerbox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``75.75 × 92 × 15 mm``
      - ``(227.25, 0, 0)``
-     - 6x Ship, 6x Train, 3x Track Marker
+     - 6x Player Ships, 6x Player Trains, 3x Track Marker Cylinders
    * - :ref:`PlayerBoxBits_purple <box-nippon-playerboxbits_purple>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``151.5 × 92 × 11.4 mm``
      - ``(0, 0, 15)``
-     - 6x Machine Disk, 10x Influence Favour, 4x Contract, 2x Scoring Disk
+     - 6x Machine Disks, 20x Influence & Favour Tokens, 8x Contract Tokens, 2x Scoring Disks
    * - :ref:`PlayerBoxBits_yellow <box-nippon-playerboxbits_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``151.5 × 92 × 11.4 mm``
      - ``(151.5, 0, 15)``
-     - 6x Machine Disk, 10x Influence Favour, 4x Contract, 2x Scoring Disk
+     - 6x Machine Disks, 20x Influence & Favour Tokens, 8x Contract Tokens, 2x Scoring Disks
    * - :ref:`PlayerBoxBits_green <box-nippon-playerboxbits_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``151.5 × 92 × 11.4 mm``
      - ``(0, 0, 26.4)``
-     - 6x Machine Disk, 10x Influence Favour, 4x Contract, 2x Scoring Disk
+     - 6x Machine Disks, 20x Influence & Favour Tokens, 8x Contract Tokens, 2x Scoring Disks
    * - :ref:`PlayerBoxBits_red <box-nippon-playerboxbits_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``151.5 × 92 × 11.4 mm``
      - ``(151.5, 0, 26.4)``
-     - 6x Machine Disk, 10x Influence Favour, 4x Contract, 2x Scoring Disk
+     - 6x Machine Disks, 20x Influence & Favour Tokens, 8x Contract Tokens, 2x Scoring Disks
    * - :ref:`FactoryTiles_1 <box-nippon-factorytiles_1>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``56 × 60.5 × 37.8 mm``
      - ``(0, 92, 0)``
-     - Tiles
+     - 12x Factory Tiles
    * - :ref:`FactoryTiles_2 <box-nippon-factorytiles_2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``56 × 60.5 × 37.8 mm``
      - ``(56, 92, 0)``
-     - Tiles
+     - 12x Factory Tiles
    * - :ref:`DemandTiles <box-nippon-demandtiles>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``47 × 60.5 × 37.8 mm``
      - ``(112, 92, 0)``
-     - Tiles
+     - 12x Demand Tiles
    * - :ref:`StartingTiles <box-nippon-startingtiles>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``56 × 60.5 × 37.8 mm``
      - ``(159, 92, 0)``
-     - Tiles
+     - 4x Starting Tiles, 8x Old Factory Tiles
    * - :ref:`UpgradeTiles <box-nippon-upgradetiles>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``88 × 60.5 × 6.5 mm``
      - ``(215, 92, 0)``
-     - 12x Upgrade
+     - 12x Upgrade Tiles
    * - :ref:`MoneyBox <box-nippon-moneybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``88 × 60.5 × 31.3 mm``
      - ``(215, 92, 6.5)``
-     - Money
+     - 50x Money Tokens
    * - :ref:`SoloBox <box-nippon-solobox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``93 × 60.5 × 17.5 mm``
      - ``(0, 152.5, 0)``
-     - 2x Solo Goal, 2x Solo Action
+     - 9x Solo Goal Tokens, 9x Solo Action Tokens
    * - :ref:`LateGameFactoryBox <box-nippon-lategamefactorybox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``56 × 60.5 × 20.3 mm``
      - ``(0, 152.5, 17.5)``
-     - Late Game Factories
+     - 6x Late-Game Factory Tiles
    * - :ref:`RoundMarkerBox <box-nippon-roundmarkerbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``36.5 × 60.5 × 20.3 mm``
      - ``(56, 152.5, 17.5)``
-     - 2x Round Marker
+     - 2x Round Marker Cylinders
    * - :ref:`WorkerBox_white <box-nippon-workerbox_white>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.6667 × 60.5 × 18.9 mm``
      - ``(93, 152.5, 0)``
-     - 6x Worker, 2x Worker Right, 1x Expert Worker
+     - 8x Worker Meeples, 1x Expert Worker Tokens
    * - :ref:`WorkerBox_blue <box-nippon-workerbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.6667 × 60.5 × 18.9 mm``
      - ``(162.667, 152.5, 0)``
-     - 6x Worker, 2x Worker Right, 1x Expert Worker
+     - 8x Worker Meeples, 1x Expert Worker Tokens
    * - :ref:`WorkerBox_grey <box-nippon-workerbox_grey>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.6667 × 60.5 × 18.9 mm``
      - ``(232.333, 152.5, 0)``
-     - 6x Worker, 2x Worker Right, 1x Expert Worker
+     - 8x Worker Meeples, 1x Expert Worker Tokens
    * - :ref:`WorkerBox_yellow <box-nippon-workerbox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.6667 × 60.5 × 18.9 mm``
      - ``(93, 152.5, 18.9)``
-     - 6x Worker, 2x Worker Right, 1x Expert Worker
+     - 8x Worker Meeples, 1x Expert Worker Tokens
    * - :ref:`WorkerBox_red <box-nippon-workerbox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.6667 × 60.5 × 18.9 mm``
      - ``(162.667, 152.5, 18.9)``
-     - 6x Worker, 2x Worker Right, 1x Expert Worker
+     - 8x Worker Meeples, 1x Expert Worker Tokens
    * - :ref:`WorkerBox_black <box-nippon-workerbox_black>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.6667 × 60.5 × 18.9 mm``
      - ``(232.333, 152.5, 18.9)``
-     - 6x Worker, 2x Worker Right, 1x Expert Worker
+     - 8x Worker Meeples, 1x Expert Worker Tokens
    * - :ref:`ResourceBox_silk <box-nippon-resourcebox_silk>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``112 × 37.5 × 18.9 mm``
      - ``(0, 213, 0)``
-     - 1x Cube Grid8x3
+     - 24x Silk Cubes
    * - :ref:`ResourceBox_paper <box-nippon-resourcebox_paper>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``112 × 37.5 × 18.9 mm``
      - ``(0, 213, 18.9)``
-     - 1x Cube Grid8x3
+     - 24x Paper Cubes
    * - :ref:`ResourceDoubleBox_coal <box-nippon-resourcedoublebox_coal>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``191 × 37.5 × 18.9 mm``
      - ``(112, 213, 0)``
-     - 1x Cube Grid10x3, 1x Cube Grid1x2
+     - 32x Coal Cubes
    * - :ref:`ResourceDoubleBox_copper <box-nippon-resourcedoublebox_copper>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``191 × 37.5 × 18.9 mm``
      - ``(112, 213, 18.9)``
-     - 1x Cube Grid10x3, 1x Cube Grid1x2
+     - 32x Copper Cubes
    * - :ref:`spacer_1 <spacer-nippon-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``303 × 129.5 × 37.8 mm``
      - ``(0, 250.5, 0)``
      - Printed spacer tray
-   * - Game Board / Manuals
+   * - Main Board, Player Boards & Rulebook
      - Board / Non-Printed
      - ``303 × 380 × 32.2 mm``
      - ``(0, 0, 37.8)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 6x Main Board, Player Boards & Rulebook (Main game board (9mm), 4 player boards (17.2mm), and handbook (6mm) atop insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -203,7 +203,7 @@ PlayerBox_purple
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``75.75 × 92 × 15 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 6x Ship, 6x Train, 3x Track Marker
+- **Pieces / Contents**: 6x Player Ships, 6x Player Trains, 3x Track Marker Cylinders
 - **Compartments (1)**: ``ShipsAndTrains`` (71.75 × 88 mm, 16 elements)
 
 **Assembled Box (PlayerBox_purple — Body + Lid)**
@@ -241,7 +241,7 @@ PlayerBox_yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``75.75 × 92 × 15 mm``
 - **Packed Position**: ``(75.75, 0, 0)``
-- **Pieces / Contents**: 6x Ship, 6x Train, 3x Track Marker
+- **Pieces / Contents**: 6x Player Ships, 6x Player Trains, 3x Track Marker Cylinders
 - **Compartments (1)**: ``ShipsAndTrains`` (71.75 × 88 mm, 16 elements)
 
 **Assembled Box (PlayerBox_yellow — Body + Lid)**
@@ -279,7 +279,7 @@ PlayerBox_green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``75.75 × 92 × 15 mm``
 - **Packed Position**: ``(151.5, 0, 0)``
-- **Pieces / Contents**: 6x Ship, 6x Train, 3x Track Marker
+- **Pieces / Contents**: 6x Player Ships, 6x Player Trains, 3x Track Marker Cylinders
 - **Compartments (1)**: ``ShipsAndTrains`` (71.75 × 88 mm, 16 elements)
 
 **Assembled Box (PlayerBox_green — Body + Lid)**
@@ -317,7 +317,7 @@ PlayerBox_red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``75.75 × 92 × 15 mm``
 - **Packed Position**: ``(227.25, 0, 0)``
-- **Pieces / Contents**: 6x Ship, 6x Train, 3x Track Marker
+- **Pieces / Contents**: 6x Player Ships, 6x Player Trains, 3x Track Marker Cylinders
 - **Compartments (1)**: ``ShipsAndTrains`` (71.75 × 88 mm, 16 elements)
 
 **Assembled Box (PlayerBox_red — Body + Lid)**
@@ -355,7 +355,7 @@ PlayerBoxBits_purple
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``151.5 × 92 × 11.4 mm``
 - **Packed Position**: ``(0, 0, 15)``
-- **Pieces / Contents**: 6x Machine Disk, 10x Influence Favour, 4x Contract, 2x Scoring Disk
+- **Pieces / Contents**: 6x Machine Disks, 20x Influence & Favour Tokens, 8x Contract Tokens, 2x Scoring Disks
 - **Compartments (1)**: ``PlayerBits`` (147.5 × 88 mm, 64 elements)
 
 **Assembled Box (PlayerBoxBits_purple — Body + Lid)**
@@ -393,7 +393,7 @@ PlayerBoxBits_yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``151.5 × 92 × 11.4 mm``
 - **Packed Position**: ``(151.5, 0, 15)``
-- **Pieces / Contents**: 6x Machine Disk, 10x Influence Favour, 4x Contract, 2x Scoring Disk
+- **Pieces / Contents**: 6x Machine Disks, 20x Influence & Favour Tokens, 8x Contract Tokens, 2x Scoring Disks
 - **Compartments (1)**: ``PlayerBits`` (147.5 × 88 mm, 64 elements)
 
 **Assembled Box (PlayerBoxBits_yellow — Body + Lid)**
@@ -431,7 +431,7 @@ PlayerBoxBits_green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``151.5 × 92 × 11.4 mm``
 - **Packed Position**: ``(0, 0, 26.4)``
-- **Pieces / Contents**: 6x Machine Disk, 10x Influence Favour, 4x Contract, 2x Scoring Disk
+- **Pieces / Contents**: 6x Machine Disks, 20x Influence & Favour Tokens, 8x Contract Tokens, 2x Scoring Disks
 - **Compartments (1)**: ``PlayerBits`` (147.5 × 88 mm, 64 elements)
 
 **Assembled Box (PlayerBoxBits_green — Body + Lid)**
@@ -469,7 +469,7 @@ PlayerBoxBits_red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``151.5 × 92 × 11.4 mm``
 - **Packed Position**: ``(151.5, 0, 26.4)``
-- **Pieces / Contents**: 6x Machine Disk, 10x Influence Favour, 4x Contract, 2x Scoring Disk
+- **Pieces / Contents**: 6x Machine Disks, 20x Influence & Favour Tokens, 8x Contract Tokens, 2x Scoring Disks
 - **Compartments (1)**: ``PlayerBits`` (147.5 × 88 mm, 64 elements)
 
 **Assembled Box (PlayerBoxBits_red — Body + Lid)**
@@ -507,7 +507,7 @@ FactoryTiles_1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``56 × 60.5 × 37.8 mm``
 - **Packed Position**: ``(0, 92, 0)``
-- **Pieces / Contents**: Tiles
+- **Pieces / Contents**: 12x Factory Tiles
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (FactoryTiles_1 — Body + Lid)**
@@ -545,7 +545,7 @@ FactoryTiles_2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``56 × 60.5 × 37.8 mm``
 - **Packed Position**: ``(56, 92, 0)``
-- **Pieces / Contents**: Tiles
+- **Pieces / Contents**: 12x Factory Tiles
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (FactoryTiles_2 — Body + Lid)**
@@ -583,7 +583,7 @@ DemandTiles
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``47 × 60.5 × 37.8 mm``
 - **Packed Position**: ``(112, 92, 0)``
-- **Pieces / Contents**: Tiles
+- **Pieces / Contents**: 12x Demand Tiles
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (DemandTiles — Body + Lid)**
@@ -621,7 +621,7 @@ StartingTiles
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``56 × 60.5 × 37.8 mm``
 - **Packed Position**: ``(159, 92, 0)``
-- **Pieces / Contents**: Tiles
+- **Pieces / Contents**: 4x Starting Tiles, 8x Old Factory Tiles
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (StartingTiles — Body + Lid)**
@@ -659,7 +659,7 @@ UpgradeTiles
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``88 × 60.5 × 6.5 mm``
 - **Packed Position**: ``(215, 92, 0)``
-- **Pieces / Contents**: 12x Upgrade
+- **Pieces / Contents**: 12x Upgrade Tiles
 - **Compartments (1)**: ``Upgrades`` (84 × 56.5 mm, 36 elements)
 
 **Assembled Box (UpgradeTiles — Body + Lid)**
@@ -697,7 +697,7 @@ MoneyBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``88 × 60.5 × 31.3 mm``
 - **Packed Position**: ``(215, 92, 6.5)``
-- **Pieces / Contents**: Money
+- **Pieces / Contents**: 50x Money Tokens
 - **Compartments (1)**: ``Money`` (full interior)
 
 **Assembled Box (MoneyBox — Body + Lid)**
@@ -735,7 +735,7 @@ SoloBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``93 × 60.5 × 17.5 mm``
 - **Packed Position**: ``(0, 152.5, 0)``
-- **Pieces / Contents**: 2x Solo Goal, 2x Solo Action
+- **Pieces / Contents**: 9x Solo Goal Tokens, 9x Solo Action Tokens
 - **Compartments (1)**: ``SoloTokens`` (89 × 56.5 mm, 12 elements)
 
 **Assembled Box (SoloBox — Body + Lid)**
@@ -773,7 +773,7 @@ LateGameFactoryBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``56 × 60.5 × 20.3 mm``
 - **Packed Position**: ``(0, 152.5, 17.5)``
-- **Pieces / Contents**: Late Game Factories
+- **Pieces / Contents**: 6x Late-Game Factory Tiles
 - **Compartments (1)**: ``LateGameFactories`` (full interior)
 
 **Assembled Box (LateGameFactoryBox — Body + Lid)**
@@ -811,7 +811,7 @@ RoundMarkerBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``36.5 × 60.5 × 20.3 mm``
 - **Packed Position**: ``(56, 152.5, 17.5)``
-- **Pieces / Contents**: 2x Round Marker
+- **Pieces / Contents**: 2x Round Marker Cylinders
 - **Compartments (1)**: ``RoundMarkers`` (32.5 × 56.5 mm, 3 elements)
 
 **Assembled Box (RoundMarkerBox — Body + Lid)**
@@ -849,7 +849,7 @@ WorkerBox_white
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.6667 × 60.5 × 18.9 mm``
 - **Packed Position**: ``(93, 152.5, 0)``
-- **Pieces / Contents**: 6x Worker, 2x Worker Right, 1x Expert Worker
+- **Pieces / Contents**: 8x Worker Meeples, 1x Expert Worker Tokens
 - **Compartments (1)**: ``Workers`` (65.6667 × 56.5 mm, 10 elements)
 
 **Assembled Box (WorkerBox_white — Body + Lid)**
@@ -887,7 +887,7 @@ WorkerBox_blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.6667 × 60.5 × 18.9 mm``
 - **Packed Position**: ``(162.667, 152.5, 0)``
-- **Pieces / Contents**: 6x Worker, 2x Worker Right, 1x Expert Worker
+- **Pieces / Contents**: 8x Worker Meeples, 1x Expert Worker Tokens
 - **Compartments (1)**: ``Workers`` (65.6667 × 56.5 mm, 10 elements)
 
 **Assembled Box (WorkerBox_blue — Body + Lid)**
@@ -925,7 +925,7 @@ WorkerBox_grey
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.6667 × 60.5 × 18.9 mm``
 - **Packed Position**: ``(232.333, 152.5, 0)``
-- **Pieces / Contents**: 6x Worker, 2x Worker Right, 1x Expert Worker
+- **Pieces / Contents**: 8x Worker Meeples, 1x Expert Worker Tokens
 - **Compartments (1)**: ``Workers`` (65.6667 × 56.5 mm, 10 elements)
 
 **Assembled Box (WorkerBox_grey — Body + Lid)**
@@ -963,7 +963,7 @@ WorkerBox_yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.6667 × 60.5 × 18.9 mm``
 - **Packed Position**: ``(93, 152.5, 18.9)``
-- **Pieces / Contents**: 6x Worker, 2x Worker Right, 1x Expert Worker
+- **Pieces / Contents**: 8x Worker Meeples, 1x Expert Worker Tokens
 - **Compartments (1)**: ``Workers`` (65.6667 × 56.5 mm, 10 elements)
 
 **Assembled Box (WorkerBox_yellow — Body + Lid)**
@@ -1001,7 +1001,7 @@ WorkerBox_red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.6667 × 60.5 × 18.9 mm``
 - **Packed Position**: ``(162.667, 152.5, 18.9)``
-- **Pieces / Contents**: 6x Worker, 2x Worker Right, 1x Expert Worker
+- **Pieces / Contents**: 8x Worker Meeples, 1x Expert Worker Tokens
 - **Compartments (1)**: ``Workers`` (65.6667 × 56.5 mm, 10 elements)
 
 **Assembled Box (WorkerBox_red — Body + Lid)**
@@ -1039,7 +1039,7 @@ WorkerBox_black
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.6667 × 60.5 × 18.9 mm``
 - **Packed Position**: ``(232.333, 152.5, 18.9)``
-- **Pieces / Contents**: 6x Worker, 2x Worker Right, 1x Expert Worker
+- **Pieces / Contents**: 8x Worker Meeples, 1x Expert Worker Tokens
 - **Compartments (1)**: ``Workers`` (65.6667 × 56.5 mm, 10 elements)
 
 **Assembled Box (WorkerBox_black — Body + Lid)**
@@ -1077,7 +1077,7 @@ ResourceBox_silk
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``112 × 37.5 × 18.9 mm``
 - **Packed Position**: ``(0, 213, 0)``
-- **Pieces / Contents**: 1x Cube Grid8x3
+- **Pieces / Contents**: 24x Silk Cubes
 - **Compartments (1)**: ``Cubes`` (108 × 33.5 mm, 2 elements)
 
 **Assembled Box (ResourceBox_silk — Body + Lid)**
@@ -1115,7 +1115,7 @@ ResourceBox_paper
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``112 × 37.5 × 18.9 mm``
 - **Packed Position**: ``(0, 213, 18.9)``
-- **Pieces / Contents**: 1x Cube Grid8x3
+- **Pieces / Contents**: 24x Paper Cubes
 - **Compartments (1)**: ``Cubes`` (108 × 33.5 mm, 2 elements)
 
 **Assembled Box (ResourceBox_paper — Body + Lid)**
@@ -1153,7 +1153,7 @@ ResourceDoubleBox_coal
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``191 × 37.5 × 18.9 mm``
 - **Packed Position**: ``(112, 213, 0)``
-- **Pieces / Contents**: 1x Cube Grid10x3, 1x Cube Grid1x2
+- **Pieces / Contents**: 32x Coal Cubes
 - **Compartments (1)**: ``Cubes`` (187 × 33.5 mm, 3 elements)
 
 **Assembled Box (ResourceDoubleBox_coal — Body + Lid)**
@@ -1191,7 +1191,7 @@ ResourceDoubleBox_copper
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``191 × 37.5 × 18.9 mm``
 - **Packed Position**: ``(112, 213, 18.9)``
-- **Pieces / Contents**: 1x Cube Grid10x3, 1x Cube Grid1x2
+- **Pieces / Contents**: 32x Copper Cubes
 - **Compartments (1)**: ``Cubes`` (187 × 33.5 mm, 3 elements)
 
 **Assembled Box (ResourceDoubleBox_copper — Body + Lid)**

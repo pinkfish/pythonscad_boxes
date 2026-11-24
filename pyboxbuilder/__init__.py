@@ -73,7 +73,9 @@ from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.project import (
     BoxPieceSummary,
     GameBoard,
+    GameComponent,
     GeometryPipeline,
+    InventoryVerification,
     LayoutCompiler,
     PieceEntry,
     Project,
@@ -81,6 +83,7 @@ from pyboxbuilder.project import (
     ProjectManifest,
     summarize_box_pieces,
     summarize_project,
+    verify_inventory,
 )
 from pyboxbuilder.run import run
 from pyboxbuilder.sleeves import (
@@ -126,6 +129,7 @@ __all__ = [
     "FilamentHingeBoxBuilder",
     "FingerCut",
     "GameBoard",
+    "GameComponent",
     "GeometryPipeline",
     "GeometryValidationError",
     "GeometryValidator",
@@ -133,6 +137,7 @@ __all__ = [
     "InsetBoxBuilder",
     "InsetHingeBoxBuilder",
     "InterlockType",
+    "InventoryVerification",
     "LabelFinial",
     "LabelMode",
     "LabelShape",
@@ -185,4 +190,5 @@ __all__ = [
     "stacking_order_pyramid_config",
     "summarize_box_pieces",
     "summarize_project",
+    "verify_inventory",
 ]

@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=afd78619" download="Emberleaf_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Emberleaf_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=afd78619" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=2cdce2d8" download="Emberleaf_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Emberleaf_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=2cdce2d8" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=afd78619" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=2cdce2d8" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 18 bodies, 18 lids, 3 spacers (39 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 147
+- **Boards & Non-Printed Components**: 9
+- **Counted Game Pieces**: 581
 
 .. list-table::
    :header-rows: 1
@@ -50,92 +50,92 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 0, 0)``
-     - 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, +4 more
+     - 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
    * - :ref:`PlayerBoxRed <box-emberleaf-playerboxred>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 142.5, 0)``
-     - 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, +4 more
+     - 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
    * - :ref:`PlayerBoxYellow <box-emberleaf-playerboxyellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 0, 13.125)``
-     - 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, +4 more
+     - 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
    * - :ref:`PlayerBoxBlue <box-emberleaf-playerboxblue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 142.5, 13.125)``
-     - 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, +4 more
+     - 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
    * - :ref:`PlayerBoxGrey <box-emberleaf-playerboxgrey>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 142.5 × 13.125 mm``
      - ``(0, 0, 26.25)``
-     - 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, +4 more
+     - 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
    * - :ref:`MaterialBoxFood <box-emberleaf-materialboxfood>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 71.25 × 13.125 mm``
      - ``(0, 142.5, 26.25)``
-     - Tokens
+     - 35x Food Tokens
    * - :ref:`MaterialBoxStone <box-emberleaf-materialboxstone>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 71.25 × 13.125 mm``
      - ``(0, 213.75, 26.25)``
-     - Tokens
+     - 30x Stone Tokens
    * - :ref:`MaterialBoxHoney <box-emberleaf-materialboxhoney>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 71.25 × 13.125 mm``
      - ``(0, 0, 39.375)``
-     - Tokens
+     - 20x Honey Tokens
    * - :ref:`MaterialBoxWood <box-emberleaf-materialboxwood>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 71.25 × 13.125 mm``
      - ``(0, 71.25, 39.375)``
-     - Tokens
+     - 35x Wood Tokens
    * - :ref:`CardBoxFavor <box-emberleaf-cardboxfavor>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``98 × 73 × 52.5 mm``
      - ``(98, 0, 0)``
-     - Cards
+     - 88x Favour Cards
    * - :ref:`CardBoxHero <box-emberleaf-cardboxhero>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``98 × 73 × 52.5 mm``
      - ``(98, 73, 0)``
-     - Cards
+     - 47x Hero Cards
    * - :ref:`CardBoxSolo <box-emberleaf-cardboxsolo>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``98 × 73 × 52.5 mm``
      - ``(98, 146, 0)``
-     - Cards
+     - 64x Solo Cards
    * - :ref:`CardBoxPlayerBlack <box-emberleaf-cardboxplayerblack>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``90 × 98 × 10.5 mm``
      - ``(196, 0, 0)``
-     - Cards
+     - 6x Fellowship Deck Cards, 1x Player Reference Cards
    * - :ref:`CardBoxPlayerBlue <box-emberleaf-cardboxplayerblue>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``90 × 98 × 10.5 mm``
      - ``(196, 0, 10.5)``
-     - Cards
+     - 6x Fellowship Deck Cards, 1x Player Reference Cards
    * - :ref:`CardBoxPlayerYellow <box-emberleaf-cardboxplayeryellow>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``90 × 98 × 10.5 mm``
      - ``(196, 0, 21)``
-     - Cards
+     - 6x Fellowship Deck Cards, 1x Player Reference Cards
    * - :ref:`CardBoxPlayerGrey <box-emberleaf-cardboxplayergrey>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``90 × 98 × 10.5 mm``
      - ``(196, 0, 31.5)``
-     - Cards
+     - 6x Fellowship Deck Cards, 1x Player Reference Cards
    * - :ref:`CardBoxPlayerRed <box-emberleaf-cardboxplayerred>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``90 × 98 × 10.5 mm``
      - ``(196, 0, 42)``
-     - Cards
+     - 6x Fellowship Deck Cards, 1x Player Reference Cards
    * - :ref:`CommonBox <box-emberleaf-commonbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``90 × 188 × 25 mm``
      - ``(196, 98, 0)``
-     - 5x Common Hex, 1x Trophy Marker, 1x Trophy Tiles
+     - 50x General Building Tiles, 6x Trophy Tokens, 1x Tracker Disc
    * - :ref:`spacer_1 <spacer-emberleaf-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``91 × 189 × 27.5 mm``
@@ -151,11 +151,11 @@ Parts Overview
      - ``98 × 144.5 × 13.125 mm``
      - ``(0, 142.5, 39.375)``
      - Printed spacer tray
-   * - Game Board / Manuals
+   * - Game Boards & Rulebook
      - Board / Non-Printed
      - ``287 × 287 × 26.5 mm``
      - ``(0, 0, 52.5)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 9x Game Boards & Rulebook (Main game board, building board, trophy board, 5 fellowship player boards, and rulebook on top)
 
 Individual Boxes & Parts
 ------------------------
@@ -168,7 +168,7 @@ PlayerBoxBlack
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, 1x Hex Stack Left, 1x Victory Token, 1x Victory Token Small, 1x Hex Stack Right
+- **Pieces / Contents**: 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
 - **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxBlack — Body + Lid)**
@@ -206,7 +206,7 @@ PlayerBoxRed
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 142.5, 0)``
-- **Pieces / Contents**: 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, 1x Hex Stack Left, 1x Victory Token, 1x Victory Token Small, 1x Hex Stack Right
+- **Pieces / Contents**: 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
 - **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxRed — Body + Lid)**
@@ -244,7 +244,7 @@ PlayerBoxYellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 0, 13.125)``
-- **Pieces / Contents**: 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, 1x Hex Stack Left, 1x Victory Token, 1x Victory Token Small, 1x Hex Stack Right
+- **Pieces / Contents**: 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
 - **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxYellow — Body + Lid)**
@@ -282,7 +282,7 @@ PlayerBoxBlue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 142.5, 13.125)``
-- **Pieces / Contents**: 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, 1x Hex Stack Left, 1x Victory Token, 1x Victory Token Small, 1x Hex Stack Right
+- **Pieces / Contents**: 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
 - **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxBlue — Body + Lid)**
@@ -320,7 +320,7 @@ PlayerBoxGrey
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 142.5 × 13.125 mm``
 - **Packed Position**: ``(0, 0, 26.25)``
-- **Pieces / Contents**: 5x Owl, 5x Rabbit, 5x Frog, 5x Rat, 1x Player Hero, 3x Marker, 1x Hex Stack Left, 1x Victory Token, 1x Victory Token Small, 1x Hex Stack Right
+- **Pieces / Contents**: 20x Villager Figures, 1x Hero Figures, 5x Favour Discs, 6x Fellowship Building Tiles, 1x Score Tokens, 1x 100+ Score Tokens
 - **Compartments (1)**: ``PlayerBits`` (92 × 136.5 mm, 37 elements)
 
 **Assembled Box (PlayerBoxGrey — Body + Lid)**
@@ -358,7 +358,7 @@ MaterialBoxFood
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 71.25 × 13.125 mm``
 - **Packed Position**: ``(0, 142.5, 26.25)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 35x Food Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (MaterialBoxFood — Body + Lid)**
@@ -396,7 +396,7 @@ MaterialBoxStone
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 71.25 × 13.125 mm``
 - **Packed Position**: ``(0, 213.75, 26.25)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 30x Stone Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (MaterialBoxStone — Body + Lid)**
@@ -434,7 +434,7 @@ MaterialBoxHoney
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 71.25 × 13.125 mm``
 - **Packed Position**: ``(0, 0, 39.375)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 20x Honey Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (MaterialBoxHoney — Body + Lid)**
@@ -472,7 +472,7 @@ MaterialBoxWood
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 71.25 × 13.125 mm``
 - **Packed Position**: ``(0, 71.25, 39.375)``
-- **Pieces / Contents**: Tokens
+- **Pieces / Contents**: 35x Wood Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (MaterialBoxWood — Body + Lid)**
@@ -510,7 +510,7 @@ CardBoxFavor
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``98 × 73 × 52.5 mm``
 - **Packed Position**: ``(98, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 88x Favour Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxFavor — Body + Lid)**
@@ -548,7 +548,7 @@ CardBoxHero
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``98 × 73 × 52.5 mm``
 - **Packed Position**: ``(98, 73, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 47x Hero Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxHero — Body + Lid)**
@@ -586,7 +586,7 @@ CardBoxSolo
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``98 × 73 × 52.5 mm``
 - **Packed Position**: ``(98, 146, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 64x Solo Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxSolo — Body + Lid)**
@@ -624,7 +624,7 @@ CardBoxPlayerBlack
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``90 × 98 × 10.5 mm``
 - **Packed Position**: ``(196, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 6x Fellowship Deck Cards, 1x Player Reference Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxPlayerBlack — Body + Lid)**
@@ -662,7 +662,7 @@ CardBoxPlayerBlue
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``90 × 98 × 10.5 mm``
 - **Packed Position**: ``(196, 0, 10.5)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 6x Fellowship Deck Cards, 1x Player Reference Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxPlayerBlue — Body + Lid)**
@@ -700,7 +700,7 @@ CardBoxPlayerYellow
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``90 × 98 × 10.5 mm``
 - **Packed Position**: ``(196, 0, 21)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 6x Fellowship Deck Cards, 1x Player Reference Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxPlayerYellow — Body + Lid)**
@@ -738,7 +738,7 @@ CardBoxPlayerGrey
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``90 × 98 × 10.5 mm``
 - **Packed Position**: ``(196, 0, 31.5)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 6x Fellowship Deck Cards, 1x Player Reference Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxPlayerGrey — Body + Lid)**
@@ -776,7 +776,7 @@ CardBoxPlayerRed
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``90 × 98 × 10.5 mm``
 - **Packed Position**: ``(196, 0, 42)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 6x Fellowship Deck Cards, 1x Player Reference Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxPlayerRed — Body + Lid)**
@@ -814,7 +814,7 @@ CommonBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``90 × 188 × 25 mm``
 - **Packed Position**: ``(196, 98, 0)``
-- **Pieces / Contents**: 5x Common Hex, 1x Trophy Marker, 1x Trophy Tiles
+- **Pieces / Contents**: 50x General Building Tiles, 6x Trophy Tokens, 1x Tracker Disc
 - **Compartments (1)**: ``CommonHexesAndTrophies`` (84 × 182 mm, 16 elements)
 
 **Assembled Box (CommonBox — Body + Lid)**

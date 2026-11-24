@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=7c7fbb82" download="18Cuba_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>18Cuba_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=7c7fbb82" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=18450e7d" download="18Cuba_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>18Cuba_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=18450e7d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=7c7fbb82" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=18450e7d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 8 bodies, 7 lids, 0 spacers (15 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 102
+- **Boards & Non-Printed Components**: 2
+- **Counted Game Pieces**: 260
 
 .. list-table::
    :header-rows: 1
@@ -50,47 +50,47 @@ Parts Overview
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``225 × 96 × 11 mm``
      - ``(0, 0, 0)``
-     - Denom
+     - 4x Paper Currency Denomination Stacks
    * - :ref:`MoneyBox_2 <box-18_cuba-moneybox_2>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``225 × 96 × 11 mm``
      - ``(0, 0, 11)``
-     - Denom
+     - 4x Paper Currency Denomination Stacks
    * - :ref:`TrainBox <box-18_cuba-trainbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``224 × 66 × 11 mm``
      - ``(0, 181, 0)``
-     - 5x Train Pocket
+     - 36x Train Cards, 18x Wagon Cards
    * - :ref:`SharesBox_1 <box-18_cuba-sharesbox_1>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``224 × 66 × 11 mm``
      - ``(0, 181, 11)``
-     - Share Slot
+     - 45x Corporate Share Cards
    * - :ref:`SharesBox_2 <box-18_cuba-sharesbox_2>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``224 × 66 × 11 mm``
      - ``(0, 247, 0)``
-     - Share Slot
+     - 37x Corporate Share Cards, 12x Help & Commissioner Cards
    * - :ref:`LastBox <box-18_cuba-lastbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``224 × 66 × 11 mm``
      - ``(0, 247, 11)``
-     - 1x Concession Cards, 30x Minor Token, 1x Rail Well
+     - 6x Concession Cards, 30x Minor Company Tokens, 3x Rail Pieces
    * - :ref:`LargeTokensBox <box-18_cuba-largetokensbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``225 × 85 × 11 mm``
      - ``(0, 96, 0)``
-     - 48x Major Token
+     - 48x Major Company Tokens
    * - :ref:`InsideTokenTray <box-18_cuba-insidetokentray>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``225 × 85 × 11 mm``
      - ``(0, 96, 11)``
-     - 16x Inside Token, 1x Inside Far Token
-   * - Game Board / Manuals
+     - 17x Ferrocarril Central & Yellow Tokens
+   * - Game Boards & Hex Track Trays
      - Board / Non-Printed
      - ``225 × 314 × 46 mm``
      - ``(0, 0, 22)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 2x Game Boards & Hex Track Trays (Folded game boards (26mm) and hex track tile trays (20mm))
 
 Individual Boxes & Parts
 ------------------------
@@ -103,7 +103,7 @@ MoneyBox_1
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``225 × 96 × 11 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Denom
+- **Pieces / Contents**: 4x Paper Currency Denomination Stacks
 - **Compartments (4)**: ``Denom_1`` (W=25%), ``Denom_2`` (W=25%), ``Denom_3`` (W=25%), ``Denom_4`` (W=25%)
 
 **Assembled Box (MoneyBox_1 — Body + Lid)**
@@ -141,7 +141,7 @@ MoneyBox_2
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``225 × 96 × 11 mm``
 - **Packed Position**: ``(0, 0, 11)``
-- **Pieces / Contents**: Denom
+- **Pieces / Contents**: 4x Paper Currency Denomination Stacks
 - **Compartments (4)**: ``Denom_1`` (W=25%), ``Denom_2`` (W=25%), ``Denom_3`` (W=25%), ``Denom_4`` (W=25%)
 
 **Assembled Box (MoneyBox_2 — Body + Lid)**
@@ -179,7 +179,7 @@ TrainBox
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``224 × 66 × 11 mm``
 - **Packed Position**: ``(0, 181, 0)``
-- **Pieces / Contents**: 5x Train Pocket
+- **Pieces / Contents**: 36x Train Cards, 18x Wagon Cards
 - **Compartments (1)**: ``TrainSlots`` (15 elements)
 
 **Assembled Box (TrainBox — Body + Lid)**
@@ -217,7 +217,7 @@ SharesBox_1
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``224 × 66 × 11 mm``
 - **Packed Position**: ``(0, 181, 11)``
-- **Pieces / Contents**: Share Slot
+- **Pieces / Contents**: 45x Corporate Share Cards
 - **Compartments (5)**: ``ShareSlot_1`` (W=20%), ``ShareSlot_2`` (W=20%), ``ShareSlot_3`` (W=20%), ``ShareSlot_4`` (W=20%), ``ShareSlot_5`` (W=20%)
 
 **Assembled Box (SharesBox_1 — Body + Lid)**
@@ -255,7 +255,7 @@ SharesBox_2
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``224 × 66 × 11 mm``
 - **Packed Position**: ``(0, 247, 0)``
-- **Pieces / Contents**: Share Slot
+- **Pieces / Contents**: 37x Corporate Share Cards, 12x Help & Commissioner Cards
 - **Compartments (5)**: ``ShareSlot_1`` (W=20%), ``ShareSlot_2`` (W=20%), ``ShareSlot_3`` (W=20%), ``ShareSlot_4`` (W=20%), ``ShareSlot_5`` (W=20%)
 
 **Assembled Box (SharesBox_2 — Body + Lid)**
@@ -293,7 +293,7 @@ LastBox
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``224 × 66 × 11 mm``
 - **Packed Position**: ``(0, 247, 11)``
-- **Pieces / Contents**: 1x Concession Cards, 30x Minor Token, 1x Rail Well
+- **Pieces / Contents**: 6x Concession Cards, 30x Minor Company Tokens, 3x Rail Pieces
 - **Compartments (1)**: ``MinorAndRails`` (64 elements)
 
 **Assembled Box (LastBox — Body + Lid)**
@@ -331,7 +331,7 @@ LargeTokensBox
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``225 × 85 × 11 mm``
 - **Packed Position**: ``(0, 96, 0)``
-- **Pieces / Contents**: 48x Major Token
+- **Pieces / Contents**: 48x Major Company Tokens
 - **Compartments (1)**: ``MajorTokens`` (96 elements)
 
 **Assembled Box (LargeTokensBox — Body + Lid)**
@@ -369,7 +369,7 @@ InsideTokenTray
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``225 × 85 × 11 mm``
 - **Packed Position**: ``(0, 96, 11)``
-- **Pieces / Contents**: 16x Inside Token, 1x Inside Far Token
+- **Pieces / Contents**: 17x Ferrocarril Central & Yellow Tokens
 - **Compartments (1)**: ``InsideTokens`` (34 elements)
 
 **Part: InsideTokenTray Body**

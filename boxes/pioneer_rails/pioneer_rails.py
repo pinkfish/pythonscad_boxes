@@ -84,6 +84,31 @@ project = Project(
     generate_spacers=True,
 )
 
+# ── Game Piece Inventory ──────────────────────────────────────────
+project.define_inventory({
+    "Pencils": 4,
+    "Eraser": 1,
+    "Dealer Token": 1,
+    "Goal Cards": 18,
+    "Playing Cards": 54,
+    "Forest Cards": 12,
+    "Company Owner Cards": 6,
+    "Map Score Pad": 1,
+    "Rulebook": 1,
+})
+
+project.board(
+    "Score Pad & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=2,
+    notes="Player map score sheet pad and rulebook sit atop insert",
+    allocates={
+        "Map Score Pad": 1,
+        "Rulebook": 1,
+    },
+)
+
 PIONEER_PATTERN = PatternBuilder(PatternType.CHEVRON)
 PIONEER_FONT = "Georgia:style=Bold"
 
@@ -180,18 +205,23 @@ p_box.compartment(
     "PencilsAndErasers",
     size=(pencil_inner_width, pencil_inner_length),
     position=(0.0, 0.0),
+    allocates={
+        "Pencils": 4,
+        "Eraser": 1,
+        "Dealer Token": 1,
+    },
     elements=_pencil_box_elements(),
 )
 
 # ── 2. Card Decks (4 boxes side-by-side) ──────────────────────────
 decks = [
-    ("GoalCards", "Goal", "darkorange"),
-    ("PlayingCards", "Playing", "navy"),
-    ("ForestCards", "Forest", "forestgreen"),
-    ("CompanyCards", "Company", "gold"),
+    ("GoalCards", "Goal", "darkorange", "Goal Cards", 18),
+    ("PlayingCards", "Playing", "navy", "Playing Cards", 54),
+    ("ForestCards", "Forest", "forestgreen", "Forest Cards", 12),
+    ("CompanyCards", "Company", "gold", "Company Owner Cards", 6),
 ]
 
-for deck_id, title, color_name in decks:
+for deck_id, title, color_name, comp_name, card_qty in decks:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
@@ -211,6 +241,8 @@ for deck_id, title, color_name in decks:
     c_box.compartment(
         "Cards",
         cut=FingerCut.SCOOP,
+        component=comp_name,
+        count=card_qty,
     )
 
 # ── Export ────────────────────────────────────────────────────────

@@ -81,6 +81,8 @@ class CompartmentElement:
     """Optional explicit count of game pieces stored in this element well.
     ``None`` counts as ``1`` for piece wells (and ``0`` for helper finger-bite /
     grab-shelf cutouts)."""
+    component: str | None = None
+    """Optional declared inventory component name allocated by this element well."""
 
     def __post_init__(self) -> None:
         """Validate the element's shape and size."""

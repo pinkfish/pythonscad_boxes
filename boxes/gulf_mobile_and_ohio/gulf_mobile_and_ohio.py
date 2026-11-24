@@ -80,6 +80,36 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory(
+    {
+        "$1 Banknotes": 30,
+        "$5 Banknotes": 30,
+        "$20 Banknotes": 30,
+        "Charter Share Cards": 23,
+        "Common Share Cards": 23,
+        "Player Aid Cards": 5,
+        "Red Railroad Cubes": 20,
+        "Yellow Railroad Cubes": 26,
+        "Green Railroad Cubes": 32,
+        "Blue Railroad Cubes": 16,
+        "Black Railroad Cubes": 12,
+        "Purple Railroad Cubes": 6,
+        "Victory Point Markers": 5,
+        "Common Share Sale Marker": 1,
+        "Game Board": 1,
+        "Rulebook": 1,
+    }
+)
+
+project.board(
+    "Game Board & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=2,
+    notes="Folded map board and rulebook on top",
+    allocates={"Game Board": 1, "Rulebook": 1},
+)
+
 GMO_PATTERN = PatternBuilder(PatternType.CHEVRON)
 GMO_FONT = "Futura:style=Bold"
 
@@ -103,15 +133,21 @@ money_box = project.box(
         label_logo_size_mm=16.0,
     ),
 )
-for slot in range(3):
+for slot, denom_name in enumerate(("$1 Banknotes", "$5 Banknotes", "$20 Banknotes")):
     money_box.compartment(
         f"Denom_{slot + 1}",
         width_ratio=1.0 / 3.0,
         cut=FingerCut.SCOOP,
+        component=denom_name,
+        count=30,
     )
 
 # ── 2. Company Railroad Card Boxes ────────────────────────────────
-for i in range(2):
+company_card_allocs: list[dict[str, int]] = [
+    {"Charter Share Cards": 23, "Player Aid Cards": 5},
+    {"Common Share Cards": 23},
+]
+for i, card_alloc in enumerate(company_card_allocs):
     c_box = project.box(
         BoxType.SLIDING,
         f"CompanyCardsBox_{i + 1}",
@@ -130,6 +166,7 @@ for i in range(2):
     c_box.compartment(
         "Cards",
         cut=FingerCut.SCOOP,
+        allocates=card_alloc,
     )
 
 # ── 3. Resource Cube Boxes ────────────────────────────────────────
@@ -221,6 +258,8 @@ for color_name, num_x, num_y, remainder in cube_specs:
         size=(cube_inner_width, cube_inner_length),
         position=(0.0, 0.0),
         elements=_cube_box_elements(num_x, num_y, remainder),
+        component=f"{color_name.title()} Railroad Cubes",
+        count=num_x * num_y + remainder,
     )
 
 # ── 4. Player Tokens Box ──────────────────────────────────────────
@@ -304,6 +343,7 @@ tok_box.compartment(
     size=(cube_inner_width, cube_inner_length),
     position=(0.0, 0.0),
     elements=_player_token_elements(),
+    allocates={"Victory Point Markers": 5, "Common Share Sale Marker": 1},
 )
 
 # ── Export ────────────────────────────────────────────────────────

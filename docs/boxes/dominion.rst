@@ -24,16 +24,17 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=fc86c0c9" download="DominionBigBox_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>DominionBigBox_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=fc86c0c9" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=efd45a70" download="DominionBigBox_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>DominionBigBox_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=efd45a70" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=fc86c0c9" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=efd45a70" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 5 bodies, 5 lids, 3 spacers (13 total)
+- **Counted Game Pieces**: 772
 
 .. list-table::
    :header-rows: 1
@@ -48,27 +49,27 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``101 × 230 × 75 mm``
      - ``(0, 0, 0)``
-     - Kingdom Decks
+     - 260x Base Kingdom Cards
    * - :ref:`TreasureAndVictoryCards <box-dominion-treasureandvictorycards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``101 × 200 × 75 mm``
      - ``(101, 0, 0)``
-     - Treasures And Victory
+     - 250x Treasure & Victory Supply Cards
    * - :ref:`AlchemyExpansionCards <box-dominion-alchemyexpansioncards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``101 × 80 × 75 mm``
      - ``(101, 200, 0)``
-     - Alchemy Cards
+     - 120x Alchemy & Expansion Kingdom Cards
    * - :ref:`TokenTray1_CoinAndDebtTokens <box-dominion-tokentray1_coinanddebttokens>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``101 × 140 × 37.5 mm``
      - ``(202, 0, 0)``
-     - Tokens Left, Tokens Right
+     - 50x Metal Coin Tokens, 50x Debt Tokens
    * - :ref:`TokenTray2_MatsAndSpecialTokens <box-dominion-tokentray2_matsandspecialtokens>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``101 × 140 × 37.5 mm``
      - ``(202, 0, 37.5)``
-     - Tokens Left, Tokens Right
+     - 12x Player Mats, 30x Special Tokens
    * - :ref:`spacer_1 <spacer-dominion-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``268 × 290 × 90 mm``
@@ -96,7 +97,7 @@ BaseKingdomCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``101 × 230 × 75 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Kingdom Decks
+- **Pieces / Contents**: 260x Base Kingdom Cards
 - **Compartments (1)**: ``KingdomDecks`` (full interior)
 
 **Assembled Box (BaseKingdomCards — Body + Lid)**
@@ -134,7 +135,7 @@ TreasureAndVictoryCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``101 × 200 × 75 mm``
 - **Packed Position**: ``(101, 0, 0)``
-- **Pieces / Contents**: Treasures And Victory
+- **Pieces / Contents**: 250x Treasure & Victory Supply Cards
 - **Compartments (1)**: ``TreasuresAndVictory`` (full interior)
 
 **Assembled Box (TreasureAndVictoryCards — Body + Lid)**
@@ -172,7 +173,7 @@ AlchemyExpansionCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``101 × 80 × 75 mm``
 - **Packed Position**: ``(101, 200, 0)``
-- **Pieces / Contents**: Alchemy Cards
+- **Pieces / Contents**: 120x Alchemy & Expansion Kingdom Cards
 - **Compartments (1)**: ``AlchemyCards`` (full interior)
 
 **Assembled Box (AlchemyExpansionCards — Body + Lid)**
@@ -210,7 +211,7 @@ TokenTray1_CoinAndDebtTokens
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``101 × 140 × 37.5 mm``
 - **Packed Position**: ``(202, 0, 0)``
-- **Pieces / Contents**: Tokens Left, Tokens Right
+- **Pieces / Contents**: 50x Metal Coin Tokens, 50x Debt Tokens
 - **Compartments (2)**: ``Tokens_Left`` (W=50%), ``Tokens_Right`` (W=50%)
 
 **Assembled Box (TokenTray1_CoinAndDebtTokens — Body + Lid)**
@@ -248,7 +249,7 @@ TokenTray2_MatsAndSpecialTokens
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``101 × 140 × 37.5 mm``
 - **Packed Position**: ``(202, 0, 37.5)``
-- **Pieces / Contents**: Tokens Left, Tokens Right
+- **Pieces / Contents**: 12x Player Mats, 30x Special Tokens
 - **Compartments (2)**: ``Tokens_Left`` (W=50%), ``Tokens_Right`` (W=50%)
 
 **Assembled Box (TokenTray2_MatsAndSpecialTokens — Body + Lid)**

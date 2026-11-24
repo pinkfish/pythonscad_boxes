@@ -70,6 +70,28 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory(
+    {
+        "Main Map Board": 1,
+        "Rulebook": 1,
+        "Player Envoys": 120,
+        "Success Track Cubes": 20,
+        "Player Score Markers": 4,
+        "Royal Seals": 12,
+        "Royal Heralds": 4,
+        "Farmer Tiles": 24,
+    }
+)
+
+project.board(
+    "Main Board & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=1,
+    notes="Folded map board and rulebook sit atop the insert",
+    allocates={"Main Map Board": 1, "Rulebook": 1},
+)
+
 CASCADERO_PATTERN = PatternBuilder(PatternType.TUMBLING_BLOCKS)
 CASCADERO_FONT = "Georgia:style=Bold"
 
@@ -142,6 +164,11 @@ for idx, color_name in enumerate(player_colors):
         size=(player_inner_width, player_inner_length),
         position=(0.0, 0.0),
         elements=_player_box_elements(),
+        allocates={
+            "Player Envoys": 30,
+            "Success Track Cubes": 5,
+            "Player Score Markers": 1,
+        },
     )
 
 # ── 2. Herald, Farmer & Seal Boxes ────────────────────────────────
@@ -166,6 +193,8 @@ project.box(
 ).compartment(
     "Seals",
     cut=FingerCut.SCOOP,
+    component="Royal Seals",
+    count=12,
 )
 
 project.box(
@@ -189,6 +218,8 @@ project.box(
 ).compartment(
     "Heralds",
     cut=FingerCut.SCOOP,
+    component="Royal Heralds",
+    count=4,
 )
 
 project.box(
@@ -212,6 +243,8 @@ project.box(
 ).compartment(
     "Farmers",
     cut=FingerCut.SCOOP,
+    component="Farmer Tiles",
+    count=24,
 )
 
 # ── Export ────────────────────────────────────────────────────────

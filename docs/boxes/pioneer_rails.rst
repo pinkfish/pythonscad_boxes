@@ -24,18 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/pioneer_rails/PioneerRails_packing_guide.pdf?v=1c24990d" download="PioneerRails_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>PioneerRails_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/pioneer_rails/PioneerRails_packing_guide.pdf?v=1c24990d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/pioneer_rails/PioneerRails_packing_guide.pdf?v=92596807" download="PioneerRails_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>PioneerRails_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/pioneer_rails/PioneerRails_packing_guide.pdf?v=92596807" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/pioneer_rails/PioneerRails_packing_guide.pdf?v=1c24990d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/pioneer_rails/PioneerRails_packing_guide.pdf?v=92596807" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 5 bodies, 5 lids, 1 spacers (11 total)
-- **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 2
+- **Boards & Non-Printed Components**: 2
+- **Counted Game Pieces**: 96
 
 .. list-table::
    :header-rows: 1
@@ -50,37 +50,37 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``60 × 120 × 22 mm``
      - ``(0, 0, 0)``
-     - 1x Dealer Token, 1x Eraser Well
+     - 4x Pencils, 1x Eraser, 1x Dealer Token
    * - :ref:`CardBox_GoalCards <box-pioneer_rails-cardbox_goalcards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``22 × 96 × 22 mm``
      - ``(60, 0, 0)``
-     - Cards
+     - 18x Goal Cards
    * - :ref:`CardBox_PlayingCards <box-pioneer_rails-cardbox_playingcards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``22 × 96 × 22 mm``
      - ``(60, 96, 0)``
-     - Cards
+     - 54x Playing Cards
    * - :ref:`CardBox_ForestCards <box-pioneer_rails-cardbox_forestcards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``22 × 96 × 22 mm``
      - ``(82, 0, 0)``
-     - Cards
+     - 12x Forest Cards
    * - :ref:`CardBox_CompanyCards <box-pioneer_rails-cardbox_companycards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``22 × 96 × 22 mm``
      - ``(82, 96, 0)``
-     - Cards
+     - 6x Company Owner Cards
    * - :ref:`spacer_1 <spacer-pioneer_rails-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``209 × 209 × 22 mm``
      - ``(0, 0, 0)``
      - Printed spacer tray
-   * - Game Board / Manuals
+   * - Score Pad & Rulebook
      - Board / Non-Printed
      - ``209 × 209 × 16 mm``
      - ``(0, 0, 22)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 2x Score Pad & Rulebook (Player map score sheet pad and rulebook sit atop insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -93,7 +93,7 @@ PencilBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``60 × 120 × 22 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 1x Dealer Token, 1x Eraser Well
+- **Pieces / Contents**: 4x Pencils, 1x Eraser, 1x Dealer Token
 - **Compartments (1)**: ``PencilsAndErasers`` (54 × 114 mm, 6 elements)
 
 **Assembled Box (PencilBox — Body + Lid)**
@@ -131,7 +131,7 @@ CardBox_GoalCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``22 × 96 × 22 mm``
 - **Packed Position**: ``(60, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 18x Goal Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_GoalCards — Body + Lid)**
@@ -169,7 +169,7 @@ CardBox_PlayingCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``22 × 96 × 22 mm``
 - **Packed Position**: ``(60, 96, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 54x Playing Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_PlayingCards — Body + Lid)**
@@ -207,7 +207,7 @@ CardBox_ForestCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``22 × 96 × 22 mm``
 - **Packed Position**: ``(82, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 12x Forest Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_ForestCards — Body + Lid)**
@@ -245,7 +245,7 @@ CardBox_CompanyCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``22 × 96 × 22 mm``
 - **Packed Position**: ``(82, 96, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 6x Company Owner Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_CompanyCards — Body + Lid)**

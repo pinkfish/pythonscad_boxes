@@ -24,17 +24,18 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=b2d1f502" download="Moonrakers_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Moonrakers_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=b2d1f502" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=6f1912bb" download="Moonrakers_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Moonrakers_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=6f1912bb" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=b2d1f502" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=6f1912bb" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
 - **3-D Printed Parts**: 11 bodies, 11 lids, 3 spacers (25 total)
-- **Boards & Non-Printed Components**: 1
+- **Boards & Non-Printed Components**: 7
+- **Counted Game Pieces**: 364
 
 .. list-table::
    :header-rows: 1
@@ -49,57 +50,57 @@ Parts Overview
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 21 mm``
      - ``(0, 73, 0)``
-     - Cards
+     - 25x Thruster Cards
    * - :ref:`CardBox_Damage <box-moonrakers-cardbox_damage>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 27 mm``
      - ``(0, 73, 21)``
-     - Cards
+     - 35x Damage Cards
    * - :ref:`CardBox_Reactor <box-moonrakers-cardbox_reactor>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 22.5 mm``
      - ``(0, 0, 0)``
-     - Cards
+     - 30x Reactor Cards
    * - :ref:`CardBox_Miss <box-moonrakers-cardbox_miss>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 13.5 mm``
      - ``(0, 0, 22.5)``
-     - Cards
+     - 15x Miss Cards
    * - :ref:`CardBox_Shield <box-moonrakers-cardbox_shield>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 20.5 mm``
      - ``(0, 73, 48)``
-     - Cards
+     - 25x Shield Cards
    * - :ref:`CardBox_Reference <box-moonrakers-cardbox_reference>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 10 mm``
      - ``(0, 0, 59)``
-     - Cards
+     - 10x Reference Cards
    * - :ref:`CardBox_Crew <box-moonrakers-cardbox_crew>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 23 mm``
      - ``(0, 0, 36)``
-     - Cards
+     - 30x Crew Cards
    * - :ref:`CardBox_Contracts <box-moonrakers-cardbox_contracts>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 35 mm``
      - ``(0, 146, 0)``
-     - Cards
+     - 50x Contract Cards
    * - :ref:`CardBox_Ships <box-moonrakers-cardbox_ships>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 33.2 mm``
      - ``(0, 146, 35)``
-     - Cards
+     - 47x Ship Part Cards
    * - :ref:`CardBox_Objectives <box-moonrakers-cardbox_objectives>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 24.8 mm``
      - ``(0, 219, 0)``
-     - Cards
+     - 33x Objective Cards
    * - :ref:`DiceAndTokensBox <box-moonrakers-diceandtokensbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``96 × 73 × 22 mm``
      - ``(0, 219, 24.8)``
-     - Dice
+     - 4x Hazard Dice, 50x Credit Coins, 5x Prestige Tokens, 5x Ship Standees
    * - :ref:`spacer_1 <spacer-moonrakers-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``117 × 303 × 69 mm``
@@ -115,11 +116,11 @@ Parts Overview
      - ``96 × 11 × 46.8 mm``
      - ``(0, 292, 0)``
      - Printed spacer tray
-   * - Game Board / Manuals
+   * - Board, Command Consoles & Rulebook
      - Board / Non-Printed
      - ``213 × 303 × 24 mm``
      - ``(0, 0, 69)``
-     - 1x Game Board / Manuals (On top of insert)
+     - 7x Board, Command Consoles & Rulebook (Main board (9mm), 5 player command consoles (15mm), and rulebook atop insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -132,7 +133,7 @@ CardBox_Thrusters
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 21 mm``
 - **Packed Position**: ``(0, 73, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 25x Thruster Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -172,7 +173,7 @@ CardBox_Damage
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 27 mm``
 - **Packed Position**: ``(0, 73, 21)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 35x Damage Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -212,7 +213,7 @@ CardBox_Reactor
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 22.5 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 30x Reactor Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -252,7 +253,7 @@ CardBox_Miss
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 13.5 mm``
 - **Packed Position**: ``(0, 0, 22.5)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 15x Miss Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -292,7 +293,7 @@ CardBox_Shield
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 20.5 mm``
 - **Packed Position**: ``(0, 73, 48)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 25x Shield Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -332,7 +333,7 @@ CardBox_Reference
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 10 mm``
 - **Packed Position**: ``(0, 0, 59)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 10x Reference Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=(2, 3, 3, 2)``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -372,7 +373,7 @@ CardBox_Crew
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 23 mm``
 - **Packed Position**: ``(0, 0, 36)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 30x Crew Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=3``, top ``pyramids=(2, 3, 3, 2)``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -412,7 +413,7 @@ CardBox_Contracts
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 35 mm``
 - **Packed Position**: ``(0, 146, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 50x Contract Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -452,7 +453,7 @@ CardBox_Ships
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 33.2 mm``
 - **Packed Position**: ``(0, 146, 35)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 47x Ship Part Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -492,7 +493,7 @@ CardBox_Objectives
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 24.8 mm``
 - **Packed Position**: ``(0, 219, 0)``
-- **Pieces / Contents**: Cards
+- **Pieces / Contents**: 33x Objective Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Objectives — Body + Lid)**
@@ -530,7 +531,7 @@ DiceAndTokensBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``96 × 73 × 22 mm``
 - **Packed Position**: ``(0, 219, 24.8)``
-- **Pieces / Contents**: Dice
+- **Pieces / Contents**: 4x Hazard Dice, 50x Credit Coins, 5x Prestige Tokens, 5x Ship Standees
 - **Compartments (1)**: ``Dice`` (full interior)
 
 **Assembled Box (DiceAndTokensBox — Body + Lid)**

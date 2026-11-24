@@ -69,6 +69,12 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory({
+    "Square Dungeon Tiles": 50,
+    "Start Cave Tile": 1,
+    "Loot & Gold Tokens": 40,
+})
+
 GOLD_PATTERN = PatternBuilder(PatternType.STEPPED_CUBE)
 GOLD_FONT = "Georgia:style=Bold"
 
@@ -92,11 +98,15 @@ t_box.compartment(
     "Tiles_A",
     width_ratio=0.5,
     cut=FingerCut.SCOOP,
+    component="Square Dungeon Tiles",
+    count=25,
 )
 t_box.compartment(
     "Tiles_B",
     width_ratio=0.5,
     cut=FingerCut.SCOOP,
+    component="Square Dungeon Tiles",
+    count=25,
 )
 
 # ── 2. Start Cave & Loot Boxes ────────────────────────────────────
@@ -121,6 +131,8 @@ project.box(
 ).compartment(
     "CaveTile",
     cut=FingerCut.SCOOP,
+    component="Start Cave Tile",
+    count=1,
 )
 
 project.box(
@@ -144,6 +156,8 @@ project.box(
 ).compartment(
     "LootTokens",
     cut=FingerCut.SCOOP,
+    component="Loot & Gold Tokens",
+    count=40,
 )
 
 # ── Export ────────────────────────────────────────────────────────

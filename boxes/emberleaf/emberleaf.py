@@ -96,6 +96,49 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory(
+    {
+        "Villager Figures": 100,
+        "Hero Figures": 5,
+        "Favour Discs": 25,
+        "Fellowship Building Tiles": 30,
+        "Score Tokens": 5,
+        "100+ Score Tokens": 5,
+        "Food Tokens": 35,
+        "Stone Tokens": 30,
+        "Honey Tokens": 20,
+        "Wood Tokens": 35,
+        "Favour Cards": 88,
+        "Hero Cards": 47,
+        "Solo Cards": 64,
+        "Fellowship Deck Cards": 30,
+        "Player Reference Cards": 5,
+        "General Building Tiles": 50,
+        "Trophy Tokens": 6,
+        "Tracker Disc": 1,
+        "Game Board": 1,
+        "Building Board": 1,
+        "Trophy Board": 1,
+        "Fellowship Player Boards": 5,
+        "Rulebook": 1,
+    }
+)
+
+project.board(
+    "Game Boards & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=9,
+    notes="Main game board, building board, trophy board, 5 fellowship player boards, and rulebook on top",
+    allocates={
+        "Game Board": 1,
+        "Building Board": 1,
+        "Trophy Board": 1,
+        "Fellowship Player Boards": 5,
+        "Rulebook": 1,
+    },
+)
+
 EMBER_PATTERN = PatternBuilder(PatternType.LEAF_VEINS)
 EMBER_FONT = "Georgia:style=Bold"
 
@@ -317,45 +360,71 @@ for label, color_name, hero_svg, hero_rot, pos in player_placements:
         size=(player_inner_width, player_inner_length),
         position=(0.0, 0.0),
         elements=_player_box_elements(hero_svg, hero_rot),
+        allocates={
+            "Villager Figures": 20,
+            "Hero Figures": 1,
+            "Favour Discs": 5,
+            "Fellowship Building Tiles": 6,
+            "Score Tokens": 1,
+            "100+ Score Tokens": 1,
+        },
     )
 
 material_placements = [
-    ("MaterialBoxFood", "Food", "red", "berry.svg", (0.0, PLAYER_BOX_LENGTH, PLAYER_BOX_HEIGHT * 2.0)),
+    (
+        "MaterialBoxFood",
+        "Food",
+        "red",
+        "berry.svg",
+        (0.0, PLAYER_BOX_LENGTH, PLAYER_BOX_HEIGHT * 2.0),
+        "Food Tokens",
+        35,
+    ),
     (
         "MaterialBoxStone",
         "Stone",
         "gray",
         "stone.svg",
         (0.0, PLAYER_BOX_LENGTH + MATERIAL_BOX_LENGTH, PLAYER_BOX_HEIGHT * 2.0),
+        "Stone Tokens",
+        30,
     ),
-    ("MaterialBoxHoney", "Honey", "gold", "honey.svg", (0.0, 0.0, PLAYER_BOX_HEIGHT * 3.0)),
-    ("MaterialBoxWood", "Wood", "saddlebrown", "wood.svg", (0.0, MATERIAL_BOX_LENGTH, PLAYER_BOX_HEIGHT * 3.0)),
+    ("MaterialBoxHoney", "Honey", "gold", "honey.svg", (0.0, 0.0, PLAYER_BOX_HEIGHT * 3.0), "Honey Tokens", 20),
+    (
+        "MaterialBoxWood",
+        "Wood",
+        "saddlebrown",
+        "wood.svg",
+        (0.0, MATERIAL_BOX_LENGTH, PLAYER_BOX_HEIGHT * 3.0),
+        "Wood Tokens",
+        35,
+    ),
 ]
 
-for label, text, color_name, logo_file, pos in material_placements:
+for label, text, color_name, logo_file, pos, comp_name, comp_count in material_placements:
     project.box(
         BoxType.CAP,
         label,
         size=(MATERIAL_BOX_WIDTH, MATERIAL_BOX_LENGTH, MATERIAL_BOX_HEIGHT),
         position=pos,
         lid=_ember_lid(text, color_name, logo_path=str(ASSETS / logo_file), logo_size=15.0),
-    ).compartment("Tokens", cut=FingerCut.SCOOP)
+    ).compartment("Tokens", cut=FingerCut.SCOOP, component=comp_name, count=comp_count)
 
 # ── Column 1: Main Card Boxes (X = 98 .. 196) ─────────────────────
 card_configs = [
-    ("CardBoxFavor", "Favors", "royalblue", 0),
-    ("CardBoxHero", "Heroes", "darkorange", 1),
-    ("CardBoxSolo", "Solo", "darkgreen", 2),
+    ("CardBoxFavor", "Favors", "royalblue", 0, "Favour Cards", 88),
+    ("CardBoxHero", "Heroes", "darkorange", 1, "Hero Cards", 47),
+    ("CardBoxSolo", "Solo", "darkgreen", 2, "Solo Cards", 64),
 ]
 
-for label, text, color_name, row_idx in card_configs:
+for label, text, color_name, row_idx, comp_name, comp_count in card_configs:
     project.box(
         BoxType.SLIDING,
         label,
         size=(CARD_BOX_WIDTH, CARD_BOX_LENGTH, CARD_BOX_HEIGHT),
         position=(PLAYER_BOX_WIDTH, CARD_BOX_LENGTH * row_idx, 0.0),
         lid=_ember_lid(text, color_name),
-    ).compartment("Cards", cut=FingerCut.SCOOP)
+    ).compartment("Cards", cut=FingerCut.SCOOP, component=comp_name, count=comp_count)
 
 # ── Column 2: 5 Player Card Boxes & Common Box (X = 196 .. 286) ───
 col2_x = PLAYER_BOX_WIDTH + CARD_BOX_WIDTH
@@ -375,7 +444,11 @@ for layer_idx, (label, text, color_name) in enumerate(player_card_configs):
         size=(PLAYER_CARD_BOX_WIDTH, PLAYER_CARD_BOX_LENGTH, PLAYER_CARD_BOX_HEIGHT),
         position=(col2_x, 0.0, PLAYER_CARD_BOX_HEIGHT * layer_idx),
         lid=_ember_lid(text, color_name),
-    ).compartment("Cards", cut=FingerCut.SCOOP)
+    ).compartment(
+        "Cards",
+        cut=FingerCut.SCOOP,
+        allocates={"Fellowship Deck Cards": 6, "Player Reference Cards": 1},
+    )
 
 common_inner_width = COMMON_BOX_WIDTH - wall_thickness * 2.0  # 84.0mm
 common_inner_length = COMMON_BOX_LENGTH - wall_thickness * 2.0  # 182.0mm
@@ -480,6 +553,11 @@ project.box(
     size=(common_inner_width, common_inner_length),
     position=(0.0, 0.0),
     elements=_common_box_elements(),
+    allocates={
+        "General Building Tiles": 50,
+        "Trophy Tokens": 6,
+        "Tracker Disc": 1,
+    },
 )
 
 # ── Export ────────────────────────────────────────────────────────

@@ -76,6 +76,38 @@ project = Project(
     generate_spacers=True,
     box_defaults={"expandable": False},
 )
+project.define_inventory(
+    {
+        "Main Board": 1,
+        "Player Boards": 4,
+        "Player Workers": 8 * 4,
+        "Industry Markers": 2 * 4,
+        "Player Pawns": 2 * 4,
+        "Question Tokens": 7 * 4,
+        "Bonus Train Tiles": 1 * 4,
+        "Kiev Medals": 1 * 4,
+        "Special Workers": 3,
+        "Doubler Tokens": 20,
+        "Bonus Score Track Tiles": 8,
+        "Ruble Coins": 21,
+        "End-Game Bonus Cards": 15,
+        "Train Tiles": 34,
+        "Start Player Tile": 1,
+        "Engineer Tiles": 15,
+        "Grey Track Pieces": 12,
+        "Brown Track Pieces": 12,
+        "Black Track Pieces": 12,
+        "Natural Track Pieces": 12,
+        "White Track Pieces": 4,
+    }
+)
+project.board(
+    "Game & Player Boards",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    allocates={"Main Board": 1, "Player Boards": 4},
+    notes="Main game board and 4 dual-sided player boards atop the insert",
+)
 
 RR_PATTERN = PatternBuilder(PatternType.STEPPED_CUBE)
 RR_FONT = "Georgia:style=Bold"
@@ -376,6 +408,14 @@ for name, title, color_name in (
         size=(player_inner_width, player_inner_length),
         position=(0.0, 0.0),
         elements=_player_box_elements(),
+        allocates={
+            "Player Workers": 8,
+            "Industry Markers": 2,
+            "Player Pawns": 2,
+            "Question Tokens": 7,
+            "Bonus Train Tiles": 1,
+            "Kiev Medals": 1,
+        },
     )
 
 project.box(
@@ -388,6 +428,11 @@ project.box(
     size=(player_inner_width, player_inner_length),
     position=(0.0, 0.0),
     elements=_extra_tokens_elements(),
+    allocates={
+        "Special Workers": 3,
+        "Doubler Tokens": 20,
+        "Bonus Score Track Tiles": 8,
+    },
 )
 
 project.box(
@@ -400,7 +445,7 @@ project.box(
         logo=str(ASSETS / "coin.svg"),
         logo_size_mm=15.0,
     ),
-).compartment("Rubels", cut=FingerCut.SCOOP)
+).compartment("Rubels", cut=FingerCut.SCOOP, component="Ruble Coins", count=21)
 
 # ── 2. Train, Engineer, Track & Card Section ──────────────────────
 project.box(
@@ -411,6 +456,8 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    component="End-Game Bonus Cards",
+    count=15,
 )
 
 train_inner_width = train_box_width - wall_thickness * 2.0  # 193.0mm
@@ -482,6 +529,10 @@ project.box(
     size=(train_inner_width, train_inner_length),
     position=(0.0, 0.0),
     elements=_train_box_elements(),
+    allocates={
+        "Train Tiles": 34,
+        "Start Player Tile": 1,
+    },
 )
 
 engineer_width = 36.0
@@ -536,6 +587,8 @@ project.box(
     size=(train_inner_width, train_inner_length),
     position=(0.0, 0.0),
     elements=_engineer_box_elements(),
+    component="Engineer Tiles",
+    count=15,
 )
 
 rail_white_length = 15.0
@@ -603,6 +656,13 @@ project.box(
     size=(train_inner_width, train_inner_length),
     position=(0.0, 0.0),
     elements=_track_box_elements(),
+    allocates={
+        "Grey Track Pieces": 12,
+        "Brown Track Pieces": 12,
+        "Black Track Pieces": 12,
+        "Natural Track Pieces": 12,
+        "White Track Pieces": 4,
+    },
 )
 
 # ── Export ────────────────────────────────────────────────────────
