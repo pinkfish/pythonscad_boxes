@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=e483921c" download="EarthAnimalKingdom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EarthAnimalKingdom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=e483921c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=5a65c19a" download="EarthAnimalKingdom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EarthAnimalKingdom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=5a65c19a" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=e483921c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/earth_animal_kingdom/EarthAnimalKingdom_packing_guide.pdf?v=5a65c19a" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -85,6 +85,31 @@ Parts Overview
      - ``40 × 29 × 21 mm``
      - ``(248, 129, 26)``
      - Printed spacer tray
+
+Component Checklist
+-------------------
+
+All **130** pieces across **4** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 36
+     - Large Animal Cards
+     - AnimalCardsBox
+   * - 50
+     - Sprout Cubes
+     - ExpansionSproutBox
+   * - 20
+     - Wooden Canopies
+     - ExpansionCanopyBox
+   * - 24
+     - Animal Habitat Tokens
+     - AnimalTokensBox_1 (12), AnimalTokensBox_2 (12)
 
 Individual Boxes & Parts
 ------------------------

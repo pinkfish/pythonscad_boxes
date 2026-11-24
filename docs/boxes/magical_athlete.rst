@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=d36a2fd0" download="MagicalAthlete_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MagicalAthlete_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=d36a2fd0" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=2d2375f7" download="MagicalAthlete_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MagicalAthlete_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=2d2375f7" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=d36a2fd0" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=2d2375f7" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -91,6 +91,49 @@ Parts Overview
      - ``184 × 294 × 7 mm``
      - ``(0, 0, 38)``
      - 2x Race Track Board & Rulebook
+
+Component Checklist
+-------------------
+
+All **113** pieces across **10** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 36
+     - Athlete Cards
+     - AthleteCardsBox
+   * - 6
+     - Dice
+     - DiceBox
+   * - 4
+     - Gold Medal Tokens
+     - AwardMedalBox
+   * - 4
+     - Silver Medal Tokens
+     - AwardMedalBox
+   * - 35
+     - Athlete Standees
+     - AthletePiecesBox_1 (21), AthletePiecesBox_2 (14)
+   * - 1
+     - Big Baby Standee
+     - BigBabyBox
+   * - 16
+     - 1-Point Award Tokens
+     - AwardTokensBox_1
+   * - 9
+     - 3-Point Award Tokens
+     - AwardTokensBox_3
+   * - 1
+     - Race Track Board
+     - Race Track Board & Rulebook
+   * - 1
+     - Rulebook
+     - Race Track Board & Rulebook
 
 Individual Boxes & Parts
 ------------------------

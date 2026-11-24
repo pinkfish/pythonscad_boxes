@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=18450e7d" download="18Cuba_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>18Cuba_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=18450e7d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=36c7fc94" download="18Cuba_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>18Cuba_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=36c7fc94" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=18450e7d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/18_cuba/18Cuba_packing_guide.pdf?v=36c7fc94" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -35,7 +35,7 @@ Parts Overview
 
 - **3-D Printed Parts**: 8 bodies, 7 lids, 0 spacers (15 total)
 - **Boards & Non-Printed Components**: 2
-- **Counted Game Pieces**: 260
+- **Counted Game Pieces**: 452
 
 .. list-table::
    :header-rows: 1
@@ -50,12 +50,12 @@ Parts Overview
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``225 × 96 × 11 mm``
      - ``(0, 0, 0)``
-     - 4x Paper Currency Denomination Stacks
+     - 100x Paper Banknotes
    * - :ref:`MoneyBox_2 <box-18_cuba-moneybox_2>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``225 × 96 × 11 mm``
      - ``(0, 0, 11)``
-     - 4x Paper Currency Denomination Stacks
+     - 100x Paper Banknotes
    * - :ref:`TrainBox <box-18_cuba-trainbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``224 × 66 × 11 mm``
@@ -90,7 +90,68 @@ Parts Overview
      - Board / Non-Printed
      - ``225 × 314 × 46 mm``
      - ``(0, 0, 22)``
-     - 2x Game Boards & Hex Track Trays (Folded game boards (26mm) and hex track tile trays (20mm))
+     - 2x Game Boards & Hex Track Trays (Folded game boards (26mm) and factory hex track tile trays (20mm) atop insert)
+
+Component Checklist
+-------------------
+
+All **577** pieces across **16** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 200
+     - Paper Banknotes
+     - MoneyBox_1 (100), MoneyBox_2 (100)
+   * - 36
+     - Train Cards
+     - TrainBox
+   * - 18
+     - Wagon Cards
+     - TrainBox
+   * - 82
+     - Corporate Share Cards
+     - SharesBox_1 (45), SharesBox_2 (37)
+   * - 12
+     - Help & Commissioner Cards
+     - SharesBox_2
+   * - 6
+     - Concession Cards
+     - LastBox
+   * - 30
+     - Minor Company Tokens
+     - LastBox
+   * - 3
+     - Rail Pieces
+     - LastBox
+   * - 48
+     - Major Company Tokens
+     - LargeTokensBox
+   * - 17
+     - Ferrocarril Central & Yellow Tokens
+     - InsideTokenTray
+   * - 1
+     - Folded Game Boards
+     - Game Boards & Hex Track Trays (Folded game boards (26mm) and factory hex track tile trays (20mm) atop insert)
+   * - 45
+     - Yellow Track Hex Tiles
+     - Game Boards & Hex Track Trays (Folded game boards (26mm) and factory hex track tile trays (20mm) atop insert)
+   * - 47
+     - Green Track Hex Tiles
+     - Game Boards & Hex Track Trays (Folded game boards (26mm) and factory hex track tile trays (20mm) atop insert)
+   * - 25
+     - Brown Track Hex Tiles
+     - Game Boards & Hex Track Trays (Folded game boards (26mm) and factory hex track tile trays (20mm) atop insert)
+   * - 6
+     - Grey Track Hex Tiles
+     - Game Boards & Hex Track Trays (Folded game boards (26mm) and factory hex track tile trays (20mm) atop insert)
+   * - 1
+     - Red Track Hex Tile
+     - Game Boards & Hex Track Trays (Folded game boards (26mm) and factory hex track tile trays (20mm) atop insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -103,7 +164,7 @@ MoneyBox_1
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``225 × 96 × 11 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 4x Paper Currency Denomination Stacks
+- **Pieces / Contents**: 100x Paper Banknotes
 - **Compartments (4)**: ``Denom_1`` (W=25%), ``Denom_2`` (W=25%), ``Denom_3`` (W=25%), ``Denom_4`` (W=25%)
 
 **Assembled Box (MoneyBox_1 — Body + Lid)**
@@ -141,7 +202,7 @@ MoneyBox_2
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``225 × 96 × 11 mm``
 - **Packed Position**: ``(0, 0, 11)``
-- **Pieces / Contents**: 4x Paper Currency Denomination Stacks
+- **Pieces / Contents**: 100x Paper Banknotes
 - **Compartments (4)**: ``Denom_1`` (W=25%), ``Denom_2`` (W=25%), ``Denom_3`` (W=25%), ``Denom_4`` (W=25%)
 
 **Assembled Box (MoneyBox_2 — Body + Lid)**

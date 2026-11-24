@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=2bb38e39" download="RailroadTiles_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailroadTiles_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=2bb38e39" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=5b96f8bc" download="RailroadTiles_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailroadTiles_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=5b96f8bc" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=2bb38e39" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/railroad_tiles/RailroadTiles_packing_guide.pdf?v=5b96f8bc" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -146,6 +146,37 @@ Parts Overview
      - ``230 × 230 × 2.5 mm``
      - ``(0, 0, 60.5)``
      - 1x Rulebook (Rulebook sits atop insert)
+
+Component Checklist
+-------------------
+
+All **159** pieces across **6** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 96
+     - Game Tokens
+     - 8 boxes (12 each)
+   * - 4
+     - Player Conductor Markers
+     - PlayerMarkersBox
+   * - 1
+     - Two-Player Tile
+     - PlayerMarkersBox
+   * - 7
+     - Starting Clock Tiles
+     - StartingClocksBox
+   * - 50
+     - Objective Tiles
+     - ObjectiveBox_1 (10), ObjectiveBox_2 (10), ObjectiveBox_3 (10), ObjectiveBox_4 (10), ObjectiveBox_5 (10)
+   * - 1
+     - Rulebook
+     - Rulebook (Rulebook sits atop insert)
 
 Individual Boxes & Parts
 ------------------------

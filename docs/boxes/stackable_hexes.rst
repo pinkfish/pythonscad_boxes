@@ -78,6 +78,22 @@ Parts Overview
      - ``(770, 0, 0)``
      - 12x Hex Tiles
 
+Component Checklist
+-------------------
+
+All **96** pieces across **1** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 96
+     - Hex Tiles
+     - 8 boxes (12 each)
+
 Individual Boxes & Parts
 ------------------------
 

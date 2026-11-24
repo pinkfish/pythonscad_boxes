@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=e4baa32c" download="ModernArt_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ModernArt_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=e4baa32c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=fc9a0f88" download="ModernArt_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ModernArt_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=fc9a0f88" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=e4baa32c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=fc9a0f88" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -61,6 +61,37 @@ Parts Overview
      - ``154 × 208 × 6 mm``
      - ``(0, 0, 38)``
      - 7x Board, Screens & Rulebook (Auction valuation board, 5 player screens, and rulebook atop insert)
+
+Component Checklist
+-------------------
+
+All **201** pieces across **6** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 70
+     - Painting Cards
+     - CardBox
+   * - 112
+     - Money Coins
+     - TokensBox
+   * - 12
+     - Artist Value Tiles
+     - TokensBox
+   * - 1
+     - Auction Valuation Board
+     - Board, Screens & Rulebook (Auction valuation board, 5 player screens, and rulebook atop insert)
+   * - 5
+     - Player Screens
+     - Board, Screens & Rulebook (Auction valuation board, 5 player screens, and rulebook atop insert)
+   * - 1
+     - Rulebook
+     - Board, Screens & Rulebook (Auction valuation board, 5 player screens, and rulebook atop insert)
 
 Individual Boxes & Parts
 ------------------------

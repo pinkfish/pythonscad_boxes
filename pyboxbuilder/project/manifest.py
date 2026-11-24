@@ -23,6 +23,8 @@ class GameComponent:
     """Optional grouping category (e.g. ``"Cards"``, ``"Tokens"``, ``"Boards"``)."""
     notes: str = ""
     """Optional note."""
+    location: str = ""
+    """Optional loose storage location (e.g. ``"Inside spacer_1"``) for items without their own box."""
 
     def __post_init__(self) -> None:
         """Validate non-empty name and positive piece count."""

@@ -127,6 +127,32 @@ class BoxPieceSummary:
 
 
 @dataclass(frozen=True)
+class ComponentChecklistRow:
+    """One row in the master game-component checklist showing total count and where pieces pack."""
+
+    name: str
+    count: int
+    locations: tuple[tuple[str, int], ...]
+
+    def format_locations(self, max_items: int = 4) -> str:
+        """Format packing locations concisely, e.g. ``'HexBox_1 (45)'`` or ``'4 boxes (16 each)'``."""
+        if not self.locations:
+            return "—"
+        if len(self.locations) > max_items:
+            qty_set = {qty for _, qty in self.locations}
+            if len(qty_set) == 1:
+                only_qty = next(iter(qty_set))
+                return f"{len(self.locations)} boxes ({only_qty} each)"
+        shown = [
+            f"{loc} ({qty})" if len(self.locations) > 1 or qty != self.count else loc
+            for loc, qty in self.locations[:max_items]
+        ]
+        if len(self.locations) > max_items:
+            shown.append(f"+{len(self.locations) - max_items} more")
+        return ", ".join(shown)
+
+
+@dataclass(frozen=True)
 class ProjectInventory:
     """Complete printed-part, board, and stored-piece inventory for a project."""
 
@@ -136,6 +162,7 @@ class ProjectInventory:
     printed_spacers: int
     boards: tuple[GameBoard, ...]
     box_summaries: tuple[BoxPieceSummary, ...]
+    checklist: tuple[ComponentChecklistRow, ...] = ()
 
     @property
     def total_printed_parts(self) -> int:
@@ -294,6 +321,11 @@ def verify_inventory(
         elif gb.label in declared:
             _add(gb.label, gb.count)
 
+    # Loose items explicitly assigned a storage location (e.g. "Inside spacer_1")
+    for comp in manifest.components:
+        if comp.location:
+            _add(comp.name, comp.count)
+
     missing: dict[str, int] = {}
     over_allocated: dict[str, int] = {}
     unknown: dict[str, int] = {}
@@ -319,6 +351,59 @@ def verify_inventory(
     if strict and not result.is_valid:
         raise ValueError(f"Inventory mismatch in {manifest.name!r}: {result.format_errors()}")
     return result
+
+
+def _build_component_checklist(manifest: ProjectManifest) -> tuple[ComponentChecklistRow, ...]:
+    """Map every declared component in the manifest to the box(es), board(s), or spacer(s) holding it."""
+    if not manifest.components:
+        return ()
+
+    declared: OrderedDict[str, int] = OrderedDict()
+    loc_map: dict[str, OrderedDict[str, int]] = {}
+    for comp in manifest.components:
+        declared[comp.name] = declared.get(comp.name, 0) + comp.count
+        loc_map.setdefault(comp.name, OrderedDict())
+        if comp.location:
+            loc_map[comp.name][comp.location] = (
+                loc_map[comp.name].get(comp.location, 0) + comp.count
+            )
+
+    def _record(name: str, where: str, qty: int) -> None:
+        if qty <= 0 or name not in loc_map:
+            return
+        loc_map[name][where] = loc_map[name].get(where, 0) + qty
+
+    for builder in manifest.boxes:
+        for name, qty in getattr(builder, "allocates", ()):
+            _record(name, builder.label, qty)
+        for comp_b in builder.compartments:
+            if comp_b.allocates:
+                for name, qty in comp_b.allocates:
+                    _record(name, builder.label, qty)
+            elif comp_b.component is not None:
+                _record(comp_b.component, builder.label, comp_b.count if comp_b.count is not None else 1)
+            for elem in comp_b.elements:
+                if elem.component is not None:
+                    _record(elem.component, builder.label, elem.count if elem.count is not None else 1)
+
+    for gb in manifest.boards:
+        where = f"{gb.label} ({gb.notes})" if gb.notes else gb.label
+        if gb.allocates:
+            for name, qty in gb.allocates:
+                _record(name, where, qty)
+        elif gb.component is not None:
+            _record(gb.component, where, gb.count)
+        elif gb.label in declared:
+            _record(gb.label, where, gb.count)
+
+    return tuple(
+        ComponentChecklistRow(
+            name=name,
+            count=total,
+            locations=tuple(loc_map[name].items()),
+        )
+        for name, total in declared.items()
+    )
 
 
 def summarize_project(
@@ -361,4 +446,5 @@ def summarize_project(
         printed_spacers=spacer_count,
         boards=tuple(boards),
         box_summaries=box_summaries,
+        checklist=_build_component_checklist(manifest),
     )

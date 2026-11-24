@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=975f2453" download="Moonrakers_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Moonrakers_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=975f2453" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=bc48663d" download="Moonrakers_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Moonrakers_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=bc48663d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=975f2453" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/moonrakers/Moonrakers_packing_guide.pdf?v=bc48663d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -116,6 +116,70 @@ Parts Overview
      - ``213 × 303 × 24 mm``
      - ``(0, 0, 69)``
      - 7x Board, Command Consoles & Rulebook (Main board (9mm), 5 player command consoles (15mm), and rulebook atop insert)
+
+Component Checklist
+-------------------
+
+All **371** pieces across **17** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 25
+     - Thruster Cards
+     - CardBox_Thrusters
+   * - 35
+     - Damage Cards
+     - CardBox_Damage
+   * - 30
+     - Reactor Cards
+     - CardBox_Reactor
+   * - 15
+     - Miss Cards
+     - CardBox_Miss
+   * - 25
+     - Shield Cards
+     - CardBox_Shield
+   * - 10
+     - Reference Cards
+     - CardBox_Reference
+   * - 30
+     - Crew Cards
+     - CardBox_Crew
+   * - 50
+     - Contract Cards
+     - CardBox_Contracts
+   * - 47
+     - Ship Part Cards
+     - CardBox_Ships
+   * - 33
+     - Objective Cards
+     - CardBox_Objectives
+   * - 4
+     - Hazard Dice
+     - DiceAndTokensBox
+   * - 50
+     - Credit Coins
+     - DiceAndTokensBox
+   * - 5
+     - Prestige Tokens
+     - DiceAndTokensBox
+   * - 5
+     - Ship Standees
+     - DiceAndTokensBox
+   * - 1
+     - Main Game Board
+     - Board, Command Consoles & Rulebook (Main board (9mm), 5 player command consoles (15mm), and rulebook atop insert)
+   * - 5
+     - Player Command Consoles
+     - Board, Command Consoles & Rulebook (Main board (9mm), 5 player command consoles (15mm), and rulebook atop insert)
+   * - 1
+     - Rulebook
+     - Board, Command Consoles & Rulebook (Main board (9mm), 5 player command consoles (15mm), and rulebook atop insert)
 
 Individual Boxes & Parts
 ------------------------

@@ -94,11 +94,14 @@ project = Project(
 
 # ── Game Component Inventory ──────────────────────────────────────
 project.define_inventory({
-    "Bank Money Denomination Stacks": 8,
+    "Banknotes": 200,
     "Station Tokens": 41,
     "Train Cards": 33,
     "Private Railroad Cards": 6,
-    "Hex Track Tile Stacks": 60,
+    "Yellow Track Hex Tiles": 53,
+    "Green Track Hex Tiles": 46,
+    "Brown Track Hex Tiles": 34,
+    "Grey Track Hex Tiles": 4,
     "Company Share Certificates": 68,
     "First Player Marker": 1,
     "Game Board": 1,
@@ -162,8 +165,8 @@ for idx, (m_h, denom_label) in enumerate(
             f"Denom_{slot + 1}",
             width_ratio=0.25,
             cut=FingerCut.SCOOP,
-            component="Bank Money Denomination Stacks",
-            count=1,
+            component="Banknotes",
+            count=25,
         )
 
 # ── Interior Geometry Helpers (from 1835.scad) ────────────────────
@@ -363,19 +366,24 @@ middle_box.compartment(
 )
 
 # ── 3. Track Hex Tile Boxes (4 tiers stacked, inset lid) ──────────
-hex_colors = ["goldenrod", "forestgreen", "saddlebrown", "dimgray"]
-for tier in range(4):
+hex_tiers = [
+    ("goldenrod", "Yellow Track Hex Tiles", 53),
+    ("forestgreen", "Green Track Hex Tiles", 46),
+    ("saddlebrown", "Brown Track Hex Tiles", 34),
+    ("dimgray", "Grey Track Hex Tiles", 4),
+]
+for tier, (color_name, tile_comp, tile_qty) in enumerate(hex_tiers):
     h_box = project.box(
         BoxType.INSET,
         f"HexBox_{tier + 1}",
         size=(hex_box_width, hex_box_length, hex_box_height),
-        lid=_lid(f"Tiles {tier + 1}", hex_colors[tier]),
+        lid=_lid(f"Tiles {tier + 1}", color_name),
     )
     h_box.compartment(
         "HexGrid",
         elements=_hex_box_elements(),
-        component="Hex Track Tile Stacks",
-        count=15,
+        component=tile_comp,
+        count=tile_qty,
     )
 
 # ── 4. Railroad Company Shares (4 tiers stacked, slipover lid) ────

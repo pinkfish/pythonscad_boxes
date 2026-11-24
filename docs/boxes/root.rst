@@ -40,10 +40,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/root/Root_packing_guide.pdf?v=5a05ee6f" download="Root_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Root_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/root/Root_packing_guide.pdf?v=5a05ee6f" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/root/Root_packing_guide.pdf?v=dbd088d9" download="Root_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Root_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/root/Root_packing_guide.pdf?v=dbd088d9" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/root/Root_packing_guide.pdf?v=5a05ee6f" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/root/Root_packing_guide.pdf?v=dbd088d9" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -202,6 +202,130 @@ Parts Overview
      - ``214 × 278 × 28 mm``
      - ``(0, 0, 0)``
      - 1x Map & Faction Boards (Folded map board, faction boards, and rulebooks in bottom bay)
+
+Component Checklist
+-------------------
+
+All **344** pieces across **37** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 1
+     - Main Map Board
+     - Map & Faction Boards (Folded map board, faction boards, and rulebooks in bottom bay)
+   * - 6
+     - Faction Boards
+     - Map & Faction Boards (Folded map board, faction boards, and rulebooks in bottom bay)
+   * - 6
+     - Eyrie Leader & Vizier Cards
+     - ErieCardBox
+   * - 20
+     - Eyrie Warriors
+     - ErieBoxBottom
+   * - 7
+     - Eyrie Roosts
+     - ErieBoxTop
+   * - 1
+     - Eyrie Score Marker
+     - ErieBoxTop
+   * - 15
+     - Riverfolk Warriors
+     - RiverfolkBoxBottom
+   * - 9
+     - Riverfolk Trade Posts
+     - RiverfolkBoxTop
+   * - 3
+     - Riverfolk Glass Gems
+     - RiverfolkBoxTop
+   * - 1
+     - Riverfolk Score Marker
+     - RiverfolkBoxTop
+   * - 10
+     - Woodland Alliance Warriors
+     - AllianceBoxBottom
+   * - 10
+     - Woodland Alliance Sympathy Tokens
+     - AllianceBoxTop
+   * - 3
+     - Woodland Alliance Bases
+     - AllianceBoxTop
+   * - 1
+     - Woodland Alliance Score Marker
+     - AllianceBoxTop
+   * - 25
+     - Marquise Warriors
+     - MarquisBoxBottom
+   * - 8
+     - Marquise Wood Tokens
+     - MarquisBoxTop
+   * - 6
+     - Marquise Sawmills
+     - MarquisBoxTop
+   * - 6
+     - Marquise Workshops
+     - MarquisBoxTop
+   * - 6
+     - Marquise Recruiters
+     - MarquisBoxTop
+   * - 1
+     - Marquise Keep Token
+     - MarquisBoxTop
+   * - 1
+     - Marquise Score Marker
+     - MarquisBoxTop
+   * - 2
+     - Combat Dice
+     - DiceBox
+   * - 24
+     - Vagabond Starting & Craftable Items
+     - ItemsBoxBottom (12), ItemsBoxMiddle (12)
+   * - 12
+     - Ruin Items
+     - ItemsBoxBottom (8), ItemsBoxMiddle (4)
+   * - 12
+     - Winter Clearing Markers
+     - ItemsBoxWinter
+   * - 8
+     - Extra Scenario Tokens
+     - ItemsBoxExtras
+   * - 25
+     - Lizard Cult Warriors
+     - LizardBoxBottom
+   * - 15
+     - Lizard Cult Gardens
+     - LizardBoxTop
+   * - 1
+     - Lizard Cult Outcast Marker
+     - LizardBoxTop
+   * - 1
+     - Lizard Cult Lost Souls Marker
+     - LizardBoxTop
+   * - 1
+     - Lizard Cult Score Marker
+     - LizardBoxTop
+   * - 2
+     - Vagabond Meeples
+     - VagabondBox (1), VagabondBox2 (1)
+   * - 2
+     - Vagabond Score Markers
+     - VagabondBox (1), VagabondBox2 (1)
+   * - 12
+     - Vagabond Relationship Markers
+     - VagabondBox (6), VagabondBox2 (6)
+   * - 54
+     - Shared Deck Cards
+     - BaseCardBox
+   * - 6
+     - Faction Overview Cards
+     - OverviewCardBox
+   * - 21
+     - Vagabond Quest & Character Cards
+     - VagabondCardBox
 
 Individual Boxes & Parts
 ------------------------
