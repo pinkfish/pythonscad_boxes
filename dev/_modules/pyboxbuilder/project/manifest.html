@@ -607,8 +607,10 @@
 <span class="w">    </span><span class="sd">"""Gaps &lt;= this are absorbed by adjacent boxes."""</span>
     <span class="n">min_spacer_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span>
 <span class="w">    </span><span class="sd">"""Minimum spacer width/length before absorption."""</span>
-    <span class="n">min_spacer_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span>
-<span class="w">    </span><span class="sd">"""A spacer tray thinner than this on any axis is dropped as unprintable (FR-014)."""</span>
+    <span class="n">min_spacer_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="w">    </span><span class="sd">"""A spacer tray shorter than this in Z is dropped rather than printed as a thin wafer (FR-014)."""</span>
+    <span class="n">max_height_absorb</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="w">    </span><span class="sd">"""Maximum vertical gap (mm) absorbed by growing a top-exposed box instead of adding a small spacer."""</span>
     <span class="n">clearance_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Clearance slack on each side of the game box in the X/Y directions (mm)."""</span>
 

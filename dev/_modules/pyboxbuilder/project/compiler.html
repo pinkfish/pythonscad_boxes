@@ -1082,9 +1082,99 @@
             <span class="n">val</span> <span class="o">=</span> <span class="n">local_final_sizes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="ow">or</span> <span class="n">resolved_min_sizes</span><span class="p">[</span><span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">]</span>
             <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"final_size"</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_absorb_vertical_gaps</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">packing</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">_apply_stacking_order_configs</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">packing</span></div>
 
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_absorb_vertical_gaps</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span><span class="p">,</span> <span class="n">packing</span><span class="p">:</span> <span class="n">BoxPacking</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Grow top-exposed boxes by up to ``max_height_absorb`` mm to avoid thin top spacers."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Placement</span>
+
+        <span class="n">max_absorb</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">.</span><span class="n">max_height_absorb</span>
+        <span class="k">if</span> <span class="n">max_absorb</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">manifest</span><span class="o">.</span><span class="n">game_box_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">z_offset</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">.</span><span class="n">board_z_offset</span>
+        <span class="n">usable_top</span> <span class="o">=</span> <span class="n">z_offset</span> <span class="o">+</span> <span class="p">(</span><span class="n">manifest</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">manifest</span><span class="o">.</span><span class="n">board_thickness</span><span class="p">)</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-3</span>
+
+        <span class="c1"># Collect all solid ceilings: other boxes + explicit partial boards</span>
+        <span class="n">ceilings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">gb</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">boards</span><span class="p">:</span>
+            <span class="n">ceilings</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                <span class="kc">None</span><span class="p">,</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">gb</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">gb</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="p">))</span>
+
+        <span class="n">updated</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">b</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"expandable_height"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">box_type</span> <span class="ow">is</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">b</span><span class="o">.</span><span class="n">compartments</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"hollow"</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+            <span class="p">):</span>
+                <span class="n">updated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="n">px0</span><span class="p">,</span> <span class="n">py0</span><span class="p">,</span> <span class="n">pz0</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">pw</span><span class="p">,</span> <span class="n">pl</span><span class="p">,</span> <span class="n">ph</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">px1</span><span class="p">,</span> <span class="n">py1</span><span class="p">,</span> <span class="n">top_z</span> <span class="o">=</span> <span class="n">px0</span> <span class="o">+</span> <span class="n">pw</span><span class="p">,</span> <span class="n">py0</span> <span class="o">+</span> <span class="n">pl</span><span class="p">,</span> <span class="n">pz0</span> <span class="o">+</span> <span class="n">ph</span>
+
+            <span class="n">ceil_z</span> <span class="o">=</span> <span class="n">usable_top</span>
+            <span class="k">for</span> <span class="n">other_label</span><span class="p">,</span> <span class="n">ox0</span><span class="p">,</span> <span class="n">oy0</span><span class="p">,</span> <span class="n">ox1</span><span class="p">,</span> <span class="n">oy1</span><span class="p">,</span> <span class="n">oz0</span> <span class="ow">in</span> <span class="n">ceilings</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">other_label</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">oz0</span> <span class="o">&lt;</span> <span class="n">top_z</span> <span class="o">-</span> <span class="n">eps</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">px0</span> <span class="o">&lt;</span> <span class="n">ox1</span> <span class="o">-</span> <span class="n">eps</span>
+                    <span class="ow">and</span> <span class="n">px1</span> <span class="o">&gt;</span> <span class="n">ox0</span> <span class="o">+</span> <span class="n">eps</span>
+                    <span class="ow">and</span> <span class="n">py0</span> <span class="o">&lt;</span> <span class="n">oy1</span> <span class="o">-</span> <span class="n">eps</span>
+                    <span class="ow">and</span> <span class="n">py1</span> <span class="o">&gt;</span> <span class="n">oy0</span> <span class="o">+</span> <span class="n">eps</span>
+                    <span class="ow">and</span> <span class="n">oz0</span> <span class="o">&lt;</span> <span class="n">ceil_z</span>
+                <span class="p">):</span>
+                    <span class="n">ceil_z</span> <span class="o">=</span> <span class="n">oz0</span>
+
+            <span class="n">gap</span> <span class="o">=</span> <span class="n">ceil_z</span> <span class="o">-</span> <span class="n">top_z</span>
+            <span class="k">if</span> <span class="mf">0.25</span> <span class="o">&lt;</span> <span class="n">gap</span> <span class="o">&lt;=</span> <span class="n">max_absorb</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">:</span>
+                <span class="n">new_h</span> <span class="o">=</span> <span class="n">ph</span> <span class="o">+</span> <span class="n">gap</span>
+                <span class="n">updated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">Placement</span><span class="p">(</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                        <span class="n">position</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+                        <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">pw</span><span class="p">,</span> <span class="n">pl</span><span class="p">,</span> <span class="n">new_h</span><span class="p">),</span>
+                        <span class="n">rotation</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">rotation</span><span class="p">,</span>
+                        <span class="n">path</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">final_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+                        <span class="n">b</span><span class="p">,</span> <span class="s2">"final_size"</span><span class="p">,</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="o">.</span><span class="n">final_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">gap</span><span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">updated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="n">packing</span><span class="o">.</span><span class="n">placements</span> <span class="o">=</span> <span class="n">updated</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_stacking_order_configs</span><span class="p">(</span>
@@ -1223,6 +1313,7 @@
             <span class="bp">cls</span><span class="o">.</span><span class="n">_shift_placements_z</span><span class="p">(</span><span class="n">occupied</span><span class="p">,</span> <span class="o">-</span><span class="n">z_offset</span><span class="p">),</span>
             <span class="n">clearance</span><span class="o">=</span><span class="n">manifest</span><span class="o">.</span><span class="n">resolved_clearance_slack</span><span class="p">,</span>
             <span class="n">min_dim</span><span class="o">=</span><span class="n">manifest</span><span class="o">.</span><span class="n">min_spacer_height</span><span class="p">,</span>
+            <span class="n">min_xy</span><span class="o">=</span><span class="n">manifest</span><span class="o">.</span><span class="n">min_spacer_dim</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_shift_placements_z</span><span class="p">(</span><span class="n">spacers</span><span class="p">,</span> <span class="n">z_offset</span><span class="p">)</span></div>
 </div>

@@ -1249,10 +1249,18 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">min_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">MIN_SPACER_DIM</span><span class="p">,</span>
+    <span class="n">min_xy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Sweep, merge, split holes, verify support, shrink and filter — the whole spacer pass."""</span>
+    <span class="n">xy_floor</span> <span class="o">=</span> <span class="n">min_dim</span> <span class="k">if</span> <span class="n">min_xy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">min_xy</span>
     <span class="n">voids</span> <span class="o">=</span> <span class="n">merge_voids</span><span class="p">(</span><span class="n">sweep_free_space</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">placements</span><span class="p">))</span>
-    <span class="n">printable</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">thinnest</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">min_dim</span> <span class="o">-</span> <span class="n">EPSILON</span><span class="p">]</span>
+    <span class="n">printable</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">v</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">voids</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_dim</span> <span class="o">-</span> <span class="n">EPSILON</span>
+        <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">xy_floor</span> <span class="o">-</span> <span class="n">EPSILON</span>
+        <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">xy_floor</span> <span class="o">-</span> <span class="n">EPSILON</span>
+    <span class="p">]</span>
 
     <span class="c1"># Check vertical support from bottom to top so an upper spacer never floats over a dropped sliver</span>
     <span class="n">supported_rects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Void</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1260,7 +1268,7 @@
         <span class="k">if</span> <span class="n">_has_vertical_support</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">placements</span><span class="p">,</span> <span class="n">supported_rects</span><span class="p">):</span>
             <span class="n">supported_rects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
-    <span class="n">min_post_xy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">min_dim</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span> <span class="o">-</span> <span class="n">EPSILON</span>
+    <span class="n">min_post_xy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">xy_floor</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">clearance</span><span class="p">)</span> <span class="o">-</span> <span class="n">EPSILON</span>
     <span class="n">trays</span> <span class="o">=</span> <span class="p">[</span><span class="n">apply_clearance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">clearance</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merge_rectilinear</span><span class="p">(</span><span class="n">supported_rects</span><span class="p">)]</span>
     <span class="n">kept</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">v</span>
@@ -1282,6 +1290,7 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">min_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">MIN_SPACER_DIM</span><span class="p">,</span>
+    <span class="n">min_xy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""`generate_spacer_voids` as `Placement`s named `spacer_1..spacer_N`."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Placement</span>
@@ -1296,7 +1305,11 @@
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">void</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
             <span class="n">generate_spacer_voids</span><span class="p">(</span>
-                <span class="n">container</span><span class="p">,</span> <span class="n">placements</span><span class="p">,</span> <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span> <span class="n">min_dim</span><span class="o">=</span><span class="n">min_dim</span>
+                <span class="n">container</span><span class="p">,</span>
+                <span class="n">placements</span><span class="p">,</span>
+                <span class="n">clearance</span><span class="o">=</span><span class="n">clearance</span><span class="p">,</span>
+                <span class="n">min_dim</span><span class="o">=</span><span class="n">min_dim</span><span class="p">,</span>
+                <span class="n">min_xy</span><span class="o">=</span><span class="n">min_xy</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
