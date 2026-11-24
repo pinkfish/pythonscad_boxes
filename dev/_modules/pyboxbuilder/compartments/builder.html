@@ -576,6 +576,12 @@
 <span class="w">    </span><span class="sd">"""Path to an SVG file defining the custom shape of the compartment cutout."""</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Manual coordinate override (x, y) in mm within the interior frame."""</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional explicit count of game pieces stored in this compartment (for summaries &amp; packing sheets)."""</span>
+    <span class="n">component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional declared inventory component name stored in this compartment."""</span>
+    <span class="n">allocates</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="w">    </span><span class="sd">"""Optional explicit ``((component_name, qty), ...)`` allocations from the project inventory."""</span>
     <span class="n">elements</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CompartmentElement</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
 <span class="w">    </span><span class="sd">"""Physical game components nested inside this compartment (FR-004b).</span>
 

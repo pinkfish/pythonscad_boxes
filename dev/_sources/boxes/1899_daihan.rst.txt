@@ -24,94 +24,103 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=e2d4faef" download="1899Daihan_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>1899Daihan_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=e2d4faef" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=908525dc" download="1899Daihan_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>1899Daihan_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=908525dc" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=e2d4faef" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=908525dc" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 12 bodies, 12 lids, 2 spacers (26 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 145
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`HexBox_1 <box-1899_daihan-hexbox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 0, 0)``
-     - 1
+     - 9x Hex Track Tile Stacks
    * - :ref:`HexBox_2 <box-1899_daihan-hexbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 0, 16)``
-     - 1
+     - 9x Hex Track Tile Stacks
    * - :ref:`HexBox_3 <box-1899_daihan-hexbox_3>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``148.564 × 129 × 18 mm``
      - ``(76.4359, 0, 32)``
-     - 1
+     - 9x Hex Track Tile Stacks
    * - :ref:`HexBox_4 <box-1899_daihan-hexbox_4>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 129, 0)``
-     - 1
+     - 9x Hex Track Tile Stacks
    * - :ref:`ShareBox_1 <box-1899_daihan-sharebox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``76.4359 × 258 × 16.6667 mm``
      - ``(0, 0, 0)``
-     - 4
+     - 4x Corporate Share Decks
    * - :ref:`ShareBox_2 <box-1899_daihan-sharebox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``76.4359 × 258 × 16.6667 mm``
      - ``(0, 0, 16.6667)``
-     - 4
+     - 4x Corporate Share Decks
    * - :ref:`MoneyBox <box-1899_daihan-moneybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``76.4359 × 258 × 16.6667 mm``
      - ``(0, 0, 33.3333)``
-     - 5
+     - 5x Paper Currency Stacks
    * - :ref:`CompanyMarkerBox_1 <box-1899_daihan-companymarkerbox_1>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``148.564 × 47 × 18 mm``
      - ``(76.4359, 258, 0)``
-     - 1
+     - 28x Company Charter Discs
    * - :ref:`CompanyMarkerBox_2 <box-1899_daihan-companymarkerbox_2>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``148.564 × 47 × 18 mm``
      - ``(76.4359, 258, 18)``
-     - 1
+     - 28x Company Charter Discs
    * - :ref:`PrivateCompanyCards <box-1899_daihan-privatecompanycards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 72 × 18 mm``
      - ``(76.4359, 183, 16)``
-     - 1
+     - 8x Private Company Cards
    * - :ref:`ExtraBitsBox <box-1899_daihan-extrabitsbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``51.5641 × 75 × 18 mm``
      - ``(173.436, 183, 16)``
-     - 1
+     - 6x Priority Deal & Extra Markers
    * - :ref:`TrainCardBox <box-1899_daihan-traincardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``77 × 54 × 32.8 mm``
      - ``(76.4359, 129, 16)``
-     - 1
+     - 26x Train Cards
    * - :ref:`spacer_1 <spacer-1899_daihan-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``76.4359 × 47 × 50 mm``
      - ``(0, 258, 0)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-1899_daihan-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``71.5641 × 54 × 34 mm``
      - ``(153.436, 129, 16)``
-     - —
+     - Printed spacer tray
+   * - Game Board & Stock Market
+     - Board / Non-Printed
+     - ``225 × 305 × 13 mm``
+     - ``(0, 0, 50)``
+     - 1x Game Board & Stock Market (Mounted map board and stock market atop insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -124,6 +133,7 @@ HexBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 0, 0)``
+- **Pieces / Contents**: 9x Hex Track Tile Stacks
 - **Compartments (1)**: ``Tiles`` (21 elements)
 
 **Assembled Box (HexBox_1 — Body + Lid)**
@@ -161,6 +171,7 @@ HexBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 0, 16)``
+- **Pieces / Contents**: 9x Hex Track Tile Stacks
 - **Compartments (1)**: ``Tiles`` (21 elements)
 
 **Assembled Box (HexBox_2 — Body + Lid)**
@@ -198,6 +209,7 @@ HexBox_3
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``148.564 × 129 × 18 mm``
 - **Packed Position**: ``(76.4359, 0, 32)``
+- **Pieces / Contents**: 9x Hex Track Tile Stacks
 - **Compartments (1)**: ``Tiles`` (21 elements)
 
 **Assembled Box (HexBox_3 — Body + Lid)**
@@ -235,6 +247,7 @@ HexBox_4
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 129, 0)``
+- **Pieces / Contents**: 9x Hex Track Tile Stacks
 - **Compartments (1)**: ``Tiles`` (21 elements)
 
 **Assembled Box (HexBox_4 — Body + Lid)**
@@ -272,6 +285,7 @@ ShareBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``76.4359 × 258 × 16.6667 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 4x Corporate Share Decks
 - **Compartments (4)**: ``Slot_1`` (L=25%), ``Slot_2`` (L=25%), ``Slot_3`` (L=25%), ``Slot_4`` (L=25%)
 
 **Assembled Box (ShareBox_1 — Body + Lid)**
@@ -309,6 +323,7 @@ ShareBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``76.4359 × 258 × 16.6667 mm``
 - **Packed Position**: ``(0, 0, 16.6667)``
+- **Pieces / Contents**: 4x Corporate Share Decks
 - **Compartments (4)**: ``Slot_1`` (L=25%), ``Slot_2`` (L=25%), ``Slot_3`` (L=25%), ``Slot_4`` (L=25%)
 
 **Assembled Box (ShareBox_2 — Body + Lid)**
@@ -346,6 +361,7 @@ MoneyBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``76.4359 × 258 × 16.6667 mm``
 - **Packed Position**: ``(0, 0, 33.3333)``
+- **Pieces / Contents**: 5x Paper Currency Stacks
 - **Compartments (5)**: ``Denom_1`` (L=20%), ``Denom_2`` (L=20%), ``Denom_3`` (L=20%), ``Denom_4`` (L=20%), ``Denom_5`` (L=20%)
 
 **Assembled Box (MoneyBox — Body + Lid)**
@@ -383,6 +399,7 @@ CompanyMarkerBox_1
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``148.564 × 47 × 18 mm``
 - **Packed Position**: ``(76.4359, 258, 0)``
+- **Pieces / Contents**: 28x Company Charter Discs
 - **Compartments (1)**: ``Tokens`` (32 elements)
 
 **Assembled Box (CompanyMarkerBox_1 — Body + Lid)**
@@ -420,6 +437,7 @@ CompanyMarkerBox_2
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``148.564 × 47 × 18 mm``
 - **Packed Position**: ``(76.4359, 258, 18)``
+- **Pieces / Contents**: 28x Company Charter Discs
 - **Compartments (1)**: ``Tokens`` (32 elements)
 
 **Assembled Box (CompanyMarkerBox_2 — Body + Lid)**
@@ -457,6 +475,7 @@ PrivateCompanyCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 72 × 18 mm``
 - **Packed Position**: ``(76.4359, 183, 16)``
+- **Pieces / Contents**: 8x Private Company Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (PrivateCompanyCards — Body + Lid)**
@@ -494,6 +513,7 @@ ExtraBitsBox
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``51.5641 × 75 × 18 mm``
 - **Packed Position**: ``(173.436, 183, 16)``
+- **Pieces / Contents**: 6x Priority Deal & Extra Markers
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (ExtraBitsBox — Body + Lid)**
@@ -531,6 +551,7 @@ TrainCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``77 × 54 × 32.8 mm``
 - **Packed Position**: ``(76.4359, 129, 16)``
+- **Pieces / Contents**: 26x Train Cards
 - **Compartments (1)**: ``TrainCards`` (D=30.8 mm)
 
 **Assembled Box (TrainCardBox — Body + Lid)**

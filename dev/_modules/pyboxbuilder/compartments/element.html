@@ -590,6 +590,12 @@
 <span class="w">    </span><span class="sd">"""When set, this element is a **positive coloured insert** — a thin icon</span>
 <span class="sd">    pressed into the bottom of its well — instead of a cutout. The value is a</span>
 <span class="sd">    web colour name, applied as the insert's own material in mmu mode."""</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional explicit count of game pieces stored in this element well.</span>
+<span class="sd">    ``None`` counts as ``1`` for piece wells (and ``0`` for helper finger-bite /</span>
+<span class="sd">    grab-shelf cutouts)."""</span>
+    <span class="n">component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional declared inventory component name allocated by this element well."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate the element's shape and size."""</span>

@@ -985,18 +985,39 @@
                 <span class="s2">"no_rotate"</span><span class="p">:</span> <span class="n">builder</span><span class="o">.</span><span class="n">no_rotate</span><span class="p">,</span>
             <span class="p">})</span>
 
-        <span class="c1"># Convert pinned manual placements into packing-frame obstacles so auto-packed</span>
-        <span class="c1"># boxes pack around (and on top of) pinned boxes without colliding!</span>
+        <span class="c1"># Convert pinned manual placements and partial non-printed boards that</span>
+        <span class="c1"># overlap the usable packing container into obstacles so auto-packed</span>
+        <span class="c1"># boxes pack around them cleanly without double-counting top/bottom slabs.</span>
+        <span class="n">pack_h</span> <span class="o">=</span> <span class="n">packing_container</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">board_obstacles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">gb</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">boards</span><span class="p">:</span>
+            <span class="n">bz0</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">z_offset</span>
+            <span class="n">bz1</span> <span class="o">=</span> <span class="n">bz0</span> <span class="o">+</span> <span class="n">gb</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">bz1</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span> <span class="ow">or</span> <span class="n">bz0</span> <span class="o">&gt;=</span> <span class="n">pack_h</span> <span class="o">-</span> <span class="mf">1e-6</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">clipped_z0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bz0</span><span class="p">)</span>
+            <span class="n">clipped_z1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pack_h</span><span class="p">,</span> <span class="n">bz1</span><span class="p">)</span>
+            <span class="n">board_obstacles</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span>
+                <span class="n">clipped_z0</span><span class="p">,</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">gb</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">clipped_z1</span> <span class="o">-</span> <span class="n">clipped_z0</span><span class="p">,</span>
+            <span class="p">))</span>
         <span class="n">obstacles</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span>
-                <span class="n">mp</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span>
-                <span class="n">mp</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span>
-                <span class="n">mp</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">z_offset</span><span class="p">,</span>
-                <span class="n">mp</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                <span class="n">mp</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="n">mp</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-            <span class="p">)</span>
-            <span class="k">for</span> <span class="n">mp</span> <span class="ow">in</span> <span class="n">manual_placements</span>
+            <span class="o">*</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">mp</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span>
+                    <span class="n">mp</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">slack</span><span class="p">,</span>
+                    <span class="n">mp</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">z_offset</span><span class="p">,</span>
+                    <span class="n">mp</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">mp</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">mp</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">mp</span> <span class="ow">in</span> <span class="n">manual_placements</span>
+            <span class="p">),</span>
+            <span class="o">*</span><span class="n">board_obstacles</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="n">packing</span> <span class="o">=</span> <span class="n">pack_boxes</span><span class="p">(</span>
@@ -1169,6 +1190,7 @@
         <span class="bp">cls</span><span class="p">,</span> <span class="n">manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span><span class="p">,</span> <span class="n">packing</span><span class="p">:</span> <span class="n">BoxPacking</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Find leftover space in the packed layout and return spacer placements."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Placement</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.spacer</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_spacer_placements</span>
 
         <span class="k">if</span> <span class="n">manifest</span><span class="o">.</span><span class="n">game_box_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1179,9 +1201,26 @@
             <span class="n">manifest</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">manifest</span><span class="o">.</span><span class="n">board_thickness</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">z_offset</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">.</span><span class="n">board_z_offset</span>
+        <span class="n">eff_h</span> <span class="o">=</span> <span class="n">effective_box</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">board_occupied</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">gb</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">boards</span><span class="p">:</span>
+            <span class="n">bz0</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">z_offset</span>
+            <span class="n">bz1</span> <span class="o">=</span> <span class="n">bz0</span> <span class="o">+</span> <span class="n">gb</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">bz1</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span> <span class="ow">or</span> <span class="n">bz0</span> <span class="o">&gt;=</span> <span class="n">eff_h</span> <span class="o">-</span> <span class="mf">1e-6</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">clipped_z0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bz0</span><span class="p">)</span>
+            <span class="n">clipped_z1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">eff_h</span><span class="p">,</span> <span class="n">bz1</span><span class="p">)</span>
+            <span class="n">board_occupied</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Placement</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">gb</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gb</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">clipped_z0</span> <span class="o">+</span> <span class="n">z_offset</span><span class="p">),</span>
+                    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">gb</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gb</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">clipped_z1</span> <span class="o">-</span> <span class="n">clipped_z0</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">occupied</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">,</span> <span class="o">*</span><span class="n">board_occupied</span><span class="p">]</span>
         <span class="n">spacers</span> <span class="o">=</span> <span class="n">generate_spacer_placements</span><span class="p">(</span>
             <span class="n">effective_box</span><span class="p">,</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">_shift_placements_z</span><span class="p">(</span><span class="n">packing</span><span class="o">.</span><span class="n">placements</span><span class="p">,</span> <span class="o">-</span><span class="n">z_offset</span><span class="p">),</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_shift_placements_z</span><span class="p">(</span><span class="n">occupied</span><span class="p">,</span> <span class="o">-</span><span class="n">z_offset</span><span class="p">),</span>
             <span class="n">clearance</span><span class="o">=</span><span class="n">manifest</span><span class="o">.</span><span class="n">resolved_clearance_slack</span><span class="p">,</span>
             <span class="n">min_dim</span><span class="o">=</span><span class="n">manifest</span><span class="o">.</span><span class="n">min_spacer_height</span><span class="p">,</span>
         <span class="p">)</span>

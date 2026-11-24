@@ -523,7 +523,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
@@ -531,7 +531,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">FingerCut</span><span class="p">,</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">,</span> <span class="n">StackableMode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardSize</span><span class="p">,</span> <span class="n">SleeveType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutCompiler</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.manifest</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectManifest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.inventory</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InventoryVerification</span><span class="p">,</span>
+    <span class="n">ProjectInventory</span><span class="p">,</span>
+    <span class="n">summarize_project</span><span class="p">,</span>
+    <span class="n">verify_inventory</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.manifest</span><span class="w"> </span><span class="kn">import</span> <span class="n">GameBoard</span><span class="p">,</span> <span class="n">GameComponent</span><span class="p">,</span> <span class="n">ProjectManifest</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.piece</span><span class="w"> </span><span class="kn">import</span> <span class="n">Build</span><span class="p">,</span> <span class="n">Piece</span><span class="p">,</span> <span class="n">ResolvedBox</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryPipeline</span>
 
@@ -715,6 +721,102 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">boxes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Registered sub-box builders."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">boxes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">boards</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameBoard</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Registered non-printed game boards, screens, or playmats."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">boards</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Declared physical game component inventory."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">components</span>
+
+<div class="viewcode-block" id="Project.component">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.component">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">component</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameComponent</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Declare a physical game component type in the project's piece inventory."""</span>
+        <span class="n">gc</span> <span class="o">=</span> <span class="n">GameComponent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span> <span class="n">notes</span><span class="o">=</span><span class="n">notes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">gc</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.define_inventory">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.define_inventory">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">define_inventory</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">items</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Register the game's full piece inventory from a ``{name: count}`` mapping or sequence."""</span>
+        <span class="n">added</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">qty</span> <span class="ow">in</span> <span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">qty</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                <span class="n">added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">added</span></div>
+
+
+<div class="viewcode-block" id="Project.verify_inventory">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.verify_inventory">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InventoryVerification</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Verify that all declared inventory components are allocated across boxes and boards."""</span>
+        <span class="k">return</span> <span class="n">verify_inventory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.board">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.board">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">board</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">allocates</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameBoard</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Register a non-printed game board, rulebook, screen, or playmat region.</span>
+
+<span class="sd">        Auto-packed boxes and auto-generated spacers avoid this 3-D region, no</span>
+<span class="sd">        STL is generated for it, and both the packing guide PDF and Sphinx box</span>
+<span class="sd">        summary render and count it explicitly.</span>
+<span class="sd">        """</span>
+        <span class="n">norm_alloc</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">if</span> <span class="n">allocates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allocates</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                <span class="n">norm_alloc</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">allocates</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">norm_alloc</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">allocates</span><span class="p">)</span>
+        <span class="n">gb</span> <span class="o">=</span> <span class="n">GameBoard</span><span class="p">(</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+            <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+            <span class="n">notes</span><span class="o">=</span><span class="n">notes</span><span class="p">,</span>
+            <span class="n">component</span><span class="o">=</span><span class="n">component</span><span class="p">,</span>
+            <span class="n">allocates</span><span class="o">=</span><span class="n">norm_alloc</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_board</span><span class="p">(</span><span class="n">gb</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.inventory">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.inventory">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">spacer_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectInventory</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the extracted printed-part, board, and stored-piece inventory."""</span>
+        <span class="k">if</span> <span class="n">spacer_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">build</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+            <span class="n">spacer_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">build</span><span class="o">.</span><span class="n">packing</span><span class="o">.</span><span class="n">spacer_placements</span><span class="p">)</span> <span class="k">if</span> <span class="n">build</span><span class="o">.</span><span class="n">packing</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">summarize_project</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">spacer_count</span><span class="o">=</span><span class="n">spacer_count</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="Project.box">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.box">[docs]</a>

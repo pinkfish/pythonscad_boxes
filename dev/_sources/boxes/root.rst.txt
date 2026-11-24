@@ -40,159 +40,168 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/root/Root_packing_guide.pdf?v=eebbb18e" download="Root_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Root_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/root/Root_packing_guide.pdf?v=eebbb18e" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/root/Root_packing_guide.pdf?v=5a05ee6f" download="Root_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Root_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/root/Root_packing_guide.pdf?v=5a05ee6f" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/root/Root_packing_guide.pdf?v=eebbb18e" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/root/Root_packing_guide.pdf?v=5a05ee6f" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 21 bodies, 21 lids, 6 spacers (48 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 337
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`BaseCardBox <box-root-basecardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``79.875 × 98.5 × 39 mm``
      - ``(79.875, 0, 28)``
-     - 1
+     - 54x Shared Deck Cards, Cards
    * - :ref:`ErieCardBox <box-root-eriecardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``79.875 × 98.5 × 8.6 mm``
      - ``(0, 0, 28)``
-     - 1
+     - 6x Eyrie Leader & Vizier Cards, Cards
    * - :ref:`VagabondCardBox <box-root-vagabondcardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``79.875 × 98.5 × 19.4 mm``
      - ``(0, 0, 36.6)``
-     - 1
+     - 21x Vagabond Quest & Character Cards, Cards
    * - :ref:`OverviewCardBox <box-root-overviewcardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``79.875 × 98.5 × 11 mm``
      - ``(0, 0, 56)``
-     - 1
+     - 6x Faction Overview Cards, Cards
    * - :ref:`ItemsBoxBottom <box-root-itemsboxbottom>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 103.5 × 10 mm``
      - ``(0, 158.333, 28)``
-     - 1
+     - 12x Vagabond Starting & Craftable Items, 8x Ruin Items
    * - :ref:`ItemsBoxMiddle <box-root-itemsboxmiddle>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 103.5 × 9 mm``
      - ``(0, 158.333, 38)``
-     - 1
+     - 12x Vagabond Starting & Craftable Items, 4x Ruin Items
    * - :ref:`ItemsBoxWinter <box-root-itemsboxwinter>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 103.5 × 9 mm``
      - ``(0, 158.333, 47)``
-     - 1
+     - 12x Winter Clearing Markers
    * - :ref:`ItemsBoxExtras <box-root-itemsboxextras>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 103.5 × 11 mm``
      - ``(0, 158.333, 56)``
-     - 1
+     - 8x Extra Scenario Tokens
    * - :ref:`MarquisBoxBottom <box-root-marquisboxbottom>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106.5 × 59.833 × 24.5 mm``
      - ``(0, 98.5, 28)``
-     - 1
+     - 25x Marquise Warriors
    * - :ref:`MarquisBoxTop <box-root-marquisboxtop>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``106.5 × 59.833 × 14.5 mm``
      - ``(0, 98.5, 52.5)``
-     - 1
+     - 8x Marquise Wood Tokens, 6x Marquise Sawmills, 6x Marquise Workshops, 6x Marquise Recruiters, 1x Marquise Keep Token, 1x Marquise Score Marker
    * - :ref:`ErieBoxBottom <box-root-erieboxbottom>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106.5 × 59.833 × 24.5 mm``
      - ``(106.5, 158.333, 28)``
-     - 1
+     - 20x Eyrie Warriors
    * - :ref:`ErieBoxTop <box-root-erieboxtop>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 59.833 × 14.5 mm``
      - ``(53.25, 218.166, 52.5)``
-     - 1
+     - 7x Eyrie Roosts, 1x Eyrie Score Marker
    * - :ref:`AllianceBoxBottom <box-root-allianceboxbottom>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``53.25 × 59.833 × 24.5 mm``
      - ``(53.25, 218.166, 28)``
-     - 1
+     - 10x Woodland Alliance Warriors
    * - :ref:`AllianceBoxTop <box-root-allianceboxtop>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 59.833 × 14.5 mm``
      - ``(106.5, 158.333, 52.5)``
-     - 1
+     - 10x Woodland Alliance Sympathy Tokens, 3x Woodland Alliance Bases, 1x Woodland Alliance Score Marker
    * - :ref:`LizardBoxBottom <box-root-lizardboxbottom>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``106.5 × 59.833 × 26.5 mm``
      - ``(106.5, 98.5, 28)``
-     - 1
+     - 25x Lizard Cult Warriors
    * - :ref:`LizardBoxTop <box-root-lizardboxtop>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``79.875 × 59.833 × 12.5 mm``
      - ``(106.5, 98.5, 54.5)``
-     - 1
+     - 15x Lizard Cult Gardens, 1x Lizard Cult Outcast Marker, 1x Lizard Cult Lost Souls Marker, 1x Lizard Cult Score Marker
    * - :ref:`RiverfolkBoxBottom <box-root-riverfolkboxbottom>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``53.25 × 59.833 × 26.5 mm``
      - ``(106.5, 218.166, 40.5)``
-     - 1
+     - 15x Riverfolk Warriors
    * - :ref:`RiverfolkBoxTop <box-root-riverfolkboxtop>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``79.875 × 59.833 × 12.5 mm``
      - ``(106.5, 218.166, 28)``
-     - 1
+     - 9x Riverfolk Trade Posts, 3x Riverfolk Glass Gems, 1x Riverfolk Score Marker
    * - :ref:`VagabondBox <box-root-vagabondbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 59.833 × 19.5 mm``
      - ``(159.75, 0, 28)``
-     - 1
+     - 1x Vagabond Meeples, 1x Vagabond Score Markers, 6x Vagabond Relationship Markers
    * - :ref:`VagabondBox2 <box-root-vagabondbox2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 59.833 × 19.5 mm``
      - ``(159.75, 0, 47.5)``
-     - 1
+     - 1x Vagabond Meeples, 1x Vagabond Score Markers, 6x Vagabond Relationship Markers
    * - :ref:`DiceBox <box-root-dicebox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.25 × 59.833 × 39 mm``
      - ``(53.25, 158.333, 28)``
-     - 1
+     - 2x Combat Dice
    * - :ref:`spacer_1 <spacer-root-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``54.25 × 119.667 × 14.5 mm``
      - ``(159.75, 158.333, 52.5)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-root-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``54.25 × 38.667 × 39 mm``
      - ``(159.75, 59.833, 28)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_3 <spacer-root-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``27.625 × 59.834 × 24.5 mm``
      - ``(186.375, 218.166, 28)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_4 <spacer-root-spacer_4>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``53.25 × 16.167 × 39 mm``
      - ``(0, 261.833, 28)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_5 <spacer-root-spacer_5>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``27.625 × 59.833 × 12.5 mm``
      - ``(186.375, 98.5, 54.5)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_6 <spacer-root-spacer_6>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``26.625 × 59.834 × 12 mm``
      - ``(159.75, 218.166, 40.5)``
-     - —
+     - Printed spacer tray
+   * - Map & Faction Boards
+     - Board / Non-Printed
+     - ``214 × 278 × 28 mm``
+     - ``(0, 0, 0)``
+     - 1x Map & Faction Boards (Folded map board, faction boards, and rulebooks in bottom bay)
 
 Individual Boxes & Parts
 ------------------------
@@ -205,6 +214,7 @@ BaseCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 98.5 × 39 mm``
 - **Packed Position**: ``(79.875, 0, 28)``
+- **Pieces / Contents**: 54x Shared Deck Cards, Cards
 - **Compartments (1)**: ``Cards`` (75.875 × 94.5 mm)
 
 **Assembled Box (BaseCardBox — Body + Lid)**
@@ -242,6 +252,7 @@ ErieCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 98.5 × 8.6 mm``
 - **Packed Position**: ``(0, 0, 28)``
+- **Pieces / Contents**: 6x Eyrie Leader & Vizier Cards, Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (75.875 × 94.5 mm)
@@ -281,6 +292,7 @@ VagabondCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 98.5 × 19.4 mm``
 - **Packed Position**: ``(0, 0, 36.6)``
+- **Pieces / Contents**: 21x Vagabond Quest & Character Cards, Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``Cards`` (75.875 × 94.5 mm)
@@ -320,6 +332,7 @@ OverviewCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 98.5 × 11 mm``
 - **Packed Position**: ``(0, 0, 56)``
+- **Pieces / Contents**: 6x Faction Overview Cards, Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=3``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (75.875 × 94.5 mm)
@@ -359,6 +372,7 @@ ItemsBoxBottom
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 103.5 × 10 mm``
 - **Packed Position**: ``(0, 158.333, 28)``
+- **Pieces / Contents**: 12x Vagabond Starting & Craftable Items, 8x Ruin Items
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Items`` (D=6 mm, 20 elements)
@@ -398,6 +412,7 @@ ItemsBoxMiddle
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 103.5 × 9 mm``
 - **Packed Position**: ``(0, 158.333, 38)``
+- **Pieces / Contents**: 12x Vagabond Starting & Craftable Items, 4x Ruin Items
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``Items`` (D=5 mm, 18 elements)
@@ -437,6 +452,7 @@ ItemsBoxWinter
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 103.5 × 9 mm``
 - **Packed Position**: ``(0, 158.333, 47)``
+- **Pieces / Contents**: 12x Winter Clearing Markers
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=3``, top ``pyramids=(2, 3, 3, 2)``
 - **Compartments (1)**: ``WinterTokens`` (D=5 mm, 24 elements)
@@ -476,6 +492,7 @@ ItemsBoxExtras
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 103.5 × 11 mm``
 - **Packed Position**: ``(0, 158.333, 56)``
+- **Pieces / Contents**: 8x Extra Scenario Tokens
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=(2, 3, 3, 2)``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Extras`` (D=7 mm, 16 elements)
@@ -515,6 +532,7 @@ MarquisBoxBottom
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106.5 × 59.833 × 24.5 mm``
 - **Packed Position**: ``(0, 98.5, 28)``
+- **Pieces / Contents**: 25x Marquise Warriors
 - **Compartments (1)**: ``Warriors`` (6 elements)
 
 **Assembled Box (MarquisBoxBottom — Body + Lid)**
@@ -552,6 +570,7 @@ MarquisBoxTop
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``106.5 × 59.833 × 14.5 mm``
 - **Packed Position**: ``(0, 98.5, 52.5)``
+- **Pieces / Contents**: 8x Marquise Wood Tokens, 6x Marquise Sawmills, 6x Marquise Workshops, 6x Marquise Recruiters, 1x Marquise Keep Token, 1x Marquise Score Marker
 - **Compartments (1)**: ``WoodAndBuildings`` (20 elements)
 
 **Assembled Box (MarquisBoxTop — Body + Lid)**
@@ -589,6 +608,7 @@ ErieBoxBottom
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106.5 × 59.833 × 24.5 mm``
 - **Packed Position**: ``(106.5, 158.333, 28)``
+- **Pieces / Contents**: 20x Eyrie Warriors
 - **Compartments (1)**: ``Warriors`` (4 elements)
 
 **Assembled Box (ErieBoxBottom — Body + Lid)**
@@ -626,6 +646,7 @@ ErieBoxTop
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 14.5 mm``
 - **Packed Position**: ``(53.25, 218.166, 52.5)``
+- **Pieces / Contents**: 7x Eyrie Roosts, 1x Eyrie Score Marker
 - **Compartments (1)**: ``Roosts`` (6 elements)
 
 **Assembled Box (ErieBoxTop — Body + Lid)**
@@ -663,6 +684,7 @@ AllianceBoxBottom
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 24.5 mm``
 - **Packed Position**: ``(53.25, 218.166, 28)``
+- **Pieces / Contents**: 10x Woodland Alliance Warriors
 - **Compartments (1)**: ``Warriors`` (4 elements)
 
 **Assembled Box (AllianceBoxBottom — Body + Lid)**
@@ -700,6 +722,7 @@ AllianceBoxTop
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 14.5 mm``
 - **Packed Position**: ``(106.5, 158.333, 52.5)``
+- **Pieces / Contents**: 10x Woodland Alliance Sympathy Tokens, 3x Woodland Alliance Bases, 1x Woodland Alliance Score Marker
 - **Compartments (1)**: ``BasesAndSympathy`` (8 elements)
 
 **Assembled Box (AllianceBoxTop — Body + Lid)**
@@ -737,6 +760,7 @@ LizardBoxBottom
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``106.5 × 59.833 × 26.5 mm``
 - **Packed Position**: ``(106.5, 98.5, 28)``
+- **Pieces / Contents**: 25x Lizard Cult Warriors
 - **Compartments (1)**: ``Warriors`` (25 elements)
 
 **Assembled Box (LizardBoxBottom — Body + Lid)**
@@ -774,6 +798,7 @@ LizardBoxTop
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 59.833 × 12.5 mm``
 - **Packed Position**: ``(106.5, 98.5, 54.5)``
+- **Pieces / Contents**: 15x Lizard Cult Gardens, 1x Lizard Cult Outcast Marker, 1x Lizard Cult Lost Souls Marker, 1x Lizard Cult Score Marker
 - **Compartments (1)**: ``Gardens`` (12 elements)
 
 **Assembled Box (LizardBoxTop — Body + Lid)**
@@ -811,6 +836,7 @@ RiverfolkBoxBottom
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 26.5 mm``
 - **Packed Position**: ``(106.5, 218.166, 40.5)``
+- **Pieces / Contents**: 15x Riverfolk Warriors
 - **Compartments (1)**: ``Warriors`` (6 elements)
 
 **Assembled Box (RiverfolkBoxBottom — Body + Lid)**
@@ -848,6 +874,7 @@ RiverfolkBoxTop
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``79.875 × 59.833 × 12.5 mm``
 - **Packed Position**: ``(106.5, 218.166, 28)``
+- **Pieces / Contents**: 9x Riverfolk Trade Posts, 3x Riverfolk Glass Gems, 1x Riverfolk Score Marker
 - **Compartments (1)**: ``TradePosts`` (14 elements)
 
 **Assembled Box (RiverfolkBoxTop — Body + Lid)**
@@ -885,6 +912,7 @@ VagabondBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 19.5 mm``
 - **Packed Position**: ``(159.75, 0, 28)``
+- **Pieces / Contents**: 1x Vagabond Meeples, 1x Vagabond Score Markers, 6x Vagabond Relationship Markers
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``ItemsAndScore`` (7 elements)
@@ -924,6 +952,7 @@ VagabondBox2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 19.5 mm``
 - **Packed Position**: ``(159.75, 0, 47.5)``
+- **Pieces / Contents**: 1x Vagabond Meeples, 1x Vagabond Score Markers, 6x Vagabond Relationship Markers
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``ItemsAndScore`` (7 elements)
@@ -963,6 +992,7 @@ DiceBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.25 × 59.833 × 39 mm``
 - **Packed Position**: ``(53.25, 158.333, 28)``
+- **Pieces / Contents**: 2x Combat Dice
 - **Compartments (1)**: ``Dice`` (2 elements)
 
 **Assembled Box (DiceBox — Body + Lid)**

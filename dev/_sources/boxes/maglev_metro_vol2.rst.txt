@@ -24,124 +24,143 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=8e879190" download="MaglevMetroVol2_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MaglevMetroVol2_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=8e879190" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=32786303" download="MaglevMetroVol2_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MaglevMetroVol2_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=32786303" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=8e879190" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/maglev_metro_vol2/MaglevMetroVol2_packing_guide.pdf?v=32786303" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 18 bodies, 15 lids, 2 spacers (35 total)
+- **Boards & Non-Printed Components**: 9
+- **Counted Game Pieces**: 213
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`ExtraTilesBox <box-maglev_metro_vol2-extratilesbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``166.839 × 122 × 21 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 1x Loop Tile, 1x Outback Small Tile
    * - :ref:`UpgradeTileBox <box-maglev_metro_vol2-upgradetilebox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``73 × 126 × 14 mm``
      - ``(0, 122, 0)``
-     - 3
+     - 7x Upgrade Tiles
    * - :ref:`ExpansionCardsBox <box-maglev_metro_vol2-expansioncardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 96 × 14 mm``
      - ``(73, 122, 0)``
-     - 1
+     - 16x Expansion Cards
    * - :ref:`MiddleBoxSpacer <box-maglev_metro_vol2-middleboxspacer>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``20.8393 × 126 × 14 mm``
      - ``(146, 122, 0)``
-     - 0
+     - —
    * - :ref:`SummonBox <box-maglev_metro_vol2-summonbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``166.839 × 38 × 14 mm``
      - ``(0, 248, 0)``
-     - 2
+     - 4x Summon Tiles
    * - :ref:`PlayerBoxSpacer <box-maglev_metro_vol2-playerboxspacer>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``166.839 × 39 × 7 mm``
      - ``(0, 122, 14)``
-     - 0
+     - —
    * - :ref:`RobotBox_Silver <box-maglev_metro_vol2-robotbox_silver>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``55.6131 × 66.2 × 17 mm``
      - ``(0, 162, 14)``
-     - 1
+     - 18x Silver Robots
    * - :ref:`RobotBox_Gold <box-maglev_metro_vol2-robotbox_gold>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``55.6131 × 66.2 × 17 mm``
      - ``(55.6131, 162, 14)``
-     - 1
+     - 18x Gold Robots
    * - :ref:`RobotBox_Orange <box-maglev_metro_vol2-robotbox_orange>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``55.6131 × 66.2 × 17 mm``
      - ``(111.226, 162, 14)``
-     - 1
+     - 18x Orange Robots
    * - :ref:`NanobotBox_1 <box-maglev_metro_vol2-nanobotbox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``55.6131 × 57.8 × 17 mm``
      - ``(0, 228.2, 14)``
-     - 1
+     - 16x Nanobots
    * - :ref:`NanobotBox_2 <box-maglev_metro_vol2-nanobotbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``55.6131 × 57.8 × 17 mm``
      - ``(55.6131, 228.2, 14)``
-     - 1
+     - 16x Nanobots
    * - :ref:`NanobotBox_3 <box-maglev_metro_vol2-nanobotbox_3>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``55.6131 × 57.8 × 17 mm``
      - ``(111.226, 228.2, 14)``
-     - 1
+     - 16x Nanobots
    * - :ref:`OutbackGhostTilesBox <box-maglev_metro_vol2-outbackghosttilesbox>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``116.161 × 227 × 31 mm``
      - ``(166.839, 0, 0)``
-     - 2
+     - 4x Outback Hex Tiles, 4x Ghost Hex Tiles
    * - :ref:`MetroTokenBox <box-maglev_metro_vol2-metrotokenbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``116.161 × 58 × 31 mm``
      - ``(166.839, 227, 0)``
-     - 1
+     - 24x Metro Tickets
    * - :ref:`CommuterBox_Pink <box-maglev_metro_vol2-commuterbox_pink>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``44 × 71.5 × 17 mm``
      - ``(0, 0, 31)``
-     - 1
+     - 14x Pink Commuters
    * - :ref:`CommuterBox_Aqua <box-maglev_metro_vol2-commuterbox_aqua>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``44 × 71.5 × 17 mm``
      - ``(0, 71.5, 31)``
-     - 1
+     - 14x Aqua Commuters
    * - :ref:`CommuterBox_Coral <box-maglev_metro_vol2-commuterbox_coral>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``44 × 71.5 × 17 mm``
      - ``(0, 143, 31)``
-     - 1
+     - 11x Coral Commuters
    * - :ref:`CommuterBox_Purple <box-maglev_metro_vol2-commuterbox_purple>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``44 × 71.5 × 17 mm``
      - ``(0, 214.5, 31)``
-     - 1
+     - 11x Purple Commuters
    * - :ref:`spacer_1 <spacer-maglev_metro_vol2-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``166.839 × 162 × 10 mm``
-     - ``(0, 0, 21)``
-     - —
+     - ``21.8393 × 162 × 10 mm``
+     - ``(145, 0, 21)``
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-maglev_metro_vol2-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``73 × 30 × 14 mm``
      - ``(73, 218, 0)``
-     - —
+     - Printed spacer tray
+   * - Map Boards
+     - Board / Non-Printed
+     - ``280 × 281 × 17 mm``
+     - ``(6, 0, 48)``
+     - 3x Map Boards
+   * - Game Board Bases
+     - Board / Non-Printed
+     - ``242 × 272 × 17 mm``
+     - ``(44, 0, 31)``
+     - 2x Game Board Bases
+   * - Player Boards
+     - Board / Non-Printed
+     - ``145 × 162 × 10 mm``
+     - ``(0, 0, 21)``
+     - 4x Player Boards
 
 Individual Boxes & Parts
 ------------------------
@@ -154,6 +173,7 @@ ExtraTilesBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``166.839 × 122 × 21 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 1x Loop Tile, 1x Outback Small Tile
 - **Compartments (1)**: ``LoopAndOutbackTiles`` (full interior)
 
 **Assembled Box (ExtraTilesBox — Body + Lid)**
@@ -191,6 +211,7 @@ UpgradeTileBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``73 × 126 × 14 mm``
 - **Packed Position**: ``(0, 122, 0)``
+- **Pieces / Contents**: 7x Upgrade Tiles
 - **Compartments (3)**: ``Upgrade_1`` (L=33%), ``Upgrade_2`` (L=33%), ``Upgrade_3`` (L=33%)
 
 **Assembled Box (UpgradeTileBox — Body + Lid)**
@@ -228,6 +249,7 @@ ExpansionCardsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 96 × 14 mm``
 - **Packed Position**: ``(73, 122, 0)``
+- **Pieces / Contents**: 16x Expansion Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (ExpansionCardsBox — Body + Lid)**
@@ -283,6 +305,7 @@ SummonBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``166.839 × 38 × 14 mm``
 - **Packed Position**: ``(0, 248, 0)``
+- **Pieces / Contents**: 4x Summon Tiles
 - **Compartments (2)**: ``Summon_1`` (W=50%), ``Summon_2`` (W=50%)
 
 **Assembled Box (SummonBox — Body + Lid)**
@@ -338,6 +361,7 @@ RobotBox_Silver
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``55.6131 × 66.2 × 17 mm``
 - **Packed Position**: ``(0, 162, 14)``
+- **Pieces / Contents**: 18x Silver Robots
 - **Compartments (1)**: ``Robots`` (full interior)
 
 **Assembled Box (RobotBox_Silver — Body + Lid)**
@@ -375,6 +399,7 @@ RobotBox_Gold
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``55.6131 × 66.2 × 17 mm``
 - **Packed Position**: ``(55.6131, 162, 14)``
+- **Pieces / Contents**: 18x Gold Robots
 - **Compartments (1)**: ``Robots`` (full interior)
 
 **Assembled Box (RobotBox_Gold — Body + Lid)**
@@ -412,6 +437,7 @@ RobotBox_Orange
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``55.6131 × 66.2 × 17 mm``
 - **Packed Position**: ``(111.226, 162, 14)``
+- **Pieces / Contents**: 18x Orange Robots
 - **Compartments (1)**: ``Robots`` (full interior)
 
 **Assembled Box (RobotBox_Orange — Body + Lid)**
@@ -449,6 +475,7 @@ NanobotBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``55.6131 × 57.8 × 17 mm``
 - **Packed Position**: ``(0, 228.2, 14)``
+- **Pieces / Contents**: 16x Nanobots
 - **Compartments (1)**: ``Nanobots`` (full interior)
 
 **Assembled Box (NanobotBox_1 — Body + Lid)**
@@ -486,6 +513,7 @@ NanobotBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``55.6131 × 57.8 × 17 mm``
 - **Packed Position**: ``(55.6131, 228.2, 14)``
+- **Pieces / Contents**: 16x Nanobots
 - **Compartments (1)**: ``Nanobots`` (full interior)
 
 **Assembled Box (NanobotBox_2 — Body + Lid)**
@@ -523,6 +551,7 @@ NanobotBox_3
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``55.6131 × 57.8 × 17 mm``
 - **Packed Position**: ``(111.226, 228.2, 14)``
+- **Pieces / Contents**: 16x Nanobots
 - **Compartments (1)**: ``Nanobots`` (full interior)
 
 **Assembled Box (NanobotBox_3 — Body + Lid)**
@@ -560,6 +589,7 @@ OutbackGhostTilesBox
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``116.161 × 227 × 31 mm``
 - **Packed Position**: ``(166.839, 0, 0)``
+- **Pieces / Contents**: 4x Outback Hex Tiles, 4x Ghost Hex Tiles
 - **Compartments (2)**: ``OutbackHexes`` (W=50%), ``GhostHexes`` (W=50%)
 
 **Part: OutbackGhostTilesBox Body**
@@ -579,6 +609,7 @@ MetroTokenBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``116.161 × 58 × 31 mm``
 - **Packed Position**: ``(166.839, 227, 0)``
+- **Pieces / Contents**: 24x Metro Tickets
 - **Compartments (1)**: ``MetroTickets`` (full interior)
 
 **Assembled Box (MetroTokenBox — Body + Lid)**
@@ -616,6 +647,7 @@ CommuterBox_Pink
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``44 × 71.5 × 17 mm``
 - **Packed Position**: ``(0, 0, 31)``
+- **Pieces / Contents**: 14x Pink Commuters
 - **Compartments (1)**: ``Commuters`` (full interior)
 
 **Assembled Box (CommuterBox_Pink — Body + Lid)**
@@ -653,6 +685,7 @@ CommuterBox_Aqua
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``44 × 71.5 × 17 mm``
 - **Packed Position**: ``(0, 71.5, 31)``
+- **Pieces / Contents**: 14x Aqua Commuters
 - **Compartments (1)**: ``Commuters`` (full interior)
 
 **Assembled Box (CommuterBox_Aqua — Body + Lid)**
@@ -690,6 +723,7 @@ CommuterBox_Coral
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``44 × 71.5 × 17 mm``
 - **Packed Position**: ``(0, 143, 31)``
+- **Pieces / Contents**: 11x Coral Commuters
 - **Compartments (1)**: ``Commuters`` (full interior)
 
 **Assembled Box (CommuterBox_Coral — Body + Lid)**
@@ -727,6 +761,7 @@ CommuterBox_Purple
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``44 × 71.5 × 17 mm``
 - **Packed Position**: ``(0, 214.5, 31)``
+- **Pieces / Contents**: 11x Purple Commuters
 - **Compartments (1)**: ``Commuters`` (full interior)
 
 **Assembled Box (CommuterBox_Purple — Body + Lid)**
@@ -765,8 +800,8 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``166.839 × 162 × 10 mm``
-- **Packed Position**: ``(0, 0, 21)``
+- **Outer Dimensions**: ``21.8393 × 162 × 10 mm``
+- **Packed Position**: ``(145, 0, 21)``
 
 .. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=23ee618e
    :height: 280px

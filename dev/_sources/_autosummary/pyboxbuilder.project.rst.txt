@@ -13,6 +13,7 @@ pyboxbuilder.project
    
       compiler
       core
+      inventory
       manifest
       piece
       pipeline

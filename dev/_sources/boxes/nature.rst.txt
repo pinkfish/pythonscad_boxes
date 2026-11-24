@@ -24,79 +24,88 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=184daa68" download="Nature_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nature_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=184daa68" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=c0513e9f" download="Nature_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nature_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=c0513e9f" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=184daa68" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=c0513e9f" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 9 bodies, 9 lids, 2 spacers (20 total)
+- **Boards & Non-Printed Components**: 6
+- **Counted Game Pieces**: 266
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`NatureCardsBox <box-nature-naturecardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``104 × 73 × 68 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 99x Nature Cards
    * - :ref:`HunterCardsBox <box-nature-huntercardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``104 × 73 × 20 mm``
      - ``(104, 0, 0)``
-     - 1
+     - 10x Hunter Cards
    * - :ref:`SoloCardsBox <box-nature-solocardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``104 × 73 × 20 mm``
      - ``(104, 0, 20)``
-     - 1
+     - 6x Solo / Event Cards
    * - :ref:`DialBox_1 <box-nature-dialbox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``107 × 52 × 51 mm``
      - ``(101, 73, 0)``
-     - 1
+     - 10x Population Dials
    * - :ref:`DialBox_2 <box-nature-dialbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``107 × 52 × 51 mm``
      - ``(101, 125, 0)``
-     - 1
+     - 10x Population Dials
    * - :ref:`LeopardBox <box-nature-leopardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``107 × 31 × 51 mm``
      - ``(101, 177, 0)``
-     - 1
+     - 1x Apex Leopard Meeple
    * - :ref:`ResourceBox_Grass <box-nature-resourcebox_grass>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``101 × 67.5 × 25.5 mm``
      - ``(0, 73, 25.5)``
-     - 1
+     - 60x Grass Food Tokens
    * - :ref:`ResourceBox_Meat <box-nature-resourcebox_meat>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``101 × 67.5 × 25.5 mm``
      - ``(0, 140.5, 25.5)``
-     - 1
+     - 30x Meat Food Tokens
    * - :ref:`ResourceBox_Population <box-nature-resourcebox_population>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``101 × 135 × 25.5 mm``
      - ``(0, 73, 0)``
-     - 1
+     - 40x Population Tokens
    * - :ref:`spacer_1 <spacer-nature-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``210 × 137 × 17 mm``
      - ``(0, 73, 51)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-nature-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``106 × 73 × 28 mm``
      - ``(104, 0, 40)``
-     - —
+     - Printed spacer tray
+   * - Boards, Screens & Rulebook
+     - Board / Non-Printed
+     - ``210 × 210 × 7 mm``
+     - ``(0, 0, 68)``
+     - 6x Boards, Screens & Rulebook (Central watering hole board, 4 player screens, and rulebook atop insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -109,6 +118,7 @@ NatureCardsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``104 × 73 × 68 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 99x Nature Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (NatureCardsBox — Body + Lid)**
@@ -146,6 +156,7 @@ HunterCardsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``104 × 73 × 20 mm``
 - **Packed Position**: ``(104, 0, 0)``
+- **Pieces / Contents**: 10x Hunter Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -185,6 +196,7 @@ SoloCardsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``104 × 73 × 20 mm``
 - **Packed Position**: ``(104, 0, 20)``
+- **Pieces / Contents**: 6x Solo / Event Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Cards`` (full interior)
@@ -224,6 +236,7 @@ DialBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``107 × 52 × 51 mm``
 - **Packed Position**: ``(101, 73, 0)``
+- **Pieces / Contents**: 10x Population Dials
 - **Compartments (1)**: ``Dials`` (101 × 46 mm, 11 elements)
 
 **Assembled Box (DialBox_1 — Body + Lid)**
@@ -261,6 +274,7 @@ DialBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``107 × 52 × 51 mm``
 - **Packed Position**: ``(101, 125, 0)``
+- **Pieces / Contents**: 10x Population Dials
 - **Compartments (1)**: ``Dials`` (101 × 46 mm, 11 elements)
 
 **Assembled Box (DialBox_2 — Body + Lid)**
@@ -298,6 +312,7 @@ LeopardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``107 × 31 × 51 mm``
 - **Packed Position**: ``(101, 177, 0)``
+- **Pieces / Contents**: 1x Apex Leopard Meeple
 - **Compartments (1)**: ``Leopard`` (full interior)
 
 **Assembled Box (LeopardBox — Body + Lid)**
@@ -335,6 +350,7 @@ ResourceBox_Grass
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``101 × 67.5 × 25.5 mm``
 - **Packed Position**: ``(0, 73, 25.5)``
+- **Pieces / Contents**: 60x Grass Food Tokens
 - **Compartments (1)**: ``GrassTokens`` (full interior)
 
 **Assembled Box (ResourceBox_Grass — Body + Lid)**
@@ -372,6 +388,7 @@ ResourceBox_Meat
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``101 × 67.5 × 25.5 mm``
 - **Packed Position**: ``(0, 140.5, 25.5)``
+- **Pieces / Contents**: 30x Meat Food Tokens
 - **Compartments (1)**: ``MeatTokens`` (full interior)
 
 **Assembled Box (ResourceBox_Meat — Body + Lid)**
@@ -409,6 +426,7 @@ ResourceBox_Population
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``101 × 135 × 25.5 mm``
 - **Packed Position**: ``(0, 73, 0)``
+- **Pieces / Contents**: 40x Population Tokens
 - **Compartments (1)**: ``PopulationTokens`` (full interior)
 
 **Assembled Box (ResourceBox_Population — Body + Lid)**

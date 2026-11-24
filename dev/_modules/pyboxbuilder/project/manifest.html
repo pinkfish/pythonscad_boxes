@@ -522,6 +522,67 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.exporter</span><span class="w"> </span><span class="kn">import</span> <span class="n">PieceBounds</span>
 
 
+<div class="viewcode-block" id="GameComponent">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.manifest.GameComponent.html#pyboxbuilder.project.manifest.GameComponent">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GameComponent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One declared physical component type in the board game's inventory."""</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""Component name (e.g. ``"Action Cards"``, ``"Coal Cubes"``, ``"Player Boards"``)."""</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">"""Total number of physical pieces of this component included in the game."""</span>
+    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Optional grouping category (e.g. ``"Cards"``, ``"Tokens"``, ``"Boards"``)."""</span>
+    <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Optional note."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate non-empty name and positive piece count."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"GameComponent name must be non-empty"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GameComponent </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> count must be &gt;= 1, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GameBoard">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.manifest.GameBoard.html#pyboxbuilder.project.manifest.GameBoard">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GameBoard</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A non-printed board, rulebook, screen, or playmat placed inside the game box.</span>
+
+<span class="sd">    Unlike ``board_thickness`` (which reserves a full-footprint slab across the</span>
+<span class="sd">    entire top or bottom of the game box), a ``GameBoard`` occupies a specific</span>
+<span class="sd">    3-D region ``(size, position)`` inside the game box. Auto-packed boxes and</span>
+<span class="sd">    auto-generated spacers avoid it, no STL is exported for it, and both the</span>
+<span class="sd">    packing guide PDF and box summary docs render and count it explicitly.</span>
+<span class="sd">    """</span>
+
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""Human-readable name (e.g. ``"Main Board &amp; Rulebooks"``, ``"Player Screens"``)."""</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Outer dimensions ``(W, L, H)`` in mm."""</span>
+    <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Packed origin ``(X, Y, Z)`` in mm within the game box frame."""</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="w">    </span><span class="sd">"""How many physical boards/screens/mats occupy this reserved region."""</span>
+    <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Optional packing note shown in summaries and packing sheets."""</span>
+    <span class="n">component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional declared inventory component name satisfied by this board."""</span>
+    <span class="n">allocates</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="w">    </span><span class="sd">"""Optional explicit ``((component_name, qty), ...)`` allocations satisfied by this board."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate positive board dimensions and non-negative piece count."""</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">d</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GameBoard </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">!r}</span><span class="s2"> dimensions must be positive, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GameBoard </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">!r}</span><span class="s2"> count must be &gt;= 1, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="ProjectManifest">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.manifest.ProjectManifest.html#pyboxbuilder.project.manifest.ProjectManifest">[docs]</a>
 <span class="nd">@dataclass</span>
@@ -564,6 +625,10 @@
 
     <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Registered sub-box builders in definition order."""</span>
+    <span class="n">boards</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameBoard</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Registered non-printed game boards / screens / playmats occupying partial box space."""</span>
+    <span class="n">components</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Declared physical game component inventory that boxes and boards must account for."""</span>
     <span class="n">shared_groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span>
     <span class="p">)</span>
@@ -636,6 +701,22 @@
 <span class="w">        </span><span class="sd">"""Register a box builder into the manifest."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">boxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">builder</span></div>
+
+
+<div class="viewcode-block" id="ProjectManifest.add_board">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.manifest.ProjectManifest.html#pyboxbuilder.project.manifest.ProjectManifest.add_board">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_board</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">board</span><span class="p">:</span> <span class="n">GameBoard</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameBoard</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Register a non-printed game board region into the manifest."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">board</span></div>
+
+
+<div class="viewcode-block" id="ProjectManifest.add_component">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.manifest.ProjectManifest.html#pyboxbuilder.project.manifest.ProjectManifest.add_component">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_component</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">:</span> <span class="n">GameComponent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameComponent</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Register a declared game component into the manifest inventory."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">component</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>

@@ -1,0 +1,37 @@
+pyboxbuilder.project.inventory
+==============================
+
+.. automodule:: pyboxbuilder.project.inventory
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      BoxPieceSummary
+      InventoryVerification
+      PieceEntry
+      ProjectInventory
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      summarize_box_pieces
+      summarize_project
+      verify_inventory
+   
+   

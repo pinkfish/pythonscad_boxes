@@ -24,64 +24,67 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=911ccc59" download="ArkhamHorrorLCG_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ArkhamHorrorLCG_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=911ccc59" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=be247d93" download="ArkhamHorrorLCG_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ArkhamHorrorLCG_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=be247d93" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=911ccc59" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/arkham_horror/ArkhamHorrorLCG_packing_guide.pdf?v=be247d93" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 6 bodies, 6 lids, 2 spacers (14 total)
+- **Counted Game Pieces**: 550
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`CorePlayerCards <box-arkham_horror-coreplayercards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``100 × 140 × 73 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 265x Player & Investigator Cards
    * - :ref:`CoreScenarioCards <box-arkham_horror-corescenariocards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``100 × 140 × 73 mm``
      - ``(0, 140, 0)``
-     - 1
+     - 111x Campaign Scenario Cards
    * - :ref:`TokenTray1_ChaosTokens <box-arkham_horror-tokentray1_chaostokens>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``142 × 140 × 24.3333 mm``
      - ``(100, 0, 36.5)``
-     - 4
+     - 44x Chaos Tokens
    * - :ref:`TokenTray2_DamageAndHorror <box-arkham_horror-tokentray2_damageandhorror>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``142 × 143 × 24.3333 mm``
      - ``(100, 140, 0)``
-     - 4
+     - 30x Damage Tokens, 27x Horror Tokens
    * - :ref:`TokenTray3_CluesAndResources <box-arkham_horror-tokentray3_cluesandresources>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``142 × 143 × 24.3333 mm``
      - ``(100, 140, 24.3333)``
-     - 4
+     - 30x Clue / Doom Tokens, 30x Resource Tokens
    * - :ref:`AccessoryTray <box-arkham_horror-accessorytray>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``142 × 140 × 36.5 mm``
      - ``(100, 0, 0)``
-     - 2
+     - 7x Investigator Mini Cards & Dials, 6x Lead Investigator & Standee Markers
    * - :ref:`spacer_1 <spacer-arkham_horror-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``142 × 283 × 14.1667 mm``
      - ``(100, 0, 60.8333)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-arkham_horror-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``142 × 143 × 12.1667 mm``
      - ``(100, 140, 48.6667)``
-     - —
+     - Printed spacer tray
 
 Individual Boxes & Parts
 ------------------------
@@ -94,6 +97,7 @@ CorePlayerCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``100 × 140 × 73 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 265x Player & Investigator Cards
 - **Compartments (1)**: ``Investigators`` (full interior)
 
 **Assembled Box (CorePlayerCards — Body + Lid)**
@@ -131,6 +135,7 @@ CoreScenarioCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``100 × 140 × 73 mm``
 - **Packed Position**: ``(0, 140, 0)``
+- **Pieces / Contents**: 111x Campaign Scenario Cards
 - **Compartments (1)**: ``Encounters`` (full interior)
 
 **Assembled Box (CoreScenarioCards — Body + Lid)**
@@ -168,6 +173,7 @@ TokenTray1_ChaosTokens
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``142 × 140 × 24.3333 mm``
 - **Packed Position**: ``(100, 0, 36.5)``
+- **Pieces / Contents**: 44x Chaos Tokens
 - **Compartments (4)**: ``Pocket_1`` (W=25%), ``Pocket_2`` (W=25%), ``Pocket_3`` (W=25%), ``Pocket_4`` (W=25%)
 
 **Assembled Box (TokenTray1_ChaosTokens — Body + Lid)**
@@ -205,6 +211,7 @@ TokenTray2_DamageAndHorror
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``142 × 143 × 24.3333 mm``
 - **Packed Position**: ``(100, 140, 0)``
+- **Pieces / Contents**: 30x Damage Tokens, 27x Horror Tokens
 - **Compartments (4)**: ``Pocket_1`` (W=25%), ``Pocket_2`` (W=25%), ``Pocket_3`` (W=25%), ``Pocket_4`` (W=25%)
 
 **Assembled Box (TokenTray2_DamageAndHorror — Body + Lid)**
@@ -242,6 +249,7 @@ TokenTray3_CluesAndResources
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``142 × 143 × 24.3333 mm``
 - **Packed Position**: ``(100, 140, 24.3333)``
+- **Pieces / Contents**: 30x Clue / Doom Tokens, 30x Resource Tokens
 - **Compartments (4)**: ``Pocket_1`` (W=25%), ``Pocket_2`` (W=25%), ``Pocket_3`` (W=25%), ``Pocket_4`` (W=25%)
 
 **Assembled Box (TokenTray3_CluesAndResources — Body + Lid)**
@@ -279,6 +287,7 @@ AccessoryTray
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``142 × 140 × 36.5 mm``
 - **Packed Position**: ``(100, 0, 0)``
+- **Pieces / Contents**: 7x Investigator Mini Cards & Dials, 6x Lead Investigator & Standee Markers
 - **Compartments (2)**: ``MinisAndDials`` (W=50%), ``StandsAndMarkers`` (W=50%)
 
 **Assembled Box (AccessoryTray — Body + Lid)**

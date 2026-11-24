@@ -25,55 +25,58 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 8 bodies, 0 lids, 0 spacers (8 total)
+- **Counted Game Pieces**: 96
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`HexBoxSingle6x3RoundMagnet <box-stackable_hexes-hexboxsingle6x3roundmagnet>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``100 × 100 × 24 mm``
      - ``(0, 0, 0)``
-     - 0
+     - 12x Hex Tiles
    * - :ref:`HexBoxSingle6x3RoundMagnetWithTwoPartitions <box-stackable_hexes-hexboxsingle6x3roundmagnetwithtwopartitions>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``100 × 100 × 24 mm``
      - ``(110, 0, 0)``
-     - 2
+     - 12x Hex Tiles
    * - :ref:`HexBoxSingle6x3RoundMagnetWithThreePartitions <box-stackable_hexes-hexboxsingle6x3roundmagnetwiththreepartitions>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``100 × 100 × 24 mm``
      - ``(220, 0, 0)``
-     - 3
+     - 12x Hex Tiles
    * - :ref:`HexBoxSingle6x3RoundMagnetWithFourPartitions <box-stackable_hexes-hexboxsingle6x3roundmagnetwithfourpartitions>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``100 × 100 × 24 mm``
      - ``(330, 0, 0)``
-     - 4
+     - 12x Hex Tiles
    * - :ref:`HexBoxSingle10x5x2RectMagnet <box-stackable_hexes-hexboxsingle10x5x2rectmagnet>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``100 × 100 × 24 mm``
      - ``(440, 0, 0)``
-     - 0
+     - 12x Hex Tiles
    * - :ref:`HexBoxSingle10x5x2RectMagnetWithTwoPartitions <box-stackable_hexes-hexboxsingle10x5x2rectmagnetwithtwopartitions>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``100 × 100 × 24 mm``
      - ``(550, 0, 0)``
-     - 2
+     - 12x Hex Tiles
    * - :ref:`HexBoxSingle10x5x2RectMagnetWithThreePartitions <box-stackable_hexes-hexboxsingle10x5x2rectmagnetwiththreepartitions>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``100 × 100 × 24 mm``
      - ``(660, 0, 0)``
-     - 3
+     - 12x Hex Tiles
    * - :ref:`HexBoxSingle10x5x2RectMagnetWithFourPartitions <box-stackable_hexes-hexboxsingle10x5x2rectmagnetwithfourpartitions>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``100 × 100 × 24 mm``
      - ``(770, 0, 0)``
-     - 4
+     - 12x Hex Tiles
 
 Individual Boxes & Parts
 ------------------------
@@ -86,6 +89,7 @@ HexBoxSingle6x3RoundMagnet
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``100 × 100 × 24 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 12x Hex Tiles
 - **Stackable Mode**: ``StackableMode.INSIDE``
 
 **Part: HexBoxSingle6x3RoundMagnet Body**
@@ -105,6 +109,7 @@ HexBoxSingle6x3RoundMagnetWithTwoPartitions
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``100 × 100 × 24 mm``
 - **Packed Position**: ``(110, 0, 0)``
+- **Pieces / Contents**: 12x Hex Tiles
 - **Stackable Mode**: ``StackableMode.INSIDE``
 - **Compartments (2)**: ``div1`` (W=50%), ``div2`` (W=50%)
 
@@ -125,6 +130,7 @@ HexBoxSingle6x3RoundMagnetWithThreePartitions
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``100 × 100 × 24 mm``
 - **Packed Position**: ``(220, 0, 0)``
+- **Pieces / Contents**: 12x Hex Tiles
 - **Stackable Mode**: ``StackableMode.INSIDE``
 - **Compartments (3)**: ``div1`` (W=33%), ``div2`` (W=33%), ``div3`` (W=33%)
 
@@ -145,6 +151,7 @@ HexBoxSingle6x3RoundMagnetWithFourPartitions
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``100 × 100 × 24 mm``
 - **Packed Position**: ``(330, 0, 0)``
+- **Pieces / Contents**: 12x Hex Tiles
 - **Stackable Mode**: ``StackableMode.INSIDE``
 - **Compartments (4)**: ``div1`` (W=25%), ``div2`` (W=25%), ``div3`` (W=25%), ``div4`` (W=25%)
 
@@ -165,6 +172,7 @@ HexBoxSingle10x5x2RectMagnet
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``100 × 100 × 24 mm``
 - **Packed Position**: ``(440, 0, 0)``
+- **Pieces / Contents**: 12x Hex Tiles
 - **Stackable Mode**: ``StackableMode.INSIDE``
 
 **Part: HexBoxSingle10x5x2RectMagnet Body**
@@ -184,6 +192,7 @@ HexBoxSingle10x5x2RectMagnetWithTwoPartitions
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``100 × 100 × 24 mm``
 - **Packed Position**: ``(550, 0, 0)``
+- **Pieces / Contents**: 12x Hex Tiles
 - **Stackable Mode**: ``StackableMode.INSIDE``
 - **Compartments (2)**: ``div1`` (W=50%), ``div2`` (W=50%)
 
@@ -204,6 +213,7 @@ HexBoxSingle10x5x2RectMagnetWithThreePartitions
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``100 × 100 × 24 mm``
 - **Packed Position**: ``(660, 0, 0)``
+- **Pieces / Contents**: 12x Hex Tiles
 - **Stackable Mode**: ``StackableMode.INSIDE``
 - **Compartments (3)**: ``div1`` (W=33%), ``div2`` (W=33%), ``div3`` (W=33%)
 
@@ -224,6 +234,7 @@ HexBoxSingle10x5x2RectMagnetWithFourPartitions
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``100 × 100 × 24 mm``
 - **Packed Position**: ``(770, 0, 0)``
+- **Pieces / Contents**: 12x Hex Tiles
 - **Stackable Mode**: ``StackableMode.INSIDE``
 - **Compartments (4)**: ``div1`` (W=25%), ``div2`` (W=25%), ``div3`` (W=25%), ``div4`` (W=25%)
 
