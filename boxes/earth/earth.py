@@ -147,6 +147,29 @@ project = Project(
     generate_spacers=True,
 )
 
+project.board(
+    "Player & Island Boards",
+    size=(player_board_width, player_board_width, total_board_reserve),
+    position=(0.0, 0.0, usable_height),
+    count=8,
+    notes="6 player boards + 2 middle boards on top",
+)
+project.board(
+    "Abundance Boards",
+    size=(
+        abundance_board_thickness * abundance_board_count,
+        abundance_board_length,
+        abundance_board_width,
+    ),
+    position=(
+        box_width - abundance_board_thickness * abundance_board_count,
+        seed_box_length,
+        0.0,
+    ),
+    count=6,
+    notes="Standing on edge along right wall under TopSpacedBox",
+)
+
 EARTH_PATTERN = PatternBuilder(PatternType.LEAF_TESSELLATION)
 EARTH_FONT = "Georgia:style=Bold"
 

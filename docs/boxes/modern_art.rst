@@ -24,34 +24,42 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=a8893fb8" download="ModernArt_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ModernArt_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=a8893fb8" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=5a9bb070" download="ModernArt_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>ModernArt_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=5a9bb070" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=a8893fb8" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/modern_art/ModernArt_packing_guide.pdf?v=5a9bb070" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 2 bodies, 2 lids, 0 spacers (4 total)
+- **Boards & Non-Printed Components**: 1
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`CardBox <box-modern_art-cardbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``151 × 99 × 38 mm``
      - ``(0, 106, 0)``
-     - 2
+     - Paintings
    * - :ref:`TokensBox <box-modern_art-tokensbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``154 × 106 × 38 mm``
      - ``(0, 0, 0)``
-     - 1
+     - Tokens
+   * - Game Board / Manuals
+     - Board / Non-Printed
+     - ``154 × 208 × 6 mm``
+     - ``(0, 0, 38)``
+     - 1x Game Board / Manuals (On top of insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -64,6 +72,7 @@ CardBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``151 × 99 × 38 mm``
 - **Packed Position**: ``(0, 106, 0)``
+- **Pieces / Contents**: Paintings
 - **Compartments (2)**: ``Paintings_1`` (W=50%), ``Paintings_2`` (W=50%)
 
 **Assembled Box (CardBox — Body + Lid)**
@@ -101,6 +110,7 @@ TokensBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``154 × 106 × 38 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (145 × 100 mm, 1 elements)
 
 **Assembled Box (TokensBox — Body + Lid)**

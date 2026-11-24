@@ -439,6 +439,22 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+# Partial boards resting behind the front card row (matching brink.scad)
+project.board(
+    "Player Screens",
+    size=(210.0, 210.0, upgrade_thickness * 2.0),
+    position=(0.0, card_box_length, usable_height),
+    count=5,
+    notes="Folded player screens behind front card row",
+)
+project.board(
+    "Main Board & Rulebooks",
+    size=(box_width, box_length - card_box_length, board_thickness - upgrade_thickness * 2.0),
+    position=(0.0, card_box_length, usable_height + upgrade_thickness * 2.0),
+    count=1,
+    notes="Rests over player screens, hex & resource boxes",
+)
+
 BRINK_PATTERN = PatternBuilder(PatternType.VORONOI)
 BRINK_FONT = "Futura:style=Bold"
 BRINK_TEXT_SPACING = 1.18

@@ -11,6 +11,36 @@ if TYPE_CHECKING:
     from pyboxbuilder.export.exporter import PieceBounds
 
 
+@dataclass(frozen=True)
+class GameBoard:
+    """A non-printed board, rulebook, screen, or playmat placed inside the game box.
+
+    Unlike ``board_thickness`` (which reserves a full-footprint slab across the
+    entire top or bottom of the game box), a ``GameBoard`` occupies a specific
+    3-D region ``(size, position)`` inside the game box. Auto-packed boxes and
+    auto-generated spacers avoid it, no STL is exported for it, and both the
+    packing guide PDF and box summary docs render and count it explicitly.
+    """
+
+    label: str
+    """Human-readable name (e.g. ``"Main Board & Rulebooks"``, ``"Player Screens"``)."""
+    size: tuple[float, float, float]
+    """Outer dimensions ``(W, L, H)`` in mm."""
+    position: tuple[float, float, float]
+    """Packed origin ``(X, Y, Z)`` in mm within the game box frame."""
+    count: int = 1
+    """How many physical boards/screens/mats occupy this reserved region."""
+    notes: str = ""
+    """Optional packing note shown in summaries and packing sheets."""
+
+    def __post_init__(self) -> None:
+        """Validate positive board dimensions and non-negative piece count."""
+        if any(d <= 0 for d in self.size):
+            raise ValueError(f"GameBoard {self.label!r} dimensions must be positive, got {self.size}")
+        if self.count < 1:
+            raise ValueError(f"GameBoard {self.label!r} count must be >= 1, got {self.count}")
+
+
 @dataclass
 class ProjectManifest:
     """Catalog of registered boxes, metadata, and configuration options (FR-093)."""
@@ -51,6 +81,8 @@ class ProjectManifest:
 
     boxes: list[BoxBuilder] = field(default_factory=list)
     """Registered sub-box builders in definition order."""
+    boards: list[GameBoard] = field(default_factory=list)
+    """Registered non-printed game boards / screens / playmats occupying partial box space."""
     shared_groups: list[tuple[list[str], list[tuple[str, float, float, float]]]] = field(
         default_factory=list
     )
@@ -115,6 +147,11 @@ class ProjectManifest:
         """Register a box builder into the manifest."""
         self.boxes.append(builder)
         return builder
+
+    def add_board(self, board: GameBoard) -> GameBoard:
+        """Register a non-printed game board region into the manifest."""
+        self.boards.append(board)
+        return board
 
     def __len__(self) -> int:
         """Return the number of registered boxes."""

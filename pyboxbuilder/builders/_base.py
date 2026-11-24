@@ -300,6 +300,7 @@ class BoxBuilder:
         elements: tuple[CompartmentElement, ...] = (),
         element_margin: float = 0.0,
         growable: bool = False,
+        count: int | None = None,
     ) -> CompartmentBuilder:
         """Add a compartment to this box.
 
@@ -329,6 +330,7 @@ class BoxBuilder:
             elements: Individual piece pockets making up an element pack.
             element_margin: Clearance around an element pack's bounding box.
             growable: Whether this well expands proportionally into leftover row width.
+            count: Optional explicit count of game pieces stored in this well.
 
         Returns:
             The :class:`CompartmentBuilder` that was added, already registered
@@ -353,6 +355,7 @@ class BoxBuilder:
             elements=elements,
             element_margin=element_margin,
             growable=growable,
+            count=count,
         )
         object.__setattr__(self, "compartments", (*self.compartments, cb))
         if (

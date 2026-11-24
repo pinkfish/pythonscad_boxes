@@ -20,7 +20,8 @@ from typing import TYPE_CHECKING, Any
 from pyboxbuilder.enums import BoxType, FingerCut, InterlockType, ScoopSide, StackableMode
 from pyboxbuilder.helpers import CardSize, SleeveType
 from pyboxbuilder.project.compiler import LayoutCompiler
-from pyboxbuilder.project.manifest import ProjectManifest
+from pyboxbuilder.project.inventory import ProjectInventory, summarize_project
+from pyboxbuilder.project.manifest import GameBoard, ProjectManifest
 from pyboxbuilder.project.piece import Build, Piece, ResolvedBox
 from pyboxbuilder.project.pipeline import GeometryPipeline
 
@@ -202,6 +203,42 @@ class Project:
     def boxes(self) -> list[BoxBuilder]:
         """Registered sub-box builders."""
         return self._manifest.boxes
+
+    @property
+    def boards(self) -> list[GameBoard]:
+        """Registered non-printed game boards, screens, or playmats."""
+        return self._manifest.boards
+
+    def board(
+        self,
+        label: str,
+        *,
+        size: tuple[float, float, float],
+        position: tuple[float, float, float],
+        count: int = 1,
+        notes: str = "",
+    ) -> GameBoard:
+        """Register a non-printed game board, rulebook, screen, or playmat region.
+
+        Auto-packed boxes and auto-generated spacers avoid this 3-D region, no
+        STL is generated for it, and both the packing guide PDF and Sphinx box
+        summary render and count it explicitly.
+        """
+        gb = GameBoard(
+            label=label,
+            size=(float(size[0]), float(size[1]), float(size[2])),
+            position=(float(position[0]), float(position[1]), float(position[2])),
+            count=count,
+            notes=notes,
+        )
+        return self._manifest.add_board(gb)
+
+    def inventory(self, *, spacer_count: int | None = None) -> ProjectInventory:
+        """Return the extracted printed-part, board, and stored-piece inventory."""
+        if spacer_count is None:
+            build = self.build()
+            spacer_count = len(build.packing.spacer_placements) if build.packing else 0
+        return summarize_project(self._manifest, spacer_count=spacer_count)
 
     def box(
         self,

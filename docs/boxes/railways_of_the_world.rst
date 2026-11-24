@@ -24,184 +24,193 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=6cffb999" download="Railways of the World_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Railways of the World_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=6cffb999" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=4ed33998" download="Railways of the World_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Railways of the World_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=4ed33998" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=6cffb999" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/railways_of_the_world/Railways of the World_packing_guide.pdf?v=4ed33998" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 25 bodies, 25 lids, 7 spacers (57 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 26
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`CardBoxEasternUS <box-railways_of_the_world-cardboxeasternus>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``53.6 × 97 × 73 mm``
      - ``(0, 246, 22)``
-     - 1
+     - 2x Cards And Bonds
    * - :ref:`CardBoxAustralia <box-railways_of_the_world-cardboxaustralia>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.4 × 97 × 73 mm``
      - ``(0, 149, 22)``
-     - 1
+     - Cards
    * - :ref:`CardBoxSweden <box-railways_of_the_world-cardboxsweden>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``37 × 97 × 73 mm``
      - ``(101.4, 149, 22)``
-     - 1
+     - Cards
    * - :ref:`CardBoxMexico <box-railways_of_the_world-cardboxmexico>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``39.4 × 97 × 73 mm``
      - ``(139.5, 142.5, 22)``
-     - 1
+     - Cards
    * - :ref:`CardBoxPortugal <box-railways_of_the_world-cardboxportugal>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``32.8 × 97 × 73 mm``
      - ``(101.4, 246, 22)``
-     - 1
+     - Cards
    * - :ref:`EmptyCityBox1 <box-railways_of_the_world-emptycitybox1>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``47 × 142.5 × 56 mm``
      - ``(54.4, 149, 22)``
-     - 1
+     - Markers
    * - :ref:`EmptyCityBox2 <box-railways_of_the_world-emptycitybox2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``47 × 142.5 × 56 mm``
      - ``(139.5, 0, 22)``
-     - 1
+     - Markers
    * - :ref:`PlayerBoxTrains_red <box-railways_of_the_world-playerboxtrains_red>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``70 × 95.3333 × 28 mm``
      - ``(186.5, 0, 22)``
-     - 1
+     - Trains
    * - :ref:`PlayerBoxTrains_blue <box-railways_of_the_world-playerboxtrains_blue>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``70 × 95.3333 × 28 mm``
      - ``(186.5, 95.3333, 22)``
-     - 1
+     - Trains
    * - :ref:`PlayerBoxTrains_green <box-railways_of_the_world-playerboxtrains_green>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``70 × 95.3333 × 28 mm``
      - ``(186.5, 190.667, 22)``
-     - 1
+     - Trains
    * - :ref:`PlayerBoxTrains_yellow <box-railways_of_the_world-playerboxtrains_yellow>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``70 × 95.3333 × 28 mm``
      - ``(186.5, 0, 50)``
-     - 1
+     - Trains
    * - :ref:`PlayerBoxTrains_black <box-railways_of_the_world-playerboxtrains_black>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``70 × 95.3333 × 28 mm``
      - ``(186.5, 95.3333, 50)``
-     - 1
+     - Trains
    * - :ref:`PlayerBoxTrains_purple <box-railways_of_the_world-playerboxtrains_purple>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``70 × 95.3333 × 28 mm``
      - ``(186.5, 190.667, 50)``
-     - 1
+     - Trains
    * - :ref:`PlayerBox_red <box-railways_of_the_world-playerbox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.4 × 95.3333 × 18.6667 mm``
      - ``(69.75, 0, 61)``
-     - 1
+     - 2x Cards And Marker
    * - :ref:`PlayerBox_blue <box-railways_of_the_world-playerbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.4 × 95.3333 × 18.6667 mm``
      - ``(69.75, 0, 79.6667)``
-     - 1
+     - 2x Cards And Marker
    * - :ref:`PlayerBox_green <box-railways_of_the_world-playerbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.4 × 95.3333 × 18.6667 mm``
      - ``(186.5, 0, 78)``
-     - 1
+     - 2x Cards And Marker
    * - :ref:`PlayerBox_yellow <box-railways_of_the_world-playerbox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.4 × 95.3333 × 18.6667 mm``
      - ``(186.5, 95.3333, 78)``
-     - 1
+     - 2x Cards And Marker
    * - :ref:`PlayerBox_black <box-railways_of_the_world-playerbox_black>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.4 × 95.3333 × 18.6667 mm``
      - ``(186.5, 190.667, 78)``
-     - 1
+     - 2x Cards And Marker
    * - :ref:`PlayerBox_purple <box-railways_of_the_world-playerbox_purple>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.4 × 95.3333 × 18.6667 mm``
      - ``(186.5, 286, 22)``
-     - 1
+     - 2x Cards And Marker
    * - :ref:`HexBox1 <box-railways_of_the_world-hexbox1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``139.5 × 149 × 19.5 mm``
      - ``(0, 0, 22)``
-     - 1
+     - Hex Grid
    * - :ref:`HexBox2 <box-railways_of_the_world-hexbox2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``139.5 × 149 × 19.5 mm``
      - ``(0, 0, 41.5)``
-     - 1
+     - Hex Grid
    * - :ref:`MoneyBox <box-railways_of_the_world-moneybox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``69.75 × 149 × 17 mm``
      - ``(0, 0, 61)``
-     - 1
+     - Money
    * - :ref:`NewCityBox <box-railways_of_the_world-newcitybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``69.75 × 149 × 17 mm``
      - ``(0, 0, 78)``
-     - 1
+     - 3x New Cities
    * - :ref:`AustraliaBox <box-railways_of_the_world-australiabox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``47 × 142 × 17 mm``
      - ``(139.5, 0, 78)``
-     - 1
+     - 6x Australia Expansion
    * - :ref:`SwedenBox <box-railways_of_the_world-swedenbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``47 × 142.5 × 17 mm``
      - ``(54.4, 149, 78)``
-     - 1
+     - 3x Sweden Expansion
    * - :ref:`spacer_1 <spacer-railways_of_the_world-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``53.5 × 385 × 78 mm``
      - ``(256.5, 0, 22)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-railways_of_the_world-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``122.3 × 99 × 59.3333 mm``
      - ``(134.2, 286, 40.6667)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_3 <spacer-railways_of_the_world-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``134.2 × 93.5 × 78 mm``
      - ``(0, 291.5, 22)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_4 <spacer-railways_of_the_world-spacer_4>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``186.5 × 343 × 5 mm``
      - ``(0, 0, 95)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_5 <spacer-railways_of_the_world-spacer_5>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``48.1 × 143.5 × 73 mm``
      - ``(138.4, 142.5, 22)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_6 <spacer-railways_of_the_world-spacer_6>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``69.75 × 53.6667 × 34 mm``
      - ``(69.75, 95.3333, 61)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_7 <spacer-railways_of_the_world-spacer_7>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``52.3 × 99 × 18.6667 mm``
      - ``(134.2, 286, 22)``
-     - —
+     - Printed spacer tray
+   * - Game Board / Manuals
+     - Board / Non-Printed
+     - ``310 × 385 × 22 mm``
+     - ``(0, 0, 0)``
+     - 1x Game Board / Manuals (Bottom of box)
 
 Individual Boxes & Parts
 ------------------------
@@ -214,6 +223,7 @@ CardBoxEasternUS
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``53.6 × 97 × 73 mm``
 - **Packed Position**: ``(0, 246, 22)``
+- **Pieces / Contents**: 2x Cards And Bonds
 - **Compartments (1)**: ``CardsAndBonds`` (2 elements)
 
 **Assembled Box (CardBoxEasternUS — Body + Lid)**
@@ -251,6 +261,7 @@ CardBoxAustralia
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.4 × 97 × 73 mm``
 - **Packed Position**: ``(0, 149, 22)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxAustralia — Body + Lid)**
@@ -288,6 +299,7 @@ CardBoxSweden
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``37 × 97 × 73 mm``
 - **Packed Position**: ``(101.4, 149, 22)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxSweden — Body + Lid)**
@@ -325,6 +337,7 @@ CardBoxMexico
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``39.4 × 97 × 73 mm``
 - **Packed Position**: ``(139.5, 142.5, 22)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxMexico — Body + Lid)**
@@ -362,6 +375,7 @@ CardBoxPortugal
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``32.8 × 97 × 73 mm``
 - **Packed Position**: ``(101.4, 246, 22)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBoxPortugal — Body + Lid)**
@@ -399,6 +413,7 @@ EmptyCityBox1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``47 × 142.5 × 56 mm``
 - **Packed Position**: ``(54.4, 149, 22)``
+- **Pieces / Contents**: Markers
 - **Compartments (1)**: ``Markers`` (full interior)
 
 **Assembled Box (EmptyCityBox1 — Body + Lid)**
@@ -436,6 +451,7 @@ EmptyCityBox2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``47 × 142.5 × 56 mm``
 - **Packed Position**: ``(139.5, 0, 22)``
+- **Pieces / Contents**: Markers
 - **Compartments (1)**: ``Markers`` (full interior)
 
 **Assembled Box (EmptyCityBox2 — Body + Lid)**
@@ -473,6 +489,7 @@ PlayerBoxTrains_red
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(186.5, 0, 22)``
+- **Pieces / Contents**: Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Trains`` (full interior)
@@ -512,6 +529,7 @@ PlayerBoxTrains_blue
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(186.5, 95.3333, 22)``
+- **Pieces / Contents**: Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Trains`` (full interior)
@@ -551,6 +569,7 @@ PlayerBoxTrains_green
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(186.5, 190.667, 22)``
+- **Pieces / Contents**: Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``Trains`` (full interior)
@@ -590,6 +609,7 @@ PlayerBoxTrains_yellow
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(186.5, 0, 50)``
+- **Pieces / Contents**: Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Trains`` (full interior)
@@ -629,6 +649,7 @@ PlayerBoxTrains_black
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(186.5, 95.3333, 50)``
+- **Pieces / Contents**: Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Trains`` (full interior)
@@ -668,6 +689,7 @@ PlayerBoxTrains_purple
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``70 × 95.3333 × 28 mm``
 - **Packed Position**: ``(186.5, 190.667, 50)``
+- **Pieces / Contents**: Trains
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``Trains`` (full interior)
@@ -707,6 +729,7 @@ PlayerBox_red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.4 × 95.3333 × 18.6667 mm``
 - **Packed Position**: ``(69.75, 0, 61)``
+- **Pieces / Contents**: 2x Cards And Marker
 - **Compartments (1)**: ``CardsAndMarker`` (2 elements)
 
 **Assembled Box (PlayerBox_red — Body + Lid)**
@@ -744,6 +767,7 @@ PlayerBox_blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.4 × 95.3333 × 18.6667 mm``
 - **Packed Position**: ``(69.75, 0, 79.6667)``
+- **Pieces / Contents**: 2x Cards And Marker
 - **Compartments (1)**: ``CardsAndMarker`` (2 elements)
 
 **Assembled Box (PlayerBox_blue — Body + Lid)**
@@ -781,6 +805,7 @@ PlayerBox_green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.4 × 95.3333 × 18.6667 mm``
 - **Packed Position**: ``(186.5, 0, 78)``
+- **Pieces / Contents**: 2x Cards And Marker
 - **Compartments (1)**: ``CardsAndMarker`` (2 elements)
 
 **Assembled Box (PlayerBox_green — Body + Lid)**
@@ -818,6 +843,7 @@ PlayerBox_yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.4 × 95.3333 × 18.6667 mm``
 - **Packed Position**: ``(186.5, 95.3333, 78)``
+- **Pieces / Contents**: 2x Cards And Marker
 - **Compartments (1)**: ``CardsAndMarker`` (2 elements)
 
 **Assembled Box (PlayerBox_yellow — Body + Lid)**
@@ -855,6 +881,7 @@ PlayerBox_black
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.4 × 95.3333 × 18.6667 mm``
 - **Packed Position**: ``(186.5, 190.667, 78)``
+- **Pieces / Contents**: 2x Cards And Marker
 - **Compartments (1)**: ``CardsAndMarker`` (2 elements)
 
 **Assembled Box (PlayerBox_black — Body + Lid)**
@@ -892,6 +919,7 @@ PlayerBox_purple
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.4 × 95.3333 × 18.6667 mm``
 - **Packed Position**: ``(186.5, 286, 22)``
+- **Pieces / Contents**: 2x Cards And Marker
 - **Compartments (1)**: ``CardsAndMarker`` (2 elements)
 
 **Assembled Box (PlayerBox_purple — Body + Lid)**
@@ -929,6 +957,7 @@ HexBox1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``139.5 × 149 × 19.5 mm``
 - **Packed Position**: ``(0, 0, 22)``
+- **Pieces / Contents**: Hex Grid
 - **Compartments (1)**: ``HexGrid`` (full interior)
 
 **Assembled Box (HexBox1 — Body + Lid)**
@@ -966,6 +995,7 @@ HexBox2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``139.5 × 149 × 19.5 mm``
 - **Packed Position**: ``(0, 0, 41.5)``
+- **Pieces / Contents**: Hex Grid
 - **Compartments (1)**: ``HexGrid`` (full interior)
 
 **Assembled Box (HexBox2 — Body + Lid)**
@@ -1003,6 +1033,7 @@ MoneyBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``69.75 × 149 × 17 mm``
 - **Packed Position**: ``(0, 0, 61)``
+- **Pieces / Contents**: Money
 - **Compartments (1)**: ``Money`` (full interior)
 
 **Assembled Box (MoneyBox — Body + Lid)**
@@ -1040,6 +1071,7 @@ NewCityBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``69.75 × 149 × 17 mm``
 - **Packed Position**: ``(0, 0, 78)``
+- **Pieces / Contents**: 3x New Cities
 - **Compartments (1)**: ``NewCities`` (3 elements)
 
 **Assembled Box (NewCityBox — Body + Lid)**
@@ -1077,6 +1109,7 @@ AustraliaBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``47 × 142 × 17 mm``
 - **Packed Position**: ``(139.5, 0, 78)``
+- **Pieces / Contents**: 6x Australia Expansion
 - **Compartments (1)**: ``AustraliaExpansion`` (6 elements)
 
 **Assembled Box (AustraliaBox — Body + Lid)**
@@ -1114,6 +1147,7 @@ SwedenBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``47 × 142.5 × 17 mm``
 - **Packed Position**: ``(54.4, 149, 78)``
+- **Pieces / Contents**: 3x Sweden Expansion
 - **Compartments (1)**: ``SwedenExpansion`` (3 elements)
 
 **Assembled Box (SwedenBox — Body + Lid)**

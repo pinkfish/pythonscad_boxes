@@ -63,6 +63,8 @@ class CompartmentBuilder:
     """Path to an SVG file defining the custom shape of the compartment cutout."""
     position: tuple[float, float] | None = None
     """Manual coordinate override (x, y) in mm within the interior frame."""
+    count: int | None = None
+    """Optional explicit count of game pieces stored in this compartment (for summaries & packing sheets)."""
     elements: tuple[CompartmentElement, ...] = ()
     """Physical game components nested inside this compartment (FR-004b).
 

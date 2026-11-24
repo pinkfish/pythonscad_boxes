@@ -24,64 +24,66 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=1976219c" download="DominionBigBox_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>DominionBigBox_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=1976219c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=fc86c0c9" download="DominionBigBox_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>DominionBigBox_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=fc86c0c9" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=1976219c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/dominion/DominionBigBox_packing_guide.pdf?v=fc86c0c9" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 5 bodies, 5 lids, 3 spacers (13 total)
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`BaseKingdomCards <box-dominion-basekingdomcards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``101 × 230 × 75 mm``
      - ``(0, 0, 0)``
-     - 1
+     - Kingdom Decks
    * - :ref:`TreasureAndVictoryCards <box-dominion-treasureandvictorycards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``101 × 200 × 75 mm``
      - ``(101, 0, 0)``
-     - 1
+     - Treasures And Victory
    * - :ref:`AlchemyExpansionCards <box-dominion-alchemyexpansioncards>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``101 × 80 × 75 mm``
      - ``(101, 200, 0)``
-     - 1
+     - Alchemy Cards
    * - :ref:`TokenTray1_CoinAndDebtTokens <box-dominion-tokentray1_coinanddebttokens>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``101 × 140 × 37.5 mm``
      - ``(202, 0, 0)``
-     - 2
+     - Tokens Left, Tokens Right
    * - :ref:`TokenTray2_MatsAndSpecialTokens <box-dominion-tokentray2_matsandspecialtokens>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``101 × 140 × 37.5 mm``
      - ``(202, 0, 37.5)``
-     - 2
+     - Tokens Left, Tokens Right
    * - :ref:`spacer_1 <spacer-dominion-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``268 × 290 × 90 mm``
      - ``(202, 0, 0)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-dominion-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``303 × 290 × 15 mm``
      - ``(0, 0, 75)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_3 <spacer-dominion-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``202 × 60 × 75 mm``
      - ``(0, 230, 0)``
-     - —
+     - Printed spacer tray
 
 Individual Boxes & Parts
 ------------------------
@@ -94,6 +96,7 @@ BaseKingdomCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``101 × 230 × 75 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: Kingdom Decks
 - **Compartments (1)**: ``KingdomDecks`` (full interior)
 
 **Assembled Box (BaseKingdomCards — Body + Lid)**
@@ -131,6 +134,7 @@ TreasureAndVictoryCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``101 × 200 × 75 mm``
 - **Packed Position**: ``(101, 0, 0)``
+- **Pieces / Contents**: Treasures And Victory
 - **Compartments (1)**: ``TreasuresAndVictory`` (full interior)
 
 **Assembled Box (TreasureAndVictoryCards — Body + Lid)**
@@ -168,6 +172,7 @@ AlchemyExpansionCards
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``101 × 80 × 75 mm``
 - **Packed Position**: ``(101, 200, 0)``
+- **Pieces / Contents**: Alchemy Cards
 - **Compartments (1)**: ``AlchemyCards`` (full interior)
 
 **Assembled Box (AlchemyExpansionCards — Body + Lid)**
@@ -205,6 +210,7 @@ TokenTray1_CoinAndDebtTokens
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``101 × 140 × 37.5 mm``
 - **Packed Position**: ``(202, 0, 0)``
+- **Pieces / Contents**: Tokens Left, Tokens Right
 - **Compartments (2)**: ``Tokens_Left`` (W=50%), ``Tokens_Right`` (W=50%)
 
 **Assembled Box (TokenTray1_CoinAndDebtTokens — Body + Lid)**
@@ -242,6 +248,7 @@ TokenTray2_MatsAndSpecialTokens
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``101 × 140 × 37.5 mm``
 - **Packed Position**: ``(202, 0, 37.5)``
+- **Pieces / Contents**: Tokens Left, Tokens Right
 - **Compartments (2)**: ``Tokens_Left`` (W=50%), ``Tokens_Right`` (W=50%)
 
 **Assembled Box (TokenTray2_MatsAndSpecialTokens — Body + Lid)**

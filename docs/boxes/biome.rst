@@ -24,149 +24,158 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=615ac999" download="Biome_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Biome_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=615ac999" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=159dd8d5" download="Biome_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Biome_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=159dd8d5" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=615ac999" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/biome/Biome_packing_guide.pdf?v=159dd8d5" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 23 bodies, 22 lids, 2 spacers (47 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 6
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`PlayerBox_Red <box-biome-playerbox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 0, 0)``
-     - 1
+     - Tokens
    * - :ref:`PlayerBox_Blue <box-biome-playerbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 70.75, 0)``
-     - 1
+     - Tokens
    * - :ref:`PlayerBox_Green <box-biome-playerbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 141.5, 0)``
-     - 1
+     - Tokens
    * - :ref:`PlayerBox_Yellow <box-biome-playerbox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 212.25, 0)``
-     - 1
+     - Tokens
    * - :ref:`Resource_Mouse <box-biome-resource_mouse>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 0, 17.3333)``
-     - 1
+     - Tokens
    * - :ref:`Resource_Sun <box-biome-resource_sun>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 70.75, 17.3333)``
-     - 1
+     - Tokens
    * - :ref:`Resource_Fish <box-biome-resource_fish>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 141.5, 17.3333)``
-     - 1
+     - Tokens
    * - :ref:`Resource_Leaf <box-biome-resource_leaf>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 212.25, 17.3333)``
-     - 1
+     - Tokens
    * - :ref:`Resource_Spider <box-biome-resource_spider>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 0, 34.6667)``
-     - 1
+     - Tokens
    * - :ref:`Resource_Berry <box-biome-resource_berry>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 70.75, 34.6667)``
-     - 1
+     - Tokens
    * - :ref:`Resource_Chicks <box-biome-resource_chicks>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 141.5, 34.6667)``
-     - 1
+     - Tokens
    * - :ref:`Resource_Rabbits <box-biome-resource_rabbits>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``57 × 70.75 × 17.3333 mm``
      - ``(0, 212.25, 34.6667)``
-     - 1
+     - Tokens
    * - :ref:`NestBox <box-biome-nestbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``52 × 283 × 52 mm``
      - ``(57, 0, 0)``
-     - 1
+     - Nest Boards
    * - :ref:`CardBox_MainDeck1 <box-biome-cardbox_maindeck1>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 98 × 41 mm``
      - ``(109, 0, 0)``
-     - 1
+     - Cards
    * - :ref:`CardBox_MainDeck2 <box-biome-cardbox_maindeck2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 98 × 41 mm``
      - ``(182, 0, 0)``
-     - 1
+     - Cards
    * - :ref:`CardBox_Starting <box-biome-cardbox_starting>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 98 × 14.4 mm``
      - ``(109, 98, 0)``
-     - 1
+     - Cards
    * - :ref:`CardBox_Achievement <box-biome-cardbox_achievement>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 98 × 13.8 mm``
      - ``(109, 98, 14.4)``
-     - 1
+     - Cards
    * - :ref:`CardBox_ChangingCondition <box-biome-cardbox_changingcondition>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 98 × 12.6 mm``
      - ``(109, 98, 28.2)``
-     - 1
+     - Cards
    * - :ref:`CardBox_Legend <box-biome-cardbox_legend>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 98 × 11.4 mm``
      - ``(182, 98, 0)``
-     - 1
+     - Cards
    * - :ref:`CardBox_PlantAnimalExtra <box-biome-cardbox_plantanimalextra>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 98 × 29.6 mm``
      - ``(182, 98, 11.4)``
-     - 1
+     - Cards
    * - :ref:`CardBox_BigBiome <box-biome-cardbox_bigbiome>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``98 × 73 × 52 mm``
      - ``(109, 196, 0)``
-     - 1
+     - Cards
    * - :ref:`SpinnerHolder <box-biome-spinnerholder>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``174 × 185 × 11 mm``
      - ``(109, 0, 41)``
-     - 1
+     - Spinner
    * - :ref:`ExtraBitsBox <box-biome-extrabitsbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``29 × 284 × 41 mm``
      - ``(255, 0, 0)``
-     - 1
+     - 2x Phase Year Cube, 1x Coin, 1x Season Crescent Token, 1x Start Player Leaf Token, 1x Die
    * - :ref:`spacer_1 <spacer-biome-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``146 × 89 × 53 mm``
      - ``(109, 196, 0)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-biome-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``30 × 100 × 11 mm``
      - ``(255, 185, 41)``
-     - —
+     - Printed spacer tray
+   * - Game Board / Manuals
+     - Board / Non-Printed
+     - ``285 × 285 × 20 mm``
+     - ``(0, 0, 53)``
+     - 1x Game Board / Manuals (On top of insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -179,6 +188,7 @@ PlayerBox_Red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
@@ -216,6 +226,7 @@ PlayerBox_Blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 70.75, 0)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
@@ -253,6 +264,7 @@ PlayerBox_Green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 141.5, 0)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
@@ -290,6 +302,7 @@ PlayerBox_Yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 212.25, 0)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
@@ -327,6 +340,7 @@ Resource_Mouse
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 0, 17.3333)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Resource_Mouse — Body + Lid)**
@@ -364,6 +378,7 @@ Resource_Sun
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 70.75, 17.3333)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Resource_Sun — Body + Lid)**
@@ -401,6 +416,7 @@ Resource_Fish
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 141.5, 17.3333)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Resource_Fish — Body + Lid)**
@@ -438,6 +454,7 @@ Resource_Leaf
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 212.25, 17.3333)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Resource_Leaf — Body + Lid)**
@@ -475,6 +492,7 @@ Resource_Spider
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 0, 34.6667)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Resource_Spider — Body + Lid)**
@@ -512,6 +530,7 @@ Resource_Berry
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 70.75, 34.6667)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Resource_Berry — Body + Lid)**
@@ -549,6 +568,7 @@ Resource_Chicks
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 141.5, 34.6667)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Resource_Chicks — Body + Lid)**
@@ -586,6 +606,7 @@ Resource_Rabbits
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``57 × 70.75 × 17.3333 mm``
 - **Packed Position**: ``(0, 212.25, 34.6667)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (Resource_Rabbits — Body + Lid)**
@@ -623,6 +644,7 @@ NestBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``52 × 283 × 52 mm``
 - **Packed Position**: ``(57, 0, 0)``
+- **Pieces / Contents**: Nest Boards
 - **Compartments (1)**: ``NestBoards`` (full interior)
 
 **Assembled Box (NestBox — Body + Lid)**
@@ -660,6 +682,7 @@ CardBox_MainDeck1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 98 × 41 mm``
 - **Packed Position**: ``(109, 0, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_MainDeck1 — Body + Lid)**
@@ -697,6 +720,7 @@ CardBox_MainDeck2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 98 × 41 mm``
 - **Packed Position**: ``(182, 0, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_MainDeck2 — Body + Lid)**
@@ -734,6 +758,7 @@ CardBox_Starting
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 98 × 14.4 mm``
 - **Packed Position**: ``(109, 98, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Starting — Body + Lid)**
@@ -771,6 +796,7 @@ CardBox_Achievement
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 98 × 13.8 mm``
 - **Packed Position**: ``(109, 98, 14.4)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Achievement — Body + Lid)**
@@ -808,6 +834,7 @@ CardBox_ChangingCondition
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 98 × 12.6 mm``
 - **Packed Position**: ``(109, 98, 28.2)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_ChangingCondition — Body + Lid)**
@@ -845,6 +872,7 @@ CardBox_Legend
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 98 × 11.4 mm``
 - **Packed Position**: ``(182, 98, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Legend — Body + Lid)**
@@ -882,6 +910,7 @@ CardBox_PlantAnimalExtra
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 98 × 29.6 mm``
 - **Packed Position**: ``(182, 98, 11.4)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_PlantAnimalExtra — Body + Lid)**
@@ -919,6 +948,7 @@ CardBox_BigBiome
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``98 × 73 × 52 mm``
 - **Packed Position**: ``(109, 196, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_BigBiome — Body + Lid)**
@@ -956,6 +986,7 @@ SpinnerHolder
 - **Box Type**: :ref:`BoxType.NO_LID <box-type-no-lid>`
 - **Outer Dimensions**: ``174 × 185 × 11 mm``
 - **Packed Position**: ``(109, 0, 41)``
+- **Pieces / Contents**: Spinner
 - **Compartments (1)**: ``Spinner`` (full interior)
 
 **Part: SpinnerHolder Body**
@@ -975,6 +1006,7 @@ ExtraBitsBox
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``29 × 284 × 41 mm``
 - **Packed Position**: ``(255, 0, 0)``
+- **Pieces / Contents**: 2x Phase Year Cube, 1x Coin, 1x Season Crescent Token, 1x Start Player Leaf Token, 1x Die
 - **Compartments (1)**: ``CubesCoinTokensDie`` (19.6 × 274.6 mm, 11 elements)
 
 **Assembled Box (ExtraBitsBox — Body + Lid)**

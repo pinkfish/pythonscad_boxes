@@ -77,6 +77,10 @@ class CompartmentElement:
     """When set, this element is a **positive coloured insert** — a thin icon
     pressed into the bottom of its well — instead of a cutout. The value is a
     web colour name, applied as the insert's own material in mmu mode."""
+    count: int | None = None
+    """Optional explicit count of game pieces stored in this element well.
+    ``None`` counts as ``1`` for piece wells (and ``0`` for helper finger-bite /
+    grab-shelf cutouts)."""
 
     def __post_init__(self) -> None:
         """Validate the element's shape and size."""

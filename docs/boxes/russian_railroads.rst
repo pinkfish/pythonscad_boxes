@@ -24,79 +24,88 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=19fe35f6" download="RussianRailroads_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RussianRailroads_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=19fe35f6" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=f3ecdf62" download="RussianRailroads_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RussianRailroads_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=f3ecdf62" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=19fe35f6" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=f3ecdf62" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 10 bodies, 10 lids, 1 spacers (21 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 94
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`PlayerBox_Red <box-russian_railroads-playerbox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``108.5 × 80.5 × 18.3333 mm``
      - ``(0, 105, 0)``
-     - 1
+     - 4x Worker Front, 4x Worker Back, 2x Industry Hex, 2x Pawn, 1x Question Tokens, 1x Bonus Train Tile, +1 more
    * - :ref:`PlayerBox_Blue <box-russian_railroads-playerbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``108.5 × 80.5 × 18.3333 mm``
      - ``(0, 105, 18.3333)``
-     - 1
+     - 4x Worker Front, 4x Worker Back, 2x Industry Hex, 2x Pawn, 1x Question Tokens, 1x Bonus Train Tile, +1 more
    * - :ref:`PlayerBox_Green <box-russian_railroads-playerbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``108.5 × 80.5 × 18.3333 mm``
      - ``(0, 105, 36.6667)``
-     - 1
+     - 4x Worker Front, 4x Worker Back, 2x Industry Hex, 2x Pawn, 1x Question Tokens, 1x Bonus Train Tile, +1 more
    * - :ref:`PlayerBox_Yellow <box-russian_railroads-playerbox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``108.5 × 80.5 × 18.3333 mm``
      - ``(0, 185.5, 0)``
-     - 1
+     - 4x Worker Front, 4x Worker Back, 2x Industry Hex, 2x Pawn, 1x Question Tokens, 1x Bonus Train Tile, +1 more
    * - :ref:`ExtraTokensBox <box-russian_railroads-extratokensbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``108.5 × 80.5 × 18.3333 mm``
      - ``(0, 185.5, 18.3333)``
-     - 1
+     - 2x Blue Worker, 1x Black Worker, 3x Doubler Front, 3x Doubler Back, 2x Bonus Track
    * - :ref:`MoneyBox <box-russian_railroads-moneybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``108.5 × 80.5 × 18.3333 mm``
      - ``(0, 185.5, 36.6667)``
-     - 1
+     - Rubels
    * - :ref:`CardBox <box-russian_railroads-cardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``18 × 105 × 55 mm``
      - ``(199, 0, 0)``
-     - 1
+     - Cards
    * - :ref:`TrainBox <box-russian_railroads-trainbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``199 × 105 × 17 mm``
      - ``(0, 0, 25)``
-     - 1
+     - 9x Train Tile, 1x Start Tile
    * - :ref:`EngineerBox <box-russian_railroads-engineerbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``199 × 105 × 13 mm``
      - ``(0, 0, 42)``
-     - 1
+     - 5x Engineer Tile
    * - :ref:`TrackBox <box-russian_railroads-trackbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``199 × 105 × 25 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 1x Track Bin Grey, 1x Track Bin Brown, 1x Track Bin Black, 1x Track Bin Natural, 4x White Track
    * - :ref:`spacer_1 <spacer-russian_railroads-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``219 × 203 × 55 mm``
      - ``(0, 105, 0)``
-     - —
+     - Printed spacer tray
+   * - Game Board / Manuals
+     - Board / Non-Printed
+     - ``219 × 308 × 15 mm``
+     - ``(0, 0, 55)``
+     - 1x Game Board / Manuals (On top of insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -109,6 +118,7 @@ PlayerBox_Red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``108.5 × 80.5 × 18.3333 mm``
 - **Packed Position**: ``(0, 105, 0)``
+- **Pieces / Contents**: 4x Worker Front, 4x Worker Back, 2x Industry Hex, 2x Pawn, 1x Question Tokens, 1x Bonus Train Tile, 1x Kiev Medal
 - **Compartments (1)**: ``PlayerBits`` (102.5 × 74.5 mm, 18 elements)
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
@@ -146,6 +156,7 @@ PlayerBox_Blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``108.5 × 80.5 × 18.3333 mm``
 - **Packed Position**: ``(0, 105, 18.3333)``
+- **Pieces / Contents**: 4x Worker Front, 4x Worker Back, 2x Industry Hex, 2x Pawn, 1x Question Tokens, 1x Bonus Train Tile, 1x Kiev Medal
 - **Compartments (1)**: ``PlayerBits`` (102.5 × 74.5 mm, 18 elements)
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
@@ -183,6 +194,7 @@ PlayerBox_Green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``108.5 × 80.5 × 18.3333 mm``
 - **Packed Position**: ``(0, 105, 36.6667)``
+- **Pieces / Contents**: 4x Worker Front, 4x Worker Back, 2x Industry Hex, 2x Pawn, 1x Question Tokens, 1x Bonus Train Tile, 1x Kiev Medal
 - **Compartments (1)**: ``PlayerBits`` (102.5 × 74.5 mm, 18 elements)
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
@@ -220,6 +232,7 @@ PlayerBox_Yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``108.5 × 80.5 × 18.3333 mm``
 - **Packed Position**: ``(0, 185.5, 0)``
+- **Pieces / Contents**: 4x Worker Front, 4x Worker Back, 2x Industry Hex, 2x Pawn, 1x Question Tokens, 1x Bonus Train Tile, 1x Kiev Medal
 - **Compartments (1)**: ``PlayerBits`` (102.5 × 74.5 mm, 18 elements)
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
@@ -257,6 +270,7 @@ ExtraTokensBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``108.5 × 80.5 × 18.3333 mm``
 - **Packed Position**: ``(0, 185.5, 18.3333)``
+- **Pieces / Contents**: 2x Blue Worker, 1x Black Worker, 3x Doubler Front, 3x Doubler Back, 2x Bonus Track
 - **Compartments (1)**: ``ExtraTokens`` (102.5 × 74.5 mm, 11 elements)
 
 **Assembled Box (ExtraTokensBox — Body + Lid)**
@@ -294,6 +308,7 @@ MoneyBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``108.5 × 80.5 × 18.3333 mm``
 - **Packed Position**: ``(0, 185.5, 36.6667)``
+- **Pieces / Contents**: Rubels
 - **Compartments (1)**: ``Rubels`` (full interior)
 
 **Assembled Box (MoneyBox — Body + Lid)**
@@ -331,6 +346,7 @@ CardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``18 × 105 × 55 mm``
 - **Packed Position**: ``(199, 0, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox — Body + Lid)**
@@ -368,6 +384,7 @@ TrainBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``199 × 105 × 17 mm``
 - **Packed Position**: ``(0, 0, 25)``
+- **Pieces / Contents**: 9x Train Tile, 1x Start Tile
 - **Compartments (1)**: ``TrainTiles`` (193 × 99 mm, 16 elements)
 
 **Assembled Box (TrainBox — Body + Lid)**
@@ -405,6 +422,7 @@ EngineerBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``199 × 105 × 13 mm``
 - **Packed Position**: ``(0, 0, 42)``
+- **Pieces / Contents**: 5x Engineer Tile
 - **Compartments (1)**: ``EngineerTiles`` (193 × 99 mm, 10 elements)
 
 **Assembled Box (EngineerBox — Body + Lid)**
@@ -442,6 +460,7 @@ TrackBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``199 × 105 × 25 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 1x Track Bin Grey, 1x Track Bin Brown, 1x Track Bin Black, 1x Track Bin Natural, 4x White Track
 - **Compartments (1)**: ``WoodenTracks`` (193 × 99 mm, 9 elements)
 
 **Assembled Box (TrackBox — Body + Lid)**

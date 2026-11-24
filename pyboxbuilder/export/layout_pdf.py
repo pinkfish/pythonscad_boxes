@@ -560,6 +560,31 @@ def generate_layout_pdf(
     active_pages = _compute_layer_pages(packing)
     orig_index_map = {orig.label: i for i, orig in enumerate(packing.placements)}
 
+    # Draw Page 1: Box Summary & Piece Inventory (when manifest is provided)
+    if manifest is not None:
+        _draw_inventory_summary_pages(
+            pdf,
+            project_name=project_name,
+            game_box_size=game_box_size,
+            packing=packing,
+            manifest=manifest,
+            orig_index_map=orig_index_map,
+        )
+
+    # Also render non-printed GameBoard regions (partial boards, screens, playmats)
+    board_placements: list[Placement] = (
+        [
+            Placement(
+                label=f"{gb.label} ({gb.count}x)" if gb.count > 1 else gb.label,
+                position=gb.position,
+                size=gb.size,
+            )
+            for gb in manifest.boards
+        ]
+        if manifest is not None
+        else []
+    )
+
     for step_idx, page in enumerate(active_pages):
         pdf.add_page()
 
@@ -652,9 +677,184 @@ def generate_layout_pdf(
                 pipeline=pipeline,
             )
 
+    # Final step: Boards, Screens & Non-Printed Components (when explicitly modeled)
+    if board_placements:
+        pdf.add_page()
+        pdf.set_font("Helvetica", "B", 14)
+        heading = (
+            f"Packing Guide: {project_name} - Step {len(active_pages) + 1}: "
+            "Boards & Non-Printed Components"
+        )
+        pdf.cell(0, 8, heading, align="C", new_x="LMARGIN", new_y="NEXT")
+        pdf.set_font("Helvetica", "", 9)
+        pdf.cell(
+            0,
+            5,
+            f"Game box: {game_box_size[0]:.0f}x{game_box_size[1]:.0f}x{game_box_size[2]:.0f}mm",
+            align="C",
+            new_x="LMARGIN",
+            new_y="NEXT",
+        )
+        pdf.ln(3)
+
+        pdf.set_draw_color(150, 150, 150)
+        pdf.set_line_width(0.2)
+        p_base = [
+            to_pdf(0, 0, 0),
+            to_pdf(game_box_size[0], 0, 0),
+            to_pdf(game_box_size[0], game_box_size[1], 0),
+            to_pdf(0, game_box_size[1], 0),
+        ]
+        pdf.polygon(p_base, style="D")
+        for cx, cy in [
+            (0, 0),
+            (game_box_size[0], 0),
+            (game_box_size[0], game_box_size[1]),
+            (0, game_box_size[1]),
+        ]:
+            pdf.line(*to_pdf(cx, cy, 0), *to_pdf(cx, cy, game_box_size[2]))
+        p_top = [
+            to_pdf(0, 0, game_box_size[2]),
+            to_pdf(game_box_size[0], 0, game_box_size[2]),
+            to_pdf(game_box_size[0], game_box_size[1], game_box_size[2]),
+            to_pdf(0, game_box_size[1], game_box_size[2]),
+        ]
+        pdf.polygon(p_top, style="D")
+
+        lower_all = [
+            *((sp, True) for sp in packing.spacer_placements),
+            *((pl, False) for pl in packing.placements),
+        ]
+        for item, is_sp in _painters_sort(lower_all):
+            draw_placement_3d(item, (240, 240, 240) if is_sp else (225, 225, 225))
+        for bp_item, _ in _painters_sort([(bp, False) for bp in board_placements]):
+            draw_placement_3d(
+                bp_item,
+                (235, 212, 168),
+                bp_item.label,
+                "B",
+                visible_placements=board_placements,
+            )
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     pdf.output(str(output_path))
     return output_path
+
+
+def _draw_inventory_summary_pages(
+    pdf: FPDF,
+    *,
+    project_name: str,
+    game_box_size: tuple[float, float, float],
+    packing: BoxPacking,
+    manifest: ProjectManifest,
+    orig_index_map: dict[str, int],
+) -> None:
+    """Render the Box Summary & Piece Count inventory table at the start of the PDF."""
+    from pyboxbuilder.project.inventory import summarize_project
+
+    inv = summarize_project(manifest, spacer_count=len(packing.spacer_placements))
+    placements_by_label = {p.label: p for p in packing.placements}
+
+    def _ascii_safe(text: str) -> str:
+        return (
+            text.replace("\u00d7", "x")
+            .replace("\u2014", "-")
+            .replace("\u2013", "-")
+            .encode("latin-1", "replace")
+            .decode("latin-1")
+        )
+
+    def _start_page(continued: bool = False) -> None:
+        pdf.add_page()
+        pdf.set_font("Helvetica", "B", 14)
+        suffix = " (continued)" if continued else ""
+        pdf.cell(
+            0,
+            8,
+            _ascii_safe(f"Packing Guide: {project_name} - Box Summary & Piece Counts{suffix}"),
+            align="C",
+            new_x="LMARGIN",
+            new_y="NEXT",
+        )
+        pdf.set_font("Helvetica", "", 9)
+        summary_bits = [
+            f"Game box: {game_box_size[0]:.0f}x{game_box_size[1]:.0f}x{game_box_size[2]:.0f}mm",
+            (
+                f"Printed parts: {inv.printed_bodies} bodies, {inv.printed_lids} lids, "
+                f"{inv.printed_spacers} spacers ({inv.total_printed_parts} total)"
+            ),
+        ]
+        if inv.total_board_count > 0:
+            summary_bits.append(f"Boards/non-printed: {inv.total_board_count}")
+        if inv.total_counted_pieces > 0:
+            summary_bits.append(f"Counted pieces: {inv.total_counted_pieces}")
+        pdf.cell(
+            0,
+            5,
+            _ascii_safe("   |   ".join(summary_bits)),
+            align="C",
+            new_x="LMARGIN",
+            new_y="NEXT",
+        )
+        pdf.ln(3)
+        # Table header
+        pdf.set_fill_color(55, 70, 90)
+        pdf.set_text_color(255, 255, 255)
+        pdf.set_font("Helvetica", "B", 8)
+        pdf.cell(10, 6, "#", border=1, align="C", fill=True)
+        pdf.cell(58, 6, "Box / Component", border=1, fill=True)
+        pdf.cell(36, 6, "Dimensions (mm)", border=1, align="C", fill=True)
+        pdf.cell(36, 6, "Position (X,Y,Z)", border=1, align="C", fill=True)
+        pdf.cell(137, 6, "Pieces / Contents", border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
+        pdf.set_text_color(20, 20, 20)
+        pdf.set_font("Helvetica", "", 7.5)
+
+    _start_page(continued=False)
+    row_idx = 0
+
+    def _draw_row(
+        idx_str: str,
+        name: str,
+        dims: str,
+        pos: str,
+        contents: str,
+        *,
+        tint: tuple[int, int, int] | None = None,
+    ) -> None:
+        nonlocal row_idx
+        if pdf.get_y() > 192:
+            _start_page(continued=True)
+        if tint is not None:
+            pdf.set_fill_color(*tint)
+        elif row_idx % 2 == 1:
+            pdf.set_fill_color(246, 248, 250)
+        else:
+            pdf.set_fill_color(255, 255, 255)
+        pdf.cell(10, 5.5, _ascii_safe(idx_str), border=1, align="C", fill=True)
+        pdf.cell(58, 5.5, _ascii_safe(name[:34]), border=1, fill=True)
+        pdf.cell(36, 5.5, _ascii_safe(dims), border=1, align="C", fill=True)
+        pdf.cell(36, 5.5, _ascii_safe(pos), border=1, align="C", fill=True)
+        pdf.cell(137, 5.5, _ascii_safe(contents[:88]), border=1, fill=True, new_x="LMARGIN", new_y="NEXT")
+        row_idx += 1
+
+    for summary in inv.box_summaries:
+        pl = placements_by_label.get(summary.label)
+        dims = f"{pl.size[0]:.1f}x{pl.size[1]:.1f}x{pl.size[2]:.1f}" if pl else "-"
+        pos = f"({pl.position[0]:.0f}, {pl.position[1]:.0f}, {pl.position[2]:.0f})" if pl else "-"
+        idx_num = str(orig_index_map[summary.label] + 1) if summary.label in orig_index_map else "-"
+        _draw_row(idx_num, summary.label, dims, pos, summary.format_contents(max_items=6))
+
+    for sp in packing.spacer_placements:
+        dims = f"{sp.size[0]:.1f}x{sp.size[1]:.1f}x{sp.size[2]:.1f}"
+        pos = f"({sp.position[0]:.0f}, {sp.position[1]:.0f}, {sp.position[2]:.0f})"
+        _draw_row("S", f"{sp.label} (spacer)", dims, pos, "Printed spacer tray", tint=(240, 240, 240))
+
+    for gb in inv.boards:
+        dims = f"{gb.size[0]:.1f}x{gb.size[1]:.1f}x{gb.size[2]:.1f}"
+        pos = f"({gb.position[0]:.0f}, {gb.position[1]:.0f}, {gb.position[2]:.0f})"
+        desc = f"{gb.count}x {gb.label}" + (f" ({gb.notes})" if gb.notes else "") + " [non-printed]"
+        _draw_row("B", gb.label, dims, pos, desc, tint=(248, 241, 224))
 
 
 def draw_box_blueprint(
@@ -766,7 +966,7 @@ def draw_box_blueprint(
 def should_regenerate_layout(
     packing: BoxPacking,
     pdf_path: Path,
-    library_version: str = "1.0.0",
+    library_version: str = "1.1.0",
 ) -> bool:
     """Check whether the PDF needs regeneration.
 

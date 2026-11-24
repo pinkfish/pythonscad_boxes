@@ -83,7 +83,7 @@ Each page provides interactive 3-D STL viewers and downloadable STL meshes for:
    * - :doc:`Earth (earth) <earth>`
      - ``288 × 288 × 72 mm``
      - 26
-     - 1
+     - 0
      - :ref:`BoxType.SLIDING <box-type-sliding>`, :ref:`BoxType.FILAMENT_HINGE <box-type-filament-hinge>`, :ref:`BoxType.SLIPOVER <box-type-slipover>`, :ref:`BoxType.NO_LID <box-type-no-lid>`, :ref:`BoxType.CAP <box-type-cap>`
    * - :doc:`EarthAnimalKingdom (earth_animal_kingdom) <earth_animal_kingdom>`
      - ``288 × 158 × 47 mm``

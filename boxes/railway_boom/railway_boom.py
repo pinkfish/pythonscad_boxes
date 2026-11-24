@@ -147,6 +147,21 @@ project = Project(
     generate_spacers=True,
 )
 
+project.board(
+    "Main Board",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, full_usable_height),
+    count=1,
+    notes="Top of box",
+)
+project.board(
+    "Player Boards",
+    size=(player_board_width, 228.0, player_board_thickness * player_board_num),
+    position=(0.0, 0.0, usable_height),
+    count=player_board_num,
+    notes="Stacked above player, station & small card boxes",
+)
+
 BOOM_PATTERN = PatternBuilder(PatternType.OCTAGON)
 BOOM_FONT = "Futura:style=Bold"
 

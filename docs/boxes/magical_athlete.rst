@@ -24,64 +24,73 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=58e7129d" download="MagicalAthlete_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MagicalAthlete_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=58e7129d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=30cdcbbf" download="MagicalAthlete_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MagicalAthlete_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=30cdcbbf" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=58e7129d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/magical_athlete/MagicalAthlete_packing_guide.pdf?v=30cdcbbf" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 8 bodies, 8 lids, 0 spacers (16 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 47
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`AthleteCardsBox <box-magical_athlete-athletecardsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``96 × 73 × 38 mm``
      - ``(0, 175, 0)``
-     - 1
+     - Cards
    * - :ref:`DiceBox <box-magical_athlete-dicebox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``88 × 73 × 26 mm``
      - ``(96, 175, 0)``
-     - 1
+     - 6x Die
    * - :ref:`AwardMedalBox <box-magical_athlete-awardmedalbox>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``88 × 73 × 12 mm``
      - ``(96, 175, 26)``
-     - 1
+     - 3x Gold Medal, 3x Silver Medal
    * - :ref:`AthletePiecesBox_1 <box-magical_athlete-athletepiecesbox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``184 × 175 × 19 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 20x Athlete, 1x Tall Athlete
    * - :ref:`AthletePiecesBox_2 <box-magical_athlete-athletepiecesbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``184 × 175 × 19 mm``
      - ``(0, 0, 19)``
-     - 1
+     - 14x Athlete
    * - :ref:`BigBabyBox <box-magical_athlete-bigbabybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``96 × 46 × 38 mm``
      - ``(0, 248, 0)``
-     - 1
+     - Big Baby
    * - :ref:`AwardTokensBox_1 <box-magical_athlete-awardtokensbox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``88 × 46 × 19 mm``
      - ``(96, 248, 0)``
-     - 1
+     - Tokens
    * - :ref:`AwardTokensBox_3 <box-magical_athlete-awardtokensbox_3>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``88 × 46 × 19 mm``
      - ``(96, 248, 19)``
-     - 1
+     - Tokens
+   * - Game Board / Manuals
+     - Board / Non-Printed
+     - ``184 × 294 × 7 mm``
+     - ``(0, 0, 38)``
+     - 1x Game Board / Manuals (On top of insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -94,6 +103,7 @@ AthleteCardsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``96 × 73 × 38 mm``
 - **Packed Position**: ``(0, 175, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (AthleteCardsBox — Body + Lid)**
@@ -131,6 +141,7 @@ DiceBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``88 × 73 × 26 mm``
 - **Packed Position**: ``(96, 175, 0)``
+- **Pieces / Contents**: 6x Die
 - **Compartments (1)**: ``Dice`` (82 × 67 mm, 7 elements)
 
 **Assembled Box (DiceBox — Body + Lid)**
@@ -168,6 +179,7 @@ AwardMedalBox
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``88 × 73 × 12 mm``
 - **Packed Position**: ``(96, 175, 26)``
+- **Pieces / Contents**: 3x Gold Medal, 3x Silver Medal
 - **Compartments (1)**: ``Medals`` (78.6 × 63.6 mm, 11 elements)
 
 **Assembled Box (AwardMedalBox — Body + Lid)**
@@ -205,6 +217,7 @@ AthletePiecesBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``184 × 175 × 19 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 20x Athlete, 1x Tall Athlete
 - **Compartments (1)**: ``AthletePieces_1`` (178 × 169 mm, 22 elements)
 
 **Assembled Box (AthletePiecesBox_1 — Body + Lid)**
@@ -242,6 +255,7 @@ AthletePiecesBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``184 × 175 × 19 mm``
 - **Packed Position**: ``(0, 0, 19)``
+- **Pieces / Contents**: 14x Athlete
 - **Compartments (1)**: ``AthletePieces_2`` (178 × 169 mm, 15 elements)
 
 **Assembled Box (AthletePiecesBox_2 — Body + Lid)**
@@ -279,6 +293,7 @@ BigBabyBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``96 × 46 × 38 mm``
 - **Packed Position**: ``(0, 248, 0)``
+- **Pieces / Contents**: Big Baby
 - **Compartments (1)**: ``BigBaby`` (full interior)
 
 **Assembled Box (BigBabyBox — Body + Lid)**
@@ -316,6 +331,7 @@ AwardTokensBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``88 × 46 × 19 mm``
 - **Packed Position**: ``(96, 248, 0)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens_1`` (full interior)
 
 **Assembled Box (AwardTokensBox_1 — Body + Lid)**
@@ -353,6 +369,7 @@ AwardTokensBox_3
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``88 × 46 × 19 mm``
 - **Packed Position**: ``(96, 248, 19)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens_3`` (full interior)
 
 **Assembled Box (AwardTokensBox_3 — Body + Lid)**

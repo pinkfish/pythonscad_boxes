@@ -423,6 +423,14 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.board(
+    "Main Board & Rulebooks",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, box_height - board_thickness),
+    count=1,
+    notes="Rests flush on top of all boxes",
+)
+
 BRINK_PATTERN = PatternBuilder(PatternType.VORONOI)
 BRINK_FONT = "Futura:style=Bold"
 BRINK_TEXT_SPACING = 1.18

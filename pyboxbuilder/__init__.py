@@ -70,7 +70,18 @@ from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.helpers import CardSize, CardSpec, SleeveType
 from pyboxbuilder.layout import columns, polygon_grid, rows, stack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
-from pyboxbuilder.project import GeometryPipeline, LayoutCompiler, Project, ProjectManifest
+from pyboxbuilder.project import (
+    BoxPieceSummary,
+    GameBoard,
+    GeometryPipeline,
+    LayoutCompiler,
+    PieceEntry,
+    Project,
+    ProjectInventory,
+    ProjectManifest,
+    summarize_box_pieces,
+    summarize_project,
+)
 from pyboxbuilder.run import run
 from pyboxbuilder.sleeves import (
     BRANDS,
@@ -91,6 +102,7 @@ __all__ = [
     "SLEEVE_CATALOG",
     "STACKING_ORDER_PYRAMID_CONFIGS",
     "BayonetBoxBuilder",
+    "BoxPieceSummary",
     "BoxSpec",
     "BoxType",
     "CapBoxBuilder",
@@ -113,6 +125,7 @@ __all__ = [
     "ExportResult",
     "FilamentHingeBoxBuilder",
     "FingerCut",
+    "GameBoard",
     "GeometryPipeline",
     "GeometryValidationError",
     "GeometryValidator",
@@ -134,8 +147,10 @@ __all__ = [
     "PathBoxBuilder",
     "PatternBuilder",
     "PatternType",
+    "PieceEntry",
     "PrintInPlaceHingeBoxBuilder",
     "Project",
+    "ProjectInventory",
     "ProjectManifest",
     "ResolvedBoxSpec",
     "ScoopSide",
@@ -168,4 +183,6 @@ __all__ = [
     "sleeves_for_card",
     "stack",
     "stacking_order_pyramid_config",
+    "summarize_box_pieces",
+    "summarize_project",
 ]

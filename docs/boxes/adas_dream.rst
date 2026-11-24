@@ -24,194 +24,203 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=33842348" download="AdasDream_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>AdasDream_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=33842348" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=33315f5a" download="AdasDream_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>AdasDream_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=33315f5a" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=33842348" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/adas_dream/AdasDream_packing_guide.pdf?v=33315f5a" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 26 bodies, 25 lids, 8 spacers (59 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 113
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`PlayerBox_Red <box-adas_dream-playerbox_red>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 72 × 22.4 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 1x Starting Cards, 4x Research Bulb, 4x Research Stem, 6x Player Disc, 1x Innovation Bulb, 1x Innovation Stem, +5 more
    * - :ref:`PlayerBox_Blue <box-adas_dream-playerbox_blue>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 72 × 22.4 mm``
      - ``(97, 0, 0)``
-     - 1
+     - 1x Starting Cards, 4x Research Bulb, 4x Research Stem, 6x Player Disc, 1x Innovation Bulb, 1x Innovation Stem, +7 more
    * - :ref:`PlayerBox_Green <box-adas_dream-playerbox_green>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 72 × 22.4 mm``
      - ``(0, 0, 22.4)``
-     - 1
+     - 1x Starting Cards, 4x Research Bulb, 4x Research Stem, 6x Player Disc, 1x Innovation Bulb, 1x Innovation Stem, +2 more
    * - :ref:`PlayerBox_Purple <box-adas_dream-playerbox_purple>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 72 × 22.4 mm``
      - ``(97, 0, 22.4)``
-     - 1
+     - 1x Starting Cards, 4x Research Bulb, 4x Research Stem, 6x Player Disc, 1x Innovation Bulb, 1x Innovation Stem, +2 more
    * - :ref:`ScoringBox <box-adas_dream-scoringbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``97 × 40.5 × 14.2 mm``
      - ``(0, 0, 44.8)``
-     - 4
+     - Scoring
    * - :ref:`VisitorBox <box-adas_dream-visitorbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``97 × 31.5 × 14.2 mm``
      - ``(0, 40.5, 44.8)``
-     - 1
+     - 1x Visitor Yellow, 1x Visitor Purple, 1x Visitor Blue, 1x Visitor Green Stem, 1x Visitor Green Base
    * - :ref:`MoneyBox <box-adas_dream-moneybox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``114 × 72 × 14.2 mm``
      - ``(97, 0, 44.8)``
-     - 1
+     - Money
    * - :ref:`OtherCardBox <box-adas_dream-othercardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 72 × 18.4 mm``
      - ``(97, 72, 0)``
-     - 1
+     - Other Cards
    * - :ref:`TierCardBox <box-adas_dream-tiercardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 72 × 28 mm``
      - ``(97, 72, 18.4)``
-     - 1
+     - Tier Cards
    * - :ref:`AssignmentCardBox <box-adas_dream-assignmentcardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``76.5 × 54 × 23 mm``
      - ``(0, 237, 16)``
-     - 1
+     - Assignment Cards
    * - :ref:`BookBox <box-adas_dream-bookbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``61 × 95 × 16 mm``
      - ``(36, 72, 0)``
-     - 3
+     - Books
    * - :ref:`AssignmentBox <box-adas_dream-assignmentbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``61 × 99.5 × 16 mm``
      - ``(36, 167, 0)``
-     - 2
+     - Assign
    * - :ref:`DiceBox <box-adas_dream-dicebox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``97 × 138 × 18.5 mm``
      - ``(0, 72, 16)``
-     - 1
+     - 1x Dice Grid6x8, 1x Dice Grid2x9
    * - :ref:`FirstPlayerBox <box-adas_dream-firstplayerbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 27 × 18.5 mm``
      - ``(0, 210, 16)``
-     - 1
+     - 1x First Player Base, 1x First Player Arms, 1x First Player Head
    * - :ref:`AlternativeObjectiveBox <box-adas_dream-alternativeobjectivebox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``97 × 164 × 19.5 mm``
      - ``(0, 72, 34.5)``
-     - 2
+     - Alt Obj
    * - :ref:`BreakthroughBox <box-adas_dream-breakthroughbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``19.5 × 54 × 16 mm``
      - ``(76.5, 237, 16)``
-     - 1
+     - 2x Breakthrough
    * - :ref:`ScorePadBox <box-adas_dream-scorepadbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``97 × 102.5 × 10 mm``
      - ``(97, 144, 0)``
-     - 1
+     - Score Pad
    * - :ref:`ProgramBox <box-adas_dream-programbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``47 × 60 × 39 mm``
      - ``(97, 144, 10)``
-     - 2
+     - Program
    * - :ref:`UniversityBox <box-adas_dream-universitybox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``47 × 42.5 × 39 mm``
      - ``(97, 204, 10)``
-     - 1
+     - 1x Workshop Bonus Tiles, 1x University Tiles
    * - :ref:`ResourceBox_Brass <box-adas_dream-resourcebox_brass>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``48.5 × 102.5 × 22 mm``
      - ``(144, 144, 10)``
-     - 1
+     - Brass
    * - :ref:`ResourceBox_Coal <box-adas_dream-resourcebox_coal>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``48.5 × 102.5 × 22 mm``
      - ``(144, 144, 32)``
-     - 1
+     - Coal
    * - :ref:`GearBox_AddGears <box-adas_dream-gearbox_addgears>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``115 × 44.5 × 18 mm``
      - ``(97, 246.5, 0)``
-     - 1
+     - 5x Gear
    * - :ref:`GearBox_SubGears <box-adas_dream-gearbox_subgears>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``115 × 44.5 × 18 mm``
      - ``(97, 246.5, 18)``
-     - 1
+     - 5x Gear
    * - :ref:`GearBox_MulGears <box-adas_dream-gearbox_mulgears>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``115 × 44.5 × 18 mm``
      - ``(97, 246.5, 36)``
-     - 1
+     - 5x Gear
    * - :ref:`SpacerSide <box-adas_dream-spacerside>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``17 × 90.5 × 35.8 mm``
      - ``(194, 0, 9)``
-     - 0
+     - —
    * - :ref:`ObjectiveBox <box-adas_dream-objectivebox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``17 × 156 × 35.8 mm``
      - ``(194, 90.5, 9)``
-     - 3
+     - Objective
    * - :ref:`spacer_1 <spacer-adas_dream-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``212 × 219 × 5 mm``
      - ``(0, 72, 54)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-adas_dream-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``97 × 219 × 16 mm``
      - ``(0, 72, 0)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_3 <spacer-adas_dream-spacer_3>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``97 × 55 × 15 mm``
      - ``(0, 236, 39)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_4 <spacer-adas_dream-spacer_4>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``115 × 72 × 7.6 mm``
      - ``(97, 72, 46.4)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_5 <spacer-adas_dream-spacer_5>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``18 × 246.5 × 9 mm``
      - ``(194, 0, 0)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_6 <spacer-adas_dream-spacer_6>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``47 × 102.5 × 5 mm``
      - ``(97, 144, 49)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_7 <spacer-adas_dream-spacer_7>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``19.5 × 102.5 × 9.2 mm``
      - ``(192.5, 144, 44.8)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_8 <spacer-adas_dream-spacer_8>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``20.5 × 54 × 7 mm``
      - ``(76.5, 237, 32)``
-     - —
+     - Printed spacer tray
+   * - Game Board / Manuals
+     - Board / Non-Printed
+     - ``212 × 291 × 31 mm``
+     - ``(0, 0, 59)``
+     - 1x Game Board / Manuals (On top of insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -224,6 +233,7 @@ PlayerBox_Red
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 72 × 22.4 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 1x Starting Cards, 4x Research Bulb, 4x Research Stem, 6x Player Disc, 1x Innovation Bulb, 1x Innovation Stem, 1x Steam Token, 1x Meeple Head, 1x Meeple Coat, 1x Meeple Trousers, +1 more
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``PlayerBits`` (91 × 66 mm, 30 elements)
@@ -263,6 +273,7 @@ PlayerBox_Blue
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 72 × 22.4 mm``
 - **Packed Position**: ``(97, 0, 0)``
+- **Pieces / Contents**: 1x Starting Cards, 4x Research Bulb, 4x Research Stem, 6x Player Disc, 1x Innovation Bulb, 1x Innovation Stem, 1x Steam Token, 1x Meeple Head, 1x Meeple Coat, 1x Meeple Trousers, +3 more
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``PlayerBits`` (91 × 66 mm, 32 elements)
@@ -302,6 +313,7 @@ PlayerBox_Green
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 72 × 22.4 mm``
 - **Packed Position**: ``(0, 0, 22.4)``
+- **Pieces / Contents**: 1x Starting Cards, 4x Research Bulb, 4x Research Stem, 6x Player Disc, 1x Innovation Bulb, 1x Innovation Stem, 1x Steam Token, 1x Meeple Woman
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``PlayerBits`` (91 × 66 mm, 27 elements)
@@ -341,6 +353,7 @@ PlayerBox_Purple
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 72 × 22.4 mm``
 - **Packed Position**: ``(97, 0, 22.4)``
+- **Pieces / Contents**: 1x Starting Cards, 4x Research Bulb, 4x Research Stem, 6x Player Disc, 1x Innovation Bulb, 1x Innovation Stem, 1x Steam Token, 1x Meeple Woman
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``PlayerBits`` (91 × 66 mm, 27 elements)
@@ -380,6 +393,7 @@ ScoringBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``97 × 40.5 × 14.2 mm``
 - **Packed Position**: ``(0, 0, 44.8)``
+- **Pieces / Contents**: Scoring
 - **Compartments (4)**: ``Scoring_1`` (W=25%), ``Scoring_2`` (W=25%), ``Scoring_3`` (W=25%), ``Scoring_4`` (W=25%)
 
 **Assembled Box (ScoringBox — Body + Lid)**
@@ -417,6 +431,7 @@ VisitorBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``97 × 31.5 × 14.2 mm``
 - **Packed Position**: ``(0, 40.5, 44.8)``
+- **Pieces / Contents**: 1x Visitor Yellow, 1x Visitor Purple, 1x Visitor Blue, 1x Visitor Green Stem, 1x Visitor Green Base
 - **Compartments (1)**: ``Visitors`` (94 × 28.5 mm, 5 elements)
 
 **Assembled Box (VisitorBox — Body + Lid)**
@@ -454,6 +469,7 @@ MoneyBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``114 × 72 × 14.2 mm``
 - **Packed Position**: ``(97, 0, 44.8)``
+- **Pieces / Contents**: Money
 - **Compartments (1)**: ``Money`` (full interior)
 
 **Assembled Box (MoneyBox — Body + Lid)**
@@ -491,6 +507,7 @@ OtherCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 72 × 18.4 mm``
 - **Packed Position**: ``(97, 72, 0)``
+- **Pieces / Contents**: Other Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``OtherCards`` (full interior)
@@ -530,6 +547,7 @@ TierCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 72 × 28 mm``
 - **Packed Position**: ``(97, 72, 18.4)``
+- **Pieces / Contents**: Tier Cards
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``flat (top of stack)``
 - **Compartments (1)**: ``TierCards`` (full interior)
@@ -569,6 +587,7 @@ AssignmentCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``76.5 × 54 × 23 mm``
 - **Packed Position**: ``(0, 237, 16)``
+- **Pieces / Contents**: Assignment Cards
 - **Compartments (1)**: ``AssignmentCards`` (full interior)
 
 **Assembled Box (AssignmentCardBox — Body + Lid)**
@@ -606,6 +625,7 @@ BookBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``61 × 95 × 16 mm``
 - **Packed Position**: ``(36, 72, 0)``
+- **Pieces / Contents**: Books
 - **Compartments (3)**: ``Books_1`` (W=33%), ``Books_2`` (W=33%), ``Books_3`` (W=33%)
 
 **Assembled Box (BookBox — Body + Lid)**
@@ -643,6 +663,7 @@ AssignmentBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``61 × 99.5 × 16 mm``
 - **Packed Position**: ``(36, 167, 0)``
+- **Pieces / Contents**: Assign
 - **Compartments (2)**: ``Assign_1`` (W=50%), ``Assign_2`` (W=50%)
 
 **Assembled Box (AssignmentBox — Body + Lid)**
@@ -680,6 +701,7 @@ DiceBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``97 × 138 × 18.5 mm``
 - **Packed Position**: ``(0, 72, 16)``
+- **Pieces / Contents**: 1x Dice Grid6x8, 1x Dice Grid2x9
 - **Compartments (1)**: ``Dice`` (91 × 132 mm, 3 elements)
 
 **Assembled Box (DiceBox — Body + Lid)**
@@ -717,6 +739,7 @@ FirstPlayerBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 27 × 18.5 mm``
 - **Packed Position**: ``(0, 210, 16)``
+- **Pieces / Contents**: 1x First Player Base, 1x First Player Arms, 1x First Player Head
 - **Compartments (1)**: ``FirstPlayer`` (91 × 21 mm, 4 elements)
 
 **Assembled Box (FirstPlayerBox — Body + Lid)**
@@ -754,6 +777,7 @@ AlternativeObjectiveBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``97 × 164 × 19.5 mm``
 - **Packed Position**: ``(0, 72, 34.5)``
+- **Pieces / Contents**: Alt Obj
 - **Compartments (2)**: ``AltObj_1`` (W=50%), ``AltObj_2`` (W=50%)
 
 **Assembled Box (AlternativeObjectiveBox — Body + Lid)**
@@ -791,6 +815,7 @@ BreakthroughBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``19.5 × 54 × 16 mm``
 - **Packed Position**: ``(76.5, 237, 16)``
+- **Pieces / Contents**: 2x Breakthrough
 - **Compartments (1)**: ``Breakthroughs`` (17.1 × 51.6 mm, 4 elements)
 
 **Assembled Box (BreakthroughBox — Body + Lid)**
@@ -828,6 +853,7 @@ ScorePadBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``97 × 102.5 × 10 mm``
 - **Packed Position**: ``(97, 144, 0)``
+- **Pieces / Contents**: Score Pad
 - **Compartments (1)**: ``ScorePad`` (full interior)
 
 **Assembled Box (ScorePadBox — Body + Lid)**
@@ -865,6 +891,7 @@ ProgramBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``47 × 60 × 39 mm``
 - **Packed Position**: ``(97, 144, 10)``
+- **Pieces / Contents**: Program
 - **Compartments (2)**: ``Program_1`` (L=50%), ``Program_2`` (L=50%)
 
 **Assembled Box (ProgramBox — Body + Lid)**
@@ -902,6 +929,7 @@ UniversityBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``47 × 42.5 × 39 mm``
 - **Packed Position**: ``(97, 204, 10)``
+- **Pieces / Contents**: 1x Workshop Bonus Tiles, 1x University Tiles
 - **Compartments (1)**: ``UniversityAndBonus`` (41 × 36.5 mm, 3 elements)
 
 **Assembled Box (UniversityBox — Body + Lid)**
@@ -939,6 +967,7 @@ ResourceBox_Brass
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``48.5 × 102.5 × 22 mm``
 - **Packed Position**: ``(144, 144, 10)``
+- **Pieces / Contents**: Brass
 - **Compartments (1)**: ``Brass`` (full interior)
 
 **Assembled Box (ResourceBox_Brass — Body + Lid)**
@@ -976,6 +1005,7 @@ ResourceBox_Coal
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``48.5 × 102.5 × 22 mm``
 - **Packed Position**: ``(144, 144, 32)``
+- **Pieces / Contents**: Coal
 - **Compartments (1)**: ``Coal`` (full interior)
 
 **Assembled Box (ResourceBox_Coal — Body + Lid)**
@@ -1013,6 +1043,7 @@ GearBox_AddGears
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``115 × 44.5 × 18 mm``
 - **Packed Position**: ``(97, 246.5, 0)``
+- **Pieces / Contents**: 5x Gear
 - **Compartments (1)**: ``Gears`` (109 × 38.5 mm, 10 elements)
 
 **Assembled Box (GearBox_AddGears — Body + Lid)**
@@ -1050,6 +1081,7 @@ GearBox_SubGears
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``115 × 44.5 × 18 mm``
 - **Packed Position**: ``(97, 246.5, 18)``
+- **Pieces / Contents**: 5x Gear
 - **Compartments (1)**: ``Gears`` (109 × 38.5 mm, 10 elements)
 
 **Assembled Box (GearBox_SubGears — Body + Lid)**
@@ -1087,6 +1119,7 @@ GearBox_MulGears
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``115 × 44.5 × 18 mm``
 - **Packed Position**: ``(97, 246.5, 36)``
+- **Pieces / Contents**: 5x Gear
 - **Compartments (1)**: ``Gears`` (109 × 38.5 mm, 10 elements)
 
 **Assembled Box (GearBox_MulGears — Body + Lid)**
@@ -1142,6 +1175,7 @@ ObjectiveBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``17 × 156 × 35.8 mm``
 - **Packed Position**: ``(194, 90.5, 9)``
+- **Pieces / Contents**: Objective
 - **Compartments (3)**: ``Objective_1`` (L=33%), ``Objective_2`` (L=33%), ``Objective_3`` (L=33%)
 
 **Assembled Box (ObjectiveBox — Body + Lid)**

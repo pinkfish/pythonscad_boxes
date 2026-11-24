@@ -24,139 +24,148 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=b15b1ca1" download="FirstClass_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>FirstClass_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=b15b1ca1" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=66f9db18" download="FirstClass_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>FirstClass_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=66f9db18" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=b15b1ca1" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=66f9db18" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 21 bodies, 21 lids, 2 spacers (44 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 20
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`PlayerBox_yellow <box-first_class-playerbox_yellow>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``108.5 × 53 × 21.5 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 1x Train Token, 3x Meeple Token, 1x Cubes Well
    * - :ref:`PlayerBox_blue <box-first_class-playerbox_blue>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``108.5 × 53 × 21.5 mm``
      - ``(0, 0, 21.5)``
-     - 1
+     - 1x Train Token, 3x Meeple Token, 1x Cubes Well
    * - :ref:`PlayerBox_red <box-first_class-playerbox_red>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``108.5 × 53 × 21.5 mm``
      - ``(0, 0, 43)``
-     - 1
+     - 1x Train Token, 3x Meeple Token, 1x Cubes Well
    * - :ref:`PlayerBox_green <box-first_class-playerbox_green>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``108.5 × 53 × 21.5 mm``
      - ``(108.5, 0, 0)``
-     - 1
+     - 1x Train Token, 3x Meeple Token, 1x Cubes Well
    * - :ref:`MoneyBox <box-first_class-moneybox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``108.5 × 53 × 21.5 mm``
      - ``(108.5, 0, 21.5)``
-     - 1
+     - Coins
    * - :ref:`EvidenceBox <box-first_class-evidencebox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``108.5 × 53 × 21.5 mm``
      - ``(108.5, 0, 43)``
-     - 1
+     - Tokens
    * - :ref:`CardBox_ModuleA <box-first_class-cardbox_modulea>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(0, 53, 0)``
-     - 1
+     - Cards
    * - :ref:`CardBox_ModuleB <box-first_class-cardbox_moduleb>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(0, 53, 21.5)``
-     - 1
+     - Cards
    * - :ref:`CardBox_ModuleC <box-first_class-cardbox_modulec>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(0, 53, 43)``
-     - 1
+     - Cards
    * - :ref:`CardBox_ModuleD <box-first_class-cardbox_moduled>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(54.25, 53, 0)``
-     - 1
+     - Cards
    * - :ref:`CardBox_ModuleE <box-first_class-cardbox_modulee>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(54.25, 53, 21.5)``
-     - 1
+     - Cards
    * - :ref:`CardBox_BaseCards_1 <box-first_class-cardbox_basecards_1>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(54.25, 53, 43)``
-     - 1
+     - Cards
    * - :ref:`CardBox_BaseCards_2 <box-first_class-cardbox_basecards_2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(108.5, 53, 0)``
-     - 1
+     - Cards
    * - :ref:`CardBox_EvidenceAndMail <box-first_class-cardbox_evidenceandmail>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(108.5, 53, 21.5)``
-     - 1
+     - Cards
    * - :ref:`CardBox_Railroad712 <box-first_class-cardbox_railroad712>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 21.5 mm``
      - ``(108.5, 53, 43)``
-     - 1
+     - Cards
    * - :ref:`CardBox_Railroad01 <box-first_class-cardbox_railroad01>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 35 mm``
      - ``(162.75, 53, 0)``
-     - 1
+     - Cards
    * - :ref:`CardBox_Railroad24 <box-first_class-cardbox_railroad24>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 19.4 mm``
      - ``(162.75, 53, 35)``
-     - 1
+     - Cards
    * - :ref:`CardBox_Whodunit <box-first_class-cardbox_whodunit>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 10.1 mm``
      - ``(162.75, 53, 54.4)``
-     - 1
+     - Cards
    * - :ref:`CardBox_GameEnd <box-first_class-cardbox_gameend>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 20 mm``
      - ``(0, 129, 0)``
-     - 1
+     - Cards
    * - :ref:`StartTileCardBox <box-first_class-starttilecardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``54.25 × 76 × 7.5 mm``
      - ``(0, 129, 20)``
-     - 1
+     - Start Tile
    * - :ref:`LocomotiveTileBox <box-first_class-locomotivetilebox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``74.5 × 76 × 27.5 mm``
      - ``(54.25, 129, 0)``
-     - 1
+     - Tiles
    * - :ref:`spacer_1 <spacer-first_class-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``217 × 178 × 37 mm``
      - ``(0, 129, 27.5)``
-     - —
+     - Printed spacer tray
    * - :ref:`spacer_2 <spacer-first_class-spacer_2>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
      - ``217 × 178 × 27.5 mm``
      - ``(0, 129, 0)``
-     - —
+     - Printed spacer tray
+   * - Game Board / Manuals
+     - Board / Non-Printed
+     - ``217 × 307 × 5.5 mm``
+     - ``(0, 0, 64.5)``
+     - 1x Game Board / Manuals (On top of insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -169,6 +178,7 @@ PlayerBox_yellow
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``108.5 × 53 × 21.5 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 1x Train Token, 3x Meeple Token, 1x Cubes Well
 - **Compartments (1)**: ``PlayerBits`` (102.5 × 47 mm, 8 elements)
 
 **Assembled Box (PlayerBox_yellow — Body + Lid)**
@@ -206,6 +216,7 @@ PlayerBox_blue
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``108.5 × 53 × 21.5 mm``
 - **Packed Position**: ``(0, 0, 21.5)``
+- **Pieces / Contents**: 1x Train Token, 3x Meeple Token, 1x Cubes Well
 - **Compartments (1)**: ``PlayerBits`` (102.5 × 47 mm, 8 elements)
 
 **Assembled Box (PlayerBox_blue — Body + Lid)**
@@ -243,6 +254,7 @@ PlayerBox_red
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``108.5 × 53 × 21.5 mm``
 - **Packed Position**: ``(0, 0, 43)``
+- **Pieces / Contents**: 1x Train Token, 3x Meeple Token, 1x Cubes Well
 - **Compartments (1)**: ``PlayerBits`` (102.5 × 47 mm, 8 elements)
 
 **Assembled Box (PlayerBox_red — Body + Lid)**
@@ -280,6 +292,7 @@ PlayerBox_green
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``108.5 × 53 × 21.5 mm``
 - **Packed Position**: ``(108.5, 0, 0)``
+- **Pieces / Contents**: 1x Train Token, 3x Meeple Token, 1x Cubes Well
 - **Compartments (1)**: ``PlayerBits`` (102.5 × 47 mm, 8 elements)
 
 **Assembled Box (PlayerBox_green — Body + Lid)**
@@ -317,6 +330,7 @@ MoneyBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``108.5 × 53 × 21.5 mm``
 - **Packed Position**: ``(108.5, 0, 21.5)``
+- **Pieces / Contents**: Coins
 - **Compartments (1)**: ``Coins`` (full interior)
 
 **Assembled Box (MoneyBox — Body + Lid)**
@@ -354,6 +368,7 @@ EvidenceBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``108.5 × 53 × 21.5 mm``
 - **Packed Position**: ``(108.5, 0, 43)``
+- **Pieces / Contents**: Tokens
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (EvidenceBox — Body + Lid)**
@@ -391,6 +406,7 @@ CardBox_ModuleA
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(0, 53, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_ModuleA — Body + Lid)**
@@ -428,6 +444,7 @@ CardBox_ModuleB
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(0, 53, 21.5)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_ModuleB — Body + Lid)**
@@ -465,6 +482,7 @@ CardBox_ModuleC
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(0, 53, 43)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_ModuleC — Body + Lid)**
@@ -502,6 +520,7 @@ CardBox_ModuleD
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(54.25, 53, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_ModuleD — Body + Lid)**
@@ -539,6 +558,7 @@ CardBox_ModuleE
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(54.25, 53, 21.5)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_ModuleE — Body + Lid)**
@@ -576,6 +596,7 @@ CardBox_BaseCards_1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(54.25, 53, 43)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_BaseCards_1 — Body + Lid)**
@@ -613,6 +634,7 @@ CardBox_BaseCards_2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(108.5, 53, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_BaseCards_2 — Body + Lid)**
@@ -650,6 +672,7 @@ CardBox_EvidenceAndMail
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(108.5, 53, 21.5)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_EvidenceAndMail — Body + Lid)**
@@ -687,6 +710,7 @@ CardBox_Railroad712
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 21.5 mm``
 - **Packed Position**: ``(108.5, 53, 43)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Railroad712 — Body + Lid)**
@@ -724,6 +748,7 @@ CardBox_Railroad01
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 35 mm``
 - **Packed Position**: ``(162.75, 53, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Railroad01 — Body + Lid)**
@@ -761,6 +786,7 @@ CardBox_Railroad24
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 19.4 mm``
 - **Packed Position**: ``(162.75, 53, 35)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Railroad24 — Body + Lid)**
@@ -798,6 +824,7 @@ CardBox_Whodunit
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 10.1 mm``
 - **Packed Position**: ``(162.75, 53, 54.4)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_Whodunit — Body + Lid)**
@@ -835,6 +862,7 @@ CardBox_GameEnd
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 20 mm``
 - **Packed Position**: ``(0, 129, 0)``
+- **Pieces / Contents**: Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox_GameEnd — Body + Lid)**
@@ -872,6 +900,7 @@ StartTileCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``54.25 × 76 × 7.5 mm``
 - **Packed Position**: ``(0, 129, 20)``
+- **Pieces / Contents**: Start Tile
 - **Compartments (1)**: ``StartTile`` (full interior)
 
 **Assembled Box (StartTileCardBox — Body + Lid)**
@@ -909,6 +938,7 @@ LocomotiveTileBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``74.5 × 76 × 27.5 mm``
 - **Packed Position**: ``(54.25, 129, 0)``
+- **Pieces / Contents**: Tiles
 - **Compartments (1)**: ``Tiles`` (full interior)
 
 **Assembled Box (LocomotiveTileBox — Body + Lid)**

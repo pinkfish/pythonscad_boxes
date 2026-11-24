@@ -115,6 +115,14 @@ project.box(
     end_wall_length=30.0,
 )
 
+project.board(
+    "Rolled Cloth Playmat",
+    size=(45.0, playmat_spacer_length, 45.0),
+    position=(piece_box_width + 2.5, 0.0, 1.5),
+    count=1,
+    notes="Rests inside the open-ended PlaymatSpacer center channel",
+)
+
 # ── 3. Six Ribbon Token Boxes Flanking the Center Playmat Channel ─
 # Left column (X = 0..73mm) and right column (X = 123..196mm), Y = 124..247mm
 left_ribbons = [
