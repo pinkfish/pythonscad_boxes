@@ -8,9 +8,10 @@ dynamic = ["version"]
 description = "Board game box/insert design library for PythonSCAD"
 requires-python = ">=3.11"
 dependencies = [
-    # 0.7.13 or newer: Bounds3D/Bounds2D bounds contract, Path2D parameter enforcement,
-    # SVG viewBox hole preservation, Color class, Region.even_odd, and speed fixes.
-    "pybosl2>=0.7.13",
+    # 0.8.0 or newer: PythonSCAD 1.2.0 compatibility (linear_extrude scale pairs),
+    # Bounds3D/Bounds2D bounds contract, Path2D parameter enforcement, SVG viewBox
+    # hole preservation, Color class, Region.even_odd, and speed fixes.
+    "pybosl2>=0.8.0",
     "numpy",
 ]
 authors = [{ name = "pinkfish" }]
@@ -20,9 +21,9 @@ pybox = "pyboxbuilder.cli:main"
 
 [project.optional-dependencies]
 scripts = [
-    "pybosl2>=0.7.13",
+    "pybosl2>=0.8.0",
     "lark",
-    "fpdf",
+    "fpdf2",
     "inkex",
     "numpy",
     "shapely",
@@ -32,8 +33,10 @@ scripts = [
 dev = [
     "pytest",
     "pytest-xdist",
-    "mypy",
-    "ruff",
+    "pytest-cov>=5",
+    "diff-cover",
+    "mypy==2.4.1",
+    "ruff==0.17.6",
     "fpdf2",
     "pillow",
     "shapely",
@@ -153,3 +156,24 @@ markers = [
     "render: Heavy CSG geometry rendering & golden mesh comparison tests",
     "box_example: Integration tests for game box insert projects in boxes/",
 ]
+
+[tool.coverage.run]
+source = ["pyboxbuilder"]
+parallel = false
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_also = [
+    "def __repr__",
+    "def __str__",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.xml]
+output = "coverage.xml"

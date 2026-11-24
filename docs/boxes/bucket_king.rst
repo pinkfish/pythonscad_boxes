@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=f02546fe" download="BucketKing_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>BucketKing_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=f02546fe" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=ec2f5879" download="BucketKing_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>BucketKing_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=ec2f5879" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=f02546fe" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/bucket_king/BucketKing_packing_guide.pdf?v=ec2f5879" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -85,6 +85,25 @@ Parts Overview
      - ``140 × 215 × 35.5 mm``
      - ``(0, 73, 34.5)``
      - Printed spacer tray
+
+Component Checklist
+-------------------
+
+All **170** pieces across **2** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 80
+     - Animal Suit Cards
+     - CardBox
+   * - 90
+     - Player Bucket Tiles
+     - PlayerBox_1 (15), PlayerBox_2 (15), PlayerBox_3 (15), PlayerBox_4 (15), PlayerBox_5 (15), PlayerBox_6 (15)
 
 Individual Boxes & Parts
 ------------------------

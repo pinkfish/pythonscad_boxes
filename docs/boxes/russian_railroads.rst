@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=af370e92" download="RussianRailroads_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RussianRailroads_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=af370e92" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=ddeba12e" download="RussianRailroads_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RussianRailroads_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=ddeba12e" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=af370e92" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/russian_railroads/RussianRailroads_packing_guide.pdf?v=ddeba12e" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -106,6 +106,82 @@ Parts Overview
      - ``219 × 308 × 15 mm``
      - ``(0, 0, 55)``
      - 1x Game & Player Boards (Main game board and 4 dual-sided player boards atop the insert)
+
+Component Checklist
+-------------------
+
+All **258** pieces across **21** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 1
+     - Main Board
+     - Game & Player Boards (Main game board and 4 dual-sided player boards atop the insert)
+   * - 4
+     - Player Boards
+     - Game & Player Boards (Main game board and 4 dual-sided player boards atop the insert)
+   * - 32
+     - Player Workers
+     - PlayerBox_Red (8), PlayerBox_Blue (8), PlayerBox_Green (8), PlayerBox_Yellow (8)
+   * - 8
+     - Industry Markers
+     - PlayerBox_Red (2), PlayerBox_Blue (2), PlayerBox_Green (2), PlayerBox_Yellow (2)
+   * - 8
+     - Player Pawns
+     - PlayerBox_Red (2), PlayerBox_Blue (2), PlayerBox_Green (2), PlayerBox_Yellow (2)
+   * - 28
+     - Question Tokens
+     - PlayerBox_Red (7), PlayerBox_Blue (7), PlayerBox_Green (7), PlayerBox_Yellow (7)
+   * - 4
+     - Bonus Train Tiles
+     - PlayerBox_Red (1), PlayerBox_Blue (1), PlayerBox_Green (1), PlayerBox_Yellow (1)
+   * - 4
+     - Kiev Medals
+     - PlayerBox_Red (1), PlayerBox_Blue (1), PlayerBox_Green (1), PlayerBox_Yellow (1)
+   * - 3
+     - Special Workers
+     - ExtraTokensBox
+   * - 20
+     - Doubler Tokens
+     - ExtraTokensBox
+   * - 8
+     - Bonus Score Track Tiles
+     - ExtraTokensBox
+   * - 21
+     - Ruble Coins
+     - MoneyBox
+   * - 15
+     - End-Game Bonus Cards
+     - CardBox
+   * - 34
+     - Train Tiles
+     - TrainBox
+   * - 1
+     - Start Player Tile
+     - TrainBox
+   * - 15
+     - Engineer Tiles
+     - EngineerBox
+   * - 12
+     - Grey Track Pieces
+     - TrackBox
+   * - 12
+     - Brown Track Pieces
+     - TrackBox
+   * - 12
+     - Black Track Pieces
+     - TrackBox
+   * - 12
+     - Natural Track Pieces
+     - TrackBox
+   * - 4
+     - White Track Pieces
+     - TrackBox
 
 Individual Boxes & Parts
 ------------------------

@@ -79,7 +79,7 @@ project = Project(
 
 # ── Game Component Inventory ──────────────────────────────────────
 project.define_inventory({
-    "Paper Currency Denomination Stacks": 8,
+    "Paper Banknotes": 200,
     "Train Cards": 36,
     "Wagon Cards": 18,
     "Corporate Share Cards": 82,
@@ -90,7 +90,11 @@ project.define_inventory({
     "Major Company Tokens": 48,
     "Ferrocarril Central & Yellow Tokens": 17,
     "Folded Game Boards": 1,
-    "Hex Track Tile Trays": 1,
+    "Yellow Track Hex Tiles": 45,
+    "Green Track Hex Tiles": 47,
+    "Brown Track Hex Tiles": 25,
+    "Grey Track Hex Tiles": 6,
+    "Red Track Hex Tile": 1,
 })
 
 project.board(
@@ -98,8 +102,15 @@ project.board(
     size=(box_width, box_length, board_thickness),
     position=(0.0, 0.0, usable_height),
     count=2,
-    notes="Folded game boards (26mm) and hex track tile trays (20mm)",
-    allocates={"Folded Game Boards": 1, "Hex Track Tile Trays": 1},
+    notes="Folded game boards (26mm) and factory hex track tile trays (20mm) atop insert",
+    allocates={
+        "Folded Game Boards": 1,
+        "Yellow Track Hex Tiles": 45,
+        "Green Track Hex Tiles": 47,
+        "Brown Track Hex Tiles": 25,
+        "Grey Track Hex Tiles": 6,
+        "Red Track Hex Tile": 1,
+    },
 )
 
 CUBA_PATTERN = PatternBuilder(PatternType.CHEVRON)
@@ -147,8 +158,8 @@ for i in range(2):
             f"Denom_{slot + 1}",
             width_ratio=0.25,
             cut=FingerCut.SCOOP,
-            component="Paper Currency Denomination Stacks",
-            count=1,
+            component="Paper Banknotes",
+            count=25,
         )
 
 # ── Interior Geometry Helpers (from 18_cuba.scad) ─────────────────

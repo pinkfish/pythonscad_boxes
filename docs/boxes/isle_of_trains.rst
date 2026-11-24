@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=2e93a742" download="IsleOfTrains_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IsleOfTrains_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=2e93a742" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=fe9a1f53" download="IsleOfTrains_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IsleOfTrains_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=fe9a1f53" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=2e93a742" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=fe9a1f53" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -70,6 +70,52 @@ Parts Overview
      - ``31 × 133.5 × 38 mm``
      - ``(0, 0, 0)``
      - 10x Ticket Tiles, 1x Train Marker
+
+Component Checklist
+-------------------
+
+All **141** pieces across **11** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 6
+     - Destination Tiles
+     - DestinationBox
+   * - 2
+     - Track Tiles
+     - DestinationBox
+   * - 12
+     - Victory 1-VP Hexes
+     - VictoryBox
+   * - 6
+     - Victory 3-VP Hexes
+     - VictoryBox
+   * - 4
+     - Victory 5-VP Hexes
+     - VictoryBox
+   * - 4
+     - Victory 10-VP Hexes
+     - VictoryBox
+   * - 18
+     - Passenger Meeples
+     - MiddleBox
+   * - 7
+     - Island Cards
+     - CardBox
+   * - 71
+     - Train Cards
+     - CardBox
+   * - 10
+     - Ticket Tiles
+     - TicketBox
+   * - 1
+     - Train Marker
+     - TicketBox
 
 Individual Boxes & Parts
 ------------------------

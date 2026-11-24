@@ -147,6 +147,74 @@ class TestPartialBoardsAndInventory(unittest.TestCase):
             self.assertTrue(result.exists())
             self.assertGreater(result.stat().st_size, 1000)
 
+    def test_packing_pdf_renders_two_column_summary_and_checklist(self) -> None:
+        """Two-column Box Summary and Component Checklist handle wrapping, spacers, and loose items."""
+        proj = Project(
+            "TwoColPdfTest",
+            game_box_size=(240.0, 200.0, 50.0),
+            clearance_slack=0.0,
+            generate_spacers=True,
+            box_defaults={"expandable": False},
+        )
+        proj.define_inventory(
+            {
+                "Action Cards": 50,
+                "Event Cards": 30,
+                "Gold Coins": 40,
+                "Silver Coins": 40,
+                "Wood Cubes": 24,
+                "Stone Cubes": 24,
+                "Player Boards": 4,
+            }
+        )
+        proj.component("Cloth Draw Bag", 1, location="Inside spacer_1")
+        proj.board(
+            "Player Boards",
+            size=(240.0, 200.0, 10.0),
+            position=(0.0, 0.0, 40.0),
+            count=4,
+            component="Player Boards",
+            notes="Stacked flat on top of the printed insert trays inside the game box",
+        )
+        for idx, (label, comp_a, qty_a, comp_b, qty_b) in enumerate(
+            [
+                ("PlayerBox_Red", "Action Cards", 25, "Wood Cubes", 12),
+                ("PlayerBox_Blue", "Action Cards", 25, "Wood Cubes", 12),
+                ("MarketBox_A", "Event Cards", 15, "Stone Cubes", 12),
+                ("MarketBox_B", "Event Cards", 15, "Stone Cubes", 12),
+                ("BankBox_Gold", "Gold Coins", 40, "Silver Coins", 20),
+                ("BankBox_Silver", "Silver Coins", 20, "Gold Coins", 0),
+            ]
+        ):
+            bx = proj.box(
+                BoxType.CAP,
+                label,
+                size=(70.0, 60.0, 35.0),
+                position=((idx % 3) * 72.0, (idx // 3) * 65.0, 0.0),
+            )
+            bx.compartment(comp_a, component=comp_a, count=qty_a)
+            if qty_b > 0:
+                bx.compartment(comp_b, component=comp_b, count=qty_b)
+
+        build = proj.build()
+        assert build.packing is not None
+
+        with tempfile.TemporaryDirectory() as tmp:
+            out_pdf = Path(tmp) / "two_col_guide.pdf"
+            result = generate_layout_pdf(
+                build.packing,
+                out_pdf,
+                "TwoColPdfTest",
+                (240.0, 200.0, 50.0),
+                box_builders=proj.boxes,
+                manifest=proj.manifest,
+                pipeline=proj.pipeline,
+            )
+            self.assertIsNotNone(result)
+            assert result is not None
+            self.assertTrue(result.exists())
+            self.assertGreater(result.stat().st_size, 2000)
+
     def test_game_board_validation(self) -> None:
         """GameBoard rejects non-positive dimensions or count < 1."""
         with self.assertRaises(ValueError):
@@ -217,3 +285,68 @@ class TestPartialBoardsAndInventory(unittest.TestCase):
                     ver.is_valid,
                     f"{game} inventory mismatch: {ver.format_errors()}",
                 )
+
+    def test_loose_item_location_passes_strict_inventory_and_appears_in_checklist(self) -> None:
+        """Loose items with an explicit location (e.g. inside a spacer) satisfy strict inventory."""
+        proj = Project(
+            "LooseItemTest",
+            game_box_size=(200.0, 150.0, 45.0),
+            clearance_slack=0.0,
+            generate_spacers=True,
+        )
+        proj.component("Coins", 30)
+        proj.component("Cloth Draw Bag", 1, location="Inside spacer_1")
+        proj.box(BoxType.CAP, "Bank", size=(90.0, 70.0, 40.0)).compartment("Coins", component="Coins", count=30)
+
+        ver = proj.verify_inventory(strict=True)
+        self.assertTrue(ver.is_valid, ver.format_errors())
+
+        inv = proj.inventory()
+        rows = {row.name: row for row in inv.checklist}
+        self.assertIn("Coins", rows)
+        self.assertEqual(rows["Coins"].count, 30)
+        self.assertEqual(rows["Coins"].format_locations(), "Bank")
+        self.assertIn("Cloth Draw Bag", rows)
+        self.assertEqual(rows["Cloth Draw Bag"].count, 1)
+        self.assertEqual(rows["Cloth Draw Bag"].format_locations(), "Inside spacer_1")
+
+    def test_exact_tile_and_banknote_counts_in_checklist(self) -> None:
+        """18_cuba and 1835 expose exact individual tile and banknote counts in their checklists."""
+        import importlib.util
+
+        repo_root = Path(__file__).resolve().parents[2]
+        for game, expected_items in (
+            (
+                "18_cuba",
+                {
+                    "Yellow Track Hex Tiles": 45,
+                    "Green Track Hex Tiles": 47,
+                    "Brown Track Hex Tiles": 25,
+                    "Grey Track Hex Tiles": 6,
+                    "Red Track Hex Tile": 1,
+                    "Paper Banknotes": 200,
+                },
+            ),
+            (
+                "1835",
+                {
+                    "Yellow Track Hex Tiles": 53,
+                    "Green Track Hex Tiles": 46,
+                    "Brown Track Hex Tiles": 34,
+                    "Grey Track Hex Tiles": 4,
+                    "Banknotes": 200,
+                },
+            ),
+        ):
+            path = repo_root / "boxes" / game / f"{game}.py"
+            spec = importlib.util.spec_from_file_location(f"_checklist_{game}", path)
+            assert spec is not None and spec.loader is not None
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            inv = mod.project.inventory()
+            rows = {row.name: row for row in inv.checklist}
+            for name, expected_count in expected_items.items():
+                self.assertIn(name, rows, f"{game} checklist missing {name!r}")
+                self.assertEqual(rows[name].count, expected_count)
+                self.assertTrue(rows[name].locations, f"{game} checklist row {name!r} has no location")
+

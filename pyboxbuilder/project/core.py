@@ -229,9 +229,12 @@ class Project:
         *,
         category: str = "",
         notes: str = "",
+        location: str = "",
     ) -> GameComponent:
         """Declare a physical game component type in the project's piece inventory."""
-        gc = GameComponent(name=name, count=int(count), category=category, notes=notes)
+        gc = GameComponent(
+            name=name, count=int(count), category=category, notes=notes, location=location
+        )
         return self._manifest.add_component(gc)
 
     def define_inventory(
