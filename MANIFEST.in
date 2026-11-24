@@ -1,0 +1,11 @@
+include LICENSE README.md pyproject.toml
+recursive-include pyboxbuilder *.py py.typed
+prune boxes
+prune docs
+prune output
+prune scripts
+prune spec
+prune tests
+prune .github
+exclude bgg.html test.svg git_batch_push.sh AGENTS.md CLAUDE.md GEMINI.md Makefile .gitignore .pre-commit-config.yaml
+global-exclude .DS_Store *.pyc __pycache__ .layout_cache.json

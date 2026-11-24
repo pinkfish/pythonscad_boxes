@@ -5,8 +5,36 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyboxbuilder"
 dynamic = ["version"]
-description = "Board game box/insert design library for PythonSCAD"
+description = "Declarative board game box and insert design library for PythonSCAD"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
+authors = [{ name = "pinkfish" }]
+keywords = [
+    "3d",
+    "3d-printing",
+    "board-games",
+    "inserts",
+    "openscad",
+    "pythonscad",
+    "pybosl2",
+    "cad",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Manufacturing",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
+]
 dependencies = [
     # 0.8.0 or newer: PythonSCAD 1.2.0 compatibility (linear_extrude scale pairs),
     # Bounds3D/Bounds2D bounds contract, Path2D parameter enforcement, SVG viewBox
@@ -14,7 +42,12 @@ dependencies = [
     "pybosl2>=0.8.0",
     "numpy",
 ]
-authors = [{ name = "pinkfish" }]
+
+[project.urls]
+Homepage = "https://github.com/pinkfish/pythonscad_boxes"
+Repository = "https://github.com/pinkfish/pythonscad_boxes"
+Documentation = "https://pinkfish.github.io/pythonscad_boxes/"
+Issues = "https://github.com/pinkfish/pythonscad_boxes/issues"
 
 [project.scripts]
 pybox = "pyboxbuilder.cli:main"
