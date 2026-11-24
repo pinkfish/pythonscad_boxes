@@ -1,0 +1,24 @@
+pyboxbuilder.builders.sleeve\_drawer
+====================================
+
+.. automodule:: pyboxbuilder.builders.sleeve_drawer
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      SleeveDrawerBoxBuilder
+   
+   
+
+   
+   
+   

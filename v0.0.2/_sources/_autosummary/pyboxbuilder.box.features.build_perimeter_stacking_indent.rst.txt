@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.build\_perimeter\_stacking\_indent
+============================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: build_perimeter_stacking_indent

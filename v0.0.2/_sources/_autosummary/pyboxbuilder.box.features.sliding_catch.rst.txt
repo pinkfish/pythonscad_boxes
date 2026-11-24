@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.sliding\_catch
+========================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: sliding_catch

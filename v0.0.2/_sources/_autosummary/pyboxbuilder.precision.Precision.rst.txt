@@ -1,0 +1,8 @@
+pyboxbuilder.precision.Precision
+================================
+
+.. currentmodule:: pyboxbuilder.precision
+
+.. autoclass:: Precision
+   :members:
+   :show-inheritance:

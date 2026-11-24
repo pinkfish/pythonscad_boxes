@@ -1,0 +1,6 @@
+pyboxbuilder.packing.cache.layout\_cache\_clear
+===============================================
+
+.. currentmodule:: pyboxbuilder.packing.cache
+
+.. autofunction:: layout_cache_clear

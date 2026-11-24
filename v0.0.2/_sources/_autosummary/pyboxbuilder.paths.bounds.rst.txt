@@ -1,0 +1,6 @@
+pyboxbuilder.paths.bounds
+=========================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: bounds

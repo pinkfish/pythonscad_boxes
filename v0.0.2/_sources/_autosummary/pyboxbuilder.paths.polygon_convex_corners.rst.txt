@@ -1,0 +1,6 @@
+pyboxbuilder.paths.polygon\_convex\_corners
+===========================================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: polygon_convex_corners

@@ -1,0 +1,6 @@
+pyboxbuilder.layout.polygon\_grid
+=================================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autofunction:: polygon_grid

@@ -1,0 +1,8 @@
+pyboxbuilder.box.spec.UnresolvedBoxSpec
+=======================================
+
+.. currentmodule:: pyboxbuilder.box.spec
+
+.. autoclass:: UnresolvedBoxSpec
+   :members:
+   :show-inheritance:

@@ -1,0 +1,8 @@
+pyboxbuilder.enums.LatchAxis
+============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: LatchAxis
+   :members:
+   :show-inheritance:

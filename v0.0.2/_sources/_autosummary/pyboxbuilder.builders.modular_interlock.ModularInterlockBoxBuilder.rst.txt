@@ -1,0 +1,8 @@
+pyboxbuilder.builders.modular\_interlock.ModularInterlockBoxBuilder
+===================================================================
+
+.. currentmodule:: pyboxbuilder.builders.modular_interlock
+
+.. autoclass:: ModularInterlockBoxBuilder
+   :members:
+   :show-inheritance:

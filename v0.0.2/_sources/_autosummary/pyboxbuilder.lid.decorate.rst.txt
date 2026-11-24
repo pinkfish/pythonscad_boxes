@@ -1,0 +1,33 @@
+pyboxbuilder.lid.decorate
+=========================
+
+.. automodule:: pyboxbuilder.lid.decorate
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      DecoratedLid
+      LidInsert
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      decorate_lid
+   
+   

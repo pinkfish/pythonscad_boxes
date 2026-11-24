@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.sleeve\_drawer.SleeveDrawerBox
+=====================================================
+
+.. currentmodule:: pyboxbuilder.box.types.sleeve_drawer
+
+.. autoclass:: SleeveDrawerBox
+   :members:
+   :show-inheritance:

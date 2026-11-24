@@ -1,0 +1,6 @@
+pyboxbuilder.packing.spacer.union\_outline
+==========================================
+
+.. currentmodule:: pyboxbuilder.packing.spacer
+
+.. autofunction:: union_outline

@@ -1,0 +1,24 @@
+pyboxbuilder.builders.filament\_hinge
+=====================================
+
+.. automodule:: pyboxbuilder.builders.filament_hinge
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      FilamentHingeBoxBuilder
+   
+   
+
+   
+   
+   

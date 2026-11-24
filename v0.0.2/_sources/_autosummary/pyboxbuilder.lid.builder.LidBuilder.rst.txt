@@ -1,0 +1,8 @@
+pyboxbuilder.lid.builder.LidBuilder
+===================================
+
+.. currentmodule:: pyboxbuilder.lid.builder
+
+.. autoclass:: LidBuilder
+   :members:
+   :show-inheritance:

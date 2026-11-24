@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.round\_inner\_rim
+========================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: round_inner_rim

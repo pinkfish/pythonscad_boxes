@@ -1,0 +1,8 @@
+pyboxbuilder.sleeves.Sleeve
+===========================
+
+.. currentmodule:: pyboxbuilder.sleeves
+
+.. autoclass:: Sleeve
+   :members:
+   :show-inheritance:

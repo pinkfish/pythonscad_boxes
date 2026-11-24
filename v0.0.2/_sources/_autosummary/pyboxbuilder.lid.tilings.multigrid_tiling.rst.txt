@@ -1,0 +1,6 @@
+pyboxbuilder.lid.tilings.multigrid\_tiling
+==========================================
+
+.. currentmodule:: pyboxbuilder.lid.tilings
+
+.. autofunction:: multigrid_tiling

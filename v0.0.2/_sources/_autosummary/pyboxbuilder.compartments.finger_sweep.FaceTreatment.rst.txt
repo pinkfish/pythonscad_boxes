@@ -1,0 +1,8 @@
+pyboxbuilder.compartments.finger\_sweep.FaceTreatment
+=====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_sweep
+
+.. autoclass:: FaceTreatment
+   :members:
+   :show-inheritance:

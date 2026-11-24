@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.interior\_block
+======================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: interior_block

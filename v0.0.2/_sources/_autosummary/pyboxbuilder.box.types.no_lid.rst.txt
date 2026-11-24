@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.no\_lid
+==============================
+
+.. automodule:: pyboxbuilder.box.types.no_lid
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      NoLidBox
+   
+   
+
+   
+   
+   

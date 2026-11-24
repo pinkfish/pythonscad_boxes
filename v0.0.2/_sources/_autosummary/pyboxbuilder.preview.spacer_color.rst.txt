@@ -1,0 +1,6 @@
+pyboxbuilder.preview.spacer\_color
+==================================
+
+.. currentmodule:: pyboxbuilder.preview
+
+.. autofunction:: spacer_color

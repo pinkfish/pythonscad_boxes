@@ -1,0 +1,6 @@
+pyboxbuilder.packing.spacer.sweep\_free\_space
+==============================================
+
+.. currentmodule:: pyboxbuilder.packing.spacer
+
+.. autofunction:: sweep_free_space

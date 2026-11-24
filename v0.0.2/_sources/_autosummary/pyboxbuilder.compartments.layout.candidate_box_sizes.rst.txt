@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.layout.candidate\_box\_sizes
+======================================================
+
+.. currentmodule:: pyboxbuilder.compartments.layout
+
+.. autofunction:: candidate_box_sizes

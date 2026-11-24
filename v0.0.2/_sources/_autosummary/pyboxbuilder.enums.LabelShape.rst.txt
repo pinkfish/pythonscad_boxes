@@ -1,0 +1,8 @@
+pyboxbuilder.enums.LabelShape
+=============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: LabelShape
+   :members:
+   :show-inheritance:

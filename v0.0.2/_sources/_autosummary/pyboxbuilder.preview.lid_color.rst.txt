@@ -1,0 +1,6 @@
+pyboxbuilder.preview.lid\_color
+===============================
+
+.. currentmodule:: pyboxbuilder.preview
+
+.. autofunction:: lid_color

@@ -1,0 +1,8 @@
+pyboxbuilder.lid.tilings.Tile
+=============================
+
+.. currentmodule:: pyboxbuilder.lid.tilings
+
+.. autoclass:: Tile
+   :members:
+   :show-inheritance:

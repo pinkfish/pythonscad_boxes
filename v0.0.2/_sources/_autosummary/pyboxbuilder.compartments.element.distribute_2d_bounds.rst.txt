@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.distribute\_2d\_bounds
+========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: distribute_2d_bounds

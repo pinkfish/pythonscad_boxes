@@ -1,0 +1,8 @@
+pyboxbuilder.enums.CatchType
+============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: CatchType
+   :members:
+   :show-inheritance:

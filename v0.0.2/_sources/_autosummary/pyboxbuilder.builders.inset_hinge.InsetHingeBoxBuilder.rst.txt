@@ -1,0 +1,8 @@
+pyboxbuilder.builders.inset\_hinge.InsetHingeBoxBuilder
+=======================================================
+
+.. currentmodule:: pyboxbuilder.builders.inset_hinge
+
+.. autoclass:: InsetHingeBoxBuilder
+   :members:
+   :show-inheritance:

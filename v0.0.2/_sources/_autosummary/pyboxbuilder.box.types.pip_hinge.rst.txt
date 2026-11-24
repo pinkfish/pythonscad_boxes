@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.pip\_hinge
+=================================
+
+.. automodule:: pyboxbuilder.box.types.pip_hinge
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      PrintInPlaceHingeBox
+   
+   
+
+   
+   
+   

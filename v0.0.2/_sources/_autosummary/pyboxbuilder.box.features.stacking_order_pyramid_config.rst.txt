@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.stacking\_order\_pyramid\_config
+==========================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: stacking_order_pyramid_config

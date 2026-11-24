@@ -1,0 +1,6 @@
+pyboxbuilder.paths.signed\_area
+===============================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: signed_area

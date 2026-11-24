@@ -1,0 +1,6 @@
+pyboxbuilder.paths.polygon\_opposite\_corners
+=============================================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: polygon_opposite_corners

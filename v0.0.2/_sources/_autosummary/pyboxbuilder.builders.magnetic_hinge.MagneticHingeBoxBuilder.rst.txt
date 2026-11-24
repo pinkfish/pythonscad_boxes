@@ -1,0 +1,8 @@
+pyboxbuilder.builders.magnetic\_hinge.MagneticHingeBoxBuilder
+=============================================================
+
+.. currentmodule:: pyboxbuilder.builders.magnetic_hinge
+
+.. autoclass:: MagneticHingeBoxBuilder
+   :members:
+   :show-inheritance:

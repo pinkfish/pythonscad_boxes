@@ -1,0 +1,8 @@
+pyboxbuilder.builders.sliding\_hinge.SlidingHingeBoxBuilder
+===========================================================
+
+.. currentmodule:: pyboxbuilder.builders.sliding_hinge
+
+.. autoclass:: SlidingHingeBoxBuilder
+   :members:
+   :show-inheritance:

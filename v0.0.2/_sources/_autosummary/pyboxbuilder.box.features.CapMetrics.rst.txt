@@ -1,0 +1,8 @@
+pyboxbuilder.box.features.CapMetrics
+====================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autoclass:: CapMetrics
+   :members:
+   :show-inheritance:

@@ -1,0 +1,8 @@
+pyboxbuilder.box.spec.BoxSpec
+=============================
+
+.. currentmodule:: pyboxbuilder.box.spec
+
+.. autoclass:: BoxSpec
+   :members:
+   :show-inheritance:

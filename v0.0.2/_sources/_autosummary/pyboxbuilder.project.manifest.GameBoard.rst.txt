@@ -1,0 +1,8 @@
+pyboxbuilder.project.manifest.GameBoard
+=======================================
+
+.. currentmodule:: pyboxbuilder.project.manifest
+
+.. autoclass:: GameBoard
+   :members:
+   :show-inheritance:

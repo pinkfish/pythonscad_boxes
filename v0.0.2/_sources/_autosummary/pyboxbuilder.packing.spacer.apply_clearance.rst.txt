@@ -1,0 +1,6 @@
+pyboxbuilder.packing.spacer.apply\_clearance
+============================================
+
+.. currentmodule:: pyboxbuilder.packing.spacer
+
+.. autofunction:: apply_clearance

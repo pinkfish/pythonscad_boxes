@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.normalize\_elements
+=====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: normalize_elements

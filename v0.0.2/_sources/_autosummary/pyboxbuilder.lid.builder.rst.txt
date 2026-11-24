@@ -1,0 +1,25 @@
+pyboxbuilder.lid.builder
+========================
+
+.. automodule:: pyboxbuilder.lid.builder
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      LidBuilder
+      PatternBuilder
+   
+   
+
+   
+   
+   

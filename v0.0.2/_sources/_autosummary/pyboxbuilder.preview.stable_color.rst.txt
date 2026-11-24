@@ -1,0 +1,6 @@
+pyboxbuilder.preview.stable\_color
+==================================
+
+.. currentmodule:: pyboxbuilder.preview
+
+.. autofunction:: stable_color

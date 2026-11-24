@@ -1,0 +1,48 @@
+pyboxbuilder.box.types
+======================
+
+.. automodule:: pyboxbuilder.box.types
+
+   
+   
+   .. rubric:: Submodules
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      bayonet
+      cap
+      cap_path
+      card_library
+      card_shoe
+      clamshell
+      dice_tray
+      dispenser
+      filament_hinge
+      inset
+      inset_hinge
+      magnetic
+      magnetic_hinge
+      modular_interlock
+      no_lid
+      path
+      pip_hinge
+      sleeve_drawer
+      sliding
+      sliding_catch
+      sliding_hinge
+      slipover
+      slipover_path
+      snap_fit
+      threaded
+   
+   
+
+   
+   
+   
+
+   
+   
+   
