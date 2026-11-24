@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=49407504" download="EighteenThirtyFive_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EighteenThirtyFive_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=49407504" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=071bb403" download="EighteenThirtyFive_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>EighteenThirtyFive_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=071bb403" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=49407504" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/1835/EighteenThirtyFive_packing_guide.pdf?v=071bb403" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -35,7 +35,7 @@ Parts Overview
 
 - **3-D Printed Parts**: 12 bodies, 12 lids, 1 spacers (25 total)
 - **Boards & Non-Printed Components**: 9
-- **Counted Game Pieces**: 217
+- **Counted Game Pieces**: 486
 
 .. list-table::
    :header-rows: 1
@@ -50,12 +50,12 @@ Parts Overview
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``216 × 102 × 9.5 mm``
      - ``(0, 142.564, 17)``
-     - 4x Bank Money Denomination Stacks
+     - 100x Banknotes
    * - :ref:`MoneyBox_2 <box-1835-moneybox_2>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``216 × 102 × 8.5 mm``
      - ``(0, 142.564, 26.5)``
-     - 4x Bank Money Denomination Stacks
+     - 100x Banknotes
    * - :ref:`MiddleBox <box-1835-middlebox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``216 × 102 × 17 mm``
@@ -65,22 +65,22 @@ Parts Overview
      - :ref:`BoxType.INSET <box-type-inset>`
      - ``216 × 142.564 × 8.75 mm``
      - ``(0, 0, 0)``
-     - 15x Hex Track Tile Stacks
+     - 53x Yellow Track Hex Tiles
    * - :ref:`HexBox_2 <box-1835-hexbox_2>`
      - :ref:`BoxType.INSET <box-type-inset>`
      - ``216 × 142.564 × 8.75 mm``
      - ``(0, 0, 8.75)``
-     - 15x Hex Track Tile Stacks
+     - 46x Green Track Hex Tiles
    * - :ref:`HexBox_3 <box-1835-hexbox_3>`
      - :ref:`BoxType.INSET <box-type-inset>`
      - ``216 × 142.564 × 8.75 mm``
      - ``(0, 0, 17.5)``
-     - 15x Hex Track Tile Stacks
+     - 34x Brown Track Hex Tiles
    * - :ref:`HexBox_4 <box-1835-hexbox_4>`
      - :ref:`BoxType.INSET <box-type-inset>`
      - ``216 × 142.564 × 8.75 mm``
      - ``(0, 0, 26.25)``
-     - 15x Hex Track Tile Stacks
+     - 4x Grey Track Hex Tiles
    * - :ref:`SharesBox_1 <box-1835-sharesbox_1>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``138 × 53.4359 × 8.75 mm``
@@ -117,6 +117,55 @@ Parts Overview
      - ``(0, 0, 35)``
      - 9x Game Board & Charters (Mounted map board and 8 railroad company charters atop insert)
 
+Component Checklist
+-------------------
+
+All **495** pieces across **12** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 200
+     - Banknotes
+     - MoneyBox_1 (100), MoneyBox_2 (100)
+   * - 41
+     - Station Tokens
+     - MiddleBox
+   * - 33
+     - Train Cards
+     - MiddleBox
+   * - 6
+     - Private Railroad Cards
+     - MiddleBox
+   * - 53
+     - Yellow Track Hex Tiles
+     - HexBox_1
+   * - 46
+     - Green Track Hex Tiles
+     - HexBox_2
+   * - 34
+     - Brown Track Hex Tiles
+     - HexBox_3
+   * - 4
+     - Grey Track Hex Tiles
+     - HexBox_4
+   * - 68
+     - Company Share Certificates
+     - SharesBox_1 (18), SharesBox_2 (18), SharesBox_3 (20), SharesBox_4 (12)
+   * - 1
+     - First Player Marker
+     - FirstPlayerBox
+   * - 1
+     - Game Board
+     - Game Board & Charters (Mounted map board and 8 railroad company charters atop insert)
+   * - 8
+     - Company Charters
+     - Game Board & Charters (Mounted map board and 8 railroad company charters atop insert)
+
 Individual Boxes & Parts
 ------------------------
 
@@ -128,7 +177,7 @@ MoneyBox_1
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``216 × 102 × 9.5 mm``
 - **Packed Position**: ``(0, 142.564, 17)``
-- **Pieces / Contents**: 4x Bank Money Denomination Stacks
+- **Pieces / Contents**: 100x Banknotes
 - **Compartments (4)**: ``Denom_1`` (W=25%), ``Denom_2`` (W=25%), ``Denom_3`` (W=25%), ``Denom_4`` (W=25%)
 
 **Assembled Box (MoneyBox_1 — Body + Lid)**
@@ -166,7 +215,7 @@ MoneyBox_2
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``216 × 102 × 8.5 mm``
 - **Packed Position**: ``(0, 142.564, 26.5)``
-- **Pieces / Contents**: 4x Bank Money Denomination Stacks
+- **Pieces / Contents**: 100x Banknotes
 - **Compartments (4)**: ``Denom_1`` (W=25%), ``Denom_2`` (W=25%), ``Denom_3`` (W=25%), ``Denom_4`` (W=25%)
 
 **Assembled Box (MoneyBox_2 — Body + Lid)**
@@ -242,7 +291,7 @@ HexBox_1
 - **Box Type**: :ref:`BoxType.INSET <box-type-inset>`
 - **Outer Dimensions**: ``216 × 142.564 × 8.75 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 15x Hex Track Tile Stacks
+- **Pieces / Contents**: 53x Yellow Track Hex Tiles
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``flat (bottom of stack)``, top ``pyramids=2``
 - **Compartments (1)**: ``HexGrid`` (33 elements)
@@ -282,7 +331,7 @@ HexBox_2
 - **Box Type**: :ref:`BoxType.INSET <box-type-inset>`
 - **Outer Dimensions**: ``216 × 142.564 × 8.75 mm``
 - **Packed Position**: ``(0, 0, 8.75)``
-- **Pieces / Contents**: 15x Hex Track Tile Stacks
+- **Pieces / Contents**: 46x Green Track Hex Tiles
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=2``, top ``pyramids=3``
 - **Compartments (1)**: ``HexGrid`` (33 elements)
@@ -322,7 +371,7 @@ HexBox_3
 - **Box Type**: :ref:`BoxType.INSET <box-type-inset>`
 - **Outer Dimensions**: ``216 × 142.564 × 8.75 mm``
 - **Packed Position**: ``(0, 0, 17.5)``
-- **Pieces / Contents**: 15x Hex Track Tile Stacks
+- **Pieces / Contents**: 34x Brown Track Hex Tiles
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=3``, top ``pyramids=(2, 3, 3, 2)``
 - **Compartments (1)**: ``HexGrid`` (33 elements)
@@ -362,7 +411,7 @@ HexBox_4
 - **Box Type**: :ref:`BoxType.INSET <box-type-inset>`
 - **Outer Dimensions**: ``216 × 142.564 × 8.75 mm``
 - **Packed Position**: ``(0, 0, 26.25)``
-- **Pieces / Contents**: 15x Hex Track Tile Stacks
+- **Pieces / Contents**: 4x Grey Track Hex Tiles
 - **Stackable Mode**: ``StackableMode.PYRAMIDS``
 - **Stacking Order Key**: bottom ``pyramids=(2, 3, 3, 2)``, top ``flat (top of stack)``
 - **Compartments (1)**: ``HexGrid`` (33 elements)

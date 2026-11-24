@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=c4bb7ffa" download="Earth_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Earth_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=c4bb7ffa" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=67237c57" download="Earth_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Earth_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=67237c57" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=c4bb7ffa" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/earth/Earth_packing_guide.pdf?v=67237c57" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -186,6 +186,88 @@ Parts Overview
      - ``12.6 × 241 × 57 mm``
      - ``(275.4, 46, 0)``
      - 6x Abundance Boards (Standing on edge along right wall under TopSpacedBox)
+
+Component Checklist
+-------------------
+
+All **1118** pieces across **23** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 6
+     - Player Boards
+     - Player & Island Boards (6 player boards + 2 middle boards on top)
+   * - 1
+     - Fauna Board
+     - Player & Island Boards (6 player boards + 2 middle boards on top)
+   * - 1
+     - Abundance Teams Board
+     - Player & Island Boards (6 player boards + 2 middle boards on top)
+   * - 6
+     - Abundance Boards
+     - Abundance Boards (Standing on edge along right wall under TopSpacedBox)
+   * - 353
+     - Earth Cards
+     - CardBox_Flora (85), CardBox_Terrain (85), CardBox_Events (85), CardBox_Abundance (75), EarthCardBoxSmall (23)
+   * - 32
+     - Ecosystem Cards
+     - EcosystemCardBox
+   * - 23
+     - Fauna Cards
+     - FaunaCardBox
+   * - 10
+     - Island Cards
+     - IslandCardBox
+   * - 10
+     - Climate Cards
+     - ClimateCardBox
+   * - 6
+     - Solo Cards
+     - SoloCardBox
+   * - 12
+     - Season Cards
+     - SeasonCardBox
+   * - 10
+     - Abundance Reference & Setup Cards
+     - AbundanceOtherCardBox
+   * - 151
+     - Soil Tokens
+     - CompostBox_1 (76), CompostBox_2 (75)
+   * - 32
+     - Seed Tokens
+     - SeedBox
+   * - 1
+     - First Player Token
+     - StartBox
+   * - 1
+     - Active Player Token
+     - StartBox
+   * - 1
+     - Score Override Marker
+     - StartBox
+   * - 6
+     - Readiness Tokens
+     - PlayerBox_Red (1), PlayerBox_Green (1), PlayerBox_Yellow (1), PlayerBox_Blue (1), PlayerBox_Purple (1), PlayerBox_Pink (1)
+   * - 30
+     - Player Leaf Tokens
+     - PlayerBox_Red (5), PlayerBox_Green (5), PlayerBox_Yellow (5), PlayerBox_Blue (5), PlayerBox_Purple (5), PlayerBox_Pink (5)
+   * - 125
+     - Tree Trunks
+     - CanopyBox
+   * - 104
+     - Tree Canopies
+     - CanopyBox
+   * - 2
+     - Score Pads
+     - ScorePadBox
+   * - 195
+     - Sprout Cubes
+     - SproutBox
 
 Individual Boxes & Parts
 ------------------------

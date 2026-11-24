@@ -536,6 +536,8 @@
 <span class="w">    </span><span class="sd">"""Optional grouping category (e.g. ``"Cards"``, ``"Tokens"``, ``"Boards"``)."""</span>
     <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
 <span class="w">    </span><span class="sd">"""Optional note."""</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Optional loose storage location (e.g. ``"Inside spacer_1"``) for items without their own box."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate non-empty name and positive piece count."""</span>

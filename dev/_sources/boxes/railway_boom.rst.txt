@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=56c79868" download="RailwayBoom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailwayBoom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=56c79868" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=629746d4" download="RailwayBoom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailwayBoom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=629746d4" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=56c79868" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=629746d4" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -161,6 +161,82 @@ Parts Overview
      - ``161 × 228 × 8 mm``
      - ``(0, 0, 28)``
      - 4x Player Boards (Stacked above player, station & small card boxes)
+
+Component Checklist
+-------------------
+
+All **636** pieces across **21** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 1
+     - Main Board
+     - Main Board (Top of box)
+   * - 4
+     - Player Boards
+     - Player Boards (Stacked above player, station & small card boxes)
+   * - 120
+     - Player Trains
+     - PlayerBox_Green (30), PlayerBox_Blue (30), PlayerBox_Red (30), PlayerBox_Yellow (30)
+   * - 92
+     - Player Cubes
+     - PlayerBox_Green (23), PlayerBox_Blue (23), PlayerBox_Red (23), PlayerBox_Yellow (23)
+   * - 16
+     - Player Stations
+     - PlayerBox_Green (4), PlayerBox_Blue (4), PlayerBox_Red (4), PlayerBox_Yellow (4)
+   * - 4
+     - Player Discs
+     - PlayerBox_Green (1), PlayerBox_Blue (1), PlayerBox_Red (1), PlayerBox_Yellow (1)
+   * - 4
+     - Player Pentagons
+     - PlayerBox_Green (1), PlayerBox_Blue (1), PlayerBox_Red (1), PlayerBox_Yellow (1)
+   * - 36
+     - Station Cards
+     - StationCardBox
+   * - 18
+     - Objective Cards
+     - ObjectiveCardBox
+   * - 7
+     - Route Cards
+     - RouteCardBox
+   * - 30
+     - Carriage Cards
+     - SmallCardBox_Carriages
+   * - 26
+     - Locomotive Cards
+     - SmallCardBox_Locomotives
+   * - 74
+     - Development Cards
+     - DevelopmentCardBox_1 (37), DevelopmentCardBox_2 (37)
+   * - 36
+     - Regular City Tiles
+     - SmallCardBox_CityTiles
+   * - 14
+     - Tourist City Tiles
+     - TouristTileBox
+   * - 4
+     - Octagonal Indicators
+     - IndicatorBox
+   * - 30
+     - Material Tokens
+     - ResourceBox_Materials
+   * - 30
+     - VP Tokens
+     - ResourceBox_VP
+   * - 20
+     - Tech Tokens
+     - ResourceBox_Tech
+   * - 30
+     - Coal Tokens
+     - ResourceBox_Coal
+   * - 40
+     - Money Tokens
+     - ResourceBox_Money
 
 Individual Boxes & Parts
 ------------------------

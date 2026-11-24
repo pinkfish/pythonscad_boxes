@@ -1,0 +1,8 @@
+pyboxbuilder.project.inventory.ComponentChecklistRow
+====================================================
+
+.. currentmodule:: pyboxbuilder.project.inventory
+
+.. autoclass:: ComponentChecklistRow
+   :members:
+   :show-inheritance:
