@@ -243,19 +243,44 @@ project.define_inventory({
     "Main Game Board": 1,
     "Great Exhibition Board": 1,
     "Player Workshop Boards": 4,
+    "Solo Reward Board": 1,
+    "Assignment Tiles Board": 1,
 })
 
 project.board(
     "Game Boards & Player Mats",
     size=(box_width, box_length, board_thickness),
     position=(0.0, 0.0, usable_height),
-    count=6,
-    notes="Main game board, Great Exhibition board, and 4 player workshop mats atop insert",
+    count=5,
+    notes="Main game board and 4 player workshop mats atop insert",
     allocates={
         "Main Game Board": 1,
-        "Great Exhibition Board": 1,
         "Player Workshop Boards": 4,
     },
+)
+project.board(
+    "Great Exhibition Board",
+    size=(box_width, box_length - card_box_length, great_exhibition_board_thickness),
+    position=(0.0, card_box_length, usable_height - great_exhibition_board_thickness),
+    count=1,
+    notes="Rests over rear columns behind front player/scoring row",
+    component="Great Exhibition Board",
+)
+project.board(
+    "Solo Reward Board",
+    size=(solo_reward_width_thin, box_length - card_box_length, solo_reward_thickness),
+    position=(0.0, card_box_length, 0.0),
+    count=1,
+    notes="Rests under Dice, First Player & Assignment Card boxes along left wall",
+    component="Solo Reward Board",
+)
+project.board(
+    "Assignment Tiles Board",
+    size=(box_width - card_box_width * 2.0, box_length - cog_box_length, assignment_tiles_thickness),
+    position=(card_box_width * 2.0, 0.0, 0.0),
+    count=1,
+    notes="Rests under SpacerSide & ObjectiveBox along right wall",
+    component="Assignment Tiles Board",
 )
 
 # Victorian steampunk Analytical Engine aesthetic:

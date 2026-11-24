@@ -706,10 +706,18 @@ def generate_spacer_voids(
     *,
     clearance: float = 0.0,
     min_dim: float = MIN_SPACER_DIM,
+    min_xy: float | None = None,
 ) -> list[Void]:
     """Sweep, merge, split holes, verify support, shrink and filter — the whole spacer pass."""
+    xy_floor = min_dim if min_xy is None else min_xy
     voids = merge_voids(sweep_free_space(container, placements))
-    printable = [v for v in voids if v.thinnest() >= min_dim - EPSILON]
+    printable = [
+        v
+        for v in voids
+        if v.size[2] >= min_dim - EPSILON
+        and v.size[0] >= xy_floor - EPSILON
+        and v.size[1] >= xy_floor - EPSILON
+    ]
 
     # Check vertical support from bottom to top so an upper spacer never floats over a dropped sliver
     supported_rects: list[Void] = []
@@ -717,7 +725,7 @@ def generate_spacer_voids(
         if _has_vertical_support(v, placements, supported_rects):
             supported_rects.append(v)
 
-    min_post_xy = max(2.0, min_dim - 2.0 * clearance) - EPSILON
+    min_post_xy = max(2.0, xy_floor - 2.0 * clearance) - EPSILON
     trays = [apply_clearance(v, clearance) for v in merge_rectilinear(supported_rects)]
     kept = [
         v
@@ -736,6 +744,7 @@ def generate_spacer_placements(
     *,
     clearance: float = 0.0,
     min_dim: float = MIN_SPACER_DIM,
+    min_xy: float | None = None,
 ) -> list[Placement]:
     """`generate_spacer_voids` as `Placement`s named `spacer_1..spacer_N`."""
     from pyboxbuilder.packing.layout import Placement
@@ -750,7 +759,11 @@ def generate_spacer_placements(
         )
         for n, void in enumerate(
             generate_spacer_voids(
-                container, placements, clearance=clearance, min_dim=min_dim
+                container,
+                placements,
+                clearance=clearance,
+                min_dim=min_dim,
+                min_xy=min_xy,
             ),
             start=1,
         )

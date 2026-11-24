@@ -15,12 +15,12 @@ Full Box Packing
 
 Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156,../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=abe5ad82,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30acbde2,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b30e437a,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=6f2b4943,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=517459df,../_stl/boxes/maglev_metro_vol2/MiddleBoxSpacer_body.stl?v=bdc9b571,../_stl/boxes/maglev_metro_vol2/SummonBox_body.stl?v=877846b3,../_stl/boxes/maglev_metro_vol2/SummonBox_lid.stl?v=ec52671a,../_stl/boxes/maglev_metro_vol2/PlayerBoxSpacer_body.stl?v=e4924612,../_stl/boxes/maglev_metro_vol2/RobotBox_Silver_body.stl?v=7c98351e,../_stl/boxes/maglev_metro_vol2/RobotBox_Silver_lid.stl?v=72cafa2d,../_stl/boxes/maglev_metro_vol2/RobotBox_Gold_body.stl?v=d6caa3f9,../_stl/boxes/maglev_metro_vol2/RobotBox_Gold_lid.stl?v=0b399110,../_stl/boxes/maglev_metro_vol2/RobotBox_Orange_body.stl?v=ba981603,../_stl/boxes/maglev_metro_vol2/RobotBox_Orange_lid.stl?v=6b83abe5,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=b18444e3,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_lid.stl?v=8b9e3bd1,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=af7a2fa2,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_lid.stl?v=eba15e13,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=42246c64,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_lid.stl?v=077c859e,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=9689ad03,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=eebef1f3,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=3aab1138,../_stl/boxes/maglev_metro_vol2/CommuterBox_Pink_body.stl?v=6c404d71,../_stl/boxes/maglev_metro_vol2/CommuterBox_Pink_lid.stl?v=096a7923,../_stl/boxes/maglev_metro_vol2/CommuterBox_Aqua_body.stl?v=eca70075,../_stl/boxes/maglev_metro_vol2/CommuterBox_Aqua_lid.stl?v=b404ed8f,../_stl/boxes/maglev_metro_vol2/CommuterBox_Coral_body.stl?v=884eb7f5,../_stl/boxes/maglev_metro_vol2/CommuterBox_Coral_lid.stl?v=a8840f16,../_stl/boxes/maglev_metro_vol2/CommuterBox_Purple_body.stl?v=da5e14ac,../_stl/boxes/maglev_metro_vol2/CommuterBox_Purple_lid.stl?v=4b3acbc1,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=23ee618e,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=6fd49b98
+.. stl:: ../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156,../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=400bd55b,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30acbde2,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b30e437a,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=6f2b4943,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=517459df,../_stl/boxes/maglev_metro_vol2/MiddleBoxSpacer_body.stl?v=bdc9b571,../_stl/boxes/maglev_metro_vol2/SummonBox_body.stl?v=877846b3,../_stl/boxes/maglev_metro_vol2/SummonBox_lid.stl?v=ec52671a,../_stl/boxes/maglev_metro_vol2/PlayerBoxSpacer_body.stl?v=e4924612,../_stl/boxes/maglev_metro_vol2/RobotBox_Silver_body.stl?v=7c98351e,../_stl/boxes/maglev_metro_vol2/RobotBox_Silver_lid.stl?v=72cafa2d,../_stl/boxes/maglev_metro_vol2/RobotBox_Gold_body.stl?v=d6caa3f9,../_stl/boxes/maglev_metro_vol2/RobotBox_Gold_lid.stl?v=0b399110,../_stl/boxes/maglev_metro_vol2/RobotBox_Orange_body.stl?v=ba981603,../_stl/boxes/maglev_metro_vol2/RobotBox_Orange_lid.stl?v=6b83abe5,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=113669ab,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_lid.stl?v=8b9e3bd1,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=778f1aa2,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_lid.stl?v=eba15e13,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=6f3db020,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_lid.stl?v=077c859e,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=9689ad03,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=404e089d,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=3aab1138,../_stl/boxes/maglev_metro_vol2/CommuterBox_Pink_body.stl?v=6c404d71,../_stl/boxes/maglev_metro_vol2/CommuterBox_Pink_lid.stl?v=096a7923,../_stl/boxes/maglev_metro_vol2/CommuterBox_Aqua_body.stl?v=eca70075,../_stl/boxes/maglev_metro_vol2/CommuterBox_Aqua_lid.stl?v=b404ed8f,../_stl/boxes/maglev_metro_vol2/CommuterBox_Coral_body.stl?v=884eb7f5,../_stl/boxes/maglev_metro_vol2/CommuterBox_Coral_lid.stl?v=a8840f16,../_stl/boxes/maglev_metro_vol2/CommuterBox_Purple_body.stl?v=da5e14ac,../_stl/boxes/maglev_metro_vol2/CommuterBox_Purple_lid.stl?v=4b3acbc1,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=ec035117,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=6fd49b98
    :height: 440px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156,../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=abe5ad82,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30acbde2,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b30e437a,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=6f2b4943,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=517459df,../_stl/boxes/maglev_metro_vol2/MiddleBoxSpacer_body.stl?v=bdc9b571,../_stl/boxes/maglev_metro_vol2/SummonBox_body.stl?v=877846b3,../_stl/boxes/maglev_metro_vol2/SummonBox_lid.stl?v=ec52671a,../_stl/boxes/maglev_metro_vol2/PlayerBoxSpacer_body.stl?v=e4924612,../_stl/boxes/maglev_metro_vol2/RobotBox_Silver_body.stl?v=7c98351e,../_stl/boxes/maglev_metro_vol2/RobotBox_Silver_lid.stl?v=72cafa2d,../_stl/boxes/maglev_metro_vol2/RobotBox_Gold_body.stl?v=d6caa3f9,../_stl/boxes/maglev_metro_vol2/RobotBox_Gold_lid.stl?v=0b399110,../_stl/boxes/maglev_metro_vol2/RobotBox_Orange_body.stl?v=ba981603,../_stl/boxes/maglev_metro_vol2/RobotBox_Orange_lid.stl?v=6b83abe5,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=b18444e3,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_lid.stl?v=8b9e3bd1,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=af7a2fa2,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_lid.stl?v=eba15e13,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=42246c64,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_lid.stl?v=077c859e,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=9689ad03,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=eebef1f3,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=3aab1138,../_stl/boxes/maglev_metro_vol2/CommuterBox_Pink_body.stl?v=6c404d71,../_stl/boxes/maglev_metro_vol2/CommuterBox_Pink_lid.stl?v=096a7923,../_stl/boxes/maglev_metro_vol2/CommuterBox_Aqua_body.stl?v=eca70075,../_stl/boxes/maglev_metro_vol2/CommuterBox_Aqua_lid.stl?v=b404ed8f,../_stl/boxes/maglev_metro_vol2/CommuterBox_Coral_body.stl?v=884eb7f5,../_stl/boxes/maglev_metro_vol2/CommuterBox_Coral_lid.stl?v=a8840f16,../_stl/boxes/maglev_metro_vol2/CommuterBox_Purple_body.stl?v=da5e14ac,../_stl/boxes/maglev_metro_vol2/CommuterBox_Purple_lid.stl?v=4b3acbc1,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=23ee618e,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=6fd49b98" download="MaglevMetroVol2_full_packing.stl">⬇ Download Full Box Packing STL (<code>MaglevMetroVol2_full_packing.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156,../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=400bd55b,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_body.stl?v=30acbde2,../_stl/boxes/maglev_metro_vol2/UpgradeTileBox_lid.stl?v=b30e437a,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_body.stl?v=6f2b4943,../_stl/boxes/maglev_metro_vol2/ExpansionCardsBox_lid.stl?v=517459df,../_stl/boxes/maglev_metro_vol2/MiddleBoxSpacer_body.stl?v=bdc9b571,../_stl/boxes/maglev_metro_vol2/SummonBox_body.stl?v=877846b3,../_stl/boxes/maglev_metro_vol2/SummonBox_lid.stl?v=ec52671a,../_stl/boxes/maglev_metro_vol2/PlayerBoxSpacer_body.stl?v=e4924612,../_stl/boxes/maglev_metro_vol2/RobotBox_Silver_body.stl?v=7c98351e,../_stl/boxes/maglev_metro_vol2/RobotBox_Silver_lid.stl?v=72cafa2d,../_stl/boxes/maglev_metro_vol2/RobotBox_Gold_body.stl?v=d6caa3f9,../_stl/boxes/maglev_metro_vol2/RobotBox_Gold_lid.stl?v=0b399110,../_stl/boxes/maglev_metro_vol2/RobotBox_Orange_body.stl?v=ba981603,../_stl/boxes/maglev_metro_vol2/RobotBox_Orange_lid.stl?v=6b83abe5,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=113669ab,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_lid.stl?v=8b9e3bd1,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=778f1aa2,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_lid.stl?v=eba15e13,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=6f3db020,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_lid.stl?v=077c859e,../_stl/boxes/maglev_metro_vol2/OutbackGhostTilesBox_body.stl?v=9689ad03,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=404e089d,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=3aab1138,../_stl/boxes/maglev_metro_vol2/CommuterBox_Pink_body.stl?v=6c404d71,../_stl/boxes/maglev_metro_vol2/CommuterBox_Pink_lid.stl?v=096a7923,../_stl/boxes/maglev_metro_vol2/CommuterBox_Aqua_body.stl?v=eca70075,../_stl/boxes/maglev_metro_vol2/CommuterBox_Aqua_lid.stl?v=b404ed8f,../_stl/boxes/maglev_metro_vol2/CommuterBox_Coral_body.stl?v=884eb7f5,../_stl/boxes/maglev_metro_vol2/CommuterBox_Coral_lid.stl?v=a8840f16,../_stl/boxes/maglev_metro_vol2/CommuterBox_Purple_body.stl?v=da5e14ac,../_stl/boxes/maglev_metro_vol2/CommuterBox_Purple_lid.stl?v=4b3acbc1,../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=ec035117,../_stl/boxes/maglev_metro_vol2/spacer_2.stl?v=6fd49b98" download="MaglevMetroVol2_full_packing.stl">⬇ Download Full Box Packing STL (<code>MaglevMetroVol2_full_packing.stl</code>)</a></p>
 
 .. raw:: html
 
@@ -178,12 +178,12 @@ ExtraTilesBox
 
 **Assembled Box (ExtraTilesBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156,../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=abe5ad82
+.. stl:: ../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156,../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=400bd55b
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156,../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=abe5ad82" download="ExtraTilesBox_assembled.stl">⬇ Download Assembled ExtraTilesBox STL (<code>ExtraTilesBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156" data-stl-combine="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_body.stl?v=f4024156,../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=400bd55b" download="ExtraTilesBox_assembled.stl">⬇ Download Assembled ExtraTilesBox STL (<code>ExtraTilesBox_assembled.stl</code>)</a></p>
 
 **Part: ExtraTilesBox Body**
 
@@ -196,12 +196,12 @@ ExtraTilesBox
 
 **Part: ExtraTilesBox Lid**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=abe5ad82
+.. stl:: ../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=400bd55b
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=abe5ad82" download="ExtraTilesBox_lid.stl">⬇ Download ExtraTilesBox Lid STL (<code>ExtraTilesBox_lid.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/ExtraTilesBox_lid.stl?v=400bd55b" download="ExtraTilesBox_lid.stl">⬇ Download ExtraTilesBox Lid STL (<code>ExtraTilesBox_lid.stl</code>)</a></p>
 
 .. _box-maglev_metro_vol2-upgradetilebox:
 
@@ -480,21 +480,21 @@ NanobotBox_1
 
 **Assembled Box (NanobotBox_1 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=b18444e3,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_lid.stl?v=8b9e3bd1
+.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=113669ab,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_lid.stl?v=8b9e3bd1
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=b18444e3" data-stl-combine="../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=b18444e3,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_lid.stl?v=8b9e3bd1" download="NanobotBox_1_assembled.stl">⬇ Download Assembled NanobotBox_1 STL (<code>NanobotBox_1_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=113669ab" data-stl-combine="../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=113669ab,../_stl/boxes/maglev_metro_vol2/NanobotBox_1_lid.stl?v=8b9e3bd1" download="NanobotBox_1_assembled.stl">⬇ Download Assembled NanobotBox_1 STL (<code>NanobotBox_1_assembled.stl</code>)</a></p>
 
 **Part: NanobotBox_1 Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=b18444e3
+.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=113669ab
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=b18444e3" download="NanobotBox_1_body.stl">⬇ Download NanobotBox_1 Body STL (<code>NanobotBox_1_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_1_body.stl?v=113669ab" download="NanobotBox_1_body.stl">⬇ Download NanobotBox_1 Body STL (<code>NanobotBox_1_body.stl</code>)</a></p>
 
 **Part: NanobotBox_1 Lid**
 
@@ -518,21 +518,21 @@ NanobotBox_2
 
 **Assembled Box (NanobotBox_2 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=af7a2fa2,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_lid.stl?v=eba15e13
+.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=778f1aa2,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_lid.stl?v=eba15e13
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=af7a2fa2" data-stl-combine="../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=af7a2fa2,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_lid.stl?v=eba15e13" download="NanobotBox_2_assembled.stl">⬇ Download Assembled NanobotBox_2 STL (<code>NanobotBox_2_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=778f1aa2" data-stl-combine="../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=778f1aa2,../_stl/boxes/maglev_metro_vol2/NanobotBox_2_lid.stl?v=eba15e13" download="NanobotBox_2_assembled.stl">⬇ Download Assembled NanobotBox_2 STL (<code>NanobotBox_2_assembled.stl</code>)</a></p>
 
 **Part: NanobotBox_2 Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=af7a2fa2
+.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=778f1aa2
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=af7a2fa2" download="NanobotBox_2_body.stl">⬇ Download NanobotBox_2 Body STL (<code>NanobotBox_2_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_2_body.stl?v=778f1aa2" download="NanobotBox_2_body.stl">⬇ Download NanobotBox_2 Body STL (<code>NanobotBox_2_body.stl</code>)</a></p>
 
 **Part: NanobotBox_2 Lid**
 
@@ -556,21 +556,21 @@ NanobotBox_3
 
 **Assembled Box (NanobotBox_3 — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=42246c64,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_lid.stl?v=077c859e
+.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=6f3db020,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_lid.stl?v=077c859e
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=42246c64" data-stl-combine="../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=42246c64,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_lid.stl?v=077c859e" download="NanobotBox_3_assembled.stl">⬇ Download Assembled NanobotBox_3 STL (<code>NanobotBox_3_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=6f3db020" data-stl-combine="../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=6f3db020,../_stl/boxes/maglev_metro_vol2/NanobotBox_3_lid.stl?v=077c859e" download="NanobotBox_3_assembled.stl">⬇ Download Assembled NanobotBox_3 STL (<code>NanobotBox_3_assembled.stl</code>)</a></p>
 
 **Part: NanobotBox_3 Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=42246c64
+.. stl:: ../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=6f3db020
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=42246c64" download="NanobotBox_3_body.stl">⬇ Download NanobotBox_3 Body STL (<code>NanobotBox_3_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/NanobotBox_3_body.stl?v=6f3db020" download="NanobotBox_3_body.stl">⬇ Download NanobotBox_3 Body STL (<code>NanobotBox_3_body.stl</code>)</a></p>
 
 **Part: NanobotBox_3 Lid**
 
@@ -614,21 +614,21 @@ MetroTokenBox
 
 **Assembled Box (MetroTokenBox — Body + Lid)**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=eebef1f3,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=3aab1138
+.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=404e089d,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=3aab1138
    :height: 320px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=eebef1f3" data-stl-combine="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=eebef1f3,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=3aab1138" download="MetroTokenBox_assembled.stl">⬇ Download Assembled MetroTokenBox STL (<code>MetroTokenBox_assembled.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=404e089d" data-stl-combine="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=404e089d,../_stl/boxes/maglev_metro_vol2/MetroTokenBox_lid.stl?v=3aab1138" download="MetroTokenBox_assembled.stl">⬇ Download Assembled MetroTokenBox STL (<code>MetroTokenBox_assembled.stl</code>)</a></p>
 
 **Part: MetroTokenBox Body**
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=eebef1f3
+.. stl:: ../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=404e089d
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=eebef1f3" download="MetroTokenBox_body.stl">⬇ Download MetroTokenBox Body STL (<code>MetroTokenBox_body.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/MetroTokenBox_body.stl?v=404e089d" download="MetroTokenBox_body.stl">⬇ Download MetroTokenBox Body STL (<code>MetroTokenBox_body.stl</code>)</a></p>
 
 **Part: MetroTokenBox Lid**
 
@@ -803,12 +803,12 @@ spacer_1
 - **Outer Dimensions**: ``21.8393 × 162 × 10 mm``
 - **Packed Position**: ``(145, 0, 21)``
 
-.. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=23ee618e
+.. stl:: ../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=ec035117
    :height: 280px
 
 .. raw:: html
 
-   <p><a href="../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=23ee618e" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+   <p><a href="../_stl/boxes/maglev_metro_vol2/spacer_1.stl?v=ec035117" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
 
 .. _spacer-maglev_metro_vol2-spacer_2:
 

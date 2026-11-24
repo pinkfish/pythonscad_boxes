@@ -103,6 +103,8 @@ class BoxBuilder:
     """Length axis can expand."""
     no_rotate: bool = False
     """Prevent 3D packer from rotating the box (keeps compartment layout directional)."""
+    expandable_height: bool = True
+    """Whether small vertical gaps (<= ``Project.max_height_absorb``) above this box may be absorbed into its height."""
     wall_thickness: float | None = None
     """Per-box wall thickness override; None uses project default."""
     floor_thickness: float | None = None

@@ -154,6 +154,39 @@ class TestPartialBoardsAndInventory(unittest.TestCase):
         with self.assertRaises(ValueError):
             GameBoard("BadCount", size=(10.0, 10.0, 5.0), position=(0.0, 0.0, 0.0), count=0)
 
+    def test_small_vertical_gap_absorbed_into_box_height(self) -> None:
+        """A <= 10mm vertical gap above a box grows the box height instead of adding a thin spacer."""
+        proj = Project(
+            "HeightAbsorbTest",
+            game_box_size=(120.0, 100.0, 48.0),
+            clearance_slack=0.0,
+            generate_spacers=True,
+            box_defaults={"expandable": False},
+        )
+        # 8mm gap below the 48mm ceiling -> should grow from 40mm to 48mm with 0 spacers
+        box = proj.box(BoxType.CAP, "Tokens", size=(120.0, 100.0, 40.0))
+        box.compartment("Tokens", count=10)
+        build = proj.build()
+        assert build.packing is not None
+        self.assertEqual(len(build.packing.spacer_placements), 0)
+        self.assertAlmostEqual(build.packing.placements[0].size[2], 48.0, places=3)
+        assert box.final_size is not None
+        self.assertAlmostEqual(box.final_size[2], 48.0, places=3)
+
+        # Opting out via max_height_absorb=0.0 keeps exact 40mm height
+        proj_optout = Project(
+            "HeightAbsorbOptOut",
+            game_box_size=(120.0, 100.0, 48.0),
+            clearance_slack=0.0,
+            generate_spacers=True,
+            max_height_absorb=0.0,
+            box_defaults={"expandable": False},
+        )
+        proj_optout.box(BoxType.CAP, "Tokens", size=(120.0, 100.0, 40.0)).compartment("Tokens")
+        b2 = proj_optout.build()
+        assert b2.packing is not None
+        self.assertAlmostEqual(b2.packing.placements[0].size[2], 40.0, places=3)
+
     def test_every_example_game_declares_and_allocates_full_inventory(self) -> None:
         """Every game in boxes/ declares a piece inventory and allocates 100% of its pieces."""
         import importlib.util

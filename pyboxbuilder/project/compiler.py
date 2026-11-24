@@ -549,8 +549,98 @@ class LayoutCompiler:
             val = local_final_sizes.get(builder.label) or resolved_min_sizes[builder.label]
             object.__setattr__(builder, "final_size", val)
 
+        cls._absorb_vertical_gaps(manifest, packing)
         cls._apply_stacking_order_configs(manifest, packing.placements)
         return packing
+
+    @classmethod
+    def _absorb_vertical_gaps(
+        cls, manifest: ProjectManifest, packing: BoxPacking
+    ) -> None:
+        """Grow top-exposed boxes by up to ``max_height_absorb`` mm to avoid thin top spacers."""
+        from pyboxbuilder.enums import BoxType
+        from pyboxbuilder.packing.layout import Placement
+
+        max_absorb = manifest.max_height_absorb
+        if max_absorb <= 0.0 or manifest.game_box_size is None:
+            return
+
+        z_offset = manifest.board_z_offset
+        usable_top = z_offset + (manifest.game_box_size[2] - manifest.board_thickness)
+        eps = 1e-3
+
+        # Collect all solid ceilings: other boxes + explicit partial boards
+        ceilings: list[tuple[str | None, float, float, float, float, float]] = [
+            (
+                p.label,
+                p.position[0],
+                p.position[1],
+                p.position[0] + p.size[0],
+                p.position[1] + p.size[1],
+                p.position[2],
+            )
+            for p in packing.placements
+        ]
+        for gb in manifest.boards:
+            ceilings.append((
+                None,
+                gb.position[0],
+                gb.position[1],
+                gb.position[0] + gb.size[0],
+                gb.position[1] + gb.size[1],
+                gb.position[2],
+            ))
+
+        updated: list[Placement] = []
+        for p in packing.placements:
+            b = manifest.get_by_label(p.label)
+            if (
+                b is None
+                or not getattr(b, "expandable_height", True)
+                or (b.box_type is BoxType.NO_LID and not b.compartments and getattr(b, "hollow", True))
+            ):
+                updated.append(p)
+                continue
+
+            px0, py0, pz0 = p.position
+            pw, pl, ph = p.size
+            px1, py1, top_z = px0 + pw, py0 + pl, pz0 + ph
+
+            ceil_z = usable_top
+            for other_label, ox0, oy0, ox1, oy1, oz0 in ceilings:
+                if other_label == p.label:
+                    continue
+                if oz0 < top_z - eps:
+                    continue
+                if (
+                    px0 < ox1 - eps
+                    and px1 > ox0 + eps
+                    and py0 < oy1 - eps
+                    and py1 > oy0 + eps
+                    and oz0 < ceil_z
+                ):
+                    ceil_z = oz0
+
+            gap = ceil_z - top_z
+            if 0.25 < gap <= max_absorb + 1e-6:
+                new_h = ph + gap
+                updated.append(
+                    Placement(
+                        label=p.label,
+                        position=p.position,
+                        size=(pw, pl, new_h),
+                        rotation=p.rotation,
+                        path=p.path,
+                    )
+                )
+                if b.final_size is not None:
+                    object.__setattr__(
+                        b, "final_size", (b.final_size[0], b.final_size[1], b.final_size[2] + gap)
+                    )
+            else:
+                updated.append(p)
+
+        packing.placements = updated
 
     @classmethod
     def _apply_stacking_order_configs(
@@ -687,5 +777,6 @@ class LayoutCompiler:
             cls._shift_placements_z(occupied, -z_offset),
             clearance=manifest.resolved_clearance_slack,
             min_dim=manifest.min_spacer_height,
+            min_xy=manifest.min_spacer_dim,
         )
         return cls._shift_placements_z(spacers, z_offset)

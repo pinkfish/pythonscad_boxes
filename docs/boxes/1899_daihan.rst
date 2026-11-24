@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=908525dc" download="1899Daihan_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>1899Daihan_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=908525dc" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=525294da" download="1899Daihan_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>1899Daihan_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=525294da" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=908525dc" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=525294da" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -103,7 +103,7 @@ Parts Overview
      - 6x Priority Deal & Extra Markers
    * - :ref:`TrainCardBox <box-1899_daihan-traincardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
-     - ``77 × 54 × 32.8 mm``
+     - ``77 × 54 × 34 mm``
      - ``(76.4359, 129, 16)``
      - 26x Train Cards
    * - :ref:`spacer_1 <spacer-1899_daihan-spacer_1>`
@@ -549,7 +549,7 @@ TrainCardBox
 ^^^^^^^^^^^^
 
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
-- **Outer Dimensions**: ``77 × 54 × 32.8 mm``
+- **Outer Dimensions**: ``77 × 54 × 34 mm``
 - **Packed Position**: ``(76.4359, 129, 16)``
 - **Pieces / Contents**: 26x Train Cards
 - **Compartments (1)**: ``TrainCards`` (D=30.8 mm)
