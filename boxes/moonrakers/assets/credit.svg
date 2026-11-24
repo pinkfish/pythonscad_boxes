@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sci-fi hexagonal credit chit with central diamond emblem -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 50 6
+    L 88 28
+    L 88 72
+    L 50 94
+    L 12 72
+    L 12 28
+    Z
+    M 50 18
+    L 23 34
+    L 23 66
+    L 50 82
+    L 77 66
+    L 77 34
+    Z
+  "/>
+  <!-- Inner diamond bar -->
+  <polygon fill="#000000" points="50,27 68,50 50,73 32,50"/>
+</svg>

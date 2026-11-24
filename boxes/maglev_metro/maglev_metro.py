@@ -25,13 +25,21 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     StackableMode,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "maglev_metro" / "assets"
 )
 
 # ── Box & Board Dimensions (from maglev_metro.scad) ───────────────
@@ -130,13 +138,28 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-METRO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+METRO_PATTERN = PatternBuilder(PatternType.PENROSE)
+METRO_FONT = "Futura:style=Bold"
 
 
-def _lid(text: str, frame_color: str) -> LidBuilder:
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    image: str | None = None,
+    logo_size_mm: float | None = None,
+    finial: LabelFinial = LabelFinial.CHEVRON,
+) -> LidBuilder:
     return LidBuilder(
         text=text,
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.HEX_BRACKET,
+        label_finial=finial,
+        font=METRO_FONT,
+        logo=image,
+        logo_color=Color("white") if image else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm,
         pattern=METRO_PATTERN,
         text_color=Color("white"),
         frame_color=Color(frame_color),
@@ -173,7 +196,7 @@ for label, color_name, idx in robot_specs:
         label,
         size=(robot_box_width, robot_box_length, robot_box_height),
         position=(start_token_box_width, card_box_length * 2.0, robot_box_height * idx),
-        lid=_lid("Robots", color_name),
+        lid=_lid("Robots", color_name, image=str(ASSETS / "robot.svg"), logo_size_mm=16.0),
     ).compartment("Robots", cut=FingerCut.SCOOP)
 
 commuter_specs = [
@@ -190,7 +213,7 @@ for label, color_name, idx in commuter_specs:
             card_box_length * 2.0 + commuter_box_length * idx,
             robot_box_height * 3.0,
         ),
-        lid=_lid("Commuter", color_name),
+        lid=_lid("Commuter", color_name, image=str(ASSETS / "commuter.svg"), logo_size_mm=14.0),
     ).compartment("Commuters", cut=FingerCut.SCOOP)
 
 # ── 3. Side-of-Board Strip (X=0..45, Z=47.8..65.0) + StartTokenBox
@@ -199,7 +222,7 @@ project.box(
     "CommuterBoxSmall_Purple",
     size=(commuter_box_small_width, commuter_box_small_length, commuter_box_small_height),
     position=(0.0, 0.0, card_box_height * 2.0),
-    lid=_lid("Commuter", "purple"),
+    lid=_lid("Commuter", "purple", image=str(ASSETS / "commuter.svg"), logo_size_mm=14.0),
 ).compartment("Commuters", cut=FingerCut.SCOOP)
 
 project.box(
@@ -207,7 +230,7 @@ project.box(
     "CommuterBoxSmall_Coral",
     size=(commuter_box_small_width, commuter_box_small_length, commuter_box_small_height),
     position=(0.0, commuter_box_small_length, card_box_height * 2.0),
-    lid=_lid("Commuter", "coral"),
+    lid=_lid("Commuter", "coral", image=str(ASSETS / "commuter.svg"), logo_size_mm=14.0),
 ).compartment("Commuters", cut=FingerCut.SCOOP)
 
 project.box(
@@ -332,7 +355,7 @@ for label, title, pos in factory_specs:
         label,
         size=(factory_box_width, factory_box_length, factory_box_height),
         position=pos,
-        lid=_lid(title, "goldenrod"),
+        lid=_lid(title, "goldenrod", image=str(ASSETS / "factory_hex.svg"), logo_size_mm=16.0),
     ).compartment(
         "StationHexes",
         size=(factory_inner_w, factory_inner_l),

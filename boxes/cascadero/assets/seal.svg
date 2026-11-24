@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20mm" height="20mm">
+  <!-- Crisp royal wax seal medallion with ribbon tails (filled polygons only, no strokes) -->
+  <polygon fill="#000000" points="50,6 60,12 72,10 77,21 88,26 86,38 92,48 84,57 84,69 72,72 64,80 50,76 36,80 28,72 16,69 16,57 8,48 14,38 12,26 23,21 28,10 40,12"/>
+  <polygon fill="#000000" points="30,68 46,72 40,96 31,88 22,94"/>
+  <polygon fill="#000000" points="70,68 54,72 60,96 69,88 78,94"/>
+</svg>

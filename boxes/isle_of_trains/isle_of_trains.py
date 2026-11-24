@@ -24,7 +24,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -99,7 +101,33 @@ project = Project(
     generate_spacers=True,
 )
 
-TRAIN_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+TRAIN_PATTERN = PatternBuilder(PatternType.RING)
+TRAIN_FONT = "Georgia:style=Bold"
+
+
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    image: str | None = None,
+    logo_size_mm: float | None = None,
+    finial: LabelFinial = LabelFinial.DIAMOND,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.RIBBON,
+        label_finial=finial,
+        font=TRAIN_FONT,
+        logo=image,
+        logo_color=Color("white") if image else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm,
+        pattern=TRAIN_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color(frame_color),
+    )
+
 
 # ── 1. Destination Box & Victory Box ──────────────────────────────
 dest_inner_w = destination_box_width - wall_thickness * 2.0  # 123.0mm
@@ -114,12 +142,11 @@ project.box(
     BoxType.CAP,
     "DestinationBox",
     size=(destination_box_width, destination_box_length, destination_box_height),
-    lid=LidBuilder(
-        text="Destinations",
-        label_mode=LabelMode.FRAMED,
-        pattern=TRAIN_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkgreen"),
+    lid=_lid(
+        "Destinations",
+        "darkgreen",
+        image=str(ASSETS / "destination_tile.svg"),
+        logo_size_mm=16.0,
     ),
 ).compartment(
     "DestinationsAndTracks",
@@ -191,12 +218,11 @@ project.box(
     BoxType.CAP,
     "VictoryBox",
     size=(destination_box_width, destination_box_length, victory_box_height),
-    lid=LidBuilder(
-        text="Victory",
-        label_mode=LabelMode.FRAMED,
-        pattern=TRAIN_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("gold"),
+    lid=_lid(
+        "Victory",
+        "gold",
+        image=str(ASSETS / "victory_hex.svg"),
+        logo_size_mm=16.0,
     ),
 ).compartment(
     "VictoryHexTokens",
@@ -301,13 +327,7 @@ mid_box = project.box(
     BoxType.CAP,
     "MiddleBox",
     size=(middle_box_width, middle_box_length, middle_box_height),
-    lid=LidBuilder(
-        text="Passengers",
-        label_mode=LabelMode.FRAMED,
-        pattern=TRAIN_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkslategray"),
-    ),
+    lid=_lid("Passengers", "darkslategray"),
 )
 mid_box.compartment(
     "Tokens",
@@ -319,13 +339,7 @@ card_box = project.box(
     BoxType.CAP,
     "CardBox",
     size=(card_box_width, card_box_length, card_box_height),
-    lid=LidBuilder(
-        text="Cards",
-        label_mode=LabelMode.FRAMED,
-        pattern=TRAIN_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("navy"),
-    ),
+    lid=_lid("Cards", "navy"),
     expandable=False,
 )
 card_box.compartment(
@@ -346,12 +360,12 @@ project.box(
     BoxType.CAP,
     "TicketBox",
     size=(ticket_box_width, ticket_box_length, ticket_box_height),
-    lid=LidBuilder(
-        text="Tickets",
-        label_mode=LabelMode.FRAMED,
-        pattern=TRAIN_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("firebrick"),
+    lid=_lid(
+        "Tickets",
+        "firebrick",
+        image=str(ASSETS / "ticket.svg"),
+        logo_size_mm=10.0,
+        finial=LabelFinial.NONE,
     ),
 ).compartment(
     "TicketsAndTrain",

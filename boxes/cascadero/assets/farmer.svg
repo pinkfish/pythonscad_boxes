@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20mm" height="20mm">
+  <!-- Crisp medieval farmer with wide-brimmed straw hat silhouette (filled elements only, no strokes) -->
+  <polygon fill="#000000" points="32,26 42,10 58,10 68,26 90,32 88,38 12,38 10,32"/>
+  <circle fill="#000000" cx="50" cy="48" r="13"/>
+  <path fill="#000000" d="M 22,94 L 26,70 C 28,62 37,59 50,59 C 63,59 72,62 74,70 L 78,94 Z"/>
+</svg>

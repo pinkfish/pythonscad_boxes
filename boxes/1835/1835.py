@@ -24,12 +24,20 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "1835" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -84,7 +92,32 @@ project = Project(
     generate_spacers=True,
 )
 
-TRAIN_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+TRAIN_PATTERN = PatternBuilder(PatternType.OCTAGON)
+RAILWAY_FONT = "Georgia:style=Bold"
+
+
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    logo: str | None = None,
+    logo_size_mm: float = 16.0,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.DOUBLE_FRAME,
+        label_finial=LabelFinial.SPEAR,
+        font=RAILWAY_FONT,
+        pattern=TRAIN_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color(frame_color),
+        logo=logo,
+        logo_color=Color("white") if logo else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm if logo else None,
+    )
+
 
 # ── 1. Bank Money Trays (2 stacked slipover-lid trays, 4 denoms each)
 for idx, (m_h, denom_label) in enumerate(
@@ -95,12 +128,11 @@ for idx, (m_h, denom_label) in enumerate(
         BoxType.SLIPOVER,
         f"MoneyBox_{idx}",
         size=(money_box_width, money_box_length, m_h),
-        lid=LidBuilder(
-            text=f"Money {denom_label}",
-            label_mode=LabelMode.FRAMED,
-            pattern=TRAIN_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("darkgreen"),
+        lid=_lid(
+            f"Money {denom_label}",
+            "darkgreen",
+            logo=str(ASSETS / "coin.svg"),
+            logo_size_mm=16.0,
         ),
     )
     for slot in range(4):
@@ -289,12 +321,11 @@ middle_box = project.box(
     BoxType.CAP,
     "MiddleBox",
     size=(money_box_width, money_box_length, middle_box_height),
-    lid=LidBuilder(
-        text="Tokens/Trains",
-        label_mode=LabelMode.FRAMED,
-        pattern=TRAIN_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkslateblue"),
+    lid=_lid(
+        "Tokens/Trains",
+        "darkslateblue",
+        logo=str(ASSETS / "locomotive.svg"),
+        logo_size_mm=16.0,
     ),
 )
 middle_box.compartment(
@@ -309,13 +340,7 @@ for tier in range(4):
         BoxType.INSET,
         f"HexBox_{tier + 1}",
         size=(hex_box_width, hex_box_length, hex_box_height),
-        lid=LidBuilder(
-            text=f"Tiles {tier + 1}",
-            label_mode=LabelMode.FRAMED,
-            pattern=TRAIN_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color(hex_colors[tier]),
-        ),
+        lid=_lid(f"Tiles {tier + 1}", hex_colors[tier]),
     )
     h_box.compartment(
         "HexGrid",
@@ -329,12 +354,11 @@ for tier in range(4):
         f"SharesBox_{tier + 1}",
         size=(shares_box_width, shares_box_length, shares_box_height),
         wall_thickness=1.5,
-        lid=LidBuilder(
-            text=f"Shares {tier + 1}",
-            label_mode=LabelMode.FRAMED,
-            pattern=TRAIN_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("darkred"),
+        lid=_lid(
+            f"Shares {tier + 1}",
+            "darkred",
+            logo=str(ASSETS / "share_cert.svg"),
+            logo_size_mm=14.0,
         ),
     )
     s_box.compartment("Shares_1", width_ratio=0.5, cut=FingerCut.SCOOP)
@@ -346,13 +370,7 @@ p_box = project.box(
     "FirstPlayerBox",
     size=(first_player_box_width, first_player_box_length, first_player_box_height),
     wall_thickness=3.0,
-    lid=LidBuilder(
-        text="First",
-        label_mode=LabelMode.FRAMED,
-        pattern=TRAIN_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("navy"),
-    ),
+    lid=_lid("First", "navy"),
 )
 p_box.compartment(
     "FirstPlayerMarker",

@@ -25,7 +25,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -106,7 +108,33 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-ANT_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+ANT_PATTERN = PatternBuilder(PatternType.VORONOI)
+ANT_FONT = "Futura:style=Bold"
+
+
+def _ant_lid(
+    text: str,
+    frame_color: str,
+    *,
+    shape: LabelShape = LabelShape.CHAMFERED,
+    logo_file: str | None = None,
+    logo_size: float = 16.0,
+) -> LidBuilder:
+    text_color = "black" if frame_color == "gold" else "white"
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=shape,
+        label_finial=LabelFinial.CHEVRON,
+        font=ANT_FONT,
+        pattern=ANT_PATTERN,
+        text_color=Color(text_color),
+        frame_color=Color(frame_color),
+        logo=str(ASSETS / logo_file) if logo_file is not None else None,
+        logo_color=Color(text_color) if logo_file is not None else None,
+        logo_position="left" if logo_file is not None else None,
+        label_logo_size_mm=logo_size if logo_file is not None else None,
+    )
 
 # ── Row 0: Territory Hex Tiles Box (Y = 0 .. 103.5) ───────────────
 tile_inner_width = tile_box_width - wall_thickness * 2.0  # 188.0mm
@@ -174,13 +202,7 @@ project.box(
     "HexTileBox",
     size=(tile_box_width, tile_box_length, tile_box_height),
     position=(0.0, 0.0, 0.0),
-    lid=LidBuilder(
-        text="Tiles",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("saddlebrown"),
-    ),
+    lid=_ant_lid("Tiles", "saddlebrown", shape=LabelShape.HEXAGON),
 ).compartment(
     "HexTiles",
     size=(tile_inner_width, tile_inner_length),
@@ -196,13 +218,7 @@ project.box(
     "CardBox_Base",
     size=(card_box_width, card_box_length, card_box_height),
     position=(0.0, row1_y, 0.0),
-    lid=LidBuilder(
-        text="Cards",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("royalblue"),
-    ),
+    lid=_ant_lid("Cards", "royalblue"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 project.box(
@@ -210,13 +226,7 @@ project.box(
     "CardBox_Expansion",
     size=(card_box_width, card_box_length, mm_card_box_height),
     position=(0.0, row1_y, card_box_height),
-    lid=LidBuilder(
-        text="Minions Cards",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("purple"),
-    ),
+    lid=_ant_lid("Minions Cards", "purple"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 mm_inner_width = mm_box_width - wall_thickness * 2.0  # 115.0mm
@@ -268,13 +278,7 @@ project.box(
     "MinionsOfTheMeadowBox",
     size=(mm_box_width, mm_box_length, mm_box_height),
     position=(card_box_width, row1_y, 0.0),
-    lid=LidBuilder(
-        text="Minions Hexes",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("olive"),
-    ),
+    lid=_ant_lid("Minions Hexes", "olive", shape=LabelShape.HEXAGON),
 ).compartment(
     "ExpansionHexes",
     size=(mm_inner_width, mm_inner_length),
@@ -380,13 +384,7 @@ project.box(
     "FoodTokensBox",
     size=(food_box_width, food_box_length, food_box_height),
     position=(card_box_width, row1_y, mm_box_height),
-    lid=LidBuilder(
-        text="Food",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("forestgreen"),
-    ),
+    lid=_ant_lid("Food", "forestgreen", logo_file="leaf.svg", logo_size=16.0),
 ).compartment(
     "FoodAndTokens",
     size=(mm_inner_width, mm_inner_length),
@@ -401,13 +399,7 @@ project.box(
     "PredatorsBox",
     size=(predator_box_width, predator_box_length, predator_box_height),
     position=(card_box_width, row1_y, mm_box_height + food_box_height),
-    lid=LidBuilder(
-        text="Predator",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkred"),
-    ),
+    lid=_ant_lid("Predator", "darkred", logo_file="mantis.svg", logo_size=16.0),
 ).compartment(
     "Predators",
     size=(mm_inner_width, mm_inner_length),
@@ -583,12 +575,11 @@ for p_name, color_name, x_pos, layer in player_placements:
         f"PlayerBox_{p_name}",
         size=(player_box_width, player_box_length, player_box_height),
         position=(x_pos, row2_y, player_box_height * layer),
-        lid=LidBuilder(
-            text=f"Player ({p_name})",
-            label_mode=LabelMode.FRAMED,
-            pattern=ANT_PATTERN,
-            text_color=Color("black" if color_name == "gold" else "white"),
-            frame_color=Color(color_name),
+        lid=_ant_lid(
+            f"Player ({p_name})",
+            color_name,
+            logo_file="major_worker.svg",
+            logo_size=15.0,
         ),
     ).compartment(
         "CubesAndWorkers",
@@ -602,13 +593,7 @@ project.box(
     "AphidBox",
     size=(player_box_width, player_box_length, player_box_height),
     position=(player_box_width, row2_y, player_box_height * 2.0),
-    lid=LidBuilder(
-        text="Aphids",
-        label_mode=LabelMode.FRAMED,
-        pattern=ANT_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("yellowgreen"),
-    ),
+    lid=_ant_lid("Aphids", "yellowgreen"),
 ).compartment(
     "Aphids",
     size=(player_inner_width, player_inner_length),

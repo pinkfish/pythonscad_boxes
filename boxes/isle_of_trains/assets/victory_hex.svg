@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Isle of Trains Victory Hex icon: hexagonal token frame with inner star -->
+  <!-- Outer hexagonal ring -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 50,6 L 88,28 L 88,72 L 50,94 L 12,72 L 12,28 Z
+    M 50,18 L 78,34 L 78,66 L 50,82 L 22,66 L 22,34 Z" />
+  <!-- Inner 5-pointed victory star -->
+  <polygon fill="#000000" points="50,27 55.6,42.5 72,43 59,53 63.6,68.8 50,59.5 36.4,68.8 41,53 28,43 44.4,42.5" />
+</svg>

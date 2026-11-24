@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20mm" height="20mm">
+  <!-- Crisp apple silhouette with stem and leaf (filled paths only, no strokes) -->
+  <path fill="#000000" d="M 50,30 C 42,22 20,24 14,44 C 8,64 20,92 38,94 C 44,95 47,91 50,91 C 53,91 56,95 62,94 C 80,92 92,64 86,44 C 80,24 58,22 50,30 Z"/>
+  <polygon fill="#000000" points="47,29 53,29 55,10 49,9"/>
+  <path fill="#000000" d="M 54,18 C 62,8 78,8 82,16 C 74,25 60,25 54,18 Z"/>
+</svg>

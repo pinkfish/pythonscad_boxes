@@ -21,12 +21,20 @@ from pyboxbuilder import (
     BoxType,
     Color,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+SVG_DIR = (
+    Path(__file__).resolve().parent / "svg"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "dominion" / "svg"
 )
 
 # ── Game Box Dimensions (Big Box) ─────────────────────────────────
@@ -60,7 +68,8 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-DOMINION_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+DOMINION_PATTERN = PatternBuilder(PatternType.OCTAGON)
+DOMINION_FONT = "Georgia:style=Bold"
 
 # ── 1. Base Game Kingdom Cards Box ────────────────────────────────
 base_box = project.box(
@@ -70,9 +79,16 @@ base_box = project.box(
     lid=LidBuilder(
         text="Dominion: Kingdom Cards",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.FLEURON,
+        font=DOMINION_FONT,
         pattern=DOMINION_PATTERN,
         text_color=Color("white"),
         frame_color=Color("royalblue"),
+        logo=str(SVG_DIR / "dominion.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 )
 base_box.compartment(
@@ -88,9 +104,16 @@ treasure_box = project.box(
     lid=LidBuilder(
         text="Treasure & Victory",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SHIELD,
+        label_finial=LabelFinial.FLEURON,
+        font=DOMINION_FONT,
         pattern=DOMINION_PATTERN,
         text_color=Color("white"),
         frame_color=Color("gold"),
+        logo=str(SVG_DIR / "prosperity-2ed.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 )
 treasure_box.compartment(
@@ -106,9 +129,16 @@ alchemy_box = project.box(
     lid=LidBuilder(
         text="Alchemy & Expansions",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SHIELD,
+        label_finial=LabelFinial.FLEURON,
+        font=DOMINION_FONT,
         pattern=DOMINION_PATTERN,
         text_color=Color("white"),
         frame_color=Color("purple"),
+        logo=str(SVG_DIR / "alchemy.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=15.0,
     ),
 )
 alchemy_box.compartment(
@@ -121,7 +151,13 @@ token_box_width = card_box_width
 token_tray_len = (money_victory_len + alchemy_cards_len) / 2.0  # 140.0mm
 token_tray_height = all_boxes_height / 2.0                     # 37.5mm
 
-for idx, label in enumerate(["CoinAndDebtTokens", "MatsAndSpecialTokens"], start=1):
+for idx, (label, svg_name) in enumerate(
+    [
+        ("CoinAndDebtTokens", "debt.svg"),
+        ("MatsAndSpecialTokens", "guilds.svg"),
+    ],
+    start=1,
+):
     tray = project.box(
         BoxType.CAP,
         f"TokenTray{idx}_{label}",
@@ -129,9 +165,16 @@ for idx, label in enumerate(["CoinAndDebtTokens", "MatsAndSpecialTokens"], start
         lid=LidBuilder(
             text=label,
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.SCROLL,
+            label_finial=LabelFinial.FLEURON,
+            font=DOMINION_FONT,
             pattern=DOMINION_PATTERN,
             text_color=Color("white"),
             frame_color=Color("darkslategray"),
+            logo=str(SVG_DIR / svg_name),
+            logo_color=Color("white"),
+            logo_position="left",
+            label_logo_size_mm=15.0,
         ),
     )
     tray.compartment(

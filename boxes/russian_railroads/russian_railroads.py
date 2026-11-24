@@ -23,7 +23,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -75,7 +77,33 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-RR_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+RR_PATTERN = PatternBuilder(PatternType.STEPPED_CUBE)
+RR_FONT = "Georgia:style=Bold"
+
+
+def _lid(
+    text: str,
+    frame_color: str,
+    *,
+    text_color: str = "white",
+    finial: LabelFinial = LabelFinial.SPEAR,
+    logo: str | None = None,
+    logo_size_mm: float = 16.0,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CORNER_STUD,
+        label_finial=finial,
+        font=RR_FONT,
+        pattern=RR_PATTERN,
+        text_color=Color(text_color),
+        frame_color=Color(frame_color),
+        logo=logo,
+        logo_color=Color(text_color) if logo else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm if logo else None,
+    )
 
 # ── 1. Player, Extra Tokens & Currency Section ────────────────────
 tile_thickness = 2.0
@@ -336,12 +364,12 @@ for name, title, color_name in (
         BoxType.CAP,
         name,
         size=(player_box_width, player_box_length, player_box_height),
-        lid=LidBuilder(
-            text=title,
-            label_mode=LabelMode.FRAMED,
-            pattern=RR_PATTERN,
-            text_color=Color("black" if color_name in ("gold", "yellow") else "white"),
-            frame_color=Color(color_name),
+        lid=_lid(
+            title,
+            color_name,
+            text_color="black" if color_name in ("gold", "yellow") else "white",
+            logo=str(ASSETS / "pawn.svg"),
+            logo_size_mm=15.0,
         ),
     ).compartment(
         "PlayerBits",
@@ -354,13 +382,7 @@ project.box(
     BoxType.CAP,
     "ExtraTokensBox",
     size=(player_box_width, player_box_length, player_box_height),
-    lid=LidBuilder(
-        text="Tokens",
-        label_mode=LabelMode.FRAMED,
-        pattern=RR_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("dimgray"),
-    ),
+    lid=_lid("Tokens", "dimgray"),
 ).compartment(
     "ExtraTokens",
     size=(player_inner_width, player_inner_length),
@@ -372,12 +394,11 @@ project.box(
     BoxType.CAP,
     "MoneyBox",
     size=(player_box_width, player_box_length, player_box_height),
-    lid=LidBuilder(
-        text="Rubels",
-        label_mode=LabelMode.FRAMED,
-        pattern=RR_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("goldenrod"),
+    lid=_lid(
+        "Rubels",
+        "goldenrod",
+        logo=str(ASSETS / "coin.svg"),
+        logo_size_mm=15.0,
     ),
 ).compartment("Rubels", cut=FingerCut.SCOOP)
 
@@ -386,13 +407,7 @@ project.box(
     BoxType.SLIDING,
     "CardBox",
     size=(card_box_width, card_box_length, card_box_height),
-    lid=LidBuilder(
-        text="Cards",
-        label_mode=LabelMode.FRAMED,
-        pattern=RR_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("peru"),
-    ),
+    lid=_lid("Cards", "peru", finial=LabelFinial.NONE),
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
@@ -456,12 +471,11 @@ project.box(
     BoxType.CAP,
     "TrainBox",
     size=(train_box_width, train_box_length, train_box_height),
-    lid=LidBuilder(
-        text="Trains",
-        label_mode=LabelMode.FRAMED,
-        pattern=RR_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkred"),
+    lid=_lid(
+        "Trains",
+        "darkred",
+        logo=str(ASSETS / "train_tile.svg"),
+        logo_size_mm=16.0,
     ),
 ).compartment(
     "TrainTiles",
@@ -511,12 +525,11 @@ project.box(
     BoxType.CAP,
     "EngineerBox",
     size=(train_box_width, train_box_length, engineer_box_height),
-    lid=LidBuilder(
-        text="Engineers",
-        label_mode=LabelMode.FRAMED,
-        pattern=RR_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkslategray"),
+    lid=_lid(
+        "Engineers",
+        "darkslategray",
+        logo=str(ASSETS / "engineer_tile.svg"),
+        logo_size_mm=16.0,
     ),
 ).compartment(
     "EngineerTiles",
@@ -579,12 +592,11 @@ project.box(
     BoxType.CAP,
     "TrackBox",
     size=(train_box_width, train_box_length, track_box_height),
-    lid=LidBuilder(
-        text="Tracks",
-        label_mode=LabelMode.FRAMED,
-        pattern=RR_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("saddlebrown"),
+    lid=_lid(
+        "Tracks",
+        "saddlebrown",
+        logo=str(ASSETS / "white_track.svg"),
+        logo_size_mm=16.0,
     ),
 ).compartment(
     "WoodenTracks",

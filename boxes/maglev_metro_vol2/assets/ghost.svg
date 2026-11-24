@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Maglev Metro Vol. 2 Ghost icon: domed transit ghost with twin eye cutouts -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 50,10
+    C 26,10 14,28 14,50
+    L 14,90
+    L 28,78
+    L 40,90
+    L 50,78
+    L 60,90
+    L 72,78
+    L 86,90
+    L 86,50
+    C 86,28 74,10 50,10
+    Z
+    M 37,38
+    A 7,7 0 1,0 37,52
+    A 7,7 0 1,0 37,38
+    Z
+    M 63,38
+    A 7,7 0 1,0 63,52
+    A 7,7 0 1,0 63,38
+    Z" />
+</svg>

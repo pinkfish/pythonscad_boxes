@@ -38,8 +38,11 @@ for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
 
 from pyboxbuilder import (
     BoxType,
+    Color,
     ElementShape,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -161,16 +164,27 @@ project = Project(
 )
 
 # Bubbles suit a game about diving; the lid style is shared by the card boxes
-# and only the text changes between them.
+# and only the text and icon change between them.
 BUBBLES = PatternBuilder(type=PatternType.VORONOI)
-CREW_LID = LidBuilder(label_mode=LabelMode.FRAMELESS, diagonal=True, pattern=BUBBLES)
+CREW_LID = LidBuilder(
+    label_mode=LabelMode.FRAMED,
+    label_shape=LabelShape.OVAL,
+    label_finial=LabelFinial.TRIPLE_DOT,
+    font="Futura:style=Bold",
+    pattern=BUBBLES,
+    text_color=Color("white"),
+    frame_color=Color("teal"),
+    logo_color=Color("white"),
+    logo_position="left",
+    label_logo_size_mm=14.0,
+)
 
 # ── 1. Deck — the 45 large cards, full height ───────────────────────────────
 deck = project.box(
     BoxType.SLIDING,
     "Deck",
     size=(*DECK_SIZE, BOX_HEIGHT),
-    lid=CREW_LID.titled("Deck"),
+    lid=CREW_LID.titled("Deck", logo=f"{SVG}/the crew - sonar.svg"),
 )
 deck.cards("Deck", count=None, size=LARGE_CARD, slack=CARD_SLACK)
 
@@ -180,7 +194,7 @@ for i in range(2):
         BoxType.SLIDING,
         f"Tasks{i + 1}",
         size=(*TASK_SIZE, TASK_HEIGHT),  # tall enough for a 48-card stack
-        lid=CREW_LID.titled("Tasks"),
+        lid=CREW_LID.titled("Tasks", logo=f"{SVG}/the crew - distress.svg"),
     )
     task_box.cards("Tasks", count=None, size=SMALL_CARD, slack=CARD_SLACK)
 
@@ -189,7 +203,11 @@ accessories = project.box(
     BoxType.SLIDING,
     "Accessories",
     size=(ACCESSORY_WIDTH, ACCESSORY_LENGTH, ACCESSORY_HEIGHT),
-    lid=CREW_LID.titled("Captain"),
+    lid=CREW_LID.titled(
+        "Captain",
+        logo=f"{SVG}/the crew - diver.svg",
+        label_logo_size_mm=16.0,
+    ),
 )
 
 OVERSHOOT = 0.5

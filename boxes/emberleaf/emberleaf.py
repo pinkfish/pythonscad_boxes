@@ -26,7 +26,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -38,6 +40,11 @@ SVG_DIR = (
     Path(__file__).resolve().parent / "svg"
     if "__file__" in globals()
     else ROOT / "boxes" / "emberleaf" / "svg"
+)
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "emberleaf" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -89,7 +96,33 @@ project = Project(
     generate_spacers=True,
 )
 
-EMBER_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+EMBER_PATTERN = PatternBuilder(PatternType.LEAF_VEINS)
+EMBER_FONT = "Georgia:style=Bold"
+
+
+def _ember_lid(
+    text: str,
+    frame_color: str,
+    *,
+    shape: LabelShape = LabelShape.RIBBON,
+    logo_path: str | None = None,
+    logo_size: float = 16.0,
+) -> LidBuilder:
+    text_color = "black" if frame_color == "gold" else "white"
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=shape,
+        label_finial=LabelFinial.FLEURON,
+        font=EMBER_FONT,
+        pattern=EMBER_PATTERN,
+        text_color=Color(text_color),
+        frame_color=Color(frame_color),
+        logo=logo_path,
+        logo_color=Color(text_color) if logo_path is not None else None,
+        logo_position="left" if logo_path is not None else None,
+        label_logo_size_mm=logo_size if logo_path is not None else None,
+    )
 
 # ── Column 0: 5 Player Boxes & 4 Material Boxes (X = 0 .. 98) ─────
 player_inner_width = PLAYER_BOX_WIDTH - wall_thickness * 2.0  # 92.0mm
@@ -272,12 +305,12 @@ for label, color_name, hero_svg, hero_rot, pos in player_placements:
         label,
         size=(PLAYER_BOX_WIDTH, PLAYER_BOX_LENGTH, PLAYER_BOX_HEIGHT),
         position=pos,
-        lid=LidBuilder(
-            text=label.replace("PlayerBox", "Player "),
-            label_mode=LabelMode.FRAMED,
-            pattern=EMBER_PATTERN,
-            text_color=Color("black" if color_name == "gold" else "white"),
-            frame_color=Color(color_name),
+        lid=_ember_lid(
+            label.replace("PlayerBox", "Player "),
+            color_name,
+            shape=LabelShape.SHIELD,
+            logo_path=str(SVG_DIR / hero_svg),
+            logo_size=16.0,
         ),
     ).compartment(
         "PlayerBits",
@@ -287,25 +320,25 @@ for label, color_name, hero_svg, hero_rot, pos in player_placements:
     )
 
 material_placements = [
-    ("MaterialBoxFood", "Food", "red", (0.0, PLAYER_BOX_LENGTH, PLAYER_BOX_HEIGHT * 2.0)),
-    ("MaterialBoxStone", "Stone", "gray", (0.0, PLAYER_BOX_LENGTH + MATERIAL_BOX_LENGTH, PLAYER_BOX_HEIGHT * 2.0)),
-    ("MaterialBoxHoney", "Honey", "gold", (0.0, 0.0, PLAYER_BOX_HEIGHT * 3.0)),
-    ("MaterialBoxWood", "Wood", "saddlebrown", (0.0, MATERIAL_BOX_LENGTH, PLAYER_BOX_HEIGHT * 3.0)),
+    ("MaterialBoxFood", "Food", "red", "berry.svg", (0.0, PLAYER_BOX_LENGTH, PLAYER_BOX_HEIGHT * 2.0)),
+    (
+        "MaterialBoxStone",
+        "Stone",
+        "gray",
+        "stone.svg",
+        (0.0, PLAYER_BOX_LENGTH + MATERIAL_BOX_LENGTH, PLAYER_BOX_HEIGHT * 2.0),
+    ),
+    ("MaterialBoxHoney", "Honey", "gold", "honey.svg", (0.0, 0.0, PLAYER_BOX_HEIGHT * 3.0)),
+    ("MaterialBoxWood", "Wood", "saddlebrown", "wood.svg", (0.0, MATERIAL_BOX_LENGTH, PLAYER_BOX_HEIGHT * 3.0)),
 ]
 
-for label, text, color_name, pos in material_placements:
+for label, text, color_name, logo_file, pos in material_placements:
     project.box(
         BoxType.CAP,
         label,
         size=(MATERIAL_BOX_WIDTH, MATERIAL_BOX_LENGTH, MATERIAL_BOX_HEIGHT),
         position=pos,
-        lid=LidBuilder(
-            text=text,
-            label_mode=LabelMode.FRAMED,
-            pattern=EMBER_PATTERN,
-            text_color=Color("black" if color_name == "gold" else "white"),
-            frame_color=Color(color_name),
-        ),
+        lid=_ember_lid(text, color_name, logo_path=str(ASSETS / logo_file), logo_size=15.0),
     ).compartment("Tokens", cut=FingerCut.SCOOP)
 
 # ── Column 1: Main Card Boxes (X = 98 .. 196) ─────────────────────
@@ -321,13 +354,7 @@ for label, text, color_name, row_idx in card_configs:
         label,
         size=(CARD_BOX_WIDTH, CARD_BOX_LENGTH, CARD_BOX_HEIGHT),
         position=(PLAYER_BOX_WIDTH, CARD_BOX_LENGTH * row_idx, 0.0),
-        lid=LidBuilder(
-            text=text,
-            label_mode=LabelMode.FRAMED,
-            pattern=EMBER_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color(color_name),
-        ),
+        lid=_ember_lid(text, color_name),
     ).compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── Column 2: 5 Player Card Boxes & Common Box (X = 196 .. 286) ───
@@ -347,13 +374,7 @@ for layer_idx, (label, text, color_name) in enumerate(player_card_configs):
         label,
         size=(PLAYER_CARD_BOX_WIDTH, PLAYER_CARD_BOX_LENGTH, PLAYER_CARD_BOX_HEIGHT),
         position=(col2_x, 0.0, PLAYER_CARD_BOX_HEIGHT * layer_idx),
-        lid=LidBuilder(
-            text=text,
-            label_mode=LabelMode.FRAMED,
-            pattern=EMBER_PATTERN,
-            text_color=Color("black" if color_name == "gold" else "white"),
-            frame_color=Color(color_name),
-        ),
+        lid=_ember_lid(text, color_name),
     ).compartment("Cards", cut=FingerCut.SCOOP)
 
 common_inner_width = COMMON_BOX_WIDTH - wall_thickness * 2.0  # 84.0mm
@@ -453,13 +474,7 @@ project.box(
     "CommonBox",
     size=(COMMON_BOX_WIDTH, COMMON_BOX_LENGTH, COMMON_BOX_HEIGHT),
     position=(col2_x, PLAYER_CARD_BOX_LENGTH, 0.0),
-    lid=LidBuilder(
-        text="Trophy",
-        label_mode=LabelMode.FRAMED,
-        pattern=EMBER_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("saddlebrown"),
-    ),
+    lid=_ember_lid("Trophy", "saddlebrown"),
 ).compartment(
     "CommonHexesAndTrophies",
     size=(common_inner_width, common_inner_length),

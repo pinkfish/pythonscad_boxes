@@ -32,9 +32,12 @@ for _sp in REPO_ROOT.glob("venv/*/lib/*/site-packages"):
 
 from pyboxbuilder import (
     BoxType,
+    Color,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -148,7 +151,18 @@ project = Project(
 )
 
 BUBBLES = PatternBuilder(type=PatternType.VORONOI)
-CREW_LID = LidBuilder(label_mode=LabelMode.FRAMELESS, diagonal=True, pattern=BUBBLES)
+CREW_LID = LidBuilder(
+    label_mode=LabelMode.FRAMED,
+    label_shape=LabelShape.OVAL,
+    label_finial=LabelFinial.TRIPLE_DOT,
+    font="Futura:style=Bold",
+    pattern=BUBBLES,
+    text_color=Color("white"),
+    frame_color=Color("teal"),
+    logo_color=Color("white"),
+    logo_position="left",
+    label_logo_size_mm=14.0,
+)
 
 
 # ── Card boxes — full-height wells, sized for the sleeved deck ──────────────
@@ -158,6 +172,7 @@ def sleeved_card_box(
     *,
     box_width: float | None = None,
     box_height: float = CARD_BOX_HEIGHT,
+    logo: str | None = None,
 ) -> None:
     """Add a sliding card box whose well fits a deck in ``sleeve``.
 
@@ -171,7 +186,7 @@ def sleeved_card_box(
         BoxType.SLIDING,
         label,
         size=(well_w + 2 * WALL, well_l + 2 * WALL, box_height),
-        lid=CREW_LID.titled(label),
+        lid=CREW_LID.titled(label, logo=logo),
     )
     box.compartment(
         label,
@@ -181,16 +196,25 @@ def sleeved_card_box(
     )
 
 
-sleeved_card_box("Deck", LARGE_SLEEVE, box_height=BOX_HEIGHT)
+sleeved_card_box("Deck", LARGE_SLEEVE, box_height=BOX_HEIGHT, logo=f"{SVG}/the crew - sonar.svg")
 for i in range(2):
-    sleeved_card_box(f"Tasks{i + 1}", SMALL_SLEEVE, box_width=TASK_BOX_WIDTH)
+    sleeved_card_box(
+        f"Tasks{i + 1}",
+        SMALL_SLEEVE,
+        box_width=TASK_BOX_WIDTH,
+        logo=f"{SVG}/the crew - distress.svg",
+    )
 
 # ── Accessory box — diver, base, tokens, lidded like the unsleeved variant ───
 accessories = project.box(
     BoxType.SLIDING,
     "Accessories",
     size=(ACCESSORY_WIDTH, ACCESSORY_LENGTH, ACCESSORY_HEIGHT),
-    lid=CREW_LID.titled("Captain"),
+    lid=CREW_LID.titled(
+        "Captain",
+        logo=f"{SVG}/the crew - diver.svg",
+        label_logo_size_mm=16.0,
+    ),
 )
 
 OVERSHOOT = 0.5

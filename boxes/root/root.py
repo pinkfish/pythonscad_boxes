@@ -30,6 +30,8 @@ from enum import StrEnum
 from pyboxbuilder import (
     BoxType,
     Color,
+    LabelFinial,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -608,25 +610,33 @@ def make_alliance_mmu_logo(w, l, depth):
     logo_scaled = logo_solid.scale([scale_val, scale_val, 1.0])
     return MultiColorSolid(logo_scaled.shape)
 
-# Base Lid configuration using SQUARE pattern matching original SCAD lids
-LID_BASE = LidBuilder(pattern=PatternBuilder(PatternType.DENSE_HEX))
+# Woodland-themed lid configurations preserving all faction MMU logos
+LID_BASE = LidBuilder(
+    pattern=PatternBuilder(PatternType.LEAF_TESSELLATION),
+    label_shape=LabelShape.RIBBON,
+    label_finial=LabelFinial.FLEURON,
+    font="Georgia:style=Bold",
+)
+LID_FACTION_BASE = replace(LID_BASE, label_shape=LabelShape.SHIELD)
 
 LID_MARQUIS = replace(
-    LID_BASE, logo=make_marquis_mmu_logo, logo_color=Color("#ea7d27")
+    LID_FACTION_BASE, logo=make_marquis_mmu_logo, logo_color=Color("#ea7d27")
 )
-LID_ERIE = replace(LID_BASE, logo=make_erie_mmu_logo, logo_color=Color("#5690c7"))
+LID_ERIE = replace(
+    LID_FACTION_BASE, logo=make_erie_mmu_logo, logo_color=Color("#5690c7")
+)
 LID_ALLIANCE = replace(
-    LID_BASE, logo=make_alliance_mmu_logo, logo_color=Color("#1da85e")
+    LID_FACTION_BASE, logo=make_alliance_mmu_logo, logo_color=Color("#1da85e")
 )
 
 LID_LIZARD = replace(
-    LID_BASE, logo=make_lizard_mmu_logo, logo_color=Color("#f5d033")
+    LID_FACTION_BASE, logo=make_lizard_mmu_logo, logo_color=Color("#f5d033")
 )
 LID_RIVERFOLK = replace(
-    LID_BASE, logo=make_riverfolk_mmu_logo, logo_color=Color("#4db6af")
+    LID_FACTION_BASE, logo=make_riverfolk_mmu_logo, logo_color=Color("#4db6af")
 )
 LID_VAGABOND = replace(
-    LID_BASE, logo=make_vagabond_mmu_logo, logo_color=Color("black")
+    LID_FACTION_BASE, logo=make_vagabond_mmu_logo, logo_color=Color("black")
 )
 
 # ── Boxes ─────────────────────────────────────────────────────────────────

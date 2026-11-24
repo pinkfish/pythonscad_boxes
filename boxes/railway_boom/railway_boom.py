@@ -25,7 +25,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -145,13 +147,29 @@ project = Project(
     generate_spacers=True,
 )
 
-BOOM_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+BOOM_PATTERN = PatternBuilder(PatternType.OCTAGON)
+BOOM_FONT = "Futura:style=Bold"
 
 
-def _lid(text: str, frame_color: str, text_color: str = "white") -> LidBuilder:
+def _lid(
+    text: str,
+    frame_color: str,
+    text_color: str = "white",
+    *,
+    finial: LabelFinial = LabelFinial.SPEAR,
+    image: str | None = None,
+    logo_size_mm: float | None = None,
+) -> LidBuilder:
     return LidBuilder(
         text=text,
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.NOTCHED,
+        label_finial=finial,
+        font=BOOM_FONT,
+        logo=image,
+        logo_color=Color(text_color) if image else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm,
         pattern=BOOM_PATTERN,
         text_color=Color(text_color),
         frame_color=Color(frame_color),
@@ -373,7 +391,7 @@ project.box(
     size=(tourist_tile_box_width, tourist_tile_box_length, tourist_tile_box_height),
     position=(card_box_width * 2.0, y_row1, 0.0),
     wall_thickness=1.5,
-    lid=_lid("Tourist", "seagreen"),
+    lid=_lid("Tourist", "seagreen", finial=LabelFinial.NONE),
 ).compartment(
     "TouristTiles",
     size=(tourist_inner_w, tourist_inner_l),
@@ -478,7 +496,7 @@ project.box(
     "SmallCardBox_CityTiles",
     size=(city_tile_box_width, city_tile_box_length, city_tile_box_height),
     position=(small_card_box_width * 2.0, y_row2, 0.0),
-    lid=_lid("City", "dimgray"),
+    lid=_lid("City", "dimgray", image=str(ASSETS / "city_tile.svg"), logo_size_mm=14.0),
 ).compartment(
     "CityTiles",
     size=(city_inner_w, city_inner_l),
@@ -513,28 +531,42 @@ project.box(
 ).compartment("DevelopmentCards", cut=FingerCut.SCOOP)
 
 resource_specs = [
-    ("ResourceBox_Materials", "Materials", "saddlebrown", (small_card_box_width * 2.0, y_row3, 0.0)),
-    ("ResourceBox_VP", "VP", "blue", (small_card_box_width * 2.0, y_row3, resource_box_height)),
+    (
+        "ResourceBox_Materials",
+        "Materials",
+        "saddlebrown",
+        "materials.svg",
+        (small_card_box_width * 2.0, y_row3, 0.0),
+    ),
+    (
+        "ResourceBox_VP",
+        "VP",
+        "blue",
+        "vp_star.svg",
+        (small_card_box_width * 2.0, y_row3, resource_box_height),
+    ),
     (
         "ResourceBox_Tech",
         "Tech",
         "purple",
+        "tech_gear.svg",
         (small_card_box_width * 2.0, y_row3 + resource_box_length, 0.0),
     ),
     (
         "ResourceBox_Coal",
         "Coal",
         "black",
+        "coal.svg",
         (small_card_box_width * 2.0, y_row3 + resource_box_length, resource_box_height),
     ),
 ]
-for label, title, color_name, pos in resource_specs:
+for label, title, color_name, icon_file, pos in resource_specs:
     project.box(
         BoxType.CAP,
         label,
         size=(resource_box_width, resource_box_length, resource_box_height),
         position=pos,
-        lid=_lid(title, color_name),
+        lid=_lid(title, color_name, image=str(ASSETS / icon_file), logo_size_mm=14.0),
     ).compartment(title, cut=FingerCut.SCOOP)
 
 # ── 5. Row 4 (Y = 285..299): Indicator Box & Money Box ───────────
@@ -571,7 +603,7 @@ project.box(
     size=(indicator_box_width, indicator_box_length, indicator_box_height),
     position=(0.0, y_row4, 0.0),
     wall_thickness=1.5,
-    lid=_lid("Indicators", "darkslategray"),
+    lid=_lid("Indicators", "darkslategray", finial=LabelFinial.NONE),
 ).compartment(
     "Indicators",
     size=(indicator_inner_w, indicator_inner_l),
@@ -585,7 +617,7 @@ project.box(
     size=(money_box_width, money_box_length, money_box_height),
     position=(indicator_box_width, y_row4, 0.0),
     wall_thickness=1.5,
-    lid=_lid("Money", "darkorange"),
+    lid=_lid("Money", "darkorange", finial=LabelFinial.NONE),
 ).compartment("Money", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────

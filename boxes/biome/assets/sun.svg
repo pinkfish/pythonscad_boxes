@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Biome sun resource icon -->
+  <circle fill="#000000" cx="50" cy="50" r="24"/>
+  <polygon fill="#000000" points="50,4 58,22 42,22"/>
+  <polygon fill="#000000" points="50,96 58,78 42,78"/>
+  <polygon fill="#000000" points="4,50 22,42 22,58"/>
+  <polygon fill="#000000" points="96,50 78,42 78,58"/>
+  <polygon fill="#000000" points="17,17 34,25 25,34"/>
+  <polygon fill="#000000" points="83,17 75,34 66,25"/>
+  <polygon fill="#000000" points="17,83 25,66 34,75"/>
+  <polygon fill="#000000" points="83,83 66,75 75,66"/>
+</svg>

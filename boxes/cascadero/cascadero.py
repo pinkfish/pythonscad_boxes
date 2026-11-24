@@ -23,12 +23,20 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "cascadero" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -62,7 +70,8 @@ project = Project(
     generate_spacers=True,
 )
 
-CASCADERO_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+CASCADERO_PATTERN = PatternBuilder(PatternType.TUMBLING_BLOCKS)
+CASCADERO_FONT = "Georgia:style=Bold"
 
 # ── 1. Player Envoy Boxes (4 players) ─────────────────────────────
 first_width = 40.0
@@ -120,6 +129,9 @@ for idx, color_name in enumerate(player_colors):
         lid=LidBuilder(
             text=f"Player {idx + 1}",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.SHIELD,
+            label_finial=LabelFinial.DIAMOND,
+            font=CASCADERO_FONT,
             pattern=CASCADERO_PATTERN,
             text_color=Color("white"),
             frame_color=Color(color_name),
@@ -140,9 +152,16 @@ project.box(
     lid=LidBuilder(
         text="Seals",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SHIELD,
+        label_finial=LabelFinial.DIAMOND,
+        font=CASCADERO_FONT,
         pattern=CASCADERO_PATTERN,
         text_color=Color("white"),
         frame_color=Color("firebrick"),
+        logo=str(ASSETS / "seal.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "Seals",
@@ -156,9 +175,16 @@ project.box(
     lid=LidBuilder(
         text="Herald",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SHIELD,
+        label_finial=LabelFinial.DIAMOND,
+        font=CASCADERO_FONT,
         pattern=CASCADERO_PATTERN,
         text_color=Color("white"),
         frame_color=Color("goldenrod"),
+        logo=str(ASSETS / "herald.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=14.0,
     ),
 ).compartment(
     "Heralds",
@@ -172,9 +198,16 @@ project.box(
     lid=LidBuilder(
         text="Farmer",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SHIELD,
+        label_finial=LabelFinial.DIAMOND,
+        font=CASCADERO_FONT,
         pattern=CASCADERO_PATTERN,
         text_color=Color("white"),
         frame_color=Color("seagreen"),
+        logo=str(ASSETS / "farmer.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 ).compartment(
     "Farmers",

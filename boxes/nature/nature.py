@@ -23,13 +23,21 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     StackableMode,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "nature" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -79,7 +87,34 @@ project = Project(
     generate_spacers=True,
 )
 
-NATURE_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+NATURE_PATTERN = PatternBuilder(PatternType.VORONOI)
+NATURE_FONT = "Futura:style=Bold"
+
+
+def _nature_lid(
+    text: str,
+    frame_color: str,
+    *,
+    logo_file: str | None = None,
+    logo_size: float = 16.0,
+    narrow: bool = False,
+) -> LidBuilder:
+    use_logo = logo_file is not None and not narrow
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.CHAMFERED,
+        label_finial=LabelFinial.NONE if narrow else LabelFinial.DIAMOND,
+        font=NATURE_FONT,
+        pattern=NATURE_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color(frame_color),
+        logo=str(ASSETS / logo_file) if use_logo and logo_file is not None else None,
+        logo_color=Color("white") if use_logo else None,
+        logo_position="left" if use_logo else None,
+        label_logo_size_mm=logo_size if use_logo else None,
+    )
+
 
 # ── 1. Main Nature Cards Box ──────────────────────────────────────
 project.box(
@@ -87,13 +122,7 @@ project.box(
     "NatureCardsBox",
     size=(card_box_width, card_box_length, card_box_height),
     position=(0.0, 0.0, 0.0),
-    lid=LidBuilder(
-        text="Nature Cards",
-        label_mode=LabelMode.FRAMED,
-        pattern=NATURE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("forestgreen"),
-    ),
+    lid=_nature_lid("Nature Cards", "forestgreen"),
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
 # ── 2. Small Decks (Hunter & Solo) ────────────────────────────────
@@ -102,13 +131,7 @@ project.box(
     "HunterCardsBox",
     size=(hunter_card_box_width, hunter_card_box_length, hunter_card_box_height),
     position=(card_box_width, 0.0, 0.0),
-    lid=LidBuilder(
-        text="Hunters",
-        label_mode=LabelMode.FRAMED,
-        pattern=NATURE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkred"),
-    ),
+    lid=_nature_lid("Hunters", "darkred"),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
@@ -117,13 +140,7 @@ project.box(
     "SoloCardsBox",
     size=(hunter_card_box_width, hunter_card_box_length, hunter_card_box_height),
     position=(card_box_width, 0.0, hunter_card_box_height),
-    lid=LidBuilder(
-        text="Solo / Event",
-        label_mode=LabelMode.FRAMED,
-        pattern=NATURE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("royalblue"),
-    ),
+    lid=_nature_lid("Solo / Event", "royalblue"),
     stackable=StackableMode.PYRAMIDS,
 ).compartment("Cards", cut=FingerCut.SCOOP)
 
@@ -172,13 +189,7 @@ for idx in range(1, 3):
         f"DialBox_{idx}",
         size=(dial_box_width, dial_box_length, dial_box_height),
         position=(resource_box_width, card_box_length + dial_box_length * (idx - 1), 0.0),
-        lid=LidBuilder(
-            text="Population Dials",
-            label_mode=LabelMode.FRAMED,
-            pattern=NATURE_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("darkgoldenrod"),
-        ),
+        lid=_nature_lid("Population Dials", "darkgoldenrod"),
     ).compartment(
         "Dials",
         size=(dial_inner_width, dial_inner_length),
@@ -191,13 +202,7 @@ project.box(
     "LeopardBox",
     size=(leopard_box_width, leopard_box_length, leopard_box_height),
     position=(resource_box_width, card_box_length + dial_box_length * 2.0, 0.0),
-    lid=LidBuilder(
-        text="Apex Leopard",
-        label_mode=LabelMode.FRAMED,
-        pattern=NATURE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("peru"),
-    ),
+    lid=_nature_lid("Apex Leopard", "peru", narrow=True),
 ).compartment("Leopard", cut=FingerCut.SCOOP)
 
 # ── 4. Food & Population Resource Trays (Grass, Meat & Population) ─
@@ -206,13 +211,7 @@ project.box(
     "ResourceBox_Grass",
     size=(resource_box_width, resource_box_length, resource_box_height),
     position=(0.0, card_box_length, resource_box_height),
-    lid=LidBuilder(
-        text="Grass",
-        label_mode=LabelMode.FRAMED,
-        pattern=NATURE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("green"),
-    ),
+    lid=_nature_lid("Grass", "green", logo_file="grass.svg", logo_size=16.0),
 ).compartment("GrassTokens", cut=FingerCut.SCOOP)
 
 project.box(
@@ -220,13 +219,7 @@ project.box(
     "ResourceBox_Meat",
     size=(resource_box_width, resource_box_length, resource_box_height),
     position=(0.0, card_box_length + resource_box_length, resource_box_height),
-    lid=LidBuilder(
-        text="Meat",
-        label_mode=LabelMode.FRAMED,
-        pattern=NATURE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("firebrick"),
-    ),
+    lid=_nature_lid("Meat", "firebrick", logo_file="meat.svg", logo_size=16.0),
 ).compartment("MeatTokens", cut=FingerCut.SCOOP)
 
 project.box(
@@ -234,13 +227,7 @@ project.box(
     "ResourceBox_Population",
     size=(resource_box_width, resource_box_double_length, resource_box_height),
     position=(0.0, card_box_length, 0.0),
-    lid=LidBuilder(
-        text="Population",
-        label_mode=LabelMode.FRAMED,
-        pattern=NATURE_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkgoldenrod"),
-    ),
+    lid=_nature_lid("Population", "darkgoldenrod", logo_file="population.svg", logo_size=18.0),
 ).compartment("PopulationTokens", cut=FingerCut.SCOOP)
 
 project.stack_order("HunterCardsBox", "SoloCardsBox")

@@ -23,13 +23,17 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
 )
+
+ASSETS = ROOT / "boxes" / "modern_art" / "assets"
 
 # ── Box & Board Dimensions ────────────────────────────────────────
 box_width = 154.0
@@ -65,19 +69,28 @@ project = Project(
     generate_spacers=True,
 )
 
-ART_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+ART_PATTERN = PatternBuilder(PatternType.TUMBLING_BLOCKS)
+ART_LID = LidBuilder(
+    label_mode=LabelMode.FRAMED,
+    label_shape=LabelShape.DOUBLE_FRAME,
+    label_finial=LabelFinial.DIAMOND,
+    font="Futura:style=Bold",
+    pattern=ART_PATTERN,
+    text_color=Color("white"),
+    logo_color=Color("white"),
+    logo_position="left",
+    label_logo_size_mm=18.0,
+)
 
 # ── 1. Art Cards Box ──────────────────────────────────────────────
 c_box = project.box(
     BoxType.CAP,
     "CardBox",
     size=(card_box_width, card_box_length, card_box_height),
-    lid=LidBuilder(
-        text="Modern Art Cards",
-        label_mode=LabelMode.FRAMED,
-        pattern=ART_PATTERN,
-        text_color=Color("white"),
+    lid=ART_LID.titled(
+        "Modern Art Cards",
         frame_color=Color("royalblue"),
+        logo=str(ASSETS / "easel.svg"),
     ),
     expandable=False,
 )
@@ -101,12 +114,10 @@ t_box = project.box(
     BoxType.CAP,
     "TokensBox",
     size=(token_box_width, token_box_length, token_box_height),
-    lid=LidBuilder(
-        text="Money & Chips",
-        label_mode=LabelMode.FRAMED,
-        pattern=ART_PATTERN,
-        text_color=Color("white"),
+    lid=ART_LID.titled(
+        "Money & Chips",
         frame_color=Color("goldenrod"),
+        logo=str(ASSETS / "gavel.svg"),
     ),
 )
 t_box.compartment(

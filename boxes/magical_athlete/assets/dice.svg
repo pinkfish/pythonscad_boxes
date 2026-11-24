@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20mm" height="20mm">
+  <!-- Crisp 5-pip die silhouette with cutout pips (filled path only, no strokes) -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 20,8 L 80,8 C 87,8 92,13 92,20 L 92,80 C 92,87 87,92 80,92 L 20,92 C 13,92 8,87 8,80 L 8,20 C 8,13 13,8 20,8 Z
+    M 28,20 A 8,8 0 1,0 28,36 A 8,8 0 1,0 28,20 Z
+    M 72,20 A 8,8 0 1,0 72,36 A 8,8 0 1,0 72,20 Z
+    M 50,42 A 8,8 0 1,0 50,58 A 8,8 0 1,0 50,42 Z
+    M 28,64 A 8,8 0 1,0 28,80 A 8,8 0 1,0 28,64 Z
+    M 72,64 A 8,8 0 1,0 72,80 A 8,8 0 1,0 72,64 Z
+  "/>
+</svg>

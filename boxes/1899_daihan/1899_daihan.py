@@ -24,12 +24,20 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
     Project,
     run,
+)
+
+ASSETS = (
+    Path(__file__).resolve().parent / "assets"
+    if "__file__" in globals()
+    else ROOT / "boxes" / "1899_daihan" / "assets"
 )
 
 # ── Box & Board Dimensions ────────────────────────────────────────
@@ -102,7 +110,31 @@ project = Project(
     generate_spacers=True,
 )
 
-HEX_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+HEX_PATTERN = PatternBuilder(PatternType.TUMBLING_BLOCKS)
+DAIHAN_FONT = "Georgia:style=Bold"
+
+
+def _lid(
+    text: str,
+    frame_color: str | None = None,
+    *,
+    logo: str | None = None,
+    logo_size_mm: float = 16.0,
+) -> LidBuilder:
+    return LidBuilder(
+        text=text,
+        label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.DOUBLE_FRAME,
+        label_finial=LabelFinial.DIAMOND,
+        font=DAIHAN_FONT,
+        pattern=HEX_PATTERN,
+        text_color=Color("white"),
+        frame_color=Color(frame_color) if frame_color else None,
+        logo=logo,
+        logo_color=Color("white") if logo else None,
+        logo_position="left",
+        label_logo_size_mm=logo_size_mm if logo else None,
+    )
 
 # ── Interior Geometry Helpers (from 1899_daihan.scad) ─────────────
 hex_inner_w = hex_box_width - wall_thickness * 2.0                 # ~141.564mm
@@ -218,13 +250,7 @@ for box_num in range(1, 5):
         BoxType.CAP,
         f"HexBox_{box_num}",
         size=(hex_box_width, hex_box_length, hex_box_height),
-        lid=LidBuilder(
-            text="1899 Daihan",
-            label_mode=LabelMode.FRAMED,
-            pattern=HEX_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("darkgreen"),
-        ),
+        lid=_lid("1899 Daihan", "darkgreen"),
     )
     box.compartment(
         "Tiles",
@@ -237,13 +263,7 @@ for i in range(2):
         BoxType.CAP,
         f"ShareBox_{i + 1}",
         size=(share_box_width, share_box_length, share_box_height),
-        lid=LidBuilder(
-            text="Shares",
-            label_mode=LabelMode.FRAMED,
-            pattern=HEX_PATTERN,
-            text_color=Color("white"),
-            frame_color=Color("navy"),
-        ),
+        lid=_lid("Shares", "navy"),
     )
     for slot in range(4):
         s_box.compartment(
@@ -256,12 +276,11 @@ m_box = project.box(
     BoxType.CAP,
     "MoneyBox",
     size=(money_box_width, money_box_length, money_box_height),
-    lid=LidBuilder(
-        text="Money",
-        label_mode=LabelMode.FRAMED,
-        pattern=HEX_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("gold"),
+    lid=_lid(
+        "Money",
+        "gold",
+        logo=str(ASSETS / "coin.svg"),
+        logo_size_mm=16.0,
     ),
 )
 for slot in range(5):
@@ -277,11 +296,10 @@ for i in range(2):
         BoxType.SLIPOVER,
         f"CompanyMarkerBox_{i + 1}",
         size=(company_marker_box_width, company_marker_box_length, company_marker_box_height),
-        lid=LidBuilder(
-            text="Company",
-            label_mode=LabelMode.FRAMED,
-            pattern=HEX_PATTERN,
-            text_color=Color("white"),
+        lid=_lid(
+            "Company",
+            logo=str(ASSETS / "locomotive.svg"),
+            logo_size_mm=14.0,
         ),
     )
     c_box.compartment(
@@ -293,12 +311,7 @@ project.box(
     BoxType.SLIDING,
     "PrivateCompanyCards",
     size=(private_card_box_width, private_card_box_length, private_card_box_height),
-    lid=LidBuilder(
-        text="Privates",
-        label_mode=LabelMode.FRAMED,
-        pattern=HEX_PATTERN,
-        text_color=Color("white"),
-    ),
+    lid=_lid("Privates"),
     expandable=False,
 ).compartment(
     "Cards",
@@ -309,12 +322,7 @@ project.box(
     BoxType.SLIPOVER,
     "ExtraBitsBox",
     size=(extra_bits_box_width, extra_bits_box_length, extra_bits_box_height),
-    lid=LidBuilder(
-        text="Extra",
-        label_mode=LabelMode.FRAMED,
-        pattern=HEX_PATTERN,
-        text_color=Color("white"),
-    ),
+    lid=_lid("Extra"),
 ).compartment(
     "Tokens",
     cut=FingerCut.SCOOP,
@@ -325,12 +333,11 @@ project.box(
     BoxType.SLIDING,
     "TrainCardBox",
     size=(train_card_box_width, train_card_box_length, min(train_card_box_height, usable_height)),
-    lid=LidBuilder(
-        text="Trains",
-        label_mode=LabelMode.FRAMED,
-        pattern=HEX_PATTERN,
-        text_color=Color("white"),
-        frame_color=Color("darkred"),
+    lid=_lid(
+        "Trains",
+        "darkred",
+        logo=str(ASSETS / "locomotive.svg"),
+        logo_size_mm=14.0,
     ),
     expandable=False,
 ).compartment(

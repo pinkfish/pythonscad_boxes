@@ -24,7 +24,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -95,7 +97,8 @@ project = Project(
     generate_spacers=True,
 )
 
-NAVORIA_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+NAVORIA_PATTERN = PatternBuilder(PatternType.RING)
+NAVORIA_FONT = "Georgia:style=Bold"
 
 # ── Interior Geometry Helpers (from explorers_of_navoria.scad) ────
 player_inner_w = player_box_width - wall_thickness * 2.0   # 92.0mm
@@ -287,6 +290,7 @@ player_factions = [
 
 for layer_idx, (faction, color_name) in enumerate(player_factions):
     faction_key = faction.lower()
+    player_ink = Color("black" if color_name == "gold" else "white")
     # Front stack: Trading Posts (PlayerBox*One)
     project.box(
         BoxType.CAP,
@@ -296,9 +300,16 @@ for layer_idx, (faction, color_name) in enumerate(player_factions):
         lid=LidBuilder(
             text=f"{faction} Posts",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.SCROLL,
+            label_finial=LabelFinial.SCROLLWORK,
+            font=NAVORIA_FONT,
             pattern=NAVORIA_PATTERN,
-            text_color=Color("black" if color_name == "gold" else "white"),
+            text_color=player_ink,
             frame_color=Color(color_name),
+            logo=str(ASSETS / f"trading_post_{faction_key}.svg"),
+            logo_color=player_ink,
+            logo_position="left",
+            label_logo_size_mm=16.0,
         ),
     ).compartment(
         "TradingPosts",
@@ -316,9 +327,16 @@ for layer_idx, (faction, color_name) in enumerate(player_factions):
         lid=LidBuilder(
             text=f"{faction} Explorers",
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.SCROLL,
+            label_finial=LabelFinial.SCROLLWORK,
+            font=NAVORIA_FONT,
             pattern=NAVORIA_PATTERN,
-            text_color=Color("black" if color_name == "gold" else "white"),
+            text_color=player_ink,
             frame_color=Color(color_name),
+            logo=str(ASSETS / f"explorer_{faction_key}.svg"),
+            logo_color=player_ink,
+            logo_position="left",
+            label_logo_size_mm=16.0,
         ),
     ).compartment(
         "Explorers",
@@ -336,9 +354,16 @@ favour_box = project.box(
     lid=LidBuilder(
         text="Favours",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.SCROLL,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("white"),
         frame_color=Color("darkorange"),
+        logo=str(ASSETS / "favour_tile.svg"),
+        logo_color=Color("white"),
+        logo_position="left",
+        label_logo_size_mm=16.0,
     ),
 )
 favour_box.compartment(
@@ -348,10 +373,10 @@ favour_box.compartment(
     elements=_favour_elements(),
 )
 
-for idx, (label, text, color_name) in enumerate([
-    ("StuffBox_Swords", "Swords", "slategray"),
-    ("StuffBox_Apples", "Apples", "crimson"),
-    ("StuffBox_Crystals", "Crystals", "deepskyblue"),
+for idx, (label, text, color_name, icon_file) in enumerate([
+    ("StuffBox_Swords", "Swords", "slategray", "sword.svg"),
+    ("StuffBox_Apples", "Apples", "crimson", "apple.svg"),
+    ("StuffBox_Crystals", "Crystals", "deepskyblue", "crystal.svg"),
 ]):
     project.box(
         BoxType.SLIDING,
@@ -361,9 +386,16 @@ for idx, (label, text, color_name) in enumerate([
         lid=LidBuilder(
             text=text,
             label_mode=LabelMode.FRAMED,
+            label_shape=LabelShape.RIBBON,
+            label_finial=LabelFinial.SCROLLWORK,
+            font=NAVORIA_FONT,
             pattern=NAVORIA_PATTERN,
             text_color=Color("white"),
             frame_color=Color(color_name),
+            logo=str(ASSETS / icon_file),
+            logo_color=Color("white"),
+            logo_position="left",
+            label_logo_size_mm=14.0,
         ),
     ).compartment(
         "Tokens",
@@ -381,6 +413,9 @@ project.box(
     lid=LidBuilder(
         text="Cards",
         label_mode=LabelMode.FRAMED,
+        label_shape=LabelShape.RIBBON,
+        label_finial=LabelFinial.SCROLLWORK,
+        font=NAVORIA_FONT,
         pattern=NAVORIA_PATTERN,
         text_color=Color("white"),
         frame_color=Color("navy"),

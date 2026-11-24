@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Earth compost mound & leaf icon -->
+  <path fill="#000000" d="M 8,88 C 14,56 32,44 50,44 C 68,44 86,56 92,88 Z"/>
+  <circle fill="#000000" cx="28" cy="34" r="6"/>
+  <circle fill="#000000" cx="72" cy="32" r="6"/>
+  <path fill="#000000" d="M 50,46 C 36,34 36,16 50,8 C 64,16 64,34 50,46 Z"/>
+</svg>

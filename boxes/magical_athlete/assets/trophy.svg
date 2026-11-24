@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="20mm" height="20mm">
+  <!-- Crisp racing trophy cup silhouette with handles and pedestal (filled path only, no strokes) -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 24,12 L 76,12 L 76,20 L 90,20 C 92,40 84,54 70,56 C 65,62 59,66 55,68 L 55,80 L 72,80 L 76,92 L 24,92 L 28,80 L 45,80 L 45,68 C 41,66 35,62 30,56 C 16,54 8,40 10,20 L 24,20 Z
+    M 24,28 L 18,28 C 17,40 21,47 28,48 C 25,42 24,35 24,28 Z
+    M 76,28 C 76,35 75,42 72,48 C 79,47 83,40 82,28 Z
+  "/>
+</svg>

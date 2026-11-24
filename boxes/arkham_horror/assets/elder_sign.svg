@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Lovecraftian Elder Sign: bold 5-pointed star ring enclosing a branching central pillar -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M 50 4
+    L 62.5 34.5
+    L 95.5 37.5
+    L 70.5 59.5
+    L 78 92
+    L 50 75
+    L 22 92
+    L 29.5 59.5
+    L 4.5 37.5
+    L 37.5 34.5
+    Z
+    M 50 20
+    L 42.5 39.5
+    L 21.5 41.5
+    L 37.5 55.5
+    L 32.8 76
+    L 50 65.2
+    L 67.2 76
+    L 62.5 55.5
+    L 78.5 41.5
+    L 57.5 39.5
+    Z
+  "/>
+  <!-- Central Elder Sign flame/branch glyph -->
+  <polygon fill="#000000" points="50,27 54,43 62,38 55,50 61,57 53.5,56 53.5,64 46.5,64 46.5,56 39,57 45,50 38,38 46,43"/>
+</svg>

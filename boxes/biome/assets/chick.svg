@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Biome chick resource icon -->
+  <circle fill="#000000" cx="44" cy="60" r="24"/>
+  <circle fill="#000000" cx="62" cy="34" r="16"/>
+  <polygon fill="#000000" points="76,30 94,35 76,42"/>
+  <polygon fill="#000000" points="22,52 8,44 16,64"/>
+  <polygon fill="#000000" points="36,80 42,80 42,94 32,94 32,90 36,90"/>
+  <polygon fill="#000000" points="50,80 56,80 56,90 62,90 62,94 50,94"/>
+</svg>

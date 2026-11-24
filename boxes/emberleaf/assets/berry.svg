@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Emberleaf berry/food resource icon -->
+  <circle fill="#000000" cx="34" cy="56" r="18"/>
+  <circle fill="#000000" cx="66" cy="56" r="18"/>
+  <circle fill="#000000" cx="50" cy="76" r="18"/>
+  <polygon fill="#000000" points="47,38 53,38 55,14 45,14"/>
+  <path fill="#000000" d="M 48,26 C 32,12 18,14 14,24 C 24,34 38,34 48,26 Z"/>
+  <path fill="#000000" d="M 52,26 C 68,12 82,14 86,24 C 76,34 62,34 52,26 Z"/>
+</svg>

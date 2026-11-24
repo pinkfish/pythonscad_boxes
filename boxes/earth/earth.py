@@ -26,7 +26,9 @@ from pyboxbuilder import (
     CompartmentElement,
     ElementShape,
     FingerCut,
+    LabelFinial,
     LabelMode,
+    LabelShape,
     LidBuilder,
     PatternBuilder,
     PatternType,
@@ -145,16 +147,34 @@ project = Project(
     generate_spacers=True,
 )
 
-EARTH_PATTERN = PatternBuilder(PatternType.DENSE_HEX)
+EARTH_PATTERN = PatternBuilder(PatternType.LEAF_TESSELLATION)
+EARTH_FONT = "Georgia:style=Bold"
 
 
-def _lid(text: str, frame_color: str, text_color: str = "white") -> LidBuilder:
+def _lid(
+    text: str,
+    frame_color: str,
+    text_color: str = "white",
+    *,
+    shape: LabelShape = LabelShape.SCROLL,
+    logo_file: str | None = None,
+    logo_size: float = 15.0,
+    narrow: bool = False,
+) -> LidBuilder:
+    use_logo = logo_file is not None and not narrow
     return LidBuilder(
         text=text,
         label_mode=LabelMode.FRAMED,
+        label_shape=shape,
+        label_finial=LabelFinial.NONE if narrow else LabelFinial.FLEURON,
+        font=EARTH_FONT,
         pattern=EARTH_PATTERN,
         text_color=Color(text_color),
         frame_color=Color(frame_color),
+        logo=str(ASSETS / logo_file) if use_logo and logo_file is not None else None,
+        logo_color=Color(text_color) if use_logo else None,
+        logo_position="left" if use_logo else None,
+        label_logo_size_mm=logo_size if use_logo else None,
     )
 
 
@@ -187,7 +207,7 @@ project.box(
     "CompostBox_1",
     size=(card_box_width, card_box_length, compost_box_height),
     position=(card_box_width * 3.0, 0.0, earth_small_box_height),
-    lid=_lid("Compost", "dimgray"),
+    lid=_lid("Compost", "dimgray", shape=LabelShape.OVAL, logo_file="compost.svg", logo_size=15.0),
 ).compartment("Compost", cut=FingerCut.SCOOP)
 
 project.box(
@@ -195,7 +215,7 @@ project.box(
     "CompostBox_2",
     size=(card_box_width, card_box_length, compost_box_height),
     position=(card_box_width * 3.0, 0.0, earth_small_box_height + compost_box_height),
-    lid=_lid("Compost", "dimgray"),
+    lid=_lid("Compost", "dimgray", shape=LabelShape.OVAL, logo_file="compost.svg", logo_size=15.0),
 ).compartment("Compost", cut=FingerCut.SCOOP)
 
 project.box(
@@ -204,7 +224,7 @@ project.box(
     size=(seed_box_width, seed_box_length, seed_box_height),
     position=(card_box_width * 4.0, 0.0, 0.0),
     wall_thickness=2.0,
-    lid=_lid("Seeds", "saddlebrown"),
+    lid=_lid("Seeds", "saddlebrown", shape=LabelShape.OVAL, narrow=True),
 ).compartment("Seeds", cut=FingerCut.SCOOP)
 
 project.box(
@@ -461,7 +481,7 @@ start_box = project.box(
     "StartBox",
     size=(card_box_width, card_box_length, start_box_height),
     position=(card_box_width, card_box_length, col1_z),
-    lid=_lid("Start", "olive"),
+    lid=_lid("Start", "olive", shape=LabelShape.OVAL),
 )
 start_box.compartment(
     "StartTokens",
@@ -482,6 +502,9 @@ for idx, color_name in enumerate(player_colors):
             f"Player ({color_name.title()})",
             color_name,
             text_color="black" if color_name in ("yellow", "pink") else "white",
+            shape=LabelShape.OVAL,
+            logo_file="leaf_teardrop.svg",
+            logo_size=15.0,
         ),
     )
     p_box.compartment(
@@ -497,7 +520,7 @@ project.box(
     "CanopyBox",
     size=(canopy_box_width, canopy_box_length, canopy_box_height),
     position=(0.0, card_box_length * 2.0, 0.0),
-    lid=_lid("Canopy", "peru"),
+    lid=_lid("Canopy", "peru", shape=LabelShape.OVAL, logo_file="canopy.svg", logo_size=18.0),
 ).compartment("CanopiesAndTrunks", cut=FingerCut.SCOOP)
 
 project.box(
@@ -513,7 +536,7 @@ project.box(
     "SproutBox",
     size=(sprout_box_width, sprout_box_length, sprout_box_height),
     position=(canopy_box_width, card_box_length * 2.0, score_pad_box_height),
-    lid=_lid("Sprouts", "limegreen"),
+    lid=_lid("Sprouts", "limegreen", shape=LabelShape.OVAL, logo_file="sprout.svg", logo_size=16.0),
 ).compartment("SproutCubes", cut=FingerCut.SCOOP)
 
 # ── Export ────────────────────────────────────────────────────────
