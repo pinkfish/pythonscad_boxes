@@ -12,7 +12,7 @@ per-side wall tops and their interior masks while the preview kept all three.
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Sequence
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -20,7 +20,13 @@ from typing import TYPE_CHECKING, Any
 from pyboxbuilder.enums import BoxType, FingerCut, InterlockType, ScoopSide, StackableMode
 from pyboxbuilder.helpers import CardSize, SleeveType
 from pyboxbuilder.project.compiler import LayoutCompiler
-from pyboxbuilder.project.manifest import ProjectManifest
+from pyboxbuilder.project.inventory import (
+    InventoryVerification,
+    ProjectInventory,
+    summarize_project,
+    verify_inventory,
+)
+from pyboxbuilder.project.manifest import GameBoard, GameComponent, ProjectManifest
 from pyboxbuilder.project.piece import Build, Piece, ResolvedBox
 from pyboxbuilder.project.pipeline import GeometryPipeline
 
@@ -202,6 +208,87 @@ class Project:
     def boxes(self) -> list[BoxBuilder]:
         """Registered sub-box builders."""
         return self._manifest.boxes
+
+    @property
+    def boards(self) -> list[GameBoard]:
+        """Registered non-printed game boards, screens, or playmats."""
+        return self._manifest.boards
+
+    @property
+    def components(self) -> list[GameComponent]:
+        """Declared physical game component inventory."""
+        return self._manifest.components
+
+    def component(
+        self,
+        name: str,
+        count: int,
+        *,
+        category: str = "",
+        notes: str = "",
+    ) -> GameComponent:
+        """Declare a physical game component type in the project's piece inventory."""
+        gc = GameComponent(name=name, count=int(count), category=category, notes=notes)
+        return self._manifest.add_component(gc)
+
+    def define_inventory(
+        self,
+        items: Mapping[str, int] | Sequence[GameComponent],
+    ) -> list[GameComponent]:
+        """Register the game's full piece inventory from a ``{name: count}`` mapping or sequence."""
+        added: list[GameComponent] = []
+        if isinstance(items, Mapping):
+            for name, qty in items.items():
+                added.append(self.component(name, qty))
+        else:
+            for item in items:
+                added.append(self._manifest.add_component(item))
+        return added
+
+    def verify_inventory(self, *, strict: bool = True) -> InventoryVerification:
+        """Verify that all declared inventory components are allocated across boxes and boards."""
+        return verify_inventory(self._manifest, strict=strict)
+
+    def board(
+        self,
+        label: str,
+        *,
+        size: tuple[float, float, float],
+        position: tuple[float, float, float],
+        count: int = 1,
+        notes: str = "",
+        component: str | None = None,
+        allocates: Mapping[str, int] | Sequence[tuple[str, int]] | None = None,
+    ) -> GameBoard:
+        """Register a non-printed game board, rulebook, screen, or playmat region.
+
+        Auto-packed boxes and auto-generated spacers avoid this 3-D region, no
+        STL is generated for it, and both the packing guide PDF and Sphinx box
+        summary render and count it explicitly.
+        """
+        norm_alloc: tuple[tuple[str, int], ...] = ()
+        if allocates is not None:
+            if isinstance(allocates, Mapping):
+                norm_alloc = tuple((str(k), int(v)) for k, v in allocates.items())
+            else:
+                norm_alloc = tuple((str(k), int(v)) for k, v in allocates)
+        gb = GameBoard(
+            label=label,
+            size=(float(size[0]), float(size[1]), float(size[2])),
+            position=(float(position[0]), float(position[1]), float(position[2])),
+            count=count,
+            notes=notes,
+            component=component,
+            allocates=norm_alloc,
+        )
+        return self._manifest.add_board(gb)
+
+    def inventory(self, *, spacer_count: int | None = None) -> ProjectInventory:
+        """Return the extracted printed-part, board, and stored-piece inventory."""
+        if spacer_count is None:
+            build = self.build()
+            spacer_count = len(build.packing.spacer_placements) if build.packing else 0
+        return summarize_project(self._manifest, spacer_count=spacer_count)
 
     def box(
         self,

@@ -160,6 +160,38 @@ project = Project(
     generate_spacers=True,
     box_defaults={"expandable": False},
 )
+project.define_inventory(
+    {
+        "Game Map Boards": 5,
+        "Eastern US Operations Cards": eastern_us_cards,
+        "Bond Cards": 40,
+        "Australia Expansion Cards": australia_cards,
+        "Sweden Expansion Cards": sweden_cards,
+        "Mexico Expansion Cards": mexico_cards,
+        "Portugal Expansion Cards": portugal_cards,
+        "Empty City Markers": 30,
+        "Player Train Miniatures": 25 * 6,
+        "Player Locomotive Cards": 4 * 6,
+        "Player Score Markers": 1 * 6,
+        "Base Track Hex Tiles": 134,
+        "Paper Currency Bills": 100,
+        "New City Hex Tiles": 8,
+        "New City Markers": 10,
+        "Australia Track Hex Tiles": 20,
+        "Australia Bonus Tiles": 4,
+        "Australia Switch Track Tokens": 8,
+        "Sweden Track Hex Tiles": 18,
+        "Sweden Bonus Tiles": 4,
+    }
+)
+project.board(
+    "Game Map Boards",
+    size=(box_width, box_length, total_board_thickness),
+    position=(0.0, 0.0, 0.0),
+    count=5,
+    component="Game Map Boards",
+    notes="Folded map boards stored flat underneath the insert",
+)
 
 ROTW_PATTERN = PatternBuilder(PatternType.TUMBLING_BLOCKS)
 ROTW_FONT = "Georgia:style=Bold"
@@ -228,6 +260,10 @@ project.box(
         min_spacing=inner_wall,
         allow_rotate=False,
     ),
+    allocates={
+        "Eastern US Operations Cards": eastern_us_cards,
+        "Bond Cards": 40,
+    },
 )
 
 # Australia Card Box
@@ -244,6 +280,8 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    component="Australia Expansion Cards",
+    count=australia_cards,
 )
 
 # Sweden Card Box
@@ -260,6 +298,8 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    component="Sweden Expansion Cards",
+    count=sweden_cards,
 )
 
 # Mexico Card Box
@@ -273,6 +313,8 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    component="Mexico Expansion Cards",
+    count=mexico_cards,
 )
 
 # Portugal Card Box
@@ -289,6 +331,8 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    component="Portugal Expansion Cards",
+    count=portugal_cards,
 )
 
 # ── 2. Empty City Boxes ────────────────────────────────────────────
@@ -302,6 +346,8 @@ for idx in (1, 2):
     ).compartment(
         "Markers",
         cut=FingerCut.SCOOP,
+        component="Empty City Markers",
+        count=15,
     )
 
 # ── 3. Player Boxes ────────────────────────────────────────────────
@@ -319,6 +365,8 @@ for color_name in PLAYER_COLORS:
     ).compartment(
         "Trains",
         cut=FingerCut.SCOOP,
+        component="Player Train Miniatures",
+        count=25,
     )
 
 # 6 Player Card & Marker Boxes
@@ -360,6 +408,10 @@ for color_name in PLAYER_COLORS:
             _inner_size(player_box_size),
             allow_rotate=False,
         ),
+        allocates={
+            "Player Locomotive Cards": 4,
+            "Player Score Markers": 1,
+        },
     )
 
 # ── 4. Track Hex Boxes (2 boxes) ───────────────────────────────────
@@ -373,6 +425,8 @@ for i in range(2):
     ).compartment(
         "HexGrid",
         cut=FingerCut.SCOOP,
+        component="Base Track Hex Tiles",
+        count=67,
     )
 
 # ── 5. Money Box & New City Box ────────────────────────────────────
@@ -385,6 +439,8 @@ project.box(
 ).compartment(
     "Money",
     cut=FingerCut.SCOOP,
+    component="Paper Currency Bills",
+    count=100,
 )
 
 new_city_box_size = (
@@ -430,6 +486,10 @@ project.box(
         ],
         _inner_size(new_city_box_size),
     ),
+    allocates={
+        "New City Hex Tiles": 8,
+        "New City Markers": 10,
+    },
 )
 
 # ── 6. Expansion Boxes ─────────────────────────────────────────────
@@ -479,6 +539,11 @@ project.box(
         ],
         _inner_size(australia_box_size),
     ),
+    allocates={
+        "Australia Track Hex Tiles": 20,
+        "Australia Bonus Tiles": 4,
+        "Australia Switch Track Tokens": 8,
+    },
 )
 
 # Sweden Expansion Box
@@ -518,6 +583,10 @@ project.box(
         ],
         _inner_size(sweden_box_size),
     ),
+    allocates={
+        "Sweden Track Hex Tiles": 18,
+        "Sweden Bonus Tiles": 4,
+    },
 )
 
 # ── 7. Spacers ─────────────────────────────────────────────────────

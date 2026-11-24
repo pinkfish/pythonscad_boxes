@@ -24,59 +24,68 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/cascadero/Cascadero_packing_guide.pdf?v=42c8808d" download="Cascadero_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Cascadero_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/cascadero/Cascadero_packing_guide.pdf?v=42c8808d" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/cascadero/Cascadero_packing_guide.pdf?v=47096ca8" download="Cascadero_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Cascadero_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/cascadero/Cascadero_packing_guide.pdf?v=47096ca8" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/cascadero/Cascadero_packing_guide.pdf?v=42c8808d" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/cascadero/Cascadero_packing_guide.pdf?v=47096ca8" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 7 bodies, 7 lids, 0 spacers (14 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 184
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`PlayerBox_1 <box-cascadero-playerbox_1>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``105 × 105 × 26 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 30x Player Envoys, 5x Success Track Cubes, 1x Player Score Markers
    * - :ref:`PlayerBox_2 <box-cascadero-playerbox_2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``107 × 105 × 26 mm``
      - ``(105, 0, 0)``
-     - 1
+     - 30x Player Envoys, 5x Success Track Cubes, 1x Player Score Markers
    * - :ref:`PlayerBox_3 <box-cascadero-playerbox_3>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``105 × 105 × 26 mm``
      - ``(0, 105, 0)``
-     - 1
+     - 30x Player Envoys, 5x Success Track Cubes, 1x Player Score Markers
    * - :ref:`PlayerBox_4 <box-cascadero-playerbox_4>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``107 × 105 × 26 mm``
      - ``(105, 105, 0)``
-     - 1
+     - 30x Player Envoys, 5x Success Track Cubes, 1x Player Score Markers
    * - :ref:`SealsBox <box-cascadero-sealsbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``85 × 94 × 26 mm``
      - ``(0, 210, 0)``
-     - 1
+     - 12x Royal Seals
    * - :ref:`HeraldBox <box-cascadero-heraldbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``42 × 94 × 26 mm``
      - ``(170, 210, 0)``
-     - 1
+     - 4x Royal Heralds
    * - :ref:`FarmerBox <box-cascadero-farmerbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``85 × 94 × 26 mm``
      - ``(85, 210, 0)``
-     - 1
+     - 24x Farmer Tiles
+   * - Main Board & Rulebook
+     - Board / Non-Printed
+     - ``212 × 304 × 14 mm``
+     - ``(0, 0, 26)``
+     - 1x Main Board & Rulebook (Folded map board and rulebook sit atop the insert)
 
 Individual Boxes & Parts
 ------------------------
@@ -89,6 +98,7 @@ PlayerBox_1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``105 × 105 × 26 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 30x Player Envoys, 5x Success Track Cubes, 1x Player Score Markers
 - **Compartments (1)**: ``PlayerWells`` (101 × 101 mm, 3 elements)
 
 **Assembled Box (PlayerBox_1 — Body + Lid)**
@@ -126,6 +136,7 @@ PlayerBox_2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``107 × 105 × 26 mm``
 - **Packed Position**: ``(105, 0, 0)``
+- **Pieces / Contents**: 30x Player Envoys, 5x Success Track Cubes, 1x Player Score Markers
 - **Compartments (1)**: ``PlayerWells`` (101 × 101 mm, 3 elements)
 
 **Assembled Box (PlayerBox_2 — Body + Lid)**
@@ -163,6 +174,7 @@ PlayerBox_3
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``105 × 105 × 26 mm``
 - **Packed Position**: ``(0, 105, 0)``
+- **Pieces / Contents**: 30x Player Envoys, 5x Success Track Cubes, 1x Player Score Markers
 - **Compartments (1)**: ``PlayerWells`` (101 × 101 mm, 3 elements)
 
 **Assembled Box (PlayerBox_3 — Body + Lid)**
@@ -200,6 +212,7 @@ PlayerBox_4
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``107 × 105 × 26 mm``
 - **Packed Position**: ``(105, 105, 0)``
+- **Pieces / Contents**: 30x Player Envoys, 5x Success Track Cubes, 1x Player Score Markers
 - **Compartments (1)**: ``PlayerWells`` (101 × 101 mm, 3 elements)
 
 **Assembled Box (PlayerBox_4 — Body + Lid)**
@@ -237,6 +250,7 @@ SealsBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``85 × 94 × 26 mm``
 - **Packed Position**: ``(0, 210, 0)``
+- **Pieces / Contents**: 12x Royal Seals
 - **Compartments (1)**: ``Seals`` (full interior)
 
 **Assembled Box (SealsBox — Body + Lid)**
@@ -274,6 +288,7 @@ HeraldBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``42 × 94 × 26 mm``
 - **Packed Position**: ``(170, 210, 0)``
+- **Pieces / Contents**: 4x Royal Heralds
 - **Compartments (1)**: ``Heralds`` (full interior)
 
 **Assembled Box (HeraldBox — Body + Lid)**
@@ -311,6 +326,7 @@ FarmerBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``85 × 94 × 26 mm``
 - **Packed Position**: ``(85, 210, 0)``
+- **Pieces / Contents**: 24x Farmer Tiles
 - **Compartments (1)**: ``Farmers`` (full interior)
 
 **Assembled Box (FarmerBox — Body + Lid)**

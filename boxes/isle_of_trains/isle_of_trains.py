@@ -101,6 +101,20 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory({
+    "Destination Tiles": num_destination_tiles,
+    "Track Tiles": num_track_tiles,
+    "Victory 1-VP Hexes": num_victory_tokens[0],
+    "Victory 3-VP Hexes": num_victory_tokens[1],
+    "Victory 5-VP Hexes": num_victory_tokens[2],
+    "Victory 10-VP Hexes": num_victory_tokens[3],
+    "Passenger Meeples": 18,
+    "Island Cards": 7,
+    "Train Cards": 71,
+    "Ticket Tiles": num_ticket_tiles,
+    "Train Marker": 1,
+})
+
 TRAIN_PATTERN = PatternBuilder(PatternType.RING)
 TRAIN_FONT = "Georgia:style=Bold"
 
@@ -152,6 +166,10 @@ project.box(
     "DestinationsAndTracks",
     size=(dest_inner_w, dest_inner_l),
     position=(0.0, 0.0),
+    allocates={
+        "Destination Tiles": num_destination_tiles,
+        "Track Tiles": num_track_tiles,
+    },
     elements=(
         CompartmentElement(
             shape=ElementShape.SVG,
@@ -228,6 +246,12 @@ project.box(
     "VictoryHexTokens",
     size=(vic_inner_w, vic_inner_l),
     position=(0.0, 0.0),
+    allocates={
+        "Victory 1-VP Hexes": num_victory_tokens[0],
+        "Victory 3-VP Hexes": num_victory_tokens[1],
+        "Victory 5-VP Hexes": num_victory_tokens[2],
+        "Victory 10-VP Hexes": num_victory_tokens[3],
+    },
     elements=(
         # 1-VP hex stack stored on-edge + finger channel
         CompartmentElement(
@@ -332,6 +356,8 @@ mid_box = project.box(
 mid_box.compartment(
     "Tokens",
     cut=FingerCut.SCOOP,
+    component="Passenger Meeples",
+    count=18,
 )
 
 # ── 3. Playing Cards Box ──────────────────────────────────────────
@@ -345,6 +371,7 @@ card_box = project.box(
 card_box.compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    allocates={"Island Cards": 7, "Train Cards": 71},
 )
 
 # ── 4. Ticket Tiles & Train Token Box ─────────────────────────────
@@ -371,6 +398,7 @@ project.box(
     "TicketsAndTrain",
     size=(ticket_inner_w, ticket_inner_l),
     position=(0.0, 0.0),
+    allocates={"Ticket Tiles": num_ticket_tiles, "Train Marker": 1},
     elements=(
         # Standing ticket tiles slot + cross finger scoop
         CompartmentElement(

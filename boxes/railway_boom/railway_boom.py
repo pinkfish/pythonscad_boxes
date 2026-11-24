@@ -146,6 +146,48 @@ project = Project(
     board_thickness=board_thickness,
     generate_spacers=True,
 )
+project.define_inventory(
+    {
+        "Main Board": 1,
+        "Player Boards": player_board_num,
+        "Player Trains": 30 * 4,
+        "Player Cubes": 23 * 4,
+        "Player Stations": 4 * 4,
+        "Player Discs": 1 * 4,
+        "Player Pentagons": 1 * 4,
+        "Station Cards": 36,
+        "Objective Cards": objective_cards,
+        "Route Cards": 7,
+        "Carriage Cards": 30,
+        "Locomotive Cards": 26,
+        "Development Cards": 74,
+        "Regular City Tiles": 36,
+        "Tourist City Tiles": 14,
+        "Octagonal Indicators": 4,
+        "Material Tokens": 30,
+        "VP Tokens": 30,
+        "Tech Tokens": 20,
+        "Coal Tokens": 30,
+        "Money Tokens": 40,
+    }
+)
+
+project.board(
+    "Main Board",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, full_usable_height),
+    count=1,
+    component="Main Board",
+    notes="Top of box",
+)
+project.board(
+    "Player Boards",
+    size=(player_board_width, 228.0, player_board_thickness * player_board_num),
+    position=(0.0, 0.0, usable_height),
+    count=player_board_num,
+    component="Player Boards",
+    notes="Stacked above player, station & small card boxes",
+)
 
 BOOM_PATTERN = PatternBuilder(PatternType.OCTAGON)
 BOOM_FONT = "Futura:style=Bold"
@@ -346,6 +388,13 @@ for label, color_name, pos in player_specs:
         size=(player_inner_w, player_inner_l),
         position=(0.0, 0.0),
         elements=_player_box_elements(),
+        allocates={
+            "Player Trains": 30,
+            "Player Cubes": 23,
+            "Player Stations": 4,
+            "Player Discs": 1,
+            "Player Pentagons": 1,
+        },
     )
 
 project.box(
@@ -364,7 +413,7 @@ project.box(
     size=(card_box_width, card_box_length, station_card_box_height),
     position=(0.0, y_row1, 0.0),
     lid=_lid("Stations", "navy"),
-).compartment("StationCards", cut=FingerCut.SCOOP)
+).compartment("StationCards", cut=FingerCut.SCOOP, component="Station Cards", count=36)
 
 project.box(
     BoxType.SLIDING,
@@ -372,7 +421,7 @@ project.box(
     size=(card_box_width, card_box_length, objective_card_box_height),
     position=(card_box_width, y_row1, 0.0),
     lid=_lid("Objectives", "darkorange"),
-).compartment("ObjectiveCards", cut=FingerCut.SCOOP)
+).compartment("ObjectiveCards", cut=FingerCut.SCOOP, component="Objective Cards", count=objective_cards)
 
 project.box(
     BoxType.SLIDING,
@@ -380,7 +429,7 @@ project.box(
     size=(card_box_width, card_box_length, route_card_box_height),
     position=(card_box_width, y_row1, objective_card_box_height),
     lid=_lid("Routes", "teal"),
-).compartment("RouteCards", cut=FingerCut.SCOOP)
+).compartment("RouteCards", cut=FingerCut.SCOOP, component="Route Cards", count=7)
 
 tourist_inner_w = tourist_tile_box_width - 1.5 * 2.0  # 10.0mm
 tourist_inner_l = tourist_tile_box_length - 1.5 * 2.0  # 70.0mm
@@ -417,6 +466,8 @@ project.box(
             label="TouristFingerSlot",
         ),
     ),
+    component="Tourist City Tiles",
+    count=14,
 )
 
 # ── 3. Row 2 (Y = 181..233): Carriages, Locomotives, City Tiles & Front Spacer
@@ -427,7 +478,7 @@ project.box(
     size=(small_card_box_width, small_card_box_length, usable_height),
     position=(0.0, y_row2, 0.0),
     lid=_lid("Carriages", "peru"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Carriage Cards", count=30)
 
 project.box(
     BoxType.SLIDING,
@@ -435,7 +486,7 @@ project.box(
     size=(small_card_box_width, small_card_box_length, usable_height),
     position=(small_card_box_width, y_row2, 0.0),
     lid=_lid("Locomotives", "darkred"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Locomotive Cards", count=26)
 
 city_inner_w = city_tile_box_width - wall_thickness * 2.0  # 46.0mm
 city_inner_l = city_tile_box_length - wall_thickness * 2.0  # 46.0mm
@@ -502,6 +553,8 @@ project.box(
     size=(city_inner_w, city_inner_l),
     position=(0.0, 0.0),
     elements=city_elements,
+    component="Regular City Tiles",
+    count=36,
 )
 
 project.box(
@@ -520,7 +573,7 @@ project.box(
     size=(small_card_box_width, small_card_box_length, development_card_box_height),
     position=(0.0, y_row3, 0.0),
     lid=_lid("Development", "royalblue"),
-).compartment("DevelopmentCards", cut=FingerCut.SCOOP)
+).compartment("DevelopmentCards", cut=FingerCut.SCOOP, component="Development Cards", count=37)
 
 project.box(
     BoxType.SLIDING,
@@ -528,7 +581,7 @@ project.box(
     size=(small_card_box_width, small_card_box_length, development_card_box_height),
     position=(small_card_box_width, y_row3, 0.0),
     lid=_lid("Development", "royalblue"),
-).compartment("DevelopmentCards", cut=FingerCut.SCOOP)
+).compartment("DevelopmentCards", cut=FingerCut.SCOOP, component="Development Cards", count=37)
 
 resource_specs = [
     (
@@ -537,6 +590,8 @@ resource_specs = [
         "saddlebrown",
         "materials.svg",
         (small_card_box_width * 2.0, y_row3, 0.0),
+        "Material Tokens",
+        30,
     ),
     (
         "ResourceBox_VP",
@@ -544,6 +599,8 @@ resource_specs = [
         "blue",
         "vp_star.svg",
         (small_card_box_width * 2.0, y_row3, resource_box_height),
+        "VP Tokens",
+        30,
     ),
     (
         "ResourceBox_Tech",
@@ -551,6 +608,8 @@ resource_specs = [
         "purple",
         "tech_gear.svg",
         (small_card_box_width * 2.0, y_row3 + resource_box_length, 0.0),
+        "Tech Tokens",
+        20,
     ),
     (
         "ResourceBox_Coal",
@@ -558,16 +617,18 @@ resource_specs = [
         "black",
         "coal.svg",
         (small_card_box_width * 2.0, y_row3 + resource_box_length, resource_box_height),
+        "Coal Tokens",
+        30,
     ),
 ]
-for label, title, color_name, icon_file, pos in resource_specs:
+for label, title, color_name, icon_file, pos, comp_name, comp_qty in resource_specs:
     project.box(
         BoxType.CAP,
         label,
         size=(resource_box_width, resource_box_length, resource_box_height),
         position=pos,
         lid=_lid(title, color_name, image=str(ASSETS / icon_file), logo_size_mm=14.0),
-    ).compartment(title, cut=FingerCut.SCOOP)
+    ).compartment(title, cut=FingerCut.SCOOP, component=comp_name, count=comp_qty)
 
 # ── 5. Row 4 (Y = 285..299): Indicator Box & Money Box ───────────
 y_row4 = y_row3 + small_card_box_length  # 285.0mm
@@ -609,6 +670,8 @@ project.box(
     size=(indicator_inner_w, indicator_inner_l),
     position=(0.0, 0.0),
     elements=indicator_elements,
+    component="Octagonal Indicators",
+    count=4,
 )
 
 project.box(
@@ -618,7 +681,7 @@ project.box(
     position=(indicator_box_width, y_row4, 0.0),
     wall_thickness=1.5,
     lid=_lid("Money", "darkorange", finial=LabelFinial.NONE),
-).compartment("Money", cut=FingerCut.SCOOP)
+).compartment("Money", cut=FingerCut.SCOOP, component="Money Tokens", count=40)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

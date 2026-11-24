@@ -651,7 +651,7 @@ def _populate_root_boxes(project: Project) -> None:
         card_size=(74.875, 93.5),
         size=card_size,
         lid=replace(LID_BASE, text="Shared"),
-    )
+    ).allocate("Shared Deck Cards", 54)
 
     card_erie_size = (79.875, 98.5, 8.6)
     project.card_box(
@@ -659,7 +659,7 @@ def _populate_root_boxes(project: Project) -> None:
         card_size=(74.875, 93.5),
         size=card_erie_size,
         lid=LID_ERIE,
-    )
+    ).allocate("Eyrie Leader & Vizier Cards", 6)
 
     card_vagabond_size = (79.875, 98.5, 19.4)
     project.card_box(
@@ -668,7 +668,7 @@ def _populate_root_boxes(project: Project) -> None:
         size=card_vagabond_size,
         lid=LID_VAGABOND,
         color=Color("green"),
-    )
+    ).allocate("Vagabond Quest & Character Cards", 21)
 
     card_overview_size = (79.875, 98.5, 11.0)
     project.card_box(
@@ -676,7 +676,7 @@ def _populate_root_boxes(project: Project) -> None:
         card_size=(74.875, 93.5),
         size=card_overview_size,
         lid=LID_BASE.titled("Overview"),
-    )
+    ).allocate("Faction Overview Cards", 6)
 
     # Stacked Item Boxes
     item_box_length = 103.5
@@ -714,6 +714,10 @@ def _populate_root_boxes(project: Project) -> None:
             spacing_y=1.16,
             comp_depth=6.0,
         ),
+        allocates={
+            "Vagabond Starting & Craftable Items": 12,
+            "Ruin Items": 8,
+        },
     )
 
     # ItemsBoxMiddle (comp_depth = 5.0)
@@ -747,6 +751,10 @@ def _populate_root_boxes(project: Project) -> None:
             spacing_y=1.16,
             comp_depth=5.0,
         ),
+        allocates={
+            "Vagabond Starting & Craftable Items": 12,
+            "Ruin Items": 4,
+        },
     )
 
     # ItemsBoxWinter (comp_depth = 5.0)
@@ -781,6 +789,8 @@ def _populate_root_boxes(project: Project) -> None:
             spacing_y=1.0,
             comp_depth=5.0,
         ),
+        component="Winter Clearing Markers",
+        count=12,
     )
 
     # ItemsBoxExtras (comp_depth = 7.0)
@@ -857,6 +867,8 @@ def _populate_root_boxes(project: Project) -> None:
             spacing_y=3.3,
             comp_depth=7.0,
         ),
+        component="Extra Scenario Tokens",
+        count=8,
     )
 
     def _pack_pockets(
@@ -942,6 +954,8 @@ def _populate_root_boxes(project: Project) -> None:
                 for width, p_w in ((73.0, 65.0), (73.0, 65.0), (82.0, 75.0))
             ],
         ),
+        component="Marquise Warriors",
+        count=25,
     )
 
     # Marquis Box Top
@@ -1033,6 +1047,14 @@ def _populate_root_boxes(project: Project) -> None:
                 ),
             ],
         ),
+        allocates={
+            "Marquise Wood Tokens": 8,
+            "Marquise Sawmills": 6,
+            "Marquise Workshops": 6,
+            "Marquise Recruiters": 6,
+            "Marquise Keep Token": 1,
+            "Marquise Score Marker": 1,
+        },
     )
 
     # Erie Box Bottom
@@ -1059,6 +1081,8 @@ def _populate_root_boxes(project: Project) -> None:
                 for _ in range(2)
             ],
         ),
+        component="Eyrie Warriors",
+        count=20,
     )
 
     # Erie Box Top
@@ -1093,6 +1117,10 @@ def _populate_root_boxes(project: Project) -> None:
                 ),
             ],
         ),
+        allocates={
+            "Eyrie Roosts": 7,
+            "Eyrie Score Marker": 1,
+        },
     )
 
     # Alliance Box Bottom
@@ -1119,6 +1147,8 @@ def _populate_root_boxes(project: Project) -> None:
                 for _ in range(2)
             ],
         ),
+        component="Woodland Alliance Warriors",
+        count=10,
     )
 
     # Alliance Box Top (4 pockets: Score, 3 Bases, 2x5 Sympathy)
@@ -1158,6 +1188,11 @@ def _populate_root_boxes(project: Project) -> None:
                 ),
             ],
         ),
+        allocates={
+            "Woodland Alliance Sympathy Tokens": 10,
+            "Woodland Alliance Bases": 3,
+            "Woodland Alliance Score Marker": 1,
+        },
     )
 
     # Lizard Box Bottom
@@ -1185,6 +1220,8 @@ def _populate_root_boxes(project: Project) -> None:
                 for _ in range(25)
             ],
         ),
+        component="Lizard Cult Warriors",
+        count=25,
     )
 
     # Lizard Box Top
@@ -1232,6 +1269,12 @@ def _populate_root_boxes(project: Project) -> None:
                 ),
             ],
         ),
+        allocates={
+            "Lizard Cult Gardens": 15,
+            "Lizard Cult Outcast Marker": 1,
+            "Lizard Cult Lost Souls Marker": 1,
+            "Lizard Cult Score Marker": 1,
+        },
     )
 
     # Riverfolk Box Bottom
@@ -1258,6 +1301,8 @@ def _populate_root_boxes(project: Project) -> None:
                 for _ in range(3)
             ],
         ),
+        component="Riverfolk Warriors",
+        count=15,
     )
 
     # Riverfolk Box Top (7 pockets: Score + 3 Glass Gems + 3 Trade Post suits)
@@ -1301,6 +1346,11 @@ def _populate_root_boxes(project: Project) -> None:
                 ],
             ],
         ),
+        allocates={
+            "Riverfolk Trade Posts": 9,
+            "Riverfolk Glass Gems": 3,
+            "Riverfolk Score Marker": 1,
+        },
     )
 
     # Vagabond Boxes (2 stacked boxes: Base + Riverfolk 2nd Vagabond)
@@ -1344,7 +1394,15 @@ def _populate_root_boxes(project: Project) -> None:
             size=vagabond_size,
             lid=LID_VAGABOND,
             color=Color("green"),
-        ).compartment("ItemsAndScore", elements=elements)
+        ).compartment(
+            "ItemsAndScore",
+            elements=elements,
+            allocates={
+                "Vagabond Meeples": 1,
+                "Vagabond Score Markers": 1,
+                "Vagabond Relationship Markers": 6,
+            },
+        )
 
     _add_vagabond_box("VagabondBox")
     _add_vagabond_box("VagabondBox2")
@@ -1372,6 +1430,8 @@ def _populate_root_boxes(project: Project) -> None:
                 for _ in range(2)
             ],
         ),
+        component="Combat Dice",
+        count=2,
     )
 
 
@@ -1380,6 +1440,68 @@ _STACK_GROUPS: tuple[tuple[str, ...], ...] = (
     ("ItemsBoxBottom", "ItemsBoxMiddle", "ItemsBoxWinter", "ItemsBoxExtras"),
     ("VagabondBox", "VagabondBox2"),
 )
+
+
+_ROOT_SUBGROUP_INVENTORY: dict[str, dict[str, int]] = {
+    "shared_cards": {
+        "Shared Deck Cards": 54,
+        "Faction Overview Cards": 6,
+    },
+    "items": {
+        "Vagabond Starting & Craftable Items": 24,
+        "Ruin Items": 12,
+        "Winter Clearing Markers": 12,
+        "Extra Scenario Tokens": 8,
+    },
+    "dice": {
+        "Combat Dice": 2,
+    },
+    "marquise": {
+        "Marquise Warriors": 25,
+        "Marquise Wood Tokens": 8,
+        "Marquise Sawmills": 6,
+        "Marquise Workshops": 6,
+        "Marquise Recruiters": 6,
+        "Marquise Keep Token": 1,
+        "Marquise Score Marker": 1,
+    },
+    "eyrie": {
+        "Eyrie Leader & Vizier Cards": 6,
+        "Eyrie Warriors": 20,
+        "Eyrie Roosts": 7,
+        "Eyrie Score Marker": 1,
+    },
+    "alliance": {
+        "Woodland Alliance Warriors": 10,
+        "Woodland Alliance Sympathy Tokens": 10,
+        "Woodland Alliance Bases": 3,
+        "Woodland Alliance Score Marker": 1,
+    },
+    "vagabond1": {
+        "Vagabond Quest & Character Cards": 21,
+        "Vagabond Meeples": 1,
+        "Vagabond Score Markers": 1,
+        "Vagabond Relationship Markers": 6,
+    },
+    "lizard_cult": {
+        "Lizard Cult Warriors": 25,
+        "Lizard Cult Gardens": 15,
+        "Lizard Cult Outcast Marker": 1,
+        "Lizard Cult Lost Souls Marker": 1,
+        "Lizard Cult Score Marker": 1,
+    },
+    "riverfolk_company": {
+        "Riverfolk Warriors": 15,
+        "Riverfolk Trade Posts": 9,
+        "Riverfolk Glass Gems": 3,
+        "Riverfolk Score Marker": 1,
+    },
+    "vagabond2": {
+        "Vagabond Meeples": 1,
+        "Vagabond Score Markers": 1,
+        "Vagabond Relationship Markers": 6,
+    },
+}
 
 
 def build_root_project(
@@ -1415,6 +1537,31 @@ def build_root_project(
         active_stack = [label for label in group if label in present]
         if len(active_stack) >= 2:
             root_project.stack_order(*active_stack, mode=StackableMode.PYRAMIDS)
+
+    inventory: dict[str, int] = {}
+    if not boards_external:
+        faction_boards = sum(
+            1
+            for sg in ("marquise", "eyrie", "alliance", "vagabond1", "lizard_cult", "riverfolk_company")
+            if sg in active_subgroups
+        )
+        inventory["Main Map Board"] = 1
+        if faction_boards:
+            inventory["Faction Boards"] = faction_boards
+        board_alloc = {"Main Map Board": 1}
+        if faction_boards:
+            board_alloc["Faction Boards"] = faction_boards
+        root_project.board(
+            "Map & Faction Boards",
+            size=(214.0, 278.0, ROOT_BOARD_BAY_HEIGHT_MM),
+            position=(0.0, 0.0, 0.0),
+            allocates=board_alloc,
+            notes="Folded map board, faction boards, and rulebooks in bottom bay",
+        )
+    for sg in active_subgroups:
+        for comp_name, qty in _ROOT_SUBGROUP_INVENTORY.get(sg, {}).items():
+            inventory[comp_name] = inventory.get(comp_name, 0) + qty
+    root_project.define_inventory(inventory)
 
     return root_project
 

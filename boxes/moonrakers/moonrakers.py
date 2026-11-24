@@ -81,6 +81,40 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+# ── Game Piece Inventory ──────────────────────────────────────────
+project.define_inventory({
+    "Thruster Cards": 25,
+    "Damage Cards": 35,
+    "Reactor Cards": 30,
+    "Miss Cards": 15,
+    "Shield Cards": 25,
+    "Reference Cards": 10,
+    "Crew Cards": 30,
+    "Contract Cards": 50,
+    "Ship Part Cards": 47,
+    "Objective Cards": 33,
+    "Hazard Dice": 4,
+    "Credit Coins": 50,
+    "Prestige Tokens": 5,
+    "Ship Standees": 5,
+    "Main Game Board": 1,
+    "Player Command Consoles": 5,
+    "Rulebook": 1,
+})
+
+project.board(
+    "Board, Command Consoles & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=7,
+    notes="Main board (9mm), 5 player command consoles (15mm), and rulebook atop insert",
+    allocates={
+        "Main Game Board": 1,
+        "Player Command Consoles": 5,
+        "Rulebook": 1,
+    },
+)
+
 MOON_PATTERN = PatternBuilder(PatternType.PENROSE)
 MOON_LID = LidBuilder(
     label_mode=LabelMode.FRAMED,
@@ -96,19 +130,19 @@ MOON_LID = LidBuilder(
 
 # ── 1. All 10 Card Decks (matching moonrakers.scad) ───────────────
 card_decks = [
-    ("Thrusters", "Thrusters", "gold", thruster_card_box_height, "thruster.svg"),
-    ("Damage", "Damage", "darkred", damage_card_box_height, "reactor.svg"),
-    ("Reactor", "Reactor", "royalblue", reactor_card_box_height, "reactor.svg"),
-    ("Miss", "Miss", "gray", miss_card_box_height, "dice.svg"),
-    ("Shield", "Shield", "forestgreen", shield_card_box_height, "shield.svg"),
-    ("Reference", "Reference", "slategray", reference_card_box_height, "shield.svg"),
-    ("Crew", "Crew", "darkorange", crew_card_box_height, "credit.svg"),
-    ("Contracts", "Contracts", "purple", contract_card_box_height, "credit.svg"),
-    ("Ships", "Ship Parts", "navy", ship_card_box_height, "thruster.svg"),
-    ("Objectives", "Objectives", "teal", objective_card_box_height, "credit.svg"),
+    ("Thrusters", "Thrusters", "gold", thruster_card_box_height, "thruster.svg", "Thruster Cards", 25),
+    ("Damage", "Damage", "darkred", damage_card_box_height, "reactor.svg", "Damage Cards", 35),
+    ("Reactor", "Reactor", "royalblue", reactor_card_box_height, "reactor.svg", "Reactor Cards", 30),
+    ("Miss", "Miss", "gray", miss_card_box_height, "dice.svg", "Miss Cards", 15),
+    ("Shield", "Shield", "forestgreen", shield_card_box_height, "shield.svg", "Shield Cards", 25),
+    ("Reference", "Reference", "slategray", reference_card_box_height, "shield.svg", "Reference Cards", 10),
+    ("Crew", "Crew", "darkorange", crew_card_box_height, "credit.svg", "Crew Cards", 30),
+    ("Contracts", "Contracts", "purple", contract_card_box_height, "credit.svg", "Contract Cards", 50),
+    ("Ships", "Ship Parts", "navy", ship_card_box_height, "thruster.svg", "Ship Part Cards", 47),
+    ("Objectives", "Objectives", "teal", objective_card_box_height, "credit.svg", "Objective Cards", 33),
 ]
 
-for deck_id, title, color_name, deck_height, icon_file in card_decks:
+for deck_id, title, color_name, deck_height, icon_file, comp_name, card_qty in card_decks:
     c_box = project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
@@ -119,7 +153,7 @@ for deck_id, title, color_name, deck_height, icon_file in card_decks:
             logo=str(ASSETS / icon_file),
         ),
     )
-    c_box.compartment("Cards", cut=FingerCut.SCOOP)
+    c_box.compartment("Cards", cut=FingerCut.SCOOP, component=comp_name, count=card_qty)
 
 # ── 2. Hazard Dice & Tokens Tray ──────────────────────────────────
 dice_box = project.box(
@@ -132,7 +166,16 @@ dice_box = project.box(
         logo=str(ASSETS / "dice.svg"),
     ),
 )
-dice_box.compartment("Dice", cut=FingerCut.SCOOP)
+dice_box.compartment(
+    "Dice",
+    cut=FingerCut.SCOOP,
+    allocates={
+        "Hazard Dice": 4,
+        "Credit Coins": 50,
+        "Prestige Tokens": 5,
+        "Ship Standees": 5,
+    },
+)
 
 project.stack_order("CardBox_Thrusters", "CardBox_Damage", "CardBox_Shield")
 project.stack_order("CardBox_Reactor", "CardBox_Miss", "CardBox_Crew", "CardBox_Reference")

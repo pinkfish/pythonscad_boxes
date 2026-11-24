@@ -132,6 +132,50 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory({
+    "Loop Tile": 1,
+    "Outback Small Tile": 1,
+    "Upgrade Tiles": 7,
+    "Expansion Cards": 16,
+    "Summon Tiles": 4,
+    "Silver Robots": 18,
+    "Gold Robots": 18,
+    "Orange Robots": 18,
+    "Nanobots": 48,
+    "Outback Hex Tiles": 4,
+    "Ghost Hex Tiles": 4,
+    "Metro Tickets": 24,
+    "Pink Commuters": 14,
+    "Aqua Commuters": 14,
+    "Coral Commuters": 11,
+    "Purple Commuters": 11,
+    "Map Boards": 3,
+    "Game Board Bases": 2,
+    "Player Boards": 4,
+})
+
+project.board(
+    "Map Boards",
+    size=(280.0, 281.0, game_board_thickness),
+    position=(box_width - 280.0, 0.0, box_height - game_board_thickness),
+    count=3,
+    component="Map Boards",
+)
+project.board(
+    "Game Board Bases",
+    size=(game_board_base_width, 272.0, game_board_base_thickness),
+    position=(box_width - game_board_base_width, 0.0, usable_height),
+    count=2,
+    component="Game Board Bases",
+)
+project.board(
+    "Player Boards",
+    size=(145.0, player_board_length, player_board_thickness * 4.0),
+    position=(0.0, 0.0, extra_hex_boxes_height),
+    count=4,
+    component="Player Boards",
+)
+
 METRO_PATTERN = PatternBuilder(PatternType.PENROSE)
 METRO_FONT = "Futura:style=Bold"
 
@@ -167,7 +211,11 @@ project.box(
     size=(extra_hex_boxes_width, extra_hex_boxes_length, extra_hex_boxes_height),
     position=(0.0, 0.0, 0.0),
     lid=_lid("Tiles", "darkorange"),
-).compartment("LoopAndOutbackTiles", cut=FingerCut.SCOOP)
+).compartment(
+    "LoopAndOutbackTiles",
+    cut=FingerCut.SCOOP,
+    allocates={"Loop Tile": 1, "Outback Small Tile": 1},
+)
 
 u_box = project.box(
     BoxType.CAP,
@@ -176,8 +224,14 @@ u_box = project.box(
     position=(0.0, extra_hex_boxes_length, 0.0),
     lid=_lid("Upgrades", "seagreen"),
 )
-for slot in range(3):
-    u_box.compartment(f"Upgrade_{slot + 1}", length_ratio=1.0 / 3.0, cut=FingerCut.SCOOP)
+for slot, upgrade_count in enumerate((3, 2, 2)):
+    u_box.compartment(
+        f"Upgrade_{slot + 1}",
+        length_ratio=1.0 / 3.0,
+        cut=FingerCut.SCOOP,
+        component="Upgrade Tiles",
+        count=upgrade_count,
+    )
 
 project.box(
     BoxType.SLIDING,
@@ -185,7 +239,7 @@ project.box(
     size=(card_box_width, card_box_length, card_box_height),
     position=(upgrade_box_width, extra_hex_boxes_length, 0.0),
     lid=_lid("Maps 2", "darkorange"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Expansion Cards", count=16)
 
 project.box(
     BoxType.NO_LID,
@@ -202,8 +256,8 @@ s_box = project.box(
     position=(0.0, extra_hex_boxes_length + upgrade_box_length, 0.0),
     lid=_lid("Summons", "purple", image=str(ASSETS / "ghost.svg"), logo_size_mm=14.0),
 )
-s_box.compartment("Summon_1", width_ratio=0.5, cut=FingerCut.SCOOP)
-s_box.compartment("Summon_2", width_ratio=0.5, cut=FingerCut.SCOOP)
+s_box.compartment("Summon_1", width_ratio=0.5, cut=FingerCut.SCOOP, component="Summon Tiles", count=2)
+s_box.compartment("Summon_2", width_ratio=0.5, cut=FingerCut.SCOOP, component="Summon Tiles", count=2)
 
 # ── 2. Upper Layer (Left Region: Z=14..21/31) ────────────────────
 project.box(
@@ -215,18 +269,18 @@ project.box(
 )
 
 robot_specs = [
-    ("RobotBox_Silver", "silver", 0),
-    ("RobotBox_Gold", "gold", 1),
-    ("RobotBox_Orange", "orange", 2),
+    ("RobotBox_Silver", "silver", 0, "Silver Robots"),
+    ("RobotBox_Gold", "gold", 1, "Gold Robots"),
+    ("RobotBox_Orange", "orange", 2, "Orange Robots"),
 ]
-for label, color_name, idx in robot_specs:
+for label, color_name, idx, comp_name in robot_specs:
     project.box(
         BoxType.CAP,
         label,
         size=(robot_box_width, robot_box_length, robot_box_height),
         position=(robot_box_width * idx, player_board_length, card_box_height),
         lid=_lid("Robots", color_name, image=str(ASSETS / "robot.svg"), logo_size_mm=15.0),
-    ).compartment("Robots", cut=FingerCut.SCOOP)
+    ).compartment("Robots", cut=FingerCut.SCOOP, component=comp_name, count=18)
 
 nanobot_specs = [
     ("NanobotBox_1", "darkorange", 0),
@@ -240,7 +294,7 @@ for label, color_name, idx in nanobot_specs:
         size=(nanobot_box_width, nanobot_box_length, nanobot_box_height),
         position=(nanobot_box_width * idx, player_board_length + robot_box_length, card_box_height),
         lid=_lid("Nanobots", color_name, image=str(ASSETS / "robot.svg"), logo_size_mm=14.0),
-    ).compartment("Nanobots", cut=FingerCut.SCOOP)
+    ).compartment("Nanobots", cut=FingerCut.SCOOP, component="Nanobots", count=16)
 
 # ── 3. Right Column: Outback & Ghost Hexes + Metro Tokens ────────
 t_box = project.box(
@@ -249,8 +303,8 @@ t_box = project.box(
     size=(outback_ghost_tiles_box_width, outback_ghost_tiles_box_length, outback_ghost_tiles_box_height),
     position=(extra_hex_boxes_width, 0.0, 0.0),
 )
-t_box.compartment("OutbackHexes", width_ratio=0.5, cut=FingerCut.SCOOP)
-t_box.compartment("GhostHexes", width_ratio=0.5, cut=FingerCut.SCOOP)
+t_box.compartment("OutbackHexes", width_ratio=0.5, cut=FingerCut.SCOOP, component="Outback Hex Tiles", count=4)
+t_box.compartment("GhostHexes", width_ratio=0.5, cut=FingerCut.SCOOP, component="Ghost Hex Tiles", count=4)
 
 project.box(
     BoxType.CAP,
@@ -258,23 +312,23 @@ project.box(
     size=(metro_token_box_width, metro_token_box_length, metro_token_box_height),
     position=(extra_hex_boxes_width, outback_ghost_tiles_box_length, 0.0),
     lid=_lid("Metro", "royalblue"),
-).compartment("MetroTickets", cut=FingerCut.SCOOP)
+).compartment("MetroTickets", cut=FingerCut.SCOOP, component="Metro Tickets", count=24)
 
 # ── 4. Side-of-Board Strip: 4 Commuter Boxes (X=0..44, Z=31..48) ─
 commuter_specs = [
-    ("CommuterBox_Pink", "pink", 0),
-    ("CommuterBox_Aqua", "aqua", 1),
-    ("CommuterBox_Coral", "coral", 2),
-    ("CommuterBox_Purple", "purple", 3),
+    ("CommuterBox_Pink", "pink", 0, "Pink Commuters", 14),
+    ("CommuterBox_Aqua", "aqua", 1, "Aqua Commuters", 14),
+    ("CommuterBox_Coral", "coral", 2, "Coral Commuters", 11),
+    ("CommuterBox_Purple", "purple", 3, "Purple Commuters", 11),
 ]
-for label, color_name, idx in commuter_specs:
+for label, color_name, idx, comp_name, qty in commuter_specs:
     project.box(
         BoxType.CAP,
         label,
         size=(commuter_box_width, commuter_box_length, commuter_box_height),
         position=(0.0, commuter_box_length * idx, usable_height),
         lid=_lid("Commuter", color_name, image=str(ASSETS / "commuter.svg"), logo_size_mm=14.0),
-    ).compartment("Commuters", cut=FingerCut.SCOOP)
+    ).compartment("Commuters", cut=FingerCut.SCOOP, component=comp_name, count=qty)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

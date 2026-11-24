@@ -429,31 +429,48 @@ def process_game(game_slug: str) -> dict[str, Any]:
     if pdf_uri is not None:
         rst_lines.append(html_packing_pdf(pdf_uri, pdf_fname))
 
-    # 2. Summary table of all pieces
+    # 2. Summary table of all pieces & inventory
+    inv = proj.inventory(spacer_count=len(spacer_pieces))
+    summary_parts = [
+        f"**3-D Printed Parts**: {inv.printed_bodies} bodies, {inv.printed_lids} lids, "
+        f"{inv.printed_spacers} spacers ({inv.total_printed_parts} total)",
+    ]
+    if inv.total_board_count > 0:
+        summary_parts.append(
+            f"**Boards & Non-Printed Components**: {inv.total_board_count}"
+        )
+    if inv.total_counted_pieces > 0:
+        summary_parts.append(
+            f"**Counted Game Pieces**: {inv.total_counted_pieces}"
+        )
     rst_lines.extend([
         "Parts Overview",
         "--------------",
         "",
+        *[f"- {line}" for line in summary_parts],
+        "",
         ".. list-table::",
         "   :header-rows: 1",
-        "   :widths: 26 24 20 18 12",
+        "   :widths: 22 18 17 15 28",
         "",
-        "   * - Box / Spacer",
-        "     - Box Type",
+        "   * - Box / Component",
+        "     - Type",
         "     - Dimensions (W × L × H)",
         "     - Packed Position",
-        "     - Compartments",
+        "     - Pieces / Contents",
     ])
     for b in proj.boxes:
         bp = body_pieces.get(b.label)
         size_str = fmt_dim(bp.size if bp else b.final_size)
         pos_str = fmt_pos(bp.position if bp else b.position)
+        box_sum = inv.by_label(b.label)
+        contents_str = box_sum.format_contents(max_items=6) if box_sum else "—"
         rst_lines.extend([
             f"   * - :ref:`{b.label} <box-{game_slug}-{b.label.lower()}>`",
             f"     - {box_type_ref(b.box_type)}",
             f"     - ``{size_str}``",
             f"     - ``{pos_str}``",
-            f"     - {len(b.compartments)}",
+            f"     - {contents_str}",
         ])
     for sp in spacer_pieces:
         rst_lines.extend([
@@ -461,7 +478,16 @@ def process_game(game_slug: str) -> dict[str, Any]:
             f"     - {box_type_ref(BoxType.NO_LID)} (spacer)",
             f"     - ``{fmt_dim(sp.size)}``",
             f"     - ``{fmt_pos(sp.position)}``",
-            "     - —",
+            "     - Printed spacer tray",
+        ])
+    for gb in inv.boards:
+        note_str = f" ({gb.notes})" if gb.notes else ""
+        rst_lines.extend([
+            f"   * - {gb.label}",
+            "     - Board / Non-Printed",
+            f"     - ``{fmt_dim(gb.size)}``",
+            f"     - ``{fmt_pos(gb.position)}``",
+            f"     - {gb.count}x {gb.label}{note_str}",
         ])
     rst_lines.append("")
 
@@ -491,6 +517,9 @@ def process_game(game_slug: str) -> dict[str, Any]:
             f"- **Outer Dimensions**: ``{size_str}``",
             f"- **Packed Position**: ``{pos_str}``",
         ])
+        box_sum = inv.by_label(b.label)
+        if box_sum is not None and box_sum.entries:
+            rst_lines.append(f"- **Pieces / Contents**: {box_sum.format_contents(max_items=10)}")
         stackable = getattr(b, "stackable", None)
         if isinstance(stackable, StackableMode):
             rst_lines.append(f"- **Stackable Mode**: ``StackableMode.{stackable.name}``")

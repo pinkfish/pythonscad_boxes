@@ -162,6 +162,16 @@ project = Project(
     lid_thickness=LID,
     generate_spacers=True,
 )
+project.define_inventory(
+    {
+        "Playing & Reminder Cards": LARGE_COUNT,
+        "Task Cards": SMALL_COUNT,
+        "Diver Standee": 1,
+        "Standee Base": 1,
+        "Sonar Tokens": SONAR_COUNT,
+        "Distress Token": 1,
+    }
+)
 
 # Bubbles suit a game about diving; the lid style is shared by the card boxes
 # and only the text and icon change between them.
@@ -186,7 +196,13 @@ deck = project.box(
     size=(*DECK_SIZE, BOX_HEIGHT),
     lid=CREW_LID.titled("Deck", logo=f"{SVG}/the crew - sonar.svg"),
 )
-deck.cards("Deck", count=None, size=LARGE_CARD, slack=CARD_SLACK)
+deck.cards(
+    "Deck",
+    count=None,
+    size=LARGE_CARD,
+    slack=CARD_SLACK,
+    allocates={"Playing & Reminder Cards": LARGE_COUNT},
+)
 
 # ── 2 & 3. Task cards — 96 cards split into two 48-card stacks ──────────────
 for i in range(2):
@@ -196,7 +212,13 @@ for i in range(2):
         size=(*TASK_SIZE, TASK_HEIGHT),  # tall enough for a 48-card stack
         lid=CREW_LID.titled("Tasks", logo=f"{SVG}/the crew - distress.svg"),
     )
-    task_box.cards("Tasks", count=None, size=SMALL_CARD, slack=CARD_SLACK)
+    task_box.cards(
+        "Tasks",
+        count=None,
+        size=SMALL_CARD,
+        slack=CARD_SLACK,
+        allocates={"Task Cards": TASK_CARDS_PER_BOX},
+    )
 
 # ── 4. Accessories box — diver, base and tokens ─────────────────────────────
 accessories = project.box(
@@ -356,6 +378,12 @@ accessories.compartment(
     size=(ACCESSORY_INNER_W, ACCESSORY_INNER_L),
     depth=ACCESSORY_INNER_H,
     elements=accessory_elements(),
+    allocates={
+        "Diver Standee": 1,
+        "Standee Base": 1,
+        "Sonar Tokens": SONAR_COUNT,
+        "Distress Token": 1,
+    },
 )
 
 # ── Arrangement ─────────────────────────────────────────────────────────────

@@ -24,49 +24,52 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=aac68fdd" download="IsleOfTrains_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IsleOfTrains_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=aac68fdd" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=94c0089c" download="IsleOfTrains_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IsleOfTrains_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=94c0089c" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=aac68fdd" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/isle_of_trains/IsleOfTrains_packing_guide.pdf?v=94c0089c" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 5 bodies, 5 lids, 0 spacers (10 total)
+- **Counted Game Pieces**: 141
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`DestinationBox <box-isle_of_trains-destinationbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``130 × 46.5 × 17 mm``
      - ``(0, 133.5, 21)``
-     - 1
+     - 6x Destination Tiles, 2x Track Tiles
    * - :ref:`VictoryBox <box-isle_of_trains-victorybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``130 × 46.5 × 21 mm``
      - ``(0, 133.5, 0)``
-     - 1
+     - 12x Victory 1-VP Hexes, 6x Victory 3-VP Hexes, 4x Victory 5-VP Hexes, 4x Victory 10-VP Hexes
    * - :ref:`MiddleBox <box-isle_of_trains-middlebox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``99 × 64.5 × 38 mm``
      - ``(31, 69, 0)``
-     - 1
+     - 18x Passenger Meeples
    * - :ref:`CardBox <box-isle_of_trains-cardbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``98 × 69 × 37 mm``
      - ``(31, 0, 0)``
-     - 1
+     - 7x Island Cards, 71x Train Cards
    * - :ref:`TicketBox <box-isle_of_trains-ticketbox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``31 × 133.5 × 38 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 10x Ticket Tiles, 1x Train Marker
 
 Individual Boxes & Parts
 ------------------------
@@ -79,6 +82,7 @@ DestinationBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``130 × 46.5 × 17 mm``
 - **Packed Position**: ``(0, 133.5, 21)``
+- **Pieces / Contents**: 6x Destination Tiles, 2x Track Tiles
 - **Compartments (1)**: ``DestinationsAndTracks`` (123 × 39.5 mm, 4 elements)
 
 **Assembled Box (DestinationBox — Body + Lid)**
@@ -116,6 +120,7 @@ VictoryBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``130 × 46.5 × 21 mm``
 - **Packed Position**: ``(0, 133.5, 0)``
+- **Pieces / Contents**: 12x Victory 1-VP Hexes, 6x Victory 3-VP Hexes, 4x Victory 5-VP Hexes, 4x Victory 10-VP Hexes
 - **Compartments (1)**: ``VictoryHexTokens`` (123 × 39.5 mm, 10 elements)
 
 **Assembled Box (VictoryBox — Body + Lid)**
@@ -153,6 +158,7 @@ MiddleBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``99 × 64.5 × 38 mm``
 - **Packed Position**: ``(31, 69, 0)``
+- **Pieces / Contents**: 18x Passenger Meeples
 - **Compartments (1)**: ``Tokens`` (full interior)
 
 **Assembled Box (MiddleBox — Body + Lid)**
@@ -190,6 +196,7 @@ CardBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``98 × 69 × 37 mm``
 - **Packed Position**: ``(31, 0, 0)``
+- **Pieces / Contents**: 7x Island Cards, 71x Train Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (CardBox — Body + Lid)**
@@ -227,6 +234,7 @@ TicketBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``31 × 133.5 × 38 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 10x Ticket Tiles, 1x Train Marker
 - **Compartments (1)**: ``TicketsAndTrain`` (25 × 127.5 mm, 5 elements)
 
 **Assembled Box (TicketBox — Body + Lid)**

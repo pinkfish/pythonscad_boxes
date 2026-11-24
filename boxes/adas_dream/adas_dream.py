@@ -209,6 +209,55 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_inventory({
+    "Starting Player Cards": starting_player_card_num * 4,
+    "Player Discs": 48,
+    "Research Tokens": 16,
+    "Innovation Tokens": 4,
+    "Steam Cloud Tokens": 4,
+    "Character Meeples": 4,
+    "Scoring Tiles": 16,
+    "Visitor Tokens": 4,
+    "Silver Coins": 40,
+    "Exhibitor & Other Cards": other_card_num,
+    "Tier 1 Partner Cards": tier_1_partner_card_num,
+    "Tier 2 Partner Cards": tier_2_partner_card_num,
+    "Assignment Cards": assignment_card_num,
+    "Book Tokens": 12,
+    "Assignment Tiles": 16,
+    "Engine Dice": 50,
+    "First Player Token": 1,
+    "Alternative Objective Tiles": 12,
+    "Breakthrough Tiles": 9,
+    "Score Pad": 1,
+    "Program Tiles": 28,
+    "Workshop Bonus Discs": 6,
+    "University Tiles": 15,
+    "Brass Resource Tokens": 30,
+    "Coal Resource Tokens": 30,
+    "Addition Gears": 15,
+    "Subtraction Gears": 15,
+    "Multiplier Gears": 14,
+    "Objective Tiles": 24,
+    "Main Game Board": 1,
+    "Great Exhibition Board": 1,
+    "Player Workshop Boards": 4,
+})
+
+project.board(
+    "Game Boards & Player Mats",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=6,
+    notes="Main game board, Great Exhibition board, and 4 player workshop mats atop insert",
+    allocates={
+        "Main Game Board": 1,
+        "Great Exhibition Board": 1,
+        "Player Workshop Boards": 4,
+    },
+)
+
 # Victorian steampunk Analytical Engine aesthetic:
 # 8-fold quasiperiodic Ammann-Beenker brass filigree lattice, riveted/ornate
 # Victorian plaques, scrollwork finials, and bold Georgia serif typography.
@@ -526,6 +575,14 @@ for label, text, color, variant, pos in player_specs:
         size=(player_inner_width, player_inner_length),
         position=(0.0, 0.0),
         elements=_player_box_elements(variant),
+        allocates={
+            "Starting Player Cards": starting_player_card_num,
+            "Player Discs": 12,
+            "Research Tokens": 4,
+            "Innovation Tokens": 1,
+            "Steam Cloud Tokens": 1,
+            "Character Meeples": 1,
+        },
     )
 
 scoring_box = project.box(
@@ -536,7 +593,13 @@ scoring_box = project.box(
     lid=_lid("Scoring", "gold"),
 )
 for i in range(4):
-    scoring_box.compartment(f"Scoring_{i + 1}", width_ratio=0.25, cut=FingerCut.SCOOP)
+    scoring_box.compartment(
+        f"Scoring_{i + 1}",
+        width_ratio=0.25,
+        cut=FingerCut.SCOOP,
+        component="Scoring Tiles",
+        count=4,
+    )
 
 visitor_wall = 1.5
 visitor_inner_width = visitor_box_width - visitor_wall * 2.0  # 94.0mm
@@ -597,6 +660,8 @@ project.box(
             label="VisitorGreenBase",
         ),
     ),
+    component="Visitor Tokens",
+    count=4,
 )
 
 project.box(
@@ -605,7 +670,7 @@ project.box(
     size=(money_box_width, money_box_length, money_box_height),
     position=(card_box_width, 0.0, player_box_height * 2.0),
     lid=_lid("Money", "silver"),
-).compartment("Money", cut=FingerCut.SCOOP)
+).compartment("Money", cut=FingerCut.SCOOP, component="Silver Coins", count=40)
 
 # ── 2. Card Boxes (Other, Tier, Assignment) ──────────────────────
 project.box(
@@ -615,7 +680,12 @@ project.box(
     position=(card_box_width, card_box_length, 0.0),
     lid=_lid("Other", "royalblue", shape=LabelShape.ORNATE_FRAME),
     stackable=StackableMode.PYRAMIDS,
-).compartment("OtherCards", cut=FingerCut.SCOOP)
+).compartment(
+    "OtherCards",
+    cut=FingerCut.SCOOP,
+    component="Exhibitor & Other Cards",
+    count=other_card_num,
+)
 
 project.box(
     BoxType.SLIDING,
@@ -624,7 +694,14 @@ project.box(
     position=(card_box_width, card_box_length, other_card_box_height),
     lid=_lid("Tier", "darkorange", shape=LabelShape.ORNATE_FRAME),
     stackable=StackableMode.PYRAMIDS,
-).compartment("TierCards", cut=FingerCut.SCOOP)
+).compartment(
+    "TierCards",
+    cut=FingerCut.SCOOP,
+    allocates={
+        "Tier 1 Partner Cards": tier_1_partner_card_num,
+        "Tier 2 Partner Cards": tier_2_partner_card_num,
+    },
+)
 
 project.box(
     BoxType.SLIDING,
@@ -636,7 +713,12 @@ project.box(
         book_box_height,
     ),
     lid=_lid("Assign", "purple", shape=LabelShape.ORNATE_FRAME),
-).compartment("AssignmentCards", cut=FingerCut.SCOOP)
+).compartment(
+    "AssignmentCards",
+    cut=FingerCut.SCOOP,
+    component="Assignment Cards",
+    count=assignment_card_num,
+)
 
 # ── 3. Left Column: Books, Assignment Tiles, Dice, First Player, Alt Obj, Breakthrough
 book_box = project.box(
@@ -647,7 +729,13 @@ book_box = project.box(
     lid=_lid("Books", "teal"),
 )
 for i in range(3):
-    book_box.compartment(f"Books_{i + 1}", width_ratio=1.0 / 3.0, cut=FingerCut.SCOOP)
+    book_box.compartment(
+        f"Books_{i + 1}",
+        width_ratio=1.0 / 3.0,
+        cut=FingerCut.SCOOP,
+        component="Book Tokens",
+        count=4,
+    )
 
 assignment_box = project.box(
     BoxType.CAP,
@@ -657,7 +745,13 @@ assignment_box = project.box(
     lid=_lid("Assign", "steelblue"),
 )
 for i in range(2):
-    assignment_box.compartment(f"Assign_{i + 1}", width_ratio=0.5, cut=FingerCut.SCOOP)
+    assignment_box.compartment(
+        f"Assign_{i + 1}",
+        width_ratio=0.5,
+        cut=FingerCut.SCOOP,
+        component="Assignment Tiles",
+        count=8,
+    )
 
 dice_inner_width = dice_box_width - wall_thickness * 2.0  # 91.0mm
 dice_inner_length = dice_box_length - wall_thickness * 2.0  # 132.0mm
@@ -701,6 +795,8 @@ project.box(
             label="DiceGrid2x9",
         ),
     ),
+    component="Engine Dice",
+    count=50,
 )
 
 fp_inner_width = first_player_box_width - wall_thickness * 2.0  # 91.0mm
@@ -757,6 +853,8 @@ project.box(
             label="FirstPlayerHead",
         ),
     ),
+    component="First Player Token",
+    count=1,
 )
 
 alt_obj_box = project.box(
@@ -771,7 +869,13 @@ alt_obj_box = project.box(
     lid=_lid("Alt Obj", "mediumpurple"),
 )
 for i in range(2):
-    alt_obj_box.compartment(f"AltObj_{i + 1}", width_ratio=0.5, cut=FingerCut.SCOOP)
+    alt_obj_box.compartment(
+        f"AltObj_{i + 1}",
+        width_ratio=0.5,
+        cut=FingerCut.SCOOP,
+        component="Alternative Objective Tiles",
+        count=6,
+    )
 
 bt_wall = 1.2
 bt_inner_width = breakthrough_box_width - bt_wall * 2.0  # 17.1mm
@@ -830,6 +934,8 @@ project.box(
             label="BreakthroughBite_2",
         ),
     ),
+    component="Breakthrough Tiles",
+    count=9,
 )
 
 # ── 4. Middle Column: Score Pad, Program, University, Brass & Coal ─
@@ -839,7 +945,7 @@ project.box(
     size=(score_pad_box_width, score_pad_box_length, score_pad_box_height),
     position=(card_box_width, card_box_length * 2.0, 0.0),
     lid=_lid("Score Pad", "dimgray"),
-).compartment("ScorePad", cut=FingerCut.SCOOP)
+).compartment("ScorePad", cut=FingerCut.SCOOP, component="Score Pad", count=1)
 
 program_box = project.box(
     BoxType.SLIDING,
@@ -848,8 +954,20 @@ program_box = project.box(
     position=(card_box_width, card_box_length * 2.0, score_pad_box_height),
     lid=_lid("Program", "saddlebrown"),
 )
-program_box.compartment("Program_1", length_ratio=0.5, cut=FingerCut.SCOOP)
-program_box.compartment("Program_2", length_ratio=0.5, cut=FingerCut.SCOOP)
+program_box.compartment(
+    "Program_1",
+    length_ratio=0.5,
+    cut=FingerCut.SCOOP,
+    component="Program Tiles",
+    count=14,
+)
+program_box.compartment(
+    "Program_2",
+    length_ratio=0.5,
+    cut=FingerCut.SCOOP,
+    component="Program Tiles",
+    count=14,
+)
 
 univ_inner_width = university_box_width - wall_thickness * 2.0  # 41.0mm
 univ_inner_length = university_box_length - wall_thickness * 2.0  # 36.5mm
@@ -902,6 +1020,10 @@ project.box(
             label="UniversityTiles",
         ),
     ),
+    allocates={
+        "Workshop Bonus Discs": 6,
+        "University Tiles": 15,
+    },
 )
 
 project.box(
@@ -921,7 +1043,7 @@ project.box(
         logo_position="left",
         logo_size_mm=18.0,
     ),
-).compartment("Brass", cut=FingerCut.SCOOP)
+).compartment("Brass", cut=FingerCut.SCOOP, component="Brass Resource Tokens", count=30)
 
 project.box(
     BoxType.SLIDING,
@@ -940,7 +1062,7 @@ project.box(
         logo_position="left",
         logo_size_mm=18.0,
     ),
-).compartment("Coal", cut=FingerCut.SCOOP)
+).compartment("Coal", cut=FingerCut.SCOOP, component="Coal Resource Tokens", count=30)
 
 # ── 5. Gear / Cog Boxes (3 stacked, 5 circular gear wells + finger bites each)
 gear_width = 26.0
@@ -1009,11 +1131,11 @@ def _gear_elements(top_box: bool) -> tuple[CompartmentElement, ...]:
 
 
 gear_specs = [
-    ("GearBox_AddGears", "Addition", 0, False),
-    ("GearBox_SubGears", "Subtraction", 1, False),
-    ("GearBox_MulGears", "Multiplier", 2, True),
+    ("GearBox_AddGears", "Addition", 0, False, "Addition Gears", 15),
+    ("GearBox_SubGears", "Subtraction", 1, False, "Subtraction Gears", 15),
+    ("GearBox_MulGears", "Multiplier", 2, True, "Multiplier Gears", 14),
 ]
-for label, text, idx, is_top in gear_specs:
+for label, text, idx, is_top, gear_comp, gear_qty in gear_specs:
     project.box(
         BoxType.CAP,
         label,
@@ -1029,6 +1151,8 @@ for label, text, idx, is_top in gear_specs:
         size=(cog_inner_width, cog_inner_length),
         position=(0.0, 0.0),
         elements=_gear_elements(top_box=is_top),
+        component=gear_comp,
+        count=gear_qty,
     )
 
 # ── 6. Right Side Strip: SpacerSide & ObjectiveBox ────────────────
@@ -1048,7 +1172,13 @@ obj_box = project.box(
     lid=_lid("Objective", "darkorange", finial=LabelFinial.NONE),
 )
 for i in range(3):
-    obj_box.compartment(f"Objective_{i + 1}", length_ratio=1.0 / 3.0, cut=FingerCut.SCOOP)
+    obj_box.compartment(
+        f"Objective_{i + 1}",
+        length_ratio=1.0 / 3.0,
+        cut=FingerCut.SCOOP,
+        component="Objective Tiles",
+        count=8,
+    )
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

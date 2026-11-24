@@ -108,6 +108,38 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory({
+    "Territory Hex Tiles": 25,
+    "Base Evolution Cards": total_cards,
+    "Minions Expansion Cards": num_mm_cards,
+    "Minions Expansion Hex Tiles": num_mm_hex,
+    "Food Tokens": food_token_num,
+    "Centipede Tokens": 15,
+    "Day/Night Token": 1,
+    "Active Player Leaf": 1,
+    "Predator Meeples": 5,
+    "Ant Cubes": 36 * 5,
+    "Player Marker Discs": 5,
+    "Major Workers": 5,
+    "Major Worker Tokens": 15,
+    "Aphid Tokens": 36,
+    "Score Track Board": 1,
+    "Player Helper Boards": 5,
+    "Rulebook": 1,
+})
+
+project.board(
+    "Score Track, Helper Boards & Rules",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=7,
+    allocates={
+        "Score Track Board": 1,
+        "Player Helper Boards": 5,
+        "Rulebook": 1,
+    },
+)
+
 ANT_PATTERN = PatternBuilder(PatternType.VORONOI)
 ANT_FONT = "Futura:style=Bold"
 
@@ -207,6 +239,8 @@ project.box(
     "HexTiles",
     size=(tile_inner_width, tile_inner_length),
     position=(0.0, 0.0),
+    component="Territory Hex Tiles",
+    count=25,
     elements=_tile_box_elements(),
 )
 
@@ -219,7 +253,7 @@ project.box(
     size=(card_box_width, card_box_length, card_box_height),
     position=(0.0, row1_y, 0.0),
     lid=_ant_lid("Cards", "royalblue"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Base Evolution Cards", count=total_cards)
 
 project.box(
     BoxType.CAP,
@@ -227,7 +261,7 @@ project.box(
     size=(card_box_width, card_box_length, mm_card_box_height),
     position=(0.0, row1_y, card_box_height),
     lid=_ant_lid("Minions Cards", "purple"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Minions Expansion Cards", count=num_mm_cards)
 
 mm_inner_width = mm_box_width - wall_thickness * 2.0  # 115.0mm
 mm_inner_length = mm_box_length - wall_thickness * 2.0  # 92.0mm
@@ -283,6 +317,8 @@ project.box(
     "ExpansionHexes",
     size=(mm_inner_width, mm_inner_length),
     position=(0.0, 0.0),
+    component="Minions Expansion Hex Tiles",
+    count=num_mm_hex,
     elements=_mm_hex_elements(),
 )
 
@@ -389,6 +425,12 @@ project.box(
     "FoodAndTokens",
     size=(mm_inner_width, mm_inner_length),
     position=(0.0, 0.0),
+    allocates={
+        "Food Tokens": food_token_num,
+        "Centipede Tokens": 15,
+        "Day/Night Token": 1,
+        "Active Player Leaf": 1,
+    },
     elements=_food_box_elements(),
 )
 
@@ -404,6 +446,8 @@ project.box(
     "Predators",
     size=(mm_inner_width, mm_inner_length),
     position=(0.0, 0.0),
+    component="Predator Meeples",
+    count=5,
     elements=(
         CompartmentElement(
             shape=ElementShape.SVG,
@@ -585,6 +629,12 @@ for p_name, color_name, x_pos, layer in player_placements:
         "CubesAndWorkers",
         size=(player_inner_width, player_inner_length),
         position=(0.0, 0.0),
+        allocates={
+            "Ant Cubes": 36,
+            "Player Marker Discs": 1,
+            "Major Workers": 1,
+            "Major Worker Tokens": 3,
+        },
         elements=_player_box_elements(),
     )
 
@@ -598,6 +648,8 @@ project.box(
     "Aphids",
     size=(player_inner_width, player_inner_length),
     position=(0.0, 0.0),
+    component="Aphid Tokens",
+    count=36,
     elements=_aphid_box_elements(),
 )
 

@@ -60,8 +60,16 @@ def stackable_hex(
         # Partition the hex into N equal compartments. The ratio is a share of
         # the room the wells actually have, so N of them at 1/N fit — no
         # arithmetic here about the box's walls or the layout's gutters.
+        per_div = 12 // divisions
         for i in range(divisions):
-            box.compartment(f"div{i + 1}", width_ratio=1 / divisions)
+            box.compartment(
+                f"div{i + 1}",
+                width_ratio=1 / divisions,
+                component="Hex Tiles",
+                count=per_div,
+            )
+    else:
+        box.allocate("Hex Tiles", 12)
 
 
 # Standalone project (no game box → each box exports independently)
@@ -72,6 +80,7 @@ project = Project(
     floor_thickness=wall_thickness,
     box_defaults={"no_rotate": True},
 )
+project.define_inventory({"Hex Tiles": 96})
 
 # 8 variants: 1–4 divisions × round/rect magnets
 round_variants = [

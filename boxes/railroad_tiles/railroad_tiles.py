@@ -78,6 +78,25 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+# ── Game Piece Inventory ──────────────────────────────────────────
+project.define_inventory({
+    "Game Tokens": 96,
+    "Player Conductor Markers": 4,
+    "Two-Player Tile": 1,
+    "Starting Clock Tiles": 7,
+    "Objective Tiles": 50,
+    "Rulebook": 1,
+})
+
+project.board(
+    "Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=1,
+    notes="Rulebook sits atop insert",
+    component="Rulebook",
+)
+
 TILE_PATTERN = PatternBuilder(PatternType.CHECKER)
 TILE_FONT = "Gill Sans:style=Bold"
 
@@ -119,6 +138,8 @@ for label in token_labels:
         t_box.compartment(
             "Tokens",
             cut=FingerCut.SCOOP,
+            component="Game Tokens",
+            count=12,
         )
 
 # ── 2. Player & Starting Marker Boxes ─────────────────────────────
@@ -250,6 +271,10 @@ project.box(
     "Markers",
     size=(player_inner_width, player_inner_length),
     position=(0.0, 0.0),
+    allocates={
+        "Player Conductor Markers": 4,
+        "Two-Player Tile": 1,
+    },
     elements=_player_markers_elements(),
 )
 
@@ -267,6 +292,8 @@ project.box(
     "Clocks",
     size=(player_inner_width, player_inner_length),
     position=(0.0, 0.0),
+    component="Starting Clock Tiles",
+    count=7,
     elements=_starting_clocks_elements(),
 )
 
@@ -282,11 +309,15 @@ for i in range(5):
         "ObjectiveTiles_Left",
         width_ratio=0.5,
         cut=FingerCut.SCOOP,
+        component="Objective Tiles",
+        count=5,
     )
     obj_box.compartment(
         "ObjectiveTiles_Right",
         width_ratio=0.5,
         cut=FingerCut.SCOOP,
+        component="Objective Tiles",
+        count=5,
     )
 
 # ── Export ────────────────────────────────────────────────────────

@@ -24,69 +24,78 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=748d349e" download="Canvas_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Canvas_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=748d349e" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=b807629f" download="Canvas_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Canvas_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=b807629f" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=748d349e" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/canvas/Canvas_packing_guide.pdf?v=b807629f" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 9 bodies, 8 lids, 0 spacers (17 total)
+- **Boards & Non-Printed Components**: 1
+- **Counted Game Pieces**: 229
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`ArtCardsBox_Left <box-canvas-artcardsbox_left>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 124 × 30 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 60x Transparent Art Cards
    * - :ref:`ArtCardsBox_Right <box-canvas-artcardsbox_right>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``73 × 124 × 30 mm``
      - ``(123, 0, 0)``
-     - 1
+     - 37x Background Cards, 12x Scoring Cards
    * - :ref:`PlaymatSpacer <box-canvas-playmatspacer>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``50 × 247 × 29 mm``
      - ``(73, 0, 0)``
-     - 0
+     - —
    * - :ref:`RibbonBox_Red <box-canvas-ribbonbox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``73 × 41 × 29 mm``
      - ``(0, 124, 0)``
-     - 1
+     - 20x Red Ribbon Tokens
    * - :ref:`RibbonBox_Green <box-canvas-ribbonbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``73 × 41 × 29 mm``
      - ``(0, 165, 0)``
-     - 1
+     - 20x Green Ribbon Tokens
    * - :ref:`RibbonBox_Grey <box-canvas-ribbonbox_grey>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``73 × 41 × 29 mm``
      - ``(0, 206, 0)``
-     - 1
+     - 20x Grey Ribbon Tokens
    * - :ref:`RibbonBox_Blue <box-canvas-ribbonbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``73 × 41 × 29 mm``
      - ``(123, 124, 0)``
-     - 1
+     - 20x Blue Ribbon Tokens
    * - :ref:`RibbonBox_Purple <box-canvas-ribbonbox_purple>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``73 × 41 × 29 mm``
      - ``(123, 165, 0)``
-     - 1
+     - 20x Purple Ribbon Tokens
    * - :ref:`RibbonBox_Palette <box-canvas-ribbonbox_palette>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``73 × 41 × 29 mm``
      - ``(123, 206, 0)``
-     - 1
+     - 20x Inspiration Tokens
+   * - Rolled Cloth Playmat
+     - Board / Non-Printed
+     - ``45 × 247 × 45 mm``
+     - ``(75.5, 0, 1.5)``
+     - 1x Rolled Cloth Playmat (Rests inside the open-ended PlaymatSpacer center channel)
 
 Individual Boxes & Parts
 ------------------------
@@ -99,6 +108,7 @@ ArtCardsBox_Left
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 124 × 30 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 60x Transparent Art Cards
 - **Compartments (1)**: ``ArtCards`` (full interior)
 
 **Assembled Box (ArtCardsBox_Left — Body + Lid)**
@@ -136,6 +146,7 @@ ArtCardsBox_Right
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``73 × 124 × 30 mm``
 - **Packed Position**: ``(123, 0, 0)``
+- **Pieces / Contents**: 37x Background Cards, 12x Scoring Cards
 - **Compartments (1)**: ``ArtCards`` (full interior)
 
 **Assembled Box (ArtCardsBox_Right — Body + Lid)**
@@ -191,6 +202,7 @@ RibbonBox_Red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``73 × 41 × 29 mm``
 - **Packed Position**: ``(0, 124, 0)``
+- **Pieces / Contents**: 20x Red Ribbon Tokens
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Red — Body + Lid)**
@@ -228,6 +240,7 @@ RibbonBox_Green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``73 × 41 × 29 mm``
 - **Packed Position**: ``(0, 165, 0)``
+- **Pieces / Contents**: 20x Green Ribbon Tokens
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Green — Body + Lid)**
@@ -265,6 +278,7 @@ RibbonBox_Grey
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``73 × 41 × 29 mm``
 - **Packed Position**: ``(0, 206, 0)``
+- **Pieces / Contents**: 20x Grey Ribbon Tokens
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Grey — Body + Lid)**
@@ -302,6 +316,7 @@ RibbonBox_Blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``73 × 41 × 29 mm``
 - **Packed Position**: ``(123, 124, 0)``
+- **Pieces / Contents**: 20x Blue Ribbon Tokens
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Blue — Body + Lid)**
@@ -339,6 +354,7 @@ RibbonBox_Purple
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``73 × 41 × 29 mm``
 - **Packed Position**: ``(123, 165, 0)``
+- **Pieces / Contents**: 20x Purple Ribbon Tokens
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Purple — Body + Lid)**
@@ -376,6 +392,7 @@ RibbonBox_Palette
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``73 × 41 × 29 mm``
 - **Packed Position**: ``(123, 206, 0)``
+- **Pieces / Contents**: 20x Inspiration Tokens
 - **Compartments (1)**: ``Ribbons`` (full interior)
 
 **Assembled Box (RibbonBox_Palette — Body + Lid)**

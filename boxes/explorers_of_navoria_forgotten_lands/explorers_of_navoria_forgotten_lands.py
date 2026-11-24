@@ -81,6 +81,39 @@ project = Project(
     generate_spacers=True,
 )
 
+project.define_inventory(
+    {
+        "White Trading Post Tokens": 9,
+        "White Favor Markers": 4,
+        "White Exploration Markers": 3,
+        "White Turn-Order Marker": 1,
+        "White Crown Marker": 1,
+        "Solo Bonus Tokens": 10,
+        "Contract Tokens": 18,
+        "Faction Skill Tiles": 9,
+        "Player Overlays": 5,
+        "Start Order Oval": 1,
+        "Exploration Bonus Tiles": 6,
+        "Grey Action Tokens": 4,
+        "Grey Adventure Cards": 12,
+        "Goal Cards": 12,
+        "Solo Mission Cards": 10,
+        "Solo Action Cards": 5,
+        "White Player Reference Card": 1,
+        "White Player Board": 1,
+        "Expansion Rulebook": 1,
+    }
+)
+
+project.board(
+    "White Player Board & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=2,
+    notes="5th player board and expansion rulebook resting on top",
+    allocates={"White Player Board": 1, "Expansion Rulebook": 1},
+)
+
 NAVORIA_PATTERN = PatternBuilder(PatternType.RING)
 NAVORIA_FONT = "Georgia:style=Bold"
 
@@ -367,6 +400,7 @@ project.box(
     size=(player_inner_w, player_inner_l),
     position=(0.0, 0.0),
     elements=_white_trading_post_elements(),
+    allocates={"White Trading Post Tokens": 9, "White Favor Markers": 4},
 )
 
 project.box(
@@ -392,6 +426,7 @@ project.box(
     size=(player_inner_w, player_inner_l),
     position=(0.0, 0.0),
     elements=_white_explorer_elements(),
+    allocates={"White Exploration Markers": 3, "White Turn-Order Marker": 1, "White Crown Marker": 1},
 )
 
 project.box(
@@ -413,6 +448,8 @@ project.box(
     size=(player_inner_w, player_inner_l),
     position=(0.0, 0.0),
     elements=_rounded_token_bin(),
+    component="Solo Bonus Tokens",
+    count=10,
 )
 
 project.box(
@@ -434,6 +471,8 @@ project.box(
     size=(player_inner_w, player_inner_l),
     position=(0.0, 0.0),
     elements=_rounded_token_bin(),
+    component="Contract Tokens",
+    count=18,
 )
 
 # ── 2. Faction Skills & Bits ──────────────────────────────────────
@@ -460,6 +499,8 @@ project.box(
     size=(faction_inner_w, faction_inner_l),
     position=(0.0, 0.0),
     elements=_faction_skill_elements(),
+    component="Faction Skill Tiles",
+    count=9,
 )
 
 project.box(
@@ -481,6 +522,12 @@ project.box(
     size=(bits_inner_w, bits_inner_l),
     position=(0.0, 0.0),
     elements=_bits_box_elements(),
+    allocates={
+        "Player Overlays": 5,
+        "Start Order Oval": 1,
+        "Exploration Bonus Tiles": 6,
+        "Grey Action Tokens": 4,
+    },
 )
 
 # ── 3. Expansion Adventure Cards ──────────────────────────────────
@@ -502,6 +549,13 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    allocates={
+        "Grey Adventure Cards": 12,
+        "Goal Cards": 12,
+        "Solo Mission Cards": 10,
+        "Solo Action Cards": 5,
+        "White Player Reference Card": 1,
+    },
 )
 
 # ── Export ────────────────────────────────────────────────────────

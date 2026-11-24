@@ -423,6 +423,47 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory(
+    {
+        "Main Map Board": 1,
+        "Player Shields": 5,
+        "Rulebook": 1,
+        "Upgrade Boards": 5,
+        "Voting Boards": 5,
+        "Class I Ships": 5,
+        "Class II Ships": 5,
+        "Class III Ships": 5,
+        "Cargo Modules": 15,
+        "Railguns": 15,
+        "Player Score Tokens": 10,
+        "Komek Resource Cubes": 28,
+        "Ventus Resource Cubes": 28,
+        "Henko Resource Cubes": 28,
+        "Magnomi Resource Cubes": 28,
+        "Sorelia Resource Cubes": 28,
+        "UA Resource Cubes": 15,
+        "UA Flagship": 1,
+        "Fusion Drive": 1,
+        "First Player Token": 1,
+        "Action Cards": 52,
+        "Rider Cards": 20,
+        "Ambassador Cards": 25,
+        "Faction Objective Cards": 5,
+        "Rival & Guide Cards": 4,
+        "Sector Hex Tiles": 25,
+        "Starting Hex Tile": 1,
+    }
+)
+
+project.board(
+    "Main Board & Rulebooks",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, box_height - board_thickness),
+    count=1,
+    notes="Rests flush on top of all boxes",
+    allocates={"Main Map Board": 1, "Player Shields": 5, "Rulebook": 1},
+)
+
 BRINK_PATTERN = PatternBuilder(PatternType.VORONOI)
 BRINK_FONT = "Futura:style=Bold"
 BRINK_TEXT_SPACING = 1.18
@@ -466,6 +507,16 @@ for color_label, frame_col, text_col, pos in player_specs:
         size=(long_inner_w, long_inner_l),
         elements=LONG_PLAYER_ELEMENTS,
         element_margin=0.0,
+        allocates={
+            "Upgrade Boards": 1,
+            "Voting Boards": 1,
+            "Class I Ships": 1,
+            "Class II Ships": 1,
+            "Class III Ships": 1,
+            "Cargo Modules": 3,
+            "Railguns": 3,
+            "Player Score Tokens": 2,
+        },
     )
 
 # ── 2. Faction Cube & UA / Extra Bits Boxes (Logo Lids) ──────────
@@ -491,13 +542,32 @@ for name, color_name, logo_file, pos in primary_factions:
             pattern=BRINK_PATTERN,
         ),
     )
-    r_box.compartment("Cubes", holds_pieces=True)
+    r_box.compartment("Cubes", holds_pieces=True, component=f"{name} Resource Cubes", count=28)
 
 secondary_boxes = [
-    ("Sorelia", "purple", "sorelia.svg", "Cubes", (long_player_box_width, 0.0, z_mid_right)),
-    ("UA", "crimson", "ua.svg", "UAAndExtras", (long_player_box_width + resource_box_2_width, 0.0, z_mid_right)),
+    (
+        "Sorelia",
+        "purple",
+        "sorelia.svg",
+        "Cubes",
+        (long_player_box_width, 0.0, z_mid_right),
+        {"Sorelia Resource Cubes": 28},
+    ),
+    (
+        "UA",
+        "crimson",
+        "ua.svg",
+        "UAAndExtras",
+        (long_player_box_width + resource_box_2_width, 0.0, z_mid_right),
+        {
+            "UA Resource Cubes": 15,
+            "UA Flagship": 1,
+            "Fusion Drive": 1,
+            "First Player Token": 1,
+        },
+    ),
 ]
-for name, color_name, logo_file, comp_name, pos in secondary_boxes:
+for name, color_name, logo_file, comp_name, pos, alloc in secondary_boxes:
     r2_box = project.box(
         BoxType.CAP,
         f"ResourceBox_{name}",
@@ -510,17 +580,27 @@ for name, color_name, logo_file, comp_name, pos in secondary_boxes:
             pattern=BRINK_PATTERN,
         ),
     )
-    r2_box.compartment(comp_name, holds_pieces=True)
+    r2_box.compartment(comp_name, holds_pieces=True, allocates=alloc)
 
 # ── 3. Sliding Card Boxes ─────────────────────────────────────────
-for deck_id, title, color_name, h, pos in [
-    ("Actions", "Actions", "gold", action_card_box_height, (long_player_box_width, hex_box_length, z_mid_right)),
+for deck_id, title, color_name, h, pos, card_comp, half_count in [
+    (
+        "Actions",
+        "Actions",
+        "gold",
+        action_card_box_height,
+        (long_player_box_width, hex_box_length, z_mid_right),
+        "Action Cards",
+        26,
+    ),
     (
         "Riders",
         "Riders",
         "firebrick",
         rider_card_box_height,
         (long_player_box_width, hex_box_length, z_mid_right + action_card_box_height),
+        "Rider Cards",
+        10,
     ),
 ]:
     c_box = project.box(
@@ -542,17 +622,19 @@ for deck_id, title, color_name, h, pos in [
             frame_color=Color(color_name),
         ),
     )
-    c_box.compartment("CardsLeft", width_ratio=0.5, cut=FingerCut.SCOOP)
-    c_box.compartment("CardsRight", width_ratio=0.5, cut=FingerCut.SCOOP)
+    c_box.compartment("CardsLeft", width_ratio=0.5, cut=FingerCut.SCOOP, component=card_comp, count=half_count)
+    c_box.compartment("CardsRight", width_ratio=0.5, cut=FingerCut.SCOOP, component=card_comp, count=half_count)
 
 y_right_cards2 = hex_box_length + card_box_length          # 197.0mm
-for deck_id, title, color_name, h, pos in [
+for deck_id, title, color_name, h, pos, card_comp, card_count in [
     (
         "Ambassadors",
         "Ambassadors",
         "navy",
         ambassador_card_box_height,
         (long_player_box_width, y_right_cards2, z_mid_right),
+        "Ambassador Cards",
+        25,
     ),
     (
         "Factions",
@@ -560,6 +642,8 @@ for deck_id, title, color_name, h, pos in [
         "forestgreen",
         faction_card_box_height,
         (long_player_box_width, y_right_cards2, z_mid_right + ambassador_card_box_height),
+        "Faction Objective Cards",
+        5,
     ),
     (
         "Rivals",
@@ -571,6 +655,8 @@ for deck_id, title, color_name, h, pos in [
             y_right_cards2,
             z_mid_right + ambassador_card_box_height + faction_card_box_height,
         ),
+        "Rival & Guide Cards",
+        4,
     ),
 ]:
     c_box = project.box(
@@ -592,7 +678,7 @@ for deck_id, title, color_name, h, pos in [
             frame_color=Color(color_name),
         ),
     )
-    c_box.compartment("Cards", cut=FingerCut.SCOOP)
+    c_box.compartment("Cards", cut=FingerCut.SCOOP, component=card_comp, count=card_count)
 
 # ── 4. Full-Width 3-Stack Sector Hex Box ──────────────────────────
 hex_inner_w = hex_box_width - 2.0 * wall_thickness
@@ -644,6 +730,7 @@ h_box.compartment(
     size=(hex_inner_w, hex_inner_l),
     elements=HEX_ELEMENTS,
     element_margin=0.0,
+    allocates={"Sector Hex Tiles": 25, "Starting Hex Tile": 1},
 )
 _hex_offset_x = hex_inner_w / 2.0 - (_hex_r + 0.8)
 h_box.finger_hole(ScoopSide.FRONT, width=22.0, offset=-_hex_offset_x)

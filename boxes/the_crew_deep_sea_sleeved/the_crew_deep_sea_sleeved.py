@@ -149,6 +149,16 @@ project = Project(
     lid_thickness=LID,
     generate_spacers=True,
 )
+project.define_inventory(
+    {
+        "Playing & Reminder Cards": LARGE_COUNT,
+        "Task Cards": SMALL_COUNT,
+        "Diver Standee": 1,
+        "Standee Base": 1,
+        "Sonar Tokens": SONAR_COUNT,
+        "Distress Token": 1,
+    }
+)
 
 BUBBLES = PatternBuilder(type=PatternType.VORONOI)
 CREW_LID = LidBuilder(
@@ -173,6 +183,7 @@ def sleeved_card_box(
     box_width: float | None = None,
     box_height: float = CARD_BOX_HEIGHT,
     logo: str | None = None,
+    allocates: dict[str, int] | None = None,
 ) -> None:
     """Add a sliding card box whose well fits a deck in ``sleeve``.
 
@@ -193,16 +204,24 @@ def sleeved_card_box(
         size=(well_w, well_l),
         depth=None,  # the well runs the full height of the box
         cut=FingerCut.THROUGH_FLOOR,
+        allocates=allocates,
     )
 
 
-sleeved_card_box("Deck", LARGE_SLEEVE, box_height=BOX_HEIGHT, logo=f"{SVG}/the crew - sonar.svg")
+sleeved_card_box(
+    "Deck",
+    LARGE_SLEEVE,
+    box_height=BOX_HEIGHT,
+    logo=f"{SVG}/the crew - sonar.svg",
+    allocates={"Playing & Reminder Cards": LARGE_COUNT},
+)
 for i in range(2):
     sleeved_card_box(
         f"Tasks{i + 1}",
         SMALL_SLEEVE,
         box_width=TASK_BOX_WIDTH,
         logo=f"{SVG}/the crew - distress.svg",
+        allocates={"Task Cards": SMALL_COUNT // 2},
     )
 
 # ── Accessory box — diver, base, tokens, lidded like the unsleeved variant ───
@@ -333,6 +352,12 @@ accessories.compartment(
     size=(ACCESSORY_INNER_W, ACCESSORY_INNER_L),
     depth=ACCESSORY_INNER_H,
     elements=accessory_elements(),
+    allocates={
+        "Diver Standee": 1,
+        "Standee Base": 1,
+        "Sonar Tokens": SONAR_COUNT,
+        "Distress Token": 1,
+    },
 )
 
 # ── Arrangement ─────────────────────────────────────────────────────────────

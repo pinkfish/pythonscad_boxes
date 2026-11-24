@@ -110,6 +110,27 @@ project = Project(
     generate_spacers=True,
 )
 
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_inventory({
+    "Hex Track Tile Stacks": 36,
+    "Corporate Share Decks": 8,
+    "Paper Currency Stacks": 5,
+    "Company Charter Discs": 56,
+    "Private Company Cards": 8,
+    "Priority Deal & Extra Markers": 6,
+    "Train Cards": 26,
+    "Game Board & Stock Market": 1,
+})
+
+project.board(
+    "Game Board & Stock Market",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=1,
+    notes="Mounted map board and stock market atop insert",
+    component="Game Board & Stock Market",
+)
+
 HEX_PATTERN = PatternBuilder(PatternType.TUMBLING_BLOCKS)
 DAIHAN_FONT = "Georgia:style=Bold"
 
@@ -255,6 +276,8 @@ for box_num in range(1, 5):
     box.compartment(
         "Tiles",
         elements=_hex_box_elements(),
+        component="Hex Track Tile Stacks",
+        count=9,
     )
 
 # ── 2. Share & Money Boxes ────────────────────────────────────────
@@ -270,6 +293,8 @@ for i in range(2):
             f"Slot_{slot + 1}",
             length_ratio=0.25,
             cut=FingerCut.SCOOP,
+            component="Corporate Share Decks",
+            count=1,
         )
 
 m_box = project.box(
@@ -288,6 +313,8 @@ for slot in range(5):
         f"Denom_{slot + 1}",
         length_ratio=0.2,
         cut=FingerCut.SCOOP,
+        component="Paper Currency Stacks",
+        count=1,
     )
 
 # ── 3. Company Markers, Private Cards & Extra Bits ────────────────
@@ -305,6 +332,8 @@ for i in range(2):
     c_box.compartment(
         "Tokens",
         elements=_company_marker_elements(),
+        component="Company Charter Discs",
+        count=28,
     )
 
 project.box(
@@ -316,6 +345,8 @@ project.box(
 ).compartment(
     "Cards",
     cut=FingerCut.SCOOP,
+    component="Private Company Cards",
+    count=8,
 )
 
 project.box(
@@ -326,6 +357,8 @@ project.box(
 ).compartment(
     "Tokens",
     cut=FingerCut.SCOOP,
+    component="Priority Deal & Extra Markers",
+    count=6,
 )
 
 # ── 4. Train Card Box ─────────────────────────────────────────────
@@ -344,6 +377,8 @@ project.box(
     "TrainCards",
     depth=min(train_card_box_height, usable_height) - lid_thickness,
     cut=FingerCut.SCOOP,
+    component="Train Cards",
+    count=26,
 )
 
 # ── Export ────────────────────────────────────────────────────────

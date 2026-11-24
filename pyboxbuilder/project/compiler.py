@@ -452,18 +452,39 @@ class LayoutCompiler:
                 "no_rotate": builder.no_rotate,
             })
 
-        # Convert pinned manual placements into packing-frame obstacles so auto-packed
-        # boxes pack around (and on top of) pinned boxes without colliding!
+        # Convert pinned manual placements and partial non-printed boards that
+        # overlap the usable packing container into obstacles so auto-packed
+        # boxes pack around them cleanly without double-counting top/bottom slabs.
+        pack_h = packing_container[2]
+        board_obstacles: list[tuple[float, float, float, float, float, float]] = []
+        for gb in manifest.boards:
+            bz0 = gb.position[2] - z_offset
+            bz1 = bz0 + gb.size[2]
+            if bz1 <= 1e-6 or bz0 >= pack_h - 1e-6:
+                continue
+            clipped_z0 = max(0.0, bz0)
+            clipped_z1 = min(pack_h, bz1)
+            board_obstacles.append((
+                gb.position[0] - slack,
+                gb.position[1] - slack,
+                clipped_z0,
+                gb.size[0],
+                gb.size[1],
+                clipped_z1 - clipped_z0,
+            ))
         obstacles = [
-            (
-                mp.position[0] - slack,
-                mp.position[1] - slack,
-                mp.position[2] - z_offset,
-                mp.size[0],
-                mp.size[1],
-                mp.size[2],
-            )
-            for mp in manual_placements
+            *(
+                (
+                    mp.position[0] - slack,
+                    mp.position[1] - slack,
+                    mp.position[2] - z_offset,
+                    mp.size[0],
+                    mp.size[1],
+                    mp.size[2],
+                )
+                for mp in manual_placements
+            ),
+            *board_obstacles,
         ]
 
         packing = pack_boxes(
@@ -633,6 +654,7 @@ class LayoutCompiler:
         cls, manifest: ProjectManifest, packing: BoxPacking
     ) -> list[Placement]:
         """Find leftover space in the packed layout and return spacer placements."""
+        from pyboxbuilder.packing.layout import Placement
         from pyboxbuilder.packing.spacer import generate_spacer_placements
 
         if manifest.game_box_size is None:
@@ -643,9 +665,26 @@ class LayoutCompiler:
             manifest.game_box_size[2] - manifest.board_thickness,
         )
         z_offset = manifest.board_z_offset
+        eff_h = effective_box[2]
+        board_occupied: list[Placement] = []
+        for gb in manifest.boards:
+            bz0 = gb.position[2] - z_offset
+            bz1 = bz0 + gb.size[2]
+            if bz1 <= 1e-6 or bz0 >= eff_h - 1e-6:
+                continue
+            clipped_z0 = max(0.0, bz0)
+            clipped_z1 = min(eff_h, bz1)
+            board_occupied.append(
+                Placement(
+                    label=gb.label,
+                    position=(gb.position[0], gb.position[1], clipped_z0 + z_offset),
+                    size=(gb.size[0], gb.size[1], clipped_z1 - clipped_z0),
+                )
+            )
+        occupied = [*packing.placements, *board_occupied]
         spacers = generate_spacer_placements(
             effective_box,
-            cls._shift_placements_z(packing.placements, -z_offset),
+            cls._shift_placements_z(occupied, -z_offset),
             clearance=manifest.resolved_clearance_slack,
             min_dim=manifest.min_spacer_height,
         )

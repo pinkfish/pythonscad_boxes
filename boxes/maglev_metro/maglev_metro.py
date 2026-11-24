@@ -138,6 +138,56 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory({
+    "Connection Cards": 13,
+    "Track Cards": 13,
+    "Passenger Cards": 13,
+    "Player Objective Cards": 13,
+    "Silver Robots": 18,
+    "Gold Robots": 18,
+    "Orange Robots": 18,
+    "Pink Commuters": 14,
+    "Aqua Commuters": 14,
+    "Purple Commuters": 11,
+    "Coral Commuters": 11,
+    "Start Token": 1,
+    "Player Track Hexes": player_overlay_hex_per_player * 4,
+    "Player Trains": 4,
+    "Factory Station Hexes": 2,
+    "Warehouse Station Hexes": 2,
+    "Lab Station Hexes": 2,
+    "Office Station Hexes": 2,
+    "Store Station Hexes": 2,
+    "Embassy Station Hexes": 2,
+    "Studio Station Hexes": 2,
+    "Metro Hub Tile": 1,
+    "Game Board Bases": 2,
+    "Player Boards": 4,
+    "Game Boards": 2,
+})
+
+project.board(
+    "Game Board Bases",
+    size=(game_board_base_width, 272.0, game_board_base_thickness * 2.0),
+    position=(box_width - game_board_base_width, 0.0, box_height - game_board_base_thickness * 2.0),
+    count=2,
+    component="Game Board Bases",
+)
+project.board(
+    "Player Boards",
+    size=(221.0, 245.0, player_board_thickness * 4.0),
+    position=(box_width - 221.0, 0.0, usable_height),
+    count=4,
+    component="Player Boards",
+)
+project.board(
+    "Game Boards",
+    size=(207.0, 281.0, game_board_thickness * 2.0),
+    position=(box_width - 207.0, 0.0, usable_height - game_board_thickness * 2.0),
+    count=2,
+    component="Game Boards",
+)
+
 METRO_PATTERN = PatternBuilder(PatternType.PENROSE)
 METRO_FONT = "Futura:style=Bold"
 
@@ -168,12 +218,12 @@ def _lid(
 
 # ── 1. Card Boxes (4, stacked 2x2 at X=0..73, Y=0..192) ──────────
 card_specs = [
-    ("CardBox_Connections", "Connection", (0.0, 0.0, 0.0)),
-    ("CardBox_Tracks", "Track", (0.0, 0.0, card_box_height)),
-    ("CardBox_Passengers", "Passenger", (0.0, card_box_length, 0.0)),
-    ("CardBox_PlayerObjectives", "Player Board", (0.0, card_box_length, card_box_height)),
+    ("CardBox_Connections", "Connection", (0.0, 0.0, 0.0), "Connection Cards"),
+    ("CardBox_Tracks", "Track", (0.0, 0.0, card_box_height), "Track Cards"),
+    ("CardBox_Passengers", "Passenger", (0.0, card_box_length, 0.0), "Passenger Cards"),
+    ("CardBox_PlayerObjectives", "Player Board", (0.0, card_box_length, card_box_height), "Player Objective Cards"),
 ]
-for label, title, pos in card_specs:
+for label, title, pos, comp_name in card_specs:
     project.box(
         BoxType.SLIDING,
         label,
@@ -182,28 +232,28 @@ for label, title, pos in card_specs:
         lid_thickness=4.0,
         lid=_lid(title, "royalblue"),
         stackable=StackableMode.PYRAMIDS,
-    ).compartment("Cards", cut=FingerCut.SCOOP)
+    ).compartment("Cards", cut=FingerCut.SCOOP, component=comp_name, count=13)
 
 # ── 2. Robot & Commuter Boxes (X=10..73, Y=192..286) ─────────────
 robot_specs = [
-    ("RobotBox_Silver", "silver", 0),
-    ("RobotBox_Gold", "gold", 1),
-    ("RobotBox_Orange", "orange", 2),
+    ("RobotBox_Silver", "silver", 0, "Silver Robots"),
+    ("RobotBox_Gold", "gold", 1, "Gold Robots"),
+    ("RobotBox_Orange", "orange", 2, "Orange Robots"),
 ]
-for label, color_name, idx in robot_specs:
+for label, color_name, idx, comp_name in robot_specs:
     project.box(
         BoxType.CAP,
         label,
         size=(robot_box_width, robot_box_length, robot_box_height),
         position=(start_token_box_width, card_box_length * 2.0, robot_box_height * idx),
         lid=_lid("Robots", color_name, image=str(ASSETS / "robot.svg"), logo_size_mm=16.0),
-    ).compartment("Robots", cut=FingerCut.SCOOP)
+    ).compartment("Robots", cut=FingerCut.SCOOP, component=comp_name, count=18)
 
 commuter_specs = [
-    ("CommuterBox_Pink", "pink", 0),
-    ("CommuterBox_Aqua", "aqua", 1),
+    ("CommuterBox_Pink", "pink", 0, "Pink Commuters"),
+    ("CommuterBox_Aqua", "aqua", 1, "Aqua Commuters"),
 ]
-for label, color_name, idx in commuter_specs:
+for label, color_name, idx, comp_name in commuter_specs:
     project.box(
         BoxType.CAP,
         label,
@@ -214,7 +264,7 @@ for label, color_name, idx in commuter_specs:
             robot_box_height * 3.0,
         ),
         lid=_lid("Commuter", color_name, image=str(ASSETS / "commuter.svg"), logo_size_mm=14.0),
-    ).compartment("Commuters", cut=FingerCut.SCOOP)
+    ).compartment("Commuters", cut=FingerCut.SCOOP, component=comp_name, count=14)
 
 # ── 3. Side-of-Board Strip (X=0..45, Z=47.8..65.0) + StartTokenBox
 project.box(
@@ -223,7 +273,7 @@ project.box(
     size=(commuter_box_small_width, commuter_box_small_length, commuter_box_small_height),
     position=(0.0, 0.0, card_box_height * 2.0),
     lid=_lid("Commuter", "purple", image=str(ASSETS / "commuter.svg"), logo_size_mm=14.0),
-).compartment("Commuters", cut=FingerCut.SCOOP)
+).compartment("Commuters", cut=FingerCut.SCOOP, component="Purple Commuters", count=11)
 
 project.box(
     BoxType.CAP,
@@ -231,7 +281,7 @@ project.box(
     size=(commuter_box_small_width, commuter_box_small_length, commuter_box_small_height),
     position=(0.0, commuter_box_small_length, card_box_height * 2.0),
     lid=_lid("Commuter", "coral", image=str(ASSETS / "commuter.svg"), logo_size_mm=14.0),
-).compartment("Commuters", cut=FingerCut.SCOOP)
+).compartment("Commuters", cut=FingerCut.SCOOP, component="Coral Commuters", count=11)
 
 project.box(
     BoxType.NO_LID,
@@ -247,7 +297,7 @@ project.box(
     size=(start_token_box_width, start_token_box_length, start_token_box_height),
     position=(0.0, card_box_length * 2.0, 0.0),
     wall_thickness=2.0,
-).compartment("StartToken", cut=FingerCut.SCOOP)
+).compartment("StartToken", cut=FingerCut.SCOOP, component="Start Token", count=1)
 
 # ── 4. Player Boxes (4, X=73..134.5, Z=0..39.4) ──────────────────
 player_inner_w = player_box_width - wall_thickness * 2.0  # 55.5mm
@@ -313,6 +363,7 @@ for label, color_name, pos in player_specs:
         "PlayerBits",
         size=(player_inner_w, player_inner_l),
         position=(0.0, 0.0),
+        allocates={"Player Track Hexes": player_overlay_hex_per_player, "Player Trains": 1},
         elements=player_elements,
     )
 
@@ -342,14 +393,24 @@ factory_elements: tuple[CompartmentElement, ...] = (
 )
 
 factory_specs = [
-    ("FactoryBox_Factories", "Factories", (factory_x0, 0.0, 0.0)),
-    ("FactoryBox_Warehouses", "Warehouses", (factory_x0 + factory_box_width, 0.0, 0.0)),
-    ("FactoryBox_Labs", "Labs", (factory_x0, factory_box_length, 0.0)),
-    ("FactoryBox_Offices", "Offices", (factory_x0 + factory_box_width, factory_box_length, 0.0)),
-    ("FactoryBox_Stores", "Stores", (factory_x0, 0.0, factory_box_height)),
-    ("FactoryBox_Embassies", "Embassies", (factory_x0 + factory_box_width, 0.0, factory_box_height)),
+    ("FactoryBox_Factories", "Factories", (factory_x0, 0.0, 0.0), "Factory Station Hexes"),
+    ("FactoryBox_Warehouses", "Warehouses", (factory_x0 + factory_box_width, 0.0, 0.0), "Warehouse Station Hexes"),
+    ("FactoryBox_Labs", "Labs", (factory_x0, factory_box_length, 0.0), "Lab Station Hexes"),
+    (
+        "FactoryBox_Offices",
+        "Offices",
+        (factory_x0 + factory_box_width, factory_box_length, 0.0),
+        "Office Station Hexes",
+    ),
+    ("FactoryBox_Stores", "Stores", (factory_x0, 0.0, factory_box_height), "Store Station Hexes"),
+    (
+        "FactoryBox_Embassies",
+        "Embassies",
+        (factory_x0 + factory_box_width, 0.0, factory_box_height),
+        "Embassy Station Hexes",
+    ),
 ]
-for label, title, pos in factory_specs:
+for label, title, pos, comp_name in factory_specs:
     project.box(
         BoxType.SLIDING,
         label,
@@ -360,6 +421,8 @@ for label, title, pos in factory_specs:
         "StationHexes",
         size=(factory_inner_w, factory_inner_l),
         position=(0.0, 0.0),
+        component=comp_name,
+        count=2,
         elements=factory_elements,
     )
 
@@ -406,6 +469,7 @@ project.box(
     "MetroTiles",
     size=(metro_inner_w, metro_inner_l),
     position=(0.0, 0.0),
+    allocates={"Metro Hub Tile": 1, "Studio Station Hexes": 2},
     elements=metro_elements,
 )
 

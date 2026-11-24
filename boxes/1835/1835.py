@@ -92,6 +92,28 @@ project = Project(
     generate_spacers=True,
 )
 
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_inventory({
+    "Bank Money Denomination Stacks": 8,
+    "Station Tokens": 41,
+    "Train Cards": 33,
+    "Private Railroad Cards": 6,
+    "Hex Track Tile Stacks": 60,
+    "Company Share Certificates": 68,
+    "First Player Marker": 1,
+    "Game Board": 1,
+    "Company Charters": 8,
+})
+
+project.board(
+    "Game Board & Charters",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=9,
+    notes="Mounted map board and 8 railroad company charters atop insert",
+    allocates={"Game Board": 1, "Company Charters": 8},
+)
+
 TRAIN_PATTERN = PatternBuilder(PatternType.OCTAGON)
 RAILWAY_FONT = "Georgia:style=Bold"
 
@@ -140,6 +162,8 @@ for idx, (m_h, denom_label) in enumerate(
             f"Denom_{slot + 1}",
             width_ratio=0.25,
             cut=FingerCut.SCOOP,
+            component="Bank Money Denomination Stacks",
+            count=1,
         )
 
 # ── Interior Geometry Helpers (from 1835.scad) ────────────────────
@@ -331,6 +355,11 @@ middle_box = project.box(
 middle_box.compartment(
     "TokensAndCards",
     elements=_middle_box_elements(),
+    allocates={
+        "Station Tokens": 41,
+        "Train Cards": 33,
+        "Private Railroad Cards": 6,
+    },
 )
 
 # ── 3. Track Hex Tile Boxes (4 tiers stacked, inset lid) ──────────
@@ -345,9 +374,12 @@ for tier in range(4):
     h_box.compartment(
         "HexGrid",
         elements=_hex_box_elements(),
+        component="Hex Track Tile Stacks",
+        count=15,
     )
 
 # ── 4. Railroad Company Shares (4 tiers stacked, slipover lid) ────
+_share_counts = ((9, 9), (9, 9), (8, 12), (6, 6))  # 68 total across 8 companies
 for tier in range(4):
     s_box = project.box(
         BoxType.SLIPOVER,
@@ -361,8 +393,20 @@ for tier in range(4):
             logo_size_mm=14.0,
         ),
     )
-    s_box.compartment("Shares_1", width_ratio=0.5, cut=FingerCut.SCOOP)
-    s_box.compartment("Shares_2", width_ratio=0.5, cut=FingerCut.SCOOP)
+    s_box.compartment(
+        "Shares_1",
+        width_ratio=0.5,
+        cut=FingerCut.SCOOP,
+        component="Company Share Certificates",
+        count=_share_counts[tier][0],
+    )
+    s_box.compartment(
+        "Shares_2",
+        width_ratio=0.5,
+        cut=FingerCut.SCOOP,
+        component="Company Share Certificates",
+        count=_share_counts[tier][1],
+    )
 
 # ── 5. First Player Marker Box (slipover lid, 24mm; auto spacer on top)
 p_box = project.box(
@@ -375,6 +419,8 @@ p_box = project.box(
 p_box.compartment(
     "FirstPlayerMarker",
     elements=_first_player_elements(),
+    component="First Player Marker",
+    count=1,
 )
 
 project.stack_order("HexBox_1", "HexBox_2", "HexBox_3", "HexBox_4")

@@ -74,6 +74,30 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory(
+    {
+        "Share Certificates": 16,
+        "Locomotives": 95,
+        "Railway Dividend Disks": 5,
+        "£1 Currency Cards": 30,
+        "£5 Currency Cards": 20,
+        "£10 Currency Cards": 20,
+        "Dividend Cubes": 30,
+        "Cloth Bag": 1,
+        "Game Board": 1,
+        "Rulebook": 1,
+    }
+)
+
+project.board(
+    "Game Board & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=2,
+    notes="Folded Ireland map board and rulebook on top",
+    allocates={"Game Board": 1, "Rulebook": 1},
+)
+
 IRISH_PATTERN = PatternBuilder(PatternType.RING)
 IRISH_FONT = "Georgia:style=Bold"
 
@@ -219,6 +243,11 @@ for company_id, title, color_name, shares in companies:
         size=(company_inner_width, company_inner_length),
         position=(0.0, 0.0),
         elements=_company_box_elements(shares),
+        allocates={
+            "Share Certificates": shares,
+            "Locomotives": 19,
+            "Railway Dividend Disks": 1,
+        },
     )
 
 project.stack_order("CompanyBox_Belfast", "CompanyBox_GreatSouthern")
@@ -243,11 +272,18 @@ m_box = project.box(
         label_logo_size_mm=16.0,
     ),
 )
-for name in ["Money_1", "Money_5", "Money_10", "DividendCubes"]:
+money_slots: list[tuple[str, dict[str, int]]] = [
+    ("Money_1", {"£1 Currency Cards": 30}),
+    ("Money_5", {"£5 Currency Cards": 20}),
+    ("Money_10", {"£10 Currency Cards": 20}),
+    ("DividendCubes", {"Dividend Cubes": 30, "Cloth Bag": 1}),
+]
+for name, slot_alloc in money_slots:
     m_box.compartment(
         name,
         width_ratio=0.25,
         cut=FingerCut.SCOOP,
+        allocates=slot_alloc,
     )
 
 # ── Export ────────────────────────────────────────────────────────

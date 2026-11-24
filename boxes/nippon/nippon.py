@@ -132,6 +132,49 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+# ── Game Piece Inventory ──────────────────────────────────────────
+project.define_inventory({
+    "Player Ships": 24,
+    "Player Trains": 24,
+    "Track Marker Cylinders": 12,
+    "Machine Disks": 24,
+    "Influence & Favour Tokens": 80,
+    "Contract Tokens": 32,
+    "Scoring Disks": 8,
+    "Factory Tiles": 24,
+    "Demand Tiles": 12,
+    "Starting Tiles": 4,
+    "Old Factory Tiles": 8,
+    "Upgrade Tiles": 12,
+    "Money Tokens": 50,
+    "Solo Goal Tokens": 9,
+    "Solo Action Tokens": 9,
+    "Late-Game Factory Tiles": 6,
+    "Round Marker Cylinders": 2,
+    "Worker Meeples": 48,
+    "Expert Worker Tokens": 6,
+    "Silk Cubes": 24,
+    "Paper Cubes": 24,
+    "Coal Cubes": 32,
+    "Copper Cubes": 32,
+    "Main Game Board": 1,
+    "Player Boards": 4,
+    "Rulebook": 1,
+})
+
+project.board(
+    "Main Board, Player Boards & Rulebook",
+    size=(box_width, box_length, total_board_reserve),
+    position=(0.0, 0.0, usable_height),
+    count=6,
+    notes="Main game board (9mm), 4 player boards (17.2mm), and handbook (6mm) atop insert",
+    allocates={
+        "Main Game Board": 1,
+        "Player Boards": 4,
+        "Rulebook": 1,
+    },
+)
+
 NIPPON_PATTERN = PatternBuilder(PatternType.AMMANN_BEENKER)
 NIPPON_FONT = "Georgia:style=Bold"
 
@@ -354,6 +397,11 @@ for i, color_name in enumerate(player_colors):
         "ShipsAndTrains",
         size=(player_inner_width, player_inner_length),
         position=(0.0, 0.0),
+        allocates={
+            "Player Ships": 6,
+            "Player Trains": 6,
+            "Track Marker Cylinders": 3,
+        },
         elements=_player_ships_trains_elements(),
     )
 
@@ -388,6 +436,12 @@ for i, color_name in enumerate(player_colors):
         "PlayerBits",
         size=(bits_inner_width, bits_inner_length),
         position=(0.0, 0.0),
+        allocates={
+            "Machine Disks": 6,
+            "Influence & Favour Tokens": 20,
+            "Contract Tokens": 8,
+            "Scoring Disks": 2,
+        },
         elements=_player_bits_elements(),
     )
 
@@ -415,7 +469,7 @@ for idx, text in enumerate(["Factories I", "Factories II"], start=1):
             logo_position="left",
             label_logo_size_mm=14.0,
         ),
-    ).compartment("Tiles", cut=FingerCut.SCOOP)
+    ).compartment("Tiles", cut=FingerCut.SCOOP, component="Factory Tiles", count=12)
     row2_x += factory_tile_box_width
 
 project.box(
@@ -433,7 +487,7 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-).compartment("Tiles", cut=FingerCut.SCOOP)
+).compartment("Tiles", cut=FingerCut.SCOOP, component="Demand Tiles", count=12)
 row2_x += demand_tile_box_width
 
 project.box(
@@ -451,7 +505,11 @@ project.box(
         text_color=Color("white"),
         frame_color=Color("navy"),
     ),
-).compartment("Tiles", cut=FingerCut.SCOOP)
+).compartment(
+    "Tiles",
+    cut=FingerCut.SCOOP,
+    allocates={"Starting Tiles": 4, "Old Factory Tiles": 8},
+)
 row2_x += starting_tile_box_width
 
 upg_inner_width = upgraded_tile_box_width - wall_thickness * 2.0  # 84.0mm
@@ -510,6 +568,8 @@ project.box(
     "Upgrades",
     size=(upg_inner_width, upg_inner_length),
     position=(0.0, 0.0),
+    component="Upgrade Tiles",
+    count=12,
     elements=_upgrade_tile_elements(),
 )
 
@@ -532,7 +592,7 @@ project.box(
         logo_position="left",
         label_logo_size_mm=15.0,
     ),
-).compartment("Money", cut=FingerCut.SCOOP)
+).compartment("Money", cut=FingerCut.SCOOP, component="Money Tokens", count=50)
 
 # ── Row 3: Solo, Late Game, Round Marker & 6 Worker Boxes (Y = 152.5 .. 213.0) ──
 row3_y = row2_y + factory_tile_box_length
@@ -595,6 +655,7 @@ project.box(
     "SoloTokens",
     size=(solo_inner_width, solo_inner_length),
     position=(0.0, 0.0),
+    allocates={"Solo Goal Tokens": 9, "Solo Action Tokens": 9},
     elements=_solo_box_elements(),
 )
 
@@ -617,7 +678,7 @@ project.box(
         logo_position="left",
         label_logo_size_mm=14.0,
     ),
-).compartment("LateGameFactories", cut=FingerCut.SCOOP)
+).compartment("LateGameFactories", cut=FingerCut.SCOOP, component="Late-Game Factory Tiles", count=6)
 
 rm_inner_width = round_marker_box_width - wall_thickness * 2.0  # 32.5mm
 rm_inner_length = round_marker_box_length - wall_thickness * 2.0  # 56.5mm
@@ -642,6 +703,8 @@ project.box(
     "RoundMarkers",
     size=(rm_inner_width, rm_inner_length),
     position=(0.0, 0.0),
+    component="Round Marker Cylinders",
+    count=2,
     elements=(
         CompartmentElement(
             shape=ElementShape.ROUNDED_RECT,
@@ -761,6 +824,7 @@ for idx, wcolor in enumerate(worker_colors):
         "Workers",
         size=(worker_inner_width, worker_inner_length),
         position=(0.0, 0.0),
+        allocates={"Worker Meeples": 8, "Expert Worker Tokens": 1},
         elements=_worker_box_elements(),
     )
 
@@ -770,9 +834,9 @@ res_inner_width = resource_box_width - wall_thickness * 2.0  # 108.0mm
 res_inner_length = resource_box_length - wall_thickness * 2.0  # 33.5mm
 res_dbl_inner_width = resource_box_double_width - wall_thickness * 2.0  # 187.0mm
 
-for layer, (label, color) in enumerate([
-    ("ResourceBox_silk", "lightgrey"),
-    ("ResourceBox_paper", "red"),
+for layer, (label, color, comp_name) in enumerate([
+    ("ResourceBox_silk", "lightgrey", "Silk Cubes"),
+    ("ResourceBox_paper", "red", "Paper Cubes"),
 ]):
     txt_color = Color("black" if color == "lightgrey" else "white")
     project.box(
@@ -798,6 +862,8 @@ for layer, (label, color) in enumerate([
         "Cubes",
         size=(res_inner_width, res_inner_length),
         position=(0.0, 0.0),
+        component=comp_name,
+        count=24,
         elements=(
             CompartmentElement(
                 shape=ElementShape.ROUNDED_RECT,
@@ -819,9 +885,9 @@ for layer, (label, color) in enumerate([
         ),
     )
 
-for layer, (label, color) in enumerate([
-    ("ResourceDoubleBox_coal", "black"),
-    ("ResourceDoubleBox_copper", "palegoldenrod"),
+for layer, (label, color, comp_name) in enumerate([
+    ("ResourceDoubleBox_coal", "black", "Coal Cubes"),
+    ("ResourceDoubleBox_copper", "palegoldenrod", "Copper Cubes"),
 ]):
     main_w = cube_size * 10.0 + 1.0  # 106.0mm
     main_l = cube_size * 3.0 + 0.5  # 32.0mm
@@ -851,6 +917,8 @@ for layer, (label, color) in enumerate([
         "Cubes",
         size=(res_dbl_inner_width, res_inner_length),
         position=(0.0, 0.0),
+        component=comp_name,
+        count=32,
         elements=(
             CompartmentElement(
                 shape=ElementShape.ROUNDED_RECT,

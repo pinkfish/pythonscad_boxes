@@ -87,6 +87,34 @@ project = Project(
     generate_spacers=True,
 )
 
+# ── Game Piece Inventory ──────────────────────────────────────────
+project.define_inventory({
+    "Nature Cards": 99,
+    "Hunter Cards": 10,
+    "Solo / Event Cards": 6,
+    "Population Dials": 20,
+    "Apex Leopard Meeple": 1,
+    "Grass Food Tokens": 60,
+    "Meat Food Tokens": 30,
+    "Population Tokens": 40,
+    "Watering Hole Board": 1,
+    "Player Screens": 4,
+    "Rulebook": 1,
+})
+
+project.board(
+    "Boards, Screens & Rulebook",
+    size=(box_width, box_length, board_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=6,
+    notes="Central watering hole board, 4 player screens, and rulebook atop insert",
+    allocates={
+        "Watering Hole Board": 1,
+        "Player Screens": 4,
+        "Rulebook": 1,
+    },
+)
+
 NATURE_PATTERN = PatternBuilder(PatternType.VORONOI)
 NATURE_FONT = "Futura:style=Bold"
 
@@ -123,7 +151,7 @@ project.box(
     size=(card_box_width, card_box_length, card_box_height),
     position=(0.0, 0.0, 0.0),
     lid=_nature_lid("Nature Cards", "forestgreen"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Nature Cards", count=99)
 
 # ── 2. Small Decks (Hunter & Solo) ────────────────────────────────
 project.box(
@@ -133,7 +161,7 @@ project.box(
     position=(card_box_width, 0.0, 0.0),
     lid=_nature_lid("Hunters", "darkred"),
     stackable=StackableMode.PYRAMIDS,
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Hunter Cards", count=10)
 
 project.box(
     BoxType.SLIDING,
@@ -142,7 +170,7 @@ project.box(
     position=(card_box_width, 0.0, hunter_card_box_height),
     lid=_nature_lid("Solo / Event", "royalblue"),
     stackable=StackableMode.PYRAMIDS,
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Solo / Event Cards", count=6)
 
 # ── 3. Population Dials (x2) & Leopard Box ────────────────────────
 disk_diameter = 46.0
@@ -194,6 +222,8 @@ for idx in range(1, 3):
         "Dials",
         size=(dial_inner_width, dial_inner_length),
         position=(0.0, 0.0),
+        component="Population Dials",
+        count=10,
         elements=_dial_box_elements(),
     )
 
@@ -203,7 +233,7 @@ project.box(
     size=(leopard_box_width, leopard_box_length, leopard_box_height),
     position=(resource_box_width, card_box_length + dial_box_length * 2.0, 0.0),
     lid=_nature_lid("Apex Leopard", "peru", narrow=True),
-).compartment("Leopard", cut=FingerCut.SCOOP)
+).compartment("Leopard", cut=FingerCut.SCOOP, component="Apex Leopard Meeple", count=1)
 
 # ── 4. Food & Population Resource Trays (Grass, Meat & Population) ─
 project.box(
@@ -212,7 +242,7 @@ project.box(
     size=(resource_box_width, resource_box_length, resource_box_height),
     position=(0.0, card_box_length, resource_box_height),
     lid=_nature_lid("Grass", "green", logo_file="grass.svg", logo_size=16.0),
-).compartment("GrassTokens", cut=FingerCut.SCOOP)
+).compartment("GrassTokens", cut=FingerCut.SCOOP, component="Grass Food Tokens", count=60)
 
 project.box(
     BoxType.CAP,
@@ -220,7 +250,7 @@ project.box(
     size=(resource_box_width, resource_box_length, resource_box_height),
     position=(0.0, card_box_length + resource_box_length, resource_box_height),
     lid=_nature_lid("Meat", "firebrick", logo_file="meat.svg", logo_size=16.0),
-).compartment("MeatTokens", cut=FingerCut.SCOOP)
+).compartment("MeatTokens", cut=FingerCut.SCOOP, component="Meat Food Tokens", count=30)
 
 project.box(
     BoxType.CAP,
@@ -228,7 +258,7 @@ project.box(
     size=(resource_box_width, resource_box_double_length, resource_box_height),
     position=(0.0, card_box_length, 0.0),
     lid=_nature_lid("Population", "darkgoldenrod", logo_file="population.svg", logo_size=18.0),
-).compartment("PopulationTokens", cut=FingerCut.SCOOP)
+).compartment("PopulationTokens", cut=FingerCut.SCOOP, component="Population Tokens", count=40)
 
 project.stack_order("HunterCardsBox", "SoloCardsBox")
 

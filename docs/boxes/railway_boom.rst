@@ -24,134 +24,148 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=be07651e" download="RailwayBoom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailwayBoom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=be07651e" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=41d06248" download="RailwayBoom_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>RailwayBoom_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=41d06248" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=be07651e" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/railway_boom/RailwayBoom_packing_guide.pdf?v=41d06248" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
 --------------
 
+- **3-D Printed Parts**: 21 bodies, 19 lids, 1 spacers (41 total)
+- **Boards & Non-Printed Components**: 5
+- **Counted Game Pieces**: 631
+
 .. list-table::
    :header-rows: 1
-   :widths: 26 24 20 18 12
+   :widths: 22 18 17 15 28
 
-   * - Box / Spacer
-     - Box Type
+   * - Box / Component
+     - Type
      - Dimensions (W × L × H)
      - Packed Position
-     - Compartments
+     - Pieces / Contents
    * - :ref:`PlayerBox_Green <box-railway_boom-playerbox_green>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``103.5 × 108 × 14 mm``
      - ``(0, 0, 0)``
-     - 1
+     - 30x Player Trains, 23x Player Cubes, 4x Player Stations, 1x Player Discs, 1x Player Pentagons
    * - :ref:`PlayerBox_Blue <box-railway_boom-playerbox_blue>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``103.5 × 108 × 14 mm``
      - ``(0, 0, 14)``
-     - 1
+     - 30x Player Trains, 23x Player Cubes, 4x Player Stations, 1x Player Discs, 1x Player Pentagons
    * - :ref:`PlayerBox_Red <box-railway_boom-playerbox_red>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``103.5 × 108 × 14 mm``
      - ``(103.5, 0, 0)``
-     - 1
+     - 30x Player Trains, 23x Player Cubes, 4x Player Stations, 1x Player Discs, 1x Player Pentagons
    * - :ref:`PlayerBox_Yellow <box-railway_boom-playerbox_yellow>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``103.5 × 108 × 14 mm``
      - ``(103.5, 0, 14)``
-     - 1
+     - 30x Player Trains, 23x Player Cubes, 4x Player Stations, 1x Player Discs, 1x Player Pentagons
    * - :ref:`SpacerPlayerBoardBox <box-railway_boom-spacerplayerboardbox>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``47 × 108 × 8 mm``
      - ``(161, 0, 28)``
-     - 0
+     - —
    * - :ref:`StationCardBox <box-railway_boom-stationcardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``98 × 73 × 28 mm``
      - ``(0, 108, 0)``
-     - 1
+     - 36x Station Cards
    * - :ref:`ObjectiveCardBox <box-railway_boom-objectivecardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``98 × 73 × 17.6 mm``
      - ``(98, 108, 0)``
-     - 1
+     - 18x Objective Cards
    * - :ref:`RouteCardBox <box-railway_boom-routecardbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``98 × 73 × 9.9 mm``
      - ``(98, 108, 17.6)``
-     - 1
+     - 7x Route Cards
    * - :ref:`TouristTileBox <box-railway_boom-touristtilebox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``13 × 73 × 36 mm``
      - ``(196, 108, 0)``
-     - 1
+     - 14x Tourist City Tiles
    * - :ref:`SmallCardBox_Carriages <box-railway_boom-smallcardbox_carriages>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``72 × 52 × 28 mm``
      - ``(0, 181, 0)``
-     - 1
+     - 30x Carriage Cards
    * - :ref:`SmallCardBox_Locomotives <box-railway_boom-smallcardbox_locomotives>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``72 × 52 × 28 mm``
      - ``(72, 181, 0)``
-     - 1
+     - 26x Locomotive Cards
    * - :ref:`SmallCardBox_CityTiles <box-railway_boom-smallcardbox_citytiles>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``52 × 52 × 28 mm``
      - ``(144, 181, 0)``
-     - 1
+     - 36x Regular City Tiles
    * - :ref:`FrontSpacerBox <box-railway_boom-frontspacerbox>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>`
      - ``13 × 52 × 36 mm``
      - ``(196, 181, 0)``
-     - 0
+     - —
    * - :ref:`DevelopmentCardBox_1 <box-railway_boom-developmentcardbox_1>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``72 × 52 × 36 mm``
      - ``(0, 233, 0)``
-     - 1
+     - 37x Development Cards
    * - :ref:`DevelopmentCardBox_2 <box-railway_boom-developmentcardbox_2>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``72 × 52 × 36 mm``
      - ``(72, 233, 0)``
-     - 1
+     - 37x Development Cards
    * - :ref:`ResourceBox_Materials <box-railway_boom-resourcebox_materials>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``65 × 33.5 × 18 mm``
      - ``(144, 233, 0)``
-     - 1
+     - 30x Material Tokens
    * - :ref:`ResourceBox_VP <box-railway_boom-resourcebox_vp>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``65 × 33.5 × 18 mm``
      - ``(144, 233, 18)``
-     - 1
+     - 30x VP Tokens
    * - :ref:`ResourceBox_Tech <box-railway_boom-resourcebox_tech>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``65 × 33.5 × 18 mm``
      - ``(144, 266.5, 0)``
-     - 1
+     - 20x Tech Tokens
    * - :ref:`ResourceBox_Coal <box-railway_boom-resourcebox_coal>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``65 × 33.5 × 18 mm``
      - ``(144, 266.5, 18)``
-     - 1
+     - 30x Coal Tokens
    * - :ref:`IndicatorBox <box-railway_boom-indicatorbox>`
      - :ref:`BoxType.SLIDING <box-type-sliding>`
      - ``77.272 × 14 × 36 mm``
      - ``(0, 285, 0)``
-     - 1
+     - 4x Octagonal Indicators
    * - :ref:`ResourceBox_Money <box-railway_boom-resourcebox_money>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``66.728 × 14 × 36 mm``
      - ``(77.272, 285, 0)``
-     - 1
+     - 40x Money Tokens
    * - :ref:`spacer_1 <spacer-railway_boom-spacer_1>`
      - :ref:`BoxType.NO_LID <box-type-no-lid>` (spacer)
-     - ``161 × 233 × 8 mm``
+     - ``161 × 5 × 8 mm``
+     - ``(0, 228, 28)``
+     - Printed spacer tray
+   * - Main Board
+     - Board / Non-Printed
+     - ``209 × 300 × 10 mm``
+     - ``(0, 0, 36)``
+     - 1x Main Board (Top of box)
+   * - Player Boards
+     - Board / Non-Printed
+     - ``161 × 228 × 8 mm``
      - ``(0, 0, 28)``
-     - —
+     - 4x Player Boards (Stacked above player, station & small card boxes)
 
 Individual Boxes & Parts
 ------------------------
@@ -164,6 +178,7 @@ PlayerBox_Green
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``103.5 × 108 × 14 mm``
 - **Packed Position**: ``(0, 0, 0)``
+- **Pieces / Contents**: 30x Player Trains, 23x Player Cubes, 4x Player Stations, 1x Player Discs, 1x Player Pentagons
 - **Compartments (1)**: ``PlayerBits`` (97.5 × 102 mm, 19 elements)
 
 **Assembled Box (PlayerBox_Green — Body + Lid)**
@@ -201,6 +216,7 @@ PlayerBox_Blue
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``103.5 × 108 × 14 mm``
 - **Packed Position**: ``(0, 0, 14)``
+- **Pieces / Contents**: 30x Player Trains, 23x Player Cubes, 4x Player Stations, 1x Player Discs, 1x Player Pentagons
 - **Compartments (1)**: ``PlayerBits`` (97.5 × 102 mm, 19 elements)
 
 **Assembled Box (PlayerBox_Blue — Body + Lid)**
@@ -238,6 +254,7 @@ PlayerBox_Red
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``103.5 × 108 × 14 mm``
 - **Packed Position**: ``(103.5, 0, 0)``
+- **Pieces / Contents**: 30x Player Trains, 23x Player Cubes, 4x Player Stations, 1x Player Discs, 1x Player Pentagons
 - **Compartments (1)**: ``PlayerBits`` (97.5 × 102 mm, 19 elements)
 
 **Assembled Box (PlayerBox_Red — Body + Lid)**
@@ -275,6 +292,7 @@ PlayerBox_Yellow
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``103.5 × 108 × 14 mm``
 - **Packed Position**: ``(103.5, 0, 14)``
+- **Pieces / Contents**: 30x Player Trains, 23x Player Cubes, 4x Player Stations, 1x Player Discs, 1x Player Pentagons
 - **Compartments (1)**: ``PlayerBits`` (97.5 × 102 mm, 19 elements)
 
 **Assembled Box (PlayerBox_Yellow — Body + Lid)**
@@ -330,6 +348,7 @@ StationCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``98 × 73 × 28 mm``
 - **Packed Position**: ``(0, 108, 0)``
+- **Pieces / Contents**: 36x Station Cards
 - **Compartments (1)**: ``StationCards`` (full interior)
 
 **Assembled Box (StationCardBox — Body + Lid)**
@@ -367,6 +386,7 @@ ObjectiveCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``98 × 73 × 17.6 mm``
 - **Packed Position**: ``(98, 108, 0)``
+- **Pieces / Contents**: 18x Objective Cards
 - **Compartments (1)**: ``ObjectiveCards`` (full interior)
 
 **Assembled Box (ObjectiveCardBox — Body + Lid)**
@@ -404,6 +424,7 @@ RouteCardBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``98 × 73 × 9.9 mm``
 - **Packed Position**: ``(98, 108, 17.6)``
+- **Pieces / Contents**: 7x Route Cards
 - **Compartments (1)**: ``RouteCards`` (full interior)
 
 **Assembled Box (RouteCardBox — Body + Lid)**
@@ -441,6 +462,7 @@ TouristTileBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``13 × 73 × 36 mm``
 - **Packed Position**: ``(196, 108, 0)``
+- **Pieces / Contents**: 14x Tourist City Tiles
 - **Compartments (1)**: ``TouristTiles`` (10 × 70 mm, 2 elements)
 
 **Assembled Box (TouristTileBox — Body + Lid)**
@@ -478,6 +500,7 @@ SmallCardBox_Carriages
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``72 × 52 × 28 mm``
 - **Packed Position**: ``(0, 181, 0)``
+- **Pieces / Contents**: 30x Carriage Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (SmallCardBox_Carriages — Body + Lid)**
@@ -515,6 +538,7 @@ SmallCardBox_Locomotives
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``72 × 52 × 28 mm``
 - **Packed Position**: ``(72, 181, 0)``
+- **Pieces / Contents**: 26x Locomotive Cards
 - **Compartments (1)**: ``Cards`` (full interior)
 
 **Assembled Box (SmallCardBox_Locomotives — Body + Lid)**
@@ -552,6 +576,7 @@ SmallCardBox_CityTiles
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``52 × 52 × 28 mm``
 - **Packed Position**: ``(144, 181, 0)``
+- **Pieces / Contents**: 36x Regular City Tiles
 - **Compartments (1)**: ``CityTiles`` (46 × 46 mm, 7 elements)
 
 **Assembled Box (SmallCardBox_CityTiles — Body + Lid)**
@@ -607,6 +632,7 @@ DevelopmentCardBox_1
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``72 × 52 × 36 mm``
 - **Packed Position**: ``(0, 233, 0)``
+- **Pieces / Contents**: 37x Development Cards
 - **Compartments (1)**: ``DevelopmentCards`` (full interior)
 
 **Assembled Box (DevelopmentCardBox_1 — Body + Lid)**
@@ -644,6 +670,7 @@ DevelopmentCardBox_2
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``72 × 52 × 36 mm``
 - **Packed Position**: ``(72, 233, 0)``
+- **Pieces / Contents**: 37x Development Cards
 - **Compartments (1)**: ``DevelopmentCards`` (full interior)
 
 **Assembled Box (DevelopmentCardBox_2 — Body + Lid)**
@@ -681,6 +708,7 @@ ResourceBox_Materials
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``65 × 33.5 × 18 mm``
 - **Packed Position**: ``(144, 233, 0)``
+- **Pieces / Contents**: 30x Material Tokens
 - **Compartments (1)**: ``Materials`` (full interior)
 
 **Assembled Box (ResourceBox_Materials — Body + Lid)**
@@ -718,6 +746,7 @@ ResourceBox_VP
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``65 × 33.5 × 18 mm``
 - **Packed Position**: ``(144, 233, 18)``
+- **Pieces / Contents**: 30x VP Tokens
 - **Compartments (1)**: ``VP`` (full interior)
 
 **Assembled Box (ResourceBox_VP — Body + Lid)**
@@ -755,6 +784,7 @@ ResourceBox_Tech
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``65 × 33.5 × 18 mm``
 - **Packed Position**: ``(144, 266.5, 0)``
+- **Pieces / Contents**: 20x Tech Tokens
 - **Compartments (1)**: ``Tech`` (full interior)
 
 **Assembled Box (ResourceBox_Tech — Body + Lid)**
@@ -792,6 +822,7 @@ ResourceBox_Coal
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``65 × 33.5 × 18 mm``
 - **Packed Position**: ``(144, 266.5, 18)``
+- **Pieces / Contents**: 30x Coal Tokens
 - **Compartments (1)**: ``Coal`` (full interior)
 
 **Assembled Box (ResourceBox_Coal — Body + Lid)**
@@ -829,6 +860,7 @@ IndicatorBox
 - **Box Type**: :ref:`BoxType.SLIDING <box-type-sliding>`
 - **Outer Dimensions**: ``77.272 × 14 × 36 mm``
 - **Packed Position**: ``(0, 285, 0)``
+- **Pieces / Contents**: 4x Octagonal Indicators
 - **Compartments (1)**: ``Indicators`` (74.272 × 11 mm, 8 elements)
 
 **Assembled Box (IndicatorBox — Body + Lid)**
@@ -866,6 +898,7 @@ ResourceBox_Money
 - **Box Type**: :ref:`BoxType.SLIPOVER <box-type-slipover>`
 - **Outer Dimensions**: ``66.728 × 14 × 36 mm``
 - **Packed Position**: ``(77.272, 285, 0)``
+- **Pieces / Contents**: 40x Money Tokens
 - **Compartments (1)**: ``Money`` (full interior)
 
 **Assembled Box (ResourceBox_Money — Body + Lid)**
@@ -904,8 +937,8 @@ spacer_1
 ^^^^^^^^
 
 - **Type**: :ref:`BoxType.NO_LID <box-type-no-lid>` filler spacer tray
-- **Outer Dimensions**: ``161 × 233 × 8 mm``
-- **Packed Position**: ``(0, 0, 28)``
+- **Outer Dimensions**: ``161 × 5 × 8 mm``
+- **Packed Position**: ``(0, 228, 28)``
 
 .. stl:: ../_stl/boxes/railway_boom/spacer_1.stl?v=ee9e9628
    :height: 280px

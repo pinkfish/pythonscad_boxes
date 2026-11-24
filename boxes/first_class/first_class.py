@@ -115,6 +115,40 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+project.define_inventory(
+    {
+        "Locomotives": 4,
+        "Conductors": 12,
+        "Scoring Cubes": 24,
+        "Coins": 48,
+        "Evidence Tokens": 26,
+        "Module Cards": 120,
+        "Base Action Cards": 72,
+        "Mail Car Cards": 16,
+        "Railroad 0-1 Cards": 50,
+        "Railroad 2-4 Cards": 24,
+        "Railroad 7-12 Cards": 20,
+        "Whodunit Cards": 4,
+        "Game End Cards": 21,
+        "Start Player Tile": 1,
+        "Start Player Figure": 1,
+        "Locomotive Tiles": 8,
+        "Constantinople Tile": 1,
+        "Score Board": 1,
+        "Player Boards": 4,
+        "Rulebook": 1,
+    }
+)
+
+project.board(
+    "Boards & Rulebook",
+    size=(box_width, box_length, board_thickness + rule_book_thickness),
+    position=(0.0, 0.0, usable_height),
+    count=6,
+    notes="Score board, 4 player boards, and rulebook",
+    allocates={"Score Board": 1, "Player Boards": 4, "Rulebook": 1},
+)
+
 ORIENT_PATTERN = PatternBuilder(PatternType.CHEVRON)
 ORIENT_FONT = "Georgia:style=Bold"
 
@@ -240,6 +274,7 @@ for color_name, pos in player_positions:
         size=(player_inner_w, player_inner_l),
         position=(0.0, 0.0),
         elements=player_elements,
+        allocates={"Locomotives": 1, "Conductors": 3, "Scoring Cubes": 6},
     )
 
 project.box(
@@ -254,7 +289,7 @@ project.box(
         logo=str(ASSETS / "coin.svg"),
         logo_size_mm=15.0,
     ),
-).compartment("Coins", cut=FingerCut.SCOOP)
+).compartment("Coins", cut=FingerCut.SCOOP, component="Coins", count=48)
 
 project.box(
     BoxType.SLIDING,
@@ -262,30 +297,30 @@ project.box(
     size=(player_box_width, player_box_length, player_box_height),
     position=(player_box_width, 0.0, player_box_height * 2.0),
     lid=_lid("Evidence", "lightsalmon", text_color="black"),
-).compartment("Tokens", cut=FingerCut.SCOOP)
+).compartment("Tokens", cut=FingerCut.SCOOP, component="Evidence Tokens", count=26)
 
 # ── Row 2: Module, Base/Mail/Evidence, Railroad & Whodunit Cards (Y = 53 .. 129) ──
 row2_y = player_box_length
 
 module_decks = [
-    ("ModuleA", "Module A", 0, 0),
-    ("ModuleB", "Module B", 0, 1),
-    ("ModuleC", "Module C", 0, 2),
-    ("ModuleD", "Module D", 1, 0),
-    ("ModuleE", "Module E", 1, 1),
-    ("BaseCards_1", "Base I", 1, 2),
-    ("BaseCards_2", "Base II", 2, 0),
-    ("EvidenceAndMail", "Mail & Ev.", 2, 1),
+    ("ModuleA", "Module A", 0, 0, "Module Cards", 24),
+    ("ModuleB", "Module B", 0, 1, "Module Cards", 24),
+    ("ModuleC", "Module C", 0, 2, "Module Cards", 24),
+    ("ModuleD", "Module D", 1, 0, "Module Cards", 24),
+    ("ModuleE", "Module E", 1, 1, "Module Cards", 24),
+    ("BaseCards_1", "Base I", 1, 2, "Base Action Cards", 36),
+    ("BaseCards_2", "Base II", 2, 0, "Base Action Cards", 36),
+    ("EvidenceAndMail", "Mail & Ev.", 2, 1, "Mail Car Cards", 16),
 ]
 
-for deck_id, label_text, col, layer in module_decks:
+for deck_id, label_text, col, layer, comp_name, comp_count in module_decks:
     project.box(
         BoxType.SLIDING,
         f"CardBox_{deck_id}",
         size=(card_box_width, card_box_length, module_box_height),
         position=(card_box_width * col, row2_y, module_box_height * layer),
         lid=_lid(label_text, "darkblue"),
-    ).compartment("Cards", cut=FingerCut.SCOOP)
+    ).compartment("Cards", cut=FingerCut.SCOOP, component=comp_name, count=comp_count)
 
 project.box(
     BoxType.SLIDING,
@@ -293,7 +328,7 @@ project.box(
     size=(card_box_width, card_box_length, railroad_7_12_height),
     position=(card_box_width * 2.0, row2_y, module_box_height * 2.0),
     lid=_lid("7-12", "cyan", text_color="black"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Railroad 7-12 Cards", count=20)
 
 project.box(
     BoxType.SLIDING,
@@ -301,7 +336,7 @@ project.box(
     size=(card_box_width, card_box_length, railroad_0_1_height),
     position=(card_box_width * 3.0, row2_y, 0.0),
     lid=_lid("0-1", "cyan", text_color="black"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Railroad 0-1 Cards", count=50)
 
 project.box(
     BoxType.SLIDING,
@@ -309,7 +344,7 @@ project.box(
     size=(card_box_width, card_box_length, railroad_2_4_height),
     position=(card_box_width * 3.0, row2_y, railroad_0_1_height),
     lid=_lid("2-4", "cyan", text_color="black"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Railroad 2-4 Cards", count=24)
 
 project.box(
     BoxType.SLIDING,
@@ -317,7 +352,7 @@ project.box(
     size=(card_box_width, card_box_length, whodunit_card_box_height),
     position=(card_box_width * 3.0, row2_y, railroad_0_1_height + railroad_2_4_height),
     lid=_lid("Whodunit", "darkred"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Whodunit Cards", count=4)
 
 # ── Row 3: Game End, Start Tile & Locomotive Tile Boxes (Y = 129 .. 205) ──
 row3_y = row2_y + card_box_length
@@ -328,7 +363,7 @@ project.box(
     size=(card_box_width, card_box_length, game_end_card_box_height),
     position=(0.0, row3_y, 0.0),
     lid=_lid("End", "deepskyblue"),
-).compartment("Cards", cut=FingerCut.SCOOP)
+).compartment("Cards", cut=FingerCut.SCOOP, component="Game End Cards", count=21)
 
 project.box(
     BoxType.SLIDING,
@@ -336,7 +371,11 @@ project.box(
     size=(card_box_width, card_box_length, start_tile_box_height),
     position=(0.0, row3_y, game_end_card_box_height),
     lid=_lid("Start", "khaki", text_color="black"),
-).compartment("StartTile", cut=FingerCut.SCOOP)
+).compartment(
+    "StartTile",
+    cut=FingerCut.SCOOP,
+    allocates={"Start Player Tile": 1, "Start Player Figure": 1},
+)
 
 project.box(
     BoxType.SLIDING,
@@ -351,7 +390,11 @@ project.box(
         logo=str(ASSETS / "train_token.svg"),
         logo_size_mm=15.0,
     ),
-).compartment("Tiles", cut=FingerCut.SCOOP)
+).compartment(
+    "Tiles",
+    cut=FingerCut.SCOOP,
+    allocates={"Locomotive Tiles": 8, "Constantinople Tile": 1},
+)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":

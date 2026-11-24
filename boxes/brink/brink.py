@@ -439,6 +439,55 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_inventory({
+    "Map Sector Hex Tiles": 25,
+    "Starting & Bonus Hex Tiles": 15,
+    "Player Upgrade Boards": 5,
+    "Class I Ships": 5,
+    "Class II Ships": 5,
+    "Class III Ships": 5,
+    "Cargo Modules": 15,
+    "Railguns": 15,
+    "Player & Score Tokens": 10,
+    "Komek Resource Cubes": 25,
+    "Ventus Resource Cubes": 25,
+    "Henko Resource Cubes": 25,
+    "Magnomi Resource Cubes": 25,
+    "Sorelia Resource Cubes": 20,
+    "UA Cubes": 15,
+    "UA Flagship": 1,
+    "Fusion Drive": 1,
+    "First Player Token": 1,
+    "Action Cards": 52,
+    "Rider Cards": 20,
+    "Ambassador Cards": 25,
+    "Faction Cards": 5,
+    "Rival Cards": 4,
+    "Community Cards": 15,
+    "Holo Cards": 15,
+    "Player Screens": 5,
+    "Main Board & Rulebooks": 1,
+})
+
+# Partial boards resting behind the front card row (matching brink.scad)
+project.board(
+    "Player Screens",
+    size=(210.0, 210.0, upgrade_thickness * 2.0),
+    position=(0.0, card_box_length, usable_height),
+    count=5,
+    notes="Folded player screens behind front card row",
+    component="Player Screens",
+)
+project.board(
+    "Main Board & Rulebooks",
+    size=(box_width, box_length - card_box_length, board_thickness - upgrade_thickness * 2.0),
+    position=(0.0, card_box_length, usable_height + upgrade_thickness * 2.0),
+    count=1,
+    notes="Rests over player screens, hex & resource boxes",
+    component="Main Board & Rulebooks",
+)
+
 BRINK_PATTERN = PatternBuilder(PatternType.VORONOI)
 BRINK_FONT = "Futura:style=Bold"
 BRINK_TEXT_SPACING = 1.18
@@ -447,9 +496,9 @@ BRINK_TEXT_SPACING = 1.18
 hex_inner_w = hex_box_width - 2.0 * wall_thickness
 hex_inner_l = hex_box_length - 2.0 * wall_thickness
 
-for label, title, h in [
-    ("HexBox", "Hexes", hex_box_height),
-    ("HexBonusBox", "Bonus Hexes", hex_bonus_box_height),
+for label, title, h, hex_comp, hex_qty in [
+    ("HexBox", "Hexes", hex_box_height, "Map Sector Hex Tiles", 25),
+    ("HexBonusBox", "Bonus Hexes", hex_bonus_box_height, "Starting & Bonus Hex Tiles", 15),
 ]:
     hb = project.box(
         BoxType.CAP,
@@ -475,6 +524,8 @@ for label, title, h in [
         size=(hex_inner_w, hex_inner_l),
         elements=_hex_box_elements(hex_inner_w, hex_inner_l, h - floor_thickness - lid_thickness),
         element_margin=0.0,
+        component=hex_comp,
+        count=hex_qty,
     )
     hex_offset_x = hex_inner_w / 2.0 - (hex_width / (2.0 * math.cos(math.radians(30.0))) + 0.8)
     hb.finger_hole(ScoopSide.FRONT, width=22.0, offset=-hex_offset_x)
@@ -519,6 +570,15 @@ for color_label, frame_col, text_col in player_colors:
         size=(player_inner_w, player_inner_l),
         elements=PLAYER_ELEMENTS,
         element_margin=0.0,
+        allocates={
+            "Player Upgrade Boards": 1,
+            "Class I Ships": 1,
+            "Class II Ships": 1,
+            "Class III Ships": 1,
+            "Cargo Modules": 3,
+            "Railguns": 3,
+            "Player & Score Tokens": 2,
+        },
     )
 
 # ── 3. Four Primary Faction Cube Boxes (Logo Lids) ────────────────
@@ -539,14 +599,25 @@ for faction, color_name, logo_file in primary_factions:
             pattern=BRINK_PATTERN,
         ),
     )
-    r_box.compartment("Cubes", holds_pieces=True)
+    r_box.compartment("Cubes", holds_pieces=True, component=f"{faction} Resource Cubes", count=25)
 
 # ── 4. Secondary Faction (Sorelia) & UA / Extra Bits Boxes ────────
-secondary_boxes = [
-    ("Sorelia", "purple", "sorelia.svg", "Cubes"),
-    ("UA", "crimson", "ua.svg", "UAAndExtras"),
+secondary_boxes: list[tuple[str, str, str, str, dict[str, int]]] = [
+    ("Sorelia", "purple", "sorelia.svg", "Cubes", {"Sorelia Resource Cubes": 20}),
+    (
+        "UA",
+        "crimson",
+        "ua.svg",
+        "UAAndExtras",
+        {
+            "UA Cubes": 15,
+            "UA Flagship": 1,
+            "Fusion Drive": 1,
+            "First Player Token": 1,
+        },
+    ),
 ]
-for name, color_name, logo_file, comp_name in secondary_boxes:
+for name, color_name, logo_file, comp_name, allocs in secondary_boxes:
     r2_box = project.box(
         BoxType.CAP,
         f"ResourceBox_{name}",
@@ -557,13 +628,13 @@ for name, color_name, logo_file, comp_name in secondary_boxes:
             pattern=BRINK_PATTERN,
         ),
     )
-    r2_box.compartment(comp_name, holds_pieces=True)
+    r2_box.compartment(comp_name, holds_pieces=True, allocates=allocs)
 
 # ── 5. Seven Sliding Card Boxes (matching brink.scad) ─────────────
 # Two-column small-card decks (Actions & Riders)
-for deck_id, title, color_name, h in [
-    ("Actions", "Actions", "gold", action_card_box_height),
-    ("Riders", "Riders", "firebrick", rider_card_box_height),
+for deck_id, title, color_name, h, card_comp, half_qty in [
+    ("Actions", "Actions", "gold", action_card_box_height, "Action Cards", 26),
+    ("Riders", "Riders", "firebrick", rider_card_box_height, "Rider Cards", 10),
 ]:
     c_box = project.box(
         BoxType.SLIDING,
@@ -581,16 +652,16 @@ for deck_id, title, color_name, h in [
             frame_color=Color(color_name),
         ),
     )
-    c_box.compartment("CardsLeft", width_ratio=0.5, cut=FingerCut.SCOOP)
-    c_box.compartment("CardsRight", width_ratio=0.5, cut=FingerCut.SCOOP)
+    c_box.compartment("CardsLeft", width_ratio=0.5, cut=FingerCut.SCOOP, component=card_comp, count=half_qty)
+    c_box.compartment("CardsRight", width_ratio=0.5, cut=FingerCut.SCOOP, component=card_comp, count=half_qty)
 
 # Single-column standard-card decks (Ambassadors, Factions, Rivals, Community, Holo)
-for deck_id, title, color_name, h in [
-    ("Ambassadors", "Ambassadors", "navy", ambassador_card_box_height),
-    ("Factions", "Factions", "forestgreen", faction_card_box_height),
-    ("Rivals", "Rivals", "darkorange", rival_card_box_height),
-    ("Community", "Community", "teal", bonus_card_box_height),
-    ("Holo", "Holo", "purple", bonus_card_box_height),
+for deck_id, title, color_name, h, card_comp, qty in [
+    ("Ambassadors", "Ambassadors", "navy", ambassador_card_box_height, "Ambassador Cards", 25),
+    ("Factions", "Factions", "forestgreen", faction_card_box_height, "Faction Cards", 5),
+    ("Rivals", "Rivals", "darkorange", rival_card_box_height, "Rival Cards", 4),
+    ("Community", "Community", "teal", bonus_card_box_height, "Community Cards", 15),
+    ("Holo", "Holo", "purple", bonus_card_box_height, "Holo Cards", 15),
 ]:
     c_box = project.box(
         BoxType.SLIDING,
@@ -608,7 +679,7 @@ for deck_id, title, color_name, h in [
             frame_color=Color(color_name),
         ),
     )
-    c_box.compartment("Cards", cut=FingerCut.SCOOP)
+    c_box.compartment("Cards", cut=FingerCut.SCOOP, component=card_comp, count=qty)
 
 # ── Export ────────────────────────────────────────────────────────
 if __name__ == "__main__":
