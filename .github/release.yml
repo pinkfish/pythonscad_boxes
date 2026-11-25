@@ -1,0 +1,33 @@
+# Automatic GitHub Release notes configuration used by `gh release create --generate-notes`
+# in `.github/workflows/release.yml` — no manual CHANGELOG.md to maintain.
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - dependabot
+  categories:
+    - title: Breaking Changes
+      labels:
+        - breaking
+        - breaking-change
+    - title: New Features
+      labels:
+        - enhancement
+        - feature
+    - title: Bug Fixes
+      labels:
+        - bug
+        - fix
+    - title: Documentation
+      labels:
+        - documentation
+        - docs
+    - title: CI, Packaging & Dependencies
+      labels:
+        - ci
+        - dependencies
+        - packaging
+    - title: Other Changes
+      labels:
+        - "*"
