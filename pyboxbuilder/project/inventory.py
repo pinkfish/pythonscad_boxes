@@ -49,7 +49,7 @@ _HELPER_TOKENS = frozenset({
     "lift",
 })
 
-_NO_LID_TYPES = frozenset({BoxType.NO_LID, BoxType.PATH})
+_NO_LID_TYPES = frozenset({BoxType.NO_LID, BoxType.PATH, BoxType.CARD_TRAY})
 
 
 def _split_tokens(text: str) -> list[str]:
@@ -258,16 +258,21 @@ class InventoryVerification:
     unknown: dict[str, int]
     missing_svgs: tuple[str, ...] = ()
     fit_warnings: tuple[str, ...] = ()
+    bed_warnings: tuple[str, ...] = ()
+    spill_warnings: tuple[str, ...] = ()
+    near_square_warnings: tuple[str, ...] = ()
 
     @property
     def is_valid(self) -> bool:
-        """True when counts, SVG shapes, and physical fit checks all pass."""
+        """True when counts, SVG shapes, physical fit, print-bed, and spill checks all pass."""
         return not (
             self.missing
             or self.over_allocated
             or self.unknown
             or self.missing_svgs
             or self.fit_warnings
+            or self.bed_warnings
+            or self.spill_warnings
         )
 
     def format_errors(self) -> str:
@@ -292,7 +297,71 @@ class InventoryVerification:
             lines.append("Missing SVG cutouts: " + "; ".join(self.missing_svgs))
         if self.fit_warnings:
             lines.append("Physical fit errors: " + "; ".join(self.fit_warnings))
+        if self.bed_warnings:
+            lines.append("Print-bed size errors: " + "; ".join(self.bed_warnings))
+        if self.spill_warnings:
+            lines.append("Vertical-storage spill risks: " + "; ".join(self.spill_warnings))
         return "; ".join(lines)
+
+
+def _check_vertical_card_fit(
+    spec: GameComponent,
+    qty: int,
+    avail_w: float,
+    avail_l: float,
+    avail_h: float,
+    tilt_deg: float,
+    location_label: str,
+) -> str | None:
+    """Return a fit error string if vertical/angled cards do not fit inside ``(avail_w, avail_l, avail_h)``."""
+    import math
+
+    fp = spec.footprint
+    if fp is None:
+        return None
+    card_w, card_h = fp
+    rad = math.radians(max(0.0, min(59.0, tilt_deg)))
+    thickness = spec.piece_height or 0.6
+
+    # Allow either portrait (card_w across, card_h standing) or landscape (card_h across, card_w standing),
+    # and allow the card row to run along either Y (avail_l) or X (avail_w).
+    for stand_w, stand_h in ((card_w, card_h), (card_h, card_w)):
+        req_h = stand_h * math.cos(rad)
+        req_row = qty * thickness / math.cos(rad) + stand_h * math.sin(rad)
+        if req_h <= avail_h + 0.5:
+            fits_y = stand_w <= avail_w + 0.2 and req_row <= avail_l + 0.5
+            fits_x = stand_w <= avail_l + 0.2 and req_row <= avail_w + 0.5
+            if fits_y or fits_x:
+                return None
+
+    # Compute the primary orientation requirement for a clear error message
+    req_h = card_h * math.cos(rad)
+    req_row = qty * thickness / math.cos(rad) + card_h * math.sin(rad)
+    return (
+        f"{location_label}: {qty}x {spec.name} ({spec.card_orientation}, tilt={tilt_deg:.0f}°) "
+        f"needs {card_w:.1f}x{req_row:.1f}x{req_h:.1f}mm, "
+        f"only has {avail_w:.1f}x{avail_l:.1f}x{avail_h:.1f}mm usable"
+    )
+
+
+def _xy_covered_by(
+    box_x: float,
+    box_y: float,
+    box_w: float,
+    box_l: float,
+    cover_x: float,
+    cover_y: float,
+    cover_w: float,
+    cover_l: float,
+    tol: float = 2.0,
+) -> bool:
+    """Return True if the XY rectangle ``(cover_x, cover_y, cover_w, cover_l)`` covers the box."""
+    return (
+        cover_x <= box_x + tol
+        and cover_y <= box_y + tol
+        and (cover_x + cover_w) >= (box_x + box_w) - tol
+        and (cover_y + cover_l) >= (box_y + box_l) - tol
+    )
 
 
 def verify_inventory(
@@ -300,6 +369,8 @@ def verify_inventory(
     *,
     strict: bool = False,
     check_fit: bool = True,
+    check_vertical_storage: bool = False,
+    packing: object = None,
 ) -> InventoryVerification:
     """Check that boxes and boards account for 100% of declared components, SVGs, and physical fit."""
     from pathlib import Path
@@ -316,10 +387,45 @@ def verify_inventory(
     # Track which SVG filenames are actually carved in boxes holding each component
     svgs_by_component: dict[str, set[str]] = {}
     fit_warnings: list[str] = []
+    bed_warnings: list[str] = []
+    spill_warnings: list[str] = []
+    near_square_warnings: list[str] = []
 
     def _add(name: str, qty: int) -> None:
         if qty > 0:
             allocated[name] = allocated.get(name, 0) + qty
+
+    # Build a lookup of placed box (x, y, z, w, l, h) from packing or builder attributes
+    placed_boxes: dict[str, tuple[float, float, float, float, float, float]] = {}
+    if packing is not None and hasattr(packing, "placements"):
+        for pl in getattr(packing, "placements", ()):
+            px, py, pz = pl.position
+            pw, pl_dim, ph = pl.size
+            placed_boxes[pl.label] = (
+                float(px),
+                float(py),
+                float(pz),
+                float(pw),
+                float(pl_dim),
+                float(ph),
+            )
+    for b in manifest.boxes:
+        if b.label not in placed_boxes:
+            sz = b.final_size or b.size
+            if (
+                b.position is not None
+                and sz is not None
+                and len(sz) == 3
+                and all(d is not None for d in sz)
+            ):
+                placed_boxes[b.label] = (
+                    float(b.position[0]),
+                    float(b.position[1]),
+                    float(b.position[2]),
+                    float(sz[0]),
+                    float(sz[1]),
+                    float(sz[2]),
+                )
 
     for builder in manifest.boxes:
         box_svg_names: set[str] = set()
@@ -331,11 +437,7 @@ def verify_inventory(
                     box_svg_names.add(Path(elem.shape_file).name)
 
         box_components: set[str] = set()
-        for name, qty in getattr(builder, "allocates", ()):
-            _add(name, qty)
-            if qty > 0:
-                box_components.add(name)
-
+        wall_t = builder.wall_thickness if builder.wall_thickness is not None else manifest.wall_thickness
         floor_t = builder.floor_thickness if builder.floor_thickness is not None else manifest.floor_thickness
         bt = getattr(builder, "box_type", None)
         lid_t = (
@@ -343,9 +445,60 @@ def verify_inventory(
             if bt in LIDLESS_BOX_TYPES
             else (builder.lid_thickness if builder.lid_thickness is not None else manifest.lid_thickness)
         )
+        eff_size = builder.final_size or builder.size
+        box_w: float | None = None
+        box_l: float | None = None
         box_h: float | None = None
-        if builder.size is not None and len(builder.size) == 3 and builder.size[2] is not None:
-            box_h = float(builder.size[2])
+        if eff_size is not None and len(eff_size) == 3:
+            if eff_size[0] is not None:
+                box_w = float(eff_size[0])
+            if eff_size[1] is not None:
+                box_l = float(eff_size[1])
+            if eff_size[2] is not None:
+                box_h = float(eff_size[2])
+
+        # Print-bed size validation
+        if manifest.bed_size is not None and box_w is not None and box_l is not None:
+            bed_w, bed_l = float(manifest.bed_size[0]), float(manifest.bed_size[1])
+            fits_bed = (box_w <= bed_w + 0.1 and box_l <= bed_l + 0.1) or (
+                box_l <= bed_w + 0.1 and box_w <= bed_l + 0.1
+            )
+            if not fits_bed:
+                bed_warnings.append(
+                    f"{builder.label}: footprint {box_w:.1f}x{box_l:.1f}mm exceeds "
+                    f"print bed {bed_w:.1f}x{bed_l:.1f}mm"
+                )
+
+        # Near-square lid jam advisory for CAP / SLIPOVER boxes
+        if bt in (BoxType.CAP, BoxType.SLIPOVER) and box_w is not None and box_l is not None:
+            diff = abs(box_w - box_l)
+            if 0.5 < diff < 4.0:
+                near_square_warnings.append(
+                    f"{builder.label}: near-square {bt.value} box ({box_w:.1f}x{box_l:.1f}mm, "
+                    f"diff={diff:.1f}mm) can jam if lid is rotated 90°"
+                )
+
+        for name, qty in getattr(builder, "allocates", ()):
+            _add(name, qty)
+            if qty > 0:
+                box_components.add(name)
+                if check_fit and name in comp_by_name and box_w is not None and box_l is not None and box_h is not None:
+                    spec = comp_by_name[name]
+                    if spec.kind == "cards" and spec.card_orientation in ("vertical", "angled"):
+                        tilt = spec.card_tilt_angle
+                        if spec.card_orientation == "angled" and tilt == 0.0:
+                            tilt = float(getattr(builder, "card_tilt_angle", 20.0)) or 20.0
+                        err = _check_vertical_card_fit(
+                            spec,
+                            qty,
+                            box_w - 2.0 * wall_t,
+                            box_l - 2.0 * wall_t,
+                            box_h - floor_t - lid_t,
+                            tilt,
+                            builder.label,
+                        )
+                        if err is not None:
+                            fit_warnings.append(err)
 
         for comp_b in builder.compartments:
             if comp_b.allocates:
@@ -360,27 +513,51 @@ def verify_inventory(
                     box_components.add(comp_b.component)
                 if check_fit and comp_b.component in comp_by_name:
                     spec = comp_by_name[comp_b.component]
-                    # Footprint fit check (allowing 90-degree rotation)
-                    fp = spec.footprint
-                    if fp is not None and comp_b.size is not None and not spec.bulk:
-                        pw, pl = fp
-                        cw, cl = comp_b.size
-                        fits_normal = pw <= cw + 0.1 and pl <= cl + 0.1
-                        fits_rot = pl <= cw + 0.1 and pw <= cl + 0.1
-                        if not (fits_normal or fits_rot):
-                            fit_warnings.append(
-                                f"{builder.label}/{comp_b.label}: {spec.name} ({pw:.1f}x{pl:.1f}mm) "
-                                f"does not fit compartment ({cw:.1f}x{cl:.1f}mm)"
+                    if spec.kind == "cards" and spec.card_orientation in ("vertical", "angled"):
+                        if box_h is not None:
+                            avail_w = comp_b.size[0] if comp_b.size is not None else (
+                                (box_w - 2.0 * wall_t) if box_w is not None else None
                             )
-                    # Vertical stack height fit check (cards & non-bulk stacked pieces)
-                    if (spec.kind == "cards" or not spec.bulk) and box_h is not None:
-                        req_h = spec.stack_height(qty)
-                        avail_h = box_h - floor_t - lid_t
-                        if req_h is not None and req_h > avail_h + 0.5:
-                            fit_warnings.append(
-                                f"{builder.label}/{comp_b.label}: {qty}x {spec.name} needs "
-                                f"{req_h:.1f}mm height, box only has {avail_h:.1f}mm usable"
+                            avail_l = comp_b.size[1] if comp_b.size is not None else (
+                                (box_l - 2.0 * wall_t) if box_l is not None else None
                             )
+                            if avail_w is not None and avail_l is not None:
+                                tilt = spec.card_tilt_angle
+                                if spec.card_orientation == "angled" and tilt == 0.0:
+                                    tilt = float(getattr(builder, "card_tilt_angle", 20.0)) or 20.0
+                                err = _check_vertical_card_fit(
+                                    spec,
+                                    qty,
+                                    avail_w,
+                                    avail_l,
+                                    box_h - floor_t - lid_t,
+                                    tilt,
+                                    f"{builder.label}/{comp_b.label}",
+                                )
+                                if err is not None:
+                                    fit_warnings.append(err)
+                    else:
+                        # Footprint fit check (allowing 90-degree rotation)
+                        fp = spec.footprint
+                        if fp is not None and comp_b.size is not None and not spec.bulk:
+                            pw, pl = fp
+                            cw, cl = comp_b.size
+                            fits_normal = pw <= cw + 0.1 and pl <= cl + 0.1
+                            fits_rot = pl <= cw + 0.1 and pw <= cl + 0.1
+                            if not (fits_normal or fits_rot):
+                                fit_warnings.append(
+                                    f"{builder.label}/{comp_b.label}: {spec.name} ({pw:.1f}x{pl:.1f}mm) "
+                                    f"does not fit compartment ({cw:.1f}x{cl:.1f}mm)"
+                                )
+                        # Vertical stack height fit check (cards & non-bulk stacked pieces)
+                        if (spec.kind == "cards" or not spec.bulk) and box_h is not None:
+                            req_h = spec.stack_height(qty)
+                            avail_h = box_h - floor_t - lid_t
+                            if req_h is not None and req_h > avail_h + 0.5:
+                                fit_warnings.append(
+                                    f"{builder.label}/{comp_b.label}: {qty}x {spec.name} needs "
+                                    f"{req_h:.1f}mm height, box only has {avail_h:.1f}mm usable"
+                                )
 
             for elem in comp_b.elements:
                 if elem.component is not None:
@@ -393,6 +570,51 @@ def verify_inventory(
 
         for comp_name in box_components:
             svgs_by_component.setdefault(comp_name, set()).update(box_svg_names)
+
+        # Vertical-storage ("Kallax-safe") spill check for open/lidless boxes
+        if check_vertical_storage and bt in LIDLESS_BOX_TYPES:
+            holds_spillable = any(
+                comp_by_name[n].bulk or comp_by_name[n].kind != "board"
+                for n in box_components
+                if n in comp_by_name
+            ) or bool(builder.compartments) or bool(getattr(builder, "allocates", ()))
+            if holds_spillable:
+                capped = False
+                if builder.label in placed_boxes:
+                    bx, by, bz, bw, bl, bh = placed_boxes[builder.label]
+                    z_top = bz + bh
+                    # 1. Capped by game box lid or top-stored board_thickness
+                    if manifest.game_box_size is not None:
+                        gh = float(manifest.game_box_size[2])
+                        ceiling_z = gh if manifest.board_on_bottom else (gh - manifest.board_thickness)
+                        if ceiling_z - z_top <= 1.5:
+                            capped = True
+                    # 2. Capped by a GameBoard resting directly above
+                    if not capped:
+                        for gb in manifest.boards:
+                            gb_z = float(gb.position[2])
+                            if -0.5 <= (gb_z - z_top) <= 1.5 and _xy_covered_by(
+                                bx, by, bw, bl,
+                                float(gb.position[0]), float(gb.position[1]),
+                                float(gb.size[0]), float(gb.size[1]),
+                            ):
+                                capped = True
+                                break
+                    # 3. Capped by another box stacked directly above
+                    if not capped:
+                        for other_lbl, (ox, oy, oz, ow, ol, _oh) in placed_boxes.items():
+                            if other_lbl == builder.label:
+                                continue
+                            if -0.5 <= (oz - z_top) <= 1.5 and _xy_covered_by(
+                                bx, by, bw, bl, ox, oy, ow, ol
+                            ):
+                                capped = True
+                                break
+                if not capped:
+                    spill_warnings.append(
+                        f"{builder.label}: open {bt.value} tray is not capped within 1.5mm by a lid, "
+                        f"board, or stacked box (spill risk in vertical storage)"
+                    )
 
     for gb in manifest.boards:
         if gb.allocates:
@@ -442,6 +664,9 @@ def verify_inventory(
         unknown=unknown,
         missing_svgs=tuple(missing_svgs),
         fit_warnings=tuple(fit_warnings),
+        bed_warnings=tuple(bed_warnings),
+        spill_warnings=tuple(spill_warnings),
+        near_square_warnings=tuple(near_square_warnings),
     )
     if strict and not result.is_valid:
         raise ValueError(f"Inventory mismatch in {manifest.name!r}: {result.format_errors()}")

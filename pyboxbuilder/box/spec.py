@@ -376,6 +376,20 @@ class BoxSpec:
     retaining_lip_height: float = 10.0
     discard_well: bool = True
 
+    # Card tray (vertical / angled card row with divider slots)
+    card_tilt_angle: float = 0.0
+    """Tilt angle in degrees from vertical (0° = upright, 15°–35° = tilted backward)."""
+    divider_slots: int = 0
+    """Number of evenly-spaced removable divider slot pairs along the length (Y) axis."""
+    divider_positions: tuple[float, ...] = ()
+    """Explicit Y positions (mm from interior front) for divider slot pairs; overrides divider_slots."""
+    divider_slot_width: float = 2.0
+    """Width (Y thickness) of each divider rail slot in mm."""
+    divider_slot_depth: float = 1.0
+    """Depth each divider slot cuts into the left and right inner walls in mm."""
+    front_cutout: bool = True
+    """Cut opposing U-shaped finger scoops on the front and back walls for easy card browsing."""
+
     # Dice tray (FR-086)
     arena_wall_height: float = 28.0
     felt_pocket_depth: float = 1.2
@@ -692,6 +706,13 @@ class UnresolvedBoxSpec:
     draw_angle: float = 20.0
     retaining_lip_height: float = 10.0
     discard_well: bool = True
+
+    card_tilt_angle: float = 0.0
+    divider_slots: int = 0
+    divider_positions: tuple[float, ...] = ()
+    divider_slot_width: float = 2.0
+    divider_slot_depth: float = 1.0
+    front_cutout: bool = True
 
     arena_wall_height: float = 28.0
     felt_pocket_depth: float = 1.2

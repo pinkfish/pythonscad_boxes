@@ -139,6 +139,12 @@ class Project:
 
     A value passed to :meth:`box` always wins over the default.
     """
+    bed_size: tuple[float, float] | None = None
+    """Optional 3D-printer build plate ``(W, L)`` in mm checked during :meth:`verify_inventory`."""
+    sleeved: bool = False
+    """When ``True``, card decks declared via :meth:`define_cards` automatically size for sleeved cards."""
+    sleeve: Any = None
+    """Optional default :class:`~pyboxbuilder.sleeves.Sleeve`, SKU, brand, or grade used when ``sleeved=True``."""
 
     _manifest: ProjectManifest = field(init=False, repr=False)
     _compiler: LayoutCompiler = field(init=False, repr=False)
@@ -159,7 +165,12 @@ class Project:
             floor_thickness=self.floor_thickness,
             lid_thickness=self.lid_thickness,
             rounding=self.rounding,
+            base_rounding=self.base_rounding,
+            base_chamfer=self.base_chamfer,
             inner_rounding=self.inner_rounding,
+            bed_size=self.bed_size,
+            sleeved=self.sleeved,
+            sleeve=self.sleeve,
             gap_threshold=self.gap_threshold,
             min_spacer_dim=self.min_spacer_dim,
             min_spacer_height=self.min_spacer_height,
@@ -236,6 +247,10 @@ class Project:
         thickness: float | None = None,
         svg: str | Path | None = None,
         bulk: bool = False,
+        card_orientation: str = "flat",
+        card_tilt_angle: float = 0.0,
+        sleeved: bool = False,
+        sleeve_name: str = "",
     ) -> GameComponent:
         """Declare a physical game component type in the project's piece inventory."""
         gc = GameComponent(
@@ -250,6 +265,10 @@ class Project:
             thickness=thickness,
             svg=str(svg) if svg is not None else None,
             bulk=bulk,
+            card_orientation=card_orientation,
+            card_tilt_angle=card_tilt_angle,
+            sleeved=sleeved,
+            sleeve_name=sleeve_name,
         )
         return self._manifest.add_component(gc)
 
@@ -260,20 +279,51 @@ class Project:
         *,
         size: tuple[float, float],
         thickness: float = 0.6,
+        orientation: str = "flat",
+        tilt_angle: float = 0.0,
+        sleeved: bool | None = None,
+        sleeve: Any = None,
         category: str = "Cards",
         notes: str = "",
         svg: str | Path | None = None,
     ) -> GameComponent:
-        """Declare a card deck in the game inventory with exact card count, size, and thickness."""
+        """Declare a card deck in the game inventory with exact card count, size, and thickness.
+
+        When ``sleeved=True`` (or ``self.sleeved=True`` and ``sleeved`` is not ``False``),
+        ``size`` and ``thickness`` are automatically expanded for protective card sleeves
+        using :func:`~pyboxbuilder.sleeves.resolve_sleeved_card`.
+        """
+        use_sleeved = (self.sleeved if sleeved is None else sleeved) or (sleeve is not None)
+        eff_size = size
+        eff_thickness = thickness
+        sleeve_label = ""
+        if use_sleeved:
+            from pyboxbuilder.sleeves import resolve_sleeved_card
+
+            chosen_spec = sleeve if sleeve is not None else self.sleeve
+            eff_size, eff_thickness, matched = resolve_sleeved_card(
+                size, thickness, sleeve=chosen_spec
+            )
+            if matched is not None:
+                sleeve_label = f"{matched.brand} {matched.name}" + (
+                    f" ({matched.sku})" if matched.sku else ""
+                )
+            else:
+                sleeve_label = "Generic sleeve"
+
         return self.component(
             name,
             count,
             kind="cards",
-            size=size,
-            thickness=thickness,
+            size=eff_size,
+            thickness=eff_thickness,
             category=category,
             notes=notes,
             svg=svg,
+            card_orientation=orientation,
+            card_tilt_angle=tilt_angle,
+            sleeved=use_sleeved,
+            sleeve_name=sleeve_label,
         )
 
     def define_piece(
@@ -366,9 +416,22 @@ class Project:
                 added.append(self._manifest.add_component(item))
         return added
 
-    def verify_inventory(self, *, strict: bool = True, check_fit: bool = True) -> InventoryVerification:
+    def verify_inventory(
+        self,
+        *,
+        strict: bool = True,
+        check_fit: bool = True,
+        check_vertical_storage: bool = False,
+        packing: BoxPacking | None = None,
+    ) -> InventoryVerification:
         """Verify that all declared components are accounted for with matching SVGs and physical fit."""
-        return verify_inventory(self._manifest, strict=strict, check_fit=check_fit)
+        return verify_inventory(
+            self._manifest,
+            strict=strict,
+            check_fit=check_fit,
+            check_vertical_storage=check_vertical_storage,
+            packing=packing,
+        )
 
     def board(
         self,
@@ -921,22 +984,56 @@ class Project:
         *,
         card_size: CardSize | tuple[float, float],
         count: int | None = None,
-        sleeve: SleeveType = SleeveType.UNSLEEVED,
-        box_type: BoxType = BoxType.SLIDING,
+        thickness: float | None = None,
+        slack: float | None = None,
+        sleeved: bool | None = None,
+        sleeve: SleeveType | Any = None,
+        orientation: str = "flat",
+        tilt_angle: float = 0.0,
+        box_type: BoxType | None = None,
         cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
         **kwargs: Any,
     ) -> BoxBuilder:
-        """Add a box pre-configured for a deck of cards."""
-        from pyboxbuilder.helpers import CardSize
+        """Add a box pre-configured for a deck of cards without needing a component inventory.
 
-        builder = self.box(box_type, label, **kwargs)
-        base_size = card_size.value if isinstance(card_size, CardSize) else card_size
+        Automatically respects ``self.sleeved`` and ``self.sleeve`` unless overridden.
+        When ``orientation`` is ``"vertical"`` or ``"angled"`` and ``box_type`` is
+        omitted, automatically creates a :attr:`~pyboxbuilder.enums.BoxType.CARD_TRAY`
+        (forwarding ``tilt_angle`` to ``card_tilt_angle``).
+        """
+        eff_orientation = orientation
+        if box_type is None:
+            resolved_type = (
+                BoxType.CARD_TRAY if eff_orientation in ("vertical", "angled") else BoxType.SLIDING
+            )
+        else:
+            resolved_type = box_type
+            if resolved_type is BoxType.CARD_TRAY and eff_orientation == "flat":
+                eff_tilt = tilt_angle or float(kwargs.get("card_tilt_angle", 0.0))
+                eff_orientation = "angled" if eff_tilt > 0.0 else "vertical"
+
+        if resolved_type is BoxType.CARD_TRAY and tilt_angle > 0.0 and "card_tilt_angle" not in kwargs:
+            kwargs["card_tilt_angle"] = tilt_angle
+
+        builder = self.box(resolved_type, label, **kwargs)
+
+        eff_sleeved = self.sleeved if sleeved is None else sleeved
+        eff_sleeve = sleeve
+        if eff_sleeve is None and eff_sleeved:
+            eff_sleeve = self.sleeve
+        elif eff_sleeve is None and not eff_sleeved and thickness is None and slack is None:
+            eff_sleeve = SleeveType.UNSLEEVED
+
         builder.cards(
             "Cards",
             count=count,
-            size=base_size,
-            thickness=sleeve.card_thickness,
-            slack=sleeve.footprint_margin,
+            size=card_size,
+            thickness=thickness,
+            slack=slack,
+            sleeved=bool(eff_sleeved),
+            sleeve=eff_sleeve,
+            orientation=eff_orientation,
+            tilt_angle=tilt_angle,
             cut=cut,
         )
         return builder

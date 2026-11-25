@@ -113,6 +113,7 @@ def register_box(
 LIDLESS_BOX_TYPES: frozenset[BoxType] = frozenset({
     BoxType.NO_LID,
     BoxType.PATH,
+    BoxType.CARD_TRAY,
     BoxType.PRINT_IN_PLACE_HINGE,
     BoxType.INSET_HINGE,
 })

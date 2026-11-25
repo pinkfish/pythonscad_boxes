@@ -25,6 +25,7 @@ class BoxType(Enum):
     THREADED = "threaded"
     DISPENSER = "dispenser"
     CARD_SHOE = "card_shoe"
+    CARD_TRAY = "card_tray"
     DICE_TRAY = "dice_tray"
     SLEEVE_DRAWER = "sleeve_drawer"
     CLAMSHELL = "clamshell"

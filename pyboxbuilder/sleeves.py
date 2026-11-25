@@ -257,3 +257,72 @@ def find_sleeve(brand: str, name: str, grade: str | None = None) -> Sleeve | Non
         if sleeve.brand == brand and sleeve.name == name and (grade is None or sleeve.grade == grade):
             return sleeve
     return None
+
+
+def resolve_sleeved_card(
+    card_size: tuple[float, float],
+    thickness: float = BASE_CARD_THICKNESS,
+    *,
+    sleeve: Sleeve | str | None = None,
+) -> tuple[tuple[float, float], float, Sleeve | None]:
+    """Resolve outer dimensions and per-card thickness for a sleeved card.
+
+    Args:
+        card_size: Unsleeved card ``(width, length)`` in mm (either orientation).
+        thickness: Unsleeved single-card thickness in mm.
+        sleeve: Optional :class:`Sleeve`, SKU (e.g. ``"SKS-8810"``), brand name
+            (e.g. ``"Gamegenic"``), grade (e.g. ``"Premium"``), or size name.
+            When ``None``, selects the tightest-fitting sleeve from
+            ``SLEEVE_CATALOG`` (falling back to standard +2.5×+3.0 mm, +0.2 mm).
+
+    Returns:
+        ``((outer_w, outer_l), sleeved_thickness, matched_sleeve)`` preserving the
+        caller's input orientation.
+    """
+    w, l_dim = float(card_size[0]), float(card_size[1])
+    rotated = w > l_dim
+    short_s, long_s = (l_dim, w) if rotated else (w, l_dim)
+
+    chosen: Sleeve | None = None
+    if isinstance(sleeve, Sleeve):
+        chosen = sleeve
+    elif isinstance(sleeve, str):
+        key = sleeve.strip()
+        chosen = sleeve_by_sku(key)
+        if chosen is None:
+            # Try brand match
+            brand_matches = sleeves_for_card(short_s, long_s, brand=key)
+            if brand_matches:
+                chosen = min(brand_matches, key=lambda s: s.sleeve_size[0] * s.sleeve_size[1])
+        if chosen is None:
+            # Try grade match
+            grade_matches = [
+                s
+                for s in sleeves_for_card(short_s, long_s)
+                if s.grade is not None and s.grade.lower() == key.lower()
+            ]
+            if grade_matches:
+                chosen = min(grade_matches, key=lambda s: s.sleeve_size[0] * s.sleeve_size[1])
+        if chosen is None:
+            # Try generic size name match
+            for s in SLEEVE_CATALOG:
+                if s.name.lower() == key.lower():
+                    chosen = s
+                    break
+    else:
+        candidates = sleeves_for_card(short_s, long_s)
+        if candidates:
+            chosen = min(candidates, key=lambda s: s.sleeve_size[0] * s.sleeve_size[1])
+
+    if chosen is not None:
+        sw = max(short_s + 2.0, float(chosen.sleeve_size[0]))
+        sl = max(long_s + 2.0, float(chosen.sleeve_size[1]))
+        microns = chosen.thickness_microns if chosen.thickness_microns is not None else _DEFAULT_MICRONS
+        eff_thickness = float(thickness) + 2.0 * (microns / 1000.0)
+    else:
+        sw = short_s + 2.5
+        sl = long_s + 3.0
+        eff_thickness = float(thickness) + 0.20
+
+    eff_size = (sl, sw) if rotated else (sw, sl)
+    return (eff_size, eff_thickness, chosen)

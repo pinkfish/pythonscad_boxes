@@ -6,6 +6,7 @@ from pyboxbuilder.builders.cap import CapBoxBuilder
 from pyboxbuilder.builders.cap_path import CapPathBoxBuilder
 from pyboxbuilder.builders.card_library import CardLibraryBoxBuilder
 from pyboxbuilder.builders.card_shoe import CardShoeBoxBuilder
+from pyboxbuilder.builders.card_tray import CardTrayBoxBuilder
 from pyboxbuilder.builders.clamshell import ClamshellBoxBuilder
 from pyboxbuilder.builders.dice_tray import DiceTrayBoxBuilder
 from pyboxbuilder.builders.dispenser import DispenserBoxBuilder
@@ -33,6 +34,7 @@ __all__ = [
     "CapPathBoxBuilder",
     "CardLibraryBoxBuilder",
     "CardShoeBoxBuilder",
+    "CardTrayBoxBuilder",
     "ClamshellBoxBuilder",
     "DiceTrayBoxBuilder",
     "DispenserBoxBuilder",
