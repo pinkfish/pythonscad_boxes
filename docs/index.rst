@@ -273,6 +273,7 @@ Documentation Index
 
    quickstart
    getting_started
+   interactive_gui
    box_types
    lid_patterns
    lid_labels
