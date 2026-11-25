@@ -1,0 +1,35 @@
+pyboxbuilder.interactive
+========================
+
+.. automodule:: pyboxbuilder.interactive
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Box
+      CardBox
+      FormField
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      format_call_args
+      parse_call_args
+   
+   

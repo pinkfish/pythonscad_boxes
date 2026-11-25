@@ -1,0 +1,6 @@
+pyboxbuilder.interactive.format\_call\_args
+===========================================
+
+.. currentmodule:: pyboxbuilder.interactive
+
+.. autofunction:: format_call_args

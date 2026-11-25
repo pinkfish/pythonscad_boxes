@@ -1,0 +1,8 @@
+pyboxbuilder.interactive.Box
+============================
+
+.. currentmodule:: pyboxbuilder.interactive
+
+.. autoclass:: Box
+   :members:
+   :show-inheritance:

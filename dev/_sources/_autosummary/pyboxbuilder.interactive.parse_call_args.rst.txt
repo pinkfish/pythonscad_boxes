@@ -1,0 +1,6 @@
+pyboxbuilder.interactive.parse\_call\_args
+==========================================
+
+.. currentmodule:: pyboxbuilder.interactive
+
+.. autofunction:: parse_call_args

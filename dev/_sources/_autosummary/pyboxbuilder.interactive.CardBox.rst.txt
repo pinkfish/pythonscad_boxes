@@ -1,0 +1,8 @@
+pyboxbuilder.interactive.CardBox
+================================
+
+.. currentmodule:: pyboxbuilder.interactive
+
+.. autoclass:: CardBox
+   :members:
+   :show-inheritance:
