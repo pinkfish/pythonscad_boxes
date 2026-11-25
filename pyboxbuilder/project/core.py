@@ -984,22 +984,56 @@ class Project:
         *,
         card_size: CardSize | tuple[float, float],
         count: int | None = None,
-        sleeve: SleeveType = SleeveType.UNSLEEVED,
-        box_type: BoxType = BoxType.SLIDING,
+        thickness: float | None = None,
+        slack: float | None = None,
+        sleeved: bool | None = None,
+        sleeve: SleeveType | Any = None,
+        orientation: str = "flat",
+        tilt_angle: float = 0.0,
+        box_type: BoxType | None = None,
         cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
         **kwargs: Any,
     ) -> BoxBuilder:
-        """Add a box pre-configured for a deck of cards."""
-        from pyboxbuilder.helpers import CardSize
+        """Add a box pre-configured for a deck of cards without needing a component inventory.
 
-        builder = self.box(box_type, label, **kwargs)
-        base_size = card_size.value if isinstance(card_size, CardSize) else card_size
+        Automatically respects ``self.sleeved`` and ``self.sleeve`` unless overridden.
+        When ``orientation`` is ``"vertical"`` or ``"angled"`` and ``box_type`` is
+        omitted, automatically creates a :attr:`~pyboxbuilder.enums.BoxType.CARD_TRAY`
+        (forwarding ``tilt_angle`` to ``card_tilt_angle``).
+        """
+        eff_orientation = orientation
+        if box_type is None:
+            resolved_type = (
+                BoxType.CARD_TRAY if eff_orientation in ("vertical", "angled") else BoxType.SLIDING
+            )
+        else:
+            resolved_type = box_type
+            if resolved_type is BoxType.CARD_TRAY and eff_orientation == "flat":
+                eff_tilt = tilt_angle or float(kwargs.get("card_tilt_angle", 0.0))
+                eff_orientation = "angled" if eff_tilt > 0.0 else "vertical"
+
+        if resolved_type is BoxType.CARD_TRAY and tilt_angle > 0.0 and "card_tilt_angle" not in kwargs:
+            kwargs["card_tilt_angle"] = tilt_angle
+
+        builder = self.box(resolved_type, label, **kwargs)
+
+        eff_sleeved = self.sleeved if sleeved is None else sleeved
+        eff_sleeve = sleeve
+        if eff_sleeve is None and eff_sleeved:
+            eff_sleeve = self.sleeve
+        elif eff_sleeve is None and not eff_sleeved and thickness is None and slack is None:
+            eff_sleeve = SleeveType.UNSLEEVED
+
         builder.cards(
             "Cards",
             count=count,
-            size=base_size,
-            thickness=sleeve.card_thickness,
-            slack=sleeve.footprint_margin,
+            size=card_size,
+            thickness=thickness,
+            slack=slack,
+            sleeved=bool(eff_sleeved),
+            sleeve=eff_sleeve,
+            orientation=eff_orientation,
+            tilt_angle=tilt_angle,
             cut=cut,
         )
         return builder

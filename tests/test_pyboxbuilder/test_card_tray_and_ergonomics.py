@@ -9,8 +9,10 @@ import pytest
 
 from pyboxbuilder import (
     BoxType,
+    CardSize,
     CardTrayBoxBuilder,
     Project,
+    SleeveType,
     find_sleeve,
     resolve_sleeved_card,
 )
@@ -328,3 +330,79 @@ class TestErgonomicsAndChecks:
         assert "ExactSquareCap" not in joined
         assert "RectCap" not in joined
         assert "NearSquareSliding" not in joined
+
+
+# ── Inventory-Free Normal Boxes & Card Boxes ─────────────────────────────────
+
+
+class TestInventoryFreeWorkflow:
+    """Verify normal boxes and card boxes work cleanly without declaring components."""
+
+    def test_simple_normal_and_card_boxes_build_without_inventory(self) -> None:
+        p = Project("SimpleStandalone")
+        # Plain normal box
+        p.box(BoxType.NO_LID, "PlainTray", size=(70.0, 50.0, 22.0))
+        # Flat sliding card box with no component declaration
+        flat = p.card_box("StandardDeck", card_size=CardSize.STANDARD_GAME, count=54)
+        assert flat.box_type is BoxType.SLIDING
+        assert flat.compartments[0].count == 54
+        # Angled card tray auto-selected by orientation
+        angled = p.card_box(
+            "AngledMarket",
+            card_size=(63.5, 88.0),
+            count=80,
+            orientation="angled",
+            tilt_angle=25.0,
+            divider_slots=3,
+        )
+        assert isinstance(angled, CardTrayBoxBuilder)
+        assert angled.card_tilt_angle == 25.0
+        assert angled.divider_slots == 3
+        # Explicit BoxType.CARD_TRAY infers vertical orientation automatically
+        upright = p.card_box(
+            "UprightRow",
+            card_size=(63.5, 88.0),
+            count=50,
+            box_type=BoxType.CARD_TRAY,
+        )
+        assert isinstance(upright, CardTrayBoxBuilder)
+        assert upright.compartments[0].depth == pytest.approx(89.0)
+
+        assert p.components == []
+        assert p.verify_inventory(strict=True).is_valid
+        build = p.build()
+        assert len(build.pieces) == 5  # 4 bodies + 1 sliding lid
+
+    def test_sleeved_card_box_and_direct_cards_without_inventory(self) -> None:
+        p = Project("SleevedNoInventory", sleeved=True, sleeve="Gamegenic")
+        deck = p.card_box("SleevedDeck", card_size=(63.5, 88.0), count=60)
+        comp = deck.compartments[0]
+        assert comp.size is not None
+        assert comp.size[0] >= 67.0 and comp.size[1] >= 92.0
+
+        # Override back to unsleeved on a single deck
+        plain = p.card_box("UnsleevedDeck", card_size=(63.5, 88.0), count=60, sleeved=False)
+        plain_comp = plain.compartments[0]
+        assert plain_comp.size is not None
+        assert plain_comp.size[0] < comp.size[0]
+
+        # Direct box.cards() with SleeveType, SKU, and vertical orientation
+        b = p.box(BoxType.SLIDING, "DirectCards")
+        c_sku = b.cards("SkuDeck", count=40, size=CardSize.MINI_EUROPEAN, sleeve="SKS-8803")
+        assert c_sku.size is not None
+        assert c_sku.size[0] >= 47.0
+        c_legacy = b.cards("LegacyDeck", count=30, size=(63.5, 88.0), sleeve=SleeveType.PREMIUM_100MY)
+        expected_legacy = (
+            30 * SleeveType.PREMIUM_100MY.card_thickness + SleeveType.PREMIUM_100MY.footprint_margin
+        )
+        assert c_legacy.depth == pytest.approx(expected_legacy)
+
+        b_vert = p.box(BoxType.CARD_TRAY, "DirectVert")
+        c_vert = b_vert.cards("VertDeck", count=50, size=(63.5, 88.0), orientation="vertical")
+        assert c_vert.depth == pytest.approx(89.0)
+
+        with pytest.raises(ValueError, match="card orientation"):
+            b.cards("Bad", count=10, size=(63.5, 88.0), orientation="sideways")
+        with pytest.raises(ValueError, match="tilt_angle"):
+            b.cards("BadTilt", count=10, size=(63.5, 88.0), orientation="angled", tilt_angle=70.0)
+

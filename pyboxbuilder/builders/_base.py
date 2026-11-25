@@ -548,40 +548,45 @@ class BoxBuilder:
         label: str,
         *,
         count: int | None = None,
-        size: tuple[float, float],
-        thickness: float = CARD_THICKNESS_MM,
-        slack: float = CARD_SLACK_MM,
+        size: tuple[float, float] | Any,
+        thickness: float | None = None,
+        slack: float | None = None,
+        sleeved: bool = False,
+        sleeve: Any = None,
+        orientation: str = "flat",
+        tilt_angle: float = 0.0,
         cut: Cut | FingerCut | None = FingerCut.THROUGH_FLOOR,
         no_rotate: bool = True,
         **kwargs: Any,
     ) -> CompartmentBuilder:
-        """Add a well sized to hold a stack of cards.
+        """Add a well sized to hold a stack or row of cards (no inventory required).
 
         A card box is described by what goes in it — how many cards, how big —
-        and every dimension of the well follows from that. Written out, it is
-        the same three lines at every call site::
-
-            h = project.floor_thickness + project.lid_thickness + 0.6 * 32 + 1
-            box = project.box(..., size=(68, 99, h))
-            box.compartment("Cards", size=(62, 93), depth=h - 3.6, ...)
-
-        which asks the caller to know the library's own floor and lid, and to
-        keep three numbers in step by hand (FR-000b). Leave the box's height
-        unset and it is derived from this instead.
+        and every dimension of the well follows from that. Works identically
+        whether or not the project declares a formal component inventory.
 
         Args:
             label: The well's name.
             count: How many cards the well holds. ``None`` fills the whole
                 interior depth — the common case of one deck in a box that
                 holds nothing else (FR-000).
-            size: The card's ``(width, length)`` in mm.
-            thickness: One card's thickness in mm. The default suits a standard
-                board game card; sleeved cards run nearer 0.8mm.
+            size: The card's ``(width, length)`` in mm, or a
+                :class:`~pyboxbuilder.helpers.CardSize` enum value.
+            thickness: One card's thickness in mm (defaults to ``CARD_THICKNESS_MM``
+                or the sleeve's card thickness when sleeved).
             slack: Clearance added around the stack, so the cards go in and come
-                out without being pinched.
+                out without being pinched (defaults to ``CARD_SLACK_MM``).
+            sleeved: When ``True``, automatically expand ``size`` and ``thickness``
+                for protective card sleeves via :func:`~pyboxbuilder.sleeves.resolve_sleeved_card`.
+            sleeve: Optional :class:`~pyboxbuilder.sleeves.Sleeve`,
+                :class:`~pyboxbuilder.helpers.SleeveType`, SKU, brand, or grade.
+                Passing any sleeve (other than ``SleeveType.UNSLEEVED``) implies ``sleeved=True``.
+            orientation: Card storage orientation (``"flat"``, ``"vertical"``, or ``"angled"``).
+            tilt_angle: Tilt angle from vertical in degrees when ``orientation="angled"``.
             cut: How the stack is got out. A stack that fills its well leaves no
                 side for a finger, so the default is a hole through the base for
-                a thumb to push up through (FR-060).
+                a thumb to push up through (FR-060). Ignored for vertical/angled
+                rows unless explicitly supplied.
             no_rotate: Prevent compartment rotation so the cards' short and long
                 edges maintain their defined orientation (FR-068).
             **kwargs: Any other :meth:`compartment` keyword.
@@ -590,18 +595,71 @@ class BoxBuilder:
             The :class:`CompartmentBuilder` that was added.
 
         Raises:
-            ValueError: If ``count`` is not positive.
+            ValueError: If ``count`` is not positive or ``orientation`` is invalid.
 
         """
+        from pyboxbuilder.helpers import CardSize, SleeveType
+
         if count is not None and count <= 0:
             raise ValueError(f"card count must be > 0; got {count}")
-        depth = None if count is None else count * thickness + slack
+        if orientation not in ("flat", "vertical", "angled"):
+            raise ValueError(
+                f"card orientation must be 'flat', 'vertical', or 'angled'; got {orientation!r}"
+            )
+        if not (0.0 <= tilt_angle < 60.0):
+            raise ValueError(f"card tilt_angle must be in [0, 60); got {tilt_angle}")
+
+        base_size: tuple[float, float] = (
+            size.value if isinstance(size, CardSize) else (float(size[0]), float(size[1]))
+        )
+        eff_size = base_size
+        eff_thickness = CARD_THICKNESS_MM if thickness is None else float(thickness)
+        eff_slack = CARD_SLACK_MM if slack is None else float(slack)
+
+        if isinstance(sleeve, SleeveType):
+            if thickness is None:
+                eff_thickness = sleeve.card_thickness
+            if slack is None:
+                eff_slack = sleeve.footprint_margin
+        elif sleeved or sleeve is not None:
+            from pyboxbuilder.sleeves import resolve_sleeved_card
+
+            raw_t = 0.35 if thickness is None else float(thickness)
+            eff_size, eff_thickness, _ = resolve_sleeved_card(base_size, raw_t, sleeve=sleeve)
+
+        if orientation in ("vertical", "angled"):
+            import math
+
+            tilt = float(tilt_angle)
+            if orientation == "angled" and tilt == 0.0:
+                tilt = float(getattr(self, "card_tilt_angle", 20.0)) or 20.0
+            rad = math.radians(tilt)
+            cw, ch = eff_size
+            req_h = ch * math.cos(rad)
+            if count is not None:
+                req_len = count * eff_thickness / math.cos(rad) + ch * math.sin(rad)
+                well_size: tuple[float, float] = (cw + eff_slack, req_len + eff_slack)
+            else:
+                well_size = (cw + eff_slack, ch * math.sin(rad) + 20.0 + eff_slack)
+            well_cut = None if cut == FingerCut.THROUGH_FLOOR else cut
+            return self.compartment(
+                label,
+                size=well_size,
+                depth=req_h + eff_slack,
+                cut=well_cut,
+                no_rotate=no_rotate,
+                is_card=True,
+                count=count,
+                **kwargs,
+            )
+
+        depth = None if count is None else count * eff_thickness + eff_slack
         if hasattr(self, "lid_slide_axis") and getattr(self, "lid_slide_axis", None) is None:
-            axis = "x" if size[0] > size[1] else "y"
+            axis = "x" if eff_size[0] > eff_size[1] else "y"
             object.__setattr__(self, "lid_slide_axis", axis)
         return self.compartment(
             label,
-            size=(size[0] + slack, size[1] + slack),
+            size=(eff_size[0] + eff_slack, eff_size[1] + eff_slack),
             depth=depth,
             cut=cut,
             no_rotate=no_rotate,
