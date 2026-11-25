@@ -11,6 +11,22 @@ Welcome to ``pyboxbuilder``! This guide introduces the core concepts and walks y
 .. note::
    All example code below uses the interactive 3D WebGL viewer. You can rotate, pan, and zoom the rendered models directly in your browser.
 
+Installation
+------------
+
+Install ``pyboxbuilder`` directly from `PyPI <https://pypi.org/project/pyboxbuilder/>`__ (requires Python 3.11+):
+
+.. code-block:: sh
+
+   # Core library
+   pip install pyboxbuilder
+
+   # With packing guide PDF support (fpdf2 + Pillow)
+   pip install "pyboxbuilder[pdf]"
+
+   # Everything (PythonSCAD + PDF + Shapely)
+   pip install "pyboxbuilder[all]"
+
 Creating Your First Box
 -----------------------
 

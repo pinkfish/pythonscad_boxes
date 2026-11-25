@@ -1850,6 +1850,10 @@ wells all fill needs an explicit size, and says so.</p>
 <dt class="sig sig-object highlight py" id="pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth">
 <span class="sig-name descname"><span class="pre">resolve_depth</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth.interior_h" title="pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth.interior_h (Python parameter) — The box interior's height in mm."><span class="n"><span class="pre">interior_h</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></span></em></span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="desctype"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><span class="pre">float</span></a></span></span></span><a class="reference internal" href="../_modules/pyboxbuilder/compartments/builder.html#CompartmentBuilder.resolve_depth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth" title="Link to this definition">¶</a></dt>
 <dd><p>How deep this well is cut.</p>
+<p>Card compartments (<code class="docutils literal notranslate"><span class="pre">is_card=True</span></code>) always expand to fill <code class="docutils literal notranslate"><span class="pre">interior_h</span></code>
+when the box grows taller (e.g. via vertical gap absorption), giving more
+room for cards/sleeves. Fixed-depth piece wells always keep their exact
+declared <code class="docutils literal notranslate"><span class="pre">depth</span></code> regardless of how tall the box becomes.</p>
 <dl class="field-list simple">
 <dt class="field-odd" id="pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth-parameters" title="Permalink to this headline">¶</a></dt>
 <dd class="field-odd"><dl class="simple api-field highlight">
@@ -1858,8 +1862,7 @@ wells all fill needs an explicit size, and says so.</p>
 </dl>
 </dd>
 <dt class="field-even" id="pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth-returns">Returns<span class="colon">:</span><a class="headerlink" href="#pyboxbuilder.compartments.builder.CompartmentBuilder.resolve_depth-returns" title="Permalink to this headline">¶</a></dt>
-<dd class="field-even"><p>The declared depth, or the full interior height when none was
-given — a well with nothing said about it goes to the floor.</p>
+<dd class="field-even"><p>Resolved well depth in mm.</p>
 </dd>
 </dl>
 </dd></dl>

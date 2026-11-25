@@ -145,6 +145,43 @@ Make scripts executable directly via PythonSCAD GUI or batch command line:
    if __name__ == "__main__":
        run(project)
 
+Component-First Inventory & Verification
+----------------------------------------
+
+Declare the game's physical components once — including card counts/dimensions,
+piece/tile sizes, SVG silhouettes, and loose items stored in spacers — and pass
+those handles directly into your boxes with ``box.store(...)`` and ``box.well(...)``:
+
+.. code-block:: python
+
+   from pyboxbuilder import BoxType, Project
+
+   project = Project("MyGame", game_box_size=(220.0, 180.0, 60.0))
+
+   # 1. Declare the game catalog once (counts, physical dimensions, SVGs)
+   actions = project.define_cards("Action Cards", count=50, size=(63.5, 88.0), thickness=0.6)
+   ships   = project.define_piece("Flagships", count=2, size=(43.0, 37.2, 10.0), svg="svg/ship.svg")
+   coins   = project.define_piece("Silver Coins", count=40, diameter=22.0, thickness=2.0, bulk=True)
+   bag     = project.define_loose("Cloth Draw Bag", count=1, location="Inside spacer_1")
+
+   # 2. Boxes consume component handles directly
+   card_box = project.box(BoxType.SLIDING, "Cards", size=(70.0, 96.0, None))
+   card_box.store(actions)  # derives box height from 50 x 0.6mm and allocates 50/50
+
+   tray = project.box(BoxType.CAP, "Pieces", size=(120.0, 110.0, 28.0))
+   tray.compartment(
+       "Ships",
+       size=(95.0, 45.0),
+       elements=(
+           tray.well(ships, count=1, offset=(2.0, 2.0)),
+           tray.well(ships, count=1, offset=(48.0, 2.0)),
+       ),
+   )
+   tray.store(coins)
+
+   # 3. Verify 100% count conservation, SVG cutout coverage, and physical fit
+   project.verify_inventory(strict=True)
+
 Quick Start by Box Type
 -----------------------
 
