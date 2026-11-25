@@ -556,6 +556,14 @@
 <span class="w">    </span><span class="sd">"""Optional path to an SVG silhouette file representing this piece's outline."""</span>
     <span class="n">bulk</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""If True, pieces are stored loose in a tray/compartment rather than individual shaped wells."""</span>
+    <span class="n">card_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"flat"</span>
+<span class="w">    </span><span class="sd">"""Card storage orientation (``"flat"``, ``"vertical"``, or ``"angled"``)."""</span>
+    <span class="n">card_tilt_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">    </span><span class="sd">"""Tilt angle from vertical in degrees for angled cards (0° = upright, 15°–35° = tilted)."""</span>
+    <span class="n">sleeved</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""True when card dimensions and thickness already include protective sleeves."""</span>
+    <span class="n">sleeve_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Resolved sleeve description (brand/name/SKU) when ``sleeved=True``."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate non-empty name, positive piece count, and positive dimensions."""</span>
@@ -569,6 +577,15 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GameComponent </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> diameter must be positive, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">thickness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">thickness</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GameComponent </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> thickness must be positive, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">thickness</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">card_orientation</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"flat"</span><span class="p">,</span> <span class="s2">"vertical"</span><span class="p">,</span> <span class="s2">"angled"</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"GameComponent </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> card_orientation must be 'flat', 'vertical', or 'angled'; "</span>
+                <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">card_orientation</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">card_tilt_angle</span> <span class="o">&lt;</span> <span class="mf">60.0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"GameComponent </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> card_tilt_angle must be in [0, 60); got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">card_tilt_angle</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">footprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -653,8 +670,18 @@
 <span class="w">    </span><span class="sd">"""Default lid thickness."""</span>
     <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Edge radius for every box's exposed edges (FR-043/FR-044)."""</span>
+    <span class="n">base_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Edge radius for every box's base/bottom edges."""</span>
+    <span class="n">base_chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Bottom chamfer in mm (e.g. 0.4 for elephant's foot relief), or True for 3.0mm."""</span>
     <span class="n">inner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Edge radius where a partial lid grips the body (FR-044b)."""</span>
+    <span class="n">bed_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional 3D-printer build plate (W, L) in mm checked during verification."""</span>
+    <span class="n">sleeved</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""When True, card decks declared via define_cards() automatically size for sleeved cards."""</span>
+    <span class="n">sleeve</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional default Sleeve instance, SKU, brand, or grade used when sleeved=True."""</span>
     <span class="n">gap_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
 <span class="w">    </span><span class="sd">"""Gaps &lt;= this are absorbed by adjacent boxes."""</span>
     <span class="n">min_spacer_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span>

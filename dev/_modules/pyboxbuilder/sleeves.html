@@ -783,6 +783,78 @@
             <span class="k">return</span> <span class="n">sleeve</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
+
+
+<div class="viewcode-block" id="resolve_sleeved_card">
+<a class="viewcode-back" href="../../_autosummary/pyboxbuilder.sleeves.resolve_sleeved_card.html#pyboxbuilder.sleeves.resolve_sleeved_card">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_sleeved_card</span><span class="p">(</span>
+    <span class="n">card_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">BASE_CARD_THICKNESS</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">sleeve</span><span class="p">:</span> <span class="n">Sleeve</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Sleeve</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Resolve outer dimensions and per-card thickness for a sleeved card.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        card_size: Unsleeved card ``(width, length)`` in mm (either orientation).</span>
+<span class="sd">        thickness: Unsleeved single-card thickness in mm.</span>
+<span class="sd">        sleeve: Optional :class:`Sleeve`, SKU (e.g. ``"SKS-8810"``), brand name</span>
+<span class="sd">            (e.g. ``"Gamegenic"``), grade (e.g. ``"Premium"``), or size name.</span>
+<span class="sd">            When ``None``, selects the tightest-fitting sleeve from</span>
+<span class="sd">            ``SLEEVE_CATALOG`` (falling back to standard +2.5×+3.0 mm, +0.2 mm).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ``((outer_w, outer_l), sleeved_thickness, matched_sleeve)`` preserving the</span>
+<span class="sd">        caller's input orientation.</span>
+<span class="sd">    """</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">l_dim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">card_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">card_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">rotated</span> <span class="o">=</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">l_dim</span>
+    <span class="n">short_s</span><span class="p">,</span> <span class="n">long_s</span> <span class="o">=</span> <span class="p">(</span><span class="n">l_dim</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="k">if</span> <span class="n">rotated</span> <span class="k">else</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l_dim</span><span class="p">)</span>
+
+    <span class="n">chosen</span><span class="p">:</span> <span class="n">Sleeve</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sleeve</span><span class="p">,</span> <span class="n">Sleeve</span><span class="p">):</span>
+        <span class="n">chosen</span> <span class="o">=</span> <span class="n">sleeve</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sleeve</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">sleeve</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">chosen</span> <span class="o">=</span> <span class="n">sleeve_by_sku</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">chosen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Try brand match</span>
+            <span class="n">brand_matches</span> <span class="o">=</span> <span class="n">sleeves_for_card</span><span class="p">(</span><span class="n">short_s</span><span class="p">,</span> <span class="n">long_s</span><span class="p">,</span> <span class="n">brand</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">brand_matches</span><span class="p">:</span>
+                <span class="n">chosen</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">brand_matches</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">sleeve_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="o">.</span><span class="n">sleeve_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">chosen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Try grade match</span>
+            <span class="n">grade_matches</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">s</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sleeves_for_card</span><span class="p">(</span><span class="n">short_s</span><span class="p">,</span> <span class="n">long_s</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">grade</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">s</span><span class="o">.</span><span class="n">grade</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="n">grade_matches</span><span class="p">:</span>
+                <span class="n">chosen</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">grade_matches</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">sleeve_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="o">.</span><span class="n">sleeve_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">chosen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Try generic size name match</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">SLEEVE_CATALOG</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">chosen</span> <span class="o">=</span> <span class="n">s</span>
+                    <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="n">sleeves_for_card</span><span class="p">(</span><span class="n">short_s</span><span class="p">,</span> <span class="n">long_s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="n">chosen</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">candidates</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">sleeve_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">s</span><span class="o">.</span><span class="n">sleeve_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">chosen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sw</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">short_s</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">chosen</span><span class="o">.</span><span class="n">sleeve_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">sl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">long_s</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">chosen</span><span class="o">.</span><span class="n">sleeve_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">microns</span> <span class="o">=</span> <span class="n">chosen</span><span class="o">.</span><span class="n">thickness_microns</span> <span class="k">if</span> <span class="n">chosen</span><span class="o">.</span><span class="n">thickness_microns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_DEFAULT_MICRONS</span>
+        <span class="n">eff_thickness</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">thickness</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">microns</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sw</span> <span class="o">=</span> <span class="n">short_s</span> <span class="o">+</span> <span class="mf">2.5</span>
+        <span class="n">sl</span> <span class="o">=</span> <span class="n">long_s</span> <span class="o">+</span> <span class="mf">3.0</span>
+        <span class="n">eff_thickness</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">thickness</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.20</span>
+
+    <span class="n">eff_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">sl</span><span class="p">,</span> <span class="n">sw</span><span class="p">)</span> <span class="k">if</span> <span class="n">rotated</span> <span class="k">else</span> <span class="p">(</span><span class="n">sw</span><span class="p">,</span> <span class="n">sl</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">eff_size</span><span class="p">,</span> <span class="n">eff_thickness</span><span class="p">,</span> <span class="n">chosen</span><span class="p">)</span></div>
+
 </code></pre></div>
 
 

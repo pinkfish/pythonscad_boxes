@@ -1,0 +1,24 @@
+pyboxbuilder.builders.card\_tray
+================================
+
+.. automodule:: pyboxbuilder.builders.card_tray
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      CardTrayBoxBuilder
+   
+   
+
+   
+   
+   

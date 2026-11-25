@@ -16,6 +16,7 @@ pyboxbuilder.builders
       cap_path
       card_library
       card_shoe
+      card_tray
       clamshell
       dice_tray
       dispenser

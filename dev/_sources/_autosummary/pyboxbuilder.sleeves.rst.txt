@@ -28,6 +28,7 @@ pyboxbuilder.sleeves
       :nosignatures:
    
       find_sleeve
+      resolve_sleeved_card
       sleeve_by_sku
       sleeves_for_card
    

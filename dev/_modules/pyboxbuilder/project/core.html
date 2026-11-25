@@ -652,6 +652,12 @@
 
 <span class="sd">    A value passed to :meth:`box` always wins over the default.</span>
 <span class="sd">    """</span>
+    <span class="n">bed_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional 3D-printer build plate ``(W, L)`` in mm checked during :meth:`verify_inventory`."""</span>
+    <span class="n">sleeved</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""When ``True``, card decks declared via :meth:`define_cards` automatically size for sleeved cards."""</span>
+    <span class="n">sleeve</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Optional default :class:`~pyboxbuilder.sleeves.Sleeve`, SKU, brand, or grade used when ``sleeved=True``."""</span>
 
     <span class="n">_manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">_compiler</span><span class="p">:</span> <span class="n">LayoutCompiler</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -672,7 +678,12 @@
             <span class="n">floor_thickness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
             <span class="n">lid_thickness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">,</span>
             <span class="n">rounding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rounding</span><span class="p">,</span>
+            <span class="n">base_rounding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_rounding</span><span class="p">,</span>
+            <span class="n">base_chamfer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_chamfer</span><span class="p">,</span>
             <span class="n">inner_rounding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_rounding</span><span class="p">,</span>
+            <span class="n">bed_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bed_size</span><span class="p">,</span>
+            <span class="n">sleeved</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sleeved</span><span class="p">,</span>
+            <span class="n">sleeve</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sleeve</span><span class="p">,</span>
             <span class="n">gap_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gap_threshold</span><span class="p">,</span>
             <span class="n">min_spacer_dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_spacer_dim</span><span class="p">,</span>
             <span class="n">min_spacer_height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_spacer_height</span><span class="p">,</span>
@@ -751,6 +762,10 @@
         <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">svg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">bulk</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">card_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"flat"</span><span class="p">,</span>
+        <span class="n">card_tilt_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">sleeved</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">sleeve_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameComponent</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Declare a physical game component type in the project's piece inventory."""</span>
         <span class="n">gc</span> <span class="o">=</span> <span class="n">GameComponent</span><span class="p">(</span>
@@ -765,6 +780,10 @@
             <span class="n">thickness</span><span class="o">=</span><span class="n">thickness</span><span class="p">,</span>
             <span class="n">svg</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">svg</span><span class="p">)</span> <span class="k">if</span> <span class="n">svg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">bulk</span><span class="o">=</span><span class="n">bulk</span><span class="p">,</span>
+            <span class="n">card_orientation</span><span class="o">=</span><span class="n">card_orientation</span><span class="p">,</span>
+            <span class="n">card_tilt_angle</span><span class="o">=</span><span class="n">card_tilt_angle</span><span class="p">,</span>
+            <span class="n">sleeved</span><span class="o">=</span><span class="n">sleeved</span><span class="p">,</span>
+            <span class="n">sleeve_name</span><span class="o">=</span><span class="n">sleeve_name</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">gc</span><span class="p">)</span></div>
 
@@ -778,20 +797,51 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span>
+        <span class="n">orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"flat"</span><span class="p">,</span>
+        <span class="n">tilt_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">sleeved</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sleeve</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Cards"</span><span class="p">,</span>
         <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">svg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameComponent</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Declare a card deck in the game inventory with exact card count, size, and thickness."""</span>
+<span class="w">        </span><span class="sd">"""Declare a card deck in the game inventory with exact card count, size, and thickness.</span>
+
+<span class="sd">        When ``sleeved=True`` (or ``self.sleeved=True`` and ``sleeved`` is not ``False``),</span>
+<span class="sd">        ``size`` and ``thickness`` are automatically expanded for protective card sleeves</span>
+<span class="sd">        using :func:`~pyboxbuilder.sleeves.resolve_sleeved_card`.</span>
+<span class="sd">        """</span>
+        <span class="n">use_sleeved</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sleeved</span> <span class="k">if</span> <span class="n">sleeved</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">sleeved</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">sleeve</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">eff_size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="n">eff_thickness</span> <span class="o">=</span> <span class="n">thickness</span>
+        <span class="n">sleeve_label</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">if</span> <span class="n">use_sleeved</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.sleeves</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_sleeved_card</span>
+
+            <span class="n">chosen_spec</span> <span class="o">=</span> <span class="n">sleeve</span> <span class="k">if</span> <span class="n">sleeve</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">sleeve</span>
+            <span class="n">eff_size</span><span class="p">,</span> <span class="n">eff_thickness</span><span class="p">,</span> <span class="n">matched</span> <span class="o">=</span> <span class="n">resolve_sleeved_card</span><span class="p">(</span>
+                <span class="n">size</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">sleeve</span><span class="o">=</span><span class="n">chosen_spec</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">matched</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sleeve_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">matched</span><span class="o">.</span><span class="n">brand</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">matched</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">" (</span><span class="si">{</span><span class="n">matched</span><span class="o">.</span><span class="n">sku</span><span class="si">}</span><span class="s2">)"</span> <span class="k">if</span> <span class="n">matched</span><span class="o">.</span><span class="n">sku</span> <span class="k">else</span> <span class="s2">""</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sleeve_label</span> <span class="o">=</span> <span class="s2">"Generic sleeve"</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">component</span><span class="p">(</span>
             <span class="n">name</span><span class="p">,</span>
             <span class="n">count</span><span class="p">,</span>
             <span class="n">kind</span><span class="o">=</span><span class="s2">"cards"</span><span class="p">,</span>
-            <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
-            <span class="n">thickness</span><span class="o">=</span><span class="n">thickness</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">eff_size</span><span class="p">,</span>
+            <span class="n">thickness</span><span class="o">=</span><span class="n">eff_thickness</span><span class="p">,</span>
             <span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
             <span class="n">notes</span><span class="o">=</span><span class="n">notes</span><span class="p">,</span>
             <span class="n">svg</span><span class="o">=</span><span class="n">svg</span><span class="p">,</span>
+            <span class="n">card_orientation</span><span class="o">=</span><span class="n">orientation</span><span class="p">,</span>
+            <span class="n">card_tilt_angle</span><span class="o">=</span><span class="n">tilt_angle</span><span class="p">,</span>
+            <span class="n">sleeved</span><span class="o">=</span><span class="n">use_sleeved</span><span class="p">,</span>
+            <span class="n">sleeve_name</span><span class="o">=</span><span class="n">sleeve_label</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -899,9 +949,22 @@
 
 <div class="viewcode-block" id="Project.verify_inventory">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.verify_inventory">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">verify_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">check_fit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InventoryVerification</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify_inventory</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">check_fit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">check_vertical_storage</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">packing</span><span class="p">:</span> <span class="n">BoxPacking</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InventoryVerification</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Verify that all declared components are accounted for with matching SVGs and physical fit."""</span>
-        <span class="k">return</span> <span class="n">verify_inventory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">,</span> <span class="n">check_fit</span><span class="o">=</span><span class="n">check_fit</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">verify_inventory</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span>
+            <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">,</span>
+            <span class="n">check_fit</span><span class="o">=</span><span class="n">check_fit</span><span class="p">,</span>
+            <span class="n">check_vertical_storage</span><span class="o">=</span><span class="n">check_vertical_storage</span><span class="p">,</span>
+            <span class="n">packing</span><span class="o">=</span><span class="n">packing</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Project.board">
@@ -1493,22 +1556,56 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">card_size</span><span class="p">:</span> <span class="n">CardSize</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">sleeve</span><span class="p">:</span> <span class="n">SleeveType</span> <span class="o">=</span> <span class="n">SleeveType</span><span class="o">.</span><span class="n">UNSLEEVED</span><span class="p">,</span>
-        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+        <span class="n">thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sleeved</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sleeve</span><span class="p">:</span> <span class="n">SleeveType</span> <span class="o">|</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"flat"</span><span class="p">,</span>
+        <span class="n">tilt_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="n">FingerCut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Add a box pre-configured for a deck of cards."""</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardSize</span>
+<span class="w">        </span><span class="sd">"""Add a box pre-configured for a deck of cards without needing a component inventory.</span>
 
-        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">box_type</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">base_size</span> <span class="o">=</span> <span class="n">card_size</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">card_size</span><span class="p">,</span> <span class="n">CardSize</span><span class="p">)</span> <span class="k">else</span> <span class="n">card_size</span>
+<span class="sd">        Automatically respects ``self.sleeved`` and ``self.sleeve`` unless overridden.</span>
+<span class="sd">        When ``orientation`` is ``"vertical"`` or ``"angled"`` and ``box_type`` is</span>
+<span class="sd">        omitted, automatically creates a :attr:`~pyboxbuilder.enums.BoxType.CARD_TRAY`</span>
+<span class="sd">        (forwarding ``tilt_angle`` to ``card_tilt_angle``).</span>
+<span class="sd">        """</span>
+        <span class="n">eff_orientation</span> <span class="o">=</span> <span class="n">orientation</span>
+        <span class="k">if</span> <span class="n">box_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resolved_type</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">BoxType</span><span class="o">.</span><span class="n">CARD_TRAY</span> <span class="k">if</span> <span class="n">eff_orientation</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"vertical"</span><span class="p">,</span> <span class="s2">"angled"</span><span class="p">)</span> <span class="k">else</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">resolved_type</span> <span class="o">=</span> <span class="n">box_type</span>
+            <span class="k">if</span> <span class="n">resolved_type</span> <span class="ow">is</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">CARD_TRAY</span> <span class="ow">and</span> <span class="n">eff_orientation</span> <span class="o">==</span> <span class="s2">"flat"</span><span class="p">:</span>
+                <span class="n">eff_tilt</span> <span class="o">=</span> <span class="n">tilt_angle</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"card_tilt_angle"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                <span class="n">eff_orientation</span> <span class="o">=</span> <span class="s2">"angled"</span> <span class="k">if</span> <span class="n">eff_tilt</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="s2">"vertical"</span>
+
+        <span class="k">if</span> <span class="n">resolved_type</span> <span class="ow">is</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">CARD_TRAY</span> <span class="ow">and</span> <span class="n">tilt_angle</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="s2">"card_tilt_angle"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"card_tilt_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tilt_angle</span>
+
+        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">resolved_type</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">eff_sleeved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sleeved</span> <span class="k">if</span> <span class="n">sleeved</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">sleeved</span>
+        <span class="n">eff_sleeve</span> <span class="o">=</span> <span class="n">sleeve</span>
+        <span class="k">if</span> <span class="n">eff_sleeve</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eff_sleeved</span><span class="p">:</span>
+            <span class="n">eff_sleeve</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sleeve</span>
+        <span class="k">elif</span> <span class="n">eff_sleeve</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">eff_sleeved</span> <span class="ow">and</span> <span class="n">thickness</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">slack</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">eff_sleeve</span> <span class="o">=</span> <span class="n">SleeveType</span><span class="o">.</span><span class="n">UNSLEEVED</span>
+
         <span class="n">builder</span><span class="o">.</span><span class="n">cards</span><span class="p">(</span>
             <span class="s2">"Cards"</span><span class="p">,</span>
             <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
-            <span class="n">size</span><span class="o">=</span><span class="n">base_size</span><span class="p">,</span>
-            <span class="n">thickness</span><span class="o">=</span><span class="n">sleeve</span><span class="o">.</span><span class="n">card_thickness</span><span class="p">,</span>
-            <span class="n">slack</span><span class="o">=</span><span class="n">sleeve</span><span class="o">.</span><span class="n">footprint_margin</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">card_size</span><span class="p">,</span>
+            <span class="n">thickness</span><span class="o">=</span><span class="n">thickness</span><span class="p">,</span>
+            <span class="n">slack</span><span class="o">=</span><span class="n">slack</span><span class="p">,</span>
+            <span class="n">sleeved</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">eff_sleeved</span><span class="p">),</span>
+            <span class="n">sleeve</span><span class="o">=</span><span class="n">eff_sleeve</span><span class="p">,</span>
+            <span class="n">orientation</span><span class="o">=</span><span class="n">eff_orientation</span><span class="p">,</span>
+            <span class="n">tilt_angle</span><span class="o">=</span><span class="n">tilt_angle</span><span class="p">,</span>
             <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">builder</span></div>

@@ -889,6 +889,20 @@
     <span class="n">retaining_lip_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
     <span class="n">discard_well</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 
+    <span class="c1"># Card tray (vertical / angled card row with divider slots)</span>
+    <span class="n">card_tilt_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">    </span><span class="sd">"""Tilt angle in degrees from vertical (0° = upright, 15°–35° = tilted backward)."""</span>
+    <span class="n">divider_slots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">"""Number of evenly-spaced removable divider slot pairs along the length (Y) axis."""</span>
+    <span class="n">divider_positions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="w">    </span><span class="sd">"""Explicit Y positions (mm from interior front) for divider slot pairs; overrides divider_slots."""</span>
+    <span class="n">divider_slot_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="w">    </span><span class="sd">"""Width (Y thickness) of each divider rail slot in mm."""</span>
+    <span class="n">divider_slot_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="w">    </span><span class="sd">"""Depth each divider slot cuts into the left and right inner walls in mm."""</span>
+    <span class="n">front_cutout</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">"""Cut opposing U-shaped finger scoops on the front and back walls for easy card browsing."""</span>
+
     <span class="c1"># Dice tray (FR-086)</span>
     <span class="n">arena_wall_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">28.0</span>
     <span class="n">felt_pocket_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>
@@ -1229,6 +1243,13 @@
     <span class="n">draw_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
     <span class="n">retaining_lip_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
     <span class="n">discard_well</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">card_tilt_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">divider_slots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">divider_positions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">divider_slot_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">divider_slot_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">front_cutout</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">arena_wall_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">28.0</span>
     <span class="n">felt_pocket_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.2</span>

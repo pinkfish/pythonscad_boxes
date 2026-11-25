@@ -1,0 +1,6 @@
+pyboxbuilder.sleeves.resolve\_sleeved\_card
+===========================================
+
+.. currentmodule:: pyboxbuilder.sleeves
+
+.. autofunction:: resolve_sleeved_card

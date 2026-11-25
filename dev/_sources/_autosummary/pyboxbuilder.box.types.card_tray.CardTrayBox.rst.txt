@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.card\_tray.CardTrayBox
+=============================================
+
+.. currentmodule:: pyboxbuilder.box.types.card_tray
+
+.. autoclass:: CardTrayBox
+   :members:
+   :show-inheritance:
