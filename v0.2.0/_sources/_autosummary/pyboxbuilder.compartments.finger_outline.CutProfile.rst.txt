@@ -1,0 +1,8 @@
+pyboxbuilder.compartments.finger\_outline.CutProfile
+====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_outline
+
+.. autoclass:: CutProfile
+   :members:
+   :show-inheritance:

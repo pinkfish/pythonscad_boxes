@@ -1,0 +1,8 @@
+pyboxbuilder.enums.DispenserExtractionMode
+==========================================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: DispenserExtractionMode
+   :members:
+   :show-inheritance:

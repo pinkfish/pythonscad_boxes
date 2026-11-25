@@ -1,0 +1,6 @@
+pyboxbuilder.layout.check\_complete
+===================================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autofunction:: check_complete

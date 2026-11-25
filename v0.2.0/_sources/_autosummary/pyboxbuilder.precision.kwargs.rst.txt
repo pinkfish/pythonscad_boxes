@@ -1,0 +1,6 @@
+pyboxbuilder.precision.kwargs
+=============================
+
+.. currentmodule:: pyboxbuilder.precision
+
+.. autofunction:: kwargs

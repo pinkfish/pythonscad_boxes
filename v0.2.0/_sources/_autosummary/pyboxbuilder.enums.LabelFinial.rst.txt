@@ -1,0 +1,8 @@
+pyboxbuilder.enums.LabelFinial
+==============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: LabelFinial
+   :members:
+   :show-inheritance:

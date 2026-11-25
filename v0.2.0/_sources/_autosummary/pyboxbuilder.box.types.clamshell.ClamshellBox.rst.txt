@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.clamshell.ClamshellBox
+=============================================
+
+.. currentmodule:: pyboxbuilder.box.types.clamshell
+
+.. autoclass:: ClamshellBox
+   :members:
+   :show-inheritance:

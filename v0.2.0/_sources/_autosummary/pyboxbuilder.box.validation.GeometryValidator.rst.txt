@@ -1,0 +1,8 @@
+pyboxbuilder.box.validation.GeometryValidator
+=============================================
+
+.. currentmodule:: pyboxbuilder.box.validation
+
+.. autoclass:: GeometryValidator
+   :members:
+   :show-inheritance:

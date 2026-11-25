@@ -1,0 +1,8 @@
+pyboxbuilder.box.features.Closure
+=================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autoclass:: Closure
+   :members:
+   :show-inheritance:

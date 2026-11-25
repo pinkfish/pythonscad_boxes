@@ -1,0 +1,33 @@
+pyboxbuilder.packing.layout
+===========================
+
+.. automodule:: pyboxbuilder.packing.layout
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      BoxPacking
+      Placement
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      pack_boxes
+   
+   

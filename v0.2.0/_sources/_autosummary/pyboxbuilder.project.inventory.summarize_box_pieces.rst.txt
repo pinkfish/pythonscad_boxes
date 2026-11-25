@@ -1,0 +1,6 @@
+pyboxbuilder.project.inventory.summarize\_box\_pieces
+=====================================================
+
+.. currentmodule:: pyboxbuilder.project.inventory
+
+.. autofunction:: summarize_box_pieces

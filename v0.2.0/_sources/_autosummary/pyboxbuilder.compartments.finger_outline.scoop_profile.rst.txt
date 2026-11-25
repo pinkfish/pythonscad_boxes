@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.finger\_outline.scoop\_profile
+========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_outline
+
+.. autofunction:: scoop_profile

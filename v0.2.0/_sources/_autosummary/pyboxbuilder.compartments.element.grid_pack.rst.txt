@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.grid\_pack
+============================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: grid_pack

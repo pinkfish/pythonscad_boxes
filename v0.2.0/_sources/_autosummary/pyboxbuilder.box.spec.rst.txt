@@ -1,0 +1,35 @@
+pyboxbuilder.box.spec
+=====================
+
+.. automodule:: pyboxbuilder.box.spec
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      BoxSpec
+      ResolvedBoxSpec
+      UnresolvedBoxSpec
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      build_spec
+      describe
+   
+   

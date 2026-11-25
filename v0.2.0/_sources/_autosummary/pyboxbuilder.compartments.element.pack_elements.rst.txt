@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.pack\_elements
+================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: pack_elements

@@ -1,0 +1,24 @@
+pyboxbuilder.project.core
+=========================
+
+.. automodule:: pyboxbuilder.project.core
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Project
+   
+   
+
+   
+   
+   

@@ -1,0 +1,6 @@
+pyboxbuilder.sleeves.sleeve\_by\_sku
+====================================
+
+.. currentmodule:: pyboxbuilder.sleeves
+
+.. autofunction:: sleeve_by_sku

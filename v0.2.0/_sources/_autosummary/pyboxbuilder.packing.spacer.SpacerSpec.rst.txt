@@ -1,0 +1,8 @@
+pyboxbuilder.packing.spacer.SpacerSpec
+======================================
+
+.. currentmodule:: pyboxbuilder.packing.spacer
+
+.. autoclass:: SpacerSpec
+   :members:
+   :show-inheritance:

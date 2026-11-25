@@ -1,0 +1,6 @@
+pyboxbuilder.preview.with\_alpha
+================================
+
+.. currentmodule:: pyboxbuilder.preview
+
+.. autofunction:: with_alpha

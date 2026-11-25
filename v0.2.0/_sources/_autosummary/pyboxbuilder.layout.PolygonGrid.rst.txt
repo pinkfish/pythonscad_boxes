@@ -1,0 +1,8 @@
+pyboxbuilder.layout.PolygonGrid
+===============================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autoclass:: PolygonGrid
+   :members:
+   :show-inheritance:

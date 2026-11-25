@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.labels.build\_floor\_label
+====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.labels
+
+.. autofunction:: build_floor_label

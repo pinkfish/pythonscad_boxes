@@ -1,0 +1,8 @@
+pyboxbuilder.project.inventory.PieceEntry
+=========================================
+
+.. currentmodule:: pyboxbuilder.project.inventory
+
+.. autoclass:: PieceEntry
+   :members:
+   :show-inheritance:

@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.distribute\_linear\_gap
+=========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: distribute_linear_gap

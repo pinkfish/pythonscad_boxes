@@ -1,0 +1,8 @@
+pyboxbuilder.builders.magnetic.MagneticBoxBuilder
+=================================================
+
+.. currentmodule:: pyboxbuilder.builders.magnetic
+
+.. autoclass:: MagneticBoxBuilder
+   :members:
+   :show-inheritance:

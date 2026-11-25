@@ -1,0 +1,6 @@
+pyboxbuilder.packing.spacer.merge\_rectilinear
+==============================================
+
+.. currentmodule:: pyboxbuilder.packing.spacer
+
+.. autofunction:: merge_rectilinear

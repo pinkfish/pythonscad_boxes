@@ -1,0 +1,8 @@
+pyboxbuilder.enums.ColorMode
+============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: ColorMode
+   :members:
+   :show-inheritance:

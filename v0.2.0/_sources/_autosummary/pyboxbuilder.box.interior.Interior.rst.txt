@@ -1,0 +1,8 @@
+pyboxbuilder.box.interior.Interior
+==================================
+
+.. currentmodule:: pyboxbuilder.box.interior
+
+.. autoclass:: Interior
+   :members:
+   :show-inheritance:

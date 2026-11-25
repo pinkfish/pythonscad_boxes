@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.path\_body\_metrics
+=============================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: path_body_metrics

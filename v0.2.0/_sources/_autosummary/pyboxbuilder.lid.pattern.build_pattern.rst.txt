@@ -1,0 +1,6 @@
+pyboxbuilder.lid.pattern.build\_pattern
+=======================================
+
+.. currentmodule:: pyboxbuilder.lid.pattern
+
+.. autofunction:: build_pattern

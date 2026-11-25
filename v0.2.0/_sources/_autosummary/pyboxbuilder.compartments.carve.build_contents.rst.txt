@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.carve.build\_contents
+===============================================
+
+.. currentmodule:: pyboxbuilder.compartments.carve
+
+.. autofunction:: build_contents

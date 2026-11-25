@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.extrude\_rounded\_footprint
+=====================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: extrude_rounded_footprint

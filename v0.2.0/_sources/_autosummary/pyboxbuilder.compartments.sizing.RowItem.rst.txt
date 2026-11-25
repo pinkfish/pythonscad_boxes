@@ -1,0 +1,8 @@
+pyboxbuilder.compartments.sizing.RowItem
+========================================
+
+.. currentmodule:: pyboxbuilder.compartments.sizing
+
+.. autoclass:: RowItem
+   :members:
+   :show-inheritance:

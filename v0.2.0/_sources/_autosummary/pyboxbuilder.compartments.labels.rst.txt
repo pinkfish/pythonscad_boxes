@@ -1,0 +1,25 @@
+pyboxbuilder.compartments.labels
+================================
+
+.. automodule:: pyboxbuilder.compartments.labels
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      build_compartment_label
+      build_floor_label
+   
+   

@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.layout.pack\_compartments\_across\_bins
+=================================================================
+
+.. currentmodule:: pyboxbuilder.compartments.layout
+
+.. autofunction:: pack_compartments_across_bins

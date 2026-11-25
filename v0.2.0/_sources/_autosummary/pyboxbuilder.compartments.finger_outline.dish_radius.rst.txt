@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.finger\_outline.dish\_radius
+======================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_outline
+
+.. autofunction:: dish_radius

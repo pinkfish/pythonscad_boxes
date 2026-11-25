@@ -1,0 +1,6 @@
+pyboxbuilder.export.layout\_pdf.generate\_layout\_pdf
+=====================================================
+
+.. currentmodule:: pyboxbuilder.export.layout_pdf
+
+.. autofunction:: generate_layout_pdf

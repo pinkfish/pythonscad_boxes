@@ -1,0 +1,6 @@
+pyboxbuilder.layout.rows
+========================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autofunction:: rows

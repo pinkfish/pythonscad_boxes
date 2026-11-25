@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.filament\_hinge
+=========================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: filament_hinge

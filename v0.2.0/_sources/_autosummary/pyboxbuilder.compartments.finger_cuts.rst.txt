@@ -1,0 +1,28 @@
+pyboxbuilder.compartments.finger\_cuts
+======================================
+
+.. automodule:: pyboxbuilder.compartments.finger_cuts
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      build_cut
+      build_floor_scoop
+      build_scoop
+      build_through_hole
+      build_wall_scoop
+   
+   

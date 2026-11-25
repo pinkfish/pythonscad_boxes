@@ -1,0 +1,6 @@
+pyboxbuilder.layout.columns
+===========================
+
+.. currentmodule:: pyboxbuilder.layout
+
+.. autofunction:: columns

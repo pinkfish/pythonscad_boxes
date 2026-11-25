@@ -1,0 +1,8 @@
+pyboxbuilder.compartments.builder.CompartmentBuilder
+====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.builder
+
+.. autoclass:: CompartmentBuilder
+   :members:
+   :show-inheritance:

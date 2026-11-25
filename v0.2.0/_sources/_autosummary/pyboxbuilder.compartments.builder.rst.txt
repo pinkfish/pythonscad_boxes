@@ -1,0 +1,32 @@
+pyboxbuilder.compartments.builder
+=================================
+
+.. automodule:: pyboxbuilder.compartments.builder
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      CompartmentBuilder
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      infer_ratio_tracks
+   
+   

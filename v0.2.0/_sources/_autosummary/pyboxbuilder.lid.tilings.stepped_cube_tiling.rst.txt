@@ -1,0 +1,6 @@
+pyboxbuilder.lid.tilings.stepped\_cube\_tiling
+==============================================
+
+.. currentmodule:: pyboxbuilder.lid.tilings
+
+.. autofunction:: stepped_cube_tiling

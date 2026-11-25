@@ -1,0 +1,6 @@
+pyboxbuilder.box.shell.with\_no\_lid\_finger\_holes
+===================================================
+
+.. currentmodule:: pyboxbuilder.box.shell
+
+.. autofunction:: with_no_lid_finger_holes

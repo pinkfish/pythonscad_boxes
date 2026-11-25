@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.inset
+============================
+
+.. automodule:: pyboxbuilder.box.types.inset
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      InsetBox
+   
+   
+
+   
+   
+   

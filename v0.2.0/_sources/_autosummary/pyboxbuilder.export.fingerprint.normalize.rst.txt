@@ -1,0 +1,6 @@
+pyboxbuilder.export.fingerprint.normalize
+=========================================
+
+.. currentmodule:: pyboxbuilder.export.fingerprint
+
+.. autofunction:: normalize

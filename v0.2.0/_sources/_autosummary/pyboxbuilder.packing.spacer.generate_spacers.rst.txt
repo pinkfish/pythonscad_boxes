@@ -1,0 +1,6 @@
+pyboxbuilder.packing.spacer.generate\_spacers
+=============================================
+
+.. currentmodule:: pyboxbuilder.packing.spacer
+
+.. autofunction:: generate_spacers

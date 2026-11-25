@@ -1,0 +1,6 @@
+pyboxbuilder.lid.tilings.polygon\_area
+======================================
+
+.. currentmodule:: pyboxbuilder.lid.tilings
+
+.. autofunction:: polygon_area

@@ -1,0 +1,6 @@
+pyboxbuilder.project.inventory.verify\_inventory
+================================================
+
+.. currentmodule:: pyboxbuilder.project.inventory
+
+.. autofunction:: verify_inventory

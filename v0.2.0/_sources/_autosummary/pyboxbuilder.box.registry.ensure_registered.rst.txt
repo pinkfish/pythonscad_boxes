@@ -1,0 +1,6 @@
+pyboxbuilder.box.registry.ensure\_registered
+============================================
+
+.. currentmodule:: pyboxbuilder.box.registry
+
+.. autofunction:: ensure_registered

@@ -1,0 +1,29 @@
+pyboxbuilder.lid
+================
+
+.. automodule:: pyboxbuilder.lid
+
+   
+   
+   .. rubric:: Submodules
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      builder
+      color_layers
+      decorate
+      label
+      pattern
+      tilings
+   
+   
+
+   
+   
+   
+
+   
+   
+   

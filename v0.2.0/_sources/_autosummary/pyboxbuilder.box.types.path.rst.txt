@@ -1,0 +1,24 @@
+pyboxbuilder.box.types.path
+===========================
+
+.. automodule:: pyboxbuilder.box.types.path
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      PathBox
+   
+   
+
+   
+   
+   

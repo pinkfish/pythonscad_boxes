@@ -1,0 +1,35 @@
+pyboxbuilder.compartments.hex\_grid
+===================================
+
+.. automodule:: pyboxbuilder.compartments.hex_grid
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      HexCell
+      HexGridSpec
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      build_hex_grid
+      compute_hex_layout
+      hex_grid_bounds
+   
+   

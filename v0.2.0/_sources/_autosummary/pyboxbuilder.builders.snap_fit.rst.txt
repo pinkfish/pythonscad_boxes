@@ -1,0 +1,24 @@
+pyboxbuilder.builders.snap\_fit
+===============================
+
+.. automodule:: pyboxbuilder.builders.snap_fit
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      SnapFitBoxBuilder
+   
+   
+
+   
+   
+   
