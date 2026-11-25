@@ -43,8 +43,8 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.value }}"
           ls -1 dist/
-          test -f "dist/pyboxbuilder-${VERSION}.tar.gz"
-          test -f "dist/pyboxbuilder-${VERSION}-py3-none-any.whl"
+          test -f "dist/pythonscad_boxes-${VERSION}.tar.gz"
+          test -f "dist/pythonscad_boxes-${VERSION}-py3-none-any.whl"
           python - <<'PY'
           import pathlib, zipfile
           wheel = next(pathlib.Path("dist").glob("*.whl"))
