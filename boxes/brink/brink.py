@@ -439,36 +439,45 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-# ── Game Component Inventory ──────────────────────────────────────
-project.define_inventory({
-    "Map Sector Hex Tiles": 25,
-    "Starting & Bonus Hex Tiles": 15,
-    "Player Upgrade Boards": 5,
-    "Class I Ships": 5,
-    "Class II Ships": 5,
-    "Class III Ships": 5,
-    "Cargo Modules": 15,
-    "Railguns": 15,
-    "Player & Score Tokens": 10,
-    "Komek Resource Cubes": 25,
-    "Ventus Resource Cubes": 25,
-    "Henko Resource Cubes": 25,
-    "Magnomi Resource Cubes": 25,
-    "Sorelia Resource Cubes": 20,
-    "UA Cubes": 15,
-    "UA Flagship": 1,
-    "Fusion Drive": 1,
-    "First Player Token": 1,
-    "Action Cards": 52,
-    "Rider Cards": 20,
-    "Ambassador Cards": 25,
-    "Faction Cards": 5,
-    "Rival Cards": 4,
-    "Community Cards": 15,
-    "Holo Cards": 15,
-    "Player Screens": 5,
-    "Main Board & Rulebooks": 1,
-})
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_tile("Map Sector Hex Tiles", 25, size=(hex_width, hex_width, cardboard_token_thickness), bulk=True)
+project.define_tile("Starting & Bonus Hex Tiles", 15, size=(hex_width, hex_width, cardboard_token_thickness), bulk=True)
+project.define_piece("Player Upgrade Boards", 5, size=(upgrade_width, upgrade_length, upgrade_thickness))
+project.define_piece("Class I Ships", 5, diameter=class_i_ship_diameter, thickness=class_i_ship_thickness)
+project.define_piece("Class II Ships", 5, size=(class_ii_ship_width, class_ii_ship_length, class_ii_ship_thickness))
+project.define_piece(
+    "Class III Ships",
+    5,
+    size=(class_iii_ship_edge_length, class_iii_ship_height, class_iii_ship_thickness),
+    svg=CLASS_III_SVG,
+)
+project.define_piece("Cargo Modules", 15, size=(cargo_width, cargo_width, cargo_thickness))
+project.define_piece("Railguns", 15, size=(railgun_width, railgun_length, railgun_thickness))
+project.define_piece("Player & Score Tokens", 10, diameter=player_token_diameter, thickness=cardboard_token_thickness)
+for _res_name, _res_qty in [
+    ("Komek Resource Cubes", 25),
+    ("Ventus Resource Cubes", 25),
+    ("Henko Resource Cubes", 25),
+    ("Magnomi Resource Cubes", 25),
+    ("Sorelia Resource Cubes", 20),
+    ("UA Cubes", 15),
+    ("UA Flagship", 1),
+    ("Fusion Drive", 1),
+    ("First Player Token", 1),
+]:
+    project.define_piece(_res_name, _res_qty, bulk=True)
+
+project.define_cards("Action Cards", 52, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Rider Cards", 20, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards(
+    "Ambassador Cards", 25, size=(small_card_width, small_card_length), thickness=single_card_thickness
+)
+project.define_cards("Faction Cards", 5, size=(small_card_width, small_card_length), thickness=single_card_thickness)
+project.define_cards("Rival Cards", 4, size=(small_card_width, small_card_length), thickness=single_card_thickness)
+project.define_cards("Community Cards", 15, size=(small_card_width, small_card_length), thickness=single_card_thickness)
+project.define_cards("Holo Cards", 15, size=(small_card_width, small_card_length), thickness=single_card_thickness)
+project.component("Player Screens", 5, kind="board")
+project.component("Main Board & Rulebooks", 1, kind="board")
 
 # Partial boards resting behind the front card row (matching brink.scad)
 project.board(

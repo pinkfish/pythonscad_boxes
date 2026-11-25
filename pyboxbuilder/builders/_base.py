@@ -287,10 +287,125 @@ class BoxBuilder:
 
             object.__setattr__(self, "lid", replace(self.lid, backing_pattern=self.backing_pattern))
 
-    def allocate(self, component: str, count: int) -> BoxBuilder:
+    def allocate(self, component: str | Any, count: int) -> BoxBuilder:
         """Allocate ``count`` pieces of ``component`` from the project inventory into this box."""
-        object.__setattr__(self, "allocates", (*self.allocates, (str(component), int(count))))
+        comp_name = component.name if hasattr(component, "name") and not isinstance(component, str) else str(component)
+        object.__setattr__(self, "allocates", (*self.allocates, (comp_name, int(count))))
         return self
+
+    def store(
+        self,
+        component: Any,
+        *,
+        count: int | None = None,
+        label: str | None = None,
+        size: tuple[float, float] | None = None,
+        slack: float | None = None,
+        **kwargs: Any,
+    ) -> CompartmentBuilder:
+        """Store a declared :class:`GameComponent` in this box, deriving dimensions and SVG shape.
+
+        Args:
+            component: A :class:`GameComponent` returned by ``project.define_cards(...)``,
+                ``project.define_piece(...)``, or ``project.define_tile(...)``.
+            count: Number of pieces of ``component`` placed in this compartment.
+                Defaults to ``component.count`` (the full count).
+            label: Optional compartment label; defaults to ``component.name``.
+            size: Optional explicit ``(W, L)`` compartment footprint in mm.
+            slack: Optional clearance slack for cards (defaults to ``CARD_SLACK_MM``).
+            **kwargs: Forwarded to :meth:`cards` or :meth:`compartment`.
+
+        Returns:
+            The registered :class:`CompartmentBuilder`.
+
+        """
+        qty = component.count if count is None else int(count)
+        comp_label = label or component.name
+        if component.kind == "cards":
+            card_sz = size or component.footprint
+            if card_sz is None:
+                raise ValueError(
+                    f"Cannot store card component {component.name!r} without size=(W, L)"
+                )
+            card_kwargs: dict[str, Any] = {
+                "count": qty,
+                "size": card_sz,
+                "thickness": component.thickness if component.thickness is not None else CARD_THICKNESS_MM,
+                "component": component.name,
+                **kwargs,
+            }
+            if slack is not None:
+                card_kwargs["slack"] = slack
+            return self.cards(comp_label, **card_kwargs)
+
+        comp_kwargs: dict[str, Any] = {
+            "count": qty,
+            "component": component.name,
+            **kwargs,
+        }
+        if size is not None:
+            comp_kwargs["size"] = size
+        elif component.footprint is not None and not component.bulk and component.svg is not None:
+            comp_kwargs["size"] = component.footprint
+        if component.svg is not None and not component.bulk and "shape_file" not in comp_kwargs:
+            comp_kwargs["shape_file"] = component.svg
+        if "holds_pieces" not in comp_kwargs and component.bulk:
+            comp_kwargs["holds_pieces"] = True
+        if "depth" not in comp_kwargs and not component.bulk:
+            sh = component.stack_height(qty)
+            if sh is not None:
+                comp_kwargs["depth"] = sh
+        return self.compartment(comp_label, **comp_kwargs)
+
+    def well(
+        self,
+        component: Any,
+        *,
+        count: int = 1,
+        offset: tuple[float, float] = (0.0, 0.0),
+        size: tuple[float, float] | None = None,
+        depth: float | None = None,
+        rotation: float = 0.0,
+        label: str | None = None,
+        **kwargs: Any,
+    ) -> CompartmentElement:
+        """Build a :class:`CompartmentElement` pocket directly from a :class:`GameComponent`.
+
+        Uses the component's SVG silhouette (if ``component.svg`` is set), circle
+        (if ``component.diameter`` is set), or rectangle (from ``component.size``),
+        automatically populates ``depth``, ``component``, and ``count``.
+        """
+        from pyboxbuilder.compartments.element import CompartmentElement
+        from pyboxbuilder.enums import ElementShape
+
+        elem_size = size or component.footprint
+        if elem_size is None:
+            raise ValueError(
+                f"Cannot create well for {component.name!r}: declare size=(W, L) or diameter= on the component"
+            )
+        if component.svg is not None:
+            shape = ElementShape.SVG
+            shape_file: str | None = component.svg
+        elif component.diameter is not None:
+            shape = ElementShape.CIRCLE
+            shape_file = None
+        else:
+            shape = ElementShape.RECT
+            shape_file = None
+
+        elem_depth = depth if depth is not None else component.stack_height(count)
+        return CompartmentElement(
+            shape=shape,
+            size=elem_size,
+            offset=offset,
+            depth=elem_depth,
+            rotation=rotation,
+            shape_file=shape_file,
+            label=label or component.name,
+            component=component.name,
+            count=count,
+            **kwargs,
+        )
 
     def compartment(
         self,
@@ -311,7 +426,7 @@ class BoxBuilder:
         element_margin: float = 0.0,
         growable: bool = False,
         count: int | None = None,
-        component: str | None = None,
+        component: str | Any | None = None,
         allocates: Mapping[str, int] | Sequence[tuple[str, int]] | None = None,
     ) -> CompartmentBuilder:
         """Add a compartment to this box.
@@ -360,6 +475,11 @@ class BoxBuilder:
             else:
                 norm_allocates = tuple((str(k), int(v)) for k, v in allocates)
 
+        comp_name: str | None = (
+            component.name
+            if component is not None and hasattr(component, "name") and not isinstance(component, str)
+            else component
+        )
         cb = CompartmentBuilder(
             label=label,
             size=size,
@@ -377,7 +497,7 @@ class BoxBuilder:
             element_margin=element_margin,
             growable=growable,
             count=count,
-            component=component,
+            component=comp_name,
             allocates=norm_allocates,
         )
         object.__setattr__(self, "compartments", (*self.compartments, cb))
@@ -463,6 +583,7 @@ class BoxBuilder:
             cut=cut,
             no_rotate=no_rotate,
             is_card=True,
+            count=count,
             **kwargs,
         )
 

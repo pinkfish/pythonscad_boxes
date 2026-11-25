@@ -13,7 +13,13 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class GameComponent:
-    """One declared physical component type in the board game's inventory."""
+    """One declared physical component type in the board game's inventory.
+
+    Carries both the piece count and optional physical description (card/piece
+    dimensions, thickness, and SVG silhouette path) so boxes can derive their
+    wells directly from the game catalog and ``verify_inventory()`` can verify
+    count conservation, SVG shape coverage, and physical fit.
+    """
 
     name: str
     """Component name (e.g. ``"Action Cards"``, ``"Coal Cubes"``, ``"Player Boards"``)."""
@@ -25,13 +31,54 @@ class GameComponent:
     """Optional note."""
     location: str = ""
     """Optional loose storage location (e.g. ``"Inside spacer_1"``) for items without their own box."""
+    kind: str = "piece"
+    """Kind of component (``"cards"``, ``"piece"``, ``"tile"``, ``"board"``, or ``"loose"``)."""
+    size: tuple[float, float] | tuple[float, float, float] | None = None
+    """Optional ``(W, L)`` or ``(W, L, H)`` physical dimensions in mm."""
+    diameter: float | None = None
+    """Optional diameter in mm for circular tokens, discs, or coins."""
+    thickness: float | None = None
+    """Optional per-card or per-piece thickness in mm."""
+    svg: str | None = None
+    """Optional path to an SVG silhouette file representing this piece's outline."""
+    bulk: bool = False
+    """If True, pieces are stored loose in a tray/compartment rather than individual shaped wells."""
 
     def __post_init__(self) -> None:
-        """Validate non-empty name and positive piece count."""
+        """Validate non-empty name, positive piece count, and positive dimensions."""
         if not self.name.strip():
             raise ValueError("GameComponent name must be non-empty")
         if self.count < 1:
             raise ValueError(f"GameComponent {self.name!r} count must be >= 1, got {self.count}")
+        if self.size is not None and any(d <= 0 for d in self.size):
+            raise ValueError(f"GameComponent {self.name!r} size must be positive, got {self.size}")
+        if self.diameter is not None and self.diameter <= 0:
+            raise ValueError(f"GameComponent {self.name!r} diameter must be positive, got {self.diameter}")
+        if self.thickness is not None and self.thickness <= 0:
+            raise ValueError(f"GameComponent {self.name!r} thickness must be positive, got {self.thickness}")
+
+    @property
+    def footprint(self) -> tuple[float, float] | None:
+        """Return ``(W, L)`` footprint in mm derived from ``size`` or ``diameter``."""
+        if self.size is not None:
+            return (float(self.size[0]), float(self.size[1]))
+        if self.diameter is not None:
+            return (float(self.diameter), float(self.diameter))
+        return None
+
+    @property
+    def piece_height(self) -> float | None:
+        """Return single-piece height/thickness in mm if declared."""
+        if self.thickness is not None:
+            return float(self.thickness)
+        if self.size is not None and len(self.size) == 3:
+            return float(self.size[2])
+        return None
+
+    def stack_height(self, qty: int) -> float | None:
+        """Return stacked height in mm for ``qty`` pieces, or None if thickness is unknown."""
+        h = self.piece_height
+        return None if h is None else h * qty
 
 
 @dataclass(frozen=True)

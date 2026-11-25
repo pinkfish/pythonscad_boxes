@@ -13,7 +13,7 @@ from pyboxbuilder.enums import BoxType, ElementShape
 if TYPE_CHECKING:
     from pyboxbuilder.builders._base import BoxBuilder
     from pyboxbuilder.compartments.element import CompartmentElement
-    from pyboxbuilder.project.manifest import GameBoard, ProjectManifest
+    from pyboxbuilder.project.manifest import GameBoard, GameComponent, ProjectManifest
 
 
 _HELPER_TOKENS = frozenset({
@@ -249,18 +249,26 @@ def summarize_box_pieces(builder: BoxBuilder) -> BoxPieceSummary:
 
 @dataclass(frozen=True)
 class InventoryVerification:
-    """Result of verifying that all declared game components are allocated into boxes/boards."""
+    """Result of verifying declared game components against boxes, boards, SVGs, and physical fit."""
 
     declared: dict[str, int]
     allocated: dict[str, int]
     missing: dict[str, int]
     over_allocated: dict[str, int]
     unknown: dict[str, int]
+    missing_svgs: tuple[str, ...] = ()
+    fit_warnings: tuple[str, ...] = ()
 
     @property
     def is_valid(self) -> bool:
-        """True when every declared component is allocated with exact count and no unknowns."""
-        return not (self.missing or self.over_allocated or self.unknown)
+        """True when counts, SVG shapes, and physical fit checks all pass."""
+        return not (
+            self.missing
+            or self.over_allocated
+            or self.unknown
+            or self.missing_svgs
+            or self.fit_warnings
+        )
 
     def format_errors(self) -> str:
         """Return a human-readable summary of all inventory mismatches."""
@@ -280,6 +288,10 @@ class InventoryVerification:
                 "Unknown (undeclared) components: "
                 + ", ".join(f"{k} ({v})" for k, v in self.unknown.items())
             )
+        if self.missing_svgs:
+            lines.append("Missing SVG cutouts: " + "; ".join(self.missing_svgs))
+        if self.fit_warnings:
+            lines.append("Physical fit errors: " + "; ".join(self.fit_warnings))
         return "; ".join(lines)
 
 
@@ -287,30 +299,100 @@ def verify_inventory(
     manifest: ProjectManifest,
     *,
     strict: bool = False,
+    check_fit: bool = True,
 ) -> InventoryVerification:
-    """Check that boxes and boards account for 100% of the declared game component inventory."""
+    """Check that boxes and boards account for 100% of declared components, SVGs, and physical fit."""
+    from pathlib import Path
+
+    from pyboxbuilder.box.registry import LIDLESS_BOX_TYPES
+
     declared: dict[str, int] = {}
+    comp_by_name: dict[str, GameComponent] = {}
     for comp in manifest.components:
         declared[comp.name] = declared.get(comp.name, 0) + comp.count
+        comp_by_name[comp.name] = comp
 
     allocated: dict[str, int] = {}
+    # Track which SVG filenames are actually carved in boxes holding each component
+    svgs_by_component: dict[str, set[str]] = {}
+    fit_warnings: list[str] = []
 
     def _add(name: str, qty: int) -> None:
         if qty > 0:
             allocated[name] = allocated.get(name, 0) + qty
 
     for builder in manifest.boxes:
+        box_svg_names: set[str] = set()
+        for comp_b in builder.compartments:
+            if comp_b.shape_file:
+                box_svg_names.add(Path(comp_b.shape_file).name)
+            for elem in comp_b.elements:
+                if elem.shape == ElementShape.SVG and elem.shape_file:
+                    box_svg_names.add(Path(elem.shape_file).name)
+
+        box_components: set[str] = set()
         for name, qty in getattr(builder, "allocates", ()):
             _add(name, qty)
+            if qty > 0:
+                box_components.add(name)
+
+        floor_t = builder.floor_thickness if builder.floor_thickness is not None else manifest.floor_thickness
+        bt = getattr(builder, "box_type", None)
+        lid_t = (
+            0.0
+            if bt in LIDLESS_BOX_TYPES
+            else (builder.lid_thickness if builder.lid_thickness is not None else manifest.lid_thickness)
+        )
+        box_h: float | None = None
+        if builder.size is not None and len(builder.size) == 3 and builder.size[2] is not None:
+            box_h = float(builder.size[2])
+
         for comp_b in builder.compartments:
             if comp_b.allocates:
                 for name, qty in comp_b.allocates:
                     _add(name, qty)
+                    if qty > 0:
+                        box_components.add(name)
             elif comp_b.component is not None:
-                _add(comp_b.component, comp_b.count if comp_b.count is not None else 1)
+                qty = comp_b.count if comp_b.count is not None else 1
+                _add(comp_b.component, qty)
+                if qty > 0:
+                    box_components.add(comp_b.component)
+                if check_fit and comp_b.component in comp_by_name:
+                    spec = comp_by_name[comp_b.component]
+                    # Footprint fit check (allowing 90-degree rotation)
+                    fp = spec.footprint
+                    if fp is not None and comp_b.size is not None and not spec.bulk:
+                        pw, pl = fp
+                        cw, cl = comp_b.size
+                        fits_normal = pw <= cw + 0.1 and pl <= cl + 0.1
+                        fits_rot = pl <= cw + 0.1 and pw <= cl + 0.1
+                        if not (fits_normal or fits_rot):
+                            fit_warnings.append(
+                                f"{builder.label}/{comp_b.label}: {spec.name} ({pw:.1f}x{pl:.1f}mm) "
+                                f"does not fit compartment ({cw:.1f}x{cl:.1f}mm)"
+                            )
+                    # Vertical stack height fit check (cards & non-bulk stacked pieces)
+                    if (spec.kind == "cards" or not spec.bulk) and box_h is not None:
+                        req_h = spec.stack_height(qty)
+                        avail_h = box_h - floor_t - lid_t
+                        if req_h is not None and req_h > avail_h + 0.5:
+                            fit_warnings.append(
+                                f"{builder.label}/{comp_b.label}: {qty}x {spec.name} needs "
+                                f"{req_h:.1f}mm height, box only has {avail_h:.1f}mm usable"
+                            )
+
             for elem in comp_b.elements:
                 if elem.component is not None:
-                    _add(elem.component, elem.count if elem.count is not None else 1)
+                    qty = elem.count if elem.count is not None else 1
+                    _add(elem.component, qty)
+                    if qty > 0:
+                        box_components.add(elem.component)
+                        if elem.shape == ElementShape.SVG and elem.shape_file:
+                            svgs_by_component.setdefault(elem.component, set()).add(Path(elem.shape_file).name)
+
+        for comp_name in box_components:
+            svgs_by_component.setdefault(comp_name, set()).update(box_svg_names)
 
     for gb in manifest.boards:
         if gb.allocates:
@@ -341,12 +423,25 @@ def verify_inventory(
         if name not in declared:
             unknown[name] = got
 
+    missing_svgs: list[str] = []
+    for comp in manifest.components:
+        if comp.svg is not None and not comp.bulk:
+            svg_path = Path(comp.svg)
+            if not svg_path.exists():
+                missing_svgs.append(f"{comp.name}: SVG file not found ({comp.svg})")
+            elif svg_path.name not in svgs_by_component.get(comp.name, set()):
+                missing_svgs.append(
+                    f"{comp.name}: declares SVG '{svg_path.name}' but no box includes a matching SVG cutout"
+                )
+
     result = InventoryVerification(
         declared=declared,
         allocated=allocated,
         missing=missing,
         over_allocated=over_allocated,
         unknown=unknown,
+        missing_svgs=tuple(missing_svgs),
+        fit_warnings=tuple(fit_warnings),
     )
     if strict and not result.is_valid:
         raise ValueError(f"Inventory mismatch in {manifest.name!r}: {result.format_errors()}")
