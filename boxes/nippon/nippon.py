@@ -132,35 +132,42 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-# ── Game Piece Inventory ──────────────────────────────────────────
-project.define_inventory({
-    "Player Ships": 24,
-    "Player Trains": 24,
-    "Track Marker Cylinders": 12,
-    "Machine Disks": 24,
-    "Influence & Favour Tokens": 80,
-    "Contract Tokens": 32,
-    "Scoring Disks": 8,
-    "Factory Tiles": 24,
-    "Demand Tiles": 12,
-    "Starting Tiles": 4,
-    "Old Factory Tiles": 8,
-    "Upgrade Tiles": 12,
-    "Money Tokens": 50,
-    "Solo Goal Tokens": 9,
-    "Solo Action Tokens": 9,
-    "Late-Game Factory Tiles": 6,
-    "Round Marker Cylinders": 2,
-    "Worker Meeples": 48,
-    "Expert Worker Tokens": 6,
-    "Silk Cubes": 24,
-    "Paper Cubes": 24,
-    "Coal Cubes": 32,
-    "Copper Cubes": 32,
-    "Main Game Board": 1,
-    "Player Boards": 4,
-    "Rulebook": 1,
-})
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_piece("Player Ships", 24, size=(21.0, 13.5, ship_thickness), svg=ASSETS / "ship.svg")
+project.define_piece("Player Trains", 24, size=(21.0, 13.5, ship_thickness), svg=ASSETS / "train.svg")
+project.define_piece("Track Marker Cylinders", 12, diameter=11.0, thickness=15.0)
+project.define_piece("Machine Disks", 24, diameter=15.5, thickness=6.5)
+project.define_tile("Influence & Favour Tokens", 80, size=(16.0, 16.0, cardboard_token_thickness))
+project.define_tile("Contract Tokens", 32, size=(41.0, 21.0, cardboard_token_thickness))
+project.define_piece("Scoring Disks", 8, diameter=15.5, thickness=7.0)
+project.define_tile("Factory Tiles", 24, size=(factory_token_width, factory_token_length, cardboard_token_thickness))
+project.define_tile("Demand Tiles", 12, size=(demand_token_width, demand_token_width, cardboard_token_thickness))
+project.define_tile(
+    "Starting Tiles", 4, size=(old_factory_tile_width, old_factory_tile_width, cardboard_token_thickness)
+)
+project.define_tile(
+    "Old Factory Tiles", 8, size=(old_factory_tile_width, old_factory_tile_width, cardboard_token_thickness)
+)
+project.define_tile("Upgrade Tiles", 12, size=(16.0, 16.0, cardboard_token_thickness), bulk=True)
+project.define_piece("Money Tokens", 50, bulk=True)
+project.define_tile("Solo Goal Tokens", 9, size=(31.0, 22.0, cardboard_token_thickness), bulk=True)
+project.define_tile("Solo Action Tokens", 9, size=(38.0, 25.5, cardboard_token_thickness), bulk=True)
+project.define_tile(
+    "Late-Game Factory Tiles", 6, size=(factory_token_width, factory_token_length, cardboard_token_thickness)
+)
+project.define_piece("Round Marker Cylinders", 2, diameter=12.0, thickness=16.0, bulk=True)
+project.define_piece("Worker Meeples", 48, size=(14.5, 18.5, 10.0), svg=ASSETS / "worker.svg")
+project.define_piece("Expert Worker Tokens", 6, size=(16.5, 16.5, 7.0))
+for _cube_name, _cube_qty in [
+    ("Silk Cubes", 24),
+    ("Paper Cubes", 24),
+    ("Coal Cubes", 32),
+    ("Copper Cubes", 32),
+]:
+    project.define_piece(_cube_name, _cube_qty, size=(cube_size, cube_size, cube_size), bulk=True)
+project.component("Main Game Board", 1, kind="board")
+project.component("Player Boards", 4, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Main Board, Player Boards & Rulebook",

@@ -96,33 +96,66 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory(
-    {
-        "Villager Figures": 100,
-        "Hero Figures": 5,
-        "Favour Discs": 25,
-        "Fellowship Building Tiles": 30,
-        "Score Tokens": 5,
-        "100+ Score Tokens": 5,
-        "Food Tokens": 35,
-        "Stone Tokens": 30,
-        "Honey Tokens": 20,
-        "Wood Tokens": 35,
-        "Favour Cards": 88,
-        "Hero Cards": 47,
-        "Solo Cards": 64,
-        "Fellowship Deck Cards": 30,
-        "Player Reference Cards": 5,
-        "General Building Tiles": 50,
-        "Trophy Tokens": 6,
-        "Tracker Disc": 1,
-        "Game Board": 1,
-        "Building Board": 1,
-        "Trophy Board": 1,
-        "Fellowship Player Boards": 5,
-        "Rulebook": 1,
-    }
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_piece(
+    "Villager Figures",
+    100,
+    size=(18.0, 13.5, 9.0),
+    svg=SVG_DIR / "owl worker.svg",
 )
+project.define_piece(
+    "Hero Figures",
+    5,
+    size=(28.0, 22.0, 9.0),
+    svg=SVG_DIR / "black leader.svg",
+)
+project.define_piece("Favour Discs", 25, diameter=16.5, thickness=4.0)
+project.define_tile(
+    "Fellowship Building Tiles",
+    30,
+    size=(38.5, 38.5, cardboard_token_thickness),
+    bulk=True,
+)
+project.define_piece(
+    "Score Tokens",
+    5,
+    size=(24.0, 21.0, cardboard_token_thickness),
+    svg=SVG_DIR / "victory.svg",
+)
+project.define_piece(
+    "100+ Score Tokens",
+    5,
+    size=(17.5, 20.5, cardboard_token_thickness),
+    svg=SVG_DIR / "victory.svg",
+)
+for _mat_name, _mat_qty in (
+    ("Food Tokens", 35),
+    ("Stone Tokens", 30),
+    ("Honey Tokens", 20),
+    ("Wood Tokens", 35),
+):
+    project.define_piece(_mat_name, _mat_qty, bulk=True)
+for _deck_name, _deck_qty in (
+    ("Favour Cards", 88),
+    ("Hero Cards", 47),
+    ("Solo Cards", 64),
+    ("Fellowship Deck Cards", 30),
+    ("Player Reference Cards", 5),
+):
+    project.define_cards(_deck_name, _deck_qty, size=(card_width, card_length), thickness=0.5)
+project.define_tile(
+    "General Building Tiles",
+    50,
+    size=(38.5, 38.5, cardboard_token_thickness),
+    bulk=True,
+)
+project.define_tile("Trophy Tokens", 6, size=(36.0, 26.0, cardboard_token_thickness))
+project.define_piece("Tracker Disc", 1, diameter=16.5, thickness=4.0)
+project.component("Game Board", 1, kind="board")
+project.component("Building Board", 1, kind="board")
+project.component("Trophy Board", 1, kind="board")
+project.component("Fellowship Player Boards", 5, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Game Boards & Rulebook",

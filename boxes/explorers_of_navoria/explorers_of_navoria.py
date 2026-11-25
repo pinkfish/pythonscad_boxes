@@ -97,26 +97,37 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory(
-    {
-        "Trading Post Tokens": 36,
-        "Favor Markers": 16,
-        "Exploration Markers": 12,
-        "Turn-Order Markers": 4,
-        "Crown Markers": 4,
-        "Favour Tiles": 10,
-        "Sword Goods Tokens": 18,
-        "Apple Goods Tokens": 18,
-        "Crystal Goods Tokens": 18,
-        "Adventure Cards": 60,
-        "Player Reference Cards": 4,
-        "Action Tokens": 15,
-        "Cloth Draw Bag": 1,
-        "Player Boards": 4,
-        "Main Board": 1,
-        "Rulebook": 1,
-    }
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_piece(
+    "Trading Post Tokens",
+    36,
+    size=(17.5, 16.0, 10.0),
+    svg=ASSETS / "trading_post_green.svg",
 )
+project.define_piece("Favor Markers", 16, bulk=True)
+project.define_piece(
+    "Exploration Markers",
+    12,
+    size=(18.5, 21.5, 10.0),
+    svg=ASSETS / "explorer_green.svg",
+)
+project.define_piece("Turn-Order Markers", 4, bulk=True)
+project.define_piece("Crown Markers", 4, bulk=True)
+project.define_tile(
+    "Favour Tiles",
+    num_favour_tiles,
+    size=(54.0, 48.0),
+    svg=ASSETS / "favour_tile.svg",
+)
+for _goods_name in ("Sword Goods Tokens", "Apple Goods Tokens", "Crystal Goods Tokens"):
+    project.define_piece(_goods_name, 18, bulk=True)
+project.define_cards("Adventure Cards", 60, size=(card_width, card_length))
+project.define_cards("Player Reference Cards", 4, size=(card_width, card_length))
+project.define_piece("Action Tokens", 15, bulk=True)
+project.define_piece("Cloth Draw Bag", 1, bulk=True)
+project.component("Player Boards", 4, kind="board")
+project.component("Main Board", 1, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Player Boards",

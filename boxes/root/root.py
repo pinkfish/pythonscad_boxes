@@ -1504,6 +1504,95 @@ _ROOT_SUBGROUP_INVENTORY: dict[str, dict[str, int]] = {
 }
 
 
+_ROOT_CARD_SIZE = (74.875, 93.5)
+_ROOT_CARD_THICKNESS = 0.6
+_ROOT_TOKEN_THICKNESS = 2.0
+
+_ROOT_COMPONENT_SPECS: dict[str, tuple[str, dict[str, Any]]] = {
+    "Shared Deck Cards": ("cards", {"size": _ROOT_CARD_SIZE, "thickness": _ROOT_CARD_THICKNESS}),
+    "Faction Overview Cards": ("cards", {"size": _ROOT_CARD_SIZE, "thickness": _ROOT_CARD_THICKNESS}),
+    "Eyrie Leader & Vizier Cards": ("cards", {"size": _ROOT_CARD_SIZE, "thickness": _ROOT_CARD_THICKNESS}),
+    "Vagabond Quest & Character Cards": ("cards", {"size": _ROOT_CARD_SIZE, "thickness": _ROOT_CARD_THICKNESS}),
+    "Vagabond Starting & Craftable Items": ("tile", {"size": (18.5, 18.5), "svg": SVG_DIR / "sword.svg"}),
+    "Ruin Items": ("tile", {"size": (18.5, 18.5), "svg": SVG_DIR / "ruins.svg"}),
+    "Winter Clearing Markers": ("tile", {"size": (29.5, 15.5), "svg": SVG_DIR / "winter_token.svg"}),
+    "Extra Scenario Tokens": ("tile", {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "bulk": True}),
+    "Combat Dice": ("piece", {"size": (20.0, 20.0, 20.0), "bulk": True}),
+    "Marquise Warriors": ("piece", {"svg": SVG_DIR / "marquis_warrior.svg"}),
+    "Marquise Wood Tokens": (
+        "tile",
+        {"diameter": 15.0, "thickness": _ROOT_TOKEN_THICKNESS, "svg": SVG_DIR / "log.svg"},
+    ),
+    "Marquise Sawmills": ("tile", {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "saw.svg"}),
+    "Marquise Workshops": ("tile", {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "anvil.svg"}),
+    "Marquise Recruiters": ("tile", {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "handshake.svg"}),
+    "Marquise Keep Token": (
+        "tile",
+        {"diameter": 18.5, "thickness": _ROOT_TOKEN_THICKNESS, "svg": SVG_DIR / "keep.svg"},
+    ),
+    "Marquise Score Marker": (
+        "tile",
+        {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "laurel_wreath.svg"},
+    ),
+    "Eyrie Warriors": ("piece", {"svg": SVG_DIR / "erie_warrior.svg"}),
+    "Eyrie Roosts": ("tile", {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "tree.svg"}),
+    "Eyrie Score Marker": (
+        "tile",
+        {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "laurel_wreath.svg"},
+    ),
+    "Woodland Alliance Warriors": ("piece", {"svg": SVG_DIR / "alliance_warrior.svg"}),
+    "Woodland Alliance Sympathy Tokens": (
+        "tile",
+        {"diameter": 18.5, "thickness": _ROOT_TOKEN_THICKNESS, "svg": SVG_DIR / "fist.svg"},
+    ),
+    "Woodland Alliance Bases": ("tile", {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "camp.svg"}),
+    "Woodland Alliance Score Marker": (
+        "tile",
+        {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "laurel_wreath.svg"},
+    ),
+    "Vagabond Meeples": ("piece", {"size": (21.0, 22.0, 9.0), "svg": SVG_DIR / "vagabond_warrior.svg"}),
+    "Vagabond Score Markers": (
+        "tile",
+        {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "laurel_wreath.svg"},
+    ),
+    "Vagabond Relationship Markers": ("tile", {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "bulk": True}),
+    "Lizard Cult Warriors": ("piece", {"size": (18.0, 9.0, 20.0), "bulk": True}),
+    "Lizard Cult Gardens": ("tile", {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "fox.svg"}),
+    "Lizard Cult Outcast Marker": (
+        "tile",
+        {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "outcast.svg"},
+    ),
+    "Lizard Cult Lost Souls Marker": (
+        "tile",
+        {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "lizard_faction.svg"},
+    ),
+    "Lizard Cult Score Marker": (
+        "tile",
+        {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "laurel_wreath.svg"},
+    ),
+    "Riverfolk Warriors": ("piece", {"svg": SVG_DIR / "riverfolk_warrior.svg"}),
+    "Riverfolk Trade Posts": (
+        "tile",
+        {"diameter": 18.5, "thickness": _ROOT_TOKEN_THICKNESS, "svg": SVG_DIR / "sign.svg"},
+    ),
+    "Riverfolk Glass Gems": ("piece", {"diameter": 17.0, "thickness": 8.0, "svg": SVG_DIR / "gem.svg"}),
+    "Riverfolk Score Marker": (
+        "tile",
+        {"size": (18.5, 18.5, _ROOT_TOKEN_THICKNESS), "svg": SVG_DIR / "laurel_wreath.svg"},
+    ),
+}
+
+
+def _define_root_component(root_project: Project, comp_name: str, qty: int) -> None:
+    kind, kwargs = _ROOT_COMPONENT_SPECS[comp_name]
+    if kind == "cards":
+        root_project.define_cards(comp_name, qty, **kwargs)
+    elif kind == "tile":
+        root_project.define_tile(comp_name, qty, **kwargs)
+    else:
+        root_project.define_piece(comp_name, qty, **kwargs)
+
+
 def build_root_project(
     expansions: Iterable[str] | None = None,
     *,
@@ -1538,18 +1627,16 @@ def build_root_project(
         if len(active_stack) >= 2:
             root_project.stack_order(*active_stack, mode=StackableMode.PYRAMIDS)
 
-    inventory: dict[str, int] = {}
     if not boards_external:
         faction_boards = sum(
             1
             for sg in ("marquise", "eyrie", "alliance", "vagabond1", "lizard_cult", "riverfolk_company")
             if sg in active_subgroups
         )
-        inventory["Main Map Board"] = 1
-        if faction_boards:
-            inventory["Faction Boards"] = faction_boards
+        root_project.component("Main Map Board", 1, kind="board")
         board_alloc = {"Main Map Board": 1}
         if faction_boards:
+            root_project.component("Faction Boards", faction_boards, kind="board")
             board_alloc["Faction Boards"] = faction_boards
         root_project.board(
             "Map & Faction Boards",
@@ -1558,10 +1645,13 @@ def build_root_project(
             allocates=board_alloc,
             notes="Folded map board, faction boards, and rulebooks in bottom bay",
         )
+
+    component_totals: dict[str, int] = {}
     for sg in active_subgroups:
         for comp_name, qty in _ROOT_SUBGROUP_INVENTORY.get(sg, {}).items():
-            inventory[comp_name] = inventory.get(comp_name, 0) + qty
-    root_project.define_inventory(inventory)
+            component_totals[comp_name] = component_totals.get(comp_name, 0) + qty
+    for comp_name, qty in component_totals.items():
+        _define_root_component(root_project, comp_name, qty)
 
     return root_project
 

@@ -138,33 +138,45 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory({
-    "Connection Cards": 13,
-    "Track Cards": 13,
-    "Passenger Cards": 13,
-    "Player Objective Cards": 13,
-    "Silver Robots": 18,
-    "Gold Robots": 18,
-    "Orange Robots": 18,
-    "Pink Commuters": 14,
-    "Aqua Commuters": 14,
-    "Purple Commuters": 11,
-    "Coral Commuters": 11,
-    "Start Token": 1,
-    "Player Track Hexes": player_overlay_hex_per_player * 4,
-    "Player Trains": 4,
-    "Factory Station Hexes": 2,
-    "Warehouse Station Hexes": 2,
-    "Lab Station Hexes": 2,
-    "Office Station Hexes": 2,
-    "Store Station Hexes": 2,
-    "Embassy Station Hexes": 2,
-    "Studio Station Hexes": 2,
-    "Metro Hub Tile": 1,
-    "Game Board Bases": 2,
-    "Player Boards": 4,
-    "Game Boards": 2,
-})
+# ── Game Component Inventory ──────────────────────────────────────
+for _card_name in ("Connection Cards", "Track Cards", "Passenger Cards", "Player Objective Cards"):
+    project.define_cards(_card_name, 13, size=(card_width, card_length), thickness=0.6)
+
+for _robot_name in ("Silver Robots", "Gold Robots", "Orange Robots"):
+    project.define_piece(_robot_name, 18, size=(robot_width, robot_width), bulk=True)
+
+for _commuter_name, _commuter_qty in (
+    ("Pink Commuters", 14),
+    ("Aqua Commuters", 14),
+    ("Purple Commuters", 11),
+    ("Coral Commuters", 11),
+):
+    project.define_piece(_commuter_name, _commuter_qty, bulk=True)
+
+project.define_piece("Start Token", 1, bulk=True)
+project.define_tile(
+    "Player Track Hexes",
+    player_overlay_hex_per_player * 4,
+    size=(player_overlay_hex_width, player_overlay_hex_width, player_overlay_hex_thickness),
+    bulk=True,
+)
+project.define_piece("Player Trains", 4, size=(train_width, train_length, train_thickness))
+
+for _station_name in (
+    "Factory Station Hexes",
+    "Warehouse Station Hexes",
+    "Lab Station Hexes",
+    "Office Station Hexes",
+    "Store Station Hexes",
+    "Embassy Station Hexes",
+    "Studio Station Hexes",
+):
+    project.define_tile(_station_name, 2, size=(factory_hex_width, factory_hex_width, factory_hex_thickness))
+
+project.define_tile("Metro Hub Tile", 1, thickness=factory_hex_thickness)
+project.component("Game Board Bases", 2, kind="board")
+project.component("Player Boards", 4, kind="board")
+project.component("Game Boards", 2, kind="board")
 
 project.board(
     "Game Board Bases",

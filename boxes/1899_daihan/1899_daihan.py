@@ -110,20 +110,26 @@ project = Project(
     generate_spacers=True,
 )
 
-# ── Game Component Inventory ──────────────────────────────────────
-project.define_inventory({
-    "Yellow Track Hex Tiles": 42,
-    "Green Track Hex Tiles": 36,
-    "Brown Track Hex Tiles": 24,
-    "Grey Track Hex Tiles": 6,
-    "Corporate Share Certificates": 72,
-    "Paper Banknotes": 150,
-    "Company Charter Discs": 56,
-    "Private Company Cards": 8,
-    "Priority Deal & Extra Markers": 6,
-    "Train Cards": 26,
-    "Game Board & Stock Market": 1,
-})
+# ── Game Component Inventory (with physical specs) ────────────────
+for _tile_name, _tile_qty in [
+    ("Yellow Track Hex Tiles", 42),
+    ("Green Track Hex Tiles", 36),
+    ("Brown Track Hex Tiles", 24),
+    ("Grey Track Hex Tiles", 6),
+]:
+    project.define_tile(_tile_name, _tile_qty, size=(tile_width, tile_width, tile_thickness), bulk=True)
+project.define_cards(
+    "Corporate Share Certificates",
+    72,
+    size=(small_card_width, small_card_length),
+    thickness=single_card_thickness,
+)
+project.define_piece("Paper Banknotes", 150, size=(money_width, money_length), bulk=True)
+project.define_piece("Company Charter Discs", 56, diameter=disc_diameter, thickness=disc_thickness, bulk=True)
+project.define_cards("Private Company Cards", 8, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_piece("Priority Deal & Extra Markers", 6, bulk=True)
+project.define_cards("Train Cards", 26, size=(small_card_width, small_card_length), thickness=single_card_thickness)
+project.component("Game Board & Stock Market", 1, kind="board")
 
 project.board(
     "Game Board & Stock Market",

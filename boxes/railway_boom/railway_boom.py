@@ -146,31 +146,56 @@ project = Project(
     board_thickness=board_thickness,
     generate_spacers=True,
 )
-project.define_inventory(
-    {
-        "Main Board": 1,
-        "Player Boards": player_board_num,
-        "Player Trains": 30 * 4,
-        "Player Cubes": 23 * 4,
-        "Player Stations": 4 * 4,
-        "Player Discs": 1 * 4,
-        "Player Pentagons": 1 * 4,
-        "Station Cards": 36,
-        "Objective Cards": objective_cards,
-        "Route Cards": 7,
-        "Carriage Cards": 30,
-        "Locomotive Cards": 26,
-        "Development Cards": 74,
-        "Regular City Tiles": 36,
-        "Tourist City Tiles": 14,
-        "Octagonal Indicators": 4,
-        "Material Tokens": 30,
-        "VP Tokens": 30,
-        "Tech Tokens": 20,
-        "Coal Tokens": 30,
-        "Money Tokens": 40,
-    }
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.component("Main Board", 1, kind="board")
+project.component("Player Boards", player_board_num, kind="board")
+project.define_piece("Player Trains", 30 * 4, size=(train_length, train_width, train_height))
+project.define_piece("Player Cubes", 23 * 4, size=(cube_size, cube_size, cube_size))
+project.define_piece("Player Stations", 4 * 4, size=(house_top_width, house_length, 9.5))
+project.define_piece("Player Discs", 1 * 4, diameter=disc_diameter, thickness=disc_thickness)
+project.define_piece(
+    "Player Pentagons",
+    1 * 4,
+    size=(pentagon_width, pentagon_length, pentagon_thickness),
+    svg=ASSETS / "pentagon.svg",
 )
+project.define_cards("Station Cards", 36, size=(card_width, card_length), thickness=0.65)
+project.define_cards(
+    "Objective Cards", objective_cards, size=(card_width, card_length), thickness=single_card_thickness
+)
+project.define_cards("Route Cards", 7, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards(
+    "Carriage Cards", 30, size=(small_card_width, small_card_length), thickness=single_card_thickness
+)
+project.define_cards(
+    "Locomotive Cards", 26, size=(small_card_width, small_card_length), thickness=single_card_thickness
+)
+project.define_cards(
+    "Development Cards", 74, size=(small_card_width, small_card_length), thickness=single_card_thickness
+)
+project.define_tile(
+    "Regular City Tiles", 36, size=(city_tile_length, city_tile_width), svg=ASSETS / "city_tile.svg"
+)
+project.define_tile(
+    "Tourist City Tiles",
+    14,
+    size=(city_tile_length, tourist_tile_box_width - 1.5 * 2.0, city_tile_thickness),
+    svg=ASSETS / "city_tile.svg",
+)
+project.define_piece(
+    "Octagonal Indicators",
+    4,
+    size=(indicator_octagon_diameter, indicator_box_length - 1.5 * 2.0),
+    svg=ASSETS / "octagon.svg",
+)
+for _tok_name, _tok_qty in [
+    ("Material Tokens", 30),
+    ("VP Tokens", 30),
+    ("Tech Tokens", 20),
+    ("Coal Tokens", 30),
+    ("Money Tokens", 40),
+]:
+    project.define_piece(_tok_name, _tok_qty, bulk=True)
 
 project.board(
     "Main Board",

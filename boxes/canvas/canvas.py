@@ -73,20 +73,20 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory(
-    {
-        "Transparent Art Cards": 60,
-        "Background Cards": 37,
-        "Scoring Cards": 12,
-        "Rolled Cloth Playmat": 1,
-        "Red Ribbon Tokens": 20,
-        "Green Ribbon Tokens": 20,
-        "Grey Ribbon Tokens": 20,
-        "Blue Ribbon Tokens": 20,
-        "Purple Ribbon Tokens": 20,
-        "Inspiration Tokens": 20,
-    }
-)
+# ── Game Component Inventory (with physical specs) ────────────────
+project.define_cards("Transparent Art Cards", 60, size=(70.0, 120.0), thickness=0.4)
+project.define_cards("Background Cards", 37, size=(70.0, 120.0), thickness=0.5)
+project.define_cards("Scoring Cards", 12, size=(70.0, 120.0), thickness=0.5)
+project.component("Rolled Cloth Playmat", 1, kind="board")
+for _tok_name, _tok_qty in [
+    ("Red Ribbon Tokens", 20),
+    ("Green Ribbon Tokens", 20),
+    ("Grey Ribbon Tokens", 20),
+    ("Blue Ribbon Tokens", 20),
+    ("Purple Ribbon Tokens", 20),
+    ("Inspiration Tokens", 20),
+]:
+    project.define_piece(_tok_name, _tok_qty, bulk=True)
 
 # Circle lid pattern matching canvas.scad (SHAPE_TYPE_CIRCLE, width=7, thickness=1.5)
 CANVAS_PATTERN = PatternBuilder(PatternType.CIRCLE, spacing=7.0, web=1.5)

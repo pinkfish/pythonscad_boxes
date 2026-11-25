@@ -81,29 +81,54 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory(
-    {
-        "White Trading Post Tokens": 9,
-        "White Favor Markers": 4,
-        "White Exploration Markers": 3,
-        "White Turn-Order Marker": 1,
-        "White Crown Marker": 1,
-        "Solo Bonus Tokens": 10,
-        "Contract Tokens": 18,
-        "Faction Skill Tiles": 9,
-        "Player Overlays": 5,
-        "Start Order Oval": 1,
-        "Exploration Bonus Tiles": 6,
-        "Grey Action Tokens": 4,
-        "Grey Adventure Cards": 12,
-        "Goal Cards": 12,
-        "Solo Mission Cards": 10,
-        "Solo Action Cards": 5,
-        "White Player Reference Card": 1,
-        "White Player Board": 1,
-        "Expansion Rulebook": 1,
-    }
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_piece(
+    "White Trading Post Tokens",
+    9,
+    size=(16.0, 15.0, 9.0),
+    svg=ASSETS / "trading_post_white.svg",
 )
+project.define_piece("White Favor Markers", 4, bulk=True)
+project.define_piece(
+    "White Exploration Markers",
+    3,
+    size=(18.5, 21.5, 9.0),
+    svg=ASSETS / "explorer_white.svg",
+)
+project.define_piece("White Turn-Order Marker", 1, bulk=True)
+project.define_piece("White Crown Marker", 1, bulk=True)
+project.define_piece("Solo Bonus Tokens", 10, bulk=True)
+project.define_piece("Contract Tokens", 18, bulk=True)
+project.define_tile(
+    "Faction Skill Tiles",
+    9,
+    size=(60.0, 75.0),
+    svg=ASSETS / "faction_skill_tile.svg",
+)
+project.define_tile(
+    "Player Overlays",
+    5,
+    size=(73.0, 120.0, 2.0),
+    svg=ASSETS / "player_overlay.svg",
+)
+project.define_tile(
+    "Start Order Oval",
+    1,
+    size=(61.0, 92.0, 2.5),
+    svg=ASSETS / "start_oval.svg",
+)
+project.define_tile("Exploration Bonus Tiles", 6, size=(34.0, 42.0, 2.0), bulk=True)
+project.define_piece("Grey Action Tokens", 4, diameter=25.0, thickness=10.0)
+for _deck_name, _deck_qty in (
+    ("Grey Adventure Cards", 12),
+    ("Goal Cards", 12),
+    ("Solo Mission Cards", 10),
+    ("Solo Action Cards", 5),
+    ("White Player Reference Card", 1),
+):
+    project.define_cards(_deck_name, _deck_qty, size=(card_width, card_length))
+project.component("White Player Board", 1, kind="board")
+project.component("Expansion Rulebook", 1, kind="board")
 
 project.board(
     "White Player Board & Rulebook",

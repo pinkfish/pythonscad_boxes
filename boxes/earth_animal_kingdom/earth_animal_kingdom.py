@@ -76,14 +76,16 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory(
-    {
-        "Large Animal Cards": 36,
-        "Sprout Cubes": 50,
-        "Wooden Canopies": 20,
-        "Animal Habitat Tokens": 24,
-    }
+# ── Game Component Inventory (with physical specs) ────────────────
+project.define_cards(
+    "Large Animal Cards",
+    36,
+    size=(animal_card_width, animal_card_length),
+    thickness=0.5,
 )
+project.define_piece("Sprout Cubes", 50, bulk=True)
+project.define_piece("Wooden Canopies", 20, bulk=True)
+project.define_piece("Animal Habitat Tokens", 24, size=(35.0, 34.0, 8.0), bulk=True)
 
 ANIMAL_PATTERN = PatternBuilder(PatternType.LEAF)
 ANIMAL_FONT = "Georgia:style=Bold"

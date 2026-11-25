@@ -92,21 +92,22 @@ project = Project(
     generate_spacers=True,
 )
 
-# ── Game Component Inventory ──────────────────────────────────────
-project.define_inventory({
-    "Banknotes": 200,
-    "Station Tokens": 41,
-    "Train Cards": 33,
-    "Private Railroad Cards": 6,
-    "Yellow Track Hex Tiles": 53,
-    "Green Track Hex Tiles": 46,
-    "Brown Track Hex Tiles": 34,
-    "Grey Track Hex Tiles": 4,
-    "Company Share Certificates": 68,
-    "First Player Marker": 1,
-    "Game Board": 1,
-    "Company Charters": 8,
-})
+# ── Game Component Inventory (with physical specs) ────────────────
+project.define_piece("Banknotes", 200, bulk=True)
+project.define_piece("Station Tokens", 41, diameter=6.0, thickness=3.0)
+project.define_cards("Train Cards", 33, size=(share_width, share_length), thickness=0.35)
+project.define_cards("Private Railroad Cards", 6, size=(share_width, share_length), thickness=0.35)
+for _tile_name, _tile_qty in [
+    ("Yellow Track Hex Tiles", 53),
+    ("Green Track Hex Tiles", 46),
+    ("Brown Track Hex Tiles", 34),
+    ("Grey Track Hex Tiles", 4),
+]:
+    project.define_tile(_tile_name, _tile_qty, size=(tile_width, tile_width, 2.0), bulk=True)
+project.define_cards("Company Share Certificates", 68, size=(share_width, share_length), thickness=0.35)
+project.define_piece("First Player Marker", 1, size=(large_marker_diameter, 41.0, large_marker_diameter))
+project.component("Game Board", 1, kind="board")
+project.component("Company Charters", 8, kind="board")
 
 project.board(
     "Game Board & Charters",

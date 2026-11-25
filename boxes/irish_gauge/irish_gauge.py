@@ -53,6 +53,12 @@ lid_thickness = 2.0
 
 card_width = 49.0
 card_length = 71.0
+single_card_thickness = 14.0 / 20.0  # 0.7mm
+dividend_marker_diameter = 7.5
+dividend_marker_thickness = 3.0
+train_width = 7.75
+train_length = 5.5
+train_height = 8.0
 
 company_box_width = box_width / 4.0  # 53.5mm
 company_box_length = card_length * 1.8 + wall_thickness * 2.0  # 133.8mm
@@ -74,20 +80,19 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory(
-    {
-        "Share Certificates": 16,
-        "Locomotives": 95,
-        "Railway Dividend Disks": 5,
-        "£1 Currency Cards": 30,
-        "£5 Currency Cards": 20,
-        "£10 Currency Cards": 20,
-        "Dividend Cubes": 30,
-        "Cloth Bag": 1,
-        "Game Board": 1,
-        "Rulebook": 1,
-    }
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_cards("Share Certificates", 16, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_piece("Locomotives", 95, size=(train_width, train_length, train_height), bulk=True)
+project.define_piece(
+    "Railway Dividend Disks", 5, diameter=dividend_marker_diameter, thickness=dividend_marker_thickness
 )
+project.define_cards("£1 Currency Cards", 30, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("£5 Currency Cards", 20, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("£10 Currency Cards", 20, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_piece("Dividend Cubes", 30, bulk=True)
+project.define_piece("Cloth Bag", 1, bulk=True)
+project.component("Game Board", 1, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Game Board & Rulebook",
@@ -105,13 +110,6 @@ IRISH_FONT = "Georgia:style=Bold"
 company_inner_width = company_box_width - wall_thickness * 2.0  # 47.5mm
 company_inner_length = company_box_length - wall_thickness * 2.0  # 127.8mm
 company_inner_height = company_box_height - floor_thickness - lid_thickness  # 10.25mm
-
-single_card_thickness = 14.0 / 20.0  # 0.7mm
-dividend_marker_diameter = 7.5
-dividend_marker_thickness = 3.0
-train_width = 7.75
-train_length = 5.5
-train_height = 8.0
 
 
 def _company_box_elements(shares: int) -> tuple[CompartmentElement, ...]:

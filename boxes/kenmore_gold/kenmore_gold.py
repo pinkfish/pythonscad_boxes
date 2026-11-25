@@ -69,11 +69,10 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory({
-    "Square Dungeon Tiles": 50,
-    "Start Cave Tile": 1,
-    "Loot & Gold Tokens": 40,
-})
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_tile("Square Dungeon Tiles", 50, size=(square_tile_width, square_tile_width, 2.0))
+project.define_tile("Start Cave Tile", 1, bulk=True)
+project.define_piece("Loot & Gold Tokens", 40, bulk=True)
 
 GOLD_PATTERN = PatternBuilder(PatternType.STEPPED_CUBE)
 GOLD_FONT = "Georgia:style=Bold"

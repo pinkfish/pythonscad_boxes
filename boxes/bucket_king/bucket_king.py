@@ -127,11 +127,13 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory(
-    {
-        "Animal Suit Cards": 80,
-        "Player Bucket Tiles": 90,
-    }
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_cards("Animal Suit Cards", 80, size=(card_width, card_length), thickness=0.6)
+project.define_tile(
+    "Player Bucket Tiles",
+    90,
+    size=(bucket_top_width, bucket_length, tile_thickness),
+    svg=BUCKET_SVG,
 )
 
 BUCKET_PATTERN = PatternBuilder(PatternType.CIRCLE)

@@ -70,18 +70,15 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory(
-    {
-        "Main Map Board": 1,
-        "Rulebook": 1,
-        "Player Envoys": 120,
-        "Success Track Cubes": 20,
-        "Player Score Markers": 4,
-        "Royal Seals": 12,
-        "Royal Heralds": 4,
-        "Farmer Tiles": 24,
-    }
-)
+# ── Game Component Inventory (with physical specs) ────────────────
+project.component("Main Map Board", 1, kind="board")
+project.component("Rulebook", 1, kind="board")
+project.define_piece("Player Envoys", 120, bulk=True)
+project.define_piece("Success Track Cubes", 20, bulk=True)
+project.define_piece("Player Score Markers", 4, bulk=True)
+project.define_piece("Royal Seals", 12, bulk=True)
+project.define_piece("Royal Heralds", 4, bulk=True)
+project.define_tile("Farmer Tiles", 24, bulk=True)
 
 project.board(
     "Main Board & Rulebook",

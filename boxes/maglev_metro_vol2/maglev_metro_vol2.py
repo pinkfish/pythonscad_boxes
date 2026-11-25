@@ -132,27 +132,28 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory({
-    "Loop Tile": 1,
-    "Outback Small Tile": 1,
-    "Upgrade Tiles": 7,
-    "Expansion Cards": 16,
-    "Summon Tiles": 4,
-    "Silver Robots": 18,
-    "Gold Robots": 18,
-    "Orange Robots": 18,
-    "Nanobots": 48,
-    "Outback Hex Tiles": 4,
-    "Ghost Hex Tiles": 4,
-    "Metro Tickets": 24,
-    "Pink Commuters": 14,
-    "Aqua Commuters": 14,
-    "Coral Commuters": 11,
-    "Purple Commuters": 11,
-    "Map Boards": 3,
-    "Game Board Bases": 2,
-    "Player Boards": 4,
-})
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_tile("Loop Tile", 1, bulk=True)
+project.define_tile("Outback Small Tile", 1, bulk=True)
+project.define_tile("Upgrade Tiles", 7, size=(upgrade_length, upgrade_length, upgrade_thickness), bulk=True)
+project.define_cards("Expansion Cards", 16, size=(card_width, card_length), thickness=0.5)
+project.define_tile("Summon Tiles", 4, bulk=True)
+for _robot_name in ("Silver Robots", "Gold Robots", "Orange Robots"):
+    project.define_piece(_robot_name, 18, bulk=True)
+project.define_piece("Nanobots", 48, bulk=True)
+project.define_tile("Outback Hex Tiles", 4, size=(factory_hex_width, factory_hex_width), bulk=True)
+project.define_tile("Ghost Hex Tiles", 4, size=(factory_hex_width, factory_hex_width), bulk=True)
+project.define_piece("Metro Tickets", 24, bulk=True)
+for _commuter_name, _commuter_qty in (
+    ("Pink Commuters", 14),
+    ("Aqua Commuters", 14),
+    ("Coral Commuters", 11),
+    ("Purple Commuters", 11),
+):
+    project.define_piece(_commuter_name, _commuter_qty, bulk=True)
+project.component("Map Boards", 3, kind="board")
+project.component("Game Board Bases", 2, kind="board")
+project.component("Player Boards", 4, kind="board")
 
 project.board(
     "Map Boards",

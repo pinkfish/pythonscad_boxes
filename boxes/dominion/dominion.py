@@ -68,17 +68,14 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory(
-    {
-        "Base Kingdom Cards": 260,
-        "Treasure & Victory Supply Cards": 250,
-        "Alchemy & Expansion Kingdom Cards": 120,
-        "Metal Coin Tokens": 50,
-        "Debt Tokens": 50,
-        "Player Mats": 12,
-        "Special Tokens": 30,
-    }
-)
+# ── Game Component Inventory (cards stored upright along Y) ───────
+project.component("Base Kingdom Cards", 260, kind="cards", size=(card_width, card_length), bulk=True)
+project.component("Treasure & Victory Supply Cards", 250, kind="cards", size=(card_width, card_length), bulk=True)
+project.component("Alchemy & Expansion Kingdom Cards", 120, kind="cards", size=(card_width, card_length), bulk=True)
+project.define_piece("Metal Coin Tokens", 50, bulk=True)
+project.define_piece("Debt Tokens", 50, bulk=True)
+project.define_tile("Player Mats", 12, bulk=True)
+project.define_piece("Special Tokens", 30, bulk=True)
 
 DOMINION_PATTERN = PatternBuilder(PatternType.OCTAGON)
 DOMINION_FONT = "Georgia:style=Bold"

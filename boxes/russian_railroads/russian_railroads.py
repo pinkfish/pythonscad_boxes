@@ -76,31 +76,6 @@ project = Project(
     generate_spacers=True,
     box_defaults={"expandable": False},
 )
-project.define_inventory(
-    {
-        "Main Board": 1,
-        "Player Boards": 4,
-        "Player Workers": 8 * 4,
-        "Industry Markers": 2 * 4,
-        "Player Pawns": 2 * 4,
-        "Question Tokens": 7 * 4,
-        "Bonus Train Tiles": 1 * 4,
-        "Kiev Medals": 1 * 4,
-        "Special Workers": 3,
-        "Doubler Tokens": 20,
-        "Bonus Score Track Tiles": 8,
-        "Ruble Coins": 21,
-        "End-Game Bonus Cards": 15,
-        "Train Tiles": 34,
-        "Start Player Tile": 1,
-        "Engineer Tiles": 15,
-        "Grey Track Pieces": 12,
-        "Brown Track Pieces": 12,
-        "Black Track Pieces": 12,
-        "Natural Track Pieces": 12,
-        "White Track Pieces": 4,
-    }
-)
 project.board(
     "Game & Player Boards",
     size=(box_width, box_length, board_thickness),
@@ -663,6 +638,61 @@ project.box(
         "Natural Track Pieces": 12,
         "White Track Pieces": 4,
     },
+)
+
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.component("Main Board", 1, kind="board")
+project.component("Player Boards", 4, kind="board")
+project.define_piece("Player Workers", 8 * 4, size=(worker_width, worker_length, worker_thickness))
+project.define_piece("Industry Markers", 2 * 4, diameter=industry_hex, thickness=industry_thickness)
+project.define_piece(
+    "Player Pawns",
+    2 * 4,
+    size=(pawn_width, pawn_length, pawn_thickness),
+    svg=ASSETS / "pawn.svg",
+)
+project.define_tile("Question Tokens", 7 * 4, diameter=question_token_diameter, thickness=tile_thickness)
+project.define_tile(
+    "Bonus Train Tiles",
+    1 * 4,
+    size=(bonus_train_tile_width, bonus_train_tile_length, tile_thickness),
+)
+project.define_tile("Kiev Medals", 1 * 4, size=(kiev_medal_width, kiev_medal_length, tile_thickness))
+project.define_piece("Special Workers", 3, size=(worker_width, worker_length, worker_thickness))
+project.define_tile(
+    "Doubler Tokens",
+    20,
+    size=(doubler_width, doubler_length, tile_thickness),
+    bulk=True,
+)
+project.define_tile(
+    "Bonus Score Track Tiles",
+    8,
+    size=(extra_score_track_width, extra_score_track_length, tile_thickness),
+    bulk=True,
+)
+project.define_piece("Ruble Coins", 21, bulk=True)
+project.define_cards("End-Game Bonus Cards", 15, size=(50.0, 95.0), thickness=0.6)
+project.define_tile(
+    "Train Tiles",
+    34,
+    size=(train_tile_length, train_tile_width, tile_thickness),
+    svg=ASSETS / "train_tile.svg",
+)
+project.define_tile("Start Player Tile", 1, size=(start_tile_length, start_tile_width, tile_thickness))
+project.define_tile(
+    "Engineer Tiles",
+    15,
+    size=(engineer_width, engineer_length),
+    svg=ASSETS / "engineer_tile.svg",
+)
+for _track_name in ("Grey Track Pieces", "Brown Track Pieces", "Black Track Pieces", "Natural Track Pieces"):
+    project.define_piece(_track_name, 12, bulk=True)
+project.define_piece(
+    "White Track Pieces",
+    4,
+    size=(rail_white_length, rail_white_width, rail_white_thickness),
+    svg=ASSETS / "white_track.svg",
 )
 
 # ── Export ────────────────────────────────────────────────────────

@@ -96,18 +96,34 @@ project = Project(
     generate_spacers=True,
 )
 
-# ── Game Component Inventory ──────────────────────────────────────
-project.define_inventory({
-    "Player & Investigator Cards": total_player_cards,
-    "Campaign Scenario Cards": total_scenario_cards,
-    "Chaos Tokens": 44,
-    "Damage Tokens": 30,
-    "Horror Tokens": 27,
-    "Clue / Doom Tokens": 30,
-    "Resource Tokens": 30,
-    "Investigator Mini Cards & Dials": 7,
-    "Lead Investigator & Standee Markers": 6,
-})
+# ── Game Component Inventory (with physical specs) ────────────────
+# Cards stand upright along the 140mm box length rather than stacked along Z
+project.define_piece(
+    "Player & Investigator Cards",
+    total_player_cards,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+    bulk=True,
+    category="Cards",
+)
+project.define_piece(
+    "Campaign Scenario Cards",
+    total_scenario_cards,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+    bulk=True,
+    category="Cards",
+)
+for _tok_name, _tok_qty in [
+    ("Chaos Tokens", 44),
+    ("Damage Tokens", 30),
+    ("Horror Tokens", 27),
+    ("Clue / Doom Tokens", 30),
+    ("Resource Tokens", 30),
+    ("Investigator Mini Cards & Dials", 7),
+    ("Lead Investigator & Standee Markers", 6),
+]:
+    project.define_piece(_tok_name, _tok_qty, bulk=True)
 
 ARKHAM_PATTERN = PatternBuilder(PatternType.VORONOI)
 ARKHAM_LID = LidBuilder(

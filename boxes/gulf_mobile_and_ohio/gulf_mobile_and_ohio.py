@@ -80,26 +80,25 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory(
-    {
-        "$1 Banknotes": 30,
-        "$5 Banknotes": 30,
-        "$20 Banknotes": 30,
-        "Charter Share Cards": 23,
-        "Common Share Cards": 23,
-        "Player Aid Cards": 5,
-        "Red Railroad Cubes": 20,
-        "Yellow Railroad Cubes": 26,
-        "Green Railroad Cubes": 32,
-        "Blue Railroad Cubes": 16,
-        "Black Railroad Cubes": 12,
-        "Purple Railroad Cubes": 6,
-        "Victory Point Markers": 5,
-        "Common Share Sale Marker": 1,
-        "Game Board": 1,
-        "Rulebook": 1,
-    }
-)
+# ── Game Component Inventory (with physical specs) ────────────────
+for _note_name in ("$1 Banknotes", "$5 Banknotes", "$20 Banknotes"):
+    project.define_cards(_note_name, 30, size=(money_width, money_length), thickness=0.2)
+project.define_cards("Charter Share Cards", 23, size=(card_width, card_length))
+project.define_cards("Common Share Cards", 23, size=(card_width, card_length))
+project.define_cards("Player Aid Cards", 5, size=(card_width, card_length))
+for _cube_name, _cube_qty in (
+    ("Red Railroad Cubes", 20),
+    ("Yellow Railroad Cubes", 26),
+    ("Green Railroad Cubes", 32),
+    ("Blue Railroad Cubes", 16),
+    ("Black Railroad Cubes", 12),
+    ("Purple Railroad Cubes", 6),
+):
+    project.define_piece(_cube_name, _cube_qty, size=(8.25, 8.25, 8.25), bulk=True)
+project.define_piece("Victory Point Markers", 5, diameter=16.5, thickness=14.5)
+project.define_piece("Common Share Sale Marker", 1, diameter=20.5, thickness=31.0)
+project.component("Game Board", 1, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Game Board & Rulebook",
