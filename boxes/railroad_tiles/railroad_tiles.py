@@ -53,6 +53,11 @@ lid_thickness = 2.0
 
 railroad_tile = 46.0
 clock_diameter = 32.0
+cardboard_thickness = 1.5
+railroad_tile_two_player = 29.0
+player_marker_width = 13.0
+player_marker_total_height = 21.25
+player_marker_thickness = 7.0
 
 player_box_width = (box_width - 2.0) / 2.0            # 114.0mm
 player_box_length = clock_diameter + wall_thickness * 2.0  # 38.0mm
@@ -78,15 +83,20 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-# ── Game Piece Inventory ──────────────────────────────────────────
-project.define_inventory({
-    "Game Tokens": 96,
-    "Player Conductor Markers": 4,
-    "Two-Player Tile": 1,
-    "Starting Clock Tiles": 7,
-    "Objective Tiles": 50,
-    "Rulebook": 1,
-})
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_piece("Game Tokens", 96, bulk=True)
+project.define_piece(
+    "Player Conductor Markers",
+    4,
+    size=(player_marker_width, player_marker_total_height, player_marker_thickness),
+    svg=ASSETS / "player_marker.svg",
+)
+project.define_tile(
+    "Two-Player Tile", 1, size=(railroad_tile_two_player, railroad_tile_two_player, cardboard_thickness)
+)
+project.define_tile("Starting Clock Tiles", 7, diameter=clock_diameter, thickness=cardboard_thickness, bulk=True)
+project.define_tile("Objective Tiles", 50, size=(railroad_tile, railroad_tile, cardboard_thickness))
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Rulebook",
@@ -145,12 +155,6 @@ for label in token_labels:
 # ── 2. Player & Starting Marker Boxes ─────────────────────────────
 player_inner_width = player_box_width - wall_thickness * 2.0  # 108.0mm
 player_inner_length = player_box_length - wall_thickness * 2.0  # 32.0mm
-
-cardboard_thickness = 1.5
-railroad_tile_two_player = 29.0
-player_marker_width = 13.0
-player_marker_total_height = 21.25
-player_marker_thickness = 7.0
 
 
 def _player_markers_elements() -> tuple[CompartmentElement, ...]:

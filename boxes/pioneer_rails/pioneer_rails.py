@@ -84,18 +84,16 @@ project = Project(
     generate_spacers=True,
 )
 
-# ── Game Piece Inventory ──────────────────────────────────────────
-project.define_inventory({
-    "Pencils": 4,
-    "Eraser": 1,
-    "Dealer Token": 1,
-    "Goal Cards": 18,
-    "Playing Cards": 54,
-    "Forest Cards": 12,
-    "Company Owner Cards": 6,
-    "Map Score Pad": 1,
-    "Rulebook": 1,
-})
+# ── Game Component Inventory (with physical specs) ────────────────
+project.define_piece("Pencils", 4, size=(pencil_width, pencil_length, pencil_width))
+project.define_piece("Eraser", 1, size=(eraser_length, eraser_width, eraser_thickness))
+project.define_piece("Dealer Token", 1, diameter=dealer_token_diameter, thickness=token_thickness)
+project.define_cards("Goal Cards", 18, size=(card_width, card_length), thickness=0.3)
+project.define_cards("Playing Cards", 54, size=(card_width, card_length), thickness=0.3)
+project.define_cards("Forest Cards", 12, size=(card_width, card_length), thickness=0.3)
+project.define_cards("Company Owner Cards", 6, size=(card_width, card_length), thickness=0.3)
+project.component("Map Score Pad", 1, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Score Pad & Rulebook",

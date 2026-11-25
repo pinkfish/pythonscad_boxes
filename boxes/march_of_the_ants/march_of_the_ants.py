@@ -60,10 +60,12 @@ tile_radius = tile_width / 2.0 / math.cos(math.radians(30.0))  # 48.497mm
 
 food_token_num = 30
 food_token_thickness = 3.5
+major_token_thickness = 10.0
 
 sleeved_card_width = 66.0
 sleeved_card_length = 91.0
 twenty_sleeved_cards_thickness = 8.5
+single_sleeved_card_thickness = twenty_sleeved_cards_thickness / 20.0
 total_cards = 66
 num_mm_cards = 36 + 5 + 8  # 49
 num_mm_hex = 1 + 1 + 4  # 6
@@ -108,25 +110,34 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory({
-    "Territory Hex Tiles": 25,
-    "Base Evolution Cards": total_cards,
-    "Minions Expansion Cards": num_mm_cards,
-    "Minions Expansion Hex Tiles": num_mm_hex,
-    "Food Tokens": food_token_num,
-    "Centipede Tokens": 15,
-    "Day/Night Token": 1,
-    "Active Player Leaf": 1,
-    "Predator Meeples": 5,
-    "Ant Cubes": 36 * 5,
-    "Player Marker Discs": 5,
-    "Major Workers": 5,
-    "Major Worker Tokens": 15,
-    "Aphid Tokens": 36,
-    "Score Track Board": 1,
-    "Player Helper Boards": 5,
-    "Rulebook": 1,
-})
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_tile("Territory Hex Tiles", 25, size=(tile_width, tile_width, tile_thickness), bulk=True)
+project.define_cards(
+    "Base Evolution Cards",
+    total_cards,
+    size=(sleeved_card_width, sleeved_card_length),
+    thickness=single_sleeved_card_thickness,
+)
+project.define_cards(
+    "Minions Expansion Cards",
+    num_mm_cards,
+    size=(sleeved_card_width, sleeved_card_length),
+    thickness=single_sleeved_card_thickness,
+)
+project.define_tile("Minions Expansion Hex Tiles", num_mm_hex, size=(tile_width, tile_width, tile_thickness))
+project.define_piece("Food Tokens", food_token_num, diameter=14.0, thickness=food_token_thickness, bulk=True)
+project.define_piece("Centipede Tokens", 15, diameter=26.0, thickness=tile_thickness, bulk=True)
+project.define_piece("Day/Night Token", 1, diameter=37.0, thickness=tile_thickness)
+project.define_piece("Active Player Leaf", 1, size=(22.42, 38.0, tile_thickness), svg=ASSETS / "leaf.svg")
+project.define_piece("Predator Meeples", 5, size=(37.0, 39.0), svg=ASSETS / "mantis.svg")
+project.define_piece("Ant Cubes", 36 * 5, size=(9.0, 9.0, 9.0), bulk=True)
+project.define_piece("Player Marker Discs", 5, diameter=15.0, thickness=3.5)
+project.define_piece("Major Workers", 5, size=(15.0, 25.0, major_token_thickness), svg=ASSETS / "major_worker.svg")
+project.define_piece("Major Worker Tokens", 15, diameter=24.0, thickness=tile_thickness, bulk=True)
+project.define_piece("Aphid Tokens", 36, size=(9.0, 10.5, 9.5), bulk=True)
+project.component("Score Track Board", 1, kind="board")
+project.component("Player Helper Boards", 5, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Score Track, Helper Boards & Rules",
@@ -433,8 +444,6 @@ project.box(
     },
     elements=_food_box_elements(),
 )
-
-major_token_thickness = 10.0
 
 project.box(
     BoxType.CAP,

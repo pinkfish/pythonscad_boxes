@@ -103,35 +103,36 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-# ── Game Component Inventory ──────────────────────────────────────
-project.define_inventory({
-    "Player Wooden Cubes": 64,
-    "Player Point Trackers": 4,
-    "Mouse Resource Tokens": 20,
-    "Sun Resource Tokens": 20,
-    "Fish Resource Tokens": 20,
-    "Leaf Resource Tokens": 20,
-    "Spider Resource Tokens": 20,
-    "Berry Resource Tokens": 20,
-    "Chick Tokens": 20,
-    "Rabbit Tokens": 20,
-    "Nest Player Boards": 4,
-    "Main Plant & Animal Cards": 120,
-    "Starting Cards": 14,
-    "Achievement Cards": 13,
-    "Changing Condition Cards": 11,
-    "Legend Cards": 9,
-    "Extra Plant & Animal Cards": 40,
-    "Big Biome Cards": 70,
-    "Climate Spinner": 1,
-    "Phase & Year Cubes": 2,
-    "Metal Coin": 1,
-    "Season Crescent Token": 1,
-    "Start-Player Leaf Token": 1,
-    "Custom Die": 1,
-    "Main Game Board": 1,
-    "Player Biome Boards": 4,
-})
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_piece("Player Wooden Cubes", 64, size=(9.0, 9.0, 9.0), bulk=True)
+project.define_piece("Player Point Trackers", 4, bulk=True)
+for _res_name, _res_qty in [
+    ("Mouse Resource Tokens", 20),
+    ("Sun Resource Tokens", 20),
+    ("Fish Resource Tokens", 20),
+    ("Leaf Resource Tokens", 20),
+    ("Spider Resource Tokens", 20),
+    ("Berry Resource Tokens", 20),
+    ("Chick Tokens", 20),
+    ("Rabbit Tokens", 20),
+]:
+    project.define_piece(_res_name, _res_qty, bulk=True)
+project.define_piece("Nest Player Boards", 4, bulk=True)
+project.define_cards("Main Plant & Animal Cards", 120, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Starting Cards", 14, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Achievement Cards", 13, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Changing Condition Cards", 11, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Legend Cards", 9, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Extra Plant & Animal Cards", 40, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Big Biome Cards", 70, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_piece("Climate Spinner", 1, thickness=spinner_thickness)
+project.define_piece("Phase & Year Cubes", 2, size=(9.0, 9.0, 9.0))
+project.define_piece("Metal Coin", 1, diameter=19.0, thickness=3.0)
+project.define_piece("Season Crescent Token", 1, size=(16.0, 12.05, 6.5), svg=ASSETS / "crescent.svg")
+project.define_piece("Start-Player Leaf Token", 1, size=(11.0, 29.5, 6.5), svg=ASSETS / "leaf.svg")
+project.define_piece("Custom Die", 1, size=(17.0, 17.0, 17.0))
+project.component("Main Game Board", 1, kind="board")
+project.component("Player Biome Boards", 4, kind="board")
 
 project.board(
     "Game Boards & Player Mats",

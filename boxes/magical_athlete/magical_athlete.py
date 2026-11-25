@@ -99,18 +99,28 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory({
-    "Athlete Cards": 36,
-    "Dice": 6,
-    "Gold Medal Tokens": 4,
-    "Silver Medal Tokens": 4,
-    "Athlete Standees": 35,
-    "Big Baby Standee": 1,
-    "1-Point Award Tokens": 16,
-    "3-Point Award Tokens": 9,
-    "Race Track Board": 1,
-    "Rulebook": 1,
-})
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_cards("Athlete Cards", 36, size=(card_width, card_length), thickness=0.6)
+project.define_piece("Dice", 6, size=(dice_size, dice_size, dice_size), bulk=True)
+project.define_piece(
+    "Gold Medal Tokens",
+    4,
+    size=(gold_width[0], gold_height[0], cardboard_thickness),
+    svg=ASSETS / "gold_medal.svg",
+)
+project.define_piece(
+    "Silver Medal Tokens",
+    4,
+    diameter=silver_diameter[0],
+    thickness=cardboard_thickness,
+    svg=ASSETS / "silver_medal.svg",
+)
+project.define_piece("Athlete Standees", 35, size=(piece_width, piece_length, piece_thickness), bulk=True)
+project.define_piece("Big Baby Standee", 1, size=(big_baby_width, big_baby_length, piece_thickness))
+project.define_piece("1-Point Award Tokens", 16, thickness=cardboard_thickness, bulk=True)
+project.define_piece("3-Point Award Tokens", 9, thickness=cardboard_thickness, bulk=True)
+project.component("Race Track Board", 1, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Race Track Board & Rulebook",

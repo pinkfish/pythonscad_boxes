@@ -101,19 +101,46 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory({
-    "Destination Tiles": num_destination_tiles,
-    "Track Tiles": num_track_tiles,
-    "Victory 1-VP Hexes": num_victory_tokens[0],
-    "Victory 3-VP Hexes": num_victory_tokens[1],
-    "Victory 5-VP Hexes": num_victory_tokens[2],
-    "Victory 10-VP Hexes": num_victory_tokens[3],
-    "Passenger Meeples": 18,
-    "Island Cards": 7,
-    "Train Cards": 71,
-    "Ticket Tiles": num_ticket_tiles,
-    "Train Marker": 1,
-})
+# ── Game Component Inventory ──────────────────────────────────────
+project.define_tile(
+    "Destination Tiles",
+    num_destination_tiles,
+    size=(destination_tile_length, destination_tile_width, token_thickness),
+    svg=ASSETS / "destination_tile.svg",
+)
+project.define_tile("Track Tiles", num_track_tiles, size=(track_tile_length, track_tile_width, token_thickness))
+project.define_tile(
+    "Victory 1-VP Hexes",
+    num_victory_tokens[0],
+    size=(victory_hex_one_width, victory_hex_one_width, token_thickness),
+    bulk=True,
+)
+project.define_tile(
+    "Victory 3-VP Hexes",
+    num_victory_tokens[1],
+    size=(victory_hex_three_width, victory_hex_three_width, token_thickness),
+    bulk=True,
+)
+project.define_tile(
+    "Victory 5-VP Hexes",
+    num_victory_tokens[2],
+    size=(victory_hex_five_width, victory_hex_five_width, token_thickness),
+)
+project.define_tile(
+    "Victory 10-VP Hexes",
+    num_victory_tokens[3],
+    size=(victory_hex_ten_width, victory_hex_ten_width, token_thickness),
+)
+project.define_piece("Passenger Meeples", 18, bulk=True)
+project.define_cards("Island Cards", 7, size=(card_width, card_length), thickness=0.35)
+project.define_cards("Train Cards", 71, size=(card_width, card_length), thickness=0.35)
+project.define_tile(
+    "Ticket Tiles",
+    num_ticket_tiles,
+    size=(ticket_tile_width, ticket_tile_length, token_thickness),
+    bulk=True,
+)
+project.define_piece("Train Marker", 1, size=(train_token_width, train_token_length, train_token_thickness))
 
 TRAIN_PATTERN = PatternBuilder(PatternType.RING)
 TRAIN_FONT = "Georgia:style=Bold"

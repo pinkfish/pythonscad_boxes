@@ -160,29 +160,106 @@ project = Project(
     generate_spacers=True,
     box_defaults={"expandable": False},
 )
-project.define_inventory(
-    {
-        "Game Map Boards": 5,
-        "Eastern US Operations Cards": eastern_us_cards,
-        "Bond Cards": 40,
-        "Australia Expansion Cards": australia_cards,
-        "Sweden Expansion Cards": sweden_cards,
-        "Mexico Expansion Cards": mexico_cards,
-        "Portugal Expansion Cards": portugal_cards,
-        "Empty City Markers": 30,
-        "Player Train Miniatures": 25 * 6,
-        "Player Locomotive Cards": 4 * 6,
-        "Player Score Markers": 1 * 6,
-        "Base Track Hex Tiles": 134,
-        "Paper Currency Bills": 100,
-        "New City Hex Tiles": 8,
-        "New City Markers": 10,
-        "Australia Track Hex Tiles": 20,
-        "Australia Bonus Tiles": 4,
-        "Australia Switch Track Tokens": 8,
-        "Sweden Track Hex Tiles": 18,
-        "Sweden Bonus Tiles": 4,
-    }
+project.component("Game Map Boards", 5, kind="board")
+project.define_cards(
+    "Eastern US Operations Cards",
+    eastern_us_cards,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_cards(
+    "Bond Cards",
+    40,
+    size=(bond_width, bond_length),
+    thickness=bond_card_thickness / 40.0,
+)
+project.define_cards(
+    "Australia Expansion Cards",
+    australia_cards,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_cards(
+    "Sweden Expansion Cards",
+    sweden_cards,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_cards(
+    "Mexico Expansion Cards",
+    mexico_cards,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_cards(
+    "Portugal Expansion Cards",
+    portugal_cards,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_piece("Empty City Markers", 30, bulk=True)
+project.define_piece("Player Train Miniatures", 25 * 6, bulk=True)
+project.define_cards(
+    "Player Locomotive Cards",
+    4 * 6,
+    size=(train_card_width, train_card_length),
+    thickness=train_card_thickness,
+)
+project.define_piece(
+    "Player Score Markers",
+    1 * 6,
+    diameter=player_marker_diameter,
+    thickness=player_marker_thickness,
+)
+project.define_tile(
+    "Base Track Hex Tiles",
+    134,
+    size=(tile_width, tile_width, tile_thickness),
+    bulk=True,
+)
+project.define_piece(
+    "Paper Currency Bills",
+    100,
+    size=(money_width, money_length, money_thickness / 100.0),
+    bulk=True,
+)
+project.define_tile(
+    "New City Hex Tiles",
+    8,
+    diameter=tile_width,
+    thickness=tile_thickness,
+    bulk=True,
+)
+project.define_piece("New City Markers", 10, bulk=True)
+project.define_tile(
+    "Australia Track Hex Tiles",
+    20,
+    size=(tile_width, tile_width, tile_thickness),
+    bulk=True,
+)
+project.define_tile(
+    "Australia Bonus Tiles",
+    4,
+    size=(sweden_bonus_width, sweden_bonus_length, tile_thickness),
+)
+project.define_piece(
+    "Australia Switch Track Tokens",
+    8,
+    diameter=australia_switch_track_token_radius * 2.0,
+    thickness=tile_thickness,
+    bulk=True,
+)
+project.define_tile(
+    "Sweden Track Hex Tiles",
+    18,
+    size=(tile_width, tile_width, tile_thickness),
+    bulk=True,
+)
+project.define_tile(
+    "Sweden Bonus Tiles",
+    4,
+    size=(sweden_bonus_width, sweden_bonus_length, tile_thickness),
+    bulk=True,
 )
 project.board(
     "Game Map Boards",

@@ -69,15 +69,13 @@ project = Project(
     generate_spacers=True,
 )
 
-# ── Game Piece Inventory ──────────────────────────────────────────
-project.define_inventory({
-    "Painting Cards": 70,
-    "Money Coins": 112,
-    "Artist Value Tiles": 12,
-    "Auction Valuation Board": 1,
-    "Player Screens": 5,
-    "Rulebook": 1,
-})
+# ── Game Component Inventory (with physical specs) ────────────────
+project.define_cards("Painting Cards", 70, size=(card_width, card_length))
+project.define_piece("Money Coins", 112, bulk=True)
+project.define_tile("Artist Value Tiles", 12, bulk=True)
+project.component("Auction Valuation Board", 1, kind="board")
+project.component("Player Screens", 5, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Board, Screens & Rulebook",

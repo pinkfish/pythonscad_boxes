@@ -84,6 +84,19 @@ abundance_other_cards = 10
 score_pad_length = 99.0
 score_pad_thickness = 5.0
 
+start_disk_diameter = 41.0
+start_disk_thickness = 5.0
+readiness_token_width = 36.5
+readiness_token_length = 59.0
+readiness_token_thickness = 5.0
+score_override_marker_width = 16.5
+score_override_marker_length = 18.5
+score_override_thickness = 3.0
+leaf_width = 13.0
+leaf_length = 17.5
+leaf_thickness = 3.0
+LEAF_TEARDROP_SVG = str(ASSETS / "leaf_teardrop.svg")
+
 # ── Derived Sub-Box Dimensions (exact .scad formulas) ─────────────
 card_box_width = wall_thickness * 2.0 + card_width  # 68.0mm
 card_box_length = wall_thickness * 2.0 + card_length  # 99.0mm
@@ -147,33 +160,56 @@ project = Project(
     generate_spacers=True,
 )
 
-project.define_inventory(
-    {
-        "Player Boards": 6,
-        "Fauna Board": 1,
-        "Abundance Teams Board": 1,
-        "Abundance Boards": 6,
-        "Earth Cards": 353,
-        "Ecosystem Cards": ecosystem_cards,
-        "Fauna Cards": fauna_cards,
-        "Island Cards": 10,
-        "Climate Cards": climate_cards,
-        "Solo Cards": solo_cards,
-        "Season Cards": season_cards,
-        "Abundance Reference & Setup Cards": abundance_other_cards,
-        "Soil Tokens": 151,
-        "Seed Tokens": 32,
-        "First Player Token": 1,
-        "Active Player Token": 1,
-        "Score Override Marker": 1,
-        "Readiness Tokens": 6,
-        "Player Leaf Tokens": 30,
-        "Tree Trunks": 125,
-        "Tree Canopies": 104,
-        "Score Pads": 2,
-        "Sprout Cubes": 195,
-    }
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.component("Player Boards", 6, kind="board")
+project.component("Fauna Board", 1, kind="board")
+project.component("Abundance Teams Board", 1, kind="board")
+project.component("Abundance Boards", 6, kind="board")
+
+for _deck_name, _deck_qty in [
+    ("Earth Cards", 353),
+    ("Ecosystem Cards", ecosystem_cards),
+    ("Fauna Cards", fauna_cards),
+    ("Island Cards", 10),
+    ("Climate Cards", climate_cards),
+    ("Solo Cards", solo_cards),
+    ("Season Cards", season_cards),
+    ("Abundance Reference & Setup Cards", abundance_other_cards),
+]:
+    project.define_cards(_deck_name, _deck_qty, size=(card_width, card_length), thickness=single_card_thickness)
+
+project.define_piece("First Player Token", 1, diameter=start_disk_diameter, thickness=start_disk_thickness)
+project.define_piece(
+    "Active Player Token",
+    1,
+    size=(readiness_token_width, readiness_token_length, readiness_token_thickness),
 )
+project.define_piece(
+    "Score Override Marker",
+    1,
+    size=(score_override_marker_width, score_override_marker_length, score_override_thickness),
+)
+project.define_piece(
+    "Readiness Tokens",
+    6,
+    size=(readiness_token_width, readiness_token_length, readiness_token_thickness),
+)
+project.define_piece(
+    "Player Leaf Tokens",
+    30,
+    size=(leaf_width, leaf_length, leaf_thickness),
+    svg=LEAF_TEARDROP_SVG,
+)
+
+for _bulk_name, _bulk_qty in [
+    ("Soil Tokens", 151),
+    ("Seed Tokens", 32),
+    ("Tree Trunks", 125),
+    ("Tree Canopies", 104),
+    ("Score Pads", 2),
+    ("Sprout Cubes", 195),
+]:
+    project.define_piece(_bulk_name, _bulk_qty, bulk=True)
 
 project.board(
     "Player & Island Boards",
@@ -341,18 +377,6 @@ for label, title, color_name, h, comp_name, card_count in col1_cards:
 card_inner_width = card_box_width - wall_thickness * 2.0  # 62.0mm
 card_inner_length = card_box_length - wall_thickness * 2.0  # 93.0mm
 
-start_disk_diameter = 41.0
-start_disk_thickness = 5.0
-readiness_token_width = 36.5
-readiness_token_length = 59.0
-readiness_token_thickness = 5.0
-score_override_marker_width = 16.5
-score_override_marker_length = 18.5
-score_override_thickness = 3.0
-leaf_width = 13.0
-leaf_length = 17.5
-leaf_thickness = 3.0
-
 
 def _start_box_elements() -> tuple[CompartmentElement, ...]:
     """Build StartDisk (with angled finger bites), ActiveToken, and ScoreOverride wells."""
@@ -498,7 +522,7 @@ def _player_box_elements() -> tuple[CompartmentElement, ...]:
     leaf_grab_d = 14.0
     base_cx = player_inner_width / 2.0 + 1.5  # 30.8mm
     base_cy = 54.5
-    leaf_svg = str(ASSETS / "leaf_teardrop.svg")
+    leaf_svg = LEAF_TEARDROP_SVG
     leaf_idx = 0
     for i in range(3):
         for j in range(2):

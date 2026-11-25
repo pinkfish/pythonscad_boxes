@@ -115,30 +115,37 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-project.define_inventory(
-    {
-        "Locomotives": 4,
-        "Conductors": 12,
-        "Scoring Cubes": 24,
-        "Coins": 48,
-        "Evidence Tokens": 26,
-        "Module Cards": 120,
-        "Base Action Cards": 72,
-        "Mail Car Cards": 16,
-        "Railroad 0-1 Cards": 50,
-        "Railroad 2-4 Cards": 24,
-        "Railroad 7-12 Cards": 20,
-        "Whodunit Cards": 4,
-        "Game End Cards": 21,
-        "Start Player Tile": 1,
-        "Start Player Figure": 1,
-        "Locomotive Tiles": 8,
-        "Constantinople Tile": 1,
-        "Score Board": 1,
-        "Player Boards": 4,
-        "Rulebook": 1,
-    }
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_piece(
+    "Locomotives",
+    4,
+    size=(train_length, train_width, meeple_thickness),
+    svg=ASSETS / "train_token.svg",
 )
+project.define_piece(
+    "Conductors",
+    12,
+    size=(meeple_width, meeple_length, meeple_thickness),
+    svg=ASSETS / "meeple_token.svg",
+)
+project.define_piece("Scoring Cubes", 24, size=(player_cube, player_cube, player_cube), bulk=True)
+project.define_piece("Coins", 48, bulk=True)
+project.define_piece("Evidence Tokens", 26, bulk=True)
+project.define_cards("Module Cards", 120, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Base Action Cards", 72, size=(card_width, card_length), thickness=0.45)
+project.define_cards("Mail Car Cards", 16, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Railroad 0-1 Cards", 50, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Railroad 2-4 Cards", 24, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Railroad 7-12 Cards", 20, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Whodunit Cards", 4, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_cards("Game End Cards", 21, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_tile("Start Player Tile", 1, size=(card_width, card_length, board_thickness))
+project.define_piece("Start Player Figure", 1, bulk=True)
+project.define_tile("Locomotive Tiles", 8, size=(locomotive_tile_width, locomotive_tile_length, board_thickness))
+project.define_tile("Constantinople Tile", 1, size=(locomotive_tile_width, locomotive_tile_length, board_thickness))
+project.component("Score Board", 1, kind="board")
+project.component("Player Boards", 4, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Boards & Rulebook",

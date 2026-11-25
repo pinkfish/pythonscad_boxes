@@ -80,7 +80,7 @@ project = Project(
     floor_thickness=wall_thickness,
     box_defaults={"no_rotate": True},
 )
-project.define_inventory({"Hex Tiles": 96})
+project.define_tile("Hex Tiles", 96, bulk=True)
 
 # 8 variants: 1–4 divisions × round/rect magnets
 round_variants = [

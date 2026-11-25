@@ -77,25 +77,38 @@ project = Project(
     generate_spacers=True,
 )
 
-# ── Game Component Inventory ──────────────────────────────────────
-project.define_inventory({
-    "Paper Banknotes": 200,
-    "Train Cards": 36,
-    "Wagon Cards": 18,
-    "Corporate Share Cards": 82,
-    "Help & Commissioner Cards": 12,
-    "Concession Cards": 6,
-    "Minor Company Tokens": 30,
-    "Rail Pieces": 3,
-    "Major Company Tokens": 48,
-    "Ferrocarril Central & Yellow Tokens": 17,
-    "Folded Game Boards": 1,
-    "Yellow Track Hex Tiles": 45,
-    "Green Track Hex Tiles": 47,
-    "Brown Track Hex Tiles": 25,
-    "Grey Track Hex Tiles": 6,
-    "Red Track Hex Tile": 1,
-})
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_piece("Paper Banknotes", 200, size=(money_width, money_length), bulk=True)
+project.define_cards(
+    "Train Cards",
+    36,
+    size=(train_card_width, train_card_length),
+    thickness=0.35,
+    svg=ASSETS / "train_icon.svg",
+)
+project.define_cards(
+    "Wagon Cards",
+    18,
+    size=(train_card_width, train_card_length),
+    thickness=0.35,
+    svg=ASSETS / "wagon_icon.svg",
+)
+project.define_cards("Corporate Share Cards", 82, size=(train_card_width, train_card_length), thickness=0.35)
+project.define_cards("Help & Commissioner Cards", 12, size=(train_card_width, train_card_length), thickness=0.35)
+project.define_cards("Concession Cards", 6, size=(train_card_width, train_card_length), thickness=0.35)
+project.define_piece("Minor Company Tokens", 30, diameter=15.0, thickness=5.0, bulk=True)
+project.define_piece("Rail Pieces", 3, size=(5.0, 25.0, 5.0), bulk=True)
+project.define_piece("Major Company Tokens", 48, diameter=15.0, thickness=5.0, bulk=True)
+project.define_piece("Ferrocarril Central & Yellow Tokens", 17, diameter=15.0, thickness=5.0, bulk=True)
+project.component("Folded Game Boards", 1, kind="board")
+for _tile_name, _tile_qty in [
+    ("Yellow Track Hex Tiles", 45),
+    ("Green Track Hex Tiles", 47),
+    ("Brown Track Hex Tiles", 25),
+    ("Grey Track Hex Tiles", 6),
+    ("Red Track Hex Tile", 1),
+]:
+    project.define_tile(_tile_name, _tile_qty, bulk=True)
 
 project.board(
     "Game Boards & Hex Track Trays",

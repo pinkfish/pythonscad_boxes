@@ -209,43 +209,74 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-# ── Game Component Inventory ──────────────────────────────────────
-project.define_inventory({
-    "Starting Player Cards": starting_player_card_num * 4,
-    "Player Discs": 48,
-    "Research Tokens": 16,
-    "Innovation Tokens": 4,
-    "Steam Cloud Tokens": 4,
-    "Character Meeples": 4,
-    "Scoring Tiles": 16,
-    "Visitor Tokens": 4,
-    "Silver Coins": 40,
-    "Exhibitor & Other Cards": other_card_num,
-    "Tier 1 Partner Cards": tier_1_partner_card_num,
-    "Tier 2 Partner Cards": tier_2_partner_card_num,
-    "Assignment Cards": assignment_card_num,
-    "Book Tokens": 12,
-    "Assignment Tiles": 16,
-    "Engine Dice": 50,
-    "First Player Token": 1,
-    "Alternative Objective Tiles": 12,
-    "Breakthrough Tiles": 9,
-    "Score Pad": 1,
-    "Program Tiles": 28,
-    "Workshop Bonus Discs": 6,
-    "University Tiles": 15,
-    "Brass Resource Tokens": 30,
-    "Coal Resource Tokens": 30,
-    "Addition Gears": 15,
-    "Subtraction Gears": 15,
-    "Multiplier Gears": 14,
-    "Objective Tiles": 24,
-    "Main Game Board": 1,
-    "Great Exhibition Board": 1,
-    "Player Workshop Boards": 4,
-    "Solo Reward Board": 1,
-    "Assignment Tiles Board": 1,
-})
+# ── Game Component Inventory (with physical specs & SVG shapes) ───
+project.define_cards(
+    "Starting Player Cards",
+    starting_player_card_num * 4,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_piece("Player Discs", 48, diameter=16.5, thickness=player_token_thickness, bulk=True)
+project.define_piece("Research Tokens", 16, size=(20.0, 11.5, 6.0), bulk=True)
+project.define_piece("Innovation Tokens", 4, size=(18.5, 15.0, 8.5))
+project.define_piece("Steam Cloud Tokens", 4, size=(20.0, 18.0, 8.5), svg=ASSETS / "steam_token.svg")
+project.define_piece("Character Meeples", 4, size=(12.5, 22.5, 8.5), svg=ASSETS / "woman_green.svg")
+project.define_tile("Scoring Tiles", 16, thickness=cardboard_thickness)
+project.define_piece("Visitor Tokens", 4, thickness=8.5, bulk=True)
+project.define_piece("Silver Coins", 40, bulk=True)
+project.define_cards(
+    "Exhibitor & Other Cards",
+    other_card_num,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_cards(
+    "Tier 1 Partner Cards",
+    tier_1_partner_card_num,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_cards(
+    "Tier 2 Partner Cards",
+    tier_2_partner_card_num,
+    size=(card_width, card_length),
+    thickness=single_card_thickness,
+)
+project.define_cards(
+    "Assignment Cards",
+    assignment_card_num,
+    size=(assignment_card_width, assignment_card_length),
+    thickness=single_card_thickness,
+)
+project.define_piece("Book Tokens", 12, size=(book_length, book_length), bulk=True)
+project.define_tile("Assignment Tiles", 16, thickness=cardboard_thickness, bulk=True)
+project.define_piece("Engine Dice", 50, size=(dice_thickness, dice_thickness, dice_thickness), bulk=True)
+project.define_piece("First Player Token", 1, size=(46.5, 21.0, 11.5))
+project.define_tile("Alternative Objective Tiles", 12, thickness=cardboard_thickness)
+project.define_tile("Breakthrough Tiles", 9, size=(17.0, 21.0, cardboard_thickness), bulk=True)
+project.define_piece("Score Pad", 1, size=(91.0, score_pad_length, score_pad_thickness))
+project.define_tile("Program Tiles", 28, size=(program_width, program_length, cardboard_thickness))
+project.define_piece("Workshop Bonus Discs", 6, diameter=33.0, thickness=cardboard_thickness, bulk=True)
+project.define_tile(
+    "University Tiles",
+    15,
+    size=(20.5, 32.5, cardboard_thickness),
+    svg=ASSETS / "university_tile.svg",
+)
+project.define_piece("Brass Resource Tokens", 30, bulk=True)
+project.define_piece("Coal Resource Tokens", 30, bulk=True)
+for _gear_name, _gear_qty in [
+    ("Addition Gears", 15),
+    ("Subtraction Gears", 15),
+    ("Multiplier Gears", 14),
+]:
+    project.define_piece(_gear_name, _gear_qty, diameter=26.0, thickness=4.0, bulk=True)
+project.define_tile("Objective Tiles", 24, size=(objective_length, objective_length, cardboard_thickness), bulk=True)
+project.component("Main Game Board", 1, kind="board")
+project.component("Great Exhibition Board", 1, kind="board")
+project.component("Player Workshop Boards", 4, kind="board")
+project.component("Solo Reward Board", 1, kind="board")
+project.component("Assignment Tiles Board", 1, kind="board")
 
 project.board(
     "Game Boards & Player Mats",

@@ -54,6 +54,8 @@ lid_thickness = 2.0
 
 card_width = 67.0
 card_length = 92.0
+disk_diameter = 46.0
+disk_thickness = 4.0
 
 card_box_width = (box_width - 2.0) / 2.0             # 104.0mm
 card_box_length = card_width + wall_thickness * 2.0  # 73.0mm
@@ -87,20 +89,18 @@ project = Project(
     generate_spacers=True,
 )
 
-# ── Game Piece Inventory ──────────────────────────────────────────
-project.define_inventory({
-    "Nature Cards": 99,
-    "Hunter Cards": 10,
-    "Solo / Event Cards": 6,
-    "Population Dials": 20,
-    "Apex Leopard Meeple": 1,
-    "Grass Food Tokens": 60,
-    "Meat Food Tokens": 30,
-    "Population Tokens": 40,
-    "Watering Hole Board": 1,
-    "Player Screens": 4,
-    "Rulebook": 1,
-})
+# ── Game Component Inventory (with physical specs) ────────────────
+project.define_cards("Nature Cards", 99, size=(card_width, card_length))
+project.define_cards("Hunter Cards", 10, size=(card_width, card_length))
+project.define_cards("Solo / Event Cards", 6, size=(card_width, card_length))
+project.define_piece("Population Dials", 20, diameter=disk_diameter, thickness=disk_thickness)
+project.define_piece("Apex Leopard Meeple", 1, bulk=True)
+project.define_piece("Grass Food Tokens", 60, bulk=True)
+project.define_piece("Meat Food Tokens", 30, bulk=True)
+project.define_piece("Population Tokens", 40, bulk=True)
+project.component("Watering Hole Board", 1, kind="board")
+project.component("Player Screens", 4, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Boards, Screens & Rulebook",
@@ -173,8 +173,6 @@ project.box(
 ).compartment("Cards", cut=FingerCut.SCOOP, component="Solo / Event Cards", count=6)
 
 # ── 3. Population Dials (x2) & Leopard Box ────────────────────────
-disk_diameter = 46.0
-disk_thickness = 4.0
 dial_inner_width = dial_box_width - wall_thickness * 2.0      # 101.0mm
 dial_inner_length = dial_box_length - wall_thickness * 2.0    # 46.0mm
 dial_inner_height = dial_box_height - floor_thickness - lid_thickness  # 47.0mm

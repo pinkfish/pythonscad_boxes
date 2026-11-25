@@ -81,26 +81,27 @@ project = Project(
     box_defaults={"expandable": False},
 )
 
-# ── Game Piece Inventory ──────────────────────────────────────────
-project.define_inventory({
-    "Thruster Cards": 25,
-    "Damage Cards": 35,
-    "Reactor Cards": 30,
-    "Miss Cards": 15,
-    "Shield Cards": 25,
-    "Reference Cards": 10,
-    "Crew Cards": 30,
-    "Contract Cards": 50,
-    "Ship Part Cards": 47,
-    "Objective Cards": 33,
-    "Hazard Dice": 4,
-    "Credit Coins": 50,
-    "Prestige Tokens": 5,
-    "Ship Standees": 5,
-    "Main Game Board": 1,
-    "Player Command Consoles": 5,
-    "Rulebook": 1,
-})
+# ── Game Component Inventory (with physical specs) ────────────────
+for _deck_name, _deck_qty in [
+    ("Thruster Cards", 25),
+    ("Damage Cards", 35),
+    ("Reactor Cards", 30),
+    ("Miss Cards", 15),
+    ("Shield Cards", 25),
+    ("Reference Cards", 10),
+    ("Crew Cards", 30),
+    ("Contract Cards", 50),
+    ("Ship Part Cards", 47),
+    ("Objective Cards", 33),
+]:
+    project.define_cards(_deck_name, _deck_qty, size=(card_width, card_length), thickness=single_card_thickness)
+project.define_piece("Hazard Dice", 4, size=(dice_size, dice_size, dice_size), bulk=True)
+project.define_piece("Credit Coins", 50, bulk=True)
+project.define_piece("Prestige Tokens", 5, bulk=True)
+project.define_piece("Ship Standees", 5, bulk=True)
+project.component("Main Game Board", 1, kind="board")
+project.component("Player Command Consoles", 5, kind="board")
+project.component("Rulebook", 1, kind="board")
 
 project.board(
     "Board, Command Consoles & Rulebook",

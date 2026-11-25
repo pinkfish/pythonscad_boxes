@@ -149,15 +149,42 @@ project = Project(
     lid_thickness=LID,
     generate_spacers=True,
 )
-project.define_inventory(
-    {
-        "Playing & Reminder Cards": LARGE_COUNT,
-        "Task Cards": SMALL_COUNT,
-        "Diver Standee": 1,
-        "Standee Base": 1,
-        "Sonar Tokens": SONAR_COUNT,
-        "Distress Token": 1,
-    }
+project.define_cards(
+    "Playing & Reminder Cards",
+    LARGE_COUNT,
+    size=LARGE_SLEEVE.sleeve_size,
+    thickness=CARD_THICKNESS,
+)
+project.define_cards(
+    "Task Cards",
+    SMALL_COUNT,
+    size=SMALL_SLEEVE.sleeve_size,
+    thickness=CARD_THICKNESS,
+)
+project.define_piece(
+    "Diver Standee",
+    1,
+    size=(DIVER_WIDTH, DIVER_HEIGHT, DIVER_THICKNESS),
+    svg=f"{SVG}/the crew - diver.svg",
+)
+project.define_piece(
+    "Standee Base",
+    1,
+    size=(BASE_WIDTH, BASE_HEIGHT, DIVER_THICKNESS),
+    svg=f"{SVG}/the crew - base.svg",
+)
+project.define_piece(
+    "Sonar Tokens",
+    SONAR_COUNT,
+    diameter=SONAR_DIAMETER,
+    thickness=TOKEN_THICKNESS,
+    svg=f"{SVG}/the crew - sonar.svg",
+)
+project.define_piece(
+    "Distress Token",
+    1,
+    size=(DISTRESS[0], DISTRESS[1], TOKEN_THICKNESS),
+    svg=f"{SVG}/the crew - distress.svg",
 )
 
 BUBBLES = PatternBuilder(type=PatternType.VORONOI)
