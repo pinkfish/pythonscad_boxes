@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write # Mandatory for PyPI Trusted Publishing (OIDC)
 
 jobs:
   release:
@@ -21,6 +22,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+          cache: pip
 
       - name: Resolve version from tag
         id: version
@@ -32,18 +34,32 @@ jobs:
 
       - name: Build distributions
         run: |
-          python -m pip install --upgrade pip build
+          python -m pip install --upgrade pip build twine
           python -m build
+          twine check dist/*
 
       # The built wheel/sdist must carry the tag's version, not a stale one.
-      - name: Verify the built version matches the tag
+      - name: Verify the built version and package contents
         run: |
           VERSION="${{ steps.version.outputs.value }}"
           ls -1 dist/
-          ls -1 dist/ | grep -q "pyboxbuilder-${VERSION}" || {
-            echo "built artifacts do not match tag version ${VERSION}"
-            exit 1
-          }
+          test -f "dist/pyboxbuilder-${VERSION}.tar.gz"
+          test -f "dist/pyboxbuilder-${VERSION}-py3-none-any.whl"
+          python - <<'PY'
+          import pathlib, zipfile
+          wheel = next(pathlib.Path("dist").glob("*.whl"))
+          names = set(zipfile.ZipFile(wheel).namelist())
+          if "pyboxbuilder/py.typed" not in names:
+              raise SystemExit(f"{wheel.name} is missing pyboxbuilder/py.typed")
+          print(f"{wheel.name}: verified ({len(names)} files, py.typed present)")
+          PY
+
+      - name: Verify clean virtualenv install and import
+        run: |
+          python -m venv /tmp/release-check
+          /tmp/release-check/bin/pip install --quiet --upgrade pip
+          /tmp/release-check/bin/pip install --quiet dist/*.whl
+          /tmp/release-check/bin/python -c "import pyboxbuilder; print('import ok:', pyboxbuilder.Project)"
 
       - name: Publish GitHub release
         env:
@@ -53,6 +69,7 @@ jobs:
             --title "$GITHUB_REF_NAME" \
             --generate-notes \
             dist/* --clobber
-      - name: Publish package
+
+      - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         
