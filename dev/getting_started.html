@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#creating-your-first-box" class="md-skip">
+        <a href="#installation" class="md-skip">
           Skip to content
         </a>
       
@@ -321,6 +321,16 @@
       On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="getting_started:installation (reference label)"><span>Installation</span></span>
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#creating-your-first-box" class="md-nav__link">
@@ -997,6 +1007,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="getting_started:installation (reference label)"><span>Installation</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#creating-your-first-box" class="md-nav__link">
     
     <span class="md-ellipsis">
@@ -1467,6 +1487,18 @@
 <div class="note admonition">
 <p class="admonition-title">Note</p>
 <p>All example code below uses the interactive 3D WebGL viewer. You can rotate, pan, and zoom the rendered models directly in your browser.</p>
+</div>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>Install <code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> directly from <a class="reference external" href="https://pypi.org/project/pyboxbuilder/">PyPI</a> (requires Python 3.11+):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><code><span class="c1"># Core library</span>
+pip<span class="w"> </span>install<span class="w"> </span>pyboxbuilder
+
+<span class="c1"># With packing guide PDF support (fpdf2 + Pillow)</span>
+pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"pyboxbuilder[pdf]"</span>
+
+<span class="c1"># Everything (PythonSCAD + PDF + Shapely)</span>
+pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"pyboxbuilder[all]"</span>
+</code></pre></div>
 </div>
 <h2 id="creating-your-first-box">Creating Your First Box<a class="headerlink" href="#creating-your-first-box" title="Link to this heading">¶</a></h2>
 <p>Every box in <code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> belongs to a <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project" title="pyboxbuilder.project.core.Project (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a>. A project defines project-wide defaults (such as wall thickness, floor thickness, and edge rounding) and holds all the boxes you create.</p>

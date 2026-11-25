@@ -415,6 +415,16 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#component-first-inventory-verification" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="quickstart:component-first inventory &amp; verification (reference label)"><span>Component-<wbr>First Inventory &amp; Verification</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#quick-start-by-box-type" class="md-nav__link">
     
     <span class="md-ellipsis">
@@ -1041,6 +1051,16 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#component-first-inventory-verification" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="quickstart:component-first inventory &amp; verification (reference label)"><span>Component-<wbr>First Inventory &amp; Verification</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#quick-start-by-box-type" class="md-nav__link">
     
     <span class="md-ellipsis">
@@ -1420,6 +1440,39 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <p>Make scripts executable directly via PythonSCAD GUI or batch command line:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">run</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<h2 id="component-first-inventory-verification">Component-First Inventory &amp; Verification<a class="headerlink" href="#component-first-inventory-verification" title="Link to this heading">¶</a></h2>
+<p>Declare the game’s physical components once — including card counts/dimensions,
+piece/tile sizes, SVG silhouettes, and loose items stored in spacers — and pass
+those handles directly into your boxes with <code class="docutils literal notranslate"><span class="pre">box.store(...)</span></code> and <code class="docutils literal notranslate"><span class="pre">box.well(...)</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">Project</span>
+
+<span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"MyGame"</span><span class="p">,</span> <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">220.0</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">))</span>
+
+<span class="c1"># 1. Declare the game catalog once (counts, physical dimensions, SVGs)</span>
+<span class="n">actions</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">define_cards</span><span class="p">(</span><span class="s2">"Action Cards"</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">63.5</span><span class="p">,</span> <span class="mf">88.0</span><span class="p">),</span> <span class="n">thickness</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ships</span>   <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">define_piece</span><span class="p">(</span><span class="s2">"Flagships"</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">43.0</span><span class="p">,</span> <span class="mf">37.2</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">),</span> <span class="n">svg</span><span class="o">=</span><span class="s2">"svg/ship.svg"</span><span class="p">)</span>
+<span class="n">coins</span>   <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">define_piece</span><span class="p">(</span><span class="s2">"Silver Coins"</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">diameter</span><span class="o">=</span><span class="mf">22.0</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">bulk</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bag</span>     <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">define_loose</span><span class="p">(</span><span class="s2">"Cloth Draw Bag"</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">"Inside spacer_1"</span><span class="p">)</span>
+
+<span class="c1"># 2. Boxes consume component handles directly</span>
+<span class="n">card_box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"Cards"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">96.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="n">card_box</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>  <span class="c1"># derives box height from 50 x 0.6mm and allocates 50/50</span>
+
+<span class="n">tray</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"Pieces"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">120.0</span><span class="p">,</span> <span class="mf">110.0</span><span class="p">,</span> <span class="mf">28.0</span><span class="p">))</span>
+<span class="n">tray</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span>
+    <span class="s2">"Ships"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">95.0</span><span class="p">,</span> <span class="mf">45.0</span><span class="p">),</span>
+    <span class="n">elements</span><span class="o">=</span><span class="p">(</span>
+        <span class="n">tray</span><span class="o">.</span><span class="n">well</span><span class="p">(</span><span class="n">ships</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)),</span>
+        <span class="n">tray</span><span class="o">.</span><span class="n">well</span><span class="p">(</span><span class="n">ships</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mf">48.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">tray</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>
+
+<span class="c1"># 3. Verify 100% count conservation, SVG cutout coverage, and physical fit</span>
+<span class="n">project</span><span class="o">.</span><span class="n">verify_inventory</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <h2 id="quick-start-by-box-type">Quick Start by Box Type<a class="headerlink" href="#quick-start-by-box-type" title="Link to this heading">¶</a></h2>

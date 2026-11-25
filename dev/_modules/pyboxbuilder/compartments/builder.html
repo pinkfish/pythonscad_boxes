@@ -700,15 +700,23 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interior_h</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""How deep this well is cut.</span>
 
+<span class="sd">        Card compartments (``is_card=True``) always expand to fill ``interior_h``</span>
+<span class="sd">        when the box grows taller (e.g. via vertical gap absorption), giving more</span>
+<span class="sd">        room for cards/sleeves. Fixed-depth piece wells always keep their exact</span>
+<span class="sd">        declared ``depth`` regardless of how tall the box becomes.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            interior_h: The box interior's height in mm.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            The declared depth, or the full interior height when none was</span>
-<span class="sd">            given — a well with nothing said about it goes to the floor.</span>
+<span class="sd">            Resolved well depth in mm.</span>
 
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">interior_h</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">interior_h</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_card</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">interior_h</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CompartmentBuilder.resolve_size">
