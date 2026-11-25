@@ -998,7 +998,7 @@ class Project:
 
         Automatically respects ``self.sleeved`` and ``self.sleeve`` unless overridden.
         When ``orientation`` is ``"vertical"`` or ``"angled"`` and ``box_type`` is
-        omitted, automatically creates a :attr:`~pyboxbuilder.enums.BoxType.CARD_TRAY`
+        omitted, automatically creates a ``BoxType.CARD_TRAY``
         (forwarding ``tilt_angle`` to ``card_tilt_angle``).
         """
         eff_orientation = orientation

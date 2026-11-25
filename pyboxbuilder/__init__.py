@@ -69,6 +69,7 @@ from pyboxbuilder.enums import (
 )
 from pyboxbuilder.export.result import ExportResult
 from pyboxbuilder.helpers import CardSize, CardSpec, SleeveType
+from pyboxbuilder.interactive import Box, CardBox
 from pyboxbuilder.layout import columns, polygon_grid, rows, stack
 from pyboxbuilder.lid.builder import LidBuilder, PatternBuilder
 from pyboxbuilder.project import (
@@ -107,11 +108,13 @@ __all__ = [
     "SLEEVE_CATALOG",
     "STACKING_ORDER_PYRAMID_CONFIGS",
     "BayonetBoxBuilder",
+    "Box",
     "BoxPieceSummary",
     "BoxSpec",
     "BoxType",
     "CapBoxBuilder",
     "CapPathBoxBuilder",
+    "CardBox",
     "CardLibraryBoxBuilder",
     "CardShoeBoxBuilder",
     "CardSize",
