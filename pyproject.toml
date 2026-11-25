@@ -5,25 +5,29 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyboxbuilder"
 dynamic = ["version"]
-description = "Declarative board game box and insert design library for PythonSCAD"
-readme = "README.md"
+description = "Declarative 3D board game box and insert design library for PythonSCAD"
+readme = { file = "README.md", content-type = "text/markdown" }
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
 authors = [{ name = "pinkfish" }]
+maintainers = [{ name = "pinkfish" }]
 keywords = [
     "3d",
     "3d-printing",
     "board-games",
-    "inserts",
+    "board-game-inserts",
+    "organizer",
     "openscad",
     "pythonscad",
     "pybosl2",
     "cad",
+    "3mf",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Manufacturing",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -31,6 +35,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Topic :: Games/Entertainment :: Board Games",
     "Topic :: Multimedia :: Graphics :: 3D Modeling",
     "Topic :: Scientific/Engineering",
     "Typing :: Typed",
@@ -45,14 +50,25 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/pinkfish/pythonscad_boxes"
+Documentation = "https://pinkfish.github.io/pythonscad_boxes/stable/"
 Repository = "https://github.com/pinkfish/pythonscad_boxes"
-Documentation = "https://pinkfish.github.io/pythonscad_boxes/"
+Changelog = "https://github.com/pinkfish/pythonscad_boxes/releases"
 Issues = "https://github.com/pinkfish/pythonscad_boxes/issues"
 
 [project.scripts]
 pybox = "pyboxbuilder.cli:main"
 
 [project.optional-dependencies]
+pdf = [
+    "fpdf2",
+    "pillow",
+]
+all = [
+    "pythonscad>=1.2.0",
+    "fpdf2",
+    "pillow",
+    "shapely",
+]
 scripts = [
     "pybosl2>=0.8.0",
     "lark",
