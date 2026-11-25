@@ -39,7 +39,7 @@ Instead of calculating internal wall allowances and stack heights by hand, defin
 
 .. pythonscad-example::
 
-   project = Project("CardGame", game_box_size=(200.0, 150.0, 90.0))
+   project = Project("CardGame")
    cards = project.box(
        BoxType.SLIDING,
        "Cards",

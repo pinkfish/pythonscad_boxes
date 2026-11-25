@@ -102,6 +102,29 @@ def test_deep_well_dual_opposing_scoops() -> None:
         pass
 
 
+def test_deep_card_box_gets_single_short_edge_finger_hole(monkeypatch: object) -> None:
+    """Deep card compartments (> 35mm) should get ONE finger hole on the short edge, not two."""
+    from pyboxbuilder.compartments import carve
+
+    called_sides: list[ScoopSide] = []
+    orig = carve.build_compartment_scoop
+
+    def _spy(placement: object, interior: object, scoop_side: ScoopSide = ScoopSide.FRONT, **kw: object) -> object:
+        called_sides.append(scoop_side)
+        return orig(placement, interior, scoop_side, **kw)  # type: ignore[arg-type]
+
+    monkeypatch.setattr(carve, "build_compartment_scoop", _spy)  # type: ignore[attr-defined]
+
+    project = Project("DeepCardBox")
+    cards = project.box(BoxType.SLIDING, "Cards", size=(70.0, 100.0, None))
+    cards.cards("Deck", count=120, size=(63.5, 88.0))
+    build = project.build()
+    assert build.pieces
+    # Trigger body solid build so carve_compartments executes
+    _ = build.pieces[0].solid
+    assert called_sides == [ScoopSide.BACK]
+
+
 def test_build_shell_ergonomic_features() -> None:
     """Verify that build_shell generates geometry correctly with ergonomic options enabled."""
     from pyboxbuilder.box.shell import build_shell
