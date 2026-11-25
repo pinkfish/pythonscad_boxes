@@ -179,15 +179,23 @@ class CompartmentBuilder:
     def resolve_depth(self, interior_h: float) -> float:
         """How deep this well is cut.
 
+        Card compartments (``is_card=True``) always expand to fill ``interior_h``
+        when the box grows taller (e.g. via vertical gap absorption), giving more
+        room for cards/sleeves. Fixed-depth piece wells always keep their exact
+        declared ``depth`` regardless of how tall the box becomes.
+
         Args:
             interior_h: The box interior's height in mm.
 
         Returns:
-            The declared depth, or the full interior height when none was
-            given — a well with nothing said about it goes to the floor.
+            Resolved well depth in mm.
 
         """
-        return float(self.depth) if self.depth is not None else float(interior_h)
+        if self.depth is None:
+            return float(interior_h)
+        if self.is_card:
+            return max(float(self.depth), float(interior_h))
+        return float(self.depth)
 
     def resolve_size(
         self,

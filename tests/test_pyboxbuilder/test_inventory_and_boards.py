@@ -350,3 +350,138 @@ class TestPartialBoardsAndInventory(unittest.TestCase):
                 self.assertEqual(rows[name].count, expected_count)
                 self.assertTrue(rows[name].locations, f"{game} checklist row {name!r} has no location")
 
+    def test_component_first_api_store_well_svg_and_fit(self) -> None:
+        """define_cards/define_piece/define_loose + box.store()/box.well() enforce counts, SVGs, and fit."""
+        brink_svg = Path(__file__).resolve().parents[2] / "boxes" / "brink" / "svg" / "class_iii_ship.svg"
+        self.assertTrue(brink_svg.exists())
+
+        proj = Project("ComponentFirstTest", game_box_size=(220.0, 180.0, 60.0))
+        actions = proj.define_cards("Action Cards", count=50, size=(63.5, 88.0), thickness=0.6)
+        ships = proj.define_piece("Class III Ships", count=2, size=(43.0, 37.2, 10.0), svg=brink_svg)
+        coins = proj.define_piece("Coins", count=20, diameter=20.0, thickness=2.0, bulk=True)
+        hexes = proj.define_tile("Map Hexes", count=10, size=(40.0, 40.0, 2.0))
+        proj.define_loose("Cloth Bag", count=1, location="Inside spacer_1")
+
+        # Card box derives height automatically from 50 x 0.6mm = 30mm
+        cbox = proj.box(BoxType.SLIDING, "Cards", size=(70.0, 96.0, None))
+        cbox.store(actions)
+
+        # Piece box uses box.well() for SVG ships and box.store() for bulk coins + tiles
+        pbox = proj.box(BoxType.CAP, "Pieces", size=(120.0, 110.0, 28.0))
+        pbox.compartment(
+            "Ships",
+            size=(95.0, 45.0),
+            elements=(
+                pbox.well(ships, count=1, offset=(2.0, 2.0)),
+                pbox.well(ships, count=1, offset=(48.0, 2.0)),
+            ),
+        )
+        pbox.store(coins, size=(50.0, 42.0))
+        pbox.store(hexes, size=(42.0, 42.0))
+
+        ver = proj.verify_inventory(strict=True)
+        self.assertTrue(ver.is_valid)
+        self.assertEqual(ver.missing_svgs, ())
+        self.assertEqual(ver.fit_warnings, ())
+
+        # Checklist includes all 5 declared component types
+        inv = proj.inventory()
+        names = [r.name for r in inv.checklist]
+        self.assertEqual(names, ["Action Cards", "Class III Ships", "Coins", "Map Hexes", "Cloth Bag"])
+
+    def test_verify_inventory_catches_missing_svg_and_fit_violations(self) -> None:
+        """verify_inventory flags missing SVG cutouts, missing SVG files, and undersized boxes."""
+        brink_svg = Path(__file__).resolve().parents[2] / "boxes" / "brink" / "svg" / "class_iii_ship.svg"
+
+        # 1. Non-bulk piece declares SVG, but box only adds a plain rectangle compartment
+        proj_svg = Project("MissingSvgTest", game_box_size=(200.0, 150.0, 50.0))
+        ships = proj_svg.define_piece("Ships", count=2, size=(43.0, 37.2, 10.0), svg=brink_svg)
+        proj_svg.box(BoxType.CAP, "Tray", size=(100.0, 80.0, 25.0)).compartment(
+            "Ships", component=ships, count=2, size=(50.0, 45.0)
+        )
+        v_svg = proj_svg.verify_inventory(strict=False)
+        self.assertFalse(v_svg.is_valid)
+        self.assertEqual(len(v_svg.missing_svgs), 1)
+        self.assertIn("class_iii_ship.svg", v_svg.format_errors())
+
+        # 2. Missing SVG file on disk
+        proj_missing_file = Project("MissingFileTest", game_box_size=(200.0, 150.0, 50.0))
+        ghost = proj_missing_file.define_piece(
+            "Ghost", count=1, size=(20.0, 20.0, 5.0), svg="/nonexistent/ghost.svg"
+        )
+        proj_missing_file.box(BoxType.CAP, "Tray", size=(60.0, 60.0, 20.0)).store(ghost)
+        v_file = proj_missing_file.verify_inventory(strict=False)
+        self.assertFalse(v_file.is_valid)
+        self.assertIn("SVG file not found", v_file.format_errors())
+
+        # 3. Card box too short & compartment footprint too narrow
+        proj_fit = Project("FitFailTest", game_box_size=(200.0, 150.0, 50.0))
+        deck = proj_fit.define_cards("BigDeck", count=100, size=(63.5, 88.0), thickness=0.6)
+        proj_fit.box(BoxType.SLIDING, "TooSmall", size=(70.0, 95.0, 20.0)).compartment(
+            "BigDeck", component=deck, count=100, size=(50.0, 80.0)
+        )
+        v_fit = proj_fit.verify_inventory(strict=False)
+        self.assertFalse(v_fit.is_valid)
+        self.assertEqual(len(v_fit.fit_warnings), 2)
+        self.assertIn("does not fit compartment", v_fit.format_errors())
+        self.assertIn("needs 60.0mm height", v_fit.format_errors())
+        with self.assertRaises(ValueError):
+            proj_fit.verify_inventory(strict=True)
+
+    def test_expanded_card_box_grows_card_space_while_fixed_piece_keeps_exact_depth(self) -> None:
+        """Card wells expand to fill grown box height; fixed-height piece wells keep exact depth."""
+        proj = Project(
+            "HeightExpansionBehavior",
+            game_box_size=(160.0, 110.0, 44.0),
+            clearance_slack=0.0,
+            generate_spacers=True,
+            max_height_absorb=10.0,
+            box_defaults={"expandable": False},
+        )
+        deck = proj.define_cards("Action Cards", count=50, size=(63.5, 88.0), thickness=0.6)
+        tile = proj.define_piece("Fixed Tile", count=1, size=(40.0, 40.0, 10.0))
+
+        # Card box wants ~35.1mm height -> 8.9mm gap to 44mm ceiling (<= 10mm), so box grows to 44mm
+        card_box = proj.box(BoxType.SLIDING, "Cards", size=(72.0, 100.0, None))
+        card_cb = card_box.store(deck)
+
+        # Fixed-height piece box starts at 38mm (6mm gap to 44mm ceiling -> grows to 44mm)
+        piece_box = proj.box(BoxType.CAP, "Piece", size=(72.0, 100.0, 38.0))
+        piece_cb = piece_box.store(tile, size=(42.0, 42.0))
+
+        proj.build()
+        assert card_box.final_size is not None and piece_box.final_size is not None
+        self.assertAlmostEqual(card_box.final_size[2], 44.0, places=2)
+        self.assertAlmostEqual(piece_box.final_size[2], 44.0, places=2)
+
+        resolved_cards = proj.pipeline._resolve_box(proj.manifest, card_box)
+        resolved_piece = proj.pipeline._resolve_box(proj.manifest, piece_box)
+
+        # Card well expanded to full interior height (> original 31.0mm)
+        assert card_cb.depth is not None
+        self.assertGreater(resolved_cards.interior.height, card_cb.depth + 3.0)
+        self.assertAlmostEqual(
+            card_cb.resolve_depth(resolved_cards.interior.height),
+            resolved_cards.interior.height,
+            places=3,
+        )
+        assert resolved_cards.compartments is not None
+        self.assertAlmostEqual(
+            resolved_cards.compartments.placements[0].depth,
+            resolved_cards.interior.height,
+            places=3,
+        )
+
+        # Fixed-height piece well stayed at exact 10.0mm despite 46mm box height!
+        self.assertAlmostEqual(
+            piece_cb.resolve_depth(resolved_piece.interior.height),
+            10.0,
+            places=3,
+        )
+        assert resolved_piece.compartments is not None
+        self.assertAlmostEqual(
+            resolved_piece.compartments.placements[0].depth,
+            10.0,
+            places=3,
+        )
+

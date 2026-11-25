@@ -230,12 +230,127 @@ class Project:
         category: str = "",
         notes: str = "",
         location: str = "",
+        kind: str = "piece",
+        size: tuple[float, float] | tuple[float, float, float] | None = None,
+        diameter: float | None = None,
+        thickness: float | None = None,
+        svg: str | Path | None = None,
+        bulk: bool = False,
     ) -> GameComponent:
         """Declare a physical game component type in the project's piece inventory."""
         gc = GameComponent(
-            name=name, count=int(count), category=category, notes=notes, location=location
+            name=name,
+            count=int(count),
+            category=category,
+            notes=notes,
+            location=location,
+            kind=kind,
+            size=size,
+            diameter=diameter,
+            thickness=thickness,
+            svg=str(svg) if svg is not None else None,
+            bulk=bulk,
         )
         return self._manifest.add_component(gc)
+
+    def define_cards(
+        self,
+        name: str,
+        count: int,
+        *,
+        size: tuple[float, float],
+        thickness: float = 0.6,
+        category: str = "Cards",
+        notes: str = "",
+        svg: str | Path | None = None,
+    ) -> GameComponent:
+        """Declare a card deck in the game inventory with exact card count, size, and thickness."""
+        return self.component(
+            name,
+            count,
+            kind="cards",
+            size=size,
+            thickness=thickness,
+            category=category,
+            notes=notes,
+            svg=svg,
+        )
+
+    def define_piece(
+        self,
+        name: str,
+        count: int,
+        *,
+        size: tuple[float, float] | tuple[float, float, float] | None = None,
+        diameter: float | None = None,
+        thickness: float | None = None,
+        svg: str | Path | None = None,
+        bulk: bool = False,
+        category: str = "Pieces",
+        notes: str = "",
+    ) -> GameComponent:
+        """Declare a game piece or token type (with optional dimensions and SVG silhouette)."""
+        return self.component(
+            name,
+            count,
+            kind="piece",
+            size=size,
+            diameter=diameter,
+            thickness=thickness,
+            svg=svg,
+            bulk=bulk,
+            category=category,
+            notes=notes,
+        )
+
+    def define_tile(
+        self,
+        name: str,
+        count: int,
+        *,
+        size: tuple[float, float] | tuple[float, float, float] | None = None,
+        diameter: float | None = None,
+        thickness: float | None = None,
+        svg: str | Path | None = None,
+        bulk: bool = False,
+        category: str = "Tiles",
+        notes: str = "",
+    ) -> GameComponent:
+        """Declare a tile type (hex, square, or SVG silhouette) in the game inventory."""
+        return self.component(
+            name,
+            count,
+            kind="tile",
+            size=size,
+            diameter=diameter,
+            thickness=thickness,
+            svg=svg,
+            bulk=bulk,
+            category=category,
+            notes=notes,
+        )
+
+    def define_loose(
+        self,
+        name: str,
+        count: int,
+        *,
+        location: str,
+        size: tuple[float, float] | tuple[float, float, float] | None = None,
+        category: str = "Loose",
+        notes: str = "",
+    ) -> GameComponent:
+        """Declare a loose game item stored outside a dedicated box (e.g. a draw bag in a spacer)."""
+        return self.component(
+            name,
+            count,
+            kind="loose",
+            location=location,
+            size=size,
+            category=category,
+            notes=notes,
+            bulk=True,
+        )
 
     def define_inventory(
         self,
@@ -251,9 +366,9 @@ class Project:
                 added.append(self._manifest.add_component(item))
         return added
 
-    def verify_inventory(self, *, strict: bool = True) -> InventoryVerification:
-        """Verify that all declared inventory components are allocated across boxes and boards."""
-        return verify_inventory(self._manifest, strict=strict)
+    def verify_inventory(self, *, strict: bool = True, check_fit: bool = True) -> InventoryVerification:
+        """Verify that all declared components are accounted for with matching SVGs and physical fit."""
+        return verify_inventory(self._manifest, strict=strict, check_fit=check_fit)
 
     def board(
         self,
@@ -263,7 +378,7 @@ class Project:
         position: tuple[float, float, float],
         count: int = 1,
         notes: str = "",
-        component: str | None = None,
+        component: str | GameComponent | None = None,
         allocates: Mapping[str, int] | Sequence[tuple[str, int]] | None = None,
     ) -> GameBoard:
         """Register a non-printed game board, rulebook, screen, or playmat region.
@@ -272,6 +387,7 @@ class Project:
         STL is generated for it, and both the packing guide PDF and Sphinx box
         summary render and count it explicitly.
         """
+        comp_name = component.name if isinstance(component, GameComponent) else component
         norm_alloc: tuple[tuple[str, int], ...] = ()
         if allocates is not None:
             if isinstance(allocates, Mapping):
@@ -284,7 +400,7 @@ class Project:
             position=(float(position[0]), float(position[1]), float(position[2])),
             count=count,
             notes=notes,
-            component=component,
+            component=comp_name,
             allocates=norm_alloc,
         )
         return self._manifest.add_board(gb)
