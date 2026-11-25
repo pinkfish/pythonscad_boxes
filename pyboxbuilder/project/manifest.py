@@ -43,6 +43,14 @@ class GameComponent:
     """Optional path to an SVG silhouette file representing this piece's outline."""
     bulk: bool = False
     """If True, pieces are stored loose in a tray/compartment rather than individual shaped wells."""
+    card_orientation: str = "flat"
+    """Card storage orientation (``"flat"``, ``"vertical"``, or ``"angled"``)."""
+    card_tilt_angle: float = 0.0
+    """Tilt angle from vertical in degrees for angled cards (0° = upright, 15°–35° = tilted)."""
+    sleeved: bool = False
+    """True when card dimensions and thickness already include protective sleeves."""
+    sleeve_name: str = ""
+    """Resolved sleeve description (brand/name/SKU) when ``sleeved=True``."""
 
     def __post_init__(self) -> None:
         """Validate non-empty name, positive piece count, and positive dimensions."""
@@ -56,6 +64,15 @@ class GameComponent:
             raise ValueError(f"GameComponent {self.name!r} diameter must be positive, got {self.diameter}")
         if self.thickness is not None and self.thickness <= 0:
             raise ValueError(f"GameComponent {self.name!r} thickness must be positive, got {self.thickness}")
+        if self.card_orientation not in ("flat", "vertical", "angled"):
+            raise ValueError(
+                f"GameComponent {self.name!r} card_orientation must be 'flat', 'vertical', or 'angled'; "
+                f"got {self.card_orientation!r}"
+            )
+        if not (0.0 <= self.card_tilt_angle < 60.0):
+            raise ValueError(
+                f"GameComponent {self.name!r} card_tilt_angle must be in [0, 60); got {self.card_tilt_angle}"
+            )
 
     @property
     def footprint(self) -> tuple[float, float] | None:
@@ -131,8 +148,18 @@ class ProjectManifest:
     """Default lid thickness."""
     rounding: float | None = None
     """Edge radius for every box's exposed edges (FR-043/FR-044)."""
+    base_rounding: float | None = None
+    """Edge radius for every box's base/bottom edges."""
+    base_chamfer: float | bool | None = None
+    """Bottom chamfer in mm (e.g. 0.4 for elephant's foot relief), or True for 3.0mm."""
     inner_rounding: float | None = None
     """Edge radius where a partial lid grips the body (FR-044b)."""
+    bed_size: tuple[float, float] | None = None
+    """Optional 3D-printer build plate (W, L) in mm checked during verification."""
+    sleeved: bool = False
+    """When True, card decks declared via define_cards() automatically size for sleeved cards."""
+    sleeve: Any = None
+    """Optional default Sleeve instance, SKU, brand, or grade used when sleeved=True."""
     gap_threshold: float = 10.0
     """Gaps <= this are absorbed by adjacent boxes."""
     min_spacer_dim: float = 15.0

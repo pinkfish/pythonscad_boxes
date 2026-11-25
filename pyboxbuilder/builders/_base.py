@@ -327,6 +327,29 @@ class BoxBuilder:
                 raise ValueError(
                     f"Cannot store card component {component.name!r} without size=(W, L)"
                 )
+            orientation = getattr(component, "card_orientation", "flat")
+            if orientation in ("vertical", "angled"):
+                import math
+
+                s = CARD_SLACK_MM if slack is None else float(slack)
+                tilt = float(getattr(component, "card_tilt_angle", 0.0))
+                if orientation == "angled" and tilt == 0.0:
+                    tilt = float(getattr(self, "card_tilt_angle", 20.0)) or 20.0
+                rad = math.radians(tilt)
+                cw, ch = float(card_sz[0]), float(card_sz[1])
+                t = component.thickness if component.thickness is not None else CARD_THICKNESS_MM
+                req_len = qty * t / math.cos(rad) + ch * math.sin(rad)
+                req_h = ch * math.cos(rad)
+                well_size = size or (cw + s, req_len + s)
+                comp_kwargs_v: dict[str, Any] = {
+                    "size": well_size,
+                    "depth": kwargs.pop("depth", req_h + s),
+                    "is_card": True,
+                    "count": qty,
+                    "component": component.name,
+                    **kwargs,
+                }
+                return self.compartment(comp_label, **comp_kwargs_v)
             card_kwargs: dict[str, Any] = {
                 "count": qty,
                 "size": card_sz,
