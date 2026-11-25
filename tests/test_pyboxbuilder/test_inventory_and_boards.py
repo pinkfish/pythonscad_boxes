@@ -428,3 +428,60 @@ class TestPartialBoardsAndInventory(unittest.TestCase):
         with self.assertRaises(ValueError):
             proj_fit.verify_inventory(strict=True)
 
+    def test_expanded_card_box_grows_card_space_while_fixed_piece_keeps_exact_depth(self) -> None:
+        """Card wells expand to fill grown box height; fixed-height piece wells keep exact depth."""
+        proj = Project(
+            "HeightExpansionBehavior",
+            game_box_size=(160.0, 110.0, 44.0),
+            clearance_slack=0.0,
+            generate_spacers=True,
+            max_height_absorb=10.0,
+            box_defaults={"expandable": False},
+        )
+        deck = proj.define_cards("Action Cards", count=50, size=(63.5, 88.0), thickness=0.6)
+        tile = proj.define_piece("Fixed Tile", count=1, size=(40.0, 40.0, 10.0))
+
+        # Card box wants ~35.1mm height -> 8.9mm gap to 44mm ceiling (<= 10mm), so box grows to 44mm
+        card_box = proj.box(BoxType.SLIDING, "Cards", size=(72.0, 100.0, None))
+        card_cb = card_box.store(deck)
+
+        # Fixed-height piece box starts at 38mm (6mm gap to 44mm ceiling -> grows to 44mm)
+        piece_box = proj.box(BoxType.CAP, "Piece", size=(72.0, 100.0, 38.0))
+        piece_cb = piece_box.store(tile, size=(42.0, 42.0))
+
+        proj.build()
+        assert card_box.final_size is not None and piece_box.final_size is not None
+        self.assertAlmostEqual(card_box.final_size[2], 44.0, places=2)
+        self.assertAlmostEqual(piece_box.final_size[2], 44.0, places=2)
+
+        resolved_cards = proj.pipeline._resolve_box(proj.manifest, card_box)
+        resolved_piece = proj.pipeline._resolve_box(proj.manifest, piece_box)
+
+        # Card well expanded to full interior height (> original 31.0mm)
+        assert card_cb.depth is not None
+        self.assertGreater(resolved_cards.interior.height, card_cb.depth + 3.0)
+        self.assertAlmostEqual(
+            card_cb.resolve_depth(resolved_cards.interior.height),
+            resolved_cards.interior.height,
+            places=3,
+        )
+        assert resolved_cards.compartments is not None
+        self.assertAlmostEqual(
+            resolved_cards.compartments.placements[0].depth,
+            resolved_cards.interior.height,
+            places=3,
+        )
+
+        # Fixed-height piece well stayed at exact 10.0mm despite 46mm box height!
+        self.assertAlmostEqual(
+            piece_cb.resolve_depth(resolved_piece.interior.height),
+            10.0,
+            places=3,
+        )
+        assert resolved_piece.compartments is not None
+        self.assertAlmostEqual(
+            resolved_piece.compartments.placements[0].depth,
+            10.0,
+            places=3,
+        )
+
