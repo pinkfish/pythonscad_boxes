@@ -231,6 +231,18 @@ class TestInteractiveBoxAndCardBox:
             show_lid=True,
         )
         assert solid_lidded is not None
+        solid_plain = Box(
+            box_type="sliding",
+            width=70.0,
+            length=50.0,
+            height=25.0,
+            pattern="solid",
+            catch_type=CatchType.WEDGE,
+            base_chamfer=0.4,
+            show_lid=True,
+        )
+        # Decorated hex+label lid must have far more triangles than a plain solid lid
+        assert len(solid_lidded.shape.mesh()[1]) > len(solid_plain.shape.mesh()[1]) + 200
 
         solid_body_only = Box(
             box_type=BoxType.NO_LID,

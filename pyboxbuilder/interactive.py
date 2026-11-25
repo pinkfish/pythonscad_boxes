@@ -213,14 +213,15 @@ def _coerce_enum_str(value: Any, enum_cls: type[Any]) -> Any:
 
 
 def _combine_pieces(project: Project, *, show_lid: bool, lid_offset: float) -> Bosl2Solid:
-    """Build the single box in ``project`` and return body (plus optional lid beside it)."""
+    """Build the single box in ``project`` and return body (plus optional decorated lid beside it)."""
     build = project.build()
     body_solid: Bosl2Solid | None = None
     lid_solid: Bosl2Solid | None = None
     body_w = 0.0
     for piece in build.pieces:
         if piece.kind == "lid":
-            lid_solid = piece.solid
+            decorated, _ = project._decorated_lid(piece, "single")
+            lid_solid = decorated if decorated is not None else piece.solid
         elif body_solid is None:
             body_solid = piece.solid
             if piece.size is not None:
