@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.corner\_catch
+=======================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: corner_catch

@@ -1,0 +1,8 @@
+pyboxbuilder.enums.ScoopSide
+============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: ScoopSide
+   :members:
+   :show-inheritance:

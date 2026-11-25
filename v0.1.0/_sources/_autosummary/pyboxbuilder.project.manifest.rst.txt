@@ -1,0 +1,26 @@
+pyboxbuilder.project.manifest
+=============================
+
+.. automodule:: pyboxbuilder.project.manifest
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      GameBoard
+      GameComponent
+      ProjectManifest
+   
+   
+
+   
+   
+   

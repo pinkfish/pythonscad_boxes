@@ -1,0 +1,34 @@
+pyboxbuilder.sleeves
+====================
+
+.. automodule:: pyboxbuilder.sleeves
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Sleeve
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      find_sleeve
+      sleeve_by_sku
+      sleeves_for_card
+   
+   

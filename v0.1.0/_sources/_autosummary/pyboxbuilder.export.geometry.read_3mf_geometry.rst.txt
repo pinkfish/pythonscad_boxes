@@ -1,0 +1,6 @@
+pyboxbuilder.export.geometry.read\_3mf\_geometry
+================================================
+
+.. currentmodule:: pyboxbuilder.export.geometry
+
+.. autofunction:: read_3mf_geometry

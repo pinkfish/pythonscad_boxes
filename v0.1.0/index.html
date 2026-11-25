@@ -1,0 +1,1124 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="quickstart.html">
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="_static/box_selector.css?v=7dff43fb" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#why-pyboxbuilder" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="#" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="#" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>User Guide</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-pyboxbuilder" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:why pyboxbuilder? (reference label)"><span>Why pyboxbuilder?</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-design-workflow" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:core design workflow (reference label)"><span>Core Design Workflow</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Design Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declare-the-project-game-box-constraints" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:1. declare the project &amp; game box constraints (reference label)"><span>1.<wbr> Declare the Project &amp; Game Box Constraints</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choose-box-types-closure-mechanics" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:2. choose box types &amp; closure mechanics (reference label)"><span>2.<wbr> Choose Box Types &amp; Closure Mechanics</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#divide-into-ergonomic-compartments" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:3. divide into ergonomic compartments (reference label)"><span>3.<wbr> Divide into Ergonomic Compartments</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-size-from-real-game-pieces-cards" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:4. auto-size from real game pieces &amp; cards (reference label)"><span>4.<wbr> Auto-<wbr>Size from Real Game Pieces &amp; Cards</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#style-lids-with-patterns-multi-color-inlays" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:5. style lids with patterns &amp; multi-color inlays (reference label)"><span>5.<wbr> Style Lids with Patterns &amp; Multi-<wbr>Color Inlays</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relative-layout-3d-packing" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:6. relative layout &amp; 3d packing (reference label)"><span>6.<wbr> Relative Layout &amp; 3D Packing</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-export-assembly-guides" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:7. production export &amp; assembly guides (reference label)"><span>7.<wbr> Production Export &amp; Assembly Guides</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interactive-feature-showcase" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:interactive feature showcase (reference label)"><span>Interactive Feature Showcase</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interactive Feature Showcase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-deck-box-sized-from-cards-with-framed-accent-lid" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:example 1: deck box sized from cards with framed accent lid (reference label)"><span>Example 1:<wbr> Deck Box Sized from Cards with Framed Accent Lid</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-token-organizer-with-ergonomic-piece-scoops" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:example 2: token organizer with ergonomic piece scoops (reference label)"><span>Example 2:<wbr> Token Organizer with Ergonomic Piece Scoops</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-monolithic-print-in-place-hinged-box" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:example 3: monolithic print-in-place hinged box (reference label)"><span>Example 3:<wbr> Monolithic Print-<wbr>in-<wbr>Place Hinged Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-system-architecture" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:core system architecture (reference label)"><span>Core System Architecture</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-quickstart" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:installation &amp; quickstart (reference label)"><span>Installation &amp; Quickstart</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-index" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="index:documentation index (reference label)"><span>Documentation Index</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1 id="pyboxbuilder">pyboxbuilder<a class="headerlink" href="#pyboxbuilder" title="Link to this heading">¶</a></h1>
+<p><strong>High-Precision Board Game Inserts &amp; Parametric 3D Printable Box Toolkit for PythonSCAD</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> is a declarative 3D modeling and board game insert design framework. Built on top of <a class="reference external" href="https://github.com/pythonscad/pythonscad">PythonSCAD</a> and <a class="reference external" href="https://github.com/pinkfish/pybosl2">pybosl2</a>, it transforms high-level descriptions of games, boxes, and game pieces into production-ready CSG geometry, interactive 3D WebGL models, multi-material 3MF files, and exploded assembly layout PDFs.</p>
+<p>The library’s governing principle is <strong>good defaults, not options</strong>: you describe the physical storage you need — the game box footprint, card counts, token divisions, scoops, and lid patterns — without manually calculating wall offsets, sliding dovetail tolerances, 3D printing nozzle clearances, or draft angles.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span>
+    <span class="s2">"Showcase"</span><span class="p">,</span>
+    <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">28.0</span><span class="p">),</span>
+    <span class="n">board_thickness</span><span class="o">=</span><span class="mf">6.0</span><span class="p">,</span>
+    <span class="n">generate_spacers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"Tokens"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">46.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"midnightblue"</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">8.0</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"TOKENS"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">tray</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">NO_LID</span><span class="p">,</span>
+    <span class="s2">"Dice"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">46.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"coral"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">tray</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"D6"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tray</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"D20"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/306dda82b4a54288.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/306dda82b4a54288.stl">⬇ Download STL mesh</a></p>
+<h2 id="why-pyboxbuilder">Why pyboxbuilder?<a class="headerlink" href="#why-pyboxbuilder" title="Link to this heading">¶</a></h2>
+<p>Designing board game inserts by hand in traditional CAD requires tedious trial-and-error math: subtracting wall thicknesses, offsetting dovetail channels, computing lid clearances, and laying out rectangular coordinates. When a box size or card count changes, the entire model must be manually recalculated.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> replaces manual arithmetic with declarative constraints:</p>
+<ul class="simple">
+<li><p><strong>Specify What You Need, Not the Booleans</strong>: Define box types, dimensions, card counts, token divisions, and lid decorations. The library derives all mating clearances, corner roundings, draft angles, and boolean carve-outs automatically.</p></li>
+<li><p><strong>Guaranteed Printability</strong>: Every geometric parameter has defaults derived from the box’s scale and 3D printing physics (0.4mm nozzle standards, 45° overhang limits, ergonomic reach).</p></li>
+<li><p><strong>Multi-Color Interactive 3D Previews</strong>: Inspect models in PythonSCAD’s GUI or embed interactive WebGL viewers directly in documentation and web pages, with multi-color visual separation between bodies, lids, inlays, and spacers.</p></li>
+<li><p><strong>Production 3MF &amp; PDF Pipelines</strong>: Export multi-color (MMU) or single-color 3MF files with geometric change detection (unchanged boxes build in milliseconds) alongside multi-page exploded 3D assembly guides (<code class="docutils literal notranslate"><span class="pre">layout.pdf</span></code>).</p></li>
+</ul>
+<h2 id="core-design-workflow">Core Design Workflow<a class="headerlink" href="#core-design-workflow" title="Link to this heading">¶</a></h2>
+<p>Creating a custom game insert with <code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> follows seven declarative steps:</p>
+<h3 id="declare-the-project-game-box-constraints">1. Declare the Project &amp; Game Box Constraints<a class="headerlink" href="#declare-the-project-game-box-constraints" title="Link to this heading">¶</a></h3>
+<p>Start by declaring a <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project" title="pyboxbuilder.project.core.Project (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a> with the inside dimensions of the game box:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+
+<span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span>
+    <span class="s2">"TerraformingMars"</span><span class="p">,</span>
+    <span class="n">game_box_size</span><span class="o">=</span><span class="p">(</span><span class="mf">290.0</span><span class="p">,</span> <span class="mf">290.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">),</span>
+    <span class="n">board_thickness</span><span class="o">=</span><span class="mf">12.0</span><span class="p">,</span>       <span class="c1"># reserves vertical clearance for folded boards</span>
+    <span class="n">generate_spacers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># sweeps empty voids into snug removable trays</span>
+<span class="p">)</span>
+</code></pre></div>
+</div>
+<h3 id="choose-box-types-closure-mechanics">2. Choose Box Types &amp; Closure Mechanics<a class="headerlink" href="#choose-box-types-closure-mechanics" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> supports <strong>25 specialized box types</strong> spanning 6 closure families (see the <a class="reference internal" href="box_types.html"><span class="doc">Box Types Guide &amp; Gallery</span></a>):</p>
+<ul class="simple">
+<li><p><strong>Sliding &amp; Friction</strong>: Dovetail sliding lids (<a class="reference internal" href="box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a>), snap-lock sliding catches (<a class="reference internal" href="box_types.html#box-type-sliding-catch"><span class="std std-ref">BoxType.SLIDING_CATCH</span></a>), drop-on friction caps (<a class="reference internal" href="box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a>), telescoping slipovers (<a class="reference internal" href="box_types.html#box-type-slipover"><span class="std std-ref">BoxType.SLIPOVER</span></a>), internal rabbet insets (<a class="reference internal" href="box_types.html#box-type-inset"><span class="std std-ref">BoxType.INSET</span></a>), and matchbox sleeves (<a class="reference internal" href="box_types.html#box-type-sleeve-drawer"><span class="std std-ref">BoxType.SLEEVE_DRAWER</span></a>).</p></li>
+<li><p><strong>Hinges &amp; Bifolds</strong>: Monolithic 1-piece print-in-place hinged boxes (<a class="reference internal" href="box_types.html#box-type-print-in-place-hinge"><span class="std std-ref">BoxType.PRINT_IN_PLACE_HINGE</span></a> and <a class="reference internal" href="box_types.html#box-type-inset-hinge"><span class="std std-ref">BoxType.INSET_HINGE</span></a>), dual-tray clamshell book boxes (<a class="reference internal" href="box_types.html#box-type-clamshell"><span class="std std-ref">BoxType.CLAMSHELL</span></a>), precision filament-pin knuckle hinges (<a class="reference internal" href="box_types.html#box-type-filament-hinge"><span class="std std-ref">BoxType.FILAMENT_HINGE</span></a>), magnetic-catch filament-hinged boxes (<a class="reference internal" href="box_types.html#box-type-magnetic-hinge"><span class="std std-ref">BoxType.MAGNETIC_HINGE</span></a>), and sliding/spin-catch hinged boxes (<a class="reference internal" href="box_types.html#box-type-sliding-hinge"><span class="std std-ref">BoxType.SLIDING_HINGE</span></a>).</p></li>
+<li><p><strong>Mechanical &amp; Magnetic</strong>: Cantilever snap-fit latches (<a class="reference internal" href="box_types.html#box-type-snap-fit"><span class="std std-ref">BoxType.SNAP_FIT</span></a>), quarter-turn bayonets (<a class="reference internal" href="box_types.html#box-type-bayonet"><span class="std std-ref">BoxType.BAYONET</span></a>), coarse screw threads (<a class="reference internal" href="box_types.html#box-type-threaded"><span class="std std-ref">BoxType.THREADED</span></a>), and concealed neodymium magnet vaults (<a class="reference internal" href="box_types.html#box-type-magnetic"><span class="std std-ref">BoxType.MAGNETIC</span></a>).</p></li>
+<li><p><strong>Tabletop Utilities</strong>: Dedicated card deck libraries (<a class="reference internal" href="box_types.html#box-type-card-library"><span class="std std-ref">BoxType.CARD_LIBRARY</span></a>), gravity-slide token dispensers (<a class="reference internal" href="box_types.html#box-type-dispenser"><span class="std std-ref">BoxType.DISPENSER</span></a>), angled card dealer shoes (<a class="reference internal" href="box_types.html#box-type-card-shoe"><span class="std std-ref">BoxType.CARD_SHOE</span></a>), deep dice rolling arenas (<a class="reference internal" href="box_types.html#box-type-dice-tray"><span class="std std-ref">BoxType.DICE_TRAY</span></a>), and modular interlocking trays (<a class="reference internal" href="box_types.html#box-type-modular-interlock"><span class="std std-ref">BoxType.MODULAR_INTERLOCK</span></a>).</p></li>
+<li><p><strong>Open &amp; Stackable Trays</strong>: Lidless open and nesting trays (<a class="reference internal" href="box_types.html#box-type-no-lid"><span class="std std-ref">BoxType.NO_LID</span></a>).</p></li>
+<li><p><strong>Custom Polygons</strong>: Arbitrary 2D footprint extrusions with open rims or matching cap/slipover lids (<a class="reference internal" href="box_types.html#box-type-path"><span class="std std-ref">BoxType.PATH</span></a>, <a class="reference internal" href="box_types.html#box-type-cap-path"><span class="std std-ref">BoxType.CAP_PATH</span></a>, <a class="reference internal" href="box_types.html#box-type-slipover-path"><span class="std std-ref">BoxType.SLIPOVER_PATH</span></a>).</p></li>
+</ul>
+<h3 id="divide-into-ergonomic-compartments">3. Divide into Ergonomic Compartments<a class="headerlink" href="#divide-into-ergonomic-compartments" title="Link to this heading">¶</a></h3>
+<p>Subdivide box interiors by ratio without tedious wall arithmetic. Set <code class="docutils literal notranslate"><span class="pre">holds_pieces=True</span></code> to generate smooth cylindrical corner fillets, allowing small chits, cubes, and tokens to scoop effortlessly into fingertips:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">tokens</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span> <span class="s2">"ResourceTray"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">120.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">))</span>
+<span class="n">tokens</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Credits"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tokens</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Steel"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tokens</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Titanium"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.34</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<h3 id="auto-size-from-real-game-pieces-cards">4. Auto-Size from Real Game Pieces &amp; Cards<a class="headerlink" href="#auto-size-from-real-game-pieces-cards" title="Link to this heading">¶</a></h3>
+<p>Never guess well dimensions. Specify card counts, dimensions, and sleeve allowances, and let <code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> compute the required box footprint and height:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">cards</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span> <span class="s2">"CorporationCards"</span><span class="p">)</span>
+<span class="n">cards</span><span class="o">.</span><span class="n">cards</span><span class="p">(</span><span class="s2">"Corporations"</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">63.5</span><span class="p">,</span> <span class="mf">88.0</span><span class="p">),</span> <span class="n">sleeved</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<h3 id="style-lids-with-patterns-multi-color-inlays">5. Style Lids with Patterns &amp; Multi-Color Inlays<a class="headerlink" href="#style-lids-with-patterns-multi-color-inlays" title="Link to this heading">¶</a></h3>
+<p>Decorate lids with open ventilation/saving patterns, framed borders, and contrasting multi-color text labels using <a class="reference internal" href="_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">LidBuilder</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span><span class="p">,</span> <span class="n">LabelMode</span><span class="p">,</span> <span class="n">LidBuilder</span><span class="p">,</span> <span class="n">PatternBuilder</span><span class="p">,</span> <span class="n">PatternType</span>
+
+<span class="n">lid_style</span> <span class="o">=</span> <span class="n">LidBuilder</span><span class="p">(</span>
+    <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+    <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">10.0</span><span class="p">),</span>
+<span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"CARDS"</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<h3 id="relative-layout-3d-packing">6. Relative Layout &amp; 3D Packing<a class="headerlink" href="#relative-layout-3d-packing" title="Link to this heading">¶</a></h3>
+<p>Organize boxes cleanly inside the game box using declarative relative layouts (<a class="reference internal" href="_autosummary/pyboxbuilder.layout.columns.html#pyboxbuilder.layout.columns" title="pyboxbuilder.layout.columns (Python function) — Lay children out left to right along X."><code class="xref py py-func docutils literal notranslate"><span class="pre">columns()</span></code></a>, <a class="reference internal" href="_autosummary/pyboxbuilder.layout.rows.html#pyboxbuilder.layout.rows" title="pyboxbuilder.layout.rows (Python function) — Lay children out front to back along Y."><code class="xref py py-func docutils literal notranslate"><span class="pre">rows()</span></code></a>, <a class="reference internal" href="_autosummary/pyboxbuilder.layout.stack.html#pyboxbuilder.layout.stack" title="pyboxbuilder.layout.stack (Python function) — Lay children out bottom to top along Z."><code class="xref py py-func docutils literal notranslate"><span class="pre">stack()</span></code></a>) or automated 3D skyline bin packing:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder</span><span class="w"> </span><span class="kn">import</span> <span class="n">columns</span><span class="p">,</span> <span class="n">stack</span>
+
+<span class="n">project</span><span class="o">.</span><span class="n">arrange</span><span class="p">(</span><span class="n">columns</span><span class="p">(</span>
+    <span class="s2">"CorporationCards"</span><span class="p">,</span>
+    <span class="n">stack</span><span class="p">(</span><span class="s2">"ResourceTray"</span><span class="p">,</span> <span class="s2">"DiceTray"</span><span class="p">),</span>
+<span class="p">))</span>
+</code></pre></div>
+</div>
+<h3 id="production-export-assembly-guides">7. Production Export &amp; Assembly Guides<a class="headerlink" href="#production-export-assembly-guides" title="Link to this heading">¶</a></h3>
+<p>Export per-piece 3MF models ready for single-color or multi-material slicers (Bambu Studio, PrusaSlicer, OrcaSlicer) and an exploded assembly layout guide:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">"output/"</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<h2 id="interactive-feature-showcase">Interactive Feature Showcase<a class="headerlink" href="#interactive-feature-showcase" title="Link to this heading">¶</a></h2>
+<p>Here are interactive examples highlighting key capabilities of the toolkit. Each example renders an interactive 3D model with multi-color visual separation between box bodies, lids, labels, and accents.</p>
+<h3 id="example-1-deck-box-sized-from-cards-with-framed-accent-lid">Example 1: Deck Box Sized from Cards with Framed Accent Lid<a class="headerlink" href="#example-1-deck-box-sized-from-cards-with-framed-accent-lid" title="Link to this heading">¶</a></h3>
+<p>This example defines a sliding card box where the internal height and depth are calculated automatically from the card deck dimensions and thickness. The lid features a framed contrasting label:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"CardGame"</span><span class="p">)</span>
+<span class="n">cards</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+    <span class="s2">"Cards"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">75.0</span><span class="p">,</span> <span class="mf">105.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkslateblue"</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">DENSE_HEX</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"CARDS"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">cards</span><span class="o">.</span><span class="n">cards</span><span class="p">(</span><span class="s2">"Deck"</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">63.5</span><span class="p">,</span> <span class="mf">88.0</span><span class="p">))</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/690d6913ed029843.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/690d6913ed029843.stl">⬇ Download STL mesh</a></p>
+<h3 id="example-2-token-organizer-with-ergonomic-piece-scoops">Example 2: Token Organizer with Ergonomic Piece Scoops<a class="headerlink" href="#example-2-token-organizer-with-ergonomic-piece-scoops" title="Link to this heading">¶</a></h3>
+<p>This 4-compartment token organizer uses ratio-based dividers and rounded interior bottoms (<code class="docutils literal notranslate"><span class="pre">holds_pieces=True</span></code>) so wooden meeples, plastic cubes, and cardboard tokens slide smoothly out into your hand:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"TokenOrganizer"</span><span class="p">)</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">CAP</span><span class="p">,</span>
+    <span class="s2">"Tokens"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">120.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">26.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"darkgreen"</span><span class="p">),</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">OCTAGON</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"RESOURCES"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">tokens</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Coins"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tokens</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Gems"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tokens</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Wood"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tokens</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Ore"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/985d89dd64ede5e5.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/985d89dd64ede5e5.stl">⬇ Download STL mesh</a></p>
+<h3 id="example-3-monolithic-print-in-place-hinged-box">Example 3: Monolithic Print-in-Place Hinged Box<a class="headerlink" href="#example-3-monolithic-print-in-place-hinged-box" title="Link to this heading">¶</a></h3>
+<p>This box prints flat in a single operation with zero assembly required. It joins body and lid along their shared rim with a 3D-printable flexible bridge hinge and integrated front tactile snap catches:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s2">"HingeCase"</span><span class="p">)</span>
+<span class="n">box</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+    <span class="n">BoxType</span><span class="o">.</span><span class="n">PRINT_IN_PLACE_HINGE</span><span class="p">,</span>
+    <span class="s2">"Tools"</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"teal"</span><span class="p">),</span>
+    <span class="n">pip_bridge_width</span><span class="o">=</span><span class="mf">0.40</span><span class="p">,</span>
+    <span class="n">pip_bridge_thickness</span><span class="o">=</span><span class="mf">0.40</span><span class="p">,</span>
+    <span class="n">lid</span><span class="o">=</span><span class="n">LidBuilder</span><span class="p">(</span>
+        <span class="n">label_mode</span><span class="o">=</span><span class="n">LabelMode</span><span class="o">.</span><span class="n">FRAMED</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"goldenrod"</span><span class="p">),</span>
+        <span class="n">text_color</span><span class="o">=</span><span class="n">Color</span><span class="p">(</span><span class="s2">"white"</span><span class="p">),</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">PatternBuilder</span><span class="p">(</span><span class="n">PatternType</span><span class="o">.</span><span class="n">HEX</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mf">8.0</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">titled</span><span class="p">(</span><span class="s2">"KIT"</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Bits"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">box</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span><span class="s2">"Drivers"</span><span class="p">,</span> <span class="n">width_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">show_lids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="stl-viewer" data-stl-uri="_stl/21804efe2e97d991.stl" data-stl-color="#6f9ac9" style="width:100%;height:360px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a class="reference external" href="_stl/21804efe2e97d991.stl">⬇ Download STL mesh</a></p>
+<h2 id="core-system-architecture">Core System Architecture<a class="headerlink" href="#core-system-architecture" title="Link to this heading">¶</a></h2>
+<table class="docutils data align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Subsystem</p></th>
+<th class="head"><p>Description &amp; Capabilities</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Box Builders</strong></p></td>
+<td><p>25 typed builders in <a class="reference internal" href="_autosummary/pyboxbuilder.builders.html#module-pyboxbuilder.builders" title="pyboxbuilder.builders (Python module)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyboxbuilder.builders</span></code></a> (see <a class="reference internal" href="box_types.html"><span class="doc">Box Types Guide &amp; Gallery</span></a>) supporting sliding dovetails (<a class="reference internal" href="box_types.html#box-type-sliding"><span class="std std-ref">SLIDING</span></a>, <a class="reference internal" href="box_types.html#box-type-sliding-catch"><span class="std std-ref">SLIDING_CATCH</span></a>), friction caps (<a class="reference internal" href="box_types.html#box-type-cap"><span class="std std-ref">CAP</span></a>), telescoping slipovers (<a class="reference internal" href="box_types.html#box-type-slipover"><span class="std std-ref">SLIPOVER</span></a>), print-in-place, filament-pin, magnetic-catch, and sliding-catch hinges (<a class="reference internal" href="box_types.html#box-type-print-in-place-hinge"><span class="std std-ref">PRINT_IN_PLACE_HINGE</span></a>, <a class="reference internal" href="box_types.html#box-type-inset-hinge"><span class="std std-ref">INSET_HINGE</span></a>, <a class="reference internal" href="box_types.html#box-type-clamshell"><span class="std std-ref">CLAMSHELL</span></a>, <a class="reference internal" href="box_types.html#box-type-filament-hinge"><span class="std std-ref">FILAMENT_HINGE</span></a>, <a class="reference internal" href="box_types.html#box-type-magnetic-hinge"><span class="std std-ref">MAGNETIC_HINGE</span></a>, <a class="reference internal" href="box_types.html#box-type-sliding-hinge"><span class="std std-ref">SLIDING_HINGE</span></a>), mechanical/magnetic closures (<a class="reference internal" href="box_types.html#box-type-snap-fit"><span class="std std-ref">SNAP_FIT</span></a>, <a class="reference internal" href="box_types.html#box-type-bayonet"><span class="std std-ref">BAYONET</span></a>, <a class="reference internal" href="box_types.html#box-type-threaded"><span class="std std-ref">THREADED</span></a>, <a class="reference internal" href="box_types.html#box-type-magnetic"><span class="std std-ref">MAGNETIC</span></a>, <a class="reference internal" href="box_types.html#box-type-inset"><span class="std std-ref">INSET</span></a>, <a class="reference internal" href="box_types.html#box-type-sleeve-drawer"><span class="std std-ref">SLEEVE_DRAWER</span></a>), stackable open bins (<a class="reference internal" href="box_types.html#box-type-no-lid"><span class="std std-ref">NO_LID</span></a>), tabletop utilities (<a class="reference internal" href="box_types.html#box-type-card-library"><span class="std std-ref">CARD_LIBRARY</span></a>, <a class="reference internal" href="box_types.html#box-type-dispenser"><span class="std std-ref">DISPENSER</span></a>, <a class="reference internal" href="box_types.html#box-type-card-shoe"><span class="std std-ref">CARD_SHOE</span></a>, <a class="reference internal" href="box_types.html#box-type-dice-tray"><span class="std std-ref">DICE_TRAY</span></a>, <a class="reference internal" href="box_types.html#box-type-modular-interlock"><span class="std std-ref">MODULAR_INTERLOCK</span></a>), and polygon path footprints (<a class="reference internal" href="box_types.html#box-type-path"><span class="std std-ref">PATH</span></a>, <a class="reference internal" href="box_types.html#box-type-cap-path"><span class="std std-ref">CAP_PATH</span></a>, <a class="reference internal" href="box_types.html#box-type-slipover-path"><span class="std std-ref">SLIPOVER_PATH</span></a>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Compartments &amp; Ergonomics</strong></p></td>
+<td><p>Ratio-based compartment division (<code class="docutils literal notranslate"><span class="pre">box.compartment(...)</span></code>), ergonomic rounded token scoops (<code class="docutils literal notranslate"><span class="pre">holds_pieces=True</span></code>), full-depth push-through holes, hex grids, and arbitrary SVG pocket silhouettes.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Lid Decoration</strong></p></td>
+<td><p>20 surface patterns and multi-color tessellations (hex, dense hex, triangles, octagons, voronoi, leaf tessellations, dice, rings, checkerboards, stepped 3D cubes, tumbling blocks, chevrons, Penrose, and Ammann–Beenker tilings — see <a class="reference internal" href="lid_patterns.html"><span class="doc">Lid Patterns Guide &amp; Gallery</span></a>), thin multi-color MMU inlays with a selectable backing lattice, and framed/frameless labels or multi-color top-layer logos with automatic font scaling (<a class="reference internal" href="lid_labels.html"><span class="doc">Lid Labels Guide &amp; Showcase</span></a>, <a class="reference internal" href="_autosummary/pyboxbuilder.lid.builder.LidBuilder.html#pyboxbuilder.lid.builder.LidBuilder" title="pyboxbuilder.lid.builder.LidBuilder (Python class) — Bases: object"><code class="xref py py-class docutils literal notranslate"><span class="pre">LidBuilder</span></code></a>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Layout &amp; 3D Packing</strong></p></td>
+<td><p>Declarative relative layout trees (<a class="reference internal" href="_autosummary/pyboxbuilder.layout.columns.html#pyboxbuilder.layout.columns" title="pyboxbuilder.layout.columns (Python function) — Lay children out left to right along X."><code class="xref py py-func docutils literal notranslate"><span class="pre">columns()</span></code></a>, <a class="reference internal" href="_autosummary/pyboxbuilder.layout.rows.html#pyboxbuilder.layout.rows" title="pyboxbuilder.layout.rows (Python function) — Lay children out front to back along Y."><code class="xref py py-func docutils literal notranslate"><span class="pre">rows()</span></code></a>, <a class="reference internal" href="_autosummary/pyboxbuilder.layout.stack.html#pyboxbuilder.layout.stack" title="pyboxbuilder.layout.stack (Python function) — Lay children out bottom to top along Z."><code class="xref py py-func docutils literal notranslate"><span class="pre">stack()</span></code></a>) or automated 3D skyline bin packing within the declared <a class="reference internal" href="_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.game_box_size" title="pyboxbuilder.project.core.Project.game_box_size (Python attribute) — Outer game box dimensions [W, L, H] in mm. None = standalone boxes (no game box)."><code class="xref py py-attr docutils literal notranslate"><span class="pre">game_box_size</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Automatic Spacers</strong></p></td>
+<td><p>3D void sweep, merge, and generation of custom-fit open spacer trays (<code class="docutils literal notranslate"><span class="pre">generate_spacers=True</span></code>) to secure components during vertical shelf storage.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Card &amp; Sleeve Support</strong></p></td>
+<td><p>Built-in card dimension catalog and sleeve clearance formulas for standard board game card sizes and premium sleeves.</p></td>
+</tr>
+</tbody>
+</table>
+<h2 id="installation-quickstart">Installation &amp; Quickstart<a class="headerlink" href="#installation-quickstart" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pyboxbuilder</span></code> requires Python 3.12+ and <a class="reference external" href="https://www.pythonscad.org/">PythonSCAD</a> for geometry evaluation:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[dev]"</span>
+</code></pre></div>
+</div>
+<p>To verify your installation and run the test suite:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><code><span class="nv">PYBOXBUILDER_EXPORT_FN</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>tests/test_pyboxbuilder/<span class="w"> </span>-q
+ruff<span class="w"> </span>check<span class="w"> </span>pyboxbuilder/<span class="w"> </span>boxes/
+mypy<span class="w"> </span>pyboxbuilder/
+</code></pre></div>
+</div>
+<h2 id="documentation-index">Documentation Index<a class="headerlink" href="#documentation-index" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#prerequisites-installation">Prerequisites &amp; Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#the-single-import">The Single Import</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#core-scenarios">Core Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#quick-start-by-box-type">Quick Start by Box Type</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#creating-your-first-box">Creating Your First Box</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#designing-standalone-boxes">Designing Standalone Boxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#box-types-closure-mechanisms">Box Types &amp; Closure Mechanisms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#building-a-game-box-insert">Building a Game Box Insert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#exporting-and-3d-printing-with-cli">Exporting and 3D Printing with CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="box_types.html">Box Types Guide &amp; Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#sliding-lid-boxtype-sliding">Sliding Lid (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#sliding-catch-lid-boxtype-sliding-catch">Sliding Catch Lid (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING_CATCH</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#drop-on-cap-lid-boxtype-cap">Drop-On Cap Lid (<code class="docutils literal notranslate"><span class="pre">BoxType.CAP</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#cap-lid-on-polygon-footprint-boxtype-cap-path">Cap Lid on Polygon Footprint (<code class="docutils literal notranslate"><span class="pre">BoxType.CAP_PATH</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#telescoping-slipover-lid-boxtype-slipover">Telescoping Slipover Lid (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIPOVER</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#slipover-on-polygon-footprint-boxtype-slipover-path">Slipover on Polygon Footprint (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIPOVER_PATH</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#filament-pin-hinge-boxtype-filament-hinge">Filament Pin Hinge (<code class="docutils literal notranslate"><span class="pre">BoxType.FILAMENT_HINGE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#magnetic-pin-hinge-boxtype-magnetic-hinge">Magnetic Pin Hinge (<code class="docutils literal notranslate"><span class="pre">BoxType.MAGNETIC_HINGE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#magnetic-closure-lid-boxtype-magnetic">Magnetic Closure Lid (<code class="docutils literal notranslate"><span class="pre">BoxType.MAGNETIC</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#inset-flush-lid-boxtype-inset">Inset Flush Lid (<code class="docutils literal notranslate"><span class="pre">BoxType.INSET</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#open-stackable-trays-boxtype-no-lid">Open &amp; Stackable Trays (<code class="docutils literal notranslate"><span class="pre">BoxType.NO_LID</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#card-library-box-boxtype-card-library">Card Library Box (<code class="docutils literal notranslate"><span class="pre">BoxType.CARD_LIBRARY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#polygon-footprint-path-box-boxtype-path">Polygon Footprint Path Box (<code class="docutils literal notranslate"><span class="pre">BoxType.PATH</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#snap-fit-cantilever-latch-boxtype-snap-fit">Snap-Fit Cantilever Latch (<code class="docutils literal notranslate"><span class="pre">BoxType.SNAP_FIT</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#twist-lock-bayonet-container-boxtype-bayonet">Twist-Lock Bayonet Container (<code class="docutils literal notranslate"><span class="pre">BoxType.BAYONET</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#threaded-screw-box-boxtype-threaded">Threaded Screw Box (<code class="docutils literal notranslate"><span class="pre">BoxType.THREADED</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#gravity-tile-token-dispenser-boxtype-dispenser">Gravity Tile &amp; Token Dispenser (<code class="docutils literal notranslate"><span class="pre">BoxType.DISPENSER</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#angled-draw-discard-card-shoe-boxtype-card-shoe">Angled Draw &amp; Discard Card Shoe (<code class="docutils literal notranslate"><span class="pre">BoxType.CARD_SHOE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#dice-tray-rolling-arena-boxtype-dice-tray">Dice Tray &amp; Rolling Arena (<code class="docutils literal notranslate"><span class="pre">BoxType.DICE_TRAY</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#matchbox-sleeve-drawer-boxtype-sleeve-drawer">Matchbox Sleeve &amp; Drawer (<code class="docutils literal notranslate"><span class="pre">BoxType.SLEEVE_DRAWER</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#bifold-clamshell-book-box-boxtype-clamshell">Bifold Clamshell Book Box (<code class="docutils literal notranslate"><span class="pre">BoxType.CLAMSHELL</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#modular-interlocking-play-trays-boxtype-modular-interlock">Modular Interlocking Play Trays (<code class="docutils literal notranslate"><span class="pre">BoxType.MODULAR_INTERLOCK</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#monolithic-print-in-place-hinge-box-boxtype-print-in-place-hinge">Monolithic Print-In-Place Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.PRINT_IN_PLACE_HINGE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#print-in-place-inset-hinge-box-boxtype-inset-hinge">Print-In-Place Inset Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.INSET_HINGE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#sliding-spin-catch-hinge-box-boxtype-sliding-hinge">Sliding &amp; Spin Catch Hinge Box (<code class="docutils literal notranslate"><span class="pre">BoxType.SLIDING_HINGE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#lid-retention-catches-catchtype">Lid Retention Catches (<code class="docutils literal notranslate"><span class="pre">CatchType</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_types.html#universal-stacking-architecture-stackablemode">Universal Stacking Architecture (<code class="docutils literal notranslate"><span class="pre">StackableMode</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lid_patterns.html">Lid Patterns Guide &amp; Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#classic-geometric-lattices">Classic Geometric Lattices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#organic-botanical-patterns">Organic &amp; Botanical Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#multi-color-rhombic-quasicrystal-tessellations">Multi-Color Rhombic &amp; Quasicrystal Tessellations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#multi-color-thematic-geometric-inlays">Multi-Color Thematic &amp; Geometric Inlays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#solid-lids-patterntype-solid-patterntype-none">Solid Lids (<code class="docutils literal notranslate"><span class="pre">PatternType.SOLID</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">PatternType.NONE</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_patterns.html#pattern-matched-stacking-stackablemode-pattern">Pattern-Matched Stacking (<code class="docutils literal notranslate"><span class="pre">StackableMode.PATTERN</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lid_labels.html">Lid Labels Guide &amp; Showcase</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#framed-labels-default-open-strips">Framed Labels (Default Open Strips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#framed-labels-with-accented-outer-border-frame-color">Framed Labels with Accented Outer Border (<code class="docutils literal notranslate"><span class="pre">frame_color</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#solid-background-framed-labels">Solid Background Framed Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#decorative-plaque-shapes-labelshape">Decorative Plaque Shapes (<code class="docutils literal notranslate"><span class="pre">LabelShape</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#classic-vintage-scroll-ornate-plaque-shapes">Classic, Vintage, Scroll &amp; Ornate Plaque Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#typographic-finials-under-text-labelfinial">Typographic Finials Under Text (<code class="docutils literal notranslate"><span class="pre">LabelFinial</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#combined-text-image-emblem-inside-a-framed-label">Combined Text + Image / Emblem Inside a Framed Label</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#frameless-labels-labelmode-frameless">Frameless Labels (<code class="docutils literal notranslate"><span class="pre">LabelMode.FRAMELESS</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#diagonal-multi-line-labels">Diagonal &amp; Multi-Line Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#custom-border-gap-corner-rounding">Custom Border, Gap &amp; Corner Rounding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#multi-color-shapes-top-layer-logos">Multi-Color Shapes &amp; Top-Layer Logos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lid_labels.html#labels-over-multi-color-inlaid-patterns">Labels Over Multi-Color Inlaid Patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="layout_and_spacers.html">Auto-Layout &amp; Automatic Spacers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="layout_and_spacers.html#declarative-arrangement">Declarative Arrangement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layout_and_spacers.html#automatic-3d-bin-packing">Automatic 3D Bin Packing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layout_and_spacers.html#automatic-spacer-generation">Automatic Spacer Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layout_and_spacers.html#inspecting-spacer-pieces-in-python">Inspecting Spacer Pieces in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="boxes/index.html">Board-Game Insert Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="boxes/1835.html">EighteenThirtyFive (1835)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/1899_daihan.html">1899Daihan (1899_daihan)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/18_cuba.html">18Cuba (18_cuba)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/adas_dream.html">AdasDream (adas_dream)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/arkham_horror.html">ArkhamHorrorLCG (arkham_horror)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/biome.html">Biome (biome)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/brink.html">Brink (brink)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/brink_long.html">BrinkLong (brink_long)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/bucket_king.html">BucketKing (bucket_king)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/canvas.html">Canvas (canvas)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/cascadero.html">Cascadero (cascadero)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/dominion.html">DominionBigBox (dominion)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/earth.html">Earth (earth)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/earth_animal_kingdom.html">EarthAnimalKingdom (earth_animal_kingdom)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/emberleaf.html">Emberleaf (emberleaf)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/explorers_of_navoria.html">ExplorersOfNavoria (explorers_of_navoria)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/explorers_of_navoria_forgotten_lands.html">ExplorersOfNavoriaForgottenLands (explorers_of_navoria_forgotten_lands)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/first_class.html">FirstClass (first_class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/gulf_mobile_and_ohio.html">GulfMobileAndOhio (gulf_mobile_and_ohio)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/irish_gauge.html">IrishGauge (irish_gauge)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/isle_of_trains.html">IsleOfTrains (isle_of_trains)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/kenmore_gold.html">KenmoreGold (kenmore_gold)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/magical_athlete.html">MagicalAthlete (magical_athlete)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/maglev_metro.html">MaglevMetro (maglev_metro)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/maglev_metro_vol2.html">MaglevMetroVol2 (maglev_metro_vol2)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/march_of_the_ants.html">MarchOfTheAnts (march_of_the_ants)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/modern_art.html">ModernArt (modern_art)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/moonrakers.html">Moonrakers (moonrakers)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/nature.html">Nature (nature)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/nippon.html">Nippon (nippon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/pioneer_rails.html">PioneerRails (pioneer_rails)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/railroad_tiles.html">RailroadTiles (railroad_tiles)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/railway_boom.html">RailwayBoom (railway_boom)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/railways_of_the_world.html">Railways of the World (railways_of_the_world)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/root.html">Root (root)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/russian_railroads.html">RussianRailroads (russian_railroads)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/stackable_hexes.html">StackableHexes (stackable_hexes)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/the_crew_deep_sea.html">TheCrewDeepSea (the_crew_deep_sea)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boxes/the_crew_deep_sea_sleeved.html">TheCrewDeepSeaSleeved (the_crew_deep_sea_sleeved)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/pyboxbuilder.html">pyboxbuilder</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="_static/box_selector.js?v=e027fd2f"></script>
+    
+  </body>
+</html>

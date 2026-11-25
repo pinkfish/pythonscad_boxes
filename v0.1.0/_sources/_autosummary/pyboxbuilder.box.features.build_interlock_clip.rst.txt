@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.build\_interlock\_clip
+================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: build_interlock_clip

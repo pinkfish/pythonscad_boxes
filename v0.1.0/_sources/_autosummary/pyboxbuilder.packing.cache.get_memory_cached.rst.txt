@@ -1,0 +1,6 @@
+pyboxbuilder.packing.cache.get\_memory\_cached
+==============================================
+
+.. currentmodule:: pyboxbuilder.packing.cache
+
+.. autofunction:: get_memory_cached

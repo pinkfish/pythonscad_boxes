@@ -1,0 +1,8 @@
+pyboxbuilder.packing.spacer.Void
+================================
+
+.. currentmodule:: pyboxbuilder.packing.spacer
+
+.. autoclass:: Void
+   :members:
+   :show-inheritance:

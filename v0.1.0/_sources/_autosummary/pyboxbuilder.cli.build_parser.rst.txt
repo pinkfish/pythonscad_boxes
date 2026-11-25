@@ -1,0 +1,6 @@
+pyboxbuilder.cli.build\_parser
+==============================
+
+.. currentmodule:: pyboxbuilder.cli
+
+.. autofunction:: build_parser

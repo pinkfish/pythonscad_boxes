@@ -1,0 +1,8 @@
+pyboxbuilder.project.piece.ResolvedBox
+======================================
+
+.. currentmodule:: pyboxbuilder.project.piece
+
+.. autoclass:: ResolvedBox
+   :members:
+   :show-inheritance:

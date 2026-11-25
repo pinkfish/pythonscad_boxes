@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.sizing.distribute\_row\_width
+=======================================================
+
+.. currentmodule:: pyboxbuilder.compartments.sizing
+
+.. autofunction:: distribute_row_width

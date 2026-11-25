@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.extrude\_footprint
+============================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: extrude_footprint

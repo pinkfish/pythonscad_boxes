@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.build\_leaf\_spring\_detent
+=====================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: build_leaf_spring_detent

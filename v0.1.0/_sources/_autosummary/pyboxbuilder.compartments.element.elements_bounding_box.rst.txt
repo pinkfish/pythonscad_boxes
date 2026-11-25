@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.elements\_bounding\_box
+=========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: elements_bounding_box

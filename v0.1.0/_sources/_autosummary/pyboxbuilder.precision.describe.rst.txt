@@ -1,0 +1,6 @@
+pyboxbuilder.precision.describe
+===============================
+
+.. currentmodule:: pyboxbuilder.precision
+
+.. autofunction:: describe

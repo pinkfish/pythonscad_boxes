@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.card\_library.CardLibraryBox
+===================================================
+
+.. currentmodule:: pyboxbuilder.box.types.card_library
+
+.. autoclass:: CardLibraryBox
+   :members:
+   :show-inheritance:

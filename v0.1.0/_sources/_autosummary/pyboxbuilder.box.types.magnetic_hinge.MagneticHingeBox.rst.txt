@@ -1,0 +1,8 @@
+pyboxbuilder.box.types.magnetic\_hinge.MagneticHingeBox
+=======================================================
+
+.. currentmodule:: pyboxbuilder.box.types.magnetic_hinge
+
+.. autoclass:: MagneticHingeBox
+   :members:
+   :show-inheritance:

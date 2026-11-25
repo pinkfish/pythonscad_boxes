@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.finger\_outline.window\_outline
+=========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_outline
+
+.. autofunction:: window_outline

@@ -1,0 +1,6 @@
+pyboxbuilder.packing.spacer.merge\_voids
+========================================
+
+.. currentmodule:: pyboxbuilder.packing.spacer
+
+.. autofunction:: merge_voids

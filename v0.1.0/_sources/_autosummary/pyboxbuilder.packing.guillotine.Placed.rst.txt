@@ -1,0 +1,8 @@
+pyboxbuilder.packing.guillotine.Placed
+======================================
+
+.. currentmodule:: pyboxbuilder.packing.guillotine
+
+.. autoclass:: Placed
+   :members:
+   :show-inheritance:

@@ -1,0 +1,1663 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>pyboxbuilder.project.core - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../../../_static/box_selector.css?v=7dff43fb" />
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pyboxbuilder.project.core
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>User Guide</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../boxes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1>Source code for pyboxbuilder.project.core</h1><div class="highlight"><pre>
+<span></span><code><span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+<span class="sd">"""Project class — top-level API entry point and facade (FR-093).</span>
+
+<span class="sd">**One build path.** :meth:`Project.build` resolves the layout and builds every</span>
+<span class="sd">body, lid and spacer. :meth:`~pyboxbuilder.project.Project.show` renders what it returns and</span>
+<span class="sd">:meth:`~pyboxbuilder.project.Project.export` writes what it returns; neither builds geometry of its</span>
+<span class="sd">own. That is the whole difference between the two — render or write — and it is</span>
+<span class="sd">structural rather than a convention, because the alternative was two copies of</span>
+<span class="sd">the build that drifted: the exported parts silently lost their rounding, their</span>
+<span class="sd">per-side wall tops and their interior masks while the preview kept all three.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxType</span><span class="p">,</span> <span class="n">FingerCut</span><span class="p">,</span> <span class="n">InterlockType</span><span class="p">,</span> <span class="n">ScoopSide</span><span class="p">,</span> <span class="n">StackableMode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardSize</span><span class="p">,</span> <span class="n">SleeveType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutCompiler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.inventory</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InventoryVerification</span><span class="p">,</span>
+    <span class="n">ProjectInventory</span><span class="p">,</span>
+    <span class="n">summarize_project</span><span class="p">,</span>
+    <span class="n">verify_inventory</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.manifest</span><span class="w"> </span><span class="kn">import</span> <span class="n">GameBoard</span><span class="p">,</span> <span class="n">GameComponent</span><span class="p">,</span> <span class="n">ProjectManifest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.piece</span><span class="w"> </span><span class="kn">import</span> <span class="n">Build</span><span class="p">,</span> <span class="n">Piece</span><span class="p">,</span> <span class="n">ResolvedBox</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.project.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryPipeline</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pybosl2.shapes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bosl2Solid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxBuilder</span><span class="p">,</span> <span class="n">Cut</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.exporter</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxExporter</span><span class="p">,</span> <span class="n">PieceBounds</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.export.result</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExportResult</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">Arrangement</span><span class="p">,</span> <span class="n">Node</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.packing.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoxPacking</span><span class="p">,</span> <span class="n">Placement</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.preview</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreviewPiece</span>
+
+
+<div class="viewcode-block" id="Project">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Project</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Top-level game insert description.</span>
+
+<span class="sd">    The single-import entry point for defining a board game insert.</span>
+<span class="sd">    Delegates to :class:`~pyboxbuilder.project.manifest.ProjectManifest`,</span>
+<span class="sd">    :class:`~pyboxbuilder.project.compiler.LayoutCompiler`, and</span>
+<span class="sd">    :class:`~pyboxbuilder.project.pipeline.GeometryPipeline` (FR-093).</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        A two-box insert previewed as separate solids:</span>
+
+<span class="sd">        .. pythonscad-example::</span>
+
+<span class="sd">            p = Project("Cards", game_box_size=(300, 300, 80))</span>
+<span class="sd">            p.box(BoxType.SLIDING, "Cards", size=(120, 70, 50))</span>
+<span class="sd">            p.box(BoxType.NO_LID, "Tokens", size=(80, 60, 30))</span>
+<span class="sd">            p.show()</span>
+
+<span class="sd">        Four equal wells sharing a box's room, sized by ratio:</span>
+
+<span class="sd">        .. pythonscad-example::</span>
+
+<span class="sd">            p = Project("Divided", game_box_size=(200, 150, 60))</span>
+<span class="sd">            box = p.box(BoxType.NO_LID, "Sorted", size=(100, 80, 30))</span>
+<span class="sd">            for i in range(4):</span>
+<span class="sd">                box.compartment(f"Slot{i + 1}", width_ratio=0.25)</span>
+<span class="sd">            p.show()</span>
+
+<span class="sd">    """</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""Game name; becomes the output subdirectory."""</span>
+    <span class="n">game_box_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Outer game box dimensions [W, L, H] in mm. None = standalone boxes (no game box)."""</span>
+    <span class="n">wall_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="w">    </span><span class="sd">"""Default wall thickness for all sub-boxes."""</span>
+    <span class="n">floor_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="w">    </span><span class="sd">"""Default floor thickness."""</span>
+    <span class="n">lid_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="w">    </span><span class="sd">"""Default lid thickness."""</span>
+    <span class="n">rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Edge radius for every box's exposed edges (FR-043/FR-044).</span>
+
+<span class="sd">    ``None`` derives it per box as ``wall_thickness / 2``. ``0`` leaves</span>
+<span class="sd">    every edge square.</span>
+<span class="sd">    """</span>
+    <span class="n">base_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Edge radius for every box's base/bottom edges.</span>
+
+<span class="sd">    ``None`` derives it per box as ``wall_thickness``. ``0`` leaves</span>
+<span class="sd">    the base edge square.</span>
+<span class="sd">    """</span>
+    <span class="n">base_chamfer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Bottom chamfer in mm, or True for 3.0mm; None defaults to rounded base."""</span>
+    <span class="n">inner_rounding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Edge radius where a partial lid grips the body (FR-044b).</span>
+
+<span class="sd">    Applies to a cap's band and skirt cavity, and a slipover's body and sleeve</span>
+<span class="sd">    cavity — both halves of the grip, so they nest. ``None`` derives it as half</span>
+<span class="sd">    the outer radius.</span>
+<span class="sd">    """</span>
+    <span class="n">gap_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="w">    </span><span class="sd">"""Gaps &lt;= this are absorbed by adjacent boxes."""</span>
+    <span class="n">min_spacer_dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span>
+<span class="w">    </span><span class="sd">"""Minimum spacer width/length before absorption."""</span>
+    <span class="n">min_spacer_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="w">    </span><span class="sd">"""A spacer tray shorter than this in Z is dropped rather than printed as a thin wafer (FR-014)."""</span>
+    <span class="n">max_height_absorb</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="w">    </span><span class="sd">"""Maximum vertical gap (mm) absorbed by growing a top-exposed box instead of adding a small spacer."""</span>
+    <span class="n">clearance_slack</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Clearance slack on each side of the game box in the X/Y directions (mm).</span>
+
+<span class="sd">    If ``None`` (the default), it auto-scales from 1.0mm to 2.5mm based on the game box size."""</span>
+    <span class="n">board_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">    </span><span class="sd">"""Thickness of the game board (mm).</span>
+
+<span class="sd">    Reserved at the TOP of the box by default (or at the BOTTOM when</span>
+<span class="sd">    :attr:`board_on_bottom` is ``True``), so this region is not filled with</span>
+<span class="sd">    auto-generated spacers."""</span>
+    <span class="n">board_on_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Whether the reserved :attr:`board_thickness` space sits at the bottom (``z = 0..board_thickness``)."""</span>
+    <span class="n">ribbon_channels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Cut bottom groove for lifting ribbon on all sub-boxes by default."""</span>
+    <span class="n">generate_spacers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">"""Whether to automatically generate spacer boxes/trays to fill layout gaps."""</span>
+    <span class="n">box_defaults</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Defaults applied to every :meth:`box` call that does not say otherwise.</span>
+
+<span class="sd">    Every keyword :meth:`box` accepts may be given here once instead of on each</span>
+<span class="sd">    box — ``wall_thickness``, ``no_rotate``, ``color`` and the rest. An insert</span>
+<span class="sd">    whose boxes all share a wall thickness or all decline rotation says so once</span>
+<span class="sd">    (FR-000b)::</span>
+
+<span class="sd">        Project("Earth", ..., box_defaults={"wall_thickness": 3.0})</span>
+
+<span class="sd">    A value passed to :meth:`box` always wins over the default.</span>
+<span class="sd">    """</span>
+
+    <span class="n">_manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_compiler</span><span class="p">:</span> <span class="n">LayoutCompiler</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_pipeline</span><span class="p">:</span> <span class="n">GeometryPipeline</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_shared_groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">piece_bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PieceBounds</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Bounding box of every exported piece, populated by `export()` (FR-027)."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Initialize internal manifest, layout compiler, and geometry pipeline."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span> <span class="o">=</span> <span class="n">ProjectManifest</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">game_box_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span><span class="p">,</span>
+            <span class="n">wall_thickness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">wall_thickness</span><span class="p">,</span>
+            <span class="n">floor_thickness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">floor_thickness</span><span class="p">,</span>
+            <span class="n">lid_thickness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lid_thickness</span><span class="p">,</span>
+            <span class="n">rounding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rounding</span><span class="p">,</span>
+            <span class="n">inner_rounding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_rounding</span><span class="p">,</span>
+            <span class="n">gap_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gap_threshold</span><span class="p">,</span>
+            <span class="n">min_spacer_dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_spacer_dim</span><span class="p">,</span>
+            <span class="n">min_spacer_height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_spacer_height</span><span class="p">,</span>
+            <span class="n">max_height_absorb</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_height_absorb</span><span class="p">,</span>
+            <span class="n">clearance_slack</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clearance_slack</span><span class="p">,</span>
+            <span class="n">board_thickness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">board_thickness</span><span class="p">,</span>
+            <span class="n">board_on_bottom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">board_on_bottom</span><span class="p">,</span>
+            <span class="n">ribbon_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ribbon_channels</span><span class="p">,</span>
+            <span class="n">generate_spacers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_spacers</span><span class="p">,</span>
+            <span class="n">box_defaults</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_defaults</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span> <span class="o">=</span> <span class="n">LayoutCompiler</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span> <span class="o">=</span> <span class="n">GeometryPipeline</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_boxes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">boxes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shared_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">shared_groups</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Set attribute and synchronize with underlying ProjectManifest."""</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_manifest"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolved_clearance_slack</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the resolved clearance slack, scaling with game box size if None."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">resolved_clearance_slack</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">effective_game_box_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Dimensions available for sub-boxes, accounting for board thickness."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">effective_game_box_size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">manifest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectManifest</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The underlying ProjectManifest catalog."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compiler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LayoutCompiler</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The underlying LayoutCompiler."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeometryPipeline</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The underlying GeometryPipeline."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">boxes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Registered sub-box builders."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">boxes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">boards</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameBoard</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Registered non-printed game boards, screens, or playmats."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">boards</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Declared physical game component inventory."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">components</span>
+
+<div class="viewcode-block" id="Project.component">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.component">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">component</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameComponent</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Declare a physical game component type in the project's piece inventory."""</span>
+        <span class="n">gc</span> <span class="o">=</span> <span class="n">GameComponent</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span> <span class="n">notes</span><span class="o">=</span><span class="n">notes</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">location</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">gc</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.define_inventory">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.define_inventory">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">define_inventory</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">items</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Register the game's full piece inventory from a ``{name: count}`` mapping or sequence."""</span>
+        <span class="n">added</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GameComponent</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">qty</span> <span class="ow">in</span> <span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">qty</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                <span class="n">added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">added</span></div>
+
+
+<div class="viewcode-block" id="Project.verify_inventory">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.verify_inventory">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InventoryVerification</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Verify that all declared inventory components are allocated across boxes and boards."""</span>
+        <span class="k">return</span> <span class="n">verify_inventory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.board">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.board">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">board</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">allocates</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameBoard</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Register a non-printed game board, rulebook, screen, or playmat region.</span>
+
+<span class="sd">        Auto-packed boxes and auto-generated spacers avoid this 3-D region, no</span>
+<span class="sd">        STL is generated for it, and both the packing guide PDF and Sphinx box</span>
+<span class="sd">        summary render and count it explicitly.</span>
+<span class="sd">        """</span>
+        <span class="n">norm_alloc</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">if</span> <span class="n">allocates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allocates</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                <span class="n">norm_alloc</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">allocates</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">norm_alloc</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">allocates</span><span class="p">)</span>
+        <span class="n">gb</span> <span class="o">=</span> <span class="n">GameBoard</span><span class="p">(</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+            <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+            <span class="n">notes</span><span class="o">=</span><span class="n">notes</span><span class="p">,</span>
+            <span class="n">component</span><span class="o">=</span><span class="n">component</span><span class="p">,</span>
+            <span class="n">allocates</span><span class="o">=</span><span class="n">norm_alloc</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_board</span><span class="p">(</span><span class="n">gb</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.inventory">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.inventory">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">spacer_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectInventory</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the extracted printed-part, board, and stored-piece inventory."""</span>
+        <span class="k">if</span> <span class="n">spacer_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">build</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+            <span class="n">spacer_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">build</span><span class="o">.</span><span class="n">packing</span><span class="o">.</span><span class="n">spacer_placements</span><span class="p">)</span> <span class="k">if</span> <span class="n">build</span><span class="o">.</span><span class="n">packing</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">summarize_project</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">spacer_count</span><span class="o">=</span><span class="n">spacer_count</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.box">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">box</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a sub-box to the project.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            box_type: Which lid mechanism the box uses. Selects the builder</span>
+<span class="sd">                class, so the type-specific keywords available here follow from</span>
+<span class="sd">                it.</span>
+<span class="sd">            label: The box's name; used for file naming and by</span>
+<span class="sd">                :meth:`arrange`.</span>
+<span class="sd">            size: ``(width, length, height)`` in mm. ``None`` derives it from</span>
+<span class="sd">                the compartments.</span>
+<span class="sd">            **kwargs: Any field of the box's builder. Anything not given falls</span>
+<span class="sd">                back to :attr:`box_defaults`, then to the field's own default.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The type-specific :class:`BoxBuilder`, already registered on the</span>
+<span class="sd">            project, so compartments and finger holes can be added to it.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: If ``box_type`` has no registered builder.</span>
+<span class="sd">            TypeError: If a keyword is not a field of that builder.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            Add a sliding card box, then preview it on its own:</span>
+
+<span class="sd">            .. pythonscad-example::</span>
+
+<span class="sd">                p = Project("Cards", game_box_size=(300, 300, 80))</span>
+<span class="sd">                p.box(BoxType.SLIDING, "Cards", size=(120, 70, 50))</span>
+<span class="sd">                p.show(only="Cards")</span>
+
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">fields</span> <span class="k">as</span> <span class="n">dataclass_fields</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">BOX_TYPE_REGISTRY</span>
+
+        <span class="n">builder_cls</span> <span class="o">=</span> <span class="n">BOX_TYPE_REGISTRY</span><span class="p">[</span><span class="n">box_type</span><span class="p">]</span>
+
+        <span class="n">known</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dataclass_fields</span><span class="p">(</span><span class="n">builder_cls</span><span class="p">)}</span>
+        <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="n">size</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">box_defaults</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">known</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">values</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">unknown</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">-</span> <span class="n">known</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">known</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">builder_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> has no field(s) </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"Valid fields: </span><span class="si">{</span><span class="n">valid</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+
+        <span class="n">builder</span> <span class="o">=</span> <span class="n">builder_cls</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">values</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_box</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">builder</span></div>
+
+
+<div class="viewcode-block" id="Project.add_box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.add_box">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Register an already instantiated box builder with the project.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            builder: The box builder to register.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The added builder.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">add_box</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.arrange">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.arrange">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">arrange</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Arrangement</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Position boxes from a declarative layout tree (T186).</span>
+
+<span class="sd">        The alternative to hand-typed coordinates for densely packed inserts,</span>
+<span class="sd">        where the packer cannot help: describe the structure with</span>
+<span class="sd">        `columns`/`rows`/`stack` and let the sizes decide the positions.</span>
+
+<span class="sd">        A box placed here is placed, so it is neither expanded nor rotated by</span>
+<span class="sd">        the packer — the arrangement's arithmetic assumed the size it was given</span>
+<span class="sd">        (FR-013c).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            layout: A `pyboxbuilder.layout` group, or a single box label.</span>
+<span class="sd">            origin: Where the arrangement's minimum corner goes. Defaults to</span>
+<span class="sd">                ``(0.0, 0.0, board_thickness)`` when ``board_on_bottom=True``,</span>
+<span class="sd">                or ``(0.0, 0.0, 0.0)`` otherwise.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The `Arrangement`, so a caller can inspect the resolved extent.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            LayoutError: If the tree names an unknown box or places one twice.</span>
+<span class="sd">            ValueError: If a named box has no explicit size, or the arrangement</span>
+<span class="sd">                does not fit the game box.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            An arrangement written down instead of measured:</span>
+
+<span class="sd">            .. pythonscad-example::</span>
+
+<span class="sd">                project = Project("BigGame", game_box_size=(300, 200, 80))</span>
+<span class="sd">                project.box(BoxType.SLIDING, "CardBox", size=(110, 75, 50))</span>
+<span class="sd">                project.box(BoxType.CAP, "TokenBox", size=(60, 50, 30))</span>
+<span class="sd">                project.box(BoxType.CAP, "DiceBox", size=(60, 50, 30))</span>
+<span class="sd">                project.box(BoxType.FILAMENT_HINGE, "BitBox", size=(80, 60, 40))</span>
+<span class="sd">                project.arrange(columns(</span>
+<span class="sd">                    "CardBox",</span>
+<span class="sd">                    stack("TokenBox", "DiceBox"),</span>
+<span class="sd">                    "BitBox",</span>
+<span class="sd">                ))</span>
+<span class="sd">                project.show()</span>
+
+<span class="sd">        """</span>
+        <span class="n">resolved_origin</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">origin</span> <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">board_z_offset</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">arrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">resolved_origin</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.stack_order">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.stack_order">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stack_order</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">boxes</span><span class="p">:</span> <span class="n">BoxBuilder</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">StackableMode</span> <span class="o">=</span> <span class="n">StackableMode</span><span class="o">.</span><span class="n">PYRAMIDS</span><span class="p">,</span>
+        <span class="n">configs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Configure a bottom-to-top sequence of boxes with keyed pyramid configurations.</span>
+
+<span class="sd">        Ensures the boxes can only be stacked in the specified bottom-to-top order:</span>
+<span class="sd">        the bottom box has a flat floor (``stackable_bottom=False``), each interface</span>
+<span class="sd">        between box ``i``'s top lid and box ``i + 1``'s bottom floor receives a distinct</span>
+<span class="sd">        pyramid configuration (e.g. ``2``, ``3``, ``(2, 3, 3, 2)``, ``(3, 2, 2, 3)``),</span>
+<span class="sd">        and the top box has a flat lid (``stackable_top=False``).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *boxes: Two or more :class:`BoxBuilder` instances or box label strings,</span>
+<span class="sd">                ordered from bottom to top.</span>
+<span class="sd">            mode: Stacking mode to set on each box (defaults to ``StackableMode.PYRAMIDS``).</span>
+<span class="sd">            configs: Optional explicit sequence of pyramid configurations for each interface.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The resolved list of :class:`BoxBuilder` objects in bottom-to-top order.</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">stacking_order_pyramid_config</span>
+
+        <span class="n">resolved</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Project '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' has no box named </span><span class="si">{</span><span class="n">item</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">resolved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">resolved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">resolved</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resolved</span>
+
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">resolved</span><span class="p">:</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">"stackable"</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">resolved</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"stackable_bottom"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">resolved</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"stackable_top"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">resolved</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">configs</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">configs</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">configs</span>
+                <span class="k">else</span> <span class="n">stacking_order_pyramid_config</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">resolved</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">"stackable_top"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">resolved</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">"stackable_top_pyramid_count"</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">resolved</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">"stackable_bottom"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">resolved</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">"stackable_bottom_pyramid_count"</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+
+        <span class="n">chain</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">resolved</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">chain</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">stack_groups</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">stack_groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resolved</span></div>
+
+
+<div class="viewcode-block" id="Project.build">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.build">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Build</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Resolve the layout and describe every piece of this project.</span>
+
+<span class="sd">        The one build path. :meth:`show` renders what this returns and</span>
+<span class="sd">        :meth:`export` writes it, so a previewed part and a printed part are</span>
+<span class="sd">        the same solid — there is no second assembly of the geometry for one of</span>
+<span class="sd">        them to fall behind in.</span>
+
+<span class="sd">        Resolving the layout is eager, because every piece's size and position</span>
+<span class="sd">        depend on every other's. The **geometry** is built per piece on first</span>
+<span class="sd">        use (:attr:`Piece.solid`), so a caller that only needs some of it — an</span>
+<span class="sd">        export skipping the boxes whose description has not changed, a preview</span>
+<span class="sd">        of one box — pays for what it asks for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A :class:`Build` carrying every body, lid and spacer, each with the</span>
+<span class="sd">            position it occupies in the game box.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If a box can be sized neither explicitly nor from its</span>
+<span class="sd">                compartments, if its compartments overflow its interior, or if</span>
+<span class="sd">                its compartment ratios overflow.</span>
+<span class="sd">            PackingError: If the boxes cannot be packed into the game box.</span>
+
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">build</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="p">,</span>
+            <span class="n">build_box_solids_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_box_solids</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.show">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.show">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">show_lids</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">remove_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">only</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">lids_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">fn</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Preview the packed box layout interactively.</span>
+
+<span class="sd">        Renders exactly what :meth:`export` writes — same build, same geometry</span>
+<span class="sd">        — as separate solids at their packed positions. Each box is shown as</span>
+<span class="sd">        its **own** solid, because a union carries one colour and would fuse</span>
+<span class="sd">        touching boxes into an indivisible blob, hiding the seams a packing</span>
+<span class="sd">        preview exists to show.</span>
+
+<span class="sd">        Writes no files, and generates no layout PDF.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            show_lids: Place each lid in its seated position as well. Off by</span>
+<span class="sd">                default because lids cover the compartments and their</span>
+<span class="sd">                neighbours. A shown lid carries its decoration and is drawn</span>
+<span class="sd">                semi-transparent in a lighter shade of its box's colour so it</span>
+<span class="sd">                reads as a separate piece.</span>
+<span class="sd">            remove_layers: Omit the top N vertical layers of the packed</span>
+<span class="sd">                layout, revealing what sits underneath — the live equivalent</span>
+<span class="sd">                of the exploded PDF view. A box is removed when its top</span>
+<span class="sd">                surface rises above the cut.</span>
+<span class="sd">            only: Show just these boxes, by label. One box on its own is the</span>
+<span class="sd">                usual way to look at a box you are working on, and it is also</span>
+<span class="sd">                the cheap one: nothing else is built.</span>
+<span class="sd">            lids_only: Show the lids without their bodies — for looking at a</span>
+<span class="sd">                label or a lid pattern, which the body would otherwise sit</span>
+<span class="sd">                under. Implies ``show_lids``.</span>
+<span class="sd">            fn: Fixed facets per circle for every curve in the preview.</span>
+<span class="sd">                ``None`` (the default) defers to fa/fs, which sizes facets by</span>
+<span class="sd">                how large each curve actually is — that is what keeps a preview</span>
+<span class="sd">                responsive. Unlike :meth:`export`, this does *not* jump to</span>
+<span class="sd">                export precision.</span>
+<span class="sd">            fa: Minimum angle per fragment, in degrees (default 12).</span>
+<span class="sd">            fs: Minimum fragment size, in mm (default 2).</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If ``remove_layers`` is negative, ``only`` names a box</span>
+<span class="sd">                this project does not have, or a precision setting is out of</span>
+<span class="sd">                range.</span>
+
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span>
+            <span class="n">compiler</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="p">,</span>
+            <span class="n">show_lids</span><span class="o">=</span><span class="n">show_lids</span><span class="p">,</span>
+            <span class="n">remove_layers</span><span class="o">=</span><span class="n">remove_layers</span><span class="p">,</span>
+            <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">,</span>
+            <span class="n">lids_only</span><span class="o">=</span><span class="n">lids_only</span><span class="p">,</span>
+            <span class="n">fn</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span>
+            <span class="n">fa</span><span class="o">=</span><span class="n">fa</span><span class="p">,</span>
+            <span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.preview_pieces">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.preview_pieces">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preview_pieces</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">show_lids</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">remove_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">only</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">lids_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">PreviewPiece</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Build the list of separately-coloured solids :meth:`show` renders.</span>
+
+<span class="sd">        Public because it is the cheap way to exercise the geometry: it packs</span>
+<span class="sd">        the layout and builds every body, lid and spacer, but writes nothing</span>
+<span class="sd">        and needs no render binary. A CI pass wants exactly that — the build</span>
+<span class="sd">        path without the printable output — where :meth:`export` would spend</span>
+<span class="sd">        its time tessellating 3MFs no one is going to print.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            show_lids: Include each box's lid, lightened and semi-transparent.</span>
+<span class="sd">            remove_layers: Number of top layers to omit.</span>
+<span class="sd">            only: Restrict to these box labels.</span>
+<span class="sd">            lids_only: Leave the bodies out; implies ``show_lids``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of :class:`pyboxbuilder.preview.PreviewPiece`, one per body,</span>
+<span class="sd">            lid and spacer — never unioned together.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If ``remove_layers`` is negative, or ``only`` names a</span>
+<span class="sd">                box this project does not have.</span>
+
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">preview_pieces</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span>
+            <span class="n">compiler</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="p">,</span>
+            <span class="n">show_lids</span><span class="o">=</span><span class="n">show_lids</span><span class="p">,</span>
+            <span class="n">remove_layers</span><span class="o">=</span><span class="n">remove_layers</span><span class="p">,</span>
+            <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">,</span>
+            <span class="n">lids_only</span><span class="o">=</span><span class="n">lids_only</span><span class="p">,</span>
+            <span class="n">build_box_solids_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_box_solids</span><span class="p">,</span>
+            <span class="n">decorated_lid_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.export">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.export">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="n">fn</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">only</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExportResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Write every piece of this project, and the layout PDF.</span>
+
+<span class="sd">        Writes exactly what :meth:`show` renders — the same :meth:`build` —</span>
+<span class="sd">        so the only difference between previewing and exporting is that this</span>
+<span class="sd">        one puts the result on disk.</span>
+
+<span class="sd">        **A box whose description has not changed is not rebuilt.** The digest</span>
+<span class="sd">        that decides whether a file needs writing (FR-031) is known before any</span>
+<span class="sd">        geometry is cut, so an unchanged box costs nothing at all rather than</span>
+<span class="sd">        being built and then discarded. That is what makes a repeat export at</span>
+<span class="sd">        print precision practical: it is the difference between minutes and a</span>
+<span class="sd">        second.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            out_dir: Directory to write into; files land under</span>
+<span class="sd">                ``{out_dir}/{project name}/mmu/`` and ``.../single/``.</span>
+<span class="sd">            fn: Fixed facets per circle for every curve in the exported</span>
+<span class="sd">                geometry. ``None`` (the default) uses</span>
+<span class="sd">                :data:`~pyboxbuilder.precision.EXPORT_FN` — an export is what</span>
+<span class="sd">                gets printed, so it is built at full precision. Pass a smaller</span>
+<span class="sd">                value for a quick throwaway build.</span>
+<span class="sd">            fa: Minimum angle per fragment, in degrees (default 12).</span>
+<span class="sd">            fs: Minimum fragment size, in mm (default 2).</span>
+<span class="sd">            only: Export just these box labels. Everything else is left alone</span>
+<span class="sd">                on disk — not deleted, not rewritten.</span>
+<span class="sd">            force: Rebuild and rewrite every piece, whether its description</span>
+<span class="sd">                changed or not.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An :class:`ExportResult` listing the files written and skipped.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If a box cannot be sized, a precision setting is out of</span>
+<span class="sd">                range, or ``only`` names a box this project does not have.</span>
+<span class="sd">            PackingError: If the boxes cannot be packed into the game box.</span>
+
+<span class="sd">        """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span>
+            <span class="n">compiler</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="p">,</span>
+            <span class="n">out_dir</span><span class="o">=</span><span class="n">out_dir</span><span class="p">,</span>
+            <span class="n">fn</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span>
+            <span class="n">fa</span><span class="o">=</span><span class="n">fa</span><span class="p">,</span>
+            <span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span>
+            <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">,</span>
+            <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">,</span>
+            <span class="n">build_box_solids_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_box_solids</span><span class="p">,</span>
+            <span class="n">decorated_lid_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">,</span>
+            <span class="n">fingerprint_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fingerprint</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">piece_bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">piece_bounds</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+    <span class="c1"># ------------------------------------------------------------------ sizing</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_container</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return the game box's size, for the paths that require one."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Project '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">' has no game_box_size, so there is "</span>
+                <span class="sa">f</span><span class="s2">"nothing to pack into. Standalone boxes export directly."</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_box_size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_final_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxPacking</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Resolve each box's final size and packed position."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">resolve_final_layout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_min_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return the smallest this box may be: its explicit size, or its contents."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">min_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_standalone_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Resolve a standalone box's size and record it as its final_size."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">standalone_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span>
+
+    <span class="c1"># -------------------------------------------------------------- geometry</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResolvedBox</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Everything about a box that is decided before any geometry is cut."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_resolve_box</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_box_solids</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
+        <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Build a box's body and lid geometry."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_build_box_solids</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Reject compartment ratios that overflow the interior."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">check_ratios</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_spacer_placements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packing</span><span class="p">:</span> <span class="n">BoxPacking</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Derive the spacer trays that fill the gaps in a packed layout."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">spacer_placements</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">packing</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_spacer_solid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacer</span><span class="p">:</span> <span class="n">Placement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Build one spacer tray's geometry in its own local frame."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_build_spacer_solid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">spacer</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_box_pieces</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">,</span> <span class="n">at</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Piece</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return the body and lid pieces for one box, at the position it packs to."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_box_pieces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">,</span> <span class="n">at</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_has_lid</span><span class="p">(</span><span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return True when this box type produces a lid file at all."""</span>
+        <span class="k">return</span> <span class="n">GeometryPipeline</span><span class="o">.</span><span class="n">_has_lid</span><span class="p">(</span><span class="n">builder</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decorated_lid</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">piece</span><span class="p">:</span> <span class="n">Piece</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Bosl2Solid</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""One lid as it prints in a colour mode."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">piece</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_lid_keepouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">BoxBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Patches of a box's lid its own type needs left solid."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_lid_keepouts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">builder</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Which box labels a caller asked for, checked against the project."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_selected</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">only</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fingerprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">piece</span><span class="p">:</span> <span class="n">Piece</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a hash of everything that decides this piece's geometry."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_fingerprint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">piece</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the builder with this label, or None."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_shared_compartments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Partition each shared compartment group across its boxes."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">resolve_shared_compartments</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_delete_stale_spacers</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">spacer_placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Placement</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Delete orphaned spacer 3MF files that no longer match a spacer."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_delete_stale_spacers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">,</span> <span class="n">spacer_placements</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_write_layout_pdf</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">build</span><span class="p">:</span> <span class="n">Build</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">exporter</span><span class="p">:</span> <span class="n">BoxExporter</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Generate the packing guide PDF, if the layout changed."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span><span class="o">.</span><span class="n">_write_layout_pdf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="p">,</span> <span class="n">build</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">,</span> <span class="n">exporter</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------ compartments</span>
+
+<div class="viewcode-block" id="Project.pack_compartments_across_bins">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.pack_compartments_across_bins">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pack_compartments_across_bins</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">compartments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+        <span class="n">bin_sizes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+        <span class="n">wall_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Partitions compartments across multiple bin interior footprints using backtracking shelf packing."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.layout</span><span class="w"> </span><span class="kn">import</span> <span class="n">pack_compartments_across_bins</span>
+
+        <span class="k">return</span> <span class="n">pack_compartments_across_bins</span><span class="p">(</span><span class="n">compartments</span><span class="p">,</span> <span class="n">bin_sizes</span><span class="p">,</span> <span class="n">wall_spacing</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.share_compartments">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.share_compartments">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">share_compartments</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">compartments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Register a group of compartments to be dynamically partitioned across the given box labels."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_manifest</span><span class="o">.</span><span class="n">shared_groups</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">boxes</span><span class="p">,</span> <span class="n">compartments</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Project.card_box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.card_box">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">card_box</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">card_size</span><span class="p">:</span> <span class="n">CardSize</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sleeve</span><span class="p">:</span> <span class="n">SleeveType</span> <span class="o">=</span> <span class="n">SleeveType</span><span class="o">.</span><span class="n">UNSLEEVED</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+        <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="n">FingerCut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a box pre-configured for a deck of cards."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardSize</span>
+
+        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">box_type</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">base_size</span> <span class="o">=</span> <span class="n">card_size</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">card_size</span><span class="p">,</span> <span class="n">CardSize</span><span class="p">)</span> <span class="k">else</span> <span class="n">card_size</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">cards</span><span class="p">(</span>
+            <span class="s2">"Cards"</span><span class="p">,</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">base_size</span><span class="p">,</span>
+            <span class="n">thickness</span><span class="o">=</span><span class="n">sleeve</span><span class="o">.</span><span class="n">card_thickness</span><span class="p">,</span>
+            <span class="n">slack</span><span class="o">=</span><span class="n">sleeve</span><span class="o">.</span><span class="n">footprint_margin</span><span class="p">,</span>
+            <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">builder</span></div>
+
+
+<div class="viewcode-block" id="Project.token_tray">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.token_tray">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">token_tray</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">scoop_side</span><span class="p">:</span> <span class="n">ScoopSide</span> <span class="o">=</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">FILAMENT_HINGE</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a tray subdivided into a grid of compartments for tokens, with finger scoops."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.builders._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cut</span>
+
+        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">box_type</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+                <span class="n">comp_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span>
+                    <span class="n">comp_label</span><span class="p">,</span>
+                    <span class="n">width_ratio</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">cols</span><span class="p">,</span>
+                    <span class="n">length_ratio</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">rows</span><span class="p">,</span>
+                    <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">cut</span><span class="o">=</span><span class="n">Cut</span><span class="o">.</span><span class="n">scoop</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">scoop_side</span><span class="p">),</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">builder</span></div>
+
+
+<div class="viewcode-block" id="Project.hex_tile_box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.hex_tile_box">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hex_tile_box</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">tile_width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">tile_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">SLIDING</span><span class="p">,</span>
+        <span class="n">cut</span><span class="p">:</span> <span class="n">Cut</span> <span class="o">|</span> <span class="n">FingerCut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a box with a compartment for a stack of hexagonal tiles."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.compartments.element</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompartmentElement</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElementShape</span>
+
+        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">box_type</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">elem</span> <span class="o">=</span> <span class="n">CompartmentElement</span><span class="p">(</span>
+            <span class="n">shape</span><span class="o">=</span><span class="n">ElementShape</span><span class="o">.</span><span class="n">HEXAGON</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">tile_width</span><span class="p">,</span> <span class="n">tile_width</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">derived_depth</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">*</span> <span class="n">tile_thickness</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">compartment</span><span class="p">(</span>
+            <span class="s2">"Tiles"</span><span class="p">,</span>
+            <span class="n">depth</span><span class="o">=</span><span class="n">derived_depth</span><span class="p">,</span>
+            <span class="n">elements</span><span class="o">=</span><span class="p">(</span><span class="n">elem</span><span class="p">,),</span>
+            <span class="n">holds_pieces</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">builder</span></div>
+
+
+<div class="viewcode-block" id="Project.regular_polygon_box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.regular_polygon_box">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">regular_polygon_box</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">apothem</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
+        <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">interlock_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">interlock_sides</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a regular polygon footprint box with optional perimeter interlocking (FR-102).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            label: Identifier for the box.</span>
+<span class="sd">            sides: Number of polygon sides (N &gt;= 3).</span>
+<span class="sd">            apothem: Inscribed radius in mm (half the flat-to-flat span).</span>
+<span class="sd">            height: Total box height in mm.</span>
+<span class="sd">            box_type: Box closure type (defaults to BoxType.PATH).</span>
+<span class="sd">            interlock_type: Perimeter interlocking mechanism (DOVETAIL, MAGNET, CLIP, etc.).</span>
+<span class="sd">            interlock_clearance: Clearance between mating interlock joints in mm.</span>
+<span class="sd">            interlock_sides: Specific face indices to equip with interlocks (defaults to all).</span>
+<span class="sd">            **kwargs: Extra fields passed to the box builder.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The configured BoxBuilder.</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">regular_polygon_path</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">regular_polygon_path</span><span class="p">(</span><span class="n">sides</span><span class="p">,</span> <span class="n">apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">l_dim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">(</span>
+            <span class="n">box_type</span><span class="p">,</span>
+            <span class="n">label</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">l_dim</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">polygon_sides</span><span class="o">=</span><span class="n">sides</span><span class="p">,</span>
+            <span class="n">polygon_apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">,</span>
+            <span class="n">interlock_type</span><span class="o">=</span><span class="n">interlock_type</span><span class="p">,</span>
+            <span class="n">interlock_clearance</span><span class="o">=</span><span class="n">interlock_clearance</span><span class="p">,</span>
+            <span class="n">interlock_sides</span><span class="o">=</span><span class="n">interlock_sides</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.hex_box">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.hex_box">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hex_box</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">apothem</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
+        <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">interlock_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">interlock_sides</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoxBuilder</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a regular hexagonal box (6 sides) with optional interlocking (FR-102)."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">regular_polygon_box</span><span class="p">(</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">sides</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">box_type</span><span class="o">=</span><span class="n">box_type</span><span class="p">,</span>
+            <span class="n">interlock_type</span><span class="o">=</span><span class="n">interlock_type</span><span class="p">,</span>
+            <span class="n">interlock_clearance</span><span class="o">=</span><span class="n">interlock_clearance</span><span class="p">,</span>
+            <span class="n">interlock_sides</span><span class="o">=</span><span class="n">interlock_sides</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Project.polygon_grid">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.core.Project.html#pyboxbuilder.project.core.Project.polygon_grid">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">polygon_grid</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">base_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">apothem</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">box_type</span><span class="p">:</span> <span class="n">BoxType</span> <span class="o">=</span> <span class="n">BoxType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span>
+        <span class="n">interlock_type</span><span class="p">:</span> <span class="n">InterlockType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">interlock_clearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">origin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Generate a tessellated 2D grid of regular polygon boxes (FR-102).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            base_label: Prefix for each box label (e.g. 'Hex_0_0').</span>
+<span class="sd">            rows: Number of grid rows.</span>
+<span class="sd">            cols: Number of grid columns.</span>
+<span class="sd">            sides: Number of sides (e.g. 3, 4, 6).</span>
+<span class="sd">            apothem: Inscribed radius in mm.</span>
+<span class="sd">            height: Total box height in mm.</span>
+<span class="sd">            spacing: Clearance/spacing between adjacent box faces in mm (0.0 for direct contact).</span>
+<span class="sd">            box_type: Box type (defaults to BoxType.PATH).</span>
+<span class="sd">            interlock_type: Interlock joint mechanism.</span>
+<span class="sd">            interlock_clearance: Clearance for interlock joints in mm.</span>
+<span class="sd">            origin: (X, Y) origin offset in mm.</span>
+<span class="sd">            **kwargs: Extra arguments forwarded to each box builder.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of generated BoxBuilder instances.</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyboxbuilder.box.features</span><span class="w"> </span><span class="kn">import</span> <span class="n">polygon_grid_position</span>
+
+        <span class="n">boxes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BoxBuilder</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+                <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">polygon_grid_position</span><span class="p">(</span>
+                    <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">sides</span><span class="o">=</span><span class="n">sides</span><span class="p">,</span> <span class="n">apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span>
+                <span class="p">)</span>
+                <span class="n">box_lbl</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_label</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regular_polygon_box</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">box_lbl</span><span class="p">,</span>
+                    <span class="n">sides</span><span class="o">=</span><span class="n">sides</span><span class="p">,</span>
+                    <span class="n">apothem</span><span class="o">=</span><span class="n">apothem</span><span class="p">,</span>
+                    <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+                    <span class="n">box_type</span><span class="o">=</span><span class="n">box_type</span><span class="p">,</span>
+                    <span class="n">interlock_type</span><span class="o">=</span><span class="n">interlock_type</span><span class="p">,</span>
+                    <span class="n">interlock_clearance</span><span class="o">=</span><span class="n">interlock_clearance</span><span class="p">,</span>
+                    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">boxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">boxes</span></div>
+</div>
+
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../../../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../../../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../../../_static/box_selector.js?v=e027fd2f"></script>
+    
+  </body>
+</html>

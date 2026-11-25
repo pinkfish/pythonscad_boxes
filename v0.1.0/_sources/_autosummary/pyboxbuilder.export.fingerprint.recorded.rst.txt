@@ -1,0 +1,6 @@
+pyboxbuilder.export.fingerprint.recorded
+========================================
+
+.. currentmodule:: pyboxbuilder.export.fingerprint
+
+.. autofunction:: recorded

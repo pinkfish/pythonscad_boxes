@@ -1,0 +1,37 @@
+pyboxbuilder.compartments.finger\_outline
+=========================================
+
+.. automodule:: pyboxbuilder.compartments.finger_outline
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      CutProfile
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      dish_radius
+      floor_bore_outline
+      floor_bore_profile
+      scoop_outline
+      scoop_profile
+      window_outline
+   
+   

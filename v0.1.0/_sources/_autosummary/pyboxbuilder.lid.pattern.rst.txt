@@ -1,0 +1,35 @@
+pyboxbuilder.lid.pattern
+========================
+
+.. automodule:: pyboxbuilder.lid.pattern
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      PatternResult
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      build_pattern
+      default_spacing
+      hole_size
+      tessellating_leaf_path
+   
+   

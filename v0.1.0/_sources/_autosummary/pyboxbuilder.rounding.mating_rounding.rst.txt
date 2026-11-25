@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.mating\_rounding
+======================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: mating_rounding

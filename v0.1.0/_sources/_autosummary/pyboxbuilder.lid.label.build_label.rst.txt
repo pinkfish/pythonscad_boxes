@@ -1,0 +1,6 @@
+pyboxbuilder.lid.label.build\_label
+===================================
+
+.. currentmodule:: pyboxbuilder.lid.label
+
+.. autofunction:: build_label

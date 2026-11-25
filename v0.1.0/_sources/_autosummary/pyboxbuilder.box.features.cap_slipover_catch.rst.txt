@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.cap\_slipover\_catch
+==============================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: cap_slipover_catch

@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.build\_vertical\_slide\_across\_hinge\_catch
+======================================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: build_vertical_slide_across_hinge_catch

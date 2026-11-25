@@ -1,0 +1,8 @@
+pyboxbuilder.enums.InterlockType
+================================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: InterlockType
+   :members:
+   :show-inheritance:

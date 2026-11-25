@@ -1,0 +1,6 @@
+pyboxbuilder.lid.color\_layers.resolve\_colors
+==============================================
+
+.. currentmodule:: pyboxbuilder.lid.color_layers
+
+.. autofunction:: resolve_colors

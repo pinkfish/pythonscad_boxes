@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.edge\_slivers
+===================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: edge_slivers

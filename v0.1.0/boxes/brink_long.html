@@ -1,0 +1,2566 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="brink.html">
+      
+      
+        <link rel="next" href="bucket_king.html">
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>BrinkLong (brink_long) - pyboxbuilder</title>
+      
+    
+    
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+        <link rel="stylesheet" type="text/css" href="../_static/sphinx_immaterial_theme.6f0d2a77b1b821632.min.css?v=27a6e6bb" />
+        <link rel="stylesheet" type="text/css" href="../_static/stl_viewer.css?v=abc98148" />
+        <link rel="stylesheet" type="text/css" href="../_static/box_selector.css?v=7dff43fb" />
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#full-box-packing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="pyboxbuilder" class="md-header__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pyboxbuilder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              BrinkLong (brink_long)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="pyboxbuilder" class="md-nav__button md-logo" aria-label="pyboxbuilder" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+    </a>
+    pyboxbuilder
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pinkfish/pythonscad_boxes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pinkfish/pythonscad_boxes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>User Guide</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            <span>User Guide</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Quickstart Guide</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting_started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Getting Started</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../box_types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Box Types Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lid_patterns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Patterns Guide &amp; Gallery</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lid_labels.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Lid Labels Guide &amp; Showcase</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layout_and_spacers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Auto-<wbr>Layout &amp; Automatic Spacers</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    <span>Board-<wbr>Game Insert Gallery</span>
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_7" id="__nav_1_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            <span>Board-<wbr>Game Insert Gallery</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1835.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Eighteen<wbr>Thirty<wbr>Five <wbr>(1835)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1899_daihan.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>1899Daihan <wbr>(1899_<wbr>daihan)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="18_cuba.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>18Cuba <wbr>(18_<wbr>cuba)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="adas_dream.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Adas<wbr>Dream <wbr>(adas_<wbr>dream)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arkham_horror.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Arkham<wbr>Horror<wbr>LCG <wbr>(arkham_<wbr>horror)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="biome.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Biome <wbr>(biome)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="brink.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Brink <wbr>(brink)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    <span>Brink<wbr>Long <wbr>(brink_<wbr>long)</span>
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Brink<wbr>Long <wbr>(brink_<wbr>long)</span>
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#full-box-packing" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:full box packing (reference label)"><span>Full Box Packing</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parts-overview" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:parts overview (reference label)"><span>Parts Overview</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-checklist" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:component checklist (reference label)"><span>Component Checklist</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#individual-boxes-parts" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:individual boxes &amp; parts (reference label)"><span>Individual Boxes &amp; Parts</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Individual Boxes &amp; Parts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-yellow" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_yellow (reference label)"><span>Player<wbr>Box_<wbr>Yellow</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-purple" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_purple (reference label)"><span>Player<wbr>Box_<wbr>Purple</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-green" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_green (reference label)"><span>Player<wbr>Box_<wbr>Green</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-orange" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_orange (reference label)"><span>Player<wbr>Box_<wbr>Orange</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-blue" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_blue (reference label)"><span>Player<wbr>Box_<wbr>Blue</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-komek" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_komek (reference label)"><span>Resource<wbr>Box_<wbr>Komek</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-ventus" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_ventus (reference label)"><span>Resource<wbr>Box_<wbr>Ventus</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-henko" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_henko (reference label)"><span>Resource<wbr>Box_<wbr>Henko</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-magnomi" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_magnomi (reference label)"><span>Resource<wbr>Box_<wbr>Magnomi</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-sorelia" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_sorelia (reference label)"><span>Resource<wbr>Box_<wbr>Sorelia</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-ua" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_ua (reference label)"><span>Resource<wbr>Box_<wbr>UA</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-actions" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_actions (reference label)"><span>Card<wbr>Box_<wbr>Actions</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-riders" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_riders (reference label)"><span>Card<wbr>Box_<wbr>Riders</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-ambassadors" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_ambassadors (reference label)"><span>Card<wbr>Box_<wbr>Ambassadors</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-factions" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_factions (reference label)"><span>Card<wbr>Box_<wbr>Factions</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-rivals" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_rivals (reference label)"><span>Card<wbr>Box_<wbr>Rivals</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hexbox" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:hexbox (reference label)"><span>Hex<wbr>Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spacer-trays" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:spacer trays (reference label)"><span>Spacer Trays</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Spacer Trays">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spacer-1" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:spacer_1 (reference label)"><span>spacer_<wbr>1</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="bucket_king.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Bucket<wbr>King <wbr>(bucket_<wbr>king)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="canvas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Canvas <wbr>(canvas)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cascadero.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Cascadero <wbr>(cascadero)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dominion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Dominion<wbr>Big<wbr>Box <wbr>(dominion)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="earth.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Earth <wbr>(earth)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="earth_animal_kingdom.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Earth<wbr>Animal<wbr>Kingdom <wbr>(earth_<wbr>animal_<wbr>kingdom)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="emberleaf.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Emberleaf <wbr>(emberleaf)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="explorers_of_navoria.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Explorers<wbr>Of<wbr>Navoria <wbr>(explorers_<wbr>of_<wbr>navoria)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="explorers_of_navoria_forgotten_lands.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Explorers<wbr>Of<wbr>Navoria<wbr>Forgotten<wbr>Lands <wbr>(explorers_<wbr>of_<wbr>navoria_<wbr>forgotten_<wbr>lands)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="first_class.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>First<wbr>Class <wbr>(first_<wbr>class)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gulf_mobile_and_ohio.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Gulf<wbr>Mobile<wbr>And<wbr>Ohio <wbr>(gulf_<wbr>mobile_<wbr>and_<wbr>ohio)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="irish_gauge.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Irish<wbr>Gauge <wbr>(irish_<wbr>gauge)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="isle_of_trains.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Isle<wbr>Of<wbr>Trains <wbr>(isle_<wbr>of_<wbr>trains)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kenmore_gold.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Kenmore<wbr>Gold <wbr>(kenmore_<wbr>gold)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="magical_athlete.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Magical<wbr>Athlete <wbr>(magical_<wbr>athlete)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="maglev_metro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Maglev<wbr>Metro <wbr>(maglev_<wbr>metro)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="maglev_metro_vol2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Maglev<wbr>Metro<wbr>Vol2 <wbr>(maglev_<wbr>metro_<wbr>vol2)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="march_of_the_ants.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>March<wbr>Of<wbr>The<wbr>Ants <wbr>(march_<wbr>of_<wbr>the_<wbr>ants)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="modern_art.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Modern<wbr>Art <wbr>(modern_<wbr>art)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="moonrakers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Moonrakers <wbr>(moonrakers)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="nature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Nature <wbr>(nature)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="nippon.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Nippon <wbr>(nippon)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pioneer_rails.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Pioneer<wbr>Rails <wbr>(pioneer_<wbr>rails)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="railroad_tiles.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Railroad<wbr>Tiles <wbr>(railroad_<wbr>tiles)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="railway_boom.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Railway<wbr>Boom <wbr>(railway_<wbr>boom)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="railways_of_the_world.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Railways of the World <wbr>(railways_<wbr>of_<wbr>the_<wbr>world)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="root.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Root <wbr>(root)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="russian_railroads.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Russian<wbr>Railroads <wbr>(russian_<wbr>railroads)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="stackable_hexes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>Stackable<wbr>Hexes <wbr>(stackable_<wbr>hexes)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="the_crew_deep_sea.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>The<wbr>Crew<wbr>Deep<wbr>Sea <wbr>(the_<wbr>crew_<wbr>deep_<wbr>sea)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="the_crew_deep_sea_sleeved.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>The<wbr>Crew<wbr>Deep<wbr>Sea<wbr>Sleeved <wbr>(the_<wbr>crew_<wbr>deep_<wbr>sea_<wbr>sleeved)</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            <span>API Reference</span>
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <span>API Reference</span>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#full-box-packing" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:full box packing (reference label)"><span>Full Box Packing</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parts-overview" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:parts overview (reference label)"><span>Parts Overview</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-checklist" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:component checklist (reference label)"><span>Component Checklist</span></span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#individual-boxes-parts" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:individual boxes &amp; parts (reference label)"><span>Individual Boxes &amp; Parts</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Individual Boxes &amp; Parts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-yellow" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_yellow (reference label)"><span>Player<wbr>Box_<wbr>Yellow</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-purple" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_purple (reference label)"><span>Player<wbr>Box_<wbr>Purple</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-green" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_green (reference label)"><span>Player<wbr>Box_<wbr>Green</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-orange" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_orange (reference label)"><span>Player<wbr>Box_<wbr>Orange</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playerbox-blue" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:playerbox_blue (reference label)"><span>Player<wbr>Box_<wbr>Blue</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-komek" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_komek (reference label)"><span>Resource<wbr>Box_<wbr>Komek</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-ventus" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_ventus (reference label)"><span>Resource<wbr>Box_<wbr>Ventus</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-henko" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_henko (reference label)"><span>Resource<wbr>Box_<wbr>Henko</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-magnomi" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_magnomi (reference label)"><span>Resource<wbr>Box_<wbr>Magnomi</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-sorelia" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_sorelia (reference label)"><span>Resource<wbr>Box_<wbr>Sorelia</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcebox-ua" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:resourcebox_ua (reference label)"><span>Resource<wbr>Box_<wbr>UA</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-actions" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_actions (reference label)"><span>Card<wbr>Box_<wbr>Actions</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-riders" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_riders (reference label)"><span>Card<wbr>Box_<wbr>Riders</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-ambassadors" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_ambassadors (reference label)"><span>Card<wbr>Box_<wbr>Ambassadors</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-factions" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_factions (reference label)"><span>Card<wbr>Box_<wbr>Factions</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cardbox-rivals" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:cardbox_rivals (reference label)"><span>Card<wbr>Box_<wbr>Rivals</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hexbox" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:hexbox (reference label)"><span>Hex<wbr>Box</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spacer-trays" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:spacer trays (reference label)"><span>Spacer Trays</span></span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Spacer Trays">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spacer-1" class="md-nav__link">
+    
+    <span class="md-ellipsis">
+      <span title="boxes/brink_long:spacer_1 (reference label)"><span>spacer_<wbr>1</span></span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                
+                
+                  
+
+
+<h1 id="brinklong-brink-long"><span id="box-insert-brink-long"></span>BrinkLong (brink_long)<a class="headerlink" href="#brinklong-brink-long" title="Link to this heading">¶</a></h1>
+<p>Brink: Long Box Variant organizer.</p>
+<ul class="simple">
+<li><p><strong>Source Script</strong>: <code class="docutils literal notranslate"><span class="pre">boxes/brink_long/brink_long.py</span></code></p></li>
+<li><p><strong>Game Box Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">215</span> <span class="pre">×</span> <span class="pre">307</span> <span class="pre">×</span> <span class="pre">96</span> <span class="pre">mm</span></code> (usable height <code class="docutils literal notranslate"><span class="pre">78</span> <span class="pre">mm</span></code> with <code class="docutils literal notranslate"><span class="pre">18</span> <span class="pre">mm</span></code> board storage)</p></li>
+<li><p><strong>Boxes</strong>: 17 sub-box(es), 1 spacer tray(s)</p></li>
+<li><p><strong>Box Types Used</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a>, <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a>, <a class="reference internal" href="../box_types.html#box-type-no-lid"><span class="std std-ref">BoxType.NO_LID</span></a></p></li>
+</ul>
+<h2 id="full-box-packing">Full Box Packing<a class="headerlink" href="#full-box-packing" title="Link to this heading">¶</a></h2>
+<p>Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:</p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Yellow_body.stl?v=65d65ace,../_stl/boxes/brink_long/PlayerBox_Yellow_lid.stl?v=0b0b72c0,../_stl/boxes/brink_long/PlayerBox_Purple_body.stl?v=9bfb2dca,../_stl/boxes/brink_long/PlayerBox_Purple_lid.stl?v=dd0f80a0,../_stl/boxes/brink_long/PlayerBox_Green_body.stl?v=909df3fa,../_stl/boxes/brink_long/PlayerBox_Green_lid.stl?v=997410ce,../_stl/boxes/brink_long/PlayerBox_Orange_body.stl?v=e646a8b9,../_stl/boxes/brink_long/PlayerBox_Orange_lid.stl?v=7783ef32,../_stl/boxes/brink_long/PlayerBox_Blue_body.stl?v=696749de,../_stl/boxes/brink_long/PlayerBox_Blue_lid.stl?v=a2319c71,../_stl/boxes/brink_long/ResourceBox_Komek_body.stl?v=d93e8493,../_stl/boxes/brink_long/ResourceBox_Komek_lid.stl?v=d80d1f47,../_stl/boxes/brink_long/ResourceBox_Ventus_body.stl?v=19cc84bd,../_stl/boxes/brink_long/ResourceBox_Ventus_lid.stl?v=2037115e,../_stl/boxes/brink_long/ResourceBox_Henko_body.stl?v=3710e252,../_stl/boxes/brink_long/ResourceBox_Henko_lid.stl?v=70d8ef32,../_stl/boxes/brink_long/ResourceBox_Magnomi_body.stl?v=9bf608cd,../_stl/boxes/brink_long/ResourceBox_Magnomi_lid.stl?v=67163163,../_stl/boxes/brink_long/ResourceBox_Sorelia_body.stl?v=f689a7de,../_stl/boxes/brink_long/ResourceBox_Sorelia_lid.stl?v=c2e020fb,../_stl/boxes/brink_long/ResourceBox_UA_body.stl?v=12f04f23,../_stl/boxes/brink_long/ResourceBox_UA_lid.stl?v=6b1cc04b,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=5a388981,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9d28f4f1,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=4e3a4a8c,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=5b16509d,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7a26e23d,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=ec3cb9f2,../_stl/boxes/brink_long/CardBox_Factions_body.stl?v=a58e595c,../_stl/boxes/brink_long/CardBox_Factions_lid.stl?v=ab38db79,../_stl/boxes/brink_long/CardBox_Rivals_body.stl?v=fca01d6f,../_stl/boxes/brink_long/CardBox_Rivals_lid.stl?v=05d8dfc9,../_stl/boxes/brink_long/HexBox_body.stl?v=638047e2,../_stl/boxes/brink_long/HexBox_lid.stl?v=56e569ff,../_stl/boxes/brink_long/spacer_1.stl?v=73d0af23" data-stl-color="#6f9ac9" style="width:100%;height:440px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Yellow_body.stl?v=65d65ace" data-stl-combine="../_stl/boxes/brink_long/PlayerBox_Yellow_body.stl?v=65d65ace,../_stl/boxes/brink_long/PlayerBox_Yellow_lid.stl?v=0b0b72c0,../_stl/boxes/brink_long/PlayerBox_Purple_body.stl?v=9bfb2dca,../_stl/boxes/brink_long/PlayerBox_Purple_lid.stl?v=dd0f80a0,../_stl/boxes/brink_long/PlayerBox_Green_body.stl?v=909df3fa,../_stl/boxes/brink_long/PlayerBox_Green_lid.stl?v=997410ce,../_stl/boxes/brink_long/PlayerBox_Orange_body.stl?v=e646a8b9,../_stl/boxes/brink_long/PlayerBox_Orange_lid.stl?v=7783ef32,../_stl/boxes/brink_long/PlayerBox_Blue_body.stl?v=696749de,../_stl/boxes/brink_long/PlayerBox_Blue_lid.stl?v=a2319c71,../_stl/boxes/brink_long/ResourceBox_Komek_body.stl?v=d93e8493,../_stl/boxes/brink_long/ResourceBox_Komek_lid.stl?v=d80d1f47,../_stl/boxes/brink_long/ResourceBox_Ventus_body.stl?v=19cc84bd,../_stl/boxes/brink_long/ResourceBox_Ventus_lid.stl?v=2037115e,../_stl/boxes/brink_long/ResourceBox_Henko_body.stl?v=3710e252,../_stl/boxes/brink_long/ResourceBox_Henko_lid.stl?v=70d8ef32,../_stl/boxes/brink_long/ResourceBox_Magnomi_body.stl?v=9bf608cd,../_stl/boxes/brink_long/ResourceBox_Magnomi_lid.stl?v=67163163,../_stl/boxes/brink_long/ResourceBox_Sorelia_body.stl?v=f689a7de,../_stl/boxes/brink_long/ResourceBox_Sorelia_lid.stl?v=c2e020fb,../_stl/boxes/brink_long/ResourceBox_UA_body.stl?v=12f04f23,../_stl/boxes/brink_long/ResourceBox_UA_lid.stl?v=6b1cc04b,../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=5a388981,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9d28f4f1,../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=4e3a4a8c,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=5b16509d,../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7a26e23d,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=ec3cb9f2,../_stl/boxes/brink_long/CardBox_Factions_body.stl?v=a58e595c,../_stl/boxes/brink_long/CardBox_Factions_lid.stl?v=ab38db79,../_stl/boxes/brink_long/CardBox_Rivals_body.stl?v=fca01d6f,../_stl/boxes/brink_long/CardBox_Rivals_lid.stl?v=05d8dfc9,../_stl/boxes/brink_long/HexBox_body.stl?v=638047e2,../_stl/boxes/brink_long/HexBox_lid.stl?v=56e569ff,../_stl/boxes/brink_long/spacer_1.stl?v=73d0af23" download="BrinkLong_full_packing.stl">⬇ Download Full Box Packing STL (<code>BrinkLong_full_packing.stl</code>)</a></p><p><a href="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=dfae5cb7" download="BrinkLong_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>BrinkLong_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=dfae5cb7" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+<details style="margin-bottom:1.2em">
+  <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
+  <iframe src="../_pdf/boxes/brink_long/BrinkLong_packing_guide.pdf?v=dfae5cb7" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+</details><h2 id="parts-overview">Parts Overview<a class="headerlink" href="#parts-overview" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>3-D Printed Parts</strong>: 17 bodies, 17 lids, 1 spacers (35 total)</p></li>
+<li><p><strong>Boards &amp; Non-Printed Components</strong>: 1</p></li>
+<li><p><strong>Counted Game Pieces</strong>: 355</p></li>
+</ul>
+<table class="docutils data align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 18.0%" />
+<col style="width: 17.0%" />
+<col style="width: 15.0%" />
+<col style="width: 28.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Box / Component</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Dimensions (W × L × H)</p></th>
+<th class="head"><p>Packed Position</p></th>
+<th class="head"><p>Pieces / Contents</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-playerbox-yellow"><span class="std std-ref">PlayerBox_Yellow</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></td>
+<td><p>1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-brink-long-playerbox-purple"><span class="std std-ref">PlayerBox_Purple</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">19)</span></code></p></td>
+<td><p>1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-playerbox-green"><span class="std std-ref">PlayerBox_Green</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">38)</span></code></p></td>
+<td><p>1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-brink-long-playerbox-orange"><span class="std std-ref">PlayerBox_Orange</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></td>
+<td><p>1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-playerbox-blue"><span class="std std-ref">PlayerBox_Blue</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">0,</span> <span class="pre">19)</span></code></p></td>
+<td><p>1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, +2 more</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-brink-long-resourcebox-komek"><span class="std std-ref">ResourceBox_Komek</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">93.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">119.5,</span> <span class="pre">57)</span></code></p></td>
+<td><p>28x Komek Resource Cubes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-resourcebox-ventus"><span class="std std-ref">ResourceBox_Ventus</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">93.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(53,</span> <span class="pre">119.5,</span> <span class="pre">57)</span></code></p></td>
+<td><p>28x Ventus Resource Cubes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-brink-long-resourcebox-henko"><span class="std std-ref">ResourceBox_Henko</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">93.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">213,</span> <span class="pre">57)</span></code></p></td>
+<td><p>28x Henko Resource Cubes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-resourcebox-magnomi"><span class="std std-ref">ResourceBox_Magnomi</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">93.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(53,</span> <span class="pre">213,</span> <span class="pre">57)</span></code></p></td>
+<td><p>28x Magnomi Resource Cubes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-brink-long-resourcebox-sorelia"><span class="std std-ref">ResourceBox_Sorelia</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">119.5</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">0,</span> <span class="pre">38)</span></code></p></td>
+<td><p>28x Sorelia Resource Cubes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-resourcebox-ua"><span class="std std-ref">ResourceBox_UA</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">119.5</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(159,</span> <span class="pre">0,</span> <span class="pre">38)</span></code></p></td>
+<td><p>15x UA Resource Cubes, 1x UA Flagship, 1x Fusion Drive, 1x First Player Token</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-brink-long-cardbox-actions"><span class="std std-ref">CardBox_Actions</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">119.5,</span> <span class="pre">38)</span></code></p></td>
+<td><p>52x Action Cards</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-cardbox-riders"><span class="std std-ref">CardBox_Riders</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">14</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">119.5,</span> <span class="pre">64)</span></code></p></td>
+<td><p>20x Rider Cards</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-brink-long-cardbox-ambassadors"><span class="std std-ref">CardBox_Ambassadors</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">23.5</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">197,</span> <span class="pre">38)</span></code></p></td>
+<td><p>25x Ambassador Cards</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-cardbox-factions"><span class="std std-ref">CardBox_Factions</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">8</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">197,</span> <span class="pre">61.5)</span></code></p></td>
+<td><p>5x Faction Objective Cards</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#box-brink-long-cardbox-rivals"><span class="std std-ref">CardBox_Rivals</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">8.5</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">197,</span> <span class="pre">69.5)</span></code></p></td>
+<td><p>4x Rival &amp; Guide Cards</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#box-brink-long-hexbox"><span class="std std-ref">HexBox</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">212</span> <span class="pre">×</span> <span class="pre">119.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">57)</span></code></p></td>
+<td><p>25x Sector Hex Tiles, 1x Starting Hex Tile</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#spacer-brink-long-spacer-1"><span class="std std-ref">spacer_1</span></a></p></td>
+<td><p><a class="reference internal" href="../box_types.html#box-type-no-lid"><span class="std std-ref">BoxType.NO_LID</span></a> (spacer)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">109</span> <span class="pre">×</span> <span class="pre">32.5</span> <span class="pre">×</span> <span class="pre">40</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">274.5,</span> <span class="pre">38)</span></code></p></td>
+<td><p>Printed spacer tray</p></td>
+</tr>
+<tr class="row-even"><td><p>Main Board &amp; Rulebooks</p></td>
+<td><p>Board / Non-Printed</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">215</span> <span class="pre">×</span> <span class="pre">307</span> <span class="pre">×</span> <span class="pre">18</span> <span class="pre">mm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">78)</span></code></p></td>
+<td><p>1x Main Board &amp; Rulebooks (Rests flush on top of all boxes)</p></td>
+</tr>
+</tbody>
+</table>
+<h2 id="component-checklist">Component Checklist<a class="headerlink" href="#component-checklist" title="Link to this heading">¶</a></h2>
+<p>All <strong>362</strong> pieces across <strong>27</strong> component types accounted for:</p>
+<table class="docutils data align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 38.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Count</p></th>
+<th class="head"><p>Component / Tile</p></th>
+<th class="head"><p>Packed In</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Main Map Board</p></td>
+<td><p>Main Board &amp; Rulebooks (Rests flush on top of all boxes)</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Player Shields</p></td>
+<td><p>Main Board &amp; Rulebooks (Rests flush on top of all boxes)</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Rulebook</p></td>
+<td><p>Main Board &amp; Rulebooks (Rests flush on top of all boxes)</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Upgrade Boards</p></td>
+<td><p>PlayerBox_Yellow (1), PlayerBox_Purple (1), PlayerBox_Green (1), PlayerBox_Orange (1), PlayerBox_Blue (1)</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Voting Boards</p></td>
+<td><p>PlayerBox_Yellow (1), PlayerBox_Purple (1), PlayerBox_Green (1), PlayerBox_Orange (1), PlayerBox_Blue (1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Class I Ships</p></td>
+<td><p>PlayerBox_Yellow (1), PlayerBox_Purple (1), PlayerBox_Green (1), PlayerBox_Orange (1), PlayerBox_Blue (1)</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Class II Ships</p></td>
+<td><p>PlayerBox_Yellow (1), PlayerBox_Purple (1), PlayerBox_Green (1), PlayerBox_Orange (1), PlayerBox_Blue (1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Class III Ships</p></td>
+<td><p>PlayerBox_Yellow (1), PlayerBox_Purple (1), PlayerBox_Green (1), PlayerBox_Orange (1), PlayerBox_Blue (1)</p></td>
+</tr>
+<tr class="row-even"><td><p>15</p></td>
+<td><p>Cargo Modules</p></td>
+<td><p>PlayerBox_Yellow (3), PlayerBox_Purple (3), PlayerBox_Green (3), PlayerBox_Orange (3), PlayerBox_Blue (3)</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>Railguns</p></td>
+<td><p>PlayerBox_Yellow (3), PlayerBox_Purple (3), PlayerBox_Green (3), PlayerBox_Orange (3), PlayerBox_Blue (3)</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>Player Score Tokens</p></td>
+<td><p>PlayerBox_Yellow (2), PlayerBox_Purple (2), PlayerBox_Green (2), PlayerBox_Orange (2), PlayerBox_Blue (2)</p></td>
+</tr>
+<tr class="row-odd"><td><p>28</p></td>
+<td><p>Komek Resource Cubes</p></td>
+<td><p>ResourceBox_Komek</p></td>
+</tr>
+<tr class="row-even"><td><p>28</p></td>
+<td><p>Ventus Resource Cubes</p></td>
+<td><p>ResourceBox_Ventus</p></td>
+</tr>
+<tr class="row-odd"><td><p>28</p></td>
+<td><p>Henko Resource Cubes</p></td>
+<td><p>ResourceBox_Henko</p></td>
+</tr>
+<tr class="row-even"><td><p>28</p></td>
+<td><p>Magnomi Resource Cubes</p></td>
+<td><p>ResourceBox_Magnomi</p></td>
+</tr>
+<tr class="row-odd"><td><p>28</p></td>
+<td><p>Sorelia Resource Cubes</p></td>
+<td><p>ResourceBox_Sorelia</p></td>
+</tr>
+<tr class="row-even"><td><p>15</p></td>
+<td><p>UA Resource Cubes</p></td>
+<td><p>ResourceBox_UA</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>UA Flagship</p></td>
+<td><p>ResourceBox_UA</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Fusion Drive</p></td>
+<td><p>ResourceBox_UA</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>First Player Token</p></td>
+<td><p>ResourceBox_UA</p></td>
+</tr>
+<tr class="row-even"><td><p>52</p></td>
+<td><p>Action Cards</p></td>
+<td><p>CardBox_Actions</p></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td><p>Rider Cards</p></td>
+<td><p>CardBox_Riders</p></td>
+</tr>
+<tr class="row-even"><td><p>25</p></td>
+<td><p>Ambassador Cards</p></td>
+<td><p>CardBox_Ambassadors</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Faction Objective Cards</p></td>
+<td><p>CardBox_Factions</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>Rival &amp; Guide Cards</p></td>
+<td><p>CardBox_Rivals</p></td>
+</tr>
+<tr class="row-odd"><td><p>25</p></td>
+<td><p>Sector Hex Tiles</p></td>
+<td><p>HexBox</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Starting Hex Tile</p></td>
+<td><p>HexBox</p></td>
+</tr>
+</tbody>
+</table>
+<h2 id="individual-boxes-parts">Individual Boxes &amp; Parts<a class="headerlink" href="#individual-boxes-parts" title="Link to this heading">¶</a></h2>
+<h3 id="playerbox-yellow"><span id="box-brink-long-playerbox-yellow"></span>PlayerBox_Yellow<a class="headerlink" href="#playerbox-yellow" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">FleetContents</span></code> (100 × 299 mm, 29 elements)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_Yellow — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Yellow_body.stl?v=65d65ace,../_stl/boxes/brink_long/PlayerBox_Yellow_lid.stl?v=0b0b72c0" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Yellow_body.stl?v=65d65ace" data-stl-combine="../_stl/boxes/brink_long/PlayerBox_Yellow_body.stl?v=65d65ace,../_stl/boxes/brink_long/PlayerBox_Yellow_lid.stl?v=0b0b72c0" download="PlayerBox_Yellow_assembled.stl">⬇ Download Assembled PlayerBox_Yellow STL (<code>PlayerBox_Yellow_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_Yellow Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Yellow_body.stl?v=65d65ace" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Yellow_body.stl?v=65d65ace" download="PlayerBox_Yellow_body.stl">⬇ Download PlayerBox_Yellow Body STL (<code>PlayerBox_Yellow_body.stl</code>)</a></p><p><strong>Part: PlayerBox_Yellow Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Yellow_lid.stl?v=0b0b72c0" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Yellow_lid.stl?v=0b0b72c0" download="PlayerBox_Yellow_lid.stl">⬇ Download PlayerBox_Yellow Lid STL (<code>PlayerBox_Yellow_lid.stl</code>)</a></p><h3 id="playerbox-purple"><span id="box-brink-long-playerbox-purple"></span>PlayerBox_Purple<a class="headerlink" href="#playerbox-purple" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">19)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">FleetContents</span></code> (100 × 299 mm, 29 elements)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_Purple — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Purple_body.stl?v=9bfb2dca,../_stl/boxes/brink_long/PlayerBox_Purple_lid.stl?v=dd0f80a0" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Purple_body.stl?v=9bfb2dca" data-stl-combine="../_stl/boxes/brink_long/PlayerBox_Purple_body.stl?v=9bfb2dca,../_stl/boxes/brink_long/PlayerBox_Purple_lid.stl?v=dd0f80a0" download="PlayerBox_Purple_assembled.stl">⬇ Download Assembled PlayerBox_Purple STL (<code>PlayerBox_Purple_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_Purple Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Purple_body.stl?v=9bfb2dca" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Purple_body.stl?v=9bfb2dca" download="PlayerBox_Purple_body.stl">⬇ Download PlayerBox_Purple Body STL (<code>PlayerBox_Purple_body.stl</code>)</a></p><p><strong>Part: PlayerBox_Purple Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Purple_lid.stl?v=dd0f80a0" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Purple_lid.stl?v=dd0f80a0" download="PlayerBox_Purple_lid.stl">⬇ Download PlayerBox_Purple Lid STL (<code>PlayerBox_Purple_lid.stl</code>)</a></p><h3 id="playerbox-green"><span id="box-brink-long-playerbox-green"></span>PlayerBox_Green<a class="headerlink" href="#playerbox-green" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">38)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">FleetContents</span></code> (100 × 299 mm, 29 elements)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_Green — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Green_body.stl?v=909df3fa,../_stl/boxes/brink_long/PlayerBox_Green_lid.stl?v=997410ce" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Green_body.stl?v=909df3fa" data-stl-combine="../_stl/boxes/brink_long/PlayerBox_Green_body.stl?v=909df3fa,../_stl/boxes/brink_long/PlayerBox_Green_lid.stl?v=997410ce" download="PlayerBox_Green_assembled.stl">⬇ Download Assembled PlayerBox_Green STL (<code>PlayerBox_Green_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_Green Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Green_body.stl?v=909df3fa" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Green_body.stl?v=909df3fa" download="PlayerBox_Green_body.stl">⬇ Download PlayerBox_Green Body STL (<code>PlayerBox_Green_body.stl</code>)</a></p><p><strong>Part: PlayerBox_Green Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Green_lid.stl?v=997410ce" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Green_lid.stl?v=997410ce" download="PlayerBox_Green_lid.stl">⬇ Download PlayerBox_Green Lid STL (<code>PlayerBox_Green_lid.stl</code>)</a></p><h3 id="playerbox-orange"><span id="box-brink-long-playerbox-orange"></span>PlayerBox_Orange<a class="headerlink" href="#playerbox-orange" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">0,</span> <span class="pre">0)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">FleetContents</span></code> (100 × 299 mm, 29 elements)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_Orange — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Orange_body.stl?v=e646a8b9,../_stl/boxes/brink_long/PlayerBox_Orange_lid.stl?v=7783ef32" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Orange_body.stl?v=e646a8b9" data-stl-combine="../_stl/boxes/brink_long/PlayerBox_Orange_body.stl?v=e646a8b9,../_stl/boxes/brink_long/PlayerBox_Orange_lid.stl?v=7783ef32" download="PlayerBox_Orange_assembled.stl">⬇ Download Assembled PlayerBox_Orange STL (<code>PlayerBox_Orange_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_Orange Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Orange_body.stl?v=e646a8b9" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Orange_body.stl?v=e646a8b9" download="PlayerBox_Orange_body.stl">⬇ Download PlayerBox_Orange Body STL (<code>PlayerBox_Orange_body.stl</code>)</a></p><p><strong>Part: PlayerBox_Orange Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Orange_lid.stl?v=7783ef32" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Orange_lid.stl?v=7783ef32" download="PlayerBox_Orange_lid.stl">⬇ Download PlayerBox_Orange Lid STL (<code>PlayerBox_Orange_lid.stl</code>)</a></p><h3 id="playerbox-blue"><span id="box-brink-long-playerbox-blue"></span>PlayerBox_Blue<a class="headerlink" href="#playerbox-blue" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">305</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">0,</span> <span class="pre">19)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 1x Upgrade Boards, 1x Voting Boards, 1x Class I Ships, 1x Class II Ships, 1x Class III Ships, 3x Cargo Modules, 3x Railguns, 2x Player Score Tokens</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">FleetContents</span></code> (100 × 299 mm, 29 elements)</p></li>
+</ul>
+<p><strong>Assembled Box (PlayerBox_Blue — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Blue_body.stl?v=696749de,../_stl/boxes/brink_long/PlayerBox_Blue_lid.stl?v=a2319c71" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Blue_body.stl?v=696749de" data-stl-combine="../_stl/boxes/brink_long/PlayerBox_Blue_body.stl?v=696749de,../_stl/boxes/brink_long/PlayerBox_Blue_lid.stl?v=a2319c71" download="PlayerBox_Blue_assembled.stl">⬇ Download Assembled PlayerBox_Blue STL (<code>PlayerBox_Blue_assembled.stl</code>)</a></p><p><strong>Part: PlayerBox_Blue Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Blue_body.stl?v=696749de" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Blue_body.stl?v=696749de" download="PlayerBox_Blue_body.stl">⬇ Download PlayerBox_Blue Body STL (<code>PlayerBox_Blue_body.stl</code>)</a></p><p><strong>Part: PlayerBox_Blue Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/PlayerBox_Blue_lid.stl?v=a2319c71" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/PlayerBox_Blue_lid.stl?v=a2319c71" download="PlayerBox_Blue_lid.stl">⬇ Download PlayerBox_Blue Lid STL (<code>PlayerBox_Blue_lid.stl</code>)</a></p><h3 id="resourcebox-komek"><span id="box-brink-long-resourcebox-komek"></span>ResourceBox_Komek<a class="headerlink" href="#resourcebox-komek" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">93.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">119.5,</span> <span class="pre">57)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 28x Komek Resource Cubes</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Cubes</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (ResourceBox_Komek — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Komek_body.stl?v=d93e8493,../_stl/boxes/brink_long/ResourceBox_Komek_lid.stl?v=d80d1f47" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Komek_body.stl?v=d93e8493" data-stl-combine="../_stl/boxes/brink_long/ResourceBox_Komek_body.stl?v=d93e8493,../_stl/boxes/brink_long/ResourceBox_Komek_lid.stl?v=d80d1f47" download="ResourceBox_Komek_assembled.stl">⬇ Download Assembled ResourceBox_Komek STL (<code>ResourceBox_Komek_assembled.stl</code>)</a></p><p><strong>Part: ResourceBox_Komek Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Komek_body.stl?v=d93e8493" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Komek_body.stl?v=d93e8493" download="ResourceBox_Komek_body.stl">⬇ Download ResourceBox_Komek Body STL (<code>ResourceBox_Komek_body.stl</code>)</a></p><p><strong>Part: ResourceBox_Komek Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Komek_lid.stl?v=d80d1f47" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Komek_lid.stl?v=d80d1f47" download="ResourceBox_Komek_lid.stl">⬇ Download ResourceBox_Komek Lid STL (<code>ResourceBox_Komek_lid.stl</code>)</a></p><h3 id="resourcebox-ventus"><span id="box-brink-long-resourcebox-ventus"></span>ResourceBox_Ventus<a class="headerlink" href="#resourcebox-ventus" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">93.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(53,</span> <span class="pre">119.5,</span> <span class="pre">57)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 28x Ventus Resource Cubes</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Cubes</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (ResourceBox_Ventus — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Ventus_body.stl?v=19cc84bd,../_stl/boxes/brink_long/ResourceBox_Ventus_lid.stl?v=2037115e" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Ventus_body.stl?v=19cc84bd" data-stl-combine="../_stl/boxes/brink_long/ResourceBox_Ventus_body.stl?v=19cc84bd,../_stl/boxes/brink_long/ResourceBox_Ventus_lid.stl?v=2037115e" download="ResourceBox_Ventus_assembled.stl">⬇ Download Assembled ResourceBox_Ventus STL (<code>ResourceBox_Ventus_assembled.stl</code>)</a></p><p><strong>Part: ResourceBox_Ventus Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Ventus_body.stl?v=19cc84bd" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Ventus_body.stl?v=19cc84bd" download="ResourceBox_Ventus_body.stl">⬇ Download ResourceBox_Ventus Body STL (<code>ResourceBox_Ventus_body.stl</code>)</a></p><p><strong>Part: ResourceBox_Ventus Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Ventus_lid.stl?v=2037115e" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Ventus_lid.stl?v=2037115e" download="ResourceBox_Ventus_lid.stl">⬇ Download ResourceBox_Ventus Lid STL (<code>ResourceBox_Ventus_lid.stl</code>)</a></p><h3 id="resourcebox-henko"><span id="box-brink-long-resourcebox-henko"></span>ResourceBox_Henko<a class="headerlink" href="#resourcebox-henko" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">93.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">213,</span> <span class="pre">57)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 28x Henko Resource Cubes</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Cubes</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (ResourceBox_Henko — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Henko_body.stl?v=3710e252,../_stl/boxes/brink_long/ResourceBox_Henko_lid.stl?v=70d8ef32" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Henko_body.stl?v=3710e252" data-stl-combine="../_stl/boxes/brink_long/ResourceBox_Henko_body.stl?v=3710e252,../_stl/boxes/brink_long/ResourceBox_Henko_lid.stl?v=70d8ef32" download="ResourceBox_Henko_assembled.stl">⬇ Download Assembled ResourceBox_Henko STL (<code>ResourceBox_Henko_assembled.stl</code>)</a></p><p><strong>Part: ResourceBox_Henko Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Henko_body.stl?v=3710e252" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Henko_body.stl?v=3710e252" download="ResourceBox_Henko_body.stl">⬇ Download ResourceBox_Henko Body STL (<code>ResourceBox_Henko_body.stl</code>)</a></p><p><strong>Part: ResourceBox_Henko Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Henko_lid.stl?v=70d8ef32" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Henko_lid.stl?v=70d8ef32" download="ResourceBox_Henko_lid.stl">⬇ Download ResourceBox_Henko Lid STL (<code>ResourceBox_Henko_lid.stl</code>)</a></p><h3 id="resourcebox-magnomi"><span id="box-brink-long-resourcebox-magnomi"></span>ResourceBox_Magnomi<a class="headerlink" href="#resourcebox-magnomi" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">93.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(53,</span> <span class="pre">213,</span> <span class="pre">57)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 28x Magnomi Resource Cubes</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Cubes</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (ResourceBox_Magnomi — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Magnomi_body.stl?v=9bf608cd,../_stl/boxes/brink_long/ResourceBox_Magnomi_lid.stl?v=67163163" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Magnomi_body.stl?v=9bf608cd" data-stl-combine="../_stl/boxes/brink_long/ResourceBox_Magnomi_body.stl?v=9bf608cd,../_stl/boxes/brink_long/ResourceBox_Magnomi_lid.stl?v=67163163" download="ResourceBox_Magnomi_assembled.stl">⬇ Download Assembled ResourceBox_Magnomi STL (<code>ResourceBox_Magnomi_assembled.stl</code>)</a></p><p><strong>Part: ResourceBox_Magnomi Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Magnomi_body.stl?v=9bf608cd" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Magnomi_body.stl?v=9bf608cd" download="ResourceBox_Magnomi_body.stl">⬇ Download ResourceBox_Magnomi Body STL (<code>ResourceBox_Magnomi_body.stl</code>)</a></p><p><strong>Part: ResourceBox_Magnomi Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Magnomi_lid.stl?v=67163163" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Magnomi_lid.stl?v=67163163" download="ResourceBox_Magnomi_lid.stl">⬇ Download ResourceBox_Magnomi Lid STL (<code>ResourceBox_Magnomi_lid.stl</code>)</a></p><h3 id="resourcebox-sorelia"><span id="box-brink-long-resourcebox-sorelia"></span>ResourceBox_Sorelia<a class="headerlink" href="#resourcebox-sorelia" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">119.5</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">0,</span> <span class="pre">38)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 28x Sorelia Resource Cubes</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Cubes</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (ResourceBox_Sorelia — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Sorelia_body.stl?v=f689a7de,../_stl/boxes/brink_long/ResourceBox_Sorelia_lid.stl?v=c2e020fb" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Sorelia_body.stl?v=f689a7de" data-stl-combine="../_stl/boxes/brink_long/ResourceBox_Sorelia_body.stl?v=f689a7de,../_stl/boxes/brink_long/ResourceBox_Sorelia_lid.stl?v=c2e020fb" download="ResourceBox_Sorelia_assembled.stl">⬇ Download Assembled ResourceBox_Sorelia STL (<code>ResourceBox_Sorelia_assembled.stl</code>)</a></p><p><strong>Part: ResourceBox_Sorelia Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Sorelia_body.stl?v=f689a7de" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Sorelia_body.stl?v=f689a7de" download="ResourceBox_Sorelia_body.stl">⬇ Download ResourceBox_Sorelia Body STL (<code>ResourceBox_Sorelia_body.stl</code>)</a></p><p><strong>Part: ResourceBox_Sorelia Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_Sorelia_lid.stl?v=c2e020fb" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_Sorelia_lid.stl?v=c2e020fb" download="ResourceBox_Sorelia_lid.stl">⬇ Download ResourceBox_Sorelia Lid STL (<code>ResourceBox_Sorelia_lid.stl</code>)</a></p><h3 id="resourcebox-ua"><span id="box-brink-long-resourcebox-ua"></span>ResourceBox_UA<a class="headerlink" href="#resourcebox-ua" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">53</span> <span class="pre">×</span> <span class="pre">119.5</span> <span class="pre">×</span> <span class="pre">19</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(159,</span> <span class="pre">0,</span> <span class="pre">38)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 15x UA Resource Cubes, 1x UA Flagship, 1x Fusion Drive, 1x First Player Token</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">UAAndExtras</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (ResourceBox_UA — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_UA_body.stl?v=12f04f23,../_stl/boxes/brink_long/ResourceBox_UA_lid.stl?v=6b1cc04b" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_UA_body.stl?v=12f04f23" data-stl-combine="../_stl/boxes/brink_long/ResourceBox_UA_body.stl?v=12f04f23,../_stl/boxes/brink_long/ResourceBox_UA_lid.stl?v=6b1cc04b" download="ResourceBox_UA_assembled.stl">⬇ Download Assembled ResourceBox_UA STL (<code>ResourceBox_UA_assembled.stl</code>)</a></p><p><strong>Part: ResourceBox_UA Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_UA_body.stl?v=12f04f23" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_UA_body.stl?v=12f04f23" download="ResourceBox_UA_body.stl">⬇ Download ResourceBox_UA Body STL (<code>ResourceBox_UA_body.stl</code>)</a></p><p><strong>Part: ResourceBox_UA Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/ResourceBox_UA_lid.stl?v=6b1cc04b" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/ResourceBox_UA_lid.stl?v=6b1cc04b" download="ResourceBox_UA_lid.stl">⬇ Download ResourceBox_UA Lid STL (<code>ResourceBox_UA_lid.stl</code>)</a></p><h3 id="cardbox-actions"><span id="box-brink-long-cardbox-actions"></span>CardBox_Actions<a class="headerlink" href="#cardbox-actions" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">26</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">119.5,</span> <span class="pre">38)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 52x Action Cards</p></li>
+<li><p><strong>Compartments (2)</strong>: <code class="docutils literal notranslate"><span class="pre">CardsLeft</span></code> (W=50%), <code class="docutils literal notranslate"><span class="pre">CardsRight</span></code> (W=50%)</p></li>
+</ul>
+<p><strong>Assembled Box (CardBox_Actions — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=5a388981,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9d28f4f1" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=5a388981" data-stl-combine="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=5a388981,../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9d28f4f1" download="CardBox_Actions_assembled.stl">⬇ Download Assembled CardBox_Actions STL (<code>CardBox_Actions_assembled.stl</code>)</a></p><p><strong>Part: CardBox_Actions Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=5a388981" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Actions_body.stl?v=5a388981" download="CardBox_Actions_body.stl">⬇ Download CardBox_Actions Body STL (<code>CardBox_Actions_body.stl</code>)</a></p><p><strong>Part: CardBox_Actions Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9d28f4f1" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Actions_lid.stl?v=9d28f4f1" download="CardBox_Actions_lid.stl">⬇ Download CardBox_Actions Lid STL (<code>CardBox_Actions_lid.stl</code>)</a></p><h3 id="cardbox-riders"><span id="box-brink-long-cardbox-riders"></span>CardBox_Riders<a class="headerlink" href="#cardbox-riders" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">14</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">119.5,</span> <span class="pre">64)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 20x Rider Cards</p></li>
+<li><p><strong>Compartments (2)</strong>: <code class="docutils literal notranslate"><span class="pre">CardsLeft</span></code> (W=50%), <code class="docutils literal notranslate"><span class="pre">CardsRight</span></code> (W=50%)</p></li>
+</ul>
+<p><strong>Assembled Box (CardBox_Riders — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=4e3a4a8c,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=5b16509d" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=4e3a4a8c" data-stl-combine="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=4e3a4a8c,../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=5b16509d" download="CardBox_Riders_assembled.stl">⬇ Download Assembled CardBox_Riders STL (<code>CardBox_Riders_assembled.stl</code>)</a></p><p><strong>Part: CardBox_Riders Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=4e3a4a8c" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Riders_body.stl?v=4e3a4a8c" download="CardBox_Riders_body.stl">⬇ Download CardBox_Riders Body STL (<code>CardBox_Riders_body.stl</code>)</a></p><p><strong>Part: CardBox_Riders Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=5b16509d" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Riders_lid.stl?v=5b16509d" download="CardBox_Riders_lid.stl">⬇ Download CardBox_Riders Lid STL (<code>CardBox_Riders_lid.stl</code>)</a></p><h3 id="cardbox-ambassadors"><span id="box-brink-long-cardbox-ambassadors"></span>CardBox_Ambassadors<a class="headerlink" href="#cardbox-ambassadors" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">23.5</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">197,</span> <span class="pre">38)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 25x Ambassador Cards</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Cards</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (CardBox_Ambassadors — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7a26e23d,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=ec3cb9f2" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7a26e23d" data-stl-combine="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7a26e23d,../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=ec3cb9f2" download="CardBox_Ambassadors_assembled.stl">⬇ Download Assembled CardBox_Ambassadors STL (<code>CardBox_Ambassadors_assembled.stl</code>)</a></p><p><strong>Part: CardBox_Ambassadors Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7a26e23d" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_body.stl?v=7a26e23d" download="CardBox_Ambassadors_body.stl">⬇ Download CardBox_Ambassadors Body STL (<code>CardBox_Ambassadors_body.stl</code>)</a></p><p><strong>Part: CardBox_Ambassadors Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=ec3cb9f2" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Ambassadors_lid.stl?v=ec3cb9f2" download="CardBox_Ambassadors_lid.stl">⬇ Download CardBox_Ambassadors Lid STL (<code>CardBox_Ambassadors_lid.stl</code>)</a></p><h3 id="cardbox-factions"><span id="box-brink-long-cardbox-factions"></span>CardBox_Factions<a class="headerlink" href="#cardbox-factions" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">8</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">197,</span> <span class="pre">61.5)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 5x Faction Objective Cards</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Cards</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (CardBox_Factions — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Factions_body.stl?v=a58e595c,../_stl/boxes/brink_long/CardBox_Factions_lid.stl?v=ab38db79" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Factions_body.stl?v=a58e595c" data-stl-combine="../_stl/boxes/brink_long/CardBox_Factions_body.stl?v=a58e595c,../_stl/boxes/brink_long/CardBox_Factions_lid.stl?v=ab38db79" download="CardBox_Factions_assembled.stl">⬇ Download Assembled CardBox_Factions STL (<code>CardBox_Factions_assembled.stl</code>)</a></p><p><strong>Part: CardBox_Factions Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Factions_body.stl?v=a58e595c" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Factions_body.stl?v=a58e595c" download="CardBox_Factions_body.stl">⬇ Download CardBox_Factions Body STL (<code>CardBox_Factions_body.stl</code>)</a></p><p><strong>Part: CardBox_Factions Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Factions_lid.stl?v=ab38db79" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Factions_lid.stl?v=ab38db79" download="CardBox_Factions_lid.stl">⬇ Download CardBox_Factions Lid STL (<code>CardBox_Factions_lid.stl</code>)</a></p><h3 id="cardbox-rivals"><span id="box-brink-long-cardbox-rivals"></span>CardBox_Rivals<a class="headerlink" href="#cardbox-rivals" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-sliding"><span class="std std-ref">BoxType.SLIDING</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">106</span> <span class="pre">×</span> <span class="pre">77.5</span> <span class="pre">×</span> <span class="pre">8.5</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">197,</span> <span class="pre">69.5)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 4x Rival &amp; Guide Cards</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">Cards</span></code> (full interior)</p></li>
+</ul>
+<p><strong>Assembled Box (CardBox_Rivals — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Rivals_body.stl?v=fca01d6f,../_stl/boxes/brink_long/CardBox_Rivals_lid.stl?v=05d8dfc9" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Rivals_body.stl?v=fca01d6f" data-stl-combine="../_stl/boxes/brink_long/CardBox_Rivals_body.stl?v=fca01d6f,../_stl/boxes/brink_long/CardBox_Rivals_lid.stl?v=05d8dfc9" download="CardBox_Rivals_assembled.stl">⬇ Download Assembled CardBox_Rivals STL (<code>CardBox_Rivals_assembled.stl</code>)</a></p><p><strong>Part: CardBox_Rivals Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Rivals_body.stl?v=fca01d6f" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Rivals_body.stl?v=fca01d6f" download="CardBox_Rivals_body.stl">⬇ Download CardBox_Rivals Body STL (<code>CardBox_Rivals_body.stl</code>)</a></p><p><strong>Part: CardBox_Rivals Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/CardBox_Rivals_lid.stl?v=05d8dfc9" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/CardBox_Rivals_lid.stl?v=05d8dfc9" download="CardBox_Rivals_lid.stl">⬇ Download CardBox_Rivals Lid STL (<code>CardBox_Rivals_lid.stl</code>)</a></p><h3 id="hexbox"><span id="box-brink-long-hexbox"></span>HexBox<a class="headerlink" href="#hexbox" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Box Type</strong>: <a class="reference internal" href="../box_types.html#box-type-cap"><span class="std std-ref">BoxType.CAP</span></a></p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">212</span> <span class="pre">×</span> <span class="pre">119.5</span> <span class="pre">×</span> <span class="pre">21</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">57)</span></code></p></li>
+<li><p><strong>Pieces / Contents</strong>: 25x Sector Hex Tiles, 1x Starting Hex Tile</p></li>
+<li><p><strong>Compartments (1)</strong>: <code class="docutils literal notranslate"><span class="pre">HexTiles</span></code> (206 × 113.5 mm, 3 elements)</p></li>
+</ul>
+<p><strong>Assembled Box (HexBox — Body + Lid)</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/HexBox_body.stl?v=638047e2,../_stl/boxes/brink_long/HexBox_lid.stl?v=56e569ff" data-stl-color="#6f9ac9" style="width:100%;height:320px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/HexBox_body.stl?v=638047e2" data-stl-combine="../_stl/boxes/brink_long/HexBox_body.stl?v=638047e2,../_stl/boxes/brink_long/HexBox_lid.stl?v=56e569ff" download="HexBox_assembled.stl">⬇ Download Assembled HexBox STL (<code>HexBox_assembled.stl</code>)</a></p><p><strong>Part: HexBox Body</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/HexBox_body.stl?v=638047e2" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/HexBox_body.stl?v=638047e2" download="HexBox_body.stl">⬇ Download HexBox Body STL (<code>HexBox_body.stl</code>)</a></p><p><strong>Part: HexBox Lid</strong></p>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/HexBox_lid.stl?v=56e569ff" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/HexBox_lid.stl?v=56e569ff" download="HexBox_lid.stl">⬇ Download HexBox Lid STL (<code>HexBox_lid.stl</code>)</a></p><h2 id="spacer-trays">Spacer Trays<a class="headerlink" href="#spacer-trays" title="Link to this heading">¶</a></h2>
+<h3 id="spacer-1"><span id="spacer-brink-long-spacer-1"></span>spacer_1<a class="headerlink" href="#spacer-1" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../box_types.html#box-type-no-lid"><span class="std std-ref">BoxType.NO_LID</span></a> filler spacer tray</p></li>
+<li><p><strong>Outer Dimensions</strong>: <code class="docutils literal notranslate"><span class="pre">109</span> <span class="pre">×</span> <span class="pre">32.5</span> <span class="pre">×</span> <span class="pre">40</span> <span class="pre">mm</span></code></p></li>
+<li><p><strong>Packed Position</strong>: <code class="docutils literal notranslate"><span class="pre">(106,</span> <span class="pre">274.5,</span> <span class="pre">38)</span></code></p></li>
+</ul>
+<div class="stl-viewer" data-stl-uri="../_stl/boxes/brink_long/spacer_1.stl?v=73d0af23" data-stl-color="#6f9ac9" style="width:100%;height:280px"><div class="stl-viewer-status">Loading 3-D preview&hellip;</div></div><p><a href="../_stl/boxes/brink_long/spacer_1.stl?v=73d0af23" download="spacer_1.stl">⬇ Download spacer_1 STL (<code>spacer_1.stl</code>)</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright pyboxbuilder contributors.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.2.3.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "content.code.copy", "search.highlight", "toc.follow", "toc.sticky"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+      
+        <script src="../_static/sphinx_immaterial_theme.ce3f826234c1e494c.min.js?v=6917d573"></script>
+        <script type="module" src="../_static/stl_viewer.js?v=bc5d58c1"></script>
+        <script type="module" src="../_static/box_selector.js?v=e027fd2f"></script>
+    
+  </body>
+</html>

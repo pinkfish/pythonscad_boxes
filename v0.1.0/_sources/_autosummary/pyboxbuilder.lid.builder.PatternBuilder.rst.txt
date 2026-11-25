@@ -1,0 +1,8 @@
+pyboxbuilder.lid.builder.PatternBuilder
+=======================================
+
+.. currentmodule:: pyboxbuilder.lid.builder
+
+.. autoclass:: PatternBuilder
+   :members:
+   :show-inheritance:

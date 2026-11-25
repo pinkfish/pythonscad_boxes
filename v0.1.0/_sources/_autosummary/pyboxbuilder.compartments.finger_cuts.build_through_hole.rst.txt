@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.finger\_cuts.build\_through\_hole
+===========================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_cuts
+
+.. autofunction:: build_through_hole

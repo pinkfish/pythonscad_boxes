@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.apply\_stackable\_body
+================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: apply_stackable_body

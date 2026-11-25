@@ -1,0 +1,6 @@
+pyboxbuilder.box.spec.describe
+==============================
+
+.. currentmodule:: pyboxbuilder.box.spec
+
+.. autofunction:: describe

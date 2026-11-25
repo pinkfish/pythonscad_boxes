@@ -1,0 +1,8 @@
+pyboxbuilder.enums.DrawerHandleStyle
+====================================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: DrawerHandleStyle
+   :members:
+   :show-inheritance:

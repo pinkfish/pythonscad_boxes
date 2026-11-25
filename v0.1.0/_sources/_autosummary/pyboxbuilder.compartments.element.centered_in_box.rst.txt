@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.centered\_in\_box
+===================================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: centered_in_box

@@ -1,0 +1,8 @@
+pyboxbuilder.enums.HingeCatchType
+=================================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: HingeCatchType
+   :members:
+   :show-inheritance:

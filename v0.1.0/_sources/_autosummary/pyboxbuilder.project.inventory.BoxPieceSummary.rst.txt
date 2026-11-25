@@ -1,0 +1,8 @@
+pyboxbuilder.project.inventory.BoxPieceSummary
+==============================================
+
+.. currentmodule:: pyboxbuilder.project.inventory
+
+.. autoclass:: BoxPieceSummary
+   :members:
+   :show-inheritance:

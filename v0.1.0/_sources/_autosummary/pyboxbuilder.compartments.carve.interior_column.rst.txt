@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.carve.interior\_column
+================================================
+
+.. currentmodule:: pyboxbuilder.compartments.carve
+
+.. autofunction:: interior_column

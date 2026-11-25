@@ -1,0 +1,6 @@
+pyboxbuilder.preview.remove\_top\_layers
+========================================
+
+.. currentmodule:: pyboxbuilder.preview
+
+.. autofunction:: remove_top_layers

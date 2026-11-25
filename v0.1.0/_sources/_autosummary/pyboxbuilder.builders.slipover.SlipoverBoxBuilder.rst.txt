@@ -1,0 +1,8 @@
+pyboxbuilder.builders.slipover.SlipoverBoxBuilder
+=================================================
+
+.. currentmodule:: pyboxbuilder.builders.slipover
+
+.. autoclass:: SlipoverBoxBuilder
+   :members:
+   :show-inheritance:

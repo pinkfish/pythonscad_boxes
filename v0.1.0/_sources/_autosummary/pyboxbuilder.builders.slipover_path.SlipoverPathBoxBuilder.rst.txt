@@ -1,0 +1,8 @@
+pyboxbuilder.builders.slipover\_path.SlipoverPathBoxBuilder
+===========================================================
+
+.. currentmodule:: pyboxbuilder.builders.slipover_path
+
+.. autoclass:: SlipoverPathBoxBuilder
+   :members:
+   :show-inheritance:

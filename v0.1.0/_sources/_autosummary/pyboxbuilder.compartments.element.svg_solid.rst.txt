@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.element.svg\_solid
+============================================
+
+.. currentmodule:: pyboxbuilder.compartments.element
+
+.. autofunction:: svg_solid

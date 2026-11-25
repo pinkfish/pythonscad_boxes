@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.hex\_grid.hex\_grid\_bounds
+=====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.hex_grid
+
+.. autofunction:: hex_grid_bounds

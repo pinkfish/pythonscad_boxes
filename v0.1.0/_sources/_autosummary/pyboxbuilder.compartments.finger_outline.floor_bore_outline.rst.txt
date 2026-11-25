@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.finger\_outline.floor\_bore\_outline
+==============================================================
+
+.. currentmodule:: pyboxbuilder.compartments.finger_outline
+
+.. autofunction:: floor_bore_outline

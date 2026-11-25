@@ -1,0 +1,8 @@
+pyboxbuilder.enums.ElementShape
+===============================
+
+.. currentmodule:: pyboxbuilder.enums
+
+.. autoclass:: ElementShape
+   :members:
+   :show-inheritance:

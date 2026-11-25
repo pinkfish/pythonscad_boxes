@@ -1,0 +1,6 @@
+pyboxbuilder.lid.pattern.tessellating\_leaf\_path
+=================================================
+
+.. currentmodule:: pyboxbuilder.lid.pattern
+
+.. autofunction:: tessellating_leaf_path

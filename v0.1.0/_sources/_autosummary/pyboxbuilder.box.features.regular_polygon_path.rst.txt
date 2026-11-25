@@ -1,0 +1,6 @@
+pyboxbuilder.box.features.regular\_polygon\_path
+================================================
+
+.. currentmodule:: pyboxbuilder.box.features
+
+.. autofunction:: regular_polygon_path

@@ -1,0 +1,6 @@
+pyboxbuilder.deps.require
+=========================
+
+.. currentmodule:: pyboxbuilder.deps
+
+.. autofunction:: require

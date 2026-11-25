@@ -1,0 +1,6 @@
+pyboxbuilder.paths.is\_rectilinear
+==================================
+
+.. currentmodule:: pyboxbuilder.paths
+
+.. autofunction:: is_rectilinear

@@ -1,0 +1,6 @@
+pyboxbuilder.compartments.carve.default\_scoop\_side
+====================================================
+
+.. currentmodule:: pyboxbuilder.compartments.carve
+
+.. autofunction:: default_scoop_side

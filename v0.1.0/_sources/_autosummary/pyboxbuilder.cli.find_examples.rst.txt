@@ -1,0 +1,6 @@
+pyboxbuilder.cli.find\_examples
+===============================
+
+.. currentmodule:: pyboxbuilder.cli
+
+.. autofunction:: find_examples

@@ -1,0 +1,6 @@
+pyboxbuilder.rounding.lid\_rounding
+===================================
+
+.. currentmodule:: pyboxbuilder.rounding
+
+.. autofunction:: lid_rounding

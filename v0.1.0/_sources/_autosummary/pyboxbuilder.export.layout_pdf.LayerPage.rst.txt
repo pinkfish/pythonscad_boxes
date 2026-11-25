@@ -1,0 +1,8 @@
+pyboxbuilder.export.layout\_pdf.LayerPage
+=========================================
+
+.. currentmodule:: pyboxbuilder.export.layout_pdf
+
+.. autoclass:: LayerPage
+   :members:
+   :show-inheritance:

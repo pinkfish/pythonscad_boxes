@@ -1,0 +1,24 @@
+pyboxbuilder.builders.inset\_hinge
+==================================
+
+.. automodule:: pyboxbuilder.builders.inset_hinge
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      InsetHingeBoxBuilder
+   
+   
+
+   
+   
+   
