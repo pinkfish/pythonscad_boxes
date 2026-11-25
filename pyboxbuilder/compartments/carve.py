@@ -381,7 +381,11 @@ def build_contents(
                     placement, interior, side, top_z=side_top, cut=cut,
                 )
             )
-            if placement.depth > 35.0:
+            if (
+                placement.depth > 35.0
+                and not getattr(builder, "is_card", False)
+                and cut.kind is not FingerCut.THROUGH_FLOOR
+            ):
                 opposing = {
                     ScoopSide.FRONT: ScoopSide.BACK,
                     ScoopSide.BACK: ScoopSide.FRONT,

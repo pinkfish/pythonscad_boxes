@@ -39,7 +39,7 @@ Instead of calculating internal wall allowances and stack heights by hand, defin
 
 .. pythonscad-example::
 
-   project = Project("CardGame", game_box_size=(200.0, 150.0, 90.0))
+   project = Project("CardGame")
    cards = project.box(
        BoxType.SLIDING,
        "Cards",
@@ -56,7 +56,7 @@ Create an open token tray for loose pieces during play. Specifying ``holds_piece
 
 .. pythonscad-example::
 
-   project = Project("Tokens", game_box_size=(200.0, 150.0, 60.0))
+   project = Project("Tokens")
    tokens = project.box(BoxType.NO_LID, "Tokens", size=(80.0, 60.0, 25.0))
    tokens.compartment("Wood", holds_pieces=True, cut=FingerCut.SCOOP)
    project.show()
@@ -68,7 +68,7 @@ Divide a tray interior evenly using relative width ratios (``width_ratio=0.25``)
 
 .. pythonscad-example::
 
-   project = Project("Divided", game_box_size=(200.0, 150.0, 60.0))
+   project = Project("Divided")
    box = project.box(BoxType.NO_LID, "Sorted", size=(100.0, 80.0, 30.0))
    for i in range(4):
        box.compartment(f"Slot{i + 1}", width_ratio=0.25)
@@ -81,7 +81,7 @@ Define a single :class:`~pyboxbuilder.lid.builder.LidBuilder` style with geometr
 
 .. pythonscad-example::
 
-   project = Project("FancyGame", game_box_size=(300.0, 200.0, 80.0))
+   project = Project("FancyGame")
    style = LidBuilder(
        label_mode=LabelMode.FRAMELESS,
        diagonal=True,
@@ -103,7 +103,7 @@ If a box lid is too small for readable text (under 4mm font height), the label i
 
 .. pythonscad-example::
 
-   project = Project("TinyGame", game_box_size=(100.0, 80.0, 30.0))
+   project = Project("TinyGame")
    project.box(BoxType.SLIDING, "Tiny", size=(30.0, 20.0, 20.0), lid=LidBuilder(text="A"))
    project.show(show_lids=True)
 
@@ -129,7 +129,7 @@ Omit the outer size entirely and let the box's footprint and height follow autom
 
 .. pythonscad-example::
 
-   project = Project("ComputedBox", game_box_size=(200.0, 150.0, 60.0))
+   project = Project("ComputedBox")
    cards = project.box(BoxType.SLIDING, "CardBox")
    cards.compartment("Deck", size=(90.0, 65.0), depth=45.0, cut=FingerCut.THROUGH_FLOOR)
    cards.compartment("SideSlot", size=(55.0, 45.0), depth=25.0)
