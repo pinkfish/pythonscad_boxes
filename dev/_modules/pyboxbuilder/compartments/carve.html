@@ -933,7 +933,11 @@
                     <span class="n">placement</span><span class="p">,</span> <span class="n">interior</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">top_z</span><span class="o">=</span><span class="n">side_top</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="n">cut</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-            <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">depth</span> <span class="o">&gt;</span> <span class="mf">35.0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">placement</span><span class="o">.</span><span class="n">depth</span> <span class="o">&gt;</span> <span class="mf">35.0</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"is_card"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">cut</span><span class="o">.</span><span class="n">kind</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">FingerCut</span><span class="o">.</span><span class="n">THROUGH_FLOOR</span>
+            <span class="p">):</span>
                 <span class="n">opposing</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">,</span>
                     <span class="n">ScoopSide</span><span class="o">.</span><span class="n">BACK</span><span class="p">:</span> <span class="n">ScoopSide</span><span class="o">.</span><span class="n">FRONT</span><span class="p">,</span>

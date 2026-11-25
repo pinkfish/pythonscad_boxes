@@ -757,14 +757,15 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_combine_pieces</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">show_lid</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">lid_offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bosl2Solid</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Build the single box in ``project`` and return body (plus optional lid beside it)."""</span>
+<span class="w">    </span><span class="sd">"""Build the single box in ``project`` and return body (plus optional decorated lid beside it)."""</span>
     <span class="n">build</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
     <span class="n">body_solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">lid_solid</span><span class="p">:</span> <span class="n">Bosl2Solid</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">body_w</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">piece</span> <span class="ow">in</span> <span class="n">build</span><span class="o">.</span><span class="n">pieces</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"lid"</span><span class="p">:</span>
-            <span class="n">lid_solid</span> <span class="o">=</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span>
+            <span class="n">decorated</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">_decorated_lid</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="s2">"single"</span><span class="p">)</span>
+            <span class="n">lid_solid</span> <span class="o">=</span> <span class="n">decorated</span> <span class="k">if</span> <span class="n">decorated</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span>
         <span class="k">elif</span> <span class="n">body_solid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">body_solid</span> <span class="o">=</span> <span class="n">piece</span><span class="o">.</span><span class="n">solid</span>
             <span class="k">if</span> <span class="n">piece</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
