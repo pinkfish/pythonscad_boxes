@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fcb391c0" download="Nippon_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nippon_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fcb391c0" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=2b6e0875" download="Nippon_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nippon_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=2b6e0875" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=fcb391c0" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/nippon/Nippon_packing_guide.pdf?v=2b6e0875" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -191,6 +191,97 @@ Parts Overview
      - ``303 × 380 × 32.2 mm``
      - ``(0, 0, 37.8)``
      - 6x Main Board, Player Boards & Rulebook (Main game board (9mm), 4 player boards (17.2mm), and handbook (6mm) atop insert)
+
+Component Checklist
+-------------------
+
+All **512** pieces across **26** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 24
+     - Player Ships
+     - PlayerBox_purple (6), PlayerBox_yellow (6), PlayerBox_green (6), PlayerBox_red (6)
+   * - 24
+     - Player Trains
+     - PlayerBox_purple (6), PlayerBox_yellow (6), PlayerBox_green (6), PlayerBox_red (6)
+   * - 12
+     - Track Marker Cylinders
+     - PlayerBox_purple (3), PlayerBox_yellow (3), PlayerBox_green (3), PlayerBox_red (3)
+   * - 24
+     - Machine Disks
+     - PlayerBoxBits_purple (6), PlayerBoxBits_yellow (6), PlayerBoxBits_green (6), PlayerBoxBits_red (6)
+   * - 80
+     - Influence & Favour Tokens
+     - PlayerBoxBits_purple (20), PlayerBoxBits_yellow (20), PlayerBoxBits_green (20), PlayerBoxBits_red (20)
+   * - 32
+     - Contract Tokens
+     - PlayerBoxBits_purple (8), PlayerBoxBits_yellow (8), PlayerBoxBits_green (8), PlayerBoxBits_red (8)
+   * - 8
+     - Scoring Disks
+     - PlayerBoxBits_purple (2), PlayerBoxBits_yellow (2), PlayerBoxBits_green (2), PlayerBoxBits_red (2)
+   * - 24
+     - Factory Tiles
+     - FactoryTiles_1 (12), FactoryTiles_2 (12)
+   * - 12
+     - Demand Tiles
+     - DemandTiles
+   * - 4
+     - Starting Tiles
+     - StartingTiles
+   * - 8
+     - Old Factory Tiles
+     - StartingTiles
+   * - 12
+     - Upgrade Tiles
+     - UpgradeTiles
+   * - 50
+     - Money Tokens
+     - MoneyBox
+   * - 9
+     - Solo Goal Tokens
+     - SoloBox
+   * - 9
+     - Solo Action Tokens
+     - SoloBox
+   * - 6
+     - Late-Game Factory Tiles
+     - LateGameFactoryBox
+   * - 2
+     - Round Marker Cylinders
+     - RoundMarkerBox
+   * - 48
+     - Worker Meeples
+     - WorkerBox_white (8), WorkerBox_blue (8), WorkerBox_grey (8), WorkerBox_yellow (8), WorkerBox_red (8), WorkerBox_black (8)
+   * - 6
+     - Expert Worker Tokens
+     - WorkerBox_white (1), WorkerBox_blue (1), WorkerBox_grey (1), WorkerBox_yellow (1), WorkerBox_red (1), WorkerBox_black (1)
+   * - 24
+     - Silk Cubes
+     - ResourceBox_silk
+   * - 24
+     - Paper Cubes
+     - ResourceBox_paper
+   * - 32
+     - Coal Cubes
+     - ResourceDoubleBox_coal
+   * - 32
+     - Copper Cubes
+     - ResourceDoubleBox_copper
+   * - 1
+     - Main Game Board
+     - Main Board, Player Boards & Rulebook (Main game board (9mm), 4 player boards (17.2mm), and handbook (6mm) atop insert)
+   * - 4
+     - Player Boards
+     - Main Board, Player Boards & Rulebook (Main game board (9mm), 4 player boards (17.2mm), and handbook (6mm) atop insert)
+   * - 1
+     - Rulebook
+     - Main Board, Player Boards & Rulebook (Main game board (9mm), 4 player boards (17.2mm), and handbook (6mm) atop insert)
 
 Individual Boxes & Parts
 ------------------------

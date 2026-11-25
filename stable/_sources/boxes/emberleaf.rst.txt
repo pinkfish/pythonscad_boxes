@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=2cdce2d8" download="Emberleaf_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Emberleaf_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=2cdce2d8" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=b09d4a9b" download="Emberleaf_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Emberleaf_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=b09d4a9b" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=2cdce2d8" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/emberleaf/Emberleaf_packing_guide.pdf?v=b09d4a9b" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -156,6 +156,88 @@ Parts Overview
      - ``287 × 287 × 26.5 mm``
      - ``(0, 0, 52.5)``
      - 9x Game Boards & Rulebook (Main game board, building board, trophy board, 5 fellowship player boards, and rulebook on top)
+
+Component Checklist
+-------------------
+
+All **590** pieces across **23** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 100
+     - Villager Figures
+     - PlayerBoxBlack (20), PlayerBoxRed (20), PlayerBoxYellow (20), PlayerBoxBlue (20), PlayerBoxGrey (20)
+   * - 5
+     - Hero Figures
+     - PlayerBoxBlack (1), PlayerBoxRed (1), PlayerBoxYellow (1), PlayerBoxBlue (1), PlayerBoxGrey (1)
+   * - 25
+     - Favour Discs
+     - PlayerBoxBlack (5), PlayerBoxRed (5), PlayerBoxYellow (5), PlayerBoxBlue (5), PlayerBoxGrey (5)
+   * - 30
+     - Fellowship Building Tiles
+     - PlayerBoxBlack (6), PlayerBoxRed (6), PlayerBoxYellow (6), PlayerBoxBlue (6), PlayerBoxGrey (6)
+   * - 5
+     - Score Tokens
+     - PlayerBoxBlack (1), PlayerBoxRed (1), PlayerBoxYellow (1), PlayerBoxBlue (1), PlayerBoxGrey (1)
+   * - 5
+     - 100+ Score Tokens
+     - PlayerBoxBlack (1), PlayerBoxRed (1), PlayerBoxYellow (1), PlayerBoxBlue (1), PlayerBoxGrey (1)
+   * - 35
+     - Food Tokens
+     - MaterialBoxFood
+   * - 30
+     - Stone Tokens
+     - MaterialBoxStone
+   * - 20
+     - Honey Tokens
+     - MaterialBoxHoney
+   * - 35
+     - Wood Tokens
+     - MaterialBoxWood
+   * - 88
+     - Favour Cards
+     - CardBoxFavor
+   * - 47
+     - Hero Cards
+     - CardBoxHero
+   * - 64
+     - Solo Cards
+     - CardBoxSolo
+   * - 30
+     - Fellowship Deck Cards
+     - CardBoxPlayerBlack (6), CardBoxPlayerBlue (6), CardBoxPlayerYellow (6), CardBoxPlayerGrey (6), CardBoxPlayerRed (6)
+   * - 5
+     - Player Reference Cards
+     - CardBoxPlayerBlack (1), CardBoxPlayerBlue (1), CardBoxPlayerYellow (1), CardBoxPlayerGrey (1), CardBoxPlayerRed (1)
+   * - 50
+     - General Building Tiles
+     - CommonBox
+   * - 6
+     - Trophy Tokens
+     - CommonBox
+   * - 1
+     - Tracker Disc
+     - CommonBox
+   * - 1
+     - Game Board
+     - Game Boards & Rulebook (Main game board, building board, trophy board, 5 fellowship player boards, and rulebook on top)
+   * - 1
+     - Building Board
+     - Game Boards & Rulebook (Main game board, building board, trophy board, 5 fellowship player boards, and rulebook on top)
+   * - 1
+     - Trophy Board
+     - Game Boards & Rulebook (Main game board, building board, trophy board, 5 fellowship player boards, and rulebook on top)
+   * - 5
+     - Fellowship Player Boards
+     - Game Boards & Rulebook (Main game board, building board, trophy board, 5 fellowship player boards, and rulebook on top)
+   * - 1
+     - Rulebook
+     - Game Boards & Rulebook (Main game board, building board, trophy board, 5 fellowship player boards, and rulebook on top)
 
 Individual Boxes & Parts
 ------------------------

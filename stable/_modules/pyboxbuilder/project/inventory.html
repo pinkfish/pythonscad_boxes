@@ -649,6 +649,38 @@
 
 
 
+<div class="viewcode-block" id="ComponentChecklistRow">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.inventory.ComponentChecklistRow.html#pyboxbuilder.project.inventory.ComponentChecklistRow">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponentChecklistRow</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One row in the master game-component checklist showing total count and where pieces pack."""</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">locations</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ComponentChecklistRow.format_locations">
+<a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.inventory.ComponentChecklistRow.html#pyboxbuilder.project.inventory.ComponentChecklistRow.format_locations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_items</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Format packing locations concisely, e.g. ``'HexBox_1 (45)'`` or ``'4 boxes (16 each)'``."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">"—"</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_items</span><span class="p">:</span>
+            <span class="n">qty_set</span> <span class="o">=</span> <span class="p">{</span><span class="n">qty</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">qty</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">}</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qty_set</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">only_qty</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">qty_set</span><span class="p">))</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">)</span><span class="si">}</span><span class="s2"> boxes (</span><span class="si">{</span><span class="n">only_qty</span><span class="si">}</span><span class="s2"> each)"</span>
+        <span class="n">shown</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">qty</span><span class="si">}</span><span class="s2">)"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">qty</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="k">else</span> <span class="n">loc</span>
+            <span class="k">for</span> <span class="n">loc</span><span class="p">,</span> <span class="n">qty</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">[:</span><span class="n">max_items</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_items</span><span class="p">:</span>
+            <span class="n">shown</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"+</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">max_items</span><span class="si">}</span><span class="s2"> more"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">shown</span><span class="p">)</span></div>
+</div>
+
+
+
 <div class="viewcode-block" id="ProjectInventory">
 <a class="viewcode-back" href="../../../_autosummary/pyboxbuilder.project.inventory.ProjectInventory.html#pyboxbuilder.project.inventory.ProjectInventory">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -661,6 +693,7 @@
     <span class="n">printed_spacers</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">boards</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">GameBoard</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
     <span class="n">box_summaries</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">BoxPieceSummary</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">checklist</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ComponentChecklistRow</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">total_printed_parts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -834,6 +867,11 @@
         <span class="k">elif</span> <span class="n">gb</span><span class="o">.</span><span class="n">label</span> <span class="ow">in</span> <span class="n">declared</span><span class="p">:</span>
             <span class="n">_add</span><span class="p">(</span><span class="n">gb</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">gb</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
 
+    <span class="c1"># Loose items explicitly assigned a storage location (e.g. "Inside spacer_1")</span>
+    <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">location</span><span class="p">:</span>
+            <span class="n">_add</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+
     <span class="n">missing</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">over_allocated</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">unknown</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -860,6 +898,59 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Inventory mismatch in </span><span class="si">{</span><span class="n">manifest</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">format_errors</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">result</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_component_checklist</span><span class="p">(</span><span class="n">manifest</span><span class="p">:</span> <span class="n">ProjectManifest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ComponentChecklistRow</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Map every declared component in the manifest to the box(es), board(s), or spacer(s) holding it."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">manifest</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">()</span>
+
+    <span class="n">declared</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">loc_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
+        <span class="n">declared</span><span class="p">[</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">declared</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">comp</span><span class="o">.</span><span class="n">count</span>
+        <span class="n">loc_map</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">location</span><span class="p">:</span>
+            <span class="n">loc_map</span><span class="p">[</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="n">comp</span><span class="o">.</span><span class="n">location</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">loc_map</span><span class="p">[</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">comp</span><span class="o">.</span><span class="n">count</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_record</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">where</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">qty</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">qty</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">loc_map</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">loc_map</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">where</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">qty</span>
+
+    <span class="k">for</span> <span class="n">builder</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">qty</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span> <span class="s2">"allocates"</span><span class="p">,</span> <span class="p">()):</span>
+            <span class="n">_record</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">qty</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">comp_b</span> <span class="ow">in</span> <span class="n">builder</span><span class="o">.</span><span class="n">compartments</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">comp_b</span><span class="o">.</span><span class="n">allocates</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">qty</span> <span class="ow">in</span> <span class="n">comp_b</span><span class="o">.</span><span class="n">allocates</span><span class="p">:</span>
+                    <span class="n">_record</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">qty</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">comp_b</span><span class="o">.</span><span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">_record</span><span class="p">(</span><span class="n">comp_b</span><span class="o">.</span><span class="n">component</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">comp_b</span><span class="o">.</span><span class="n">count</span> <span class="k">if</span> <span class="n">comp_b</span><span class="o">.</span><span class="n">count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">comp_b</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">_record</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">component</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">elem</span><span class="o">.</span><span class="n">count</span> <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">gb</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">boards</span><span class="p">:</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">gb</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">gb</span><span class="o">.</span><span class="n">notes</span><span class="si">}</span><span class="s2">)"</span> <span class="k">if</span> <span class="n">gb</span><span class="o">.</span><span class="n">notes</span> <span class="k">else</span> <span class="n">gb</span><span class="o">.</span><span class="n">label</span>
+        <span class="k">if</span> <span class="n">gb</span><span class="o">.</span><span class="n">allocates</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">qty</span> <span class="ow">in</span> <span class="n">gb</span><span class="o">.</span><span class="n">allocates</span><span class="p">:</span>
+                <span class="n">_record</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">qty</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">gb</span><span class="o">.</span><span class="n">component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_record</span><span class="p">(</span><span class="n">gb</span><span class="o">.</span><span class="n">component</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">gb</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">gb</span><span class="o">.</span><span class="n">label</span> <span class="ow">in</span> <span class="n">declared</span><span class="p">:</span>
+            <span class="n">_record</span><span class="p">(</span><span class="n">gb</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">gb</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+        <span class="n">ComponentChecklistRow</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">total</span><span class="p">,</span>
+            <span class="n">locations</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">loc_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">total</span> <span class="ow">in</span> <span class="n">declared</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">)</span>
 
 
 <div class="viewcode-block" id="summarize_project">
@@ -904,6 +995,7 @@
         <span class="n">printed_spacers</span><span class="o">=</span><span class="n">spacer_count</span><span class="p">,</span>
         <span class="n">boards</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">boards</span><span class="p">),</span>
         <span class="n">box_summaries</span><span class="o">=</span><span class="n">box_summaries</span><span class="p">,</span>
+        <span class="n">checklist</span><span class="o">=</span><span class="n">_build_component_checklist</span><span class="p">(</span><span class="n">manifest</span><span class="p">),</span>
     <span class="p">)</span></div>
 
 </code></pre></div>

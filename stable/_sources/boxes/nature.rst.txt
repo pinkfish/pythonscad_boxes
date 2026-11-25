@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=c0513e9f" download="Nature_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nature_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=c0513e9f" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=99248161" download="Nature_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>Nature_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=99248161" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=c0513e9f" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/nature/Nature_packing_guide.pdf?v=99248161" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -106,6 +106,52 @@ Parts Overview
      - ``210 × 210 × 7 mm``
      - ``(0, 0, 68)``
      - 6x Boards, Screens & Rulebook (Central watering hole board, 4 player screens, and rulebook atop insert)
+
+Component Checklist
+-------------------
+
+All **272** pieces across **11** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 99
+     - Nature Cards
+     - NatureCardsBox
+   * - 10
+     - Hunter Cards
+     - HunterCardsBox
+   * - 6
+     - Solo / Event Cards
+     - SoloCardsBox
+   * - 20
+     - Population Dials
+     - DialBox_1 (10), DialBox_2 (10)
+   * - 1
+     - Apex Leopard Meeple
+     - LeopardBox
+   * - 60
+     - Grass Food Tokens
+     - ResourceBox_Grass
+   * - 30
+     - Meat Food Tokens
+     - ResourceBox_Meat
+   * - 40
+     - Population Tokens
+     - ResourceBox_Population
+   * - 1
+     - Watering Hole Board
+     - Boards, Screens & Rulebook (Central watering hole board, 4 player screens, and rulebook atop insert)
+   * - 4
+     - Player Screens
+     - Boards, Screens & Rulebook (Central watering hole board, 4 player screens, and rulebook atop insert)
+   * - 1
+     - Rulebook
+     - Boards, Screens & Rulebook (Central watering hole board, 4 player screens, and rulebook atop insert)
 
 Individual Boxes & Parts
 ------------------------

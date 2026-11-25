@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=525294da" download="1899Daihan_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>1899Daihan_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=525294da" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=a785b7c0" download="1899Daihan_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>1899Daihan_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=a785b7c0" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=525294da" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/1899_daihan/1899Daihan_packing_guide.pdf?v=a785b7c0" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -35,7 +35,7 @@ Parts Overview
 
 - **3-D Printed Parts**: 12 bodies, 12 lids, 2 spacers (26 total)
 - **Boards & Non-Printed Components**: 1
-- **Counted Game Pieces**: 145
+- **Counted Game Pieces**: 426
 
 .. list-table::
    :header-rows: 1
@@ -50,37 +50,37 @@ Parts Overview
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 0, 0)``
-     - 9x Hex Track Tile Stacks
+     - 42x Yellow Track Hex Tiles
    * - :ref:`HexBox_2 <box-1899_daihan-hexbox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 0, 16)``
-     - 9x Hex Track Tile Stacks
+     - 36x Green Track Hex Tiles
    * - :ref:`HexBox_3 <box-1899_daihan-hexbox_3>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``148.564 × 129 × 18 mm``
      - ``(76.4359, 0, 32)``
-     - 9x Hex Track Tile Stacks
+     - 24x Brown Track Hex Tiles
    * - :ref:`HexBox_4 <box-1899_daihan-hexbox_4>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``148.564 × 129 × 16 mm``
      - ``(76.4359, 129, 0)``
-     - 9x Hex Track Tile Stacks
+     - 6x Grey Track Hex Tiles
    * - :ref:`ShareBox_1 <box-1899_daihan-sharebox_1>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``76.4359 × 258 × 16.6667 mm``
      - ``(0, 0, 0)``
-     - 4x Corporate Share Decks
+     - 36x Corporate Share Certificates
    * - :ref:`ShareBox_2 <box-1899_daihan-sharebox_2>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``76.4359 × 258 × 16.6667 mm``
      - ``(0, 0, 16.6667)``
-     - 4x Corporate Share Decks
+     - 36x Corporate Share Certificates
    * - :ref:`MoneyBox <box-1899_daihan-moneybox>`
      - :ref:`BoxType.CAP <box-type-cap>`
      - ``76.4359 × 258 × 16.6667 mm``
      - ``(0, 0, 33.3333)``
-     - 5x Paper Currency Stacks
+     - 150x Paper Banknotes
    * - :ref:`CompanyMarkerBox_1 <box-1899_daihan-companymarkerbox_1>`
      - :ref:`BoxType.SLIPOVER <box-type-slipover>`
      - ``148.564 × 47 × 18 mm``
@@ -122,6 +122,52 @@ Parts Overview
      - ``(0, 0, 50)``
      - 1x Game Board & Stock Market (Mounted map board and stock market atop insert)
 
+Component Checklist
+-------------------
+
+All **427** pieces across **11** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 42
+     - Yellow Track Hex Tiles
+     - HexBox_1
+   * - 36
+     - Green Track Hex Tiles
+     - HexBox_2
+   * - 24
+     - Brown Track Hex Tiles
+     - HexBox_3
+   * - 6
+     - Grey Track Hex Tiles
+     - HexBox_4
+   * - 72
+     - Corporate Share Certificates
+     - ShareBox_1 (36), ShareBox_2 (36)
+   * - 150
+     - Paper Banknotes
+     - MoneyBox
+   * - 56
+     - Company Charter Discs
+     - CompanyMarkerBox_1 (28), CompanyMarkerBox_2 (28)
+   * - 8
+     - Private Company Cards
+     - PrivateCompanyCards
+   * - 6
+     - Priority Deal & Extra Markers
+     - ExtraBitsBox
+   * - 26
+     - Train Cards
+     - TrainCardBox
+   * - 1
+     - Game Board & Stock Market
+     - Game Board & Stock Market (Mounted map board and stock market atop insert)
+
 Individual Boxes & Parts
 ------------------------
 
@@ -133,7 +179,7 @@ HexBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 0, 0)``
-- **Pieces / Contents**: 9x Hex Track Tile Stacks
+- **Pieces / Contents**: 42x Yellow Track Hex Tiles
 - **Compartments (1)**: ``Tiles`` (21 elements)
 
 **Assembled Box (HexBox_1 — Body + Lid)**
@@ -171,7 +217,7 @@ HexBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 0, 16)``
-- **Pieces / Contents**: 9x Hex Track Tile Stacks
+- **Pieces / Contents**: 36x Green Track Hex Tiles
 - **Compartments (1)**: ``Tiles`` (21 elements)
 
 **Assembled Box (HexBox_2 — Body + Lid)**
@@ -209,7 +255,7 @@ HexBox_3
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``148.564 × 129 × 18 mm``
 - **Packed Position**: ``(76.4359, 0, 32)``
-- **Pieces / Contents**: 9x Hex Track Tile Stacks
+- **Pieces / Contents**: 24x Brown Track Hex Tiles
 - **Compartments (1)**: ``Tiles`` (21 elements)
 
 **Assembled Box (HexBox_3 — Body + Lid)**
@@ -247,7 +293,7 @@ HexBox_4
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``148.564 × 129 × 16 mm``
 - **Packed Position**: ``(76.4359, 129, 0)``
-- **Pieces / Contents**: 9x Hex Track Tile Stacks
+- **Pieces / Contents**: 6x Grey Track Hex Tiles
 - **Compartments (1)**: ``Tiles`` (21 elements)
 
 **Assembled Box (HexBox_4 — Body + Lid)**
@@ -285,7 +331,7 @@ ShareBox_1
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``76.4359 × 258 × 16.6667 mm``
 - **Packed Position**: ``(0, 0, 0)``
-- **Pieces / Contents**: 4x Corporate Share Decks
+- **Pieces / Contents**: 36x Corporate Share Certificates
 - **Compartments (4)**: ``Slot_1`` (L=25%), ``Slot_2`` (L=25%), ``Slot_3`` (L=25%), ``Slot_4`` (L=25%)
 
 **Assembled Box (ShareBox_1 — Body + Lid)**
@@ -323,7 +369,7 @@ ShareBox_2
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``76.4359 × 258 × 16.6667 mm``
 - **Packed Position**: ``(0, 0, 16.6667)``
-- **Pieces / Contents**: 4x Corporate Share Decks
+- **Pieces / Contents**: 36x Corporate Share Certificates
 - **Compartments (4)**: ``Slot_1`` (L=25%), ``Slot_2`` (L=25%), ``Slot_3`` (L=25%), ``Slot_4`` (L=25%)
 
 **Assembled Box (ShareBox_2 — Body + Lid)**
@@ -361,7 +407,7 @@ MoneyBox
 - **Box Type**: :ref:`BoxType.CAP <box-type-cap>`
 - **Outer Dimensions**: ``76.4359 × 258 × 16.6667 mm``
 - **Packed Position**: ``(0, 0, 33.3333)``
-- **Pieces / Contents**: 5x Paper Currency Stacks
+- **Pieces / Contents**: 150x Paper Banknotes
 - **Compartments (5)**: ``Denom_1`` (L=20%), ``Denom_2`` (L=20%), ``Denom_3`` (L=20%), ``Denom_4`` (L=20%), ``Denom_5`` (L=20%)
 
 **Assembled Box (MoneyBox — Body + Lid)**

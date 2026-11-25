@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=9b57ab2a" download="FirstClass_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>FirstClass_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=9b57ab2a" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=66f43538" download="FirstClass_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>FirstClass_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=66f43538" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=9b57ab2a" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/first_class/FirstClass_packing_guide.pdf?v=66f43538" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -166,6 +166,79 @@ Parts Overview
      - ``217 × 307 × 5.5 mm``
      - ``(0, 0, 64.5)``
      - 6x Boards & Rulebook (Score board, 4 player boards, and rulebook)
+
+Component Checklist
+-------------------
+
+All **458** pieces across **20** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 4
+     - Locomotives
+     - PlayerBox_yellow (1), PlayerBox_blue (1), PlayerBox_red (1), PlayerBox_green (1)
+   * - 12
+     - Conductors
+     - PlayerBox_yellow (3), PlayerBox_blue (3), PlayerBox_red (3), PlayerBox_green (3)
+   * - 24
+     - Scoring Cubes
+     - PlayerBox_yellow (6), PlayerBox_blue (6), PlayerBox_red (6), PlayerBox_green (6)
+   * - 48
+     - Coins
+     - MoneyBox
+   * - 26
+     - Evidence Tokens
+     - EvidenceBox
+   * - 120
+     - Module Cards
+     - CardBox_ModuleA (24), CardBox_ModuleB (24), CardBox_ModuleC (24), CardBox_ModuleD (24), CardBox_ModuleE (24)
+   * - 72
+     - Base Action Cards
+     - CardBox_BaseCards_1 (36), CardBox_BaseCards_2 (36)
+   * - 16
+     - Mail Car Cards
+     - CardBox_EvidenceAndMail
+   * - 50
+     - Railroad 0-1 Cards
+     - CardBox_Railroad01
+   * - 24
+     - Railroad 2-4 Cards
+     - CardBox_Railroad24
+   * - 20
+     - Railroad 7-12 Cards
+     - CardBox_Railroad712
+   * - 4
+     - Whodunit Cards
+     - CardBox_Whodunit
+   * - 21
+     - Game End Cards
+     - CardBox_GameEnd
+   * - 1
+     - Start Player Tile
+     - StartTileCardBox
+   * - 1
+     - Start Player Figure
+     - StartTileCardBox
+   * - 8
+     - Locomotive Tiles
+     - LocomotiveTileBox
+   * - 1
+     - Constantinople Tile
+     - LocomotiveTileBox
+   * - 1
+     - Score Board
+     - Boards & Rulebook (Score board, 4 player boards, and rulebook)
+   * - 4
+     - Player Boards
+     - Boards & Rulebook (Score board, 4 player boards, and rulebook)
+   * - 1
+     - Rulebook
+     - Boards & Rulebook (Score board, 4 player boards, and rulebook)
 
 Individual Boxes & Parts
 ------------------------

@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/march_of_the_ants/MarchOfTheAnts_packing_guide.pdf?v=36a6fae1" download="MarchOfTheAnts_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MarchOfTheAnts_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/march_of_the_ants/MarchOfTheAnts_packing_guide.pdf?v=36a6fae1" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/march_of_the_ants/MarchOfTheAnts_packing_guide.pdf?v=8756d44a" download="MarchOfTheAnts_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>MarchOfTheAnts_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/march_of_the_ants/MarchOfTheAnts_packing_guide.pdf?v=8756d44a" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/march_of_the_ants/MarchOfTheAnts_packing_guide.pdf?v=36a6fae1" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/march_of_the_ants/MarchOfTheAnts_packing_guide.pdf?v=8756d44a" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -111,6 +111,70 @@ Parts Overview
      - ``195 × 275 × 6 mm``
      - ``(0, 0, 59)``
      - 7x Score Track, Helper Boards & Rules
+
+Component Checklist
+-------------------
+
+All **446** pieces across **17** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 25
+     - Territory Hex Tiles
+     - HexTileBox
+   * - 66
+     - Base Evolution Cards
+     - CardBox_Base
+   * - 49
+     - Minions Expansion Cards
+     - CardBox_Expansion
+   * - 6
+     - Minions Expansion Hex Tiles
+     - MinionsOfTheMeadowBox
+   * - 30
+     - Food Tokens
+     - FoodTokensBox
+   * - 15
+     - Centipede Tokens
+     - FoodTokensBox
+   * - 1
+     - Day/Night Token
+     - FoodTokensBox
+   * - 1
+     - Active Player Leaf
+     - FoodTokensBox
+   * - 5
+     - Predator Meeples
+     - PredatorsBox
+   * - 180
+     - Ant Cubes
+     - PlayerBox_Red (36), PlayerBox_Yellow (36), PlayerBox_Black (36), PlayerBox_Blue (36), PlayerBox_Green (36)
+   * - 5
+     - Player Marker Discs
+     - PlayerBox_Red (1), PlayerBox_Yellow (1), PlayerBox_Black (1), PlayerBox_Blue (1), PlayerBox_Green (1)
+   * - 5
+     - Major Workers
+     - PlayerBox_Red (1), PlayerBox_Yellow (1), PlayerBox_Black (1), PlayerBox_Blue (1), PlayerBox_Green (1)
+   * - 15
+     - Major Worker Tokens
+     - PlayerBox_Red (3), PlayerBox_Yellow (3), PlayerBox_Black (3), PlayerBox_Blue (3), PlayerBox_Green (3)
+   * - 36
+     - Aphid Tokens
+     - AphidBox
+   * - 1
+     - Score Track Board
+     - Score Track, Helper Boards & Rules
+   * - 5
+     - Player Helper Boards
+     - Score Track, Helper Boards & Rules
+   * - 1
+     - Rulebook
+     - Score Track, Helper Boards & Rules
 
 Individual Boxes & Parts
 ------------------------

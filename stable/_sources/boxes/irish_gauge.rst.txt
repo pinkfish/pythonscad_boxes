@@ -24,10 +24,10 @@ Interactive 3-D view of all boxes, lids, and spacers packed inside the game box:
 
 .. raw:: html
 
-   <p><a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=c44456ec" download="IrishGauge_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IrishGauge_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=c44456ec" target="_blank" rel="noopener">📄 Open in new tab</a></p>
+   <p><a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=e57f1f18" download="IrishGauge_packing_guide.pdf">⬇ Download Packing Guide PDF (<code>IrishGauge_packing_guide.pdf</code>)</a> &nbsp;|&nbsp; <a href="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=e57f1f18" target="_blank" rel="noopener">📄 Open in new tab</a></p>
    <details style="margin-bottom:1.2em">
      <summary style="cursor:pointer;font-weight:600">Preview Packing Guide PDF</summary>
-     <iframe src="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=c44456ec" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
+     <iframe src="../_pdf/boxes/irish_gauge/IrishGauge_packing_guide.pdf?v=e57f1f18" width="100%" height="580px" style="border:1px solid #ccc;border-radius:4px;margin-top:0.5em"></iframe>
    </details>
 
 Parts Overview
@@ -96,6 +96,49 @@ Parts Overview
      - ``214 × 302 × 10.5 mm``
      - ``(0, 0, 28.5)``
      - 2x Game Board & Rulebook (Folded Ireland map board and rulebook on top)
+
+Component Checklist
+-------------------
+
+All **219** pieces across **10** component types accounted for:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 38 50
+
+   * - Count
+     - Component / Tile
+     - Packed In
+   * - 16
+     - Share Certificates
+     - CompanyBox_Belfast (2), CompanyBox_Cork (3), CompanyBox_Midland (3), CompanyBox_Waterford (4), CompanyBox_GreatSouthern (4)
+   * - 95
+     - Locomotives
+     - CompanyBox_Belfast (19), CompanyBox_Cork (19), CompanyBox_Midland (19), CompanyBox_Waterford (19), CompanyBox_GreatSouthern (19)
+   * - 5
+     - Railway Dividend Disks
+     - CompanyBox_Belfast (1), CompanyBox_Cork (1), CompanyBox_Midland (1), CompanyBox_Waterford (1), CompanyBox_GreatSouthern (1)
+   * - 30
+     - £1 Currency Cards
+     - MoneyAndDividendsBox
+   * - 20
+     - £5 Currency Cards
+     - MoneyAndDividendsBox
+   * - 20
+     - £10 Currency Cards
+     - MoneyAndDividendsBox
+   * - 30
+     - Dividend Cubes
+     - MoneyAndDividendsBox
+   * - 1
+     - Cloth Bag
+     - MoneyAndDividendsBox
+   * - 1
+     - Game Board
+     - Game Board & Rulebook (Folded Ireland map board and rulebook on top)
+   * - 1
+     - Rulebook
+     - Game Board & Rulebook (Folded Ireland map board and rulebook on top)
 
 Individual Boxes & Parts
 ------------------------
