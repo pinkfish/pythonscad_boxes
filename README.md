@@ -63,21 +63,22 @@ pip install "pyboxbuilder[all]"
 from pyboxbuilder import BoxType, Color, LabelMode, LidBuilder, Project
 
 project = Project("CardGame", game_box_size=(200, 150, 90))
-project.define_inventory({"Action Cards": 120, "Victory Tokens": 40})
+actions = project.define_cards("Action Cards", count=120, size=(63.5, 88.0), thickness=0.6)
+tokens = project.define_piece("Victory Tokens", count=40, diameter=20.0, thickness=2.0, bulk=True)
 
-cards = project.box(
+cards_box = project.box(
     BoxType.SLIDING,
     "Cards",
-    size=(70, 100, None),  # height follows from the cards
+    size=(70, 100, None),  # height follows from 120 × 0.6 mm cards
     lid=LidBuilder(
         label_mode=LabelMode.FRAMED,
         frame_color=Color("gold"),
     ).titled("Cards"),
 )
-cards.cards("Deck", component="Action Cards", count=120, size=(63.5, 88.0))
+cards_box.store(actions)
 
-tokens = project.box(BoxType.CAP, "Tokens", size=(80, 70, 30))
-tokens.compartment("Tokens", component="Victory Tokens", count=40)
+tokens_box = project.box(BoxType.CAP, "Tokens", size=(80, 70, 30))
+tokens_box.store(tokens)
 
 project.verify_inventory(strict=True)
 project.export("output/")
