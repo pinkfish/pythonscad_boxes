@@ -6,8 +6,8 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import TYPE_CHECKING
 
+from pybosl2 import cylinder, wedge
 from pybosl2.constants import Anchor
-from pybosl2.shapes3d import cylinder, wedge
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.features import hinge_catch

@@ -742,6 +742,18 @@ def round_inner_rim(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
     if interior_height <= radius:
         return body
 
+    from pybosl2 import current_backend, prismoid
+    from pybosl2.constants import Anchor
+
+    if current_backend() == "sdf":
+        flare = prismoid(
+            size1=[inner_width, inner_length],
+            size2=[inner_width + 2.0 * radius, inner_length + 2.0 * radius],
+            height=radius,
+            anchor=Anchor.BOTTOM,
+        ).translate([spec.width / 2.0, spec.length / 2.0, spec.height - radius])
+        return body - flare
+
     steps = max(8, rounding_facets()["fn"] // 4)
     # The widened perimeter: the sweep's flared end is the path itself, and the
     # roundover brings it back to the interior a radius along (that is the

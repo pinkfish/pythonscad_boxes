@@ -29,8 +29,7 @@ def _corner_triangles(
     pad: float = 0.0,
 ) -> Bosl2Solid:
     """Return 45° triangular prisms at the four corners of ``[x0..x1, y0..y1]``."""
-    from pybosl2 import Path2D
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, polygon
 
     tris = [
         [(x0 - pad, y0 - pad), (x0 + d, y0 - pad), (x0 - pad, y0 + d)],
@@ -39,7 +38,7 @@ def _corner_triangles(
         [(x1 + pad, y1 + pad), (x1 - d, y1 + pad), (x1 + pad, y1 - d)],
     ]
     return union_all([
-        polygon(path=Path2D(pts)).linear_extrude(height=h).translate([0.0, 0.0, z0])
+        polygon(Path2D(pts)).linear_extrude(height=h).translate([0.0, 0.0, z0])
         for pts in tris
     ])
 
