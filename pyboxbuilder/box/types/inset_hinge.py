@@ -249,13 +249,19 @@ class InsetHingeBox(BoxTypeBase):
         hinge_offset = spec.pip_radial_clearance
         return hinge_diameter, hinge_width, side_gap, hinge_length, hinge_offset
 
+    @classmethod
+    def _hinge_half_inset(cls, spec: BoxSpec) -> float:
+        """Return the X inset occupied by one hinge barrel + backing wall inside each half."""
+        hinge_diameter, _, _, _, hinge_offset = cls._hinge_metrics(spec)
+        return hinge_diameter + max(spec.wall_thickness, hinge_offset * 1.5 + 1.0)
+
     def interior(self, spec: BoxSpec) -> Interior:
         """Return the usable interior volume of the base half clear of the inset hinge."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
         half_h = spec.height / 2.0
-        _, hinge_width, _, _, _ = self._hinge_metrics(spec)
-        inner_w = max(4.0, spec.width - wt - hinge_width)
+        hinge_inset = self._hinge_half_inset(spec)
+        inner_w = max(4.0, spec.width - wt - hinge_inset)
         inner_l = max(4.0, spec.length - 2.0 * wt)
         inner_h = max(2.0, half_h - ft)
         return Interior(
@@ -274,14 +280,13 @@ class InsetHingeBox(BoxTypeBase):
         inner_l: float,
         inner_h: float,
     ) -> tuple[float, float, float]:
-        """Return closed outer (W, L, H) accounting for the inset hinge width."""
+        """Return closed outer (W, L, H) accounting for the single-half inset hinge barrel."""
         wt = spec.wall_thickness
         ft = spec.floor_thickness
-        gap = self._effective_gap(spec)
         hinge_d = 2.0 * spec.pip_hinge_radius
-        hinge_width = hinge_d * 2.0 + gap
+        hinge_inset = hinge_d + max(wt, spec.pip_radial_clearance * 1.5 + 1.0)
         return (
-            inner_w + wt + hinge_width + 0.5,
+            inner_w + wt + hinge_inset + 0.5,
             inner_l + 2.0 * wt + 0.5,
             2.0 * (inner_h + ft + 0.25),
         )
@@ -292,8 +297,8 @@ class InsetHingeBox(BoxTypeBase):
         ft = spec.floor_thickness
         lt = spec.lid_thickness
         half_h = spec.height / 2.0
-        _, hinge_width, _, _, _ = self._hinge_metrics(spec)
-        inner_w = max(4.0, spec.width - wt - hinge_width)
+        hinge_inset = self._hinge_half_inset(spec)
+        inner_w = max(4.0, spec.width - wt - hinge_inset)
         inner_l = max(4.0, spec.length - 2.0 * wt)
         mask = block(
             [inner_w, inner_l, half_h],
@@ -399,8 +404,9 @@ class InsetHingeBox(BoxTypeBase):
 
         shell = box_half | lid_half
 
-        # 3. Interior cavities for base half and lid half
-        cav_w = max(4.0, spec.width - wt - hinge_width)
+        # 3. Interior cavities for base half and lid half (right up to each half's hinge barrel + wall)
+        hinge_inset = self._hinge_half_inset(spec)
+        cav_w = max(4.0, spec.width - wt - hinge_inset)
         cav_l = max(4.0, spec.length - 2.0 * wt)
         r_cav = min(wt / 2.0, cav_w / 4.0, cav_l / 4.0)
 
@@ -419,7 +425,7 @@ class InsetHingeBox(BoxTypeBase):
             anchor=Anchor.BOTTOM + Anchor.FRONT + Anchor.LEFT,
             rounding=r_cav,
             edges=outer_edges,
-        ).translate([lid_x + hinge_width, wt, lt])
+        ).translate([lid_x + hinge_inset, wt, lt])
         shell = shell - lid_cav
 
         # 4. Cut the recessed hinge pocket and union the InsetHinge

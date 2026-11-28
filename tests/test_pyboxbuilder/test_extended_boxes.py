@@ -876,14 +876,30 @@ class ExtendedBoxGeometryTests(unittest.TestCase):
         )
         self.assertGreater(volume(body & tab_probe), 20.0)
 
-        # Interior reserves hinge_width along X on the base half
+        # Interior runs right up to the single-half hinge barrel + backing wall (no extra wasted chunk)
         interior = impl.interior(spec)
-        hinge_width = 2.0 * (2.0 * spec.pip_hinge_radius) + expected_gap
+        hinge_inset = hinge_diameter + max(spec.wall_thickness, spec.pip_radial_clearance * 1.5 + 1.0)
         self.assertAlmostEqual(
-            interior.width, spec.width - spec.wall_thickness - hinge_width
+            interior.width, spec.width - spec.wall_thickness - hinge_inset
         )
         self.assertAlmostEqual(interior.length, spec.length - 2.0 * spec.wall_thickness)
         self.assertAlmostEqual(interior.height, half_h - spec.floor_thickness)
+
+        # Verify the space immediately inside the hinge backing wall is hollow (both base and lid halves)
+        base_back_probe = block(
+            [2.0, 10.0, 4.0],
+            at=(spec.width - hinge_inset - 3.0, spec.length / 2.0 - 5.0, spec.floor_thickness + 1.0),
+        )
+        self.assertAlmostEqual(volume(body & base_back_probe), 0.0, delta=1e-3)
+        lid_back_probe = block(
+            [2.0, 10.0, 4.0],
+            at=(
+                spec.width + expected_gap + hinge_inset + 1.0,
+                spec.length / 2.0 - 5.0,
+                spec.lid_thickness + 1.0,
+            ),
+        )
+        self.assertAlmostEqual(volume(body & lid_back_probe), 0.0, delta=1e-3)
 
     def test_sliding_hinge_box_geometry_and_catches(self) -> None:
         """Verify SlidingHingeBox defaults to SLIDE_ACROSS and supports slide_up, spin, and card_library catches."""
