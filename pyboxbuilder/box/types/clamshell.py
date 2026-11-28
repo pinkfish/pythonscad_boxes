@@ -70,8 +70,7 @@ class ClamshellBox(BoxTypeBase):
     @staticmethod
     def _clamshell_hinge(spec: BoxSpec) -> Closure:
         """Build symmetric mid-plane filament-pin knuckles for lower and upper tray walls."""
-        from pybosl2 import Path2D, cylinder
-        from pybosl2.shapes2d import polygon
+        from pybosl2 import Path2D, cylinder, polygon
 
         wt = spec.wall_thickness
         half_h = spec.height / 2.0
@@ -90,7 +89,7 @@ class ClamshellBox(BoxTypeBase):
 
         wedge_depth = 2.0 * radius_h
         body_poly = polygon(
-            path=Path2D(
+            Path2D(
                 [
                     (axis_y - radius_h, axis_z - gap / 2.0),
                     (spec.length, axis_z - gap / 2.0),
@@ -99,7 +98,7 @@ class ClamshellBox(BoxTypeBase):
             )
         )
         lid_poly = polygon(
-            path=Path2D(
+            Path2D(
                 [
                     (axis_y - radius_h, axis_z + gap / 2.0),
                     (spec.length, min(spec.height, axis_z + wedge_depth)),
@@ -134,7 +133,7 @@ class ClamshellBox(BoxTypeBase):
                     lid_poly.linear_extrude(height=length)
                     .rotate([0, 90, 0])
                     .rotate([-90, 0, 0])
-                    .scale([1, -1, -1])
+                    .rotate([180, 0, 0])
                     .translate([x0, 0.0, 0.0])
                 )
                 back_fill = block(
@@ -157,7 +156,7 @@ class ClamshellBox(BoxTypeBase):
                     body_poly.linear_extrude(height=length)
                     .rotate([0, 90, 0])
                     .rotate([-90, 0, 0])
-                    .scale([1, -1, -1])
+                    .rotate([180, 0, 0])
                     .translate([x0, 0.0, 0.0])
                 )
                 back_fill = block(

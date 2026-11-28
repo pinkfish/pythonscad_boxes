@@ -633,7 +633,7 @@ def _dovetail_solid(
     four equal values) is correct. Rounding all four is no loss anyway — the
     trailing pair is the exposed end, which the box type rounds again anyway.
     """
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     bottom_size = bottom_along[1] - bottom_along[0]
     top_size = top_along[1] - top_along[0]
@@ -703,7 +703,7 @@ def _lead_chamfer(
         The wedge to subtract from the lid.
 
     """
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     span = across_max - across_min
     across_center = (across_min + across_max) / 2
@@ -888,11 +888,10 @@ def build_wedge_detent(
     Y: [0, depth]
     Z: [0, height]
     """
-    from pybosl2 import Path2D
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, polygon
 
     # Sloped lead-in from (0, 0) to (depth, height), horizontal retaining shoulder at (0, height)
-    wedge_poly = polygon(path=Path2D([
+    wedge_poly = polygon(Path2D([
         (0.0, 0.0),
         (depth, height),
         (0.0, height),
@@ -901,11 +900,11 @@ def build_wedge_detent(
         wedge_poly.linear_extrude(height=width)
         .rotate([0, 90, 0])
         .rotate([-90, 0, 0])
-        .scale([1, -1, -1])
+        .rotate([180, 0, 0])
         .translate([-width / 2.0, 0.0, 0.0])
     )
 
-    groove_poly = polygon(path=Path2D([
+    groove_poly = polygon(Path2D([
         (-0.05, -clearance),
         (depth + clearance, height + clearance),
         (-0.05, height + clearance),
@@ -914,7 +913,7 @@ def build_wedge_detent(
         groove_poly.linear_extrude(height=width + 2 * clearance)
         .rotate([0, 90, 0])
         .rotate([-90, 0, 0])
-        .scale([1, -1, -1])
+        .rotate([180, 0, 0])
         .translate([-width / 2.0 - clearance, 0.0, -clearance])
     )
     return wedge, groove
@@ -1052,8 +1051,8 @@ def sliding_catch(
         wedge, groove = build_wedge_detent(w_depth, w_width, w_height)
 
         # Place wedge and groove on both flanks pointing into wall (-Y on flank, +Y on across-flank)
-        w_low = wedge.scale([1, -1, 1])
-        g_low = groove.scale([1, -1, 1])
+        w_low = wedge.mirror([0, 1, 0])
+        g_low = groove.mirror([0, 1, 0])
         wedges = _place(w_low, flank) | _place(wedge, across - flank)
         grooves = _place(g_low, flank) | _place(groove, across - flank)
         return Closure(body=grooves, lid=wedges & envelope)
@@ -1099,7 +1098,7 @@ def sliding_catch(
         bumps = _place(bead, flank) | _place(bead, across - flank)
         dimples = _place(dimple, flank) | _place(dimple, across - flank)
         slot_low = _place(slot, flank + eff_radius + 0.5)
-        slot_high = _place(slot.scale([1, -1, 1]), across - flank - eff_radius - 0.5)
+        slot_high = _place(slot.mirror([0, 1, 0]), across - flank - eff_radius - 0.5)
         slots = slot_low | slot_high
         return Closure(body=dimples, lid=bumps & envelope, lid_cut=slots & envelope)
 
@@ -1206,8 +1205,8 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
                 lid_solids.append(wedge.translate([pos_long, inset - slack, z0]))
                 body_solids.append(groove.translate([pos_long, inset, z0]))
                 # high face: extends -Y
-                lid_solids.append(wedge.scale([1, -1, 1]).translate([pos_long, across_val - (inset - slack), z0]))
-                body_solids.append(groove.scale([1, -1, 1]).translate([pos_long, across_val - inset, z0]))
+                lid_solids.append(wedge.mirror([0, 1, 0]).translate([pos_long, across_val - (inset - slack), z0]))
+                body_solids.append(groove.mirror([0, 1, 0]).translate([pos_long, across_val - inset, z0]))
             else:
                 # low face: extends +X
                 lid_solids.append(wedge.rotate([0, 0, -90]).translate([inset - slack, pos_long, z0]))
@@ -1233,8 +1232,8 @@ def cap_slipover_catch(spec: BoxSpec, is_slipover: bool = False) -> Closure:
                 lid_solids.append(loop_tab.translate([pos_long, inset - slack, z0]))
                 body_solids.append(body_cutter.translate([pos_long, inset, z0]))
                 # high face: extends -Y
-                lid_solids.append(loop_tab.scale([1, -1, 1]).translate([pos_long, across_val - (inset - slack), z0]))
-                body_solids.append(body_cutter.scale([1, -1, 1]).translate([pos_long, across_val - inset, z0]))
+                lid_solids.append(loop_tab.mirror([0, 1, 0]).translate([pos_long, across_val - (inset - slack), z0]))
+                body_solids.append(body_cutter.mirror([0, 1, 0]).translate([pos_long, across_val - inset, z0]))
             else:
                 # low face: extends +X
                 lid_solids.append(loop_tab.rotate([0, 0, -90]).translate([inset - slack, pos_long, z0]))
@@ -1535,8 +1534,7 @@ def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> Bosl2Soli
         The solid the contents must keep clear of.
 
     """
-    from pybosl2 import cylinder
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import cylinder, polygon
 
     wt = spec.wall_thickness
     radius = max(wt, filament_diameter)
@@ -1555,12 +1553,12 @@ def hinge_intrusion(spec: BoxSpec, filament_diameter: float = 1.75) -> Bosl2Soli
 
     # The chamfered support web/wedge angling back to the back wall
     from pybosl2 import Path2D
-    poly = polygon(path=Path2D([
+    poly = polygon(Path2D([
         (spec.length, axis_z + total_depth),
         (spec.length - total_depth, axis_z),
         (spec.length, axis_z - total_depth),
     ]))
-    wedge = poly.linear_extrude(height=spec.width).rotate([0, 90, 0]).rotate([-90, 0, 0]).scale([1, -1, -1])
+    wedge = poly.linear_extrude(height=spec.width).rotate([0, 90, 0]).rotate([-90, 0, 0]).rotate([180, 0, 0])
 
     return cyl | wedge
 
@@ -2056,8 +2054,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
     built to mount on vertical front/side walls where the lid may be a hollow upper tray
     or unfolded 180° on the print bed (`PrintInPlaceHingeBox`, `InsetHingeBox`, `ClamshellBox`).
     """
-    from pybosl2.shapes2d import polygon
-    from pybosl2.shapes3d import sphere
+    from pybosl2 import polygon, sphere
 
     from pyboxbuilder.compartments.element import union_all
     from pyboxbuilder.precision import kwargs as precision_kwargs
@@ -2154,10 +2151,11 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
 
     x_center = spec.width / 2.0
 
+    from pybosl2 import current_backend, rect
     from pybosl2.constants import FRONT
-    from pybosl2.shapes2d import rect
 
-    tab_2d = rect([catch_width, wt / 2.0], rounding=[fillet_r, fillet_r, 0, 0], anchor=FRONT)
+    tab_r = min(fillet_r, wt / 4.0 - 0.01) if current_backend() == "sdf" else fillet_r
+    tab_2d = rect([catch_width, wt / 2.0], rounding=[tab_r, tab_r, 0, 0], anchor=FRONT)
     tab_top_extra = lt if is_vertical else 0.0
     lid_tab = tab_2d.linear_extrude(height=catch_height + tab_top_extra).translate(
         [x_center, 0.0, body_height - catch_height]
@@ -2165,9 +2163,10 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
 
     body_cut_width = catch_width + 2 * gap
     body_cut_y = wt / 2.0 + gap
+    cut_r = min(fillet_r + gap, body_cut_y / 2.0 - 0.01) if current_backend() == "sdf" else fillet_r + gap
     body_cut_2d = rect(
         [body_cut_width, body_cut_y],
-        rounding=[fillet_r + gap, fillet_r + gap, 0, 0],
+        rounding=[cut_r, cut_r, 0, 0],
         anchor=FRONT,
     )
     body_cut = body_cut_2d.linear_extrude(height=catch_height + gap).translate(
@@ -2175,7 +2174,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
     )
 
     from pybosl2 import Path2D
-    gusset_poly = polygon(path=Path2D([
+    gusset_poly = polygon(Path2D([
         (0.0, wt / 2.0),
         (0.0, wt - 0.2),  # stop slightly short of inner wall to prevent outer wall bleed/coincidence
         (lt, wt / 2.0),
@@ -2184,11 +2183,11 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
         gusset_poly.linear_extrude(height=catch_width - 2 * fillet_r)
         .rotate([0, 90, 0])
         .rotate([-90, 0, 0])
-        .scale([1, -1, -1])
+        .rotate([180, 0, 0])
         .translate([x_center - catch_width / 2.0 + fillet_r, 0, body_height])
     )
 
-    pocket_poly = polygon(path=Path2D([
+    pocket_poly = polygon(Path2D([
         (-gap, wt / 2.0 - gap),
         (-gap, wt + 0.1),
         (lt + gap, wt + 0.1),
@@ -2198,7 +2197,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
         pocket_poly.linear_extrude(height=catch_width + 2 * gap)
         .rotate([0, 90, 0])
         .rotate([-90, 0, 0])
-        .scale([1, -1, -1])
+        .rotate([180, 0, 0])
         .translate([x_center - catch_width / 2.0 - gap, 0, body_height])
     )
 
@@ -2212,7 +2211,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
     if catch_type == CatchType.WEDGE:
         bead_depth = min(eff_size, wt / 2.0)
         # Right-angled triangular ridge on lid tab (flat top, sloped bottom)
-        ridge_poly = polygon(path=Path2D([
+        ridge_poly = polygon(Path2D([
             (wt / 2.0, 0.0),
             (wt / 2.0 + bead_depth, slope_height),
             (wt / 2.0, slope_height),
@@ -2221,13 +2220,13 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
             ridge_poly.linear_extrude(height=catch_width)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
-            .scale([1, -1, -1])
+            .rotate([180, 0, 0])
             .translate([x_center - catch_width / 2.0, 0, z_peak - slope_height])
         )
         lid_catch = lid_tab | ridge
 
         # Body cut pocket groove (triangular matching cut, slightly larger)
-        groove_poly = polygon(path=Path2D([
+        groove_poly = polygon(Path2D([
             (wt / 2.0 - 0.1, 0.0),
             (wt / 2.0 + bead_depth + gap, slope_height + 1.0 + gap),
             (wt / 2.0 - 0.1, slope_height + 1.0 + gap),
@@ -2236,7 +2235,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
             groove_poly.linear_extrude(height=catch_width + 2 * gap)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
-            .scale([1, -1, -1])
+            .rotate([180, 0, 0])
             .translate([x_center - catch_width / 2.0 - gap, 0, z_peak - slope_height - 1.0 - gap])
         )
         body_catch_cut = body_cut | groove
@@ -2294,7 +2293,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
         from pyboxbuilder.box.shell import block
 
         bead_depth = min(eff_size, wt / 2.0)
-        ridge_poly = polygon(path=Path2D([
+        ridge_poly = polygon(Path2D([
             (wt / 2.0, 0.0),
             (wt / 2.0 + bead_depth, slope_height),
             (wt / 2.0, slope_height),
@@ -2303,7 +2302,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
             ridge_poly.linear_extrude(height=catch_width * 0.6)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
-            .scale([1, -1, -1])
+            .rotate([180, 0, 0])
             .translate([x_center - catch_width * 0.3, 0, z_peak - slope_height])
         )
         slit_w = 0.8
@@ -2319,7 +2318,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
         )
         lid_catch = (lid_tab | ridge) - (slit1 | slit2)
 
-        groove_poly = polygon(path=Path2D([
+        groove_poly = polygon(Path2D([
             (wt / 2.0 - 0.1, 0.0),
             (wt / 2.0 + bead_depth + gap, slope_height + 1.0 + gap),
             (wt / 2.0 - 0.1, slope_height + 1.0 + gap),
@@ -2328,7 +2327,7 @@ def hinge_catch(spec: BoxSpec, *, vertical_wall: bool = False) -> Closure:
             groove_poly.linear_extrude(height=catch_width * 0.6 + 2 * gap)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
-            .scale([1, -1, -1])
+            .rotate([180, 0, 0])
             .translate([x_center - catch_width * 0.3 - gap, 0, z_peak - slope_height - 1.0 - gap])
         )
         body_catch_cut = body_cut | groove
@@ -2347,8 +2346,7 @@ def _front_wall_backing_boss(
     z_flat: float,
 ) -> Bosl2Solid | None:
     """Return a support-free 45°-tapered internal backing boss on the front wall (y = 0..boss_t)."""
-    from pybosl2 import Path2D
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, polygon
 
     wt = spec.wall_thickness
     ft = spec.floor_thickness
@@ -2367,12 +2365,12 @@ def _front_wall_backing_boss(
         (boss_t, body_h),
         (wt * 0.5, body_h),
     ]
-    poly = polygon(path=Path2D(pts))
+    poly = polygon(Path2D(pts))
     return (
         poly.linear_extrude(height=w_clamped)
         .rotate([0, 90, 0])
         .rotate([-90, 0, 0])
-        .scale([1, -1, -1])
+        .rotate([180, 0, 0])
         .translate([x_center - w_clamped / 2.0, 0.0, 0.0])
     )
 
@@ -2385,8 +2383,7 @@ def _lid_front_wall_backing_boss(
     z_flat_top: float | None = None,
 ) -> Bosl2Solid | None:
     """Return a support-free 45°-tapered internal backing boss on the lid's front wall (z >= body_h)."""
-    from pybosl2 import Path2D
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, polygon
 
     wt = spec.wall_thickness
     lt = spec.lid_thickness
@@ -2405,12 +2402,12 @@ def _lid_front_wall_backing_boss(
         (wt, z_top),
         (wt * 0.5, z_top),
     ]
-    poly = polygon(path=Path2D(pts))
+    poly = polygon(Path2D(pts))
     return (
         poly.linear_extrude(height=w_clamped)
         .rotate([0, 90, 0])
         .rotate([-90, 0, 0])
-        .scale([1, -1, -1])
+        .rotate([180, 0, 0])
         .translate([x_center - w_clamped / 2.0, 0.0, 0.0])
     )
 
@@ -2422,8 +2419,7 @@ def build_vertical_slide_across_hinge_catch(spec: BoxSpec) -> Closure:
     with an upward L-hook that engages a strike mortise in the vertical lid wall.
     Supports both ``slide_catch_style="front"`` and ``slide_catch_style="card_library"``.
     """
-    from pybosl2 import Path2D
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, polygon
 
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.compartments.element import union_all
@@ -2532,11 +2528,11 @@ def build_vertical_slide_across_hinge_catch(spec: BoxSpec) -> Closure:
             (0.0, z_mid + h_front / 2.0),
         ]
         return (
-            polygon(path=Path2D(pts))
+            polygon(Path2D(pts))
             .linear_extrude(height=w_x)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
-            .scale([1, -1, -1])
+            .rotate([180, 0, 0])
             .translate([x0, 0.0, 0.0])
         )
 
@@ -2608,8 +2604,7 @@ def build_vertical_slide_across_hinge_catch(spec: BoxSpec) -> Closure:
 
 def build_vertical_pinch_slide_hinge_catch(spec: BoxSpec) -> Closure:
     """Return dual opposing captive horizontal dovetail sliders in the vertical body wall."""
-    from pybosl2 import Path2D
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, polygon
 
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.compartments.element import union_all
@@ -2648,11 +2643,11 @@ def build_vertical_pinch_slide_hinge_catch(spec: BoxSpec) -> Closure:
             (0.0, z_mid + h_front / 2.0),
         ]
         return (
-            polygon(path=Path2D(pts))
+            polygon(Path2D(pts))
             .linear_extrude(height=w_x)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
-            .scale([1, -1, -1])
+            .rotate([180, 0, 0])
             .translate([x0, 0.0, 0.0])
         )
 
@@ -2860,7 +2855,7 @@ def build_slide_across_hinge_catch(spec: BoxSpec) -> Closure:
     Supports ``slide_catch_style="front"`` (centered front-wall dovetail bolt) and
     ``slide_catch_style="card_library"`` (dual side-wall sliding bolts + front lip).
     """
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     from pyboxbuilder.box.shell import block
 
@@ -3117,9 +3112,7 @@ def build_slide_up_hinge_catch(spec: BoxSpec) -> Closure:
     Sliding it UP (``+Z``) drives its top locking tongue behind the lid's front bridge;
     sliding it DOWN (``-Z``) drops the tongue below ``body_height`` to release the lid.
     """
-    from pybosl2 import Path2D
-    from pybosl2.shapes2d import polygon
-    from pybosl2.shapes3d import sphere
+    from pybosl2 import Path2D, polygon, sphere
 
     from pyboxbuilder.box.shell import block
 
@@ -3155,7 +3148,7 @@ def build_slide_up_hinge_catch(spec: BoxSpec) -> Closure:
             (w_back / 2.0, depth),
             (-w_back / 2.0, depth),
         ]
-        return polygon(path=Path2D(pts)).linear_extrude(height=h).translate([x_center, 0.0, z0])
+        return polygon(Path2D(pts)).linear_extrude(height=h).translate([x_center, 0.0, z0])
 
     # Lower dovetail track cavity (from z_track_bot up to body_h - stop_h)
     lower_cut = _dovetail_prism_z(
@@ -3252,8 +3245,7 @@ def build_spin_hinge_catch(spec: BoxSpec) -> Closure:
     When spun UP (``0°``), the upper cam hook engages the lid's front catch ledge;
     when spun DOWN (``90°–180°``), the cam swings below ``body_height`` to release the lid.
     """
-    from pybosl2 import cylinder
-    from pybosl2.shapes3d import sphere
+    from pybosl2 import cylinder, sphere
 
     from pyboxbuilder.box.shell import block
 
@@ -3609,7 +3601,7 @@ def build_toggle_latch_hinge_catch(spec: BoxSpec) -> Closure:
 
 def build_pinch_slide_hinge_catch(spec: BoxSpec) -> Closure:
     """Return dual opposing captive dovetail sliders that pinch toward the center to release."""
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     from pyboxbuilder.box.shell import block
 
@@ -3831,8 +3823,7 @@ def magnetic_hinge_catch_metrics(spec: BoxSpec) -> tuple[float, float, float]:
 
 def magnetic_hinge_catch(spec: BoxSpec) -> Closure:
     """Return the front magnet boss and matching body/lid magnet sockets for a hinged box."""
-    from pybosl2 import Path2D, cylinder
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, cylinder, polygon
 
     from pyboxbuilder.box.shell import block
 
@@ -3875,7 +3866,7 @@ def magnetic_hinge_catch(spec: BoxSpec) -> Closure:
 
     if z_boss_flat > z_taper_bot + 0.05 and protrusion > 0.05:
         bevel_poly = polygon(
-            path=Path2D([
+            Path2D([
                 (wt, z_taper_bot - 0.1),
                 (y_center + r_boss + 1.0, z_taper_bot - 0.1),
                 (y_center + r_boss + 1.0, z_boss_flat),
@@ -3885,7 +3876,7 @@ def magnetic_hinge_catch(spec: BoxSpec) -> Closure:
             bevel_poly.linear_extrude(height=2.0 * r_boss + 2.0)
             .rotate([0, 90, 0])
             .rotate([-90, 0, 0])
-            .scale([1, -1, -1])
+            .rotate([180, 0, 0])
             .translate([x_center - r_boss - 1.0, 0.0, 0.0])
         )
         boss = boss - bevel_cut
@@ -4304,8 +4295,7 @@ def build_stacking_pyramids(
         cone: If True, uses 45-degree conical frustums instead of square pyramids.
         point_up: If True, pyramids taper upward (+Z); if False, taper downward (-Z).
     """
-    from pybosl2 import Anchor, cylinder
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import Anchor, cylinder, prismoid
 
     from pyboxbuilder.compartments.element import union_all
 
@@ -4392,8 +4382,7 @@ def build_stacking_pyramid_indents(
     walls and zero flat horizontal ceiling, making them 100% 3D-printer safe on the
     build plate without supports.
     """
-    from pybosl2 import Anchor, cylinder
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import Anchor, cylinder, prismoid
 
     from pyboxbuilder.compartments.element import union_all
 
@@ -4631,7 +4620,7 @@ def _build_perimeter_v_loop(
     point_up: bool = True,
 ) -> Bosl2Solid:
     """Build a 4-bar 45-degree V-ridge or V-groove loop around the box perimeter."""
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     from pyboxbuilder.compartments.element import union_all
 
@@ -4767,7 +4756,7 @@ def _build_top_corner_corbels(
     top_z: float,
 ) -> Bosl2Solid:
     """Build 45-degree self-supporting corner corbel shelves at the top of an open tray."""
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     from pyboxbuilder.box.shell import block
     from pyboxbuilder.compartments.element import union_all
@@ -4819,7 +4808,7 @@ def _build_top_perimeter_corbel(
     top_z: float,
 ) -> Bosl2Solid:
     """Build a 45-degree self-supporting interior perimeter corbel shelf for an open tray."""
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     from pyboxbuilder.box.shell import block
 
@@ -4873,8 +4862,7 @@ def _build_single_side_slide_latch_uv(
       captive dovetail slider's upper tongue extending to ``height + tongue_h`` to
       lock into the upper box's bottom receiver socket.
     """
-    from pybosl2 import Path2D, prismoid
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, polygon, prismoid
 
     from pyboxbuilder.box.shell import block
 
@@ -4920,7 +4908,7 @@ def _build_single_side_slide_latch_uv(
         (-u_anchor, min(z_bevel_bot, housing_top_z)),
     ]
     housing_blank = (
-        polygon(path=Path2D(xz_pts))
+        polygon(Path2D(xz_pts))
         .linear_extrude(height=l_unit)
         .rotate([90, 0, 0])
         .translate([0.0, l_unit / 2.0, 0.0])
@@ -4939,7 +4927,7 @@ def _build_single_side_slide_latch_uv(
             (u_max, -nw_d),
             (u1, -nw_d),
         ]
-        return polygon(path=Path2D(pts))
+        return polygon(Path2D(pts))
 
     housing = housing_blank
 
@@ -5483,7 +5471,7 @@ def build_horizontal_dovetail(
     Returns:
         Bosl2Solid: Dovetail solid ready to translate and union/subtract.
     """
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     clr = clearance if is_female else 0.0
     w_base = width_base + 2.0 * clr
@@ -5513,7 +5501,7 @@ def build_interlock_clip(
     Returns:
         Bosl2Solid: Butterfly clip centered at the interface (x=0).
     """
-    from pybosl2.shapes3d import prismoid
+    from pybosl2 import prismoid
 
     w_tip = max(2.0, width_tip - 2.0 * clearance)
     w_base = max(1.5, width_base - 2.0 * clearance)
@@ -5643,7 +5631,7 @@ def apply_horizontal_interlock(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
                     body = body - fem
 
             elif itype is InterlockType.CLIP:
-                from pybosl2.shapes3d import prismoid
+                from pybosl2 import prismoid
 
                 clip_total_d = clip_depth + clr + 0.1
                 slot = prismoid(
@@ -5705,7 +5693,7 @@ def apply_horizontal_interlock(body: Bosl2Solid, spec: BoxSpec) -> Bosl2Solid:
         body = body - p_x_pos - p_x_neg - p_y_pos - p_y_neg
 
     elif itype is InterlockType.CLIP:
-        from pybosl2.shapes3d import prismoid
+        from pybosl2 import prismoid
 
         clip_total_d = clip_depth + clr + 0.1
         # Butterfly slots cut from top rim down into the walls

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pybosl2.shapes3d import cuboid, cyl
+from pybosl2 import cuboid, cyl
 
 from pyboxbuilder.box.base import BoxTypeBase, Interior
 from pyboxbuilder.box.registry import register_box

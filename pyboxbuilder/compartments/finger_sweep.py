@@ -317,6 +317,7 @@ def _sweep_through_wall(
     # the fillet follows the cut's curve. (A hand-rolled stand-in chained
     # convex hulls between slices, and a hull across a U-shaped outline bridges
     # the notch — the fillet came out as a ramp across the opening.)
+    from pybosl2 import current_backend, polygon
     from pybosl2.path2d import Path2D
 
     steps = max(8, rounding_facets()["fn"] // 4)
@@ -324,7 +325,9 @@ def _sweep_through_wall(
     fillet = rim if (rim > 0 and (round_outer or round_inner)) else 0.0
     is_open_top = max(y for _, y in outline) > comp_depth + 1e-4
 
-    if fillet > 0 and is_open_top and top_limit is None:
+    if current_backend() == "sdf":
+        swept = polygon(Path2D(ring, closed=True)).linear_extrude(height=depth)
+    elif fillet > 0 and is_open_top and top_limit is None:
         swept = _build_open_top_rounded_sweep(
             outline, comp_depth, depth, fillet, round_inner, round_outer, steps,
         )

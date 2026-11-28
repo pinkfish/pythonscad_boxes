@@ -25,16 +25,15 @@ def _extrude_profile(
     is_y: bool,
 ) -> Bosl2Solid:
     """Extrude a 2D ``(wall_normal_t, z)`` profile along the latch wall span."""
-    from pybosl2 import Path2D
-    from pybosl2.shapes2d import polygon
+    from pybosl2 import Path2D, polygon
 
-    poly = polygon(path=Path2D(pts_tz))
+    poly = polygon(Path2D(pts_tz))
     if is_y:
         return poly.linear_extrude(height=s_len).rotate([90, 0, 90]).translate([s0, 0.0, 0.0])
     return (
         poly.linear_extrude(height=s_len)
         .rotate([90, 0, 0])
-        .scale([1, -1, 1])
+        .mirror([0, 1, 0])
         .translate([0.0, s0, 0.0])
     )
 
@@ -204,8 +203,7 @@ class SnapFitBox(BoxTypeBase):
 
     def build_body(self, spec: BoxSpec) -> Bosl2Solid:
         """Return the box body with reinforced internal backing bosses and recessed latch pockets."""
-        from pybosl2 import cylinder
-        from pybosl2.shapes3d import sphere
+        from pybosl2 import cylinder, sphere
 
         from pyboxbuilder.precision import kwargs as precision_kwargs
 
@@ -405,8 +403,7 @@ class SnapFitBox(BoxTypeBase):
 
     def build_lid(self, spec: BoxSpec, decoration: object = None) -> Bosl2Solid:
         """Return the lid plate with root-filleted cantilever arms and ramped retention detents."""
-        from pybosl2 import cylinder
-        from pybosl2.shapes3d import sphere
+        from pybosl2 import cylinder, sphere
 
         from pyboxbuilder.precision import kwargs as precision_kwargs
 
